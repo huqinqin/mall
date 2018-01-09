@@ -6,11 +6,11 @@
                 <li style="float:left">
                     <a href="" class="register">立即登录</a>
                     <a href="">免费注册</a>
-                </li> 
+                </li>
                 <li class="call" style="float: right">
                     <a href="" style="margin-right: 26px">快报</a>
-                    <a href="">我的订单</a> 
-                    <span>|</span>   
+                    <a href="">我的订单</a>
+                    <span>|</span>
                     <a href="">收藏夹</a>
                     <span>|</span>
                     <i class="iconfont icon-shouji" style="font-size:10px;margin: 0 6px;"></i>
@@ -20,60 +20,6 @@
                 </li>
             </ul>
         </div>
-        <!-- nav -->
-        <!-- <div id="nav">
-            <div class="nav margin">
-                <ul class="nav-left">
-                    <li style="">
-                        <i class="iconfont icon-monihua" style="font-size:40px;margin-right: 128px;"></i>
-                        <p style="">IP</p>
-                        <p>SOLUTION</p>
-                    </li>
-                    <li>
-                        <i class="iconfont icon-monifenxi" style="font-size:34px;margin-right: 119px;"></i>
-                        <p style="">HD-TVI</p>
-                        <p>SOLUTION</p>
-                    </li>
-                    <li>
-                        <i class="iconfont icon-jiejuefangan-zhongxiaoqiye" style="font-size:40px;margin-right: 110px;"></i>
-                        <p style="">PUBLIC PLACE</p>
-                        <p>SOLUTION</p>
-                    </li>
-                    <li>
-                        <i class="iconfont icon-jiatingbaoxiu" style="font-size: 42px;margin-right: 449px;"></i>
-                        <p style="">RESILENTIAL</p>
-                        <p>SOLUTION</p>
-                    </li>
-                    <li>
-                        <img src="../../assets/inder_img/logo.png" alt="" style="width:102px;height: 27px;">
-                    </li>
-                </ul>
-
-                <div class="search">
-                    <input type="text" value="全部分类" placeholder="输入您想要搜索的商品名称或编码" class="all">
-                </div>
-            </div>
-        </div> -->
-        <!-- banner -->
-        <!-- <div class="banner">
-             <img src="../../assets/inder_img/BANNERTU.png" alt="" class="banner-img">
-        </div> -->
-
-        <!-- welcome -->
-        <!-- <div id="welcome" class="margin">
-            <div class="welcome">
-                <h2>WELCOME TO LTS</h2>
-                <span>Video Solutions For Security Professionals</span>
-            </div>
-        </div> -->
-        <!-- footer --> 
-        <!-- <div id="footer">
-            <div class="footer">
-                <ul class="footer-ul">
-                    <li></li>
-                </ul>
-            </div>
-        </div> -->
     </div>
 </template>
 
@@ -91,10 +37,14 @@ export default {
 
 <style src="@/assets/iconfont/iconfont.css"></style>
 
-<style lang="css">
+<style lang="less">
 @charset "utf-8";
 /* CSS Document */
-
+body{
+  div{
+    background-color: red;
+  }
+}
 body,
 ol,
 ul,
@@ -122,7 +72,7 @@ figure {
 }
 
 body {
-    word-wrap: break-word;  
+    word-wrap: break-word;
     background-color: #f6f6f6;
 }
 

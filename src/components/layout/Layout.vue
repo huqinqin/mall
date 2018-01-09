@@ -1,28 +1,7 @@
 <template>
     <div id="container">
         <!-- header  -->
-        <div class="header">
-            <ul class="margin">
-                <li style="float:left">
-                    <a href="" class="register">立即登录</a>
-                    <a href="">免费注册</a>
-                </li> 
-                <li class="call" style="float: right">
-                    <a href="" style="margin-right: 26px">快报</a>
-                    <a href="">我的订单</a> 
-                    <span>|</span>   
-                    <a href="">收藏夹</a>
-                    <span>|</span>
-                    <i class="iconfont icon-shouji" style="font-size:10px;margin: 0 6px;"></i>
-                    <a href="">手机下单更优惠</a>
-                    <span style="margin:0 8px;">|</span>
-                    <span>咨询热线：0100-5689 2018 634</span>
-                </li>
-            </ul>
-        </div>
 
-        <!-- nav -->
-       
         <div id="search" class="margin">
 	        <div class="search-top">
                 <ul class="ul-left">
@@ -35,17 +14,17 @@
                         <i class="iconfont icon-fuwu"></i>
                         <span>IP</span>
                         <span>SOLUTION</span>
-                    </li>			
+                    </li>
                     <li>
                         <i class="iconfont icon-fuwu"></i>
                         <span>IP</span>
                         <span>SOLUTION</span>
-                    </li>			
+                    </li>
                     <li>
                         <i class="iconfont icon-fuwu"></i>
                         <span>IP</span>
                         <span>SOLUTION</span>
-                    </li>			
+                    </li>
                 </ul>
                 <div class="search-center">
                     <img src="../../assets/inder_img/logo.png">
@@ -60,17 +39,17 @@
                         <i class="iconfont icon-fuwu"></i>
                         <span>IP</span>
                         <span>SOLUTION</span>
-                    </li>			
+                    </li>
                     <li>
                         <i class="iconfont icon-fuwu"></i>
                         <span>IP</span>
                         <span>SOLUTION</span>
-                    </li>			
+                    </li>
                     <li>
                         <i class="iconfont icon-fuwu"></i>
                         <span>IP</span>
                         <span>SOLUTION</span>
-                    </li>			
+                    </li>
                 </ul>
             </div>
 
@@ -85,7 +64,7 @@
 			<i class="iconfont icon-sousuo2"></i>
 		</div>
 	</div>
-	
+
 
 </div>
 
@@ -105,10 +84,10 @@
                 <h2>WELCOME TO LTS</h2>
                 <span>Video Solutions For Security Professionals</span>
                 <!-- <span class="tm">TM</span> -->
-            </div> 
+            </div>
             <div class="button">
                 <router-link to="">
-                    <el-button style="background-color: #ededed;box-shadow: 0px 2px 10px 0px 
+                    <el-button style="background-color: #ededed;box-shadow: 0px 2px 10px 0px
 		#f6f6f6;margin-right: 12px;font-weight:bold;color: #f13a40;">立即登录</el-button>
                 </router-link>
                 <router-link to="">
@@ -118,13 +97,13 @@
         </div>
 
         <div class="publicity margin">
-            <div class="publicity-left"> 
+            <div class="publicity-left">
             </div>
             <div class="publicity-right ">
 
             </div>
         </div>
-        <!-- footer --> 
+        <!-- footer -->
         <div id="footer">
             <div class="footer">
                 <ul class="footer-ul">
@@ -180,7 +159,7 @@ figure {
 }
 
 body {
-    word-wrap: break-word;  
+    word-wrap: break-word;
     background-color: #f6f6f6;
 }
 
@@ -308,7 +287,7 @@ table {
 #search .search-bottom{width: 1480px;height: 30px;border:1px solid #b2b2b2;margin:0 auto;margin-top:24px;}
 #search .search-bottom .bottom-all{width: 100px;padding-left:20px;line-height: 30px;font-size: 14px;height: 30px;border-right:1px solid #b2b2b2;float: left}
 #search .search-bottom .bottom-all span{font-size: 12px;padding-left:5px;}
-#search .search-bottom .bottom-search{float:right;width:1358px;position: relative}
+#search .search-bottom .bottom-search{float:right;width:1358px;}
 #search .search-bottom .bottom-search input{width:1334px;height: 30px;border: 0;padding-left: 24px;color:#999;}
 #search .search-bottom .bottom-search i{position: absolute;right:10px;top:8px;}
 /* banner */
@@ -323,7 +302,7 @@ table {
   .el-carousel__item:nth-child(2n) {
      background-color: #99a9bf;
   }
-  
+
   .el-carousel__item:nth-child(2n+1) {
      background-color: #d3dce6;
   }
@@ -346,7 +325,7 @@ table {
 .welcome span{
     display:inline-block;
     width:125px;
-    font:10px/12px "MicrosoftYaHei"; 
+    font:10px/12px "MicrosoftYaHei";
     color: rgba(0, 0, 0, 0.7);
 }
 .button{
@@ -366,10 +345,9 @@ el-button{
 .publicity-left{
     width: 895px;
     height: 350px;
-    background: url(../);
 }
 /* .welcome .tm{
-    font:6px/12px "MicrosoftYaHei"; 
+    font:6px/12px "MicrosoftYaHei";
     margin-top: -5px;
     color: #000;
 } */

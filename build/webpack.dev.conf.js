@@ -52,11 +52,11 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     new webpack.NamedModulesPlugin(), // HMR shows correct file names in console on update.
     new webpack.NoEmitOnErrorsPlugin(),
     // https://github.com/ampedandwired/html-webpack-plugin
-    new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: 'index.html',
-      inject: true
-    }),
+    // new HtmlWebpackPlugin({
+    //   filename: 'index.html',
+    //   template: 'index.html',
+    //   inject: true
+    // }),
     // copy custom static assets
     new CopyWebpackPlugin([
       {
@@ -67,6 +67,21 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     ])
   ]
 })
+
+for (let pathname in devWebpackConfig.entry) {
+  // 配置生成的html文件，定义路径等
+  let conf = {
+    filename: pathname + '.html',
+    template:'./index.html', // 模板路径
+    chunks: ['vendor', pathname, 'manifest'], // 每个html引用的js模块
+    inject: true,              // js插入位置
+    favicon : './src/assets/icon/favicon.ico',
+    title: 'LTS工作台'
+  };
+  if (!baseWebpackConfig.plugins) baseWebpackConfig.plugins = [];
+  devWebpackConfig.plugins.push(new HtmlWebpackPlugin(conf));
+  // 需要生成几个html文件，就配置几个HtmlWebpackPlugin对象
+}
 
 module.exports = new Promise((resolve, reject) => {
   portfinder.basePort = process.env.PORT || config.dev.port

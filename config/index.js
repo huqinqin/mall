@@ -5,6 +5,7 @@
 const path = require('path')
 
 module.exports = {
+  moduleName : 'pages',
   dev: {
 
     // Paths
@@ -20,7 +21,7 @@ module.exports = {
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
 
-    
+
     /**
      * Source Maps
      */

@@ -3,6 +3,7 @@ const path = require('path')
 const config = require('../config')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const packageConfig = require('../package.json')
+const glob = require('glob')
 
 exports.assetsPath = function (_path) {
   const assetsSubDirectory = process.env.NODE_ENV === 'production'
@@ -98,4 +99,24 @@ exports.createNotifierCallback = () => {
       icon: path.join(__dirname, 'logo.png')
     })
   }
+}
+
+
+//获取多级的入口文件
+exports.getMultiEntry = function (globPath) {
+  let entries = {};
+
+  glob.sync(globPath).forEach(function (filepath) {
+    if (filepath.indexOf('components') > -1 || filepath.indexOf('router') > -1) {
+      return;
+    }
+    let basename = path.basename(filepath, path.extname(filepath));
+    let htmlPage = filepath.split('/').slice(3, -1).join('/') + '/' + basename;
+    if (htmlPage === 'index/index') {
+      htmlPage = 'index';
+    }
+    entries[htmlPage] = filepath;
+  });
+  console.log(entries);
+  return entries;
 }

@@ -9,12 +9,10 @@ function resolve(dir) {
 }
 
 
-
+let entry = utils.getMultiEntry('./src/' + config.moduleName + '/**/*.js');
 module.exports = {
     context: path.resolve(__dirname, '../'),
-    entry: {
-        app: './src/main.js'
-    },
+    entry: entry,
     output: {
         path: config.build.assetsRoot,
         filename: '[name].js',
@@ -22,11 +20,17 @@ module.exports = {
             config.build.assetsPublicPath : config.dev.assetsPublicPath
     },
     resolve: {
-        extensions: ['.js', '.vue', '.json'],
-        alias: {
-            'vue$': 'vue/dist/vue.esm.js',
-            '@': resolve('src'),
-        }
+      extensions: ['.js', '.vue', '.json'],
+      alias     : {
+        'vue$'   : 'vue/dist/vue.esm.js',
+        '@'      : resolve('src'),
+        'config' : resolve('src') + '/config',
+        'layout' : resolve('src') + '/layout/mall_Layout_1.0.0/layout.vue',
+
+        'const'  : resolve('src') + '/const',
+        'ltsutil': resolve('src') + '/utils',
+        'ui'     : resolve('src') + '/common'
+      }
     },
     module: {
         rules: [{

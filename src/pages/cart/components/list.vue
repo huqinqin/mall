@@ -115,8 +115,9 @@
             handleSelectionChange(){
                 alert('handleSelectionChange')
             },
-            check(){
-                alert('check')
+            check() {
+                this.$emit('submit', '2')
+                this.$router.push({path: '/settle'})
             }
         }
   }

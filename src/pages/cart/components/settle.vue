@@ -166,7 +166,8 @@
                 alert('handleSelectionChange')
             },
             settle(){
-                alert('提交订单')
+                this.$emit('submit','3')
+                this.$router.push({path: '/pay'})
             }
         }
   }

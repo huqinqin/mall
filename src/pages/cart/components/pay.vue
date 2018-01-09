@@ -37,6 +37,7 @@
 </template>
 
 <script>
+
     export default {
         name: "pay",
         data(){
@@ -47,7 +48,8 @@
                 alert('add credit')
             },
             pay(){
-                alert('pay')
+                this.$router.push({path:'/finish'})
+                this.$emit('submit','5')
             }
         }
   }

@@ -6,7 +6,7 @@
 <script>
   import {store} from 'ltsutil'
   export default {
-    name : "footer",
+    name : "lts-footer",
     data(){
       return{
 

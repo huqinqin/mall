@@ -1,8 +1,8 @@
 <template>
     <el-container class="main">
         <el-header height="30px">
-            <lts-header class="s-span-page"></lts-header>
-        </el-header>
+      <lts-header class="s-span-page"></lts-header>
+    </el-header>
         <el-container class="lts-main">
               <el-main class="s-span-page">
                   <lts-content/>
@@ -58,7 +58,7 @@
           });
           function resize(){
             var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-//            $('body').attr('class','fullscreen');
+            // $('body').attr('class','fullscreen');
             if(width <= 1500){
               $('body').attr('class','b1200');
             }else{
@@ -85,7 +85,7 @@
     }
     .s-span-page{
       margin: auto;
-      min-width: 1200px;
+      width: 1200px;
     }
     .b1500{
       .s-span-page{

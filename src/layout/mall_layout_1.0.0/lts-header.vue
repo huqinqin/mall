@@ -6,7 +6,7 @@
 <script>
     import {store} from 'ltsutil'
     export default {
-        name : "header",
+        name : "lts-header",
         data(){
           return{
 

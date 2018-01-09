@@ -1,17 +1,15 @@
 <template>
-    <el-container>
+    <el-container class="main">
         <el-header height="30px">
-            <lts-header></lts-header>
+            <lts-header class="s-span-page"></lts-header>
         </el-header>
         <el-container class="lts-main">
-            <el-container class="content-container">
-                <el-main>
-                    <lts-content/>
-                </el-main>
-                <el-footer height="60px">
-                    copyright 2000-2017
-                </el-footer>
-            </el-container>
+              <el-main class="s-span-page">
+                  <lts-content/>
+              </el-main>
+              <el-footer height="300px">
+                  <lts-footer></lts-footer>
+              </el-footer>
         </el-container>
     </el-container>
 </template>
@@ -20,6 +18,7 @@
     import config from 'config'
     import userService from '@/services/UserService'
     import session from '@/library/Session'
+    import $ from 'jquery'
     import {ltsTable,ltsSearchForm} from 'ui'
     export default {
         name: 'Layout',
@@ -50,6 +49,23 @@
                 consoel.log(this.open)
             }
         },
+        created(){
+          $(document).ready(function(){
+            resize();
+          })
+          $(window).resize(function(){
+            resize();
+          });
+          function resize(){
+            var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+//            $('body').attr('class','fullscreen');
+            if(width <= 1500){
+              $('body').attr('class','b1200');
+            }else{
+              $('body').attr('class','b1500');
+            }
+          }
+        },
         mounted() {
 //            session.checkLogin();
             this.account = store.getItem('account');
@@ -61,27 +77,30 @@
         margin: 0;
         padding: 0;
         height:100%;
+        background-color: #eeeeee;
     }
-
     a {
         text-decoration: none;
         color: inherit;
     }
-
-
-
-    .content-container {
-        background-color: #eeeeee;
-
-        .el-main {
-            background-color: white;
-        }
+    .s-span-page{
+      margin: auto;
+      min-width: 1200px;
     }
-
+    .b1500{
+      .s-span-page{
+        width:1500px;
+      }
+    }
+    .fullscreen{
+      .s-span-page{
+        width:100%;
+      }
+    }
     .el-header {
-        line-height: 60px;
-        height: 60px;
-        background-color: white;
+        line-height: 30px;
+        background-color: #181818;
+        padding: 0;
         h1 {
             float: left;
             margin: 0;
@@ -102,29 +121,11 @@
             }
         }
     }
-    .is-vertical{
-        height:100%;
-    }
     .lts-main {
-        .el-aside {
-            color: #666;
-            background-color: white;
-            overflow: inherit;
-            .el-submenu {
-                .el-submenu_title {
-                    line-height: 70px;
-                    height: 70px;
-                }
-                .el-menu-item {
-                    min-width: 100px;
-                }
-            }
-            .iconfont {
-                font-size: 18px;
-            }
-            .el-icon-arrow-down {
-                font-size: 16px;
-            }
+        .el-main{
+          padding: 0;
+          min-height:800px;
+          background-color: white;
         }
         .el-footer {
             font-size: 12px;

@@ -11,6 +11,7 @@ import Loading from '../components/lts-loading'
 import Message from '../components/lts-message'
 import MessageBox from '../components/lts-messageBox'
 import ltsHeader from '@/layout/mall_Layout_1.0.0/header.vue'
+import ltsFooter from '@/layout/mall_Layout_1.0.0/footer.vue'
 
 Vue.use(ElementUI)
 Vue.use(VueI18n)
@@ -39,7 +40,7 @@ Vue.filter('money2str', function (money) {
     return (money / 100).toFixed(2)
 })
 export default function (App, router = new Router()) {
-  Layout.components = {'lts-content': App,'lts-header': ltsHeader}
+  Layout.components = {'lts-content': App,'lts-header': ltsHeader,'lts-footer':ltsFooter}
   new Vue({
     el        : '#app',
     i18n      : i18n,

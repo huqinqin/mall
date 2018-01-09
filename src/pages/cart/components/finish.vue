@@ -54,7 +54,6 @@
         width: 649px;
         height: 243px;
         margin:100px auto;
-        border:1px solid red;
         display: flex;
         justify-content: space-between;
         img{

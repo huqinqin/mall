@@ -1,15 +1,15 @@
 <template>
     <el-container class="main">
         <el-header height="30px">
-      <lts-header class="s-span-page"></lts-header>
-    </el-header>
+            <lts-header class="s-span-page"></lts-header>
+        </el-header>
         <el-container class="lts-main">
-              <el-main class="s-span-page">
-                  <lts-content/>
-              </el-main>
-              <el-footer height="300px">
-                  <lts-footer></lts-footer>
-              </el-footer>
+            <el-main class="s-span-page">
+                <lts-content/>
+            </el-main>
+            <el-footer height="300px">
+                <lts-footer></lts-footer>
+            </el-footer>
         </el-container>
     </el-container>
 </template>
@@ -105,6 +105,7 @@
           background-color: white;
         }
         .el-footer {
+            margin-top: 48px;
             font-size: 12px;
             line-height: 30px;
             text-align: center;

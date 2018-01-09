@@ -79,10 +79,6 @@
         height:100%;
         background-color: #eeeeee;
     }
-    a {
-        text-decoration: none;
-        color: inherit;
-    }
     .s-span-page{
       margin: auto;
       width: 1200px;
@@ -101,25 +97,6 @@
         line-height: 30px;
         background-color: #181818;
         padding: 0;
-        h1 {
-            float: left;
-            margin: 0;
-            width: 120px;
-            height: 60px;
-            vertical-align: middle;
-            img {
-                margin: 10px 0 0;
-                width: 115px;
-                height: 40px;
-            }
-        }
-        .nav {
-            float: right;
-            height: 100%;
-            .notice .el-badge__content.is-fixed {
-                top: 15px;
-            }
-        }
     }
     .lts-main {
         .el-main{

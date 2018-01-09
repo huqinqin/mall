@@ -33,34 +33,6 @@
     }
 </script>
 <style lang="less" scoped>
-  body,
-  ol,
-  ul,
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  p,
-  th,
-  td,
-  dl,
-  dd,
-  form,
-  fieldset,
-  legend,
-  input,
-  textarea,
-  select,
-  td,
-  figure {
-    margin: 0;
-    padding: 0;
-  }
-  li {
-    list-style: none;
-  }
   .mall-header{
     height:30px;
     .header-box{

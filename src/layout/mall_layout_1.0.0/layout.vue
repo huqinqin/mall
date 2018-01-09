@@ -78,6 +78,35 @@
         padding: 0;
         height:100%;
         background-color: #eeeeee;
+        min-width: 1200px;
+    }
+    body,
+    ol,
+    ul,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    th,
+    td,
+    dl,
+    dd,
+    form,
+    fieldset,
+    legend,
+    input,
+    textarea,
+    select,
+    td,
+    figure {
+      margin: 0;
+      padding: 0;
+    }
+    li {
+      list-style: none;
     }
     .s-span-page{
       margin: auto;

@@ -81,7 +81,7 @@
     }
     .s-span-page{
       margin: auto;
-      min-width: 1200px;
+      width: 1200px;
     }
     .b1500{
       .s-span-page{

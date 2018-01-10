@@ -1,77 +1,13 @@
 <template>
-  <div>
-     <div class="nav">                                    
-        <ul class="left">
-            <li>
-                <i class="iconfont icon-IPjiejuefangan"></i>
-                <p>IP</p>
-                <p>SOLUTION</p>
-            </li>
-            <li>
-                <i class="iconfont icon-jiankong"></i>
-                <p>HD-TVI</p>
-                <p>SOLUTION</p>
-            </li>
-            <li>
-                <i class="iconfont icon-lianxixiaoshoukefu"></i>
-                <p>PUBLIC PLACE</p>
-                <p>SOLUTION </p>
-            </li>
-            <li>
-                <i class="iconfont icon-jiatingjiejuefangan"></i>
-                <p>RESIDENTIAL</p>
-                <p>SOLUTION </p>
-            </li>
-        </ul>
-        <div class="logo">
-            <img src="../../assets/inder_img/logo.png" alt="">
-        </div>
-        <ul class="right">
-            <li>
-                <i class="iconfont icon-lianxixiaoshoukefu"></i>
-                <p>CALL</p>
-                <p>SALES</p>
-            </li>
-            <li>
-                <i class="iconfont icon-zhichi"></i>
-                <p>SUPPORT</p>
-                <p>CENTER</p>
-            </li>
-            <li>
-                <i class="iconfont icon-wodezuiai"></i>
-                <p>MY</p>
-                <p>FAVOURITE</p>
-            </li>
-            <li>
-                <i class="iconfont icon-gouwuche2"></i>
-                <p>SHOPPING</p>
-                <p>CART</p>
-            </li>
-        </ul>
-        <div class="search">
-            <template>
-              <el-select v-model="value" placeholder="全部分类"  class="select">
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </template>
-            <div class="input">
-                <input type="text" placeholder="输入你想要搜索的商品名称或编码">
-                <!-- <i class="iconfont icon-sousuo2 te"></i> -->
-            </div>
-        </div>
-     </div>
-
+  <div class="_index">
      <!-- banner -->
      <template>
         <div class="block">
-          <el-carousel height="524px">
-            <el-carousel-item v-for="item in list" :key=item.index>
-              <img :src="item" alt="">
+          <el-carousel height="500px">
+            <el-carousel-item v-for="item in index_banner" :key=item.index>
+              <a href="">
+                <img :src="item.link" alt="">
+              </a>
             </el-carousel-item>
           </el-carousel>
         </div>
@@ -80,16 +16,20 @@
     <div class="publicity">
         <div class="welcome">
             <h3>WELCOME TO LTS</h3>
-            <div class="span">    
-              <!-- <span>Video Solutions For Security Professionals</span> -->
+            <div class="p">
+              <p>Video Solutions For</p>
+              <p>Security Professionals</p>
             </div>
-            <!-- <div class="TM">
-              TM
-            </div>  -->
+            <!-- <span>Video Solutions For Security Professionals</span> -->
+            <!-- <span class="tm">TM</span>    -->
         </div>
         <div class="login">
-             <button class="register">立即登录</button>
-             <button class="sign">免费注册</button>
+          <a href="">
+            <button class="register">立即登录</button>
+          </a>
+          <a href="">
+            <button class="sign">免费注册</button>
+          </a>   
         </div>
     </div>
     <!-- poster -->
@@ -97,199 +37,83 @@
         <div class="one">
               <img src="../../assets/inder_img/guanggao1.png" alt="">
         </div>
-        <div class="two">
+        <!-- <div class="two">
               <img src="../../assets/inder_img/gaunggao2.png" alt="">
               <img src="../../assets/inder_img/guanggao3.png" alt="">
-        </div>
+        </div> -->
     </div>
      <!-- main -->
     <div class="center">
-        <div class="main">
+        <div class="main"  v-for="name in index_title" :key="name.index">
+        
               <div class="title">
                   <div class="left">
                       <i></i>
-                      <span>摄像头</span>
+                      <span>{{name.name}}</span>
                   </div>
                   <div class="right">
-                      <span>更多</span>
-                      <i>></i>
+                      <!-- <a href=""> -->
+                        <span>更多</span>
+                      <!-- </a> -->
+                      <i class="iconfont icon-shangyiye-copy-copy rotate"></i>
                   </div>
               </div>
                
               <ul class="import">
-                  <li>
-                      <img src="../../assets/inder_img/shexiangtou1.png" alt="">
-                      <p class="line-one">海康威视</p>
-                      <p class="line-two">200万4mm红外高清网络半球摄像机</p>
-                      <p class="line-there">AAAAAAA</p>                 
+                  <li  v-for="im in data" :key="im.index" class="yi">
+                      <img :src="im.link" alt="">
+                      <p class="line-one">{{im.name}}</p>
+                      <p class="line-two">{{im.info1}}</p>
+                      <p class="line-there">{{im.info2}}</p>                 
                       <p class="line-four"></p>
                       <button>登录之后查看价格 </button>
                   </li>
-                  <li>
-                      <img src="../../assets/inder_img/shexiangtou1.png" alt="">
-                      <p class="line-one">海康威视</p>
-                      <p class="line-two">200万4mm红外高清网络半球摄像机</p>
-                      <p class="line-there">AAAAAAA</p>
-                  </li>
-                  <li>
-                      <img src="../../assets/inder_img/shexiangtou1.png" alt="">
-                      <p class="line-one">海康威视</p>
-                      <p class="line-two">200万4mm红外高清网络半球摄像机</p>
-                      <p class="line-there">AAAAAAA</p>
-                  </li>
-                  <li>
-                      <img src="../../assets/inder_img/shexiangtou1.png" alt="">
-                      <p class="line-one">海康威视</p>
-                      <p class="line-two">200万4mm红外高清网络半球摄像机</p>
-                      <p class="line-there">AAAAAAA</p>
-                  </li>
-                  <li>
-                      <img src="../../assets/inder_img/shexiangtou1.png" alt="">
-                      <p class="line-one">海康威视</p>
-                      <p class="line-two">200万4mm红外高清网络半球摄像机</p>
-                      <p class="line-there">AAAAAAA</p>
-                  </li>
-                  <li>
-                      <img src="../../assets/inder_img/shexiangtou1.png" alt="">
-                      <p class="line-one">海康威视</p>
-                      <p class="line-two">200万4mm红外高清网络半球摄像机</p>
-                      <p class="line-there">AAAAAAA</p>
-                  </li>
-                  <li>
-                      <img src="../../assets/inder_img/shexiangtou1.png" alt="">
-                      <p class="line-one">海康威视</p>
-                      <p class="line-two">200万4mm红外高清网络半球摄像机</p>
-                      <p class="line-there">AAAAAAA</p>
-                  </li>
-                  <li>
-                      <img src="../../assets/inder_img/shexiangtou1.png" alt="">
-                      <p class="line-one">海康威视</p>
-                      <p class="line-two">200万4mm红外高清网络半球摄像机</p>
-                      <p class="line-there">AAAAAAA</p>
-                  </li>
               </ul>
-
+              
               <div class="title">
                   <div class="left">
                       <i></i>
-                      <span>录像机</span>
+                      <span>{{name.name}}</span>
                   </div>
                   <div class="right">
-                      <span>更多</span>
-                      <i>></i>
+                      <!-- <a href=""> -->
+                        <span>更多</span>
+                      <!-- </a> -->
+                      <i class="iconfont icon-shangyiye-copy-copy rotate"></i>
                   </div>
               </div>
-
+               
               <ul class="import">
-                  <li>
-                      <img src="../../assets/inder_img/shexiangtou1.png" alt="">
-                      <p class="line-one">海康威视</p>
-                      <p class="line-two">200万4mm红外高清网络半球摄像机</p>
-                      <p class="line-there">AAAAAAA</p>
-                  </li>
-                  <li>
-                      <img src="../../assets/inder_img/shexiangtou1.png" alt="">
-                      <p class="line-one">海康威视</p>
-                      <p class="line-two">200万4mm红外高清网络半球摄像机</p>
-                      <p class="line-there">AAAAAAA</p>
-                  </li>
-                  <li>
-                      <img src="../../assets/inder_img/shexiangtou1.png" alt="">
-                      <p class="line-one">海康威视</p>
-                      <p class="line-two">200万4mm红外高清网络半球摄像机</p>
-                      <p class="line-there">AAAAAAA</p>
-                  </li>
-                  <li>
-                      <img src="../../assets/inder_img/shexiangtou1.png" alt="">
-                      <p class="line-one">海康威视</p>
-                      <p class="line-two">200万4mm红外高清网络半球摄像机</p>
-                      <p class="line-there">AAAAAAA</p>
-                  </li>
-                  <li>
-                      <img src="../../assets/inder_img/shexiangtou1.png" alt="">
-                      <p class="line-one">海康威视</p>
-                      <p class="line-two">200万4mm红外高清网络半球摄像机</p>
-                      <p class="line-there">AAAAAAA</p>
-                  </li>
-                  <li>
-                      <img src="../../assets/inder_img/shexiangtou1.png" alt="">
-                      <p class="line-one">海康威视</p>
-                      <p class="line-two">200万4mm红外高清网络半球摄像机</p>
-                      <p class="line-there">AAAAAAA</p>
-                  </li>
-                  <li>
-                      <img src="../../assets/inder_img/shexiangtou1.png" alt="">
-                      <p class="line-one">海康威视</p>
-                      <p class="line-two">200万4mm红外高清网络半球摄像机</p>
-                      <p class="line-there">AAAAAAA</p>
-                  </li>
-                  <li>
-                      <img src="../../assets/inder_img/shexiangtou1.png" alt="">
-                      <p class="line-one">海康威视</p>
-                      <p class="line-two">200万4mm红外高清网络半球摄像机</p>
-                      <p class="line-there">AAAAAAA</p>
+                  <li  v-for="im in data" :key="im.index" class="er">
+                      <img :src="im.link" alt="">
+                      <p class="line-one">{{im.name}}</p>
+                      <p class="line-two">{{im.info1}}</p>
+                      <p class="line-there">{{im.info2}}</p>                 
+                      <p class="line-four"></p>
+                      <button>登录之后查看价格 </button>
                   </li>
               </ul>
-
               <div class="title">
                   <div class="left">
                       <i></i>
-                      <span>附件与配件</span>
+                      <span>{{name.name}}</span>
                   </div>
                   <div class="right">
-                      <span>更多</span>
-                      <i>></i>
+                      <!-- <a href=""> -->
+                        <span>更多</span>
+                      <!-- </a> -->
+                      <i class="iconfont icon-shangyiye-copy-copy rotate"></i>
                   </div>
               </div>
-
+               
               <ul class="import">
-                  <li>
-                      <img src="../../assets/inder_img/shexiangtou1.png" alt="">
-                      <p class="line-one">海康威视</p>
-                      <p class="line-two">200万4mm红外高清网络半球摄像机</p>
-                      <p class="line-there">AAAAAAA</p>
-                  </li>
-                  <li>
-                      <img src="../../assets/inder_img/shexiangtou1.png" alt="">
-                      <p class="line-one">海康威视</p>
-                      <p class="line-two">200万4mm红外高清网络半球摄像机</p>
-                      <p class="line-there">AAAAAAA</p>
-                  </li>
-                  <li>
-                      <img src="../../assets/inder_img/shexiangtou1.png" alt="">
-                      <p class="line-one">海康威视</p>
-                      <p class="line-two">200万4mm红外高清网络半球摄像机</p>
-                      <p class="line-there">AAAAAAA</p>
-                  </li>
-                  <li>
-                      <img src="../../assets/inder_img/shexiangtou1.png" alt="">
-                      <p class="line-one">海康威视</p>
-                      <p class="line-two">200万4mm红外高清网络半球摄像机</p>
-                      <p class="line-there">AAAAAAA</p>
-                  </li>
-                  <li>
-                      <img src="../../assets/inder_img/shexiangtou1.png" alt="">
-                      <p class="line-one">海康威视</p>
-                      <p class="line-two">200万4mm红外高清网络半球摄像机</p>
-                      <p class="line-there">AAAAAAA</p>
-                  </li>
-                  <li>
-                      <img src="../../assets/inder_img/shexiangtou1.png" alt="">
-                      <p class="line-one">海康威视</p>
-                      <p class="line-two">200万4mm红外高清网络半球摄像机</p>
-                      <p class="line-there">AAAAAAA</p>
-                  </li>
-                  <li>
-                      <img src="../../assets/inder_img/shexiangtou1.png" alt="">
-                      <p class="line-one">海康威视</p>
-                      <p class="line-two">200万4mm红外高清网络半球摄像机</p>
-                      <p class="line-there">AAAAAAA</p>
-                  </li>
-                  <li>
-                      <img src="../../assets/inder_img/shexiangtou1.png" alt="">
-                      <p class="line-one">海康威视</p>
-                      <p class="line-two">200万4mm红外高清网络半球摄像机</p>
-                      <p class="line-there">AAAAAAA</p>
+                  <li  v-for="im in data" :key="im.index" class="san">
+                      <img :src="im.link" alt="">
+                      <p class="line-one">{{im.name}}</p>
+                      <p class="line-two">{{im.info1}}</p>
+                      <p class="line-there">{{im.info2}}</p>                 
+                      <p class="line-four"></p>
+                      <button>登录之后查看价格 </button>
                   </li>
               </ul>
         </div>
@@ -302,48 +126,13 @@
               </div>
 
               <ul class="alone">
-                  <li>
-                      <img src="../../assets/inder_img/jingtou.png" alt="">
-                      <p class="alone-one">福特科</p>
-                      <p class="alone-two">300W变焦超长镜头</p>
-                      <p class="alone-there">$ 399.00</p>
+                  <!-- <li v-for="item in side" :key="item.index">
+                      <img :src="item.link" alt="">
+                      <p class="alone-one">{{item.name}}</p>
+                      <p class="alone-two">{{item.info}}</p>
+                      <p class="alone-there">{{item.prace}}</p>
                       <i></i>
-                  </li>
-                  <li>
-                      <img src="../../assets/inder_img/jingtou.png" alt="">
-                      <p class="alone-one">福特科</p>
-                      <p class="alone-two">300W变焦超长镜头</p>
-                      <p class="alone-there">$ 399.00</p>
-                      <i></i>
-                  </li>
-                  <li>
-                      <img src="../../assets/inder_img/jingtou.png" alt="">
-                      <p class="alone-one">福特科</p>
-                      <p class="alone-two">300W变焦超长镜头</p>
-                      <p class="alone-there">$ 399.00</p>
-                      <i></i>
-                  </li>
-                  <li>
-                      <img src="../../assets/inder_img/jingtou.png" alt="">
-                      <p class="alone-one">福特科</p>
-                      <p class="alone-two">300W变焦超长镜头</p>
-                      <p class="alone-there">$ 399.00</p>
-                      <i></i>
-                  </li>
-                  <li>
-                      <img src="../../assets/inder_img/jingtou.png" alt="">
-                      <p class="alone-one">福特科</p>
-                      <p class="alone-two">300W变焦超长镜头</p>
-                      <p class="alone-there">$ 399.00</p>
-                      <i></i>
-                  </li>
-                  <li>
-                      <img src="../../assets/inder_img/jingtou.png" alt="">
-                      <p class="alone-one">福特科</p>
-                      <p class="alone-two">300W变焦超长镜头</p>
-                      <p class="alone-there">$ 399.00</p>
-                      <i></i>
-                  </li>
+                  </li> -->
                   <li>
                       <img src="../../assets/inder_img/jingtou.png" alt="">
                       <p class="alone-one">福特科</p>
@@ -360,14 +149,110 @@
   export default {
     data(){
       return{
-        nav:[
-          
+        index_banner:[
+          {
+            link:"static/image/BANNERTU.png",
+            href:""
+          },
+          {
+            link:"static/image/BANNERTU.png",
+            href:""
+          },
+          {
+            link:"static/image/BANNERTU.png",
+            href:""
+          }
         ],
-        list:[
-          "static/image/BANNERTU.png",
-          "static/image/BANNERTU.png",
-          "static/image/BANNERTU.png"
-        ]
+        index_welcome:[
+          {
+           link:"static/image/BANNERTU.png",
+           href:""
+          },
+          {link:"static/image/BANNERTU.png"}, 
+          {link:"static/image/BANNERTU.png"}
+        ],
+        index_title:[
+          {
+            name:"摄像头"
+          }
+        ],
+        data:[{
+          link: 'static/image/BANNERTU.png',
+          src:'',
+          alt:'',
+          name:'测试测试测试',
+          info1:'200万测试测试测试像机',
+          info2:'testtest',
+        },
+        {
+          link: 'static/image/BANNERTU.png',
+          src:'',
+          alt:'',
+          name:'测试测试测试',
+          info1:'200万测试测试测试像机',
+          info2:'testtest',
+        },
+        {
+          link: 'static/image/BANNERTU.png',
+          src:'',
+          alt:'',
+          name:'测试测试测试',
+          info1:'200万测试测试测试像机',
+          info2:'testtest',
+        },
+        {
+          link: 'static/image/BANNERTU.png',
+          src:'',
+          alt:'',
+          name:'测试测试测试',
+          info1:'200万测试测试测试像机',
+          info2:'testtest',
+        },
+        {
+          link: 'static/image/BANNERTU.png',
+          src:'',
+          alt:'',
+          name:'测试测试测试',
+          info1:'200万测试测试测试像机',
+          info2:'testtest',
+        },
+        {
+          link: 'static/image/BANNERTU.png',
+          src:'',
+          alt:'',
+          name:'测试测试测试',
+          info1:'200万测试测试测试像机',
+          info2:'testtest',
+        },
+        {
+          link: 'static/image/BANNERTU.png',
+          src:'',
+          alt:'',
+          name:'测试测试测试',
+          info1:'200万测试测试测试像机',
+          info2:'testtest',
+        },
+        {
+          link: 'static/image/BANNERTU.png',
+          src:'',
+          alt:'',
+          name:'测试测试测试',
+          info1:'200万测试测试测试像机',
+          info2:'testtest',
+        }],
+        side:[{
+          link: 'static/image/BANNERTU.png',
+          src:'',
+          alt:'',
+          name:'福特科',
+          info:'300w变焦超长',
+          prace:'$ 399.00'
+        }]
+        // index_welcome:{
+        //   link:"static/image/BANNERTU.png",
+        //   link:"static/image/BANNERTU.png",
+        //   link:"static/image/BANNERTU.png"
+        // }
       }
     }
   }
@@ -449,124 +334,75 @@ table {
     white-space: nowrap;
 }
 
-// nav
-.el-input__inner{
-  height: 30px;
-}
-.nav{
-  height: 173px;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  li{
-    margin-top:25px;
-    text-align: center;  
-    p{
-      font:12px/18px "MicrosoftYaHei";
-      color: rgba(0, 0, 0, 0.7);
-    }     
-  }
-  i{
-    font-size: 42px;
-  }
-  .left{        
-     width: 600px;
-     display: flex;
-     justify-content: space-around;
-  }
-  .logo{
-    width: 300px;
-    height: 27px;
-    margin-top: 50px;
-    text-align: center;
-    img{   
-    width: 102px;
-	  height: 27px;
-  }
-  }
-  .right{
-    width: 600px;                
-    display: flex;
-    justify-content: space-around;
-  }
-  .search{
-    height: 54px;
-    width: 1453px;
-    margin: 0 auto;
-    // .el-input__inner{
-    //   height: 30px;
-    // }
-    .select{
-       width:121px;
-    }
-    .input{
-      display: inline-block;
-      margin-left: -6px;
-      width: 1262px;
-      height: 28px;
-      background-color: #ffffff;
-      border: solid 1px rgba(0, 0, 0, 0.3);
-      border-left: none;
-      input{   
-         width: 1232px;
-        height: 28px;     
-        border: none;
-        font-family: MicrosoftYaHei;
-        font-size: 12px;
-        color: #000000;
-        margin-left: 24px;
-      }
-      // .te{
-      //   font-size:15px;
-      //   margin-top: -20px;
-      // }
-    }
-  }
-}
-template .block{
-  margin:12px 0;
+._index{
   background-color: #f6f6f6;
-  background-color:red;
 }
+// banner
+  .el-carousel__button{
+    height: 20px;
+  }
+
 // publicity
 .publicity{
-  display:flex;
-  justify-content: space-between;
-  align-items: center;
   height: 60px;
   background-color:#fff;
-  padding: 12px 0;
+  margin:12px 0;
+  text-align: center;
   .welcome{
     margin-left: 24px;
+    float: left;
     display: flex;
-    flex-direction: row;
     h3{
       font:24px/60px "MicrosoftYaHei-Bold";
-    }
-    .span{
-      display:inline-block;
-      width:125px;
-      height: 60px;
-      font:10px/12px "MicrosoftYaHei"; 
+      font-weight: bold;
       color: rgba(0, 0, 0, 0.7);
-
+      letter-spacing: 1px;
+      display: inline;
+    }
+    .p{
+      margin-top: 18px;
+      // display: inline;
+      // text-align: center;
+      font:10px/12px "MicrosoftYaHei";
+      color: rgba(0, 0, 0, 0.7);
+      margin-left: 24px;
+      text-align: left;
+    }
+    // span{
+    //   display:inline-block;
+    //   width:125px;
+    //   font:10px/12px "MicrosoftYaHei"; 
+    //   color: rgba(0, 0, 0, 0.7);
+    //   margin-left: 24px;
+    // }
+    .tm{
+      width: 9px;
+      height: 5px;
+      background: #ce2127;
+      font: 6px/60px "MicrosoftYaHei";
+      line-height: 60px;
+      color: #000000;
     }
   }
-  .login{
+  .login{ 
+    float: right;
+    margin-top: 12px;
     button{
       width: 120px;
       height: 36px;
       border-radius: 4px;
       font:16px/32px "MicrosoftYaHei";
+      box-shadow: none;
     }
     .register{
-      background-color: #ededed;
       font-weight: bold;
       color: #f13a40;
+      border:none;
+      background:#ccc;
     }
     .sign{
-      background-color: #ffffff;
       border: solid 1px rgba(0, 0, 0, 0.5);
+      background: #ffffff ;
       color:rgba(0, 0, 0, 0.7);
       margin-left: 12px;
       margin-right: 24px;
@@ -576,12 +412,30 @@ template .block{
 
 // poster
 .poster{
-  display: flex;
-  justify-content: space-between;
+  height: 350px;
+  // display: flex;
+  // justify-content: space-around; 
+  img:nth-child(1){
+    width: 895px;
+    height: 350px;
+  }
+  img:nth-child(2){
+    width: 592px;
+    height: 169px;
+  }
+  img:nth-child(3){
+    width: 592px;
+    height: 169px;
+  }
   .one{
-    margin-right: 12px;
+    float: left;
+    width: 895px;
+    height: 350px;
   }
   .two{
+    width: 592px;
+    height: 350px;
+    float: right;
     // display: flex;
     // align-items: stretch;
   }
@@ -598,10 +452,12 @@ template .block{
       justify-content: space-between;
       flex-wrap: wrap;
       li{
+          box-sizing: border-box;
           width: 290px;
           height: 450px;
+          background-color: #ffffff;
           text-align: center; 
-          border-top: 2px solid #f13a40;
+          // border-top: 2px solid #f13a40;
           img{
             width: 147px;
             height: 142px;
@@ -609,21 +465,21 @@ template .block{
           }
           .line-one{
           margin-top: 59px;
-          font-family: FZLTZHK--GBK1-0;
+          font-family: MicrosoftYaHei;
           font-size: 18px;
-          color:rgba(0, 0, 0, 0.7);
+          color:#707070;
           }
           .line-two{
             margin: 13px 0;
-            font-family: FZLTZHK--GBK1-0;
+            font-family: MicrosoftYaHei;
             font-size: 14px;
-            color: rgba(0, 0, 0, 0.5); 
+            color: #a3a3a3;
           }
           .line-there{
             margin-bottom: 26px;
-            font-family: FZLTZHK--GBK1-0;
+            font-family: MicrosoftYaHei;
             font-size: 14px; 
-            color: rgba(0, 0, 0, 0.5); 
+            color: #a3a3a3; 
           }
           .line-four{
             width: 266px;
@@ -631,44 +487,61 @@ template .block{
             margin:0 auto;
           }
           button{
-            margin: 32px 0 47px 0;
+            border:none;
+            background:#ccc;
+            margin: 26px 0 0 0;
             width: 150px;
             height: 30px;
             background-color: #ffffff;
-            box-shadow: 0px 0px 10px 0px 
-              #efefef;
+            // box-shadow: 0px 0px 10px 0px 
+            //   #efefef;
             font: 14px/30px "MicrosoftYaHei";
             color: #cf242a;
+            box-shadow: 0px 0px 10px 0px 
+		#efefef;
           }
       }
     }
   }
+  ul .yi{
+    border-top: 2px solid #f13a40;
+  }
+  ul .er{
+    border-top: 2px solid #3d98ff;
+  }
+  ul .san{
+    border-top: 2px solid #f0a13b;
+  }
   .import li:nth-child(1){
     margin-bottom: 14px;
   }
+
   .side{
     width: 290px;
     .alone{
       li{
+        width: 290px;
         height: 296px;
         text-align: center;
+        background: #ffffff;
         img{
           margin:30px 0 32px 0;
         }
         .alone-one{
           font-family: MicrosoftYaHei;
           font-size: 14px;
-          color: #000000;
+          color: #a3a3a3;
         }
         .alone-two{
           font-family: MicrosoftYaHei;
           font-size: 14px;
-          color: #000000;
+          color: #a3a3a3;
           margin: 9px 0;
         }
         .alone-there{
-          font-family: FZLTZHK--GBK1-0;
+          font-family: MicrosoftYaHei;
           font-size: 16px;
+          font-weight: bold;
           color: #ce2127;
           margin-bottom: 36px;
         }
@@ -676,9 +549,8 @@ template .block{
           display: block;
           width: 260px;
           height: 1px;
-          // background: #f2f2ff;
-          background: #ce2127;
-          opacity: 0.05;
+          margin: 0 auto;
+          background: #f2f2f2;
         }
       }
     }
@@ -696,9 +568,9 @@ template .block{
     height: 50px;
     .left{
       margin-top: 10px;
-      font-size:14px/40px "MicrosoftYaHei-Bold";
+      font-size:16px/40px "MicrosoftYaHei";
       font-weight: bold; 
-      color:rgba(1, 1, 1, 0.7);
+      color:#707070;
       align-self: center;
       i{
         display:inline-block;
@@ -711,14 +583,16 @@ template .block{
     .right{
         margin-top: 10px;
         font-size:14px/40px "MicrosoftYaHei";
-        color:rgba(1, 1, 1, 0.7);
+        color: #707070;
         align-self: center;
-        i{
-          // display: inline-block;
-          // width: 6px;
-          // height: 10px;
-          // background-color: rgba(0, 0, 0, 0.5);
-	        // opacity: 0.5;
+        span{
+          letter-spacing:1px;
+        }
+        .rotate:before{
+          transform:rotateY(180deg);
+          font-size: 14px;
+          margin-left: 2px;
+          display: inline-block;
         }
     }
   }

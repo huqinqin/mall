@@ -1,71 +1,91 @@
 <template>
   <div>
-     <div class="nav">
+     <div class="nav">                                    
         <ul class="left">
             <li>
-                <i class="iconfont icon-monihua"></i>
+                <i class="iconfont icon-IPjiejuefangan"></i>
                 <p>IP</p>
+                <p>SOLUTION</p>
+            </li>
+            <li>
+                <i class="iconfont icon-jiankong"></i>
+                <p>HD-TVI</p>
+                <p>SOLUTION</p>
+            </li>
+            <li>
+                <i class="iconfont icon-lianxixiaoshoukefu"></i>
+                <p>PUBLIC PLACE</p>
                 <p>SOLUTION </p>
             </li>
             <li>
-                <i class="iconfont icon-monihua"></i>
-                <p>IP</p>
-                <p>SOLUTION </p>
-            </li>
-            <li>
-                <i class="iconfont icon-monihua"></i>
-                <p>IP</p>
-                <p>SOLUTION </p>
-            </li>
-            <li>
-                <i class="iconfont icon-monihua"></i>
-                <p>IP</p>
+                <i class="iconfont icon-jiatingjiejuefangan"></i>
+                <p>RESIDENTIAL</p>
                 <p>SOLUTION </p>
             </li>
         </ul>
-        <img src="../../assets/inder_img/logo.png" alt="">
+        <div class="logo">
+            <img src="../../assets/inder_img/logo.png" alt="">
+        </div>
         <ul class="right">
             <li>
-                <i class="iconfont icon-monihua"></i>
-                <p>IP</p>
-                <p>SOLUTION </p>
+                <i class="iconfont icon-lianxixiaoshoukefu"></i>
+                <p>CALL</p>
+                <p>SALES</p>
             </li>
             <li>
-                <i class="iconfont icon-monihua"></i>
-                <p>IP</p>
-                <p>SOLUTION </p>
+                <i class="iconfont icon-zhichi"></i>
+                <p>SUPPORT</p>
+                <p>CENTER</p>
             </li>
             <li>
-                <i class="iconfont icon-monihua"></i>
-                <p>IP</p>
-                <p>SOLUTION </p>
+                <i class="iconfont icon-wodezuiai"></i>
+                <p>MY</p>
+                <p>FAVOURITE</p>
             </li>
             <li>
-                <i class="iconfont icon-monihua"></i>
-                <p>IP</p>
-                <p>SOLUTION </p>
+                <i class="iconfont icon-gouwuche2"></i>
+                <p>SHOPPING</p>
+                <p>CART</p>
             </li>
         </ul>
         <div class="search">
-
+            <template>
+              <el-select v-model="value" placeholder="全部分类"  class="select">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </template>
+            <div class="input">
+                <input type="text" placeholder="输入你想要搜索的商品名称或编码">
+                <!-- <i class="iconfont icon-sousuo2 te"></i> -->
+            </div>
         </div>
      </div>
 
      <!-- banner -->
      <template>
         <div class="block">
-          <el-carousel height="500px">
-            <el-carousel-item v-for="item in list" :key="item">
-              <h3>{{ item }}</h3>
-              <img src=item alt="">
+          <el-carousel height="524px">
+            <el-carousel-item v-for="item in list" :key=item.index>
+              <img :src="item" alt="">
             </el-carousel-item>
           </el-carousel>
         </div>
     </template>
     <!-- publicity -->
     <div class="publicity">
-        <div class="weblocme">
-            <h3>WELCOME TO LTS</h3> 
+        <div class="welcome">
+            <h3>WELCOME TO LTS</h3>
+            <div class="span">    
+              <!-- <span>Video Solutions For Security Professionals</span> -->
+            </div>
+            <!-- <div class="TM">
+              TM
+            </div>  -->
         </div>
         <div class="login">
              <button class="register">立即登录</button>
@@ -340,10 +360,13 @@
   export default {
     data(){
       return{
+        nav:[
+          
+        ],
         list:[
-          "../../assets/inder_img/BANNERTU.png",
-          "../../assets/inder_img/BANNERTU.png",
-          "../../assets/inder_img/BANNERTU.png"
+          "static/image/BANNERTU.png",
+          "static/image/BANNERTU.png",
+          "static/image/BANNERTU.png"
         ]
       }
     }
@@ -426,31 +449,78 @@ table {
     white-space: nowrap;
 }
 
+// nav
+.el-input__inner{
+  height: 30px;
+}
 .nav{
   height: 173px;
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   li{
     margin-top:25px;
-    text-align: center;
+    text-align: center;  
+    p{
+      font:12px/18px "MicrosoftYaHei";
+      color: rgba(0, 0, 0, 0.7);
+    }     
   }
   i{
-    font-size: 40px;
+    font-size: 42px;
   }
-  .left{
-    width: 663px;
+  .left{        
+     width: 600px;
      display: flex;
      justify-content: space-around;
   }
-  img{
+  .logo{
+    width: 300px;
+    height: 27px;
     margin-top: 50px;
+    text-align: center;
+    img{   
     width: 102px;
 	  height: 27px;
   }
+  }
   .right{
-    width: 663px;
+    width: 600px;                
     display: flex;
     justify-content: space-around;
+  }
+  .search{
+    height: 54px;
+    width: 1453px;
+    margin: 0 auto;
+    // .el-input__inner{
+    //   height: 30px;
+    // }
+    .select{
+       width:121px;
+    }
+    .input{
+      display: inline-block;
+      margin-left: -6px;
+      width: 1262px;
+      height: 28px;
+      background-color: #ffffff;
+      border: solid 1px rgba(0, 0, 0, 0.3);
+      border-left: none;
+      input{   
+         width: 1232px;
+        height: 28px;     
+        border: none;
+        font-family: MicrosoftYaHei;
+        font-size: 12px;
+        color: #000000;
+        margin-left: 24px;
+      }
+      // .te{
+      //   font-size:15px;
+      //   margin-top: -20px;
+      // }
+    }
   }
 }
 template .block{
@@ -467,8 +537,19 @@ template .block{
   background-color:#fff;
   padding: 12px 0;
   .welcome{
+    margin-left: 24px;
+    display: flex;
+    flex-direction: row;
     h3{
       font:24px/60px "MicrosoftYaHei-Bold";
+    }
+    .span{
+      display:inline-block;
+      width:125px;
+      height: 60px;
+      font:10px/12px "MicrosoftYaHei"; 
+      color: rgba(0, 0, 0, 0.7);
+
     }
   }
   .login{
@@ -480,16 +561,15 @@ template .block{
     }
     .register{
       background-color: #ededed;
-      box-shadow: 0px 2px 10px 0px 	#f6f6f6;
       font-weight: bold;
       color: #f13a40;
-      margin-right: 12px;
     }
     .sign{
       background-color: #ffffff;
-	    border-radius: 4px;
       border: solid 1px rgba(0, 0, 0, 0.5);
       color:rgba(0, 0, 0, 0.7);
+      margin-left: 12px;
+      margin-right: 24px;
     }
   }
 }
@@ -500,6 +580,10 @@ template .block{
   justify-content: space-between;
   .one{
     margin-right: 12px;
+  }
+  .two{
+    // display: flex;
+    // align-items: stretch;
   }
 }
 

@@ -2,7 +2,7 @@
     <div class="finish">
         <div class="mark"><p>您的订单已经生成，请尽快完成支付，防止商品被抢光</p></div>
         <div class="result">
-            <img src="../img/tup_html.png" alt="goods">
+            <img src="../../../assets/img/tup_html.png" alt="goods">
             <div class="content">
                 <h3>支付成功</h3>
                 <p>商品名称：摄像头</p>
@@ -11,9 +11,9 @@
                 <p>收货地址：西湖区三墩镇振华路西城博司12楼1201</p>
                 <p>物流方式：快递</p>
                 <p>支付方式：信用卡</p>
-                <div>
-                    <el-button class="go" @click="gogogo">再逛逛</el-button>
-                    <el-button class="back" @click="back">回首页</el-button>
+                <div class="button">
+                    <button class="go" @click="gogogo"><span>再逛逛</span></button>
+                    <button class="back" @click="back"><span>回首页</span></button>
                 </div>
             </div>
         </div>
@@ -73,24 +73,32 @@
                 font-size: 14px;
                 color: rgba(0,0,0,0.5);
             }
-            div{
-                margin-top: 10px;
 
-                .el-button{
+            .button{
+                button{
+                    margin-top: 10px;
                     border-radius: 4px;
                     width: 100px;
                     height: 30px;
-                    color: white;
-                    font-size: 14px;
-                    line-height: 0PX;
+                    border: none;
+                    span{
+                        color: white;
+                        font-size: 14px;
+                        line-height: 29PX;
+                    }
                 }
-                .el-button.go{
+                button+button{
+                    margin-left: 12px;
+                }
+                button.go{
                     background-color: #f13a40;
                 }
-                .el-button.back{
+                button.back{
                     background-color: rgba(0, 0, 0, 0.5);
                 }
             }
-            }
+
+
+        }
     }
 </style>

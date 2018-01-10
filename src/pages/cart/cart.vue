@@ -1,8 +1,8 @@
 <template>
     <div class="cart">
         <div class="header">
-            <img src="./img/LOGO_html.png" alt="LTS-logo">
-            <el-steps :active=active align-center>
+            <img src="../../assets/img/LOGO_html.png" alt="LTS-logo">
+            <el-steps :active=active align-center finish-status="success">
                 <el-step title="我的进货单"></el-step>
                 <el-step title="填写/确认订单信息"></el-step>
                 <el-step title="订单提交"></el-step>
@@ -19,7 +19,7 @@
     name: "cart",
       data(){
         return {
-            active: 1,
+            active: 0,
         }
       },
       methods:{
@@ -30,7 +30,7 @@
   }
 </script>
 
-<style scoped lang="less">
+<style lang="less">
     *{box-sizing: border-box;}
     .cart{
         .header{
@@ -39,12 +39,17 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            overflow: hidden;
             img{
                 width:140px;
                 height: 50px;
             }
             .el-steps{
                 width:800px;
+                margin-right: -45px;
+                .el-step{
+                    color:#777777;
+                }
             }
         }
     }

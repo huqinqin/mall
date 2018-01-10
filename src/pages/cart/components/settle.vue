@@ -17,13 +17,13 @@
                         <button @click="editAddress">修改</button>
                     </footer>
                 </li>
-                <li>
+                <li v-for="item in addressData">
                     <header>
-                        <div><p>抹茶 （浙江省杭州市）</p></div>
+                        <div><p>{{item.name}} （{{item.city}}）</p></div>
                     </header>
                     <main>
-                        <p>西湖区三墩镇振华路西城博司12楼1201</p>
-                        <p>电话：183 **** 5921</p>
+                        <p>{{item.address}}</p>
+                        <p>电话：{{item.mobile}}</p>
                     </main>
                     <footer>
                         <button @click="setDefault">设为默认</button>
@@ -53,17 +53,17 @@
                         <button @click="editBill">修改</button>
                     </footer>
                 </li>
-                <li>
+                <li v-for="item in billData">
                     <header>
-                        <div><p>抹茶 （浙江省杭州市）</p></div>
+                        <div><p>{{item.name}} （{{item.city}}）</p></div>
                     </header>
                     <main>
-                        <p>西湖区三墩镇振华路西城博司12楼1201</p>
-                        <p>电话：183 **** 5921</p>
+                        <p>{{item.address}}</p>
+                        <p>电话：{{item.mobile}}</p>
                     </main>
                     <footer>
                         <button @click="setDefault">设为默认</button>
-                        <button @click="editBill">修改</button>
+                        <button @click="editAddress">修改</button>
                     </footer>
                 </li>
                 <li class="addBill" @click="addBill">
@@ -122,6 +122,18 @@
         data(){
             return{
                 chooseAll: true,
+                addressData:[{
+                    name: '抹茶',
+                    city: '浙江省杭州市',
+                    address: '西湖区三墩镇振华路西城博司12楼1201',
+                    mobile: '183 **** 5921'
+                }],
+                billData: [{
+                    name: '抹茶',
+                    city: '浙江省杭州市',
+                    address: '西湖区三墩镇振华路西城博司12楼1201',
+                    mobile: '183 **** 5921'
+                }],
                 tableData: [{
                     img: './img/shangping_html.png',
                     info: '海康威视DS-CD0DDDDDDDDDD',
@@ -166,8 +178,8 @@
                 alert('handleSelectionChange')
             },
             settle(){
-                this.$emit('submit','3')
-                this.$router.push({path: '/pay'})
+                this.$emit('submit',2)
+                this.$router.push({path: '/beforePay'})
             }
         }
   }
@@ -282,7 +294,6 @@
         .el-button{
             width: 120px;
             height: 35px;
-            border-right: 4px;
             margin-left: 12px;
             background-color: #f6f6f6;
             margin-bottom: 48px;

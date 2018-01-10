@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Settle from '../components/settle'
 import Finish from '../components/finish'
-import Pay from '../components/pay'
+import BeforePay from '../components/beforePay'
 import List from '../components/list'
 
 Vue.use(Router)
@@ -23,8 +23,8 @@ export default new Router({
       component: Settle
     },
     {
-      path: '/pay',
-      component: Pay
+      path: '/beforePay',
+      component: BeforePay
     },
     {
       path: '/finish',

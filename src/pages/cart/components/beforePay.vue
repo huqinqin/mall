@@ -1,5 +1,5 @@
 <template>
-    <div class="pay">
+    <div class="beforePay">
         <div class="mark"><p>您的订单已经生成，请尽快完成支付，防止商品被抢光</p></div>
         <div class="info">
             <p>订单编号：2389498484950043</p>
@@ -10,11 +10,11 @@
             <div class="credit">
                 <h6>信用卡：</h6>
                 <ul>
-                    <li><img src="../img/xinyongk1_html.png" alt="credit"></li>
-                    <li><img src="../img/xinyongk1_html.png" alt="credit"></li>
-                    <li><img src="../img/xinyongk1_html.png" alt="credit"></li>
-                    <li><img src="../img/xinyongk1_html.png" alt="credit"></li>
-                    <li><img src="../img/xinyongk1_html.png" alt="credit"></li>
+                    <li><img src="@/assets/img/xinyongk1_html.png" alt="credit"></li>
+                    <li><img src="@/assets/img/xinyongk1_html.png" alt="credit"></li>
+                    <li><img src="@/assets/img/xinyongk1_html.png" alt="credit"></li>
+                    <li><img src="@/assets/img/xinyongk1_html.png" alt="credit"></li>
+                    <li><img src="@/assets/img/xinyongk1_html.png" alt="credit"></li>
                     <li class="addCredit" @click="addCredit">
                         <i class="iconfont icon-add"></i>
                         <div>添加信用卡</div>
@@ -24,14 +24,14 @@
             <div class="online">
                 <h6>在线支付：</h6>
                 <ul>
-                    <li><img src="../img/xinyongk1_html.png" alt="credit"></li>
-                    <li><img src="../img/xinyongk1_html.png" alt="credit"></li>
-                    <li><img src="../img/xinyongk1_html.png" alt="credit"></li>
+                    <li><img src="@/assets/img/xinyongk1_html.png" alt="credit"></li>
+                    <li><img src="@/assets/img/xinyongk1_html.png" alt="credit"></li>
+                    <li><img src="@/assets/img/xinyongk1_html.png" alt="credit"></li>
                 </ul>
             </div>
         </div>
         <div class="goPay">
-            <el-button @click="pay">去支付</el-button>
+            <el-button @click="goPay">去支付</el-button>
         </div>
     </div>
 </template>
@@ -39,7 +39,7 @@
 <script>
 
     export default {
-        name: "pay",
+        name: "beforePay",
         data(){
             return{}
         },
@@ -47,9 +47,9 @@
             addCredit(){
                 alert('add credit')
             },
-            pay(){
-                this.$router.push({path:'/finish'})
-                this.$emit('submit','5')
+            goPay(){
+                this.$router.push({path: '/finish'})
+                this.$emit('submit',4)
             }
         }
   }

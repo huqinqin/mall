@@ -5,11 +5,12 @@
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column label="商品信息" width="300">
                 <template slot-scope="scope">
-                    <img :src="tableData.img" alt="商品" />
-
-                    <p>{{tableData.info}}</p>
-                    <p>{{scope.pixel}}</p>
-                    <p>{{scope.focal}}</p>
+                    <img :src="scope.row.img" alt="商品">
+                    <div class="content">
+                        <p>{{scope.row.info}}</p>
+                        <p>像素：{{scope.row.pixel}}</p>
+                        <p>焦距：{{scope.row.focal}}</p>
+                    </div>
                 </template>
             </el-table-column>
             <el-table-column prop="pixel" label="像素" width="120">
@@ -19,11 +20,14 @@
             <el-table-column prop="price" label="单价（美金）" show-overflow-tooltip>
             </el-table-column>
             <el-table-column label="数量" prop="num">
-                <el-input-number v-model="tableData.num" label="描述文字"></el-input-number>
+                <el-input-number v-model="tableData.num"></el-input-number>
             </el-table-column>
             <el-table-column prop="count" label="小计" show-overflow-tooltip>
             </el-table-column>
-            <el-table-column prop="handle" label="操作">
+            <el-table-column label="操作">
+                <template slot-scope="scope">
+                    <i :class="scope.row.handle"></i>
+                </template>
             </el-table-column>
         </el-table>
         <div class="table-footer">
@@ -41,40 +45,12 @@
         <div class="history">
             <h5>购买记录</h5>
             <ul class="items">
-                <li>
-                    <img src="../img/goods1.png" alt="商品1">
-                    <p>海康威视</p>
-                    <p><span>200万4mm红外高清网络半球摄像机</span></p>
-                    <p><span>DS-2CD3325-I(C) </span></p>
-                    <div class="price">$399.00</div>
-                </li>
-                <li>
-                    <img src="../img/goods1.png" alt="商品1">
-                    <p>海康威视</p>
-                    <p><span>200万4mm红外高清网络半球摄像机</span></p>
-                    <p><span>DS-2CD3325-I(C) </span></p>
-                    <div class="price">$399.00</div>
-                </li>
-                <li>
-                    <img src="../img/goods1.png" alt="商品1">
-                    <p>海康威视</p>
-                    <p><span>200万4mm红外高清网络半球摄像机</span></p>
-                    <p><span>DS-2CD3325-I(C) </span></p>
-                    <div class="price">$399.00</div>
-                </li>
-                <li>
-                    <img src="../img/goods1.png" alt="商品1">
-                    <p>海康威视</p>
-                    <p><span>200万4mm红外高清网络半球摄像机</span></p>
-                    <p><span>DS-2CD3325-I(C) </span></p>
-                    <div class="price">$399.00</div>
-                </li>
-                <li>
-                    <img src="../img/goods1.png" alt="商品1">
-                    <p>海康威视</p>
-                    <p><span>200万4mm红外高清网络半球摄像机</span></p>
-                    <p><span>DS-2CD3325-I(C) </span></p>
-                    <div class="price">$399.00</div>
+                <li v-for="item in historyData">
+                    <img :src="item.img" :alt=item.disc>
+                    <p>{{item.name}}</p>
+                    <p><span>{{item.info}}</span></p>
+                    <p><span>{{item.model}}</span></p>
+                    <div class="price">${{item.price}}</div>
                 </li>
             </ul>
         </div>
@@ -88,27 +64,62 @@
             return {
                 chooseAll: true,
                 tableData: [{
-                    img: './img/shangping_html.png',
+                    img: require('@/assets/img/shangping_html.png'),
                     info: '海康威视DS-CD0DDDDDDDDDD',
                     pixel: '1200W',
                     focal: '4mm',
                     price: '$500.00',
                     num: 1,
                     count: '$500.00',
-                    handle: 'delete',
-                },
-                    {
-                        img: './img/shangping_html.png',
-                        info: '海康威视DS-CD0DDDDDDDDDD',
-                        pixel: '1200W',
-                        focal: '4mm',
-                        price: '$500.00',
-                        num: 1,
-                        count: '$500.00',
-                        handle: 'delete',
-                    }],
+                    handle: 'iconfont icon-shanchu',
+                },{
+                    img: require('@/assets/img/shangping_html.png'),
+                    info: '海康威视DS-CD0DDDDDDDDDD',
+                    pixel: '1200W',
+                    focal: '4mm',
+                    price: '$500.00',
+                    num: 1,
+                    count: '$500.00',
+                    handle: 'iconfont  icon-shanchu',
+                }],
                 multipleTable: [],
-                num: 10
+                num: 10,
+                historyData: [{
+                    img: require('@/assets/img/goods1.png'),
+                    disc: '商品1',
+                    name: '海康威视',
+                    info: '200万4mm红外高清网络半球摄像机',
+                    model: 'DS-2CD3325-I(C)',
+                    price: '399.00'
+                },{
+                    img: require('@/assets/img/goods1.png'),
+                    disc: '商品1',
+                    name: '海康威视',
+                    info: '200万4mm红外高清网络半球摄像机',
+                    model: 'DS-2CD3325-I(C)',
+                    price: '399.00'
+                },{
+                    img: require('@/assets/img/goods1.png'),
+                    disc: '商品1',
+                    name: '海康威视',
+                    info: '200万4mm红外高清网络半球摄像机',
+                    model: 'DS-2CD3325-I(C)',
+                    price: '399.00'
+                },{
+                    img: require('@/assets/img/goods1.png'),
+                    disc: '商品1',
+                    name: '海康威视',
+                    info: '200万4mm红外高清网络半球摄像机',
+                    model: 'DS-2CD3325-I(C)',
+                    price: '399.00'
+                },{
+                    img: require('@/assets/img/goods1.png'),
+                    disc: '商品1',
+                    name: '海康威视',
+                    info: '200万4mm红外高清网络半球摄像机',
+                    model: 'DS-2CD3325-I(C)',
+                    price: '399.00'
+                }]
             }
         },
         methods:{
@@ -116,7 +127,7 @@
                 alert('handleSelectionChange')
             },
             check() {
-                this.$emit('submit', '2')
+                this.$emit('submit', 1)
                 this.$router.push({path: '/settle'})
             }
         }
@@ -124,9 +135,32 @@
 </script>
 
 <style scoped lang="less">
+    @import '//at.alicdn.com/t/font_516449_jhzz1yo9t19n3ik9.css';
     .list{
         font-family: MicrosoftYaHei;
-        .el-table{
+        table{
+            .el-table_1_column_2{
+                img{
+                    width: 116px;
+                    height: 116px;
+                    background-color: #ffffff;
+                    border: solid 1px #dadada;
+                    float: left;
+                }
+                .content{
+                    margin-left: 135px;
+                    padding: 15px 0;
+                    width:174px;
+                    border:1px solid red;
+                    p{
+                        line-height: 30px;
+                        font-size: 14px;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        overflow:hidden;
+                    }
+                }
+            }
         }
         .table-footer{
             margin:70px 24px;
@@ -181,8 +215,7 @@
                     width: 290px;
                     height: 448px;
                     background-color: #ffffff;
-                    box-shadow: 0px 8px 18px 0px
-                    rgba(0, 0, 0, 0.05);
+                    box-shadow: 0px 8px 18px 0px rgba(0, 0, 0, 0.05);
                     border-top:2px solid #3d98ff;
                     display: flex;
                     flex-direction: column;
@@ -191,7 +224,6 @@
                         margin: 150px 0 96px;
                     }
                     p{
-                        font-family: FZLTZHK--GBK1-0;
                         line-height: 22px;
                         font-size: 18px;
                         color: rgba(0,0,0,0.7);

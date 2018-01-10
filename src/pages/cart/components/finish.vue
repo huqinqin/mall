@@ -2,7 +2,7 @@
     <div class="finish">
         <div class="mark"><p>您的订单已经生成，请尽快完成支付，防止商品被抢光</p></div>
         <div class="result">
-            <img src="../img/tup_html.png" alt="goods">
+            <img src="../../../assets/img/tup_html.png" alt="goods">
             <div class="content">
                 <h3>支付成功</h3>
                 <p>商品名称：摄像头</p>

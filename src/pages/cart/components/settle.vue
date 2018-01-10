@@ -281,7 +281,7 @@
                 font-size: 16px;
             }
             .el-input-number--small{
-                width:96px;
+                width:128px;
             }
         }
         h5{

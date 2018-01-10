@@ -2,7 +2,7 @@
     <div class="list">
         <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%" align="right" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="60" align="right"></el-table-column>
-            <el-table-column label="商品信息" width="380">
+            <el-table-column label="商品信息" width="380" align="center">
                 <template slot-scope="scope">
                     <img :src="scope.row.img" alt="商品">
                     <div class="content">
@@ -176,6 +176,7 @@
                 margin-left: 125px;
                 padding: 15px 0;
                 width:174px;
+                text-align: left;
                 p{
                     line-height: 30px;
                     font-size: 14px;
@@ -195,12 +196,12 @@
                 font-size: 16px;
             }
             .el-input-number--small{
-                width:96px;
+                width:128px;
             }
         }
 
         .table-footer{
-            margin:56px 24px;
+            margin:40px 24px;
             display: flex;
             justify-content: space-between;
             p{
@@ -214,12 +215,18 @@
                 }
             }
             .choose{
+                margin-left: 12px;
                 .el-checkbox{
                     color: #777;
+                    span.el-checkbox__label{
+                        margin-left: 12px;
+                        font-size: 14px;
+
+                    }
                 }
                 span{
-                    color:#b1b1b1;
-                    margin-left: 23px;
+                    color: #b1b1b1;
+                    font-size: 12px;
                 }
             }
             .check{
@@ -228,13 +235,16 @@
                     background-color: #f81f22;
                     border-radius: 4px;
                     width: 160px;
-                    height: 50px;
-                    font-size: 26px;
+                    height: 40px;
+                    line-height: 0px;
+                    font-size: 24px;
                     font-family: MicrosoftYaHei-Bold;
+                    span{
+                        color: #fff;
+                    }
                 }
                 span{
-                    color: #fff;
-                    margin-right: 10px;
+                    color: #999;
                 }
             }
         }
@@ -247,10 +257,11 @@
             .items{
                 display: flex;
                 justify-content: space-between;
+
                 li{
                     width: 290px;
                     background-color: #ffffff;
-                    box-shadow: 0px 8px 18px 0px rgba(0, 0, 0, 0.05);
+                    box-shadow: 4px 8px 18px 0px rgba(0, 0, 0, 0.05);
                     border-top:2px solid #3d98ff;
                     display: flex;
                     flex-direction: column;
@@ -260,6 +271,8 @@
                     }
                     p{
                         line-height: 18px;
+                        font-family: MicrosoftYaHei-Bold;
+                        font-weight: bold;
                         font-size: 18px;
                         margin-top: 12px;
                         color: rgba(0,0,0,0.7);
@@ -267,6 +280,7 @@
                         span{
                             font-size: 14px;
                             color: rgba(0,0,0,0.5);
+                            font-weight: normal;
                         }
                     }
                     .price{
@@ -280,10 +294,16 @@
                         margin-top: 24px;
                     }
                 }
+                li+li{
+                    margin-left: 12px;
+                }
             }
             padding-bottom: 96px;
             border-bottom:1px solid rgba(0, 0, 0, 0.05);
         }
+    }
+    tbody:nth-child(1){
+        border:1px solid red;
     }
 
     p{

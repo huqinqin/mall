@@ -1,4 +1,4 @@
-import Lib from '@/common/js'
+import Lib from '@/common/js/otherLayout.js'
 import Vue from 'vue'
 import App from './cart.vue'
 import routerView from './router'

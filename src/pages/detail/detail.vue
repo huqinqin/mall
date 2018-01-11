@@ -32,17 +32,23 @@
       </div>
 
       <!-- 商品编号 -->
-      <div class="num">
-        <p>商品编号：1234556788</p>
+      <div class="num"  v-for="prc in prc_info" :key="prc.index">
+        <p>商品编号：<span>{{prc.num}}</span></p>
       </div>
-    </div>
+    </div> 
 
     <!-- center -->
-    <div class="_deiali_center" v-for="center in detail_center" :key="center.index">
-        <p><span>价格：</span><span>$</span><span>{{center.p1}}</span></p>
+    <div class="_detali_center" v-for="center in detail_center" :key="center.index">
+        <!-- <p><span>价格：</span><span>$</span><span>{{center.p1}}</span></p>
                 
-        <p><span>惊爆价：</span><span>{{center.p2}}</span><a href="">立即登录</a><a href="">免费注册</a></p>
+        <p><span>惊爆价：</span><span>{{center.p2}}</span><a href="">立即登录</a><a href="">免费注册</a></p> -->
     </div>
+
+    <!-- right -->
+    <div class="_detali_right">
+
+    </div>
+
     </div>
   </div>
 </template>
@@ -55,7 +61,8 @@
           {
             href:"",
             link:"static/image/shexiangtou1.png",
-            alt:""
+            alt:"",
+            num:"111111"
           }
         ],
         detail_center:[
@@ -141,10 +148,8 @@ table {
   clear: both; }
 
 .detali{
-  // margin-left:   
-  // display: flex;
   .detali_left{
-    
+    float: left;
   }
   
 }
@@ -196,5 +201,15 @@ table {
   }
 
 
+}
+.num{
+  font:14px/46px "MicrosoftYaHei";
+  color: #000;
+}
+._detali_center{
+  float: left;
+}
+._detali_right{
+  float: right;
 }
 </style>

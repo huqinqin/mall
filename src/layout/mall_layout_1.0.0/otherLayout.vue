@@ -133,6 +133,7 @@
             padding: 0;
             min-height:800px;
             background-color: white;
+            overflow: hidden;
         }
         .el-footer {
             margin-top: 48px;

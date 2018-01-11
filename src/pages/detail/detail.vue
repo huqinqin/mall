@@ -1,129 +1,375 @@
 <template>
     <div class="detail">
-      <!-- left -->
-        <div class="detail_left">
-          <div class="breadcrumb">
-            <a href="">首页</a>
-            <span>></span>
-            <a href="">商品列表</a>
-            <span>></span>
-            <a href="">商品详情</a>
-            <span>></span>
-        </div>
-      <!-- prc_info -->
-      <div class="prc_info" v-for="prc in prc_info" :key="prc.index">
-          <div class="big">
-            <a href="">
-              <img :src="prc.link" alt="">
-            </a>
+      <!-- top -->
+      <el-breadcrumb separator-class="el-icon-arrow-right">
+        <el-breadcrumb-item><a href="/index">首页</a></el-breadcrumb-item>
+        <el-breadcrumb-item><a href="javascript:void(0)">首页</a></el-breadcrumb-item>
+        <el-breadcrumb-item>首页</el-breadcrumb-item>
+      </el-breadcrumb>
+      <div class="detail-top">
+          <div class="detail-img-box">
+              <div class="prc_info" v-for="prc in prc_info" :key="prc.index">
+                  <div class="big" :style="{backgroundImage:'url('+prc.link+')'}">
+                  </div>
+                  <div class="small">
+                      <!-- -->
+                      <a href="">
+                          <img :src="prc.link" alt="">
+                      </a>
+                      <a href="">
+                          <img :src="prc.link" alt="">
+                      </a>
+                  </div>
+              </div>
+              <!-- 商品编号 -->
+              <div class="num"  v-for="prc in prc_info" :key="prc.index">
+                  <p>商品编号：<span>{{prc.num}}</span></p>
+              </div>
           </div>
-          <div class="small">
-            <a href="">
-              <img :src="prc.link" alt="">
-            </a>
-            <a href="">
-              <img :src="prc.link" alt="">
-            </a>
-            <a href="">
-              <img :src="prc.link" alt="">
-            </a>
+          <div class="detail-sku-box">
+              <!-- 商品标题-->
+              <h3>LTS 1080P普及型会议终端TS2000</h3>
+              <!-- 商品属性-->
+              <el-form label-position="left" label-width="80px">
+                  <el-form-item label="价格">
+                      <div class="tips">完成登录注册，享受惊爆价</div>
+                  </el-form-item>
+                  <el-form-item label="供电方式" class="radio">
+                      <el-radio-group v-model="sku_1">
+                          <el-radio label="1" border>DC12V</el-radio>
+                          <el-radio label="2" border>AC14V</el-radio>
+                          <el-radio label="3" border>POE</el-radio>
+                      </el-radio-group>
+                  </el-form-item>
+                  <el-form-item label="像素分类" class="radio">
+                      <el-radio-group v-model="sku_2">
+                          <el-radio label="1" border>300W</el-radio>
+                          <el-radio label="2" border>290W</el-radio>
+                          <el-radio label="3" border>280W</el-radio>
+                          <el-radio label="4" border>270W</el-radio>
+                          <el-radio label="5" border>260W</el-radio>
+                          <el-radio label="6" border>250W</el-radio>
+                          <el-radio label="7" border>240W</el-radio>
+                          <el-radio label="8" border>230W</el-radio>
+                          <el-radio label="9" border>220W</el-radio>
+                          <el-radio label="10" border>210W</el-radio>
+                          <el-radio label="11" border>200W</el-radio>
+                      </el-radio-group>
+                  </el-form-item>
+                  <el-form-item label="采购量" class="num">
+                      <el-input-number v-model="count" size="mini" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number>
+                  </el-form-item>
+                  <el-form-item label="温馨提示">
+                      <el-alert
+                          title="这是我要提示的文案"
+                          type="info">
+                      </el-alert>
+                  </el-form-item>
+                  <el-form-item class="buttons">
+                      <button>立即购买</button>
+                      <button>加入购物车</button>
+                  </el-form-item>
+              </el-form>
+              <!--<div class="detail_center">-->
+                  <!--<h3>LTS 1080P普及型会议终端TS2000</h3>-->
+                  <!--<div class="info">-->
+                      <!--<div class="price">-->
+                          <!--<span>价格:</span>-->
+                          <!--<div class="tips">完成登录注册，享受惊爆价</div>-->
+                      <!--</div>-->
+                      <!--<div class="sku_1">-->
+                          <!--<span>供电方式:</span>-->
+                          <!--<div class="tips">-->
+                              <!--<el-radio v-model="sku_1" label="1" border>DC12V</el-radio>-->
+                              <!--<el-radio v-model="sku_1" label="2" border>AC14V</el-radio>-->
+                              <!--<el-radio v-model="sku_1" label="3" border>POE</el-radio>-->
+                          <!--</div>-->
+
+                      <!--</div>-->
+                      <!--<div class="sku_2">-->
+                          <!--<span>像素分类:</span>-->
+                          <!--<div class="tips">-->
+                              <!--<el-radio v-model="sku_2" label="1" border>100W</el-radio>-->
+                              <!--<el-radio v-model="sku_2" label="2" border>110W</el-radio>-->
+                              <!--<el-radio v-model="sku_2" label="3" border>120W</el-radio>-->
+                              <!--<el-radio v-model="sku_2" label="4" border>130W</el-radio>-->
+                              <!--<el-radio v-model="sku_2" label="5" border>140W</el-radio>-->
+                              <!--<el-radio v-model="sku_2" label="6" border>150W</el-radio>-->
+                              <!--<el-radio v-model="sku_2" label="7" border>160W</el-radio>-->
+                              <!--<el-radio v-model="sku_2" label="8" border>170W</el-radio>-->
+                              <!--<el-radio v-model="sku_2" label="9" border>180W</el-radio>-->
+                              <!--<el-radio v-model="sku_2" label="10" border>190W</el-radio>-->
+                              <!--<el-radio v-model="sku_2" label="11" border>200W</el-radio>-->
+                              <!--<el-radio v-model="sku_2" label="12" border>210W</el-radio>-->
+                              <!--<el-radio v-model="sku_2" label="13" border>220W</el-radio>-->
+                              <!--<el-radio v-model="sku_2" label="14" border>230W</el-radio>-->
+                          <!--</div>-->
+
+                      <!--</div>-->
+                      <!--<div class="num">-->
+                          <!--<span>采购量:</span>-->
+                          <!---->
+                      <!--</div>-->
+                      <!--<div class="mark">-->
+                          <!--温馨提示:<span>不支持60天无理由退换(如果商品参加活动，退换货以活动规则为准)</span>-->
+                      <!--</div>-->
+                  <!--</div>-->
+                  <!--<div class="buttons">-->
+                      <!---->
+                      <!---->
+                  <!--</div>-->
+
+                  <!--<div class="_detali_right">-->
+
+                  <!--</div>-->
+
+              <!--</div>-->
+          </div>
+          <div class="detail-buy-history">
+
           </div>
       </div>
-      <!-- 商品编号 -->
-      <div class="num"  v-for="prc in prc_info" :key="prc.index">
-        <p>商品编号：<span>{{prc.num}}</span></p>
+        <!-- bottom -->
+      <div class="detail-bottom">
+          // TOOD 商品详情
       </div>
-    </div>
-
-    <!-- center -->
-    <div class="detail_center">
-        <h3>LTS 1080P普及型会议终端TS2000</h3>
-        <div class="info">
-            <div class="price">
-                <span>价格:</span>
-                <div class="tips">完成登录注册，享受惊爆价</div>
-            </div>
-            <div class="sku_1">
-                <span>供电方式:</span>
-                <div class="tips">
-                    <el-radio v-model="sku_1" label="1" border>DC12V</el-radio>
-                    <el-radio v-model="sku_1" label="2" border>AC14V</el-radio>
-                    <el-radio v-model="sku_1" label="3" border>POE</el-radio>
-                </div>
-
-            </div>
-            <div class="sku_2">
-                <span>像素分类:</span>
-                <div class="tips">
-                    <el-radio v-model="sku_2" label="1" border>100W</el-radio>
-                    <el-radio v-model="sku_2" label="2" border>110W</el-radio>
-                    <el-radio v-model="sku_2" label="3" border>120W</el-radio>
-                    <el-radio v-model="sku_2" label="4" border>130W</el-radio>
-                    <el-radio v-model="sku_2" label="5" border>140W</el-radio>
-                    <el-radio v-model="sku_2" label="6" border>150W</el-radio>
-                    <el-radio v-model="sku_2" label="7" border>160W</el-radio>
-                    <el-radio v-model="sku_2" label="8" border>170W</el-radio>
-                    <el-radio v-model="sku_2" label="9" border>180W</el-radio>
-                    <el-radio v-model="sku_2" label="10" border>190W</el-radio>
-                    <el-radio v-model="sku_2" label="11" border>200W</el-radio>
-                    <el-radio v-model="sku_2" label="12" border>210W</el-radio>
-                    <el-radio v-model="sku_2" label="13" border>220W</el-radio>
-                    <el-radio v-model="sku_2" label="14" border>230W</el-radio>
-                </div>
-
-            </div>
-            <div class="num">
-                <span>采购量:</span>
-                <el-input-number v-model="count" size="mini" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number>
-            </div>
-            <div class="mark">
-                温馨提示:<span>不支持60天无理由退换(如果商品参加活动，退换货以活动规则为准)</span>
-            </div>
-        </div>
-        <div class="buttons">
-            <button>立即购买</button>
-            <button>加入购物车</button>
-        </div>
-
-    <div class="_detali_right">
-
-    </div>
-
-    </div>
   </div>
 </template>
 
 <script>
   export default {
-     data(){
-      return{
-          sku_1: '',
-          sku_2: '',
-          count: '',
-        prc_info:[
-          {
-            href:"",
-            link:"static/image/shexiangtou1.png",
-            alt:"",
-            num:"111111"
+      data: function () {
+          return {
+              // 商品
+              sku_1: '',
+              sku_2: '',
+              count: '',
+              prc_info: [
+                  {
+                      href: "",
+                      link: "static/image/shexiangtou1.png",
+                      alt: "",
+                      num: "111111"
+                  }
+              ],
+              detail_center: [
+                  {
+                      p1: "1988.00",
+                      p2: "888800"
+                  }
+              ],
           }
-        ],
-        detail_center:[
-          {
-            p1:"1988.00",
-            p2:"888800"
+      },
+      methods:{
+          handleChange(){
+              // TOOD 商品加减操作
+
           }
-        ]
       }
-    }
   }
 </script>
 
 <style lang="less">
 
     .detail{
-        .detail_left{
+        .el-breadcrumb{
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+        .detail-top{
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            .detail-img-box{
+                width: 400px;
+                margin-right: 48px;
+                .prc_info{
+                    .big{
+                        box-sizing: border-box;
+                        border: 1px solid #cccccc;
+                        width: 400px;
+                        height: 400px;
+                        margin-bottom: 12px;
+                        background-size: cover;
+                        background-position: center center;
+                    }
+                    .small{
+                        display: flex;
 
+                        a{
+                            display: inline;
+                            width: 70px;
+                            height: 70px;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            img{
+                                width: 38px;
+                                height: 40px;
+                            }
+                        }
+                    }
+
+
+                }
+            }
+            .detail-sku-box{
+                color:rgba(0,0,0,0.5);
+                flex: 1;
+                .el-form-item:nth-child(2){
+                    .el-form-item__label{
+                        margin-top: -5px;
+                    }
+                }
+                .el-form-item:nth-child(3){
+                    .el-form-item__label{
+                        margin-top: -10px;
+                    }
+                }
+                .tips{
+                    border:1px solid #ff3b41;
+                    color:#ff3b41;
+                    line-height: 21px;
+                    width:181px;
+                    margin-top:10px;
+                }
+                .radio{
+                    .el-radio{
+                        width: 60px;
+                        height: 20px;
+                        padding:0;
+                        border-radius: 0;
+                        text-align: center;
+                        margin-right: 24px;
+                        margin-bottom: 12px;
+                        .el-radio__input{
+                            display: none;
+                        }
+                        .el-radio__label{
+                            text-align: center;
+                            font-size: 12px;
+                            color: rgba(0,0,0,0.5);
+                            line-height: 19px;
+                            margin-left: -10px;
+                        }
+                    }
+                    .el-radio:hover{
+                        border:1px solid #ff3b41;
+                    }
+                    .el-radio.is-checked{
+                        border:1px solid #ff3b41;
+                        position: relative;
+                        span{
+                            color:rgba(0,0,0,0.5);
+                        }
+                    }
+                    .el-radio.is-checked::after{
+                        content:'';
+                        width: 0;
+                        height: 0;
+                        border-right: 4px solid red;
+                        border-bottom: 4px solid red;
+                        border-top: 4px solid transparent;
+                        border-left: 4px solid transparent;
+                        position: absolute;
+                        bottom: 0;
+                        right: 0;
+                    }
+                    .el-radio.is-bordered+.el-radio.is-bordered{
+                        margin-left: 0px;
+                    }
+                }
+
+                .num{
+                    .el-input-number{
+                        width:84px;
+                        margin-left: 12px;
+                        margin-bottom: 24px;
+                        border: 1px solid rgba(0,0,0,0.2);
+                        border-radius: 0;
+                        .el-input__inner{
+                            border-radius: 0px;
+                            border:none;
+                        }
+                        span{
+                            width: 28px;
+                            background: rgb(238, 238, 238);
+                            border: 1px solid #dcdfe6;
+                            margin-left: -2px;
+                            margin-top: -1px;
+                            i{
+                                font-size: 18px;
+                                color: rgba(0,0,0,0.7);
+                                font-weight: bolder;
+                                margin-top: 3px;
+                            }
+                        }
+                        span.el-input-number__increase{
+                            margin-right: -2px;
+                        }
+                        span.el-input-number__decrease{
+                            i{
+                                color:white;
+                            }
+
+                        }
+                    }
+                }
+                .el-alert{
+                    height: 40px;
+                }
+                /*.input-num{*/
+                    /*height: 24px;*/
+                    /*line-height: 24px;*/
+                    /*.el-input-number{*/
+                        /*line-height: 23px;*/
+                        /*width:102px;*/
+                    /*}*/
+                    /*span{*/
+                        /*font-size: 12px;*/
+                        /*color: #333;*/
+                        /*line-height: inherit;*/
+                        /*width: 24px;*/
+                        /*background-color: #eee;*/
+                        /*border-radius: 0;*/
+                    /*}*/
+                    /*input{*/
+                        /*width: 94px;*/
+                        /*height: 24px;*/
+                        /*text-align: center;*/
+                        /*border-radius: 0;*/
+                        /*border:1px solid #eee;*/
+                    /*}*/
+                    /*input:focus{*/
+                        /*border:1px solid #eee;*/
+                    /*}*/
+                /*}*/
+                .buttons{
+                    display: inline-block;
+
+                    button{
+                        width:180px;
+                        height: 50px;
+                        background: #ff3b41;
+                        color:white;
+                        border:none;
+                        font-family: MicrosoftYaHei-Bold;
+                        font-size: 24px;
+                        border-radius: 4px;
+                    }
+                    button:nth-child(2){
+                        margin-left: 24px;
+                        border:1px solid #ff3b41;
+                        background: #fff;
+                        color:#ff3b41;
+                    }
+                }
+            }
+            .detail-buy-history{
+                width: 290px;
+                height: 500px;
+                background-color: red;
+            }
         }
         .detail_center{
             font-size: 14px;
@@ -155,6 +401,7 @@
                         color:rgba(0,0,0,0.5);
                         border:1px solid rgba(0,0,0,0.2);
                         border-radius: 0;
+                        margin-right: 12px;
                         span.el-radio__input{
                             display: none;
                         }
@@ -163,8 +410,8 @@
                             text-align: center;
                             font-size: 12px;
                             width:60px;
-                            line-height: 20px;
-                            margin-top: -1px;
+                            line-height: 19px;
+                            margin-top: -2px;
 
                         }
                     }
@@ -189,7 +436,9 @@
                         position: absolute;
                         bottom: 0;
                         right: 0;
-
+                    }
+                    .el-radio.is-bordered+.el-radio.is-bordered{
+                        margin-left: 0px;
                     }
                 }
                 .price{
@@ -335,6 +584,7 @@ table {
   display: block;
   clear: both;
 }
+
 .detali{
   .detali_left{
     float: left;
@@ -358,38 +608,7 @@ table {
     float: left;
   }
 }
-.prc_info{
-  // width: 400px;
-  // height: 400px;
-  // background: #646464;
-  .big{
-      box-sizing: border-box;
-      border-left: 1px solid red;
-      width: 400px;
-      height: 400px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-  }
-  .small{
-    display: flex;
 
-      a{
-        display: inline;
-        width: 70px;
-        height: 70px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        img{
-          width: 38px;
-          height: 40px;
-        }
-      }
-  }
-
-
-}
 .num{
   font:14px/46px "MicrosoftYaHei";
   color: #000;

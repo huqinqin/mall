@@ -66,14 +66,18 @@
                
               <ul class="import">
                   <li  v-for="im in index_data_first" :key="im.index" class="yi">
-                      <img :src="im.link" alt="">
+                      <div class="good_box">
+                          <i class="_good_i"></i>
+                          <img :src="im.link" alt="" class="_good_img">
+                      </div>
+                      <!-- <img :src="im.link" alt="" class="img_first"> -->
                       <p class="line-one">{{im.name}}</p>
                       <p class="line-two">{{im.info1}}</p>
                       <p class="line-there">{{im.info2}}</p>                 
                       <p class="line-four"></p>
                       <button>登录之后查看价格 </button>
                   </li>
-              </ul>
+              </ul> 
               
               <div class="title">
                   <div class="left">
@@ -90,7 +94,11 @@
                
               <ul class="import">
                   <li  v-for="im in index_data_center" :key="im.index" class="er">
-                      <img :src="im.link" alt="">
+                      <!-- <img :src="im.link" alt="" class="img_center"> -->
+                      <div class="good_box">
+                          <i class="_good_i"></i>
+                          <img :src="im.link" alt="" class="_good_img">
+                      </div>
                       <p class="line-one">{{im.name}}</p>
                       <p class="line-two">{{im.info1}}</p>
                       <p class="line-there">{{im.info2}}</p>                 
@@ -114,7 +122,11 @@
                
               <ul class="import">
                   <li  v-for="im in index_data_last" :key="im.index" class="san">
-                      <img :src="im.link" alt="">
+                      <!-- <img :src="im.link" alt="" class="img_last"> -->
+                      <div class="good_box">
+                          <i class="_good_i"></i>
+                          <img :src="im.link" alt="" class="_good_img">
+                      </div>
                       <p class="line-one">{{im.name}}</p>
                       <p class="line-two">{{im.info1}}</p>
                       <p class="line-there">{{im.info2}}</p>                 
@@ -133,25 +145,23 @@
 
               <ul class="alone">
                   <li v-for="item in side" :key="item.index">
-                      <img :src="item.link" alt="">
+                      <!-- <img :src="item.link" alt=""> -->
+                      <div class="_side_box">
+                          <!-- <i class="_side_good_i"></i> -->
+                          <img :src="item.link" alt="" class="_side_good_img">
+                      </div>
                       <p class="alone-one">{{item.name}}</p>
                       <p class="alone-two">{{item.info}}</p>
                       <p class="alone-there">{{item.prace}}</p>
                       <i></i>
                   </li>
-                  <!-- <li>
-                      <img src="../../assets/inder_img/jingtou.png" alt="">
-                      <p class="alone-one">福特科</p>
-                      <p class="alone-two">300W变焦超长镜头</p>
-                      <p class="alone-there">$ 399.00</p>
-                      <i></i>
-                  </li> -->
               </ul>
         </div>
     </div>
   </div>
 </template>
 <script>
+import indexService from '@/services/indexService.js'
   export default {
     data(){
       return{
@@ -183,7 +193,7 @@
           }
         ],
        index_data_first:[{
-          link: 'static/image/BANNERTU.png',
+          link: 'static/image/shexiangtou1.png',
           src:'',
           alt:'',
           name:'哈康卫视',
@@ -191,7 +201,7 @@
           info2:'DS-2CD3325-1（C ）',
         },
         {
-          link: 'static/image/BANNERTU.png',
+          link: 'static/image/shexiangtou1.png',
           src:'',
           alt:'',
           name:'测试测试测试',
@@ -199,7 +209,7 @@
           info2:'testtest',
         },
         {
-          link: 'static/image/BANNERTU.png',
+          link: 'static/image/shexiangtou1.png',
           src:'',
           alt:'',
           name:'测试测试测试',
@@ -207,7 +217,7 @@
           info2:'testtest',
         },
         {
-          link: 'static/image/BANNERTU.png',
+          link: 'static/image/shexiangtou1.png',
           src:'',
           alt:'',
           name:'测试测试测试',
@@ -215,7 +225,7 @@
           info2:'testtest',
         },
         {
-          link: 'static/image/BANNERTU.png',
+          link: 'static/image/shexiangtou1.png',
           src:'',
           alt:'',
           name:'测试测试测试',
@@ -223,7 +233,7 @@
           info2:'testtest',
         },
         {
-          link: 'static/image/BANNERTU.png',
+          link: 'static/image/shexiangtou1.png',
           src:'',
           alt:'',
           name:'测试测试测试',
@@ -231,7 +241,7 @@
           info2:'testtest',
         },
         {
-          link: 'static/image/BANNERTU.png',
+          link: 'static/image/shexiangtou1.png',
           src:'',
           alt:'',
           name:'测试测试测试',
@@ -239,7 +249,7 @@
           info2:'testtest',
         },
         {
-          link: 'static/image/BANNERTU.png',
+          link: 'static/image/shexiangtou1.png',
           src:'',
           alt:'',
           name:'测试测试测试',
@@ -255,7 +265,7 @@
           info2:'DS-2CD3325-1（C ）',
         },
         {
-          link: 'static/image/BANNERTU.png',
+          link: 'static/image/luxiangji1.png',
           src:'',
           alt:'',
           name:'测试测试测试',
@@ -263,7 +273,7 @@
           info2:'testtest',
         },
         {
-          link: 'static/image/BANNERTU.png',
+          link: 'static/image/luxiangji1.png',
           src:'',
           alt:'',
           name:'测试测试测试',
@@ -271,7 +281,7 @@
           info2:'testtest',
         },
         {
-          link: 'static/image/BANNERTU.png',
+          link: 'static/image/luxiangji1.png',
           src:'',
           alt:'',
           name:'测试测试测试',
@@ -279,7 +289,7 @@
           info2:'testtest',
         },
         {
-          link: 'static/image/BANNERTU.png',
+          link: 'static/image/luxiangji1.png',
           src:'',
           alt:'',
           name:'测试测试测试',
@@ -287,7 +297,7 @@
           info2:'testtest',
         },
         {
-          link: 'static/image/BANNERTU.png',
+          link: 'static/image/luxiangji1.png',
           src:'',
           alt:'',
           name:'测试测试测试',
@@ -295,7 +305,7 @@
           info2:'testtest',
         },
         {
-          link: 'static/image/BANNERTU.png',
+          link: 'static/image/luxiangji1.png',
           src:'',
           alt:'',
           name:'测试测试测试',
@@ -303,7 +313,7 @@
           info2:'testtest',
         },
         {
-          link: 'static/image/BANNERTU.png',
+          link: 'static/image/luxiangji1.png',
           src:'',
           alt:'',
           name:'测试测试测试',
@@ -343,7 +353,7 @@
           info2:'testtest',
         },
         {
-          link: 'static/image/BANNERTU.png',
+          link: 'static/image/peijian1.png',
           src:'',
           alt:'',
           name:'测试测试测试',
@@ -379,8 +389,8 @@
           src:'',
           alt:'',
           name:'福特科',
-          info:'300w变焦超长',
-          prace:'$ 399.00'
+          info:'300w变焦超长镜头',
+          prace:'$399.00'
         },
         {
           link: 'static/image/peijian1.png',
@@ -601,8 +611,8 @@ table {
     width: 895px;
     height: 350px;
     img{
-      width: 100%;
-      height: 100%;
+      // width: 100%;
+      // height: 100%;
     }
   }
   .two{
@@ -626,31 +636,61 @@ table {
       justify-content: space-between;
       flex-wrap: wrap;
       li{
-          box-sizing: border-box;
+          // box-sizing: border-box;
           width: 290px;
           height: 450px;
           background-color: #ffffff;
           text-align: center; 
           // border-top: 2px solid #f13a40;
-          img{
-            width: 147px;
-            height: 142px;
-            margin-top: 46px;
+
+        //  .img_first{
+        //     width: 147px;
+        //     height: 142px;
+        //     background-color: #3d98ff;
+            
+            // img{
+            //   width: 107px;
+            //   height: 142px;
+            // }
+            
+          // }
+         .good_box{
+           width: 242px;
+           height: 242px;
+           margin:18px 24px;
+          ._good_i{
+            vertical-align: middle;
+            display: inline-block;
+            height: 100%;
           }
+           ._good_img{
+            vertical-align: middle;
+           }
+         }
+        //  .img_center{
+        //     width: 214px;
+        //     height: 37px;
+        //     margin-top: 46px;
+        //   }
+        //  .img_last{
+        //     width: 181px;
+        //     height: 105px;
+        //     margin-top: 46px;
+        //   }
           .line-one{
-          margin-top: 59px;
           font-family: MicrosoftYaHei;
+          font-weight: bold;
           font-size: 18px;
           color:#707070;
           }
           .line-two{
-            margin: 13px 0;
+            margin: 12px 0;
             font-family: MicrosoftYaHei;
             font-size: 14px;
             color: #a3a3a3;
           }
           .line-there{
-            margin-bottom: 26px;
+            margin-bottom: 24px;
             font-family: MicrosoftYaHei;
             font-size: 14px; 
             color: #a3a3a3; 
@@ -663,16 +703,15 @@ table {
           button{
             border:none;
             background:#ccc;
-            margin: 26px 0 0 0;
-            width: 150px;
-            height: 30px;
+            margin: 16px 0 0 0;
+            width: 200px;
+            height: 26px;
             background-color: #ffffff;
-            // box-shadow: 0px 0px 10px 0px 
-            //   #efefef;
-            font: 14px/30px "MicrosoftYaHei";
-            color: #cf242a;
-            box-shadow: 0px 0px 10px 0px 
-		#efefef;
+            font: 12px/26px "MicrosoftYaHei";
+            font-weight: bold;
+            color: #ff3b41;
+            box-shadow: 2px 0px 15px 0px 
+		#e9e9e9;
           }
       }
     }
@@ -698,28 +737,37 @@ table {
         height: 296px;
         text-align: center;
         background: #ffffff;
-        img{
-          width: 110px;
-          height: 110px;
-          margin:30px 0 32px 0;
+        // img{
+        //   width: 110px;
+        //   height: 110px;
+        //   margin:30px 0 32px 0;
+        // }
+        ._side_box{
+           width: 150px;
+           height: 150px;
+           margin:36px 70px;
+           display: flex;
+          justify-content: center;
+          align-items: center;
         }
         .alone-one{
           font-family: MicrosoftYaHei;
           font-size: 14px;
+          font-weight: bold;
           color: #a3a3a3;
         }
         .alone-two{
           font-family: MicrosoftYaHei;
           font-size: 14px;
+          margin: 12px 0;
           color: #a3a3a3;
-          margin: 9px 0;
         }
         .alone-there{
           font-family: MicrosoftYaHei;
           font-size: 16px;
           font-weight: bold;
-          color: #ce2127;
-          margin-bottom: 36px;
+          color: #ff3b41;
+          margin-bottom: 24px;
         }
         i{
           display: block;

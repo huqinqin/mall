@@ -36,42 +36,42 @@
                 </li>
             </ul>
         </div>
-        <div class="bill">
-            <h5>账单地址：</h5>
-            <ul>
-                <li class="default">
-                    <header>
-                        <div><p>{{defaultBillressData.name}} （{{defaultBillressData.city}}）</p></div>
-                        <div><span>默认地址</span></div>
-                    </header>
-                    <main>
-                        <p>{{defaultBillressData.address}}</p>
-                        <p>电话：{{defaultBillressData.mobile}}</p>
-                    </main>
-                    <footer>
-                        <button @click="setDefault">设为默认</button>
-                        <button @click="editAddress">修改</button>
-                    </footer>
-                </li>
-                <li v-for="item in billData">
-                    <header>
-                        <div><p>{{item.name}} （{{item.city}}）</p></div>
-                    </header>
-                    <main>
-                        <p>{{item.address}}</p>
-                        <p>电话：{{item.mobile}}</p>
-                    </main>
-                    <footer>
-                        <button @click="setDefault">设为默认</button>
-                        <button @click="editAddress">修改</button>
-                    </footer>
-                </li>
-                <li class="addBill" @click="addBill">
-                    <i class="iconfont icon-add"></i>
-                    <div>添加地址</div>
-                </li>
-            </ul>
-        </div>
+        <!--<div class="bill">-->
+            <!--<h5>账单地址：</h5>-->
+            <!--<ul>-->
+                <!--<li class="default">-->
+                    <!--<header>-->
+                        <!--<div><p>{{defaultBillressData.name}} （{{defaultBillressData.city}}）</p></div>-->
+                        <!--<div><span>默认地址</span></div>-->
+                    <!--</header>-->
+                    <!--<main>-->
+                        <!--<p>{{defaultBillressData.address}}</p>-->
+                        <!--<p>电话：{{defaultBillressData.mobile}}</p>-->
+                    <!--</main>-->
+                    <!--<footer>-->
+                        <!--<button @click="setDefault">设为默认</button>-->
+                        <!--<button @click="editAddress">修改</button>-->
+                    <!--</footer>-->
+                <!--</li>-->
+                <!--<li v-for="item in billData">-->
+                    <!--<header>-->
+                        <!--<div><p>{{item.name}} （{{item.city}}）</p></div>-->
+                    <!--</header>-->
+                    <!--<main>-->
+                        <!--<p>{{item.address}}</p>-->
+                        <!--<p>电话：{{item.mobile}}</p>-->
+                    <!--</main>-->
+                    <!--<footer>-->
+                        <!--<button @click="setDefault">设为默认</button>-->
+                        <!--<button @click="editAddress">修改</button>-->
+                    <!--</footer>-->
+                <!--</li>-->
+                <!--<li class="addBill" @click="addBill">-->
+                    <!--<i class="iconfont icon-add"></i>-->
+                    <!--<div>添加地址</div>-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</div>-->
         <div class="delivery">
             <h5>配送方式： </h5>
             <el-button>快递</el-button>
@@ -80,40 +80,24 @@
         <div class="order">
             <h5>订单信息： </h5>
             <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
-                <el-table-column type="selection" width="60" align="right"></el-table-column>
-                <el-table-column label="商品信息" width="380">
+                <el-table-column label="商品信息" width="450" class="column-1"  align="center">
                     <template slot-scope="scope">
                         <img :src="scope.row.img" alt="商品">
                         <div class="content">
                             <p>{{scope.row.info}}</p>
-                            <p>像素：{{scope.row.pixel}}</p>
-                            <p>焦距：{{scope.row.focal}}</p>
+                        </div>
+                        <div class="other">
+                            <p v-for="(value,key) in scope.row.more">{{key}}: {{value}}</p>
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="pixel" label="像素" width="180" align="center">
-                </el-table-column>
-                <el-table-column prop="focal" label="焦距"  width="180" align="center">
-                </el-table-column>
-                <el-table-column prop="price" label="单价（美金）"  width="180" align="center">
+                <el-table-column prop="price" label="单价" align="center">
                 </el-table-column>
                 <el-table-column label="数量" prop="num" align="center">
-                    <template slot-scope="scope">
-                        <div class="inputNumber">
-                            <el-input-number :min='0' size="small" v-model="scope.row.num" @change="inputNumberChange" label="描述文字"></el-input-number>
-                        </div>
-                    </template>
                 </el-table-column>
-                <el-table-column label="小计" width="180" align="center">
+                <el-table-column label="小计" align="center">
                     <template slot-scope="scope">
                         <div class="count">{{scope.row.count}}</div>
-                    </template>
-                </el-table-column>
-                <el-table-column label="操作"  width="180" align="center">
-                    <template slot-scope="scope">
-                        <div class="cart-delete" @click="deleteHandle">
-                            <i :class="scope.row.handle"></i>
-                        </div>
                     </template>
                 </el-table-column>
             </el-table>
@@ -121,7 +105,7 @@
         </div>
         <div class="coupon" @click="useCoupon"><p><i class="iconfont icon-icon-test1"></i>使用优惠券 <span>（没有优惠券可以使用）</span></p></div>
         <div class="submitOrder">
-            <div>商品价格：500.00 + 运费：0.00 + 税额：0.00 + 红包：0.00 = 总计：$500.00</div>
+            <div>商品价格：{{sum.amount}} + 运费：{{sum.express}} + 税额：{{sum.tax}} - 红包：{{sum.benefit}} = 总计：${{sum.result}}</div>
             <div>应付金额：<span>$500.00</span></div>
             <el-button @click="settle">提交订单</el-button>
         </div>
@@ -134,34 +118,7 @@
         data(){
             return{
                 chooseAll: true,
-                tableData: [{
-                    img: require('@/assets/img/shangping_html.png'),
-                    info: '海康威视DS-CD0DDDDDDDDDD',
-                    pixel: '1200W',
-                    focal: '4mm',
-                    price: '$500.00',
-                    num: 1,
-                    count: '$500.00',
-                    handle: 'iconfont icon-shanchu',
-                },{
-                    img: require('@/assets/img/shangping_html.png'),
-                    info: '海康威视DS-CD0DDDDDDDDDD',
-                    pixel: '1200W',
-                    focal: '4mm',
-                    price: '$500.00',
-                    num: 1,
-                    count: '$500.00',
-                    handle: 'iconfont  icon-shanchu',
-                }],
-                multipleTable: [],
-                num: 10,
                 defaultAddressData: {
-                    name: '抹茶',
-                    city: '浙江省杭州市',
-                    address: '西湖区三墩镇振华路西城博司12楼1201',
-                    mobile: '183 **** 5921'
-                },
-                defaultBillressData: {
                     name: '抹茶',
                     city: '浙江省杭州市',
                     address: '西湖区三墩镇振华路西城博司12楼1201',
@@ -173,33 +130,47 @@
                     address: '西湖区三墩镇振华路西城博司12楼1201',
                     mobile: '183 **** 5921'
                 }],
-                billData: [{
-                    name: '抹茶',
-                    city: '浙江省杭州市',
-                    address: '西湖区三墩镇振华路西城博司12楼1201',
-                    mobile: '183 **** 5921'
-                }],
                 tableData: [{
                     img: require('@/assets/img/shangping_html.png'),
                     info: '海康威视DS-CD0DDDDDDDDDD',
-                    pixel: '1200W',
-                    focal: '4mm',
+                    more: {
+                        '像素': '1200W',
+                        '焦距': '4mm',
+                    },
                     price: '$500.00',
                     num: 1,
                     count: '$500.00',
-                    handle: 'iconfont icon-shanchu',
+                    handle: 'iconfont  icon-shanchu',
                 },{
                     img: require('@/assets/img/shangping_html.png'),
                     info: '海康威视DS-CD0DDDDDDDDDD',
-                    pixel: '1200W',
-                    focal: '4mm',
+                    more: {
+                        '像素': '1200W',
+                        '焦距': '4mm',
+                    },
                     price: '$500.00',
                     num: 1,
                     count: '$500.00',
-                    handle: 'iconfont icon-shanchu',
+                    handle: 'iconfont  icon-shanchu',
                 }],
                 multipleTable: [],
                 num: 10,
+                sum: {
+                    amount: 500.00,
+                    express: 0.00,
+                    tax: 0.00,
+                    benefit: 0.00,
+                    result: 0
+                },
+                data:{
+                    类名: '',
+                    link: '',
+                    datalist:[
+                        {},
+                        {},
+                        {},
+                    ]
+                }
             }
         },
         methods: {
@@ -234,6 +205,9 @@
             useCoupon(){
                 alert('使用优惠券')
             }
+        },
+        mounted(){
+            this.sum.result = this.sum.amount + this.sum.express + this.sum.tax - this.sum.benefit
         }
   }
 </script>
@@ -245,31 +219,61 @@
             height: 60px;
         }
         .has-gutter{
-            tr th{
-                background-color: rgba(0,0,0,0.05);
+            tr{
+                th{
+                    background-color: rgba(0,0,0,0.05);
+                }
+                th.el-table_1_column_1{
+                    .cell{
+                        margin-left: 24px;
+                    }
+                }
             }
         }
         .el-table{
             font-size: 14px;
-            img{
-                width: 116px;
-                height: 116px;
-                background-color: #ffffff;
-                border: solid 1px #dadada;
-                float: left;
-            }
-            .content{
-                margin-left: 125px;
-                padding: 15px 0;
-                width:174px;
-                p{
-                    line-height: 30px;
-                    font-size: 14px;
-                    white-space: nowrap;
-                    text-overflow: ellipsis;
-                    overflow:hidden;
+            .el-table_1_column_1{
+                .cell{
+                    width:100%;
+                    display: flex;
+                    justify-content: space-between;
+                }
+                img{
+                    width:116px;
+                    height: 116px;
+                    border: 1px solid #dadada;
+                }
+                div{
+                    width:120px;
+                    p{
+                        line-height: 30px;
+                        font-size: 12px;
+                        text-align: left;
+                    }
+                    p:first-child{
+                        margin-top: 12px;
+                    }
                 }
             }
+            /*img{*/
+                /*width: 116px;*/
+                /*height: 116px;*/
+                /*background-color: #ffffff;*/
+                /*border: solid 1px #dadada;*/
+                /*float: left;*/
+            /*}*/
+            /*.content{*/
+                /*margin-left: 125px;*/
+                /*padding: 15px 0;*/
+                /*width:174px;*/
+                /*p{*/
+                    /*line-height: 30px;*/
+                    /*font-size: 14px;*/
+                    /*white-space: nowrap;*/
+                    /*text-overflow: ellipsis;*/
+                    /*overflow:hidden;*/
+                /*}*/
+            /*}*/
             .cart-delete{
                 line-height: 40px;
                 font-size: 22px;

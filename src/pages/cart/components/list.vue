@@ -2,37 +2,34 @@
     <div class="list">
         <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%" align="right" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="60%" align="right"></el-table-column>
-            <el-table-column label="商品信息" width="380" align="center">
+            <el-table-column label="商品信息" width="450" class="column-1"  align="center">
                 <template slot-scope="scope">
                     <img :src="scope.row.img" alt="商品">
                     <div class="content">
                         <p>{{scope.row.info}}</p>
-                        <p>像素：{{scope.row.pixel}}</p>
-                        <p>焦距：{{scope.row.focal}}</p>
+                    </div>
+                    <div class="other">
+                        <p v-for="(value,key) in scope.row.more">{{key}}: {{value}}</p>
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column prop="pixel" label="像素" width="180" align="center">
-            </el-table-column>
-            <el-table-column prop="focal" label="焦距"  width="180" align="center">
-            </el-table-column>
-            <el-table-column prop="price" label="单价（美金）"  width="180" align="center">
+            <el-table-column prop="price" label="单价" align="center">
             </el-table-column>
             <el-table-column label="数量" prop="num" align="center">
                 <template slot-scope="scope">
                     <div class="inputNumber">
-                        <el-input-number :min='0' size="small" v-model="scope.row.num" @change="inputNumeberChange" label="描述文字"></el-input-number>
+                        <el-input-number :min='0' size="small" v-model="scope.row.num" @change="inputNumeberChange(scope.row)" label="描述文字"></el-input-number>
                     </div>
                     </template>
             </el-table-column>
-            <el-table-column label="小计" width="180" align="center">
+            <el-table-column label="小计"align="center">
                 <template slot-scope="scope">
                     <div class="count">{{scope.row.count}}</div>
                 </template>
             </el-table-column>
-            <el-table-column label="操作"  width="180" align="center">
+            <el-table-column label="操作"align="center">
                 <template slot-scope="scope">
-                    <div class="cart-delete" @click="deleteHandle">
+                    <div class="cart-delete" @click="deleteHandle(scope.$index, scope.row)">
                         <i :class="scope.row.handle"></i>
                     </div>
                 </template>
@@ -41,7 +38,7 @@
         <div class="table-footer">
             <div class="choose">
                 <p>
-                    <el-checkbox v-model="tableData.chooseAllSelect">全选</el-checkbox>
+                    <el-checkbox v-model="tableData.chooseAll" @change="chooseAllSelect">全选</el-checkbox>
                     <span>删除选中商品</span>
                 </p>
             </div>
@@ -70,33 +67,40 @@
         name: "list",
         data() {
             return {
-                chooseAll: true,
+                chooseAll: false,
+                isIndeterminate: true,
                 tableData: [{
                     img: require('@/assets/img/shangping_html.png'),
                     info: '海康威视DS-CD0DDDDDDDDDD',
-                    pixel: '1200W',
-                    focal: '4mm',
+                    more: {
+                        '像素': '1200W',
+                        '焦距': '4mm',
+                    },
                     price: '$500.00',
                     num: 1,
-                    count: '$500.00',
+                    count: '$500.01',
                     handle: 'iconfont icon-shanchu',
                 },{
                     img: require('@/assets/img/shangping_html.png'),
                     info: '海康威视DS-CD0DDDDDDDDDD',
-                    pixel: '1200W',
-                    focal: '4mm',
+                    more: {
+                        '像素': '1200W',
+                        '焦距': '4mm',
+                    },
                     price: '$500.00',
                     num: 1,
-                    count: '$500.00',
+                    count: '$500.02',
                     handle: 'iconfont  icon-shanchu',
                 },{
                     img: require('@/assets/img/shangping_html.png'),
                     info: '海康威视DS-CD0DDDDDDDDDD',
-                    pixel: '1200W',
-                    focal: '4mm',
+                    more: {
+                        '像素': '1200W',
+                        '焦距': '4mm',
+                    },
                     price: '$500.00',
                     num: 1,
-                    count: '$500.00',
+                    count: '$500.03',
                     handle: 'iconfont  icon-shanchu',
                 }],
                 multipleTable: [],
@@ -143,36 +147,45 @@
             // 单选框
             handleSelectionChange(value){
                 this.multipleSelection = value
+                console.log(this.multipleSelection)
             },
-            // 全选框
+            // 全选框 -- 选不上啊
             chooseAllSelect(){
-                this.multipleSelection = this.tableData
+                this.chooseAll = this.chooseAll ? false : true
+                this.multipleSelection = this.chooseAll ? [] : this.tableData
+                console.log(this.multipleSelection)
             },
             check() {
                 this.$emit('submit', 1)
                 this.$router.push({path: '/settle'})
             },
-            inputNumeberChange(){
-                alert('input numeber change')
+            inputNumeberChange(row){
+                console.log(row)
             },
-            deleteHandle(){
-                alert('asf')
+            deleteHandle(index, row){
+                this.tableData.splice(index,1)
             }
         }
   }
 </script>
 
 <style lang="less">
-    @import '//at.alicdn.com/t/font_516449_jhzz1yo9t19n3ik9.css';
     .list{
         .el-table__header-wrapper{
             height: 60px;
         }
         .has-gutter{
-            tr th{
-                background-color: rgba(0,0,0,0.05);
-                .el-checkbox{
-                    visibility: hidden;
+            tr{
+                th{
+                    background-color: rgba(0,0,0,0.05);
+                    .el-checkbox{
+                        visibility: hidden;
+                    }
+                }
+                th.el-table_1_column_2{
+                    .cell{
+                        margin-left: 24px;
+                    }
                 }
             }
         }
@@ -202,27 +215,34 @@
                         color:#fff;
                     }
                 }
+
             }
-            img{
-                width: 116px;
-                height: 116px;
-                background-color: #ffffff;
-                border: solid 1px #dadada;
-                float: left;
-            }
-            .content{
-                margin-left: 125px;
-                padding: 15px 0;
-                width:174px;
-                text-align: left;
-                p{
-                    line-height: 30px;
-                    font-size: 14px;
-                    white-space: nowrap;
-                    text-overflow: ellipsis;
-                    overflow:hidden;
+            .el-table_1_column_2{
+                .cell{
+                    width:100%;
+                    display: flex;
+                    justify-content: space-between;
+                }
+                img{
+                    width:116px;
+                    height: 116px;
+                    border: 1px solid #dadada;
+                }
+                div{
+                    width:120px;
+                    p{
+                        line-height: 30px;
+                        font-size: 12px;
+                        text-align: left;
+                    }
+                    p:first-child{
+                        margin-top: 12px;
+                    }
                 }
             }
+
+
+
             .cart-delete{
                 line-height: 40px;
                 font-size: 22px;
@@ -346,9 +366,6 @@
             padding-bottom: 96px;
             border-bottom:1px solid rgba(0, 0, 0, 0.05);
         }
-    }
-    tbody:nth-child(1){
-        border:1px solid red;
     }
     @keyframes floats {
         from {

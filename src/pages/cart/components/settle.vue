@@ -382,7 +382,8 @@
                     font-family: MicrosoftYaHei-Bold;
                     color: rgba(0,0,0,0.5);
                     i{
-                        font-size: 36px;
+                        font-size: 32px;
+                        color: #aaa;
                     }
                     div{
                         margin-top: 10px;
@@ -471,15 +472,18 @@
                 span{
                     color:#f81f22;
                     font-size: 26px;
+                    font-weight: bold;
                 }
             }
             .el-button{
-                width: 180px;
+                width: 160px;
+
                 height: 50px;
                 background-color: #f13a40;
                 border-radius: 4px;
                 color: #fff;
                 font-size: 26px;
+                line-height: 0;
             }
         }
     }

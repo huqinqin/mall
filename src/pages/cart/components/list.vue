@@ -1,7 +1,7 @@
 <template>
     <div class="list">
         <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%" align="right" @selection-change="handleSelectionChange">
-            <el-table-column type="selection" width="60" align="right"></el-table-column>
+            <el-table-column type="selection" width="60%" align="right"></el-table-column>
             <el-table-column label="商品信息" width="380" align="center">
                 <template slot-scope="scope">
                     <img :src="scope.row.img" alt="商品">
@@ -89,6 +89,15 @@
                     num: 1,
                     count: '$500.00',
                     handle: 'iconfont  icon-shanchu',
+                },{
+                    img: require('@/assets/img/shangping_html.png'),
+                    info: '海康威视DS-CD0DDDDDDDDDD',
+                    pixel: '1200W',
+                    focal: '4mm',
+                    price: '$500.00',
+                    num: 1,
+                    count: '$500.00',
+                    handle: 'iconfont  icon-shanchu',
                 }],
                 multipleTable: [],
                 num: 10,
@@ -131,11 +140,13 @@
             }
         },
         methods:{
-            handleSelectionChange(){
-                alert('handleSelectionChange')
+            // 单选框
+            handleSelectionChange(value){
+                this.multipleSelection = value
             },
+            // 全选框
             chooseAllSelect(){
-                alert('choose all')
+                this.multipleSelection = this.tableData
             },
             check() {
                 this.$emit('submit', 1)
@@ -154,17 +165,44 @@
 <style lang="less">
     @import '//at.alicdn.com/t/font_516449_jhzz1yo9t19n3ik9.css';
     .list{
-        font-family: MicrosoftYaHei;
         .el-table__header-wrapper{
             height: 60px;
         }
         .has-gutter{
             tr th{
                 background-color: rgba(0,0,0,0.05);
+                .el-checkbox{
+                    visibility: hidden;
+                }
             }
         }
         .el-table{
             font-size: 14px;
+            tbody tr:nth-child(2){
+                .el-table_1_column_1{
+                    .el-checkbox{
+                        width: 40px;
+                        height: 20px;
+                        span{
+                            display:none;
+                        }
+                        position: relative;
+                        background: rgba(0,0,0,0.1);
+                        margin-left: 5px;
+                    }
+                    .el-checkbox::after{
+                        content:'失效';
+                        width:40px;
+                        height: 20px;
+                        position: absolute;
+                        z-index: 10;
+                        left:-7px;
+                        top:-1px;
+                        font-size: 12px;
+                        color:#fff;
+                    }
+                }
+            }
             img{
                 width: 116px;
                 height: 116px;
@@ -235,7 +273,7 @@
                     background-color: #f81f22;
                     border-radius: 4px;
                     width: 160px;
-                    height: 40px;
+                    height: 50px;
                     line-height: 0px;
                     font-size: 24px;
                     font-family: MicrosoftYaHei-Bold;
@@ -256,16 +294,19 @@
             }
             .items{
                 display: flex;
-                justify-content: space-between;
-
+                justify-content: flex-start;
+                flex-wrap: wrap;
+                padding-left: 4px;
                 li{
                     width: 290px;
                     background-color: #ffffff;
-                    box-shadow: 4px 8px 18px 0px rgba(0, 0, 0, 0.05);
+                    border:1px solid #eee;
                     border-top:2px solid #3d98ff;
                     display: flex;
                     flex-direction: column;
                     align-items: center;
+                    margin-bottom: 12px;
+                    margin-right: 8px;
                     img{
                         margin: 150px 0 96px;
                     }
@@ -292,10 +333,14 @@
                         border-top: 1px solid rgba(0, 0, 0, 0.05);
                         text-align: center;
                         margin-top: 24px;
+                        margin-left: 12px;
                     }
                 }
-                li+li{
-                    margin-left: 12px;
+
+
+
+                li:hover{
+                    animation: floats 0.3s ease forwards;
                 }
             }
             padding-bottom: 96px;
@@ -305,7 +350,17 @@
     tbody:nth-child(1){
         border:1px solid red;
     }
-
+    @keyframes floats {
+        from {
+            border:1px solid #eee;
+            border-top:2px solid #3d98ff;
+        }
+        to {
+            border:1px solid #fff;
+            border-top:2px solid #3d98ff;
+            box-shadow: 0px 6px 18px 6px rgba(0, 0, 0, 0.05);
+        }
+    }
     p{
         /*.el-table__header-wrapper{*/
         /*height: 60px;*/

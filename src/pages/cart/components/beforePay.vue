@@ -75,14 +75,6 @@
                 this.$router.push({path: '/finish'})
                 this.$emit('submit',4)
             },
-            // chosen(value){
-            //     // value.target.setAttribute('class', 'chosen')
-            //     $(value.target).addClass('chosen')
-            //     $(value.target).siblings().removeClass('chosen')
-            //     console.log(value.path)
-            //     console.log($(value.target).siblings())
-            //
-            // }
 
         },
         mounted(){
@@ -97,7 +89,7 @@
 <style lang="less">
     .beforePay{
         .mark{
-            margin: 24px 0;
+            margin: 24px 0 20px;
             width: 100%;
             height: 40px;
             background-color: rgba(0, 0, 0, 0.05);
@@ -112,21 +104,21 @@
             }
         }
         .info{
-            height: 120px;
+            height: 86px;
             border-bottom:1px solid rgba(0,0,0,0.05);
             margin-left: 24px;
             vertical-align: middle;
             font-size: 14px;
             color: #777777;
             p{
-                line-height: 48px;
+                line-height: 36px;
                 span+span{
                     margin-left: 24px;
                 }
             }
         }
         .payment{
-            margin: 48px 24px 0 24px;
+            margin: 24px 24px 0 24px;
             h5{
                 color: #777777;
                 font-size: 16px;
@@ -164,21 +156,23 @@
                     margin-left: 12px;
                 }
                 li.addCredit{
-                    width: 82px;
-                    height: 50px;
+                    width: 84px;
+                    height: 52px;
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
                     align-items: center;
                     margin-top: 14px;
                     color: #999999;
-                    border:2px solid #eaeaea;
+                    border:1px solid #eaeaea;
                     font-family: MicrosoftYaHei-Bold;
                     i{
                         font-size: 18px;
+                        color:#ccc;
                     }
                     div{
                         font-size: 11px;
+                        margin-top: 2px;
                     }
                 }
             }
@@ -222,7 +216,7 @@
             margin: 60px 24px;
             text-align: right;
             .el-button{
-                width: 180px;
+                width: 160px;
                 height: 50px;
                 background-color: #f13a40;
                 border-radius: 4px;

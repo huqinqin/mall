@@ -35,20 +35,25 @@
     <!-- poster -->
     <div class="poster">
         <div class="one">
-              <img src="../../assets/inder_img/guanggao1.png" alt="">
+          <a href="">
+             <img src="../../assets/inder_img/guanggao1.png" alt="">
+          </a>
         </div>
-        <!-- <div class="two">
-              <img src="../../assets/inder_img/gaunggao2.png" alt="">
-              <img src="../../assets/inder_img/guanggao3.png" alt="">
-        </div> -->
+        <div class="two">
+          <a href="" class="top">
+            <img src="../../assets/inder_img/gaunggao2.png" alt="">
+          </a>
+          <a href="">
+            <img src="../../assets/inder_img/guanggao3.png" alt="">
+          </a>              
+        </div>
     </div>
      <!-- main -->
     <div class="center">
-        <div class="main"  v-for="name in index_title" :key="name.index">
-        
+        <div class="main"  v-for="name in index_title" :key="name.index">        
               <div class="title">
                   <div class="left">
-                      <i></i>
+                      <div class="i"></div>
                       <span>{{name.name}}</span>
                   </div>
                   <div class="right">
@@ -60,7 +65,7 @@
               </div>
                
               <ul class="import">
-                  <li  v-for="im in data" :key="im.index" class="yi">
+                  <li  v-for="im in index_data_first" :key="im.index" class="yi">
                       <img :src="im.link" alt="">
                       <p class="line-one">{{im.name}}</p>
                       <p class="line-two">{{im.info1}}</p>
@@ -72,7 +77,7 @@
               
               <div class="title">
                   <div class="left">
-                      <i></i>
+                      <div class="i"></div>
                       <span>{{name.name}}</span>
                   </div>
                   <div class="right">
@@ -84,7 +89,7 @@
               </div>
                
               <ul class="import">
-                  <li  v-for="im in data" :key="im.index" class="er">
+                  <li  v-for="im in index_data_center" :key="im.index" class="er">
                       <img :src="im.link" alt="">
                       <p class="line-one">{{im.name}}</p>
                       <p class="line-two">{{im.info1}}</p>
@@ -95,7 +100,8 @@
               </ul>
               <div class="title">
                   <div class="left">
-                      <i></i>
+                      <div class="i"></div>
+                      
                       <span>{{name.name}}</span>
                   </div>
                   <div class="right">
@@ -107,7 +113,7 @@
               </div>
                
               <ul class="import">
-                  <li  v-for="im in data" :key="im.index" class="san">
+                  <li  v-for="im in index_data_last" :key="im.index" class="san">
                       <img :src="im.link" alt="">
                       <p class="line-one">{{im.name}}</p>
                       <p class="line-two">{{im.info1}}</p>
@@ -120,26 +126,26 @@
         <div class="side">
               <div class="title">
                   <div class="left">
-                      <i></i>
+                      <div class="i"></div>
                       <span>热卖单品</span>
                   </div>
               </div>
 
               <ul class="alone">
-                  <!-- <li v-for="item in side" :key="item.index">
+                  <li v-for="item in side" :key="item.index">
                       <img :src="item.link" alt="">
                       <p class="alone-one">{{item.name}}</p>
                       <p class="alone-two">{{item.info}}</p>
                       <p class="alone-there">{{item.prace}}</p>
                       <i></i>
-                  </li> -->
-                  <li>
+                  </li>
+                  <!-- <li>
                       <img src="../../assets/inder_img/jingtou.png" alt="">
                       <p class="alone-one">福特科</p>
                       <p class="alone-two">300W变焦超长镜头</p>
                       <p class="alone-there">$ 399.00</p>
                       <i></i>
-                  </li>
+                  </li> -->
               </ul>
         </div>
     </div>
@@ -176,13 +182,13 @@
             name:"摄像头"
           }
         ],
-        data:[{
+       index_data_first:[{
           link: 'static/image/BANNERTU.png',
           src:'',
           alt:'',
-          name:'测试测试测试',
-          info1:'200万测试测试测试像机',
-          info2:'testtest',
+          name:'哈康卫视',
+          info1:'200万4mm红外高清网络半球摄像机',
+          info2:'DS-2CD3325-1（C ）',
         },
         {
           link: 'static/image/BANNERTU.png',
@@ -240,8 +246,184 @@
           info1:'200万测试测试测试像机',
           info2:'testtest',
         }],
-        side:[{
+         index_data_center:[{
+          link: 'static/image/luxiangji1.png',
+          src:'',
+          alt:'',
+          name:'哈康卫视',
+          info1:'200万4mm红外高清网络半球摄像机',
+          info2:'DS-2CD3325-1（C ）',
+        },
+        {
           link: 'static/image/BANNERTU.png',
+          src:'',
+          alt:'',
+          name:'测试测试测试',
+          info1:'200万测试测试测试像机',
+          info2:'testtest',
+        },
+        {
+          link: 'static/image/BANNERTU.png',
+          src:'',
+          alt:'',
+          name:'测试测试测试',
+          info1:'200万测试测试测试像机',
+          info2:'testtest',
+        },
+        {
+          link: 'static/image/BANNERTU.png',
+          src:'',
+          alt:'',
+          name:'测试测试测试',
+          info1:'200万测试测试测试像机',
+          info2:'testtest',
+        },
+        {
+          link: 'static/image/BANNERTU.png',
+          src:'',
+          alt:'',
+          name:'测试测试测试',
+          info1:'200万测试测试测试像机',
+          info2:'testtest',
+        },
+        {
+          link: 'static/image/BANNERTU.png',
+          src:'',
+          alt:'',
+          name:'测试测试测试',
+          info1:'200万测试测试测试像机',
+          info2:'testtest',
+        },
+        {
+          link: 'static/image/BANNERTU.png',
+          src:'',
+          alt:'',
+          name:'测试测试测试',
+          info1:'200万测试测试测试像机',
+          info2:'testtest',
+        },
+        {
+          link: 'static/image/BANNERTU.png',
+          src:'',
+          alt:'',
+          name:'测试测试测试',
+          info1:'200万测试测试测试像机',
+          info2:'testtest',
+        }],
+         index_data_last:[{
+          link: 'static/image/peijian1.png',
+          src:'',
+          alt:'',
+          name:'海康卫视',
+          info1:'200万4mm红外高清网络半球摄像机',
+          info2:'DS-2CD3325-1（C ）',
+        },
+        {
+          link: 'static/image/peijian1.png',
+          src:'',
+          alt:'',
+          name:'测试测试测试',
+          info1:'200万测试测试测试像机',
+          info2:'testtest',
+        },
+        {
+          link: 'static/image/peijian1.png',
+          src:'',
+          alt:'',
+          name:'测试测试测试',
+          info1:'200万测试测试测试像机',
+          info2:'testtest',
+        },
+        {
+          link: 'static/image/peijian1.png',
+          src:'',
+          alt:'',
+          name:'测试测试测试',
+          info1:'200万测试测试测试像机',
+          info2:'testtest',
+        },
+        {
+          link: 'static/image/BANNERTU.png',
+          src:'',
+          alt:'',
+          name:'测试测试测试',
+          info1:'200万测试测试测试像机',
+          info2:'testtest',
+        },
+        {
+          link: 'static/image/peijian1.png',
+          src:'',
+          alt:'',
+          name:'测试测试测试',
+          info1:'200万测试测试测试像机',
+          info2:'testtest',
+        },
+        {
+          link: 'static/image/peijian1.png',
+          src:'',
+          alt:'',
+          name:'测试测试测试',
+          info1:'200万测试测试测试像机',
+          info2:'testtest',
+        },
+        {
+          link: 'static/image/peijian1.png',
+          src:'',
+          alt:'',
+          name:'测试测试测试',
+          info1:'200万测试测试测试像机',
+          info2:'testtest',
+        }],
+        side:[{
+          link: 'static/image/peijian1.png',
+          src:'',
+          alt:'',
+          name:'福特科',
+          info:'300w变焦超长',
+          prace:'$ 399.00'
+        },
+        {
+          link: 'static/image/peijian1.png',
+          src:'',
+          alt:'',
+          name:'福特科',
+          info:'300w变焦超长',
+          prace:'$ 399.00'
+        },
+        {
+          link: 'static/image/peijian1.png',
+          src:'',
+          alt:'',
+          name:'福特科',
+          info:'300w变焦超长',
+          prace:'$ 399.00'
+        },
+        {
+          link: 'static/image/peijian1.png',
+          src:'',
+          alt:'',
+          name:'福特科',
+          info:'300w变焦超长',
+          prace:'$ 399.00'
+        },
+        {
+          link: 'static/image/peijian1.png',
+          src:'',
+          alt:'',
+          name:'福特科',
+          info:'300w变焦超长',
+          prace:'$ 399.00'
+        },
+        {
+          link: 'static/image/peijian1.png',
+          src:'',
+          alt:'',
+          name:'福特科',
+          info:'300w变焦超长',
+          prace:'$ 399.00'
+        }
+        ,{
+          link: 'static/image/peijian1.png',
           src:'',
           alt:'',
           name:'福特科',
@@ -413,31 +595,23 @@ table {
 // poster
 .poster{
   height: 350px;
-  // display: flex;
-  // justify-content: space-around; 
-  img:nth-child(1){
-    width: 895px;
-    height: 350px;
-  }
-  img:nth-child(2){
-    width: 592px;
-    height: 169px;
-  }
-  img:nth-child(3){
-    width: 592px;
-    height: 169px;
-  }
+  display: flex;
+  justify-content: space-between; 
   .one{
-    float: left;
     width: 895px;
     height: 350px;
+    img{
+      width: 100%;
+      height: 100%;
+    }
   }
   .two{
     width: 592px;
     height: 350px;
-    float: right;
-    // display: flex;
-    // align-items: stretch;
+    .top{
+      display: block;
+      margin-bottom: 12px;
+    }
   }
 }
 
@@ -525,6 +699,8 @@ table {
         text-align: center;
         background: #ffffff;
         img{
+          width: 110px;
+          height: 110px;
           margin:30px 0 32px 0;
         }
         .alone-one{
@@ -571,14 +747,23 @@ table {
       font-size:16px/40px "MicrosoftYaHei";
       font-weight: bold; 
       color:#707070;
+      // display: flex;
       align-self: center;
-      i{
+      .i{
         display:inline-block;
-        width:2px;
+        // width:2px;
         height: 14px;
-        background-color: #3b85ff;
+        // background-color: #3b85ff;
+        border-left: 2px solid #3b85ff;
         margin-right: 6px;
+        // margin-top: 50px;
       }
+      // span{
+      //   margin-top: 100px;
+      // }
+      // .i:before{
+      //   margin-top: 500px;
+      // }
     }
     .right{
         margin-top: 10px;

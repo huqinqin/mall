@@ -3,13 +3,14 @@
       <!-- left -->
         <div class="detail_left">
           <div class="breadcrumb">
-          <a href="">首页</a>
-          <span>></span>
-          <a href="">商品列表</a>
-          <span>></span>
-          <a href="">商品详情</a>
-          <span>></span>
-      </div>
+            <a href="">首页</a>
+            <span>></span>
+            <a href="">商品列表</a>
+            <span>></span>
+            <a href="">商品详情</a>
+            <span>></span>
+        </div>
+      <!-- prc_info -->
       <div class="prc_info" v-for="prc in prc_info" :key="prc.index">
           <div class="big">
             <a href="">
@@ -27,12 +28,10 @@
               <img :src="prc.link" alt="">
             </a>
           </div>
-
       </div>
-
       <!-- 商品编号 -->
-      <div class="num">
-        <p>商品编号：1234556788</p>
+      <div class="num"  v-for="prc in prc_info" :key="prc.index">
+        <p>商品编号：<span>{{prc.num}}</span></p>
       </div>
     </div>
 
@@ -85,6 +84,11 @@
             <button>立即购买</button>
             <button>加入购物车</button>
         </div>
+
+    <div class="_detali_right">
+
+    </div>
+
     </div>
   </div>
 </template>
@@ -100,7 +104,8 @@
           {
             href:"",
             link:"static/image/shexiangtou1.png",
-            alt:""
+            alt:"",
+            num:"111111"
           }
         ],
         detail_center:[
@@ -328,9 +333,14 @@ table {
 .clear:after {
   content: "";
   display: block;
-  clear: both; }
+  clear: both;
+}
+.detali{
+  .detali_left{
+    float: left;
+  }
 
-
+}
 .breadcrumb{
   color: #646464;
   font: 14px/40px "MicrosoftYaHei";
@@ -380,4 +390,18 @@ table {
 
 
 }
+.num{
+  font:14px/46px "MicrosoftYaHei";
+  color: #000;
+}
+._detali_center{
+  float: left;
+}
+// ._detali_right{
+//   width: 100px;
+//   height: 100px;
+//   background-color:#4b4;
+//   margin-top: -564px;
+//   float: left ;
+// }
 </style>

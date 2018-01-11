@@ -135,6 +135,7 @@
                   </li>
               </ul>
         </div>
+        <!-- side -->
         <div class="side">
               <div class="title">
                   <div class="left">
@@ -157,6 +158,7 @@
                   </li>
               </ul>
         </div>
+
     </div>
   </div>
 </template>
@@ -575,6 +577,7 @@ table {
     //   color: rgba(0, 0, 0, 0.7);
     //   margin-left: 24px;
     // }
+
     .tm{
       width: 9px;
       height: 5px;
@@ -649,19 +652,6 @@ table {
           height: 450px;
           background-color: #ffffff;
           text-align: center;
-          // border-top: 2px solid #f13a40;
-
-        //  .img_first{
-        //     width: 147px;
-        //     height: 142px;
-        //     background-color: #3d98ff;
-
-            // img{
-            //   width: 107px;
-            //   height: 142px;
-            // }
-
-          // }
          .good_box{
            width: 242px;
            height: 242px;
@@ -675,16 +665,6 @@ table {
             vertical-align: middle;
            }
          }
-        //  .img_center{
-        //     width: 214px;
-        //     height: 37px;
-        //     margin-top: 46px;
-        //   }
-        //  .img_last{
-        //     width: 181px;
-        //     height: 105px;
-        //     margin-top: 46px;
-        //   }
           .line-one{
           font-family: MicrosoftYaHei;
           font-weight: bold;
@@ -745,11 +725,6 @@ table {
         height: 296px;
         text-align: center;
         background: #ffffff;
-        // img{
-        //   width: 110px;
-        //   height: 110px;
-        //   margin:30px 0 32px 0;
-        // }
         ._side_box{
            width: 150px;
            height: 150px;

@@ -9,10 +9,10 @@
           <a href="">商品列表</a>
           <span>></span>
           <a href="">商品详情</a>
-          <span>></span> 
+          <span>></span>
       </div>
       <div class="prc_info" v-for="prc in prc_info" :key="prc.index">
-          <div class="big">            
+          <div class="big">
             <a href="">
               <img :src="prc.link" alt="">
             </a>
@@ -28,7 +28,7 @@
               <img :src="prc.link" alt="">
             </a>
           </div>
-         
+
       </div>
 
       <!-- 商品编号 -->
@@ -39,9 +39,26 @@
 
     <!-- center -->
     <div class="_deiali_center" v-for="center in detail_center" :key="center.index">
-        <p><span>价格：</span><span>$</span><span>{{center.p1}}</span></p>
-                
-        <p><span>惊爆价：</span><span>{{center.p2}}</span><a href="">立即登录</a><a href="">免费注册</a></p>
+        <h3>LTS 1080P普及型会议终端TS2000</h3>
+        <div class="basic_info">
+            <div class="left">
+                <div clas="price">价格：<span>￥1988.00</span></div>
+                <div class="amazed">
+                    惊爆价：<span>完成账号注册，享受惊爆价</span><a href="#">立即登录</a><a href="#">免费注册</a>
+                    <p><span>议价</span>采购金额大于 10W 元，即可参与议价 <a href="#">联系议价员</a></p>
+                </div>
+                <div class="delivery">
+                    配送至：<span>浙江省</span><span>杭州市</span><span>西湖区</span><small>预计付款后 <i>3</i>个工作日发货</small>
+                </div>
+            </div>
+            <div class="app"></div>
+        </div>
+        <div class="sku_info">
+            供电方式：
+            <el-radio v-model="radio7" label="1" border>备选项1</el-radio>
+            <el-radio v-model="radio7" label="2" border>备选项2</el-radio>
+        </div>
+        <div class="buttons"></div>
     </div>
     </div>
   </div>
@@ -64,7 +81,7 @@
             p2:"888800"
           }
         ]
-      }    
+      }
     }
   }
 </script>
@@ -141,12 +158,12 @@ table {
   clear: both; }
 
 .detali{
-  // margin-left:   
+  // margin-left:
   // display: flex;
   .detali_left{
-    
+
   }
-  
+
 }
 .breadcrumb{
   color: #646464;

@@ -5,5 +5,5 @@ import App from './index.vue'
 Lib(App, new Router())
 Vue.config.productionTip = false
 
-const RouterView = routerView ? routerView : ''
-Lib(App, RouterView)
+// const RouterView = routerView ? routerView : ''
+// Lib(App, RouterView)

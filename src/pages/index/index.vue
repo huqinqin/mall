@@ -29,7 +29,7 @@
           </a>
           <a href="">
             <button class="sign">免费注册</button>
-          </a>   
+          </a>
         </div>
     </div>
     <!-- poster -->
@@ -45,12 +45,12 @@
           </a>
           <a href="">
             <img src="../../assets/inder_img/guanggao3.png" alt="">
-          </a>              
+          </a>
         </div>
     </div>
      <!-- main -->
     <div class="center">
-        <div class="main"  v-for="name in index_title" :key="name.index">        
+        <div class="main"  v-for="name in index_title" :key="name.index">
               <div class="title">
                   <div class="left">
                       <div class="i"></div>
@@ -63,7 +63,7 @@
                       <i class="iconfont icon-shangyiye-copy-copy rotate"></i>
                   </div>
               </div>
-               
+
               <ul class="import">
                   <li  v-for="im in index_data_first" :key="im.index" class="yi">
                       <div class="good_box">
@@ -73,12 +73,12 @@
                       <!-- <img :src="im.link" alt="" class="img_first"> -->
                       <p class="line-one">{{im.name}}</p>
                       <p class="line-two">{{im.info1}}</p>
-                      <p class="line-there">{{im.info2}}</p>                 
+                      <p class="line-there">{{im.info2}}</p>
                       <p class="line-four"></p>
                       <button>登录之后查看价格 </button>
                   </li>
-              </ul> 
-              
+              </ul>
+
               <div class="title">
                   <div class="left">
                       <div class="i"></div>
@@ -91,7 +91,7 @@
                       <i class="iconfont icon-shangyiye-copy-copy rotate"></i>
                   </div>
               </div>
-               
+
               <ul class="import">
                   <li  v-for="im in index_data_center" :key="im.index" class="er">
                       <!-- <img :src="im.link" alt="" class="img_center"> -->
@@ -101,7 +101,7 @@
                       </div>
                       <p class="line-one">{{im.name}}</p>
                       <p class="line-two">{{im.info1}}</p>
-                      <p class="line-there">{{im.info2}}</p>                 
+                      <p class="line-there">{{im.info2}}</p>
                       <p class="line-four"></p>
                       <button>登录之后查看价格 </button>
                   </li>
@@ -109,7 +109,7 @@
               <div class="title">
                   <div class="left">
                       <div class="i"></div>
-                      
+
                       <span>{{name.name}}</span>
                   </div>
                   <div class="right">
@@ -119,7 +119,7 @@
                       <i class="iconfont icon-shangyiye-copy-copy rotate"></i>
                   </div>
               </div>
-               
+
               <ul class="import">
                   <li  v-for="im in index_data_last" :key="im.index" class="san">
                       <!-- <img :src="im.link" alt="" class="img_last"> -->
@@ -129,7 +129,7 @@
                       </div>
                       <p class="line-one">{{im.name}}</p>
                       <p class="line-two">{{im.info1}}</p>
-                      <p class="line-there">{{im.info2}}</p>                 
+                      <p class="line-there">{{im.info2}}</p>
                       <p class="line-four"></p>
                       <button>登录之后查看价格 </button>
                   </li>
@@ -161,8 +161,16 @@
   </div>
 </template>
 <script>
-import indexService from '@/services/indexService.js'
+import homeService from '@/services/HomeService.js'
   export default {
+    mounted(){
+        let getList = homeService.getList()
+        getList.then((data) => {
+            console.log(data)
+        },(msg) => {
+            console.log('error')
+        })
+    },
     data(){
       return{
         index_banner:[
@@ -184,7 +192,7 @@ import indexService from '@/services/indexService.js'
            link:"static/image/BANNERTU.png",
            href:""
           },
-          {link:"static/image/BANNERTU.png"}, 
+          {link:"static/image/BANNERTU.png"},
           {link:"static/image/BANNERTU.png"}
         ],
         index_title:[
@@ -563,7 +571,7 @@ table {
     // span{
     //   display:inline-block;
     //   width:125px;
-    //   font:10px/12px "MicrosoftYaHei"; 
+    //   font:10px/12px "MicrosoftYaHei";
     //   color: rgba(0, 0, 0, 0.7);
     //   margin-left: 24px;
     // }
@@ -576,7 +584,7 @@ table {
       color: #000000;
     }
   }
-  .login{ 
+  .login{
     float: right;
     margin-top: 12px;
     button{
@@ -606,7 +614,7 @@ table {
 .poster{
   height: 350px;
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   .one{
     width: 895px;
     height: 350px;
@@ -640,19 +648,19 @@ table {
           width: 290px;
           height: 450px;
           background-color: #ffffff;
-          text-align: center; 
+          text-align: center;
           // border-top: 2px solid #f13a40;
 
         //  .img_first{
         //     width: 147px;
         //     height: 142px;
         //     background-color: #3d98ff;
-            
+
             // img{
             //   width: 107px;
             //   height: 142px;
             // }
-            
+
           // }
          .good_box{
            width: 242px;
@@ -692,8 +700,8 @@ table {
           .line-there{
             margin-bottom: 24px;
             font-family: MicrosoftYaHei;
-            font-size: 14px; 
-            color: #a3a3a3; 
+            font-size: 14px;
+            color: #a3a3a3;
           }
           .line-four{
             width: 266px;
@@ -710,7 +718,7 @@ table {
             font: 12px/26px "MicrosoftYaHei";
             font-weight: bold;
             color: #ff3b41;
-            box-shadow: 2px 0px 15px 0px 
+            box-shadow: 2px 0px 15px 0px
 		#e9e9e9;
           }
       }
@@ -793,7 +801,7 @@ table {
     .left{
       margin-top: 10px;
       font-size:16px/40px "MicrosoftYaHei";
-      font-weight: bold; 
+      font-weight: bold;
       color:#707070;
       // display: flex;
       align-self: center;

@@ -4,13 +4,14 @@
       <!-- left -->
         <div class="detail_left">
           <div class="breadcrumb">
-          <a href="">首页</a>
-          <span>></span>
-          <a href="">商品列表</a>
-          <span>></span>
-          <a href="">商品详情</a>
-          <span>></span> 
-      </div>
+            <a href="">首页</a>
+            <span>></span>
+            <a href="">商品列表</a>
+            <span>></span>
+            <a href="">商品详情</a>
+            <span>></span> 
+        </div>
+      <!-- prc_info -->
       <div class="prc_info" v-for="prc in prc_info" :key="prc.index">
           <div class="big">            
             <a href="">
@@ -27,10 +28,8 @@
             <a href="">
               <img :src="prc.link" alt="">
             </a>
-          </div>
-         
+          </div>        
       </div>
-
       <!-- 商品编号 -->
       <div class="num"  v-for="prc in prc_info" :key="prc.index">
         <p>商品编号：<span>{{prc.num}}</span></p>
@@ -49,6 +48,8 @@
 
     </div>
 
+    <!-- share -->
+      
     </div>
   </div>
 </template>
@@ -209,7 +210,11 @@ table {
 ._detali_center{
   float: left;
 }
-._detali_right{
-  float: right;
-}
+// ._detali_right{
+//   width: 100px;
+//   height: 100px;
+//   background-color:#4b4;
+//   margin-top: -564px;
+//   float: left ;
+// }
 </style>

@@ -24,11 +24,12 @@
             <!-- <span class="tm">TM</span>    -->
         </div>
         <div class="login">
+            <button class="register" @click='login'>立即登录</button>
+          <!--<a href="">-->
+            <!---->
+          <!--</a>-->
           <a href="">
-            <button class="register">立即登录</button>
-          </a>
-          <a href="">
-            <button class="sign">免费注册</button>
+            <button class="sign" @click='signup'>免费注册</button>
           </a>
         </div>
     </div>
@@ -452,7 +453,12 @@ import homeService from '@/services/HomeService.js'
         //   link:"static/image/BANNERTU.png"
         // }
       }
-    }
+    },
+      methods:{
+        login(){
+            this.$emit('showLogin',2)
+        }
+      }
   }
 </script>
 <style src="@/assets/iconfont/iconfont.css"></style>

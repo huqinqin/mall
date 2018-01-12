@@ -3,8 +3,8 @@
         <div class="header-box">
           <ul class="s-span-page">
             <li class="sign">
-              <a href="" class="login">立即登录</a>
-              <a href="" class="register">免费注册</a>
+              <span class="login" @click="login">立即登录</span>
+              <span class="register">免费注册</span>
             </li>
             <li class="">
               <a href="" class="news">快报</a>
@@ -116,7 +116,9 @@
           }
         },
         methods:{
-
+            login(){
+                this.$emit('showLogin')
+            },
         },
         created(){
 
@@ -191,6 +193,10 @@
           text-decoration: none;
           position: relative;
         }
+          span{
+              color: white;
+              font-size: 12px;
+          }
         .login{
           color:#f13a40;
           margin-right: 18px;

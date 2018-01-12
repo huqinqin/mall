@@ -456,7 +456,7 @@ import homeService from '@/services/HomeService.js'
     },
       methods:{
           login(){
-              this.$emit('showLogin',2)
+              this.$emit('showLogin')
           },
           signup(){
             console.log('注册')

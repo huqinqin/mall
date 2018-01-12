@@ -3,8 +3,8 @@
         <div class="header-box">
           <ul class="s-span-page">
             <li class="sign">
-              <span class="login" @click="login">立即登录</span>
-              <span class="register">免费注册</span>
+              <a href="" class="login">立即登录</a>
+              <a href="" class="register">免费注册</a>
             </li>
             <li class="">
               <a href="" class="news">快报</a>
@@ -53,7 +53,7 @@
                      icon : 'icon-IPjiejuefangan',
                      first : 'IP',
                      last : 'SOLUTION',
-                     link : '/detail#/?id=123'
+                     link : '/detail#/?id=2101157'
                  },
                  {
                      name : 'hdtvi solution',
@@ -116,9 +116,7 @@
           }
         },
         methods:{
-            login(){
-                this.$emit('showLogin')
-            },
+
         },
         created(){
 
@@ -174,56 +172,52 @@
             }
         }
         .header-box{
-      color: white;
-      height:30px;
-      line-height: 30px;
-      background-color: #181818;
-      padding: 0;
-      width: 100%;
-      ul{
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-      }
-      li{
-        align-self: center;
-        a{
           color: white;
-          font-size: 12px;
-          text-decoration: none;
-          position: relative;
-        }
-          span{
+          height:30px;
+          line-height: 30px;
+          background-color: #181818;
+          padding: 0;
+          width: 100%;
+          ul{
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+          }
+          li{
+            align-self: center;
+            a{
               color: white;
               font-size: 12px;
+              text-decoration: none;
+              position: relative;
+            }
+            .login{
+              color:#f13a40;
+              margin-right: 18px;
+              font-weight:bold;
+            }
+            .news{
+              margin-right: 14px;
+            }
+            .top-menu{
+              padding-right: 12px;
+              margin-left: 12px;
+            }
+            .top-menu:before{
+              content: '';
+              height:12px;
+              width:1px;
+              background-color: white;
+              position: absolute;
+              right:0;
+              top:3px;
+            }
+            .icon-shouji{
+              font-size: 12px;
+              margin: 0 6px 0 3px;
+            }
           }
-        .login{
-          color:#f13a40;
-          margin-right: 18px;
-          font-weight:bold;
         }
-        .news{
-          margin-right: 14px;
-        }
-        .top-menu{
-          padding-right: 12px;
-          margin-left: 12px;
-        }
-        .top-menu:before{
-          content: '';
-          height:12px;
-          width:1px;
-          background-color: white;
-          position: absolute;
-          right:0;
-          top:3px;
-        }
-        .icon-shouji{
-          font-size: 12px;
-          margin: 0 6px 0 3px;
-        }
-      }
-    }
     }
 
 </style>

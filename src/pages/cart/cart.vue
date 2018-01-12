@@ -17,10 +17,10 @@
 <script>
   export default {
     name: "cart",
-      data(){
-        return {
-            active: 0,
-        }
+      data() {
+          return {
+              active: 0,
+          }
       },
       methods:{
           changeActive(value){

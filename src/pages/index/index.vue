@@ -35,16 +35,13 @@
     <!-- poster -->
     <div class="poster">
         <div class="one">
-          <a href="">
-             <img src="../../assets/inder_img/guanggao1.png" alt="">
+          <a href="/detail?id=123">
           </a>
         </div>
         <div class="two">
           <a href="" class="top">
-            <img src="../../assets/inder_img/gaunggao2.png" alt="">
           </a>
           <a href="">
-            <img src="../../assets/inder_img/guanggao3.png" alt="">
           </a>
         </div>
     </div>
@@ -94,7 +91,6 @@
 
               <ul class="import">
                   <li  v-for="im in index_data_center" :key="im.index" class="er">
-                      <!-- <img :src="im.link" alt="" class="img_center"> -->
                       <div class="good_box">
                           <i class="_good_i"></i>
                           <img :src="im.link" alt="" class="_good_img">

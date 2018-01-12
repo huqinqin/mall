@@ -52,7 +52,6 @@ export default function (App, router = new Router()) {
     Loading   : Loading,
     Message   : Message,
     router,
-    props  : {"isWhite" : Boolean},
     template  : '<Layout/>',
     components: {Layout}
   })

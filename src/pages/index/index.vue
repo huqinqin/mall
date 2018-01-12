@@ -1,17 +1,15 @@
 <template>
   <div class="_index">
      <!-- banner -->
-     <template>
-        <div class="block">
-          <el-carousel height="500px">
-            <el-carousel-item v-for="item in index_banner" :key=item.index>
-              <a href="">
-                <img :src="item.link" alt="">
-              </a>
-            </el-carousel-item>
-          </el-carousel>
-        </div>
-    </template>
+    <div class="block">
+      <el-carousel height="500px">
+        <el-carousel-item v-for="item in index_banner" :key=item.index>
+          <a href="">
+            <img :src="item.link" alt="">
+          </a>
+        </el-carousel-item>
+      </el-carousel>
+    </div>
     <!-- publicity -->
     <div class="publicity">
         <div class="welcome">
@@ -37,22 +35,27 @@
     <div class="poster">
         <div class="one">
           <a href="/detail?id=123">
+              <!--<img src="../../assets/inder_img/guanggao1.png" alt="">-->
           </a>
         </div>
         <div class="two">
           <a href="" class="top">
+              <!--<img src="../../assets/inder_img/guanggao2.png" alt="">-->
           </a>
           <a href="">
+              <!--<img src="../../assets/inder_img/guanggao3.png" alt="">-->
           </a>
         </div>
     </div>
      <!-- main -->
     <div class="center">
-        <div class="main"  v-for="name in index_title" :key="name.index">
+        <div class="main">
+            <div v-for="itemlist in itemList" :key="itemlist.id">
+                {{itemlist.name}}
               <div class="title">
                   <div class="left">
                       <div class="i"></div>
-                      <span>{{name.name}}</span>
+                      <span>{{itemlist.name}}</span>
                   </div>
                   <div class="right">
                       <!-- <a href=""> -->
@@ -61,100 +64,44 @@
                       <i class="iconfont icon-shangyiye-copy-copy rotate"></i>
                   </div>
               </div>
-
-              <ul class="import">
-                  <li  v-for="im in index_data_first" :key="im.index" class="yi">
-                      <div class="good_box">
-                          <i class="_good_i"></i>
-                          <img :src="im.link" alt="" class="_good_img">
-                      </div>
-                      <!-- <img :src="im.link" alt="" class="img_first"> -->
-                      <p class="line-one">{{im.name}}</p>
-                      <p class="line-two">{{im.info1}}</p>
-                      <p class="line-there">{{im.info2}}</p>
-                      <p class="line-four"></p>
-                      <button>登录之后查看价格 </button>
-                  </li>
-              </ul>
-
-              <div class="title">
-                  <div class="left">
-                      <div class="i"></div>
-                      <span>{{name.name}}</span>
-                  </div>
-                  <div class="right">
-                      <!-- <a href=""> -->
-                        <span>更多</span>
-                      <!-- </a> -->
-                      <i class="iconfont icon-shangyiye-copy-copy rotate"></i>
-                  </div>
-              </div>
-
-              <ul class="import">
-                  <li  v-for="im in index_data_center" :key="im.index" class="er">
-                      <div class="good_box">
-                          <i class="_good_i"></i>
-                          <img :src="im.link" alt="" class="_good_img">
-                      </div>
-                      <p class="line-one">{{im.name}}</p>
-                      <p class="line-two">{{im.info1}}</p>
-                      <p class="line-there">{{im.info2}}</p>
-                      <p class="line-four"></p>
-                      <button>登录之后查看价格 </button>
-                  </li>
-              </ul>
-              <div class="title">
-                  <div class="left">
-                      <div class="i"></div>
-
-                      <span>{{name.name}}</span>
-                  </div>
-                  <div class="right">
-                      <!-- <a href=""> -->
-                        <span>更多</span>
-                      <!-- </a> -->
-                      <i class="iconfont icon-shangyiye-copy-copy rotate"></i>
-                  </div>
-              </div>
-
-              <ul class="import">
-                  <li  v-for="im in index_data_last" :key="im.index" class="san">
-                      <!-- <img :src="im.link" alt="" class="img_last"> -->
-                      <div class="good_box">
-                          <i class="_good_i"></i>
-                          <img :src="im.link" alt="" class="_good_img">
-                      </div>
-                      <p class="line-one">{{im.name}}</p>
-                      <p class="line-two">{{im.info1}}</p>
-                      <p class="line-there">{{im.info2}}</p>
-                      <p class="line-four"></p>
-                      <button>登录之后查看价格 </button>
-                  </li>
-              </ul>
+              <!--<ul class="import">-->
+                  <!--<li  v-for="item in items.items" :key="item.id" class="yi">-->
+                      <!--<div class="good_box">-->
+                          <!--<i class="_good_i"></i>-->
+                          <!--<img :src="item.link" alt="" class="_good_img">-->
+                      <!--</div>-->
+                      <!--&lt;!&ndash; <img :src="im.link" alt="" class="img_first"> &ndash;&gt;-->
+                      <!--<p class="line-one">{{item.name}}</p>-->
+                      <!--<p class="line-two">{{item.name}}</p>-->
+                      <!--<p class="line-there">{{item.name}}</p>-->
+                      <!--<p class="line-four"></p>-->
+                      <!--<button>登录之后查看价格 </button>-->
+                  <!--</li>-->
+              <!--</ul>-->
+            </div>
         </div>
         <!-- side -->
-        <div class="side">
-              <div class="title">
-                  <div class="left">
-                      <div class="i"></div>
-                      <span>热卖单品</span>
-                  </div>
-              </div>
-
-              <ul class="alone">
-                  <li v-for="item in side" :key="item.index">
-                      <!-- <img :src="item.link" alt=""> -->
-                      <div class="_side_box">
-                          <!-- <i class="_side_good_i"></i> -->
-                          <img :src="item.link" alt="" class="_side_good_img">
-                      </div>
-                      <p class="alone-one">{{item.name}}</p>
-                      <p class="alone-two">{{item.info}}</p>
-                      <p class="alone-there">{{item.prace}}</p>
-                      <i></i>
-                  </li>
-              </ul>
-        </div>
+        <!--<div class="side">-->
+              <!--<div class="title">-->
+                  <!--<div class="left">-->
+                      <!--<div class="i"></div>-->
+                      <!--<span>热卖单品</span>-->
+                  <!--</div>-->
+              <!--</div>-->
+              <!--<ul class="alone">-->
+                  <!--<li v-for="item in side" :key="item.index">-->
+                      <!--&lt;!&ndash; <img :src="item.link" alt=""> &ndash;&gt;-->
+                      <!--<div class="_side_box">-->
+                          <!--&lt;!&ndash; <i class="_side_good_i"></i> &ndash;&gt;-->
+                          <!--<img :src="item.link" alt="" class="_side_good_img">-->
+                      <!--</div>-->
+                      <!--<p class="alone-one">{{item.name}}</p>-->
+                      <!--<p class="alone-two">{{item.info}}</p>-->
+                      <!--<p class="alone-there">{{item.prace}}</p>-->
+                      <!--<i></i>-->
+                  <!--</li>-->
+              <!--</ul>-->
+        <!--</div>-->
 
     </div>
   </div>
@@ -163,12 +110,7 @@
 import homeService from '@/services/HomeService.js'
   export default {
     mounted(){
-        let getList = homeService.getList()
-        getList.then((data) => {
-            console.log(data)
-        },(msg) => {
-            console.log('error')
-        })
+        this.getList();
     },
     data(){
       return{
@@ -194,259 +136,7 @@ import homeService from '@/services/HomeService.js'
           {link:"static/image/BANNERTU.png"},
           {link:"static/image/BANNERTU.png"}
         ],
-        index_title:[
-          {
-            name:"摄像头"
-          }
-        ],
-       index_data_first:[{
-          link: 'static/image/shexiangtou1.png',
-          src:'',
-          alt:'',
-          name:'哈康卫视',
-          info1:'200万4mm红外高清网络半球摄像机',
-          info2:'DS-2CD3325-1（C ）',
-        },
-        {
-          link: 'static/image/shexiangtou1.png',
-          src:'',
-          alt:'',
-          name:'测试测试测试',
-          info1:'200万测试测试测试像机',
-          info2:'testtest',
-        },
-        {
-          link: 'static/image/shexiangtou1.png',
-          src:'',
-          alt:'',
-          name:'测试测试测试',
-          info1:'200万测试测试测试像机',
-          info2:'testtest',
-        },
-        {
-          link: 'static/image/shexiangtou1.png',
-          src:'',
-          alt:'',
-          name:'测试测试测试',
-          info1:'200万测试测试测试像机',
-          info2:'testtest',
-        },
-        {
-          link: 'static/image/shexiangtou1.png',
-          src:'',
-          alt:'',
-          name:'测试测试测试',
-          info1:'200万测试测试测试像机',
-          info2:'testtest',
-        },
-        {
-          link: 'static/image/shexiangtou1.png',
-          src:'',
-          alt:'',
-          name:'测试测试测试',
-          info1:'200万测试测试测试像机',
-          info2:'testtest',
-        },
-        {
-          link: 'static/image/shexiangtou1.png',
-          src:'',
-          alt:'',
-          name:'测试测试测试',
-          info1:'200万测试测试测试像机',
-          info2:'testtest',
-        },
-        {
-          link: 'static/image/shexiangtou1.png',
-          src:'',
-          alt:'',
-          name:'测试测试测试',
-          info1:'200万测试测试测试像机',
-          info2:'testtest',
-        }],
-         index_data_center:[{
-          link: 'static/image/luxiangji1.png',
-          src:'',
-          alt:'',
-          name:'哈康卫视',
-          info1:'200万4mm红外高清网络半球摄像机',
-          info2:'DS-2CD3325-1（C ）',
-        },
-        {
-          link: 'static/image/luxiangji1.png',
-          src:'',
-          alt:'',
-          name:'测试测试测试',
-          info1:'200万测试测试测试像机',
-          info2:'testtest',
-        },
-        {
-          link: 'static/image/luxiangji1.png',
-          src:'',
-          alt:'',
-          name:'测试测试测试',
-          info1:'200万测试测试测试像机',
-          info2:'testtest',
-        },
-        {
-          link: 'static/image/luxiangji1.png',
-          src:'',
-          alt:'',
-          name:'测试测试测试',
-          info1:'200万测试测试测试像机',
-          info2:'testtest',
-        },
-        {
-          link: 'static/image/luxiangji1.png',
-          src:'',
-          alt:'',
-          name:'测试测试测试',
-          info1:'200万测试测试测试像机',
-          info2:'testtest',
-        },
-        {
-          link: 'static/image/luxiangji1.png',
-          src:'',
-          alt:'',
-          name:'测试测试测试',
-          info1:'200万测试测试测试像机',
-          info2:'testtest',
-        },
-        {
-          link: 'static/image/luxiangji1.png',
-          src:'',
-          alt:'',
-          name:'测试测试测试',
-          info1:'200万测试测试测试像机',
-          info2:'testtest',
-        },
-        {
-          link: 'static/image/luxiangji1.png',
-          src:'',
-          alt:'',
-          name:'测试测试测试',
-          info1:'200万测试测试测试像机',
-          info2:'testtest',
-        }],
-         index_data_last:[{
-          link: 'static/image/peijian1.png',
-          src:'',
-          alt:'',
-          name:'海康卫视',
-          info1:'200万4mm红外高清网络半球摄像机',
-          info2:'DS-2CD3325-1（C ）',
-        },
-        {
-          link: 'static/image/peijian1.png',
-          src:'',
-          alt:'',
-          name:'测试测试测试',
-          info1:'200万测试测试测试像机',
-          info2:'testtest',
-        },
-        {
-          link: 'static/image/peijian1.png',
-          src:'',
-          alt:'',
-          name:'测试测试测试',
-          info1:'200万测试测试测试像机',
-          info2:'testtest',
-        },
-        {
-          link: 'static/image/peijian1.png',
-          src:'',
-          alt:'',
-          name:'测试测试测试',
-          info1:'200万测试测试测试像机',
-          info2:'testtest',
-        },
-        {
-          link: 'static/image/peijian1.png',
-          src:'',
-          alt:'',
-          name:'测试测试测试',
-          info1:'200万测试测试测试像机',
-          info2:'testtest',
-        },
-        {
-          link: 'static/image/peijian1.png',
-          src:'',
-          alt:'',
-          name:'测试测试测试',
-          info1:'200万测试测试测试像机',
-          info2:'testtest',
-        },
-        {
-          link: 'static/image/peijian1.png',
-          src:'',
-          alt:'',
-          name:'测试测试测试',
-          info1:'200万测试测试测试像机',
-          info2:'testtest',
-        },
-        {
-          link: 'static/image/peijian1.png',
-          src:'',
-          alt:'',
-          name:'测试测试测试',
-          info1:'200万测试测试测试像机',
-          info2:'testtest',
-        }],
-        side:[{
-          link: 'static/image/peijian1.png',
-          src:'',
-          alt:'',
-          name:'福特科',
-          info:'300w变焦超长镜头',
-          prace:'$399.00'
-        },
-        {
-          link: 'static/image/peijian1.png',
-          src:'',
-          alt:'',
-          name:'福特科',
-          info:'300w变焦超长',
-          prace:'$ 399.00'
-        },
-        {
-          link: 'static/image/peijian1.png',
-          src:'',
-          alt:'',
-          name:'福特科',
-          info:'300w变焦超长',
-          prace:'$ 399.00'
-        },
-        {
-          link: 'static/image/peijian1.png',
-          src:'',
-          alt:'',
-          name:'福特科',
-          info:'300w变焦超长',
-          prace:'$ 399.00'
-        },
-        {
-          link: 'static/image/peijian1.png',
-          src:'',
-          alt:'',
-          name:'福特科',
-          info:'300w变焦超长',
-          prace:'$ 399.00'
-        },
-        {
-          link: 'static/image/peijian1.png',
-          src:'',
-          alt:'',
-          name:'福特科',
-          info:'300w变焦超长',
-          prace:'$ 399.00'
-        }
-        ,{
-          link: 'static/image/peijian1.png',
-          src:'',
-          alt:'',
-          name:'福特科',
-          info:'300w变焦超长',
-          prace:'$ 399.00'
-        }]
+        itemList : [],
         // index_welcome:{
         //   link:"static/image/BANNERTU.png",
         //   link:"static/image/BANNERTU.png",
@@ -457,7 +147,17 @@ import homeService from '@/services/HomeService.js'
       methods:{
         login(){
             this.$emit('showLogin',2)
-        }
+        },
+        singup(){
+
+        },
+        getList(){
+            homeService.getList().then((data) => {
+                this.itemList = data.datalist;
+            },(msg) => {
+                console.log('error')
+            })
+        },
       }
   }
 </script>

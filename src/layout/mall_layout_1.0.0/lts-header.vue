@@ -172,52 +172,52 @@
             }
         }
         .header-box{
-      color: white;
-      height:30px;
-      line-height: 30px;
-      background-color: #181818;
-      padding: 0;
-      width: 100%;
-      ul{
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-      }
-      li{
-        align-self: center;
-        a{
           color: white;
-          font-size: 12px;
-          text-decoration: none;
-          position: relative;
+          height:30px;
+          line-height: 30px;
+          background-color: #181818;
+          padding: 0;
+          width: 100%;
+          ul{
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+          }
+          li{
+            align-self: center;
+            a{
+              color: white;
+              font-size: 12px;
+              text-decoration: none;
+              position: relative;
+            }
+            .login{
+              color:#f13a40;
+              margin-right: 18px;
+              font-weight:bold;
+            }
+            .news{
+              margin-right: 14px;
+            }
+            .top-menu{
+              padding-right: 12px;
+              margin-left: 12px;
+            }
+            .top-menu:before{
+              content: '';
+              height:12px;
+              width:1px;
+              background-color: white;
+              position: absolute;
+              right:0;
+              top:3px;
+            }
+            .icon-shouji{
+              font-size: 12px;
+              margin: 0 6px 0 3px;
+            }
+          }
         }
-        .login{
-          color:#f13a40;
-          margin-right: 18px;
-          font-weight:bold;
-        }
-        .news{
-          margin-right: 14px;
-        }
-        .top-menu{
-          padding-right: 12px;
-          margin-left: 12px;
-        }
-        .top-menu:before{
-          content: '';
-          height:12px;
-          width:1px;
-          background-color: white;
-          position: absolute;
-          right:0;
-          top:3px;
-        }
-        .icon-shouji{
-          font-size: 12px;
-          margin: 0 6px 0 3px;
-        }
-      }
-    }
     }
 
 </style>

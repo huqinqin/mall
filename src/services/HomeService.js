@@ -6,7 +6,7 @@ export default class HomeService extends BaseService {
      * return datalist
      * */
     static getList(){
-        return super.getRequest('/indexarea/get_list')
+        return super.getRequest('/indexarea/get_index')
     }
 
 }

@@ -53,7 +53,7 @@
                      icon : 'icon-IPjiejuefangan',
                      first : 'IP',
                      last : 'SOLUTION',
-                     link : '/detail#/?id=123'
+                     link : '/detail#/?id=2101157'
                  },
                  {
                      name : 'hdtvi solution',

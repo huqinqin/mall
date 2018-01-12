@@ -174,6 +174,7 @@
                     }
                 ],
                 item : {},
+                checkedSpu : {},
             }
         },
         methods:{
@@ -190,7 +191,73 @@
                 },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.errorMessage})
                 })
-            }
+            },
+            skuMapEach(prop,data){
+                let key = prop.prop_name;
+                let prop_value = {};
+                let checked_sku_prop = {};
+                // 匹配sku
+                checked_sku_prop[key] = prop.checked_prop;
+                // 匹配库存
+                prop_value[key] =  prop.checked_prop;
+                data.item_prop_value_maps.forEach((value,index,array)=>{
+                    if(value.prop_name !== prop.prop_name){
+                        checked_sku_prop[value.prop_name] = value.checked_prop;
+                        this.equalsProp(checked_sku_prop,data.item_struct_props,'checkedSku');
+                        value.prop_values.forEach((val,key,array)=>{
+                            prop_value[value.prop_name] = val.value;
+                            val.can_checked = this.equalsProp(prop_value,data.item_struct_props);
+                        })
+                    }
+                })
+            },
+            equalsProp(propObj,skuList,type){
+                let Boolean = 0; // 0 false, 1 true;
+                let self = this;
+                try{
+                    skuList.forEach(function(sku,index,array){
+                        let clone_prop = JSON.parse(sku.prop_value);
+                        let count = 0;
+                        for(let key in propObj){
+                            if(!clone_prop[key]){
+                                Boolean = 0;
+                                return false;
+                            }
+                            if(clone_prop[key] == propObj[key]){
+                                count++;
+                            }else{
+                                Boolean = 0;
+                                return false;
+                            }
+                        }
+                        if(count >= 2 && sku.storage > 0){
+                            if(type == 'checkedSku'){
+                                self.checkedSpu = sku;
+                            }
+                            Boolean = 1;
+                            // 跳出循环抛出的异常 别删
+                            throw new Error("foreach.break");
+                        }else{
+                            Boolean = 0;
+                        }
+                        return false;
+                    })
+                }catch (e){
+                    if(e === 'foreach.break')return;
+                }
+                if(Boolean == 1){
+                    return true;
+                }else {
+                    return false;
+                }
+            },
+            addCart(item) {
+                cartService.putCartPlus(this.customerUid,item,this.checkedSpu).then((data) => {
+                    this.queryCartList();
+                },(msg) => {
+                    this.$ltsMessage.show({type:"error",message:msg.error_message})
+                });
+            },
         },
         mounted(){
             let id = this.$route.query.id;

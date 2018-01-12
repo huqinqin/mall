@@ -7,11 +7,11 @@ const isDebug = false;
 const isUseMock = false;
 export default {
     url: {
-        main: 'http://work.lts.com:8085'
+        main: 'http://work.local.lts.com:8085'
     },
     api: {
-        api: 'http://work.lts.com:8085/gateway/api',
-        service: 'http://work.lts.com:8085/gateway'
+        api: 'http://work.local.lts.com:8085/gateway/api',
+        service: 'http://work.local.lts.com:8085/gateway'
     },
     homePage: '/',
     loginPage: '/login',

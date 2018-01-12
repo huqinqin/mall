@@ -13,6 +13,8 @@ import MessageBox from '../components/lts-messageBox'
 import ltsHeader from '@/layout/mall_Layout_1.0.0/lts-header.vue'
 import ltsFooter from '@/layout/mall_Layout_1.0.0/lts-footer.vue'
 
+import config from 'config'
+
 Vue.use(ElementUI)
 Vue.use(VueI18n)
 
@@ -40,6 +42,9 @@ Vue.filter('money2str', function (money) {
     return (money / 100).toFixed(2)
 })
 export default function (App, router = new Router()) {
+  let Boolean = true
+  App.__file.indexOf('index.vue') > 0 ? Boolean = false : Boolean = true;
+  config.isWhite = Boolean
   Layout.components = {'lts-content': App,'lts-header': ltsHeader,'lts-footer':ltsFooter}
   new Vue({
     el        : '#app',
@@ -47,6 +52,7 @@ export default function (App, router = new Router()) {
     Loading   : Loading,
     Message   : Message,
     router,
+    props  : {"isWhite" : Boolean},
     template  : '<Layout/>',
     components: {Layout}
   })

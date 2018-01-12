@@ -63,60 +63,6 @@
                       <button>加入购物车</button>
                   </el-form-item>
               </el-form>
-              <!--<div class="detail_center">-->
-                  <!--<h3>LTS 1080P普及型会议终端TS2000</h3>-->
-                  <!--<div class="info">-->
-                      <!--<div class="price">-->
-                          <!--<span>价格:</span>-->
-                          <!--<div class="tips">完成登录注册，享受惊爆价</div>-->
-                      <!--</div>-->
-                      <!--<div class="sku_1">-->
-                          <!--<span>供电方式:</span>-->
-                          <!--<div class="tips">-->
-                              <!--<el-radio v-model="sku_1" label="1" border>DC12V</el-radio>-->
-                              <!--<el-radio v-model="sku_1" label="2" border>AC14V</el-radio>-->
-                              <!--<el-radio v-model="sku_1" label="3" border>POE</el-radio>-->
-                          <!--</div>-->
-
-                      <!--</div>-->
-                      <!--<div class="sku_2">-->
-                          <!--<span>像素分类:</span>-->
-                          <!--<div class="tips">-->
-                              <!--<el-radio v-model="sku_2" label="1" border>100W</el-radio>-->
-                              <!--<el-radio v-model="sku_2" label="2" border>110W</el-radio>-->
-                              <!--<el-radio v-model="sku_2" label="3" border>120W</el-radio>-->
-                              <!--<el-radio v-model="sku_2" label="4" border>130W</el-radio>-->
-                              <!--<el-radio v-model="sku_2" label="5" border>140W</el-radio>-->
-                              <!--<el-radio v-model="sku_2" label="6" border>150W</el-radio>-->
-                              <!--<el-radio v-model="sku_2" label="7" border>160W</el-radio>-->
-                              <!--<el-radio v-model="sku_2" label="8" border>170W</el-radio>-->
-                              <!--<el-radio v-model="sku_2" label="9" border>180W</el-radio>-->
-                              <!--<el-radio v-model="sku_2" label="10" border>190W</el-radio>-->
-                              <!--<el-radio v-model="sku_2" label="11" border>200W</el-radio>-->
-                              <!--<el-radio v-model="sku_2" label="12" border>210W</el-radio>-->
-                              <!--<el-radio v-model="sku_2" label="13" border>220W</el-radio>-->
-                              <!--<el-radio v-model="sku_2" label="14" border>230W</el-radio>-->
-                          <!--</div>-->
-
-                      <!--</div>-->
-                      <!--<div class="num">-->
-                          <!--<span>采购量:</span>-->
-                          <!---->
-                      <!--</div>-->
-                      <!--<div class="mark">-->
-                          <!--温馨提示:<span>不支持60天无理由退换(如果商品参加活动，退换货以活动规则为准)</span>-->
-                      <!--</div>-->
-                  <!--</div>-->
-                  <!--<div class="buttons">-->
-                      <!---->
-                      <!---->
-                  <!--</div>-->
-
-                  <!--<div class="_detali_right">-->
-
-                  <!--</div>-->
-
-              <!--</div>-->
           </div>
           <div class="detail-buy-history">
 
@@ -124,78 +70,119 @@
       </div>
         <!-- bottom -->
       <div class="detail-bottom">
-          // TOOD 商品详情
+          <div class="detail_side">
+              <div class="detail_side_img">
+                  <div class="remai">
+                      <span>热爱推荐</span>
+                  </div>
+                  <ul>
+                      <li  v-for="item in detail_side_img" :key="item.index">
+                          <a href="">
+                              <img src="" alt="">
+                          </a>
+                          <p>{{item.info1}}</p>
+                          <p>{{item.info2}}</p>
+                          <p>{{item.info3}}</p>
+                      </li>
+                  </ul>
+
+              </div>
+              <!-- detail_goods -->
+              <div class="detail_goods">
+                  <el-tabs v-model="activeName" @tab-click="handleClick">
+                      <el-tab-pane label="商品详情" name="first">商品详情</el-tab-pane>
+                      <el-tab-pane label="规格与包装" name="second">规格与包装</el-tab-pane>
+                      <el-tab-pane label="商品评价" name="third">商品评价</el-tab-pane>
+                      <el-tab-pane label="服务保障" name="fourth">服务保障</el-tab-pane>
+                      <el-tab-pane label="下载" name="five">下载</el-tab-pane>
+                  </el-tabs>
+              </div>
+          </div>
       </div>
   </div>
 </template>
 
 <script>
   export default {
-      data: function () {
-          return {
-              // 商品
-              sku_1: '',
-              sku_2: '',
-              sku_2Data: [{
-                  label: 0,
-                  content: '200W'
-              },{
-                  label: 1,
-                  content: '201W'
-              },{
-                  label: 2,
-                  content: '202W'
-              },{
-                  label: 3,
-                  content: '203W'
-              },{
-                  label: 4,
-                  content: '204W'
-              },{
-                  label: 5,
-                  content: '205W'
-              },{
-                  label: 6,
-                  content: '206W'
-              },{
-                  label: 7,
-                  content: '207W'
-              },{
-                  label: 8,
-                  content: '208W'
-              },{
-                  label: 9,
-                  content: '209W'
-              },{
-                  label: 10,
-                  content: '210W'
-              },{
-                  label: 11,
-                  content: '211W'
-              },],
-              count: '',
-              prc_info: [
-                  {
-                      href: "",
-                      link: "static/image/shexiangtou1.png",
-                      alt: "",
-                      num: "111111"
-                  }
-              ],
-              detail_center: [
-                  {
-                      p1: "1988.00",
-                      p2: "888800"
-                  }
-              ],
+      data(){
+       return{
+        activeName:'second',
+          sku_1: '',
+          sku_2: '',
+          sku_2Data: [{
+              label: 0,
+              content: '200W'
+          },{
+              label: 1,
+              content: '201W'
+          },{
+              label: 2,
+              content: '202W'
+          },{
+              label: 3,
+              content: '203W'
+          },{
+              label: 4,
+              content: '204W'
+          },{
+              label: 5,
+              content: '205W'
+          },{
+              label: 6,
+              content: '206W'
+          },{
+              label: 7,
+              content: '207W'
+          },{
+              label: 8,
+              content: '208W'
+          },{
+              label: 9,
+              content: '209W'
+          },{
+              label: 10,
+              content: '210W'
+          },{
+              label: 11,
+              content: '211W'
+          },],
+          count: '',
+          prc_info: [
+              {
+                  href: "",
+                  link: "static/image/shexiangtou1.png",
+                  alt: "",
+                  num: "111111"
+              }
+          ],
+          detail_center: [
+              {
+                  p1: "1988.00",
+                  p2: "888800"
+              }
+          ],
+        detail_side_img:[
+          {
+            href:"",
+            src:"",
+            alt:"",
+            info1:"福特科",
+            info2:"300W变焦超长镜头",
+            info3:"$399.00"
           }
-      },
-      methods:{
-          inputNumberChange(value){
-              console.log(value)
-
-          }
+        ]
       }
+     },
+     methods:{
+         handleClick(tab,event){
+          console.log(tab,event);
+         },
+         inputNumberChange(value){
+             console.log(value)
+
+         }
+      }
+
   }
 </script>
 
@@ -225,7 +212,6 @@
                     }
                     .small{
                         display: flex;
-
                         a{
                             display: inline;
                             width: 70px;
@@ -238,9 +224,10 @@
                                 height: 40px;
                             }
                         }
+                        .is_active{
+                            border:solid 1px #48a2ff;
+                        }
                     }
-
-
                 }
             }
             .detail-sku-box{
@@ -365,32 +352,6 @@
                 .el-alert{
                     height: 40px;
                 }
-                /*.input-num{*/
-                    /*height: 24px;*/
-                    /*line-height: 24px;*/
-                    /*.el-input-number{*/
-                        /*line-height: 23px;*/
-                        /*width:102px;*/
-                    /*}*/
-                    /*span{*/
-                        /*font-size: 12px;*/
-                        /*color: #333;*/
-                        /*line-height: inherit;*/
-                        /*width: 24px;*/
-                        /*background-color: #eee;*/
-                        /*border-radius: 0;*/
-                    /*}*/
-                    /*input{*/
-                        /*width: 94px;*/
-                        /*height: 24px;*/
-                        /*text-align: center;*/
-                        /*border-radius: 0;*/
-                        /*border:1px solid #eee;*/
-                    /*}*/
-                    /*input:focus{*/
-                        /*border:1px solid #eee;*/
-                    /*}*/
-                /*}*/
                 .buttons{
                     display: inline-block;
 
@@ -633,7 +594,6 @@ table {
   display: block;
   clear: both;
 }
-
 .detali{
   .detali_left{
     float: left;
@@ -665,11 +625,17 @@ table {
 ._detali_center{
   float: left;
 }
-// ._detali_right{
-//   width: 100px;
-//   height: 100px;
-//   background-color:#4b4;
-//   margin-top: -564px;
-//   float: left ;
-// }
+.detail_side{
+  display: flex;
+  justify-content: space-between;
+
+}
+.detail_side_img{
+  width: 290px;
+  height: 760px;
+  background-color: red;
+}
+.detail_goods{
+  width: 1109px;
+}
 </style>

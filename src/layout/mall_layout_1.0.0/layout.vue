@@ -26,6 +26,7 @@
                 <el-form-item>
                     <div class="aboutPassword">
                         <el-checkbox v-model="form.checked">记住密码</el-checkbox>
+                        <el-radio v-model="form.radio" label="1">备选项</el-radio>
                         <div><a href="#">忘记密码?</a></div>
                     </div>
                 </el-form-item>
@@ -73,6 +74,7 @@
                     name:'',
                     region:'',
                     checked: '',
+                    radio: '',
                 }
             }
         },
@@ -211,10 +213,17 @@
                 border-radius: 50%;
                 i{
                     font-size: 24px;
+                    margin-top: 1px;
                     color: #a3a3a3;
                 }
                 i:hover{
-                    color: #a3a3a3;
+                    color: white;
+                }
+            }
+            button:hover{
+                border: 1px solid white;
+                i{
+                    color:white;
                 }
             }
         }
@@ -223,6 +232,11 @@
             .el-form{
                 .el-form-item:nth-child(1){
                     height: 80px;
+                }
+                .el-form-item:nth-child(3){
+                    label{
+                        margin-top: 24px;
+                    }
                 }
                 .el-form-item{
                     padding: 0 50px;
@@ -238,7 +252,8 @@
                         color: rgba(0,0,0,0.7);
                         font-family: MicrosoftYaHei;
                         margin-bottom: 8px;
-                        margin-top: 24px;
+                        margin-top: 36px;
+                        margin-left: 4px;
                     }
                     .el-input{
                         input{
@@ -259,10 +274,13 @@
 
                         label{
                             margin:0;
-                            .el-checkbox__inner{
-                                margin-bottom: 2px;
+                            .el-checkbox{
+                                .el-checkbox__inner{
+                                    margin-bottom: 2px;
+                                }
                             }
-                        }
+                            }
+
                         a{
                             text-decoration: none;
                             color:inherit;
@@ -274,9 +292,9 @@
                         color:white;
                         background: #ff3b41;
                         letter-spacing: 2px;
-                        line-height: 30px;
+                        vertical-align: middle;
                         font-size: 16px;
-                        border:none;
+                        border:1px solid #ff3b41;
                         border-radius: 4px;
                         margin-bottom: 12px;
                         cursor: pointer;

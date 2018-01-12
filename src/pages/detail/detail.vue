@@ -29,6 +29,7 @@
           <div class="detail-sku-box">
               <!-- 商品标题-->
               <h3>LTS 1080P普及型会议终端TS2000</h3>
+              <p class="brief"><span>性能强劲</span><span>电池保护</span><span>独特电路</span><span>防止干扰</span></p>
               <!-- 商品属性-->
               <el-form label-position="left" label-width="80px">
                   <el-form-item label="价格">
@@ -43,26 +44,18 @@
                   </el-form-item>
                   <el-form-item label="像素分类" class="radio">
                       <el-radio-group v-model="sku_2">
-                          <el-radio label="1" border>300W</el-radio>
-                          <el-radio label="2" border>290W</el-radio>
-                          <el-radio label="3" border>280W</el-radio>
-                          <el-radio label="4" border>270W</el-radio>
-                          <el-radio label="5" border>260W</el-radio>
-                          <el-radio label="6" border>250W</el-radio>
-                          <el-radio label="7" border>240W</el-radio>
-                          <el-radio label="8" border>230W</el-radio>
-                          <el-radio label="9" border>220W</el-radio>
-                          <el-radio label="10" border>210W</el-radio>
-                          <el-radio label="11" border>200W</el-radio>
+
+                          <el-radio v-for="item in sku_2Data" :label=item.label :key=item.label border>{{item.content}}</el-radio>
+
                       </el-radio-group>
                   </el-form-item>
                   <el-form-item label="采购量" class="num">
-                      <el-input-number v-model="count" size="mini" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number>
+                      <el-input-number v-model="count" size="mini" @change="inputNumberChange" :min="1" :max="10" label="描述文字"></el-input-number>
                   </el-form-item>
                   <el-form-item label="温馨提示">
                       <el-alert
-                          title="这是我要提示的文案"
-                          type="info">
+                          title="不支持60天无理由退换(如果商品参加活动，退换货以活动规则为准)"
+                          type="info" :closable="false">
                       </el-alert>
                   </el-form-item>
                   <el-form-item class="buttons">
@@ -143,6 +136,43 @@
               // 商品
               sku_1: '',
               sku_2: '',
+              sku_2Data: [{
+                  label: 0,
+                  content: '200W'
+              },{
+                  label: 1,
+                  content: '201W'
+              },{
+                  label: 2,
+                  content: '202W'
+              },{
+                  label: 3,
+                  content: '203W'
+              },{
+                  label: 4,
+                  content: '204W'
+              },{
+                  label: 5,
+                  content: '205W'
+              },{
+                  label: 6,
+                  content: '206W'
+              },{
+                  label: 7,
+                  content: '207W'
+              },{
+                  label: 8,
+                  content: '208W'
+              },{
+                  label: 9,
+                  content: '209W'
+              },{
+                  label: 10,
+                  content: '210W'
+              },{
+                  label: 11,
+                  content: '211W'
+              },],
               count: '',
               prc_info: [
                   {
@@ -161,8 +191,8 @@
           }
       },
       methods:{
-          handleChange(){
-              // TOOD 商品加减操作
+          inputNumberChange(value){
+              console.log(value)
 
           }
       }
@@ -216,6 +246,23 @@
             .detail-sku-box{
                 color:rgba(0,0,0,0.5);
                 flex: 1;
+                h3{
+                    color: rgba(0,0,0,0.7);
+                    font-size: 16px;
+                    line-height: 16px;
+                    font-family: MicrosoftYaHei-Bold;
+                }
+                p.brief{
+                    margin:8px 0 16px 0;
+                    span{
+                        color:#bcbcbc;
+                        font-size: 12px;
+                        margin-right: 12px;
+                    }
+                }
+                .el-form-item{
+                    margin-bottom: 12px;
+                }
                 .el-form-item:nth-child(2){
                     .el-form-item__label{
                         margin-top: -5px;
@@ -284,7 +331,7 @@
                     .el-input-number{
                         width:84px;
                         margin-left: 12px;
-                        margin-bottom: 24px;
+                        margin-bottom: 12px;
                         border: 1px solid rgba(0,0,0,0.2);
                         border-radius: 0;
                         .el-input__inner{
@@ -371,6 +418,8 @@
                 background-color: red;
             }
         }
+
+        // 报废了
         .detail_center{
             font-size: 14px;
             color:rgba(0,0,0,0.5);

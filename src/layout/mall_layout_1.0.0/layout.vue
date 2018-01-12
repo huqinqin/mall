@@ -13,15 +13,15 @@
         </el-container>
         <!--登录弹框-->
         <el-dialog :visible.sync="loginVisible">
-            <el-form :model="form">
+            <el-form :model="form" :rules="loginRules">
                 <el-form-item>
                     <img src="@/assets/img/denglutoubu.png" alt="顶部图片">
                 </el-form-item>
-                <el-form-item label="用户名/邮箱：" >
-                    <el-input v-model="form.acount"></el-input>
+                <el-form-item label="用户名/邮箱：">
+                    <el-input v-model="form.acount" placeholder="请输入您的用户名或邮箱"></el-input>
                 </el-form-item>
                 <el-form-item label="密码：" >
-                    <el-input v-model="form.password"></el-input>
+                    <el-input v-model="form.password" placeholder="请输入您的密码"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <div class="aboutPassword">
@@ -39,9 +39,8 @@
                 <el-form-item>
                     <div class="otherLogin">第三方登录</div>
                     <div class="icons">
-                        <i class="iconfont tian7_facebook"></i>
-                        <i class="iconfont tian7_facebook"></i>
-                        <i class="iconfont tian7_facebook"></i>
+                        <a href="#"><img src="@/assets/img/icon1.png" alt="icon1"></a>
+                        <a href="#"><img src="@/assets/img/icon2.png" alt="icon2"></a>
                     </div>
                 </el-form-item>
             </el-form>
@@ -75,6 +74,9 @@
                     region:'',
                     checked: '',
                     radio: '',
+                },
+                loginRules:{
+                    name:[{required: true, message: '请输入用户名或邮箱'}]
                 }
             }
         },
@@ -258,6 +260,7 @@
                     .el-input{
                         input{
                             height: 30px;
+                            font-size: 12px;
                         }
 
                     }
@@ -331,15 +334,18 @@
                         margin-top: -1px;
                     }
                     .icons{
-                        width: 140px;
+                        width: 82px;
                         margin: 0 auto;
                         display: flex;
                         justify-content: space-between;
-                        i{
+                        a{
+                            display: block;
+                        }
+                        img{
+                            margin-left: 0px;
                             display: block;
                             width: 24px;
                             height: 24px;
-                            border: 1px solid red;
 
                         }
                     }

@@ -459,9 +459,12 @@ import homeService from '@/services/HomeService.js'
       }
     },
       methods:{
-        login(){
-            this.$emit('showLogin',2)
-        }
+          login(){
+              this.$emit('showLogin',2)
+          },
+          signup(){
+            console.log('注册')
+          }
       }
   }
 </script>

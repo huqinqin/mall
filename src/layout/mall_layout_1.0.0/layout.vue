@@ -1,7 +1,7 @@
 <template>
     <el-container class="main">
-        <el-header height="30px">
-            <lts-header class="s-span-page"></lts-header>
+        <el-header height="auto">
+            <lts-header></lts-header>
         </el-header>
         <el-container class="lts-main">
             <el-main class="s-span-page">
@@ -22,12 +22,13 @@
     import {ltsTable,ltsSearchForm} from 'ui'
     export default {
         name: 'Layout',
-        props: {},
+        props: [
+            'isWhite'
+        ],
         data() {
             return {
                 homePage: config.homePage,
                 account: '',
-                test: "LTS底部标识",
                 isUniqueOpened: true,
                 unread: 100
             }
@@ -50,6 +51,7 @@
             }
         },
         created(){
+          config.isWhite ? $("html").attr('class','white') : $("html").attr('class','gray');
           $(document).ready(function(){
             resize();
           })
@@ -67,6 +69,7 @@
           }
         },
         mounted() {
+
 //            session.checkLogin();
             this.account = store.getItem('account');
         }
@@ -77,8 +80,13 @@
         margin: 0;
         padding: 0;
         height:100%;
-        background-color: #eeeeee;
         min-width: 1200px;
+    }
+    .white{
+        background-color: white;
+    }
+    .gray{
+        background-color: #eeeeee;
     }
     body,
     ol,
@@ -123,9 +131,7 @@
       }
     }
     .el-header {
-        line-height: 30px;
-        background-color: #181818;
-        padding: 0;
+
     }
     .lts-main {
         .el-main{

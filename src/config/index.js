@@ -22,4 +22,7 @@ export default {
     isDebug: isDebug,
     // log等级 debug info error warnning notice prod, 暂未实现
     logLevel: 'debug',
+
+    // 页面配置  暂时放这里
+    isWhite : false, // 是不是白色背景
 }

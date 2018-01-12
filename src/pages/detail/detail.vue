@@ -1,107 +1,5 @@
 <template>
     <div class="detail">
-<<<<<<< HEAD
-      <!-- left -->
-        <!-- <div class="detail_left">
-          <div class="breadcrumb">
-            <a href="">首页</a>
-            <span>></span>
-            <a href="">商品列表</a>
-            <span>></span>
-            <a href="">商品详情</a>
-            <span>></span> 
-        </div> -->
-      <!-- prc_info -->
-      <!-- <div class="prc_info" v-for="prc in prc_info" :key="prc.index">
-          <div class="big">            
-            <a href="">
-              <img :src="prc.link" alt="">
-            </a>
-          </div>
-          <div class="small">
-            <a href="">
-              <img :src="prc.link" alt="">
-            </a>
-            <a href="">
-              <img :src="prc.link" alt="">
-            </a>
-            <a href="">
-              <img :src="prc.link" alt="">
-            </a>
-          </div>        
-      </div> -->
-      <!-- 商品编号 -->
-      <!-- <div class="num"  v-for="prc in prc_info" :key="prc.index">
-        <p>商品编号：<span>{{prc.num}}</span></p>
-      </div>
-    </div>  -->
-
-    <!-- center -->
-    <!-- <div class="_detali_center" v-for="center in detail_center" :key="center.index"> -->
-        <!-- <p><span>价格：</span><span>$</span><span>{{center.p1}}</span></p>
-                
-        <p><span>惊爆价：</span><span>{{center.p2}}</span><a href="">立即登录</a><a href="">免费注册</a></p> -->
-    <!-- </div> -->
-
-    <!-- right -->
-    <!-- <div class="_detali_right">
-
-    </div> -->
-
-    <!-- share -->
-        <div class="detail_side">
-          <!-- detail_side_img -->
-            <!-- remai -->
-            <!-- <div class="remai">
-                <span>热卖推荐</span>
-                <div class="jiantou"></div>
-            </div> -->
-            <div class="detail_side_img">
-                <div class="remai">
-                    <span>热爱推荐</span>
-                </div>
-                <ul>
-                  <li  v-for="item in detail_side_img" :key="item.index">
-                      <a href="">
-                          <img src="" alt="">
-                      </a> 
-                      <p>{{item.info1}}</p>
-                      <p>{{item.info2}}</p>
-                      <p>{{item.info3}}</p>
-                  </li>
-                </ul>
-
-            </div>
-            <!-- detail_goods -->
-            <div class="detail_goods">
-              <!-- 按钮 -->
-                <!-- <div class="button">
-                    <a href="" class="one">商品详情</a>
-                    <a href="" class="two">
-                      规格与包装
-                    </a>
-                    <a href="">
-                      商品评价
-                    </a>
-                    <a href="">
-                      服务
-                    </a>
-                    <a href="">
-                      下载
-                    </a>
-                </div> -->
-                <el-tabs v-model="activeName" @tab-click="handleClick">
-                    <el-tab-pane label="用户管理" name="first">商品详情</el-tab-pane>
-                    <el-tab-pane label="配置管理" name="second">规格与包装</el-tab-pane>
-                    <el-tab-pane label="角色管理" name="third">商品评价</el-tab-pane>
-                    <el-tab-pane label="定时任务补偿" name="fourth">服务保障</el-tab-pane>
-                    <el-tab-pane label="定时任务补偿" name="five">下载</el-tab-pane>
-                </el-tabs>
-            </div>
-        </div>
-
-    </div>
-=======
       <!-- top -->
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item><a href="/index">首页</a></el-breadcrumb-item>
@@ -165,60 +63,6 @@
                       <button>加入购物车</button>
                   </el-form-item>
               </el-form>
-              <!--<div class="detail_center">-->
-                  <!--<h3>LTS 1080P普及型会议终端TS2000</h3>-->
-                  <!--<div class="info">-->
-                      <!--<div class="price">-->
-                          <!--<span>价格:</span>-->
-                          <!--<div class="tips">完成登录注册，享受惊爆价</div>-->
-                      <!--</div>-->
-                      <!--<div class="sku_1">-->
-                          <!--<span>供电方式:</span>-->
-                          <!--<div class="tips">-->
-                              <!--<el-radio v-model="sku_1" label="1" border>DC12V</el-radio>-->
-                              <!--<el-radio v-model="sku_1" label="2" border>AC14V</el-radio>-->
-                              <!--<el-radio v-model="sku_1" label="3" border>POE</el-radio>-->
-                          <!--</div>-->
-
-                      <!--</div>-->
-                      <!--<div class="sku_2">-->
-                          <!--<span>像素分类:</span>-->
-                          <!--<div class="tips">-->
-                              <!--<el-radio v-model="sku_2" label="1" border>100W</el-radio>-->
-                              <!--<el-radio v-model="sku_2" label="2" border>110W</el-radio>-->
-                              <!--<el-radio v-model="sku_2" label="3" border>120W</el-radio>-->
-                              <!--<el-radio v-model="sku_2" label="4" border>130W</el-radio>-->
-                              <!--<el-radio v-model="sku_2" label="5" border>140W</el-radio>-->
-                              <!--<el-radio v-model="sku_2" label="6" border>150W</el-radio>-->
-                              <!--<el-radio v-model="sku_2" label="7" border>160W</el-radio>-->
-                              <!--<el-radio v-model="sku_2" label="8" border>170W</el-radio>-->
-                              <!--<el-radio v-model="sku_2" label="9" border>180W</el-radio>-->
-                              <!--<el-radio v-model="sku_2" label="10" border>190W</el-radio>-->
-                              <!--<el-radio v-model="sku_2" label="11" border>200W</el-radio>-->
-                              <!--<el-radio v-model="sku_2" label="12" border>210W</el-radio>-->
-                              <!--<el-radio v-model="sku_2" label="13" border>220W</el-radio>-->
-                              <!--<el-radio v-model="sku_2" label="14" border>230W</el-radio>-->
-                          <!--</div>-->
-
-                      <!--</div>-->
-                      <!--<div class="num">-->
-                          <!--<span>采购量:</span>-->
-                          <!---->
-                      <!--</div>-->
-                      <!--<div class="mark">-->
-                          <!--温馨提示:<span>不支持60天无理由退换(如果商品参加活动，退换货以活动规则为准)</span>-->
-                      <!--</div>-->
-                  <!--</div>-->
-                  <!--<div class="buttons">-->
-                      <!---->
-                      <!---->
-                  <!--</div>-->
-
-                  <!--<div class="_detali_right">-->
-
-                  <!--</div>-->
-
-              <!--</div>-->
           </div>
           <div class="detail-buy-history">
 
@@ -226,32 +70,97 @@
       </div>
         <!-- bottom -->
       <div class="detail-bottom">
-          // TOOD 商品详情
+          <div class="detail_side">
+              <div class="detail_side_img">
+                  <div class="remai">
+                      <span>热爱推荐</span>
+                  </div>
+                  <ul>
+                      <li  v-for="item in detail_side_img" :key="item.index">
+                          <a href="">
+                              <img src="" alt="">
+                          </a>
+                          <p>{{item.info1}}</p>
+                          <p>{{item.info2}}</p>
+                          <p>{{item.info3}}</p>
+                      </li>
+                  </ul>
+
+              </div>
+              <!-- detail_goods -->
+              <div class="detail_goods">
+                  <el-tabs v-model="activeName" @tab-click="handleClick">
+                      <el-tab-pane label="商品详情" name="first">商品详情</el-tab-pane>
+                      <el-tab-pane label="规格与包装" name="second">规格与包装</el-tab-pane>
+                      <el-tab-pane label="商品评价" name="third">商品评价</el-tab-pane>
+                      <el-tab-pane label="服务保障" name="fourth">服务保障</el-tab-pane>
+                      <el-tab-pane label="下载" name="five">下载</el-tab-pane>
+                  </el-tabs>
+              </div>
+          </div>
       </div>
->>>>>>> b86cd5eb70046bedddc73fe1677d6c9902b1d86e
   </div>
 </template>
 
 <script>
   export default {
-<<<<<<< HEAD
-     data(){
-      return{
+      data(){
+       return{
         activeName:'second',
-        // prc_info:[
-        //   {
-        //     href:"",
-        //     link:"static/image/shexiangtou1.png",
-        //     alt:"",
-        //     num:"111111"
-        //   }
-        // ],
-        // detail_center:[
-        //   {
-        //     p1:"1988.00",
-        //     p2:"888800"
-        //   }
-        // ]
+          sku_1: '',
+          sku_2: '',
+          sku_2Data: [{
+              label: 0,
+              content: '200W'
+          },{
+              label: 1,
+              content: '201W'
+          },{
+              label: 2,
+              content: '202W'
+          },{
+              label: 3,
+              content: '203W'
+          },{
+              label: 4,
+              content: '204W'
+          },{
+              label: 5,
+              content: '205W'
+          },{
+              label: 6,
+              content: '206W'
+          },{
+              label: 7,
+              content: '207W'
+          },{
+              label: 8,
+              content: '208W'
+          },{
+              label: 9,
+              content: '209W'
+          },{
+              label: 10,
+              content: '210W'
+          },{
+              label: 11,
+              content: '211W'
+          },],
+          count: '',
+          prc_info: [
+              {
+                  href: "",
+                  link: "static/image/shexiangtou1.png",
+                  alt: "",
+                  num: "111111"
+              }
+          ],
+          detail_center: [
+              {
+                  p1: "1988.00",
+                  p2: "888800"
+              }
+          ],
         detail_side_img:[
           {
             href:"",
@@ -263,79 +172,17 @@
           }
         ]
       }
-    },
+     },
      methods:{
-        handleClick(tab,event){
+         handleClick(tab,event){
           console.log(tab,event);
-        }
-      }  
-=======
-      data: function () {
-          return {
-              // 商品
-              sku_1: '',
-              sku_2: '',
-              sku_2Data: [{
-                  label: 0,
-                  content: '200W'
-              },{
-                  label: 1,
-                  content: '201W'
-              },{
-                  label: 2,
-                  content: '202W'
-              },{
-                  label: 3,
-                  content: '203W'
-              },{
-                  label: 4,
-                  content: '204W'
-              },{
-                  label: 5,
-                  content: '205W'
-              },{
-                  label: 6,
-                  content: '206W'
-              },{
-                  label: 7,
-                  content: '207W'
-              },{
-                  label: 8,
-                  content: '208W'
-              },{
-                  label: 9,
-                  content: '209W'
-              },{
-                  label: 10,
-                  content: '210W'
-              },{
-                  label: 11,
-                  content: '211W'
-              },],
-              count: '',
-              prc_info: [
-                  {
-                      href: "",
-                      link: "static/image/shexiangtou1.png",
-                      alt: "",
-                      num: "111111"
-                  }
-              ],
-              detail_center: [
-                  {
-                      p1: "1988.00",
-                      p2: "888800"
-                  }
-              ],
-          }
-      },
-      methods:{
-          inputNumberChange(value){
-              console.log(value)
+         },
+         inputNumberChange(value){
+             console.log(value)
 
-          }
+         }
       }
->>>>>>> b86cd5eb70046bedddc73fe1677d6c9902b1d86e
+
   }
 </script>
 
@@ -365,7 +212,6 @@
                     }
                     .small{
                         display: flex;
-
                         a{
                             display: inline;
                             width: 70px;
@@ -378,9 +224,10 @@
                                 height: 40px;
                             }
                         }
+                        .is_active{
+                            border:solid 1px #48a2ff;
+                        }
                     }
-
-
                 }
             }
             .detail-sku-box{
@@ -505,32 +352,6 @@
                 .el-alert{
                     height: 40px;
                 }
-                /*.input-num{*/
-                    /*height: 24px;*/
-                    /*line-height: 24px;*/
-                    /*.el-input-number{*/
-                        /*line-height: 23px;*/
-                        /*width:102px;*/
-                    /*}*/
-                    /*span{*/
-                        /*font-size: 12px;*/
-                        /*color: #333;*/
-                        /*line-height: inherit;*/
-                        /*width: 24px;*/
-                        /*background-color: #eee;*/
-                        /*border-radius: 0;*/
-                    /*}*/
-                    /*input{*/
-                        /*width: 94px;*/
-                        /*height: 24px;*/
-                        /*text-align: center;*/
-                        /*border-radius: 0;*/
-                        /*border:1px solid #eee;*/
-                    /*}*/
-                    /*input:focus{*/
-                        /*border:1px solid #eee;*/
-                    /*}*/
-                /*}*/
                 .buttons{
                     display: inline-block;
 
@@ -773,71 +594,6 @@ table {
   display: block;
   clear: both;
 }
-
-<<<<<<< HEAD
-// .detali{
-//   .detali_left{
-//     float: left;
-//   }
-  
-// }
-// .breadcrumb{
-//   color: #646464;
-//   font: 14px/40px "MicrosoftYaHei";
-//   height: 40px;
-//   padding-bottom: 8px;
-//   position: relative;
-//   z-index: 10000;
-//   a{
-//     color: #646464;
-//     float: left;
-//   }
-//   span{
-//     color: #646464;
-//     margin: 1px 6px 0;
-//     float: left;
-//   }
-// }
-// .prc_info{
-  // width: 400px;
-  // height: 400px;
-  // background: #646464;
-//   .big{
-//       box-sizing: border-box;
-//       border-left: 1px solid red;
-//       width: 400px;
-//       height: 400px;
-//       display: flex;
-//       justify-content: center;
-//       align-items: center;
-//   }
-//   .small{
-//     display: flex;
-
-//       a{
-//         display: inline;
-//         width: 70px;
-//         height: 70px;
-//         display: flex;
-//         justify-content: center;
-//         align-items: center;
-//         img{
-//           width: 38px;
-//           height: 40px;
-//         }
-//       }
-//   }
-
-
-// }
-// .num{
-//   font:14px/46px "MicrosoftYaHei";
-//   color: #000;
-// }
-// ._detali_center{
-//   float: left;
-// }
-=======
 .detali{
   .detali_left{
     float: left;
@@ -869,18 +625,10 @@ table {
 ._detali_center{
   float: left;
 }
->>>>>>> b86cd5eb70046bedddc73fe1677d6c9902b1d86e
-// ._detali_right{
-//   width: 100px;
-//   height: 100px;
-//   background-color:#4b4;
-//   margin-top: -564px;
-//   float: left ;
-// }
 .detail_side{
   display: flex;
   justify-content: space-between;
-  
+
 }
 .detail_side_img{
   width: 290px;
@@ -889,28 +637,5 @@ table {
 }
 .detail_goods{
   width: 1109px;
-  
-  // .button{
-  //   border-bottom: 1px solid #e5e5e5;
-  //   a{
-      // width: 100px;
-      // height: 32px;
-  //     margin-right: 42px;
-  //     font:16px/32px "MicrosoftYaHei";
-  //     color: #000000;
-  //   }
-  //   .one{
-  //     display: inline-block;
-  //     text-align: center;
-  //     justify-content: center;
-  //     width: 100px;
-  //     height: 32px;
-  //     background-color: #ff3b41;
-  //     color: #fefefe;
-  //   }
-  //   .two{
-  //     color: #ff3b41;
-  //   }
-  // }
 }
 </style>

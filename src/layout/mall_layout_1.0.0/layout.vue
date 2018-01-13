@@ -1,7 +1,7 @@
 <template>
     <el-container class="main">
         <el-header height="auto">
-            <lts-header></lts-header>
+            <lts-header @showLogin="login"></lts-header>
         </el-header>
         <el-container class="lts-main">
             <el-main class="s-span-page">
@@ -14,19 +14,22 @@
         <!--登录弹框-->
         <el-dialog :visible.sync="loginVisible">
             <el-form :model="form" :rules="loginRules">
-                <el-form-item>
-                    <img src="@/assets/img/denglutoubu.png" alt="顶部图片">
+                <el-form-item class="head">
+                    <i class="iconfont icon-turnoff" @click="loginVisible = false"></i>
+                    <img src="@/assets/img/denglu.tou.png" alt="顶部图片">
                 </el-form-item>
-                <el-form-item label="用户名/邮箱：">
+                <el-form-item label="用户名/邮箱：" prop="acount">
                     <el-input v-model="form.acount" placeholder="请输入您的用户名或邮箱"></el-input>
                 </el-form-item>
-                <el-form-item label="密码：" >
-                    <el-input v-model="form.password" placeholder="请输入您的密码"></el-input>
+                <el-form-item label="密码：" prop="password" class="password">
+                    <el-input type="password" v-model="form.password" placeholder="请输入您的密码">
+                    </el-input>
+                    <i class="iconfont icon-yanjing" @click="showPassword" ref="eye"></i>
                 </el-form-item>
                 <el-form-item>
                     <div class="aboutPassword">
                         <el-checkbox v-model="form.checked">记住密码</el-checkbox>
-                        <el-radio v-model="form.radio" label="1">备选项</el-radio>
+                        <!--<el-radio v-model="form.radio" label="1">备选项</el-radio>-->
                         <div><a href="#">忘记密码?</a></div>
                     </div>
                 </el-form-item>
@@ -70,13 +73,14 @@
                 isUniqueOpened: true,
                 unread: 100,
                 form: {
-                    name:'',
-                    region:'',
+                    acount:'',
+                    password:'',
                     checked: '',
                     radio: '',
                 },
                 loginRules:{
-                    name:[{required: true, message: '请输入用户名或邮箱'}]
+                    acount:[{required: true, message: '请输入用户名或邮箱'}],
+                    password:[{required: true, message: '请输入密码'}]
                 }
             }
         },
@@ -93,6 +97,9 @@
             },
             login(data){
                 this.loginVisible = true
+            },
+            showPassword(){
+                console.log(this.$refs.eye)
             }
         },
         watch: {
@@ -200,67 +207,68 @@
         }
     }
     .el-dialog{
-        width:400px;
+        width:380px;
         border-radius: 4px;
 
         .el-dialog__header{
             padding:0;
             position: relative;
             button{
-                position: absolute;
-                left:100%;
-                margin-left: 12px;
-                top:0;
-                border: 1px solid #a3a3a3;
-                border-radius: 50%;
-                i{
-                    font-size: 24px;
-                    margin-top: 1px;
-                    color: #a3a3a3;
-                }
-                i:hover{
-                    color: white;
-                }
-            }
-            button:hover{
-                border: 1px solid white;
-                i{
-                    color:white;
-                }
+                display: none;
             }
         }
         .el-dialog__body{
             padding:0;
             .el-form{
-                .el-form-item:nth-child(1){
-                    height: 80px;
-                }
-                .el-form-item:nth-child(3){
-                    label{
-                        margin-top: 24px;
+                .el-form-item.head{
+                    position: relative;
+                    height: 0;
+                    i{
+                        font-size: 20px;
+                        display: block;
+                        position: absolute;
+                        top: -4px;
+                        left: 352px;
+                        cursor: pointer;
+                    }
+                    i:hover{
+                        color:white;
                     }
                 }
                 .el-form-item{
-                    padding: 0 50px;
+                    padding: 0 40px;
                     margin-bottom: 0;
+
                     img{
-                        width:400px;
+                        width:381px;
                         height: 80px;
-                        margin-left: -50px;
+                        margin-left: -41px;
+
                     }
                     label{
-                        font-size: 12px;
+                        font-size: 14px;
                         line-height: 18px;
                         color: rgba(0,0,0,0.7);
                         font-family: MicrosoftYaHei;
-                        margin-bottom: 8px;
-                        margin-top: 36px;
-                        margin-left: 4px;
+                        margin-bottom: 6px;
+                        margin-top: 38px;
+                        margin-left: 5px;
+                    }
+                    label:before{
+                    content: '';
+                    }
+                    .el-form-item__content{
+                        .el-form-item__error{
+                            margin-left: 9px;
+                        }
                     }
                     .el-input{
                         input{
                             height: 30px;
                             font-size: 12px;
+                        }
+                        .el-input__inner{
+                            padding: 0 9px;
                         }
 
                     }
@@ -273,15 +281,22 @@
                         align-items: center;
                         margin-top: 4px;
                         margin-bottom: 16px;
-                        padding: 0 12px;
-
-                        label{
-                            margin:0;
-                            .el-checkbox{
-                                .el-checkbox__inner{
-                                    margin-bottom: 2px;
+                        padding: 0 9px;
+                        label.el-checkbox{
+                                margin:0;
+                                .el-checkbox__label{
+                                    padding-left: 6px;
                                 }
-                            }
+                                .el-checkbox__inner{
+                                    margin-bottom: 1px;
+                                    width:10px;
+                                    height: 10px;
+                                }
+                                .el-checkbox__inner::after{
+                                    height: 6px;
+                                    top: -1px;
+                                    left: 2px;
+                                }
                             }
 
                         a{
@@ -306,12 +321,14 @@
                         background: #fff;
                         color:#ff3b41;
                         border:1px solid #ff3b41;
+                        margin-bottom: 15px;
                     }
                     .otherLogin{
                         width:100%;
                         text-align: center;
                         position: relative;
-                        margin-bottom: 20px;
+                        margin-bottom: 12px;
+                        font-size: 12px;
                     }
                     .otherLogin::before{
                         content:'';
@@ -334,7 +351,7 @@
                         margin-top: -1px;
                     }
                     .icons{
-                        width: 82px;
+                        width: 94px;
                         margin: 0 auto;
                         display: flex;
                         justify-content: space-between;
@@ -344,19 +361,48 @@
                         img{
                             margin-left: 0px;
                             display: block;
-                            width: 24px;
-                            height: 24px;
+                            width: 30px;
+                            height: 30px;
 
                         }
                     }
 
+                }
+                .el-form-item:nth-child(1){
+                    height: 80px;
+                }
+                .el-form-item:nth-child(3){
+                    label{
+                        margin-top: 24px;
+                    }
+                }
+                .el-form-item.password{
+                    position: relative;
+                    i{
+                        display: block;
+                        position: absolute;
+                        top:50px;
+                        right:10px;
+                        cursor: pointer;
+                        font-size: 12px;
+                    }
+                }
+                .el-form-item.password.is-error{
+                    margin-bottom: 12px;
+                    transition: all ease .2s;
+
+                }
+                .el-form-item.is-success{
+                    input{
+                        border-color:#409EFF;
+                    }
                 }
 
 
             }
         }
         .el-dialog__footer{
-            padding:18px 0;
+            padding:15px 0;
         }
     }
 </style>

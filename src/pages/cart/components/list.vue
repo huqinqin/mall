@@ -4,12 +4,12 @@
             <el-table-column type="selection" width="60%" align="right"></el-table-column>
             <el-table-column label="商品信息" width="450" class="column-1"  align="center">
                 <template slot-scope="scope">
-                    <img :src="scope.row.img" alt="商品">
+                    <div class="item-img" :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+scope.row.url+')'}"></div>
                     <div class="content">
-                        <p>{{scope.row.info}}</p>
+                        <p>{{scope.row.item_name}}</p>
                     </div>
                     <div class="other">
-                        <p v-for="(value,key) in scope.row.more">{{key}}: {{value}}</p>
+                        <p v-for="(value,key) in scope.row.item_props">{{value.prop_value}}</p>
                     </div>
                 </template>
             </el-table-column>
@@ -24,13 +24,13 @@
             </el-table-column>
             <el-table-column label="小计"align="center">
                 <template slot-scope="scope">
-                    <div class="count">{{scope.row.count}}</div>
+                    <div class="count">{{scope.row.num*scope.row.price}}</div>
                 </template>
             </el-table-column>
             <el-table-column label="操作"align="center">
                 <template slot-scope="scope">
                     <div class="cart-delete" @click="deleteHandle(scope.$index, scope.row)">
-                        <i :class="scope.row.handle"></i>
+                        <i class="iconfont icon-shanchu"></i>
                     </div>
                 </template>
             </el-table-column>
@@ -63,87 +63,32 @@
 </template>
 
 <script>
+    import  cartService from '@/services/CartService.js'
     export default {
         name: "list",
         data() {
             return {
                 chooseAll: false,
                 isIndeterminate: true,
-                tableData: [{
-                    img: require('@/assets/img/shangping_html.png'),
-                    info: '海康威视DS-CD0DDDDDDDDDD',
-                    more: {
-                        '像素': '1200W',
-                        '焦距': '4mm',
-                    },
-                    price: '$500.00',
-                    num: 1,
-                    count: '$500.01',
-                    handle: 'iconfont icon-shanchu',
-                },{
-                    img: require('@/assets/img/shangping_html.png'),
-                    info: '海康威视DS-CD0DDDDDDDDDD',
-                    more: {
-                        '像素': '1200W',
-                        '焦距': '4mm',
-                    },
-                    price: '$500.00',
-                    num: 1,
-                    count: '$500.02',
-                    handle: 'iconfont  icon-shanchu',
-                },{
-                    img: require('@/assets/img/shangping_html.png'),
-                    info: '海康威视DS-CD0DDDDDDDDDD',
-                    more: {
-                        '像素': '1200W',
-                        '焦距': '4mm',
-                    },
-                    price: '$500.00',
-                    num: 1,
-                    count: '$500.03',
-                    handle: 'iconfont  icon-shanchu',
-                }],
-                multipleTable: [],
-                num: 10,
-                historyData: [{
-                    img: require('@/assets/img/goods1.png'),
-                    disc: '商品1',
-                    name: '海康威视',
-                    info: '200万4mm红外高清网络半球摄像机',
-                    model: 'DS-2CD3325-I(C)',
-                    price: '399.00'
-                },{
-                    img: require('@/assets/img/goods1.png'),
-                    disc: '商品1',
-                    name: '海康威视',
-                    info: '200万4mm红外高清网络半球摄像机',
-                    model: 'DS-2CD3325-I(C)',
-                    price: '399.00'
-                },{
-                    img: require('@/assets/img/goods1.png'),
-                    disc: '商品1',
-                    name: '海康威视',
-                    info: '200万4mm红外高清网络半球摄像机',
-                    model: 'DS-2CD3325-I(C)',
-                    price: '399.00'
-                },{
-                    img: require('@/assets/img/goods1.png'),
-                    disc: '商品1',
-                    name: '海康威视',
-                    info: '200万4mm红外高清网络半球摄像机',
-                    model: 'DS-2CD3325-I(C)',
-                    price: '399.00'
-                },{
-                    img: require('@/assets/img/goods1.png'),
-                    disc: '商品1',
-                    name: '海康威视',
-                    info: '200万4mm红外高清网络半球摄像机',
-                    model: 'DS-2CD3325-I(C)',
-                    price: '399.00'
-                }]
+                tableData: [],
+                cart: {
+                    cartTotal: 0,
+                    cartPriceTotal: 0,
+                },
             }
         },
+        mounted(){
+          this.queryCartList();
+        },
         methods:{
+            queryCartList(){
+                cartService.queryCartList(158716).then((data)=>{
+                    this.tableData = data.data;
+                    console.log(this.tableData);
+                },(msg)=>{
+                    this.$ltsMessage.show({type:'error',message:msg.errorMessage})
+                })
+            },
             // 单选框
             handleSelectionChange(value){
                 this.multipleSelection = value
@@ -165,6 +110,22 @@
             deleteHandle(index, row){
                 this.tableData.splice(index,1)
             }
+        },
+        watch: {
+            tableData: {
+                deep: true,
+                handler(newval, oldval) {
+                    this.cart.cartTotal = 0;
+                    this.cart.cartPriceTotal = 0;
+                    newval.forEach((value, index, array) => {
+                        if (value.num === 0) {
+                            array.splice(index, 1);
+                        }
+                        this.cart.cartTotal = parseInt(value.num) + parseInt(this.cart.cartTotal);
+                        this.cart.cartPriceTotal += parseInt(value.num) * parseInt(value.price);
+                    })
+                }
+            },
         }
   }
 </script>
@@ -223,10 +184,12 @@
                     display: flex;
                     justify-content: space-between;
                 }
-                img{
+                .item-img{
                     width:116px;
                     height: 116px;
                     border: 1px solid #dadada;
+                    background-position: center;
+                    background-size: cover;
                 }
                 div{
                     width:120px;
@@ -377,58 +340,6 @@
             border-top:2px solid #3d98ff;
             box-shadow: 0px 6px 18px 6px rgba(0, 0, 0, 0.05);
         }
-    }
-    p{
-        /*.el-table__header-wrapper{*/
-        /*height: 60px;*/
-        /*background-color: rgba(0, 0, 0, 0.05);*/
-        /*}*/
-        /*.el-table__header-wrapper{*/
-        /*height: 60px;*/
-        /*}*/
-        /*.has-gutter{*/
-        /*tr th{*/
-        /*background-color: rgba(0,0,0,0.05);*/
-        /*}*/
-        /*}*/
-        /*.el-table{*/
-        /*font-size: 14px;*/
-        /*.el-table__header-wrapper{*/
-        /*background: #000;*/
-        /*}*/
-        /*img{*/
-        /*width: 116px;*/
-        /*height: 116px;*/
-        /*background-color: #ffffff;*/
-        /*border: solid 1px #dadada;*/
-        /*float: left;*/
-        /*}*/
-        /*.content{*/
-        /*margin-left: 125px;*/
-        /*padding: 15px 0;*/
-        /*width:174px;*/
-        /*p{*/
-        /*line-height: 30px;*/
-        /*font-size: 14px;*/
-        /*white-space: nowrap;*/
-        /*text-overflow: ellipsis;*/
-        /*overflow:hidden;*/
-        /*}*/
-        /*}*/
-        /*.cart-delete{*/
-        /*line-height: 40px;*/
-        /*font-size: 22px;*/
-        /*color: #cecece;*/
-        /*i{font-size: 22px;}*/
-        /*}*/
-        /*.count{*/
-        /*color:red;*/
-        /*font-size: 16px;*/
-        /*}*/
-        /*.el-input-number--small{*/
-        /*width:96px;*/
-        /*}*/
-        /*}*/
     }
 
 </style>

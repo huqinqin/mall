@@ -53,7 +53,7 @@
                      icon : 'icon-IPjiejuefangan',
                      first : 'IP',
                      last : 'SOLUTION',
-                     link : '/detail#/?id=2101157'
+                     link : '/detail#/?id=2101176'
                  },
                  {
                      name : 'hdtvi solution',
@@ -108,7 +108,7 @@
                     icon : 'icon-gouwuche2',
                     first : 'SUOPPING',
                     last : 'CART',
-                    link : 'javascript:void(0)'
+                    link : '/cart'
                  }
                 ],
              input5  : '',

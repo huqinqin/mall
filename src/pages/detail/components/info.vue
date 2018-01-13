@@ -11,19 +11,22 @@
                 <div class="prc_info" v-for="prc in prc_info" :key="prc.index">
                     <div class="big" :style="{backgroundImage:'url('+prc.link+')'}">
                     </div>
+                    <!--大图下面的小图-->
                     <div class="small">
-                        <!-- -->
-                        <a href="">
-                            <img :src="prc.link" alt="">
-                        </a>
-                        <a href="">
-                            <img :src="prc.link" alt="">
-                        </a>
+                        <div class="small_img is_active" :style="{backgroundImage:'url('+prc.link+')'}"></div>
+                        <div class="small_img" :style="{backgroundImage:'url('+prc.link+')'}"></div>
+                        <div class="small_img" :style="{backgroundImage:'url('+prc.link+')'}"></div>
+                        <div class="small_img" :style="{backgroundImage:'url('+prc.link+')'}"></div>
+                        <div class="small_img" :style="{backgroundImage:'url('+prc.link+')'}"></div>
                     </div>
                 </div>
                 <!-- 商品编号 -->
-                <div class="num"  v-for="prc in prc_info" :key="prc.index">
-                    <p>商品编号：<span>{{prc.num}}</span></p>
+                <div class="info_num"  v-for="prc in prc_info" :key="prc.index">
+                    <div>商品编号：<span>{{prc.num}}</span></div>
+                    <div class="icons">
+                        <div class="follow"><i class="iconfont icon-follow"></i>关注</div>
+                        <div class="share"><i class="iconfont icon-09"></i>分享</div>
+                    </div>
                 </div>
             </div>
             <div class="detail-sku-box">
@@ -44,19 +47,14 @@
                     </el-form-item>
                     <el-form-item label="像素分类" class="radio">
                         <el-radio-group v-model="sku_2">
-
                             <el-radio v-for="item in sku_2Data" :label=item.label :key=item.label border>{{item.content}}</el-radio>
-
                         </el-radio-group>
                     </el-form-item>
                     <el-form-item label="采购量" class="num">
                         <el-input-number v-model="count" size="mini" @change="inputNumberChange" :min="1" :max="10" label="描述文字"></el-input-number>
                     </el-form-item>
-                    <el-form-item label="温馨提示">
-                        <el-alert
-                            title="不支持60天无理由退换(如果商品参加活动，退换货以活动规则为准)"
-                            type="info" :closable="false">
-                        </el-alert>
+                    <el-form-item label="温馨提示" class="mark">
+                        <p>不支持60天无理由退换(如果商品参加活动，退换货以活动规则为准)</p>
                     </el-form-item>
                     <el-form-item class="buttons">
                         <button>立即购买</button>
@@ -65,36 +63,84 @@
                 </el-form>
             </div>
             <div class="detail-buy-history">
-
+                <div class="header">
+                    <div>购买记录</div>
+                    <div class="icons">
+                        <div class="icon-left"><i class="iconfont  icon-iconfontzuo"></i></div>
+                        <div class="icon-right"><i class="iconfont  icon-iconfontzuo"></i></div>
+                    </div>
+                </div>
+                <ul>
+                    <li v-for="item in buyHistory">
+                        <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
+                        <p class="brand">{{item.brand}}</p>
+                        <p class="name">{{item.item_name}}</p>
+                        <p class="price">${{item.price_value}}</p>
+                    </li>
+                </ul>
             </div>
         </div>
         <!-- bottom -->
         <div class="detail-bottom">
             <div class="detail_side">
                 <div class="detail_side_img">
-                    <div class="remai">
-                        <span>热爱推荐</span>
+                    <div class="header">
+                        <div>热卖推荐</div>
+                        <div class="icons">
+                            <div class="icon-left"><i class="iconfont  icon-iconfontzuo"></i></div>
+                            <div class="icon-right"><i class="iconfont  icon-iconfontzuo"></i></div>
+                        </div>
                     </div>
                     <ul>
-                        <li  v-for="item in detail_side_img" :key="item.index">
-                            <a href="">
-                                <img src="" alt="">
-                            </a>
-                            <p>{{item.info1}}</p>
-                            <p>{{item.info2}}</p>
-                            <p>{{item.info3}}</p>
+                        <li v-for="item in hotSale">
+                            <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
+                            <p class="brand">{{item.brand}}</p>
+                            <p class="name">{{item.item_name}}</p>
+                            <p class="price">${{item.price_value}}</p>
                         </li>
                     </ul>
-
                 </div>
                 <!-- detail_goods -->
                 <div class="detail_goods">
-                    <el-tabs v-model="activeName" @tab-click="handleClick">
-                        <el-tab-pane label="商品详情" name="first">商品详情</el-tab-pane>
-                        <el-tab-pane label="规格与包装" name="second">规格与包装</el-tab-pane>
-                        <el-tab-pane label="商品评价" name="third">商品评价</el-tab-pane>
-                        <el-tab-pane label="服务保障" name="fourth">服务保障</el-tab-pane>
-                        <el-tab-pane label="下载" name="five">下载</el-tab-pane>
+                    <el-tabs v-model="activeName" @tab-click="handleClick" type="border-card">
+                        <el-tab-pane label="商品详情" name="first">
+                            <ul class="aboutDetail">
+                                <li v-for="(value,key) in aboutDetail">
+                                    {{key}}: {{value}}
+                                </li>
+                                <li class="more">全部参数 <i class="iconfont icon-shangyiye-copy-copy"></i></li>
+                            </ul>
+                            <ul class="imgDetail">
+                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/4715008730056764668.jpg')"></li>
+                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/4743979195889279268.jpg')"></li>
+                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5440626719605415871.jpg')"></li>
+                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5320242678543224123.jpg')"></li>
+                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5266738026055269797.jpg')"></li>
+                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5590420552948228031.jpg')"></li>
+                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5649115564348094686.jpg')"></li>
+                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5242272330824122911.jpg')"></li>
+                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5229634969841837893.jpg')"></li>
+                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/4963729093161931870.jpg')"></li>
+                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5350762759762531367.jpg')"></li>
+                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5137305903631243455.jpg')"></li>
+                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5747589952679423507.jpg')"></li>
+                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5106751131035694348.jpg')"></li>
+                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5491884177797444478.jpg')"></li>
+                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5342218004086739092.jpg')"></li>
+                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5089808701764818455.jpg')"></li>
+
+                            </ul>
+                        </el-tab-pane>
+                        <!--<el-tab-pane label="规格与包装" name="second">规格与包装</el-tab-pane>-->
+                        <!--<el-tab-pane label="商品评价" name="third">-->
+                            <!--<ul class="comments">-->
+                                <!--<li v-for="item in comments">-->
+
+                                <!--</li>-->
+                            <!--</ul>-->
+                        <!--</el-tab-pane>-->
+                        <!--<el-tab-pane label="服务保障" name="fourth">服务保障</el-tab-pane>-->
+                        <!--<el-tab-pane label="下载" name="five">下载</el-tab-pane>-->
                     </el-tabs>
                 </div>
             </div>
@@ -108,7 +154,7 @@
         props : {},
         data() {
             return {
-                activeName: 'second',
+                activeName: 'first',
                 sku_1: '',
                 sku_2: '',
                 sku_2Data: [{
@@ -147,6 +193,12 @@
                 }, {
                     label: 11,
                     content: '211W'
+                },{
+                    label: 11,
+                    content: '211W'
+                },{
+                    label: 11,
+                    content: '211W'
                 },],
                 count: '',
                 prc_info: [
@@ -175,6 +227,695 @@
                 ],
                 item : {},
                 checkedSpu : {},
+                buyHistory: [
+                    {
+                        "activity_price":null,
+                        "advance":false,
+                        "app_show":true,
+                        "attr_activity":false,
+                        "attribute":4608,
+                        "best_box":false,
+                        "beyond_num":0,
+                        "biz_type":201,
+                        "brand":"康师傅",
+                        "category_name":"",
+                        "category_id":0,
+                        "cdate":1404196559000,
+                        "commission_s":0,
+                        "commission_t":0,
+                        "cost_price_value":"0",
+                        "cost_price":0,
+                        "count":null,
+                        "cut":false,
+                        "description":"",
+                        "discount":0,
+                        "discount_type_cname":"无优惠",
+                        "discount_type":0,
+                        "distribution":false,
+                        "diy_price":false,
+                        "edate":1479816849000,
+                        "end_time":null,
+                        "fixed":false,
+                        "follow_num":19,
+                        "group":false,
+                        "hd_method":0,
+                        "id":110492,
+                        "image_value":"http://res.500mi.com/item/3501d08f9d4cd546e9654f7ed87f9c92.jpeg",
+                        "item_name":"康师傅鲜脆雪笋炒肉丝面136g",
+                        "item_struct_props":[],
+                        "manager_cate_name":"",
+                        "manager_cate_id":0,
+                        "member_price":3700,
+                        "member_price_value":"37.00",
+                        "min_num":0,
+                        "module_id":null,
+                        "module_sku_id":null,
+                        "no_rebate":false,
+                        "num":null,
+                        "open_code":"331088",
+                        "open_codes":"PP33L5F3",
+                        "order_promotion":false,
+                        "order_num":0,
+                        "orign":"",
+                        "parent_id":0,
+                        "partner":null,
+                        "partner_id":36819,
+                        "partner_name":"",
+                        "percent":false,
+                        "prepay":false,
+                        "presale":false,
+                        "price":3700,
+                        "price_real":null,
+                        "price_real_value":"",
+                        "price_value":"37.00",
+                        "price_define":"",
+                        "price_define_do":null,
+                        "promotion_title":"",
+                        "props":"",
+                        "props_ext":"",
+                        "puser_id":38218,
+                        "rank":0,
+                        "retail":true,
+                        "safe_num":0,
+                        "sale_rule":"",
+                        "sale_rule_do":{
+                            "commission_rate":null,
+                            "end_time":"",
+                            "maxinum":null,
+                            "minimum":null,
+                            "price":null,
+                            "start_time":"",
+                            "total":null,
+                            "virtual_start":null
+                        },
+                        "send_rule":"",
+                        "share_num":2,
+                        "shop_name":"",
+                        "shop_id":2663,
+                        "short_code":"",
+                        "sin":"6920152483411",
+                        "sinr":"6920152483411",
+                        "sku_cost_price_value":"",
+                        "sku_cost_price":null,
+                        "sku_id":0,
+                        "sku_total":0,
+                        "soldout":false,
+                        "spec":"136g*12桶",
+                        "special":"",
+                        "spot_price_value":"0",
+                        "spot_rule_d_o":null,
+                        "spot_price":0,
+                        "spot_rule":"",
+                        "spu_d_o":null,
+                        "spu_id":12429,
+                        "start_time":null,
+                        "status":1,
+                        "status_cname":"已上架",
+                        "stock_out":0,
+                        "storage":999,
+                        "storage_num":null,
+                        "tag":"",
+                        "type":0,
+                        "type_ch":false,
+                        "type_fa":false,
+                        "unit":"箱",
+                        "upshelf":true,
+                        "url":"8896f030dcf40763e2567a6b2193cf8e.jpg",
+                        "urls":"8896f030dcf40763e2567a6b2193cf8e.jpg",
+                        "warehousing":true,
+                        "wholesale":false
+                    },{
+                        "activity_price":null,
+                        "advance":false,
+                        "app_show":true,
+                        "attr_activity":false,
+                        "attribute":4608,
+                        "best_box":false,
+                        "beyond_num":0,
+                        "biz_type":201,
+                        "brand":"康师傅",
+                        "category_name":"",
+                        "category_id":0,
+                        "cdate":1404196559000,
+                        "commission_s":0,
+                        "commission_t":0,
+                        "cost_price_value":"0",
+                        "cost_price":0,
+                        "count":null,
+                        "cut":false,
+                        "description":"",
+                        "discount":0,
+                        "discount_type_cname":"无优惠",
+                        "discount_type":0,
+                        "distribution":false,
+                        "diy_price":false,
+                        "edate":1479816849000,
+                        "end_time":null,
+                        "fixed":false,
+                        "follow_num":19,
+                        "group":false,
+                        "hd_method":0,
+                        "id":110492,
+                        "image_value":"http://res.500mi.com/item/3501d08f9d4cd546e9654f7ed87f9c92.jpeg",
+                        "item_name":"康师傅鲜脆雪笋炒肉丝面136g",
+                        "item_struct_props":[],
+                        "manager_cate_name":"",
+                        "manager_cate_id":0,
+                        "member_price":3700,
+                        "member_price_value":"37.00",
+                        "min_num":0,
+                        "module_id":null,
+                        "module_sku_id":null,
+                        "no_rebate":false,
+                        "num":null,
+                        "open_code":"331088",
+                        "open_codes":"PP33L5F3",
+                        "order_promotion":false,
+                        "order_num":0,
+                        "orign":"",
+                        "parent_id":0,
+                        "partner":null,
+                        "partner_id":36819,
+                        "partner_name":"",
+                        "percent":false,
+                        "prepay":false,
+                        "presale":false,
+                        "price":3700,
+                        "price_real":null,
+                        "price_real_value":"",
+                        "price_value":"37.00",
+                        "price_define":"",
+                        "price_define_do":null,
+                        "promotion_title":"",
+                        "props":"",
+                        "props_ext":"",
+                        "puser_id":38218,
+                        "rank":0,
+                        "retail":true,
+                        "safe_num":0,
+                        "sale_rule":"",
+                        "sale_rule_do":{
+                            "commission_rate":null,
+                            "end_time":"",
+                            "maxinum":null,
+                            "minimum":null,
+                            "price":null,
+                            "start_time":"",
+                            "total":null,
+                            "virtual_start":null
+                        },
+                        "send_rule":"",
+                        "share_num":2,
+                        "shop_name":"",
+                        "shop_id":2663,
+                        "short_code":"",
+                        "sin":"6920152483411",
+                        "sinr":"6920152483411",
+                        "sku_cost_price_value":"",
+                        "sku_cost_price":null,
+                        "sku_id":0,
+                        "sku_total":0,
+                        "soldout":false,
+                        "spec":"136g*12桶",
+                        "special":"",
+                        "spot_price_value":"0",
+                        "spot_rule_d_o":null,
+                        "spot_price":0,
+                        "spot_rule":"",
+                        "spu_d_o":null,
+                        "spu_id":12429,
+                        "start_time":null,
+                        "status":1,
+                        "status_cname":"已上架",
+                        "stock_out":0,
+                        "storage":999,
+                        "storage_num":null,
+                        "tag":"",
+                        "type":0,
+                        "type_ch":false,
+                        "type_fa":false,
+                        "unit":"箱",
+                        "upshelf":true,
+                        "url":"8896f030dcf40763e2567a6b2193cf8e.jpg",
+                        "urls":"8896f030dcf40763e2567a6b2193cf8e.jpg",
+                        "warehousing":true,
+                        "wholesale":false
+                    }
+                ],
+                hotSale: [
+                    {
+                        "activity_price":null,
+                        "advance":false,
+                        "app_show":true,
+                        "attr_activity":false,
+                        "attribute":4608,
+                        "best_box":false,
+                        "beyond_num":0,
+                        "biz_type":201,
+                        "brand":"康师傅",
+                        "category_name":"",
+                        "category_id":0,
+                        "cdate":1404196559000,
+                        "commission_s":0,
+                        "commission_t":0,
+                        "cost_price_value":"0",
+                        "cost_price":0,
+                        "count":null,
+                        "cut":false,
+                        "description":"",
+                        "discount":0,
+                        "discount_type_cname":"无优惠",
+                        "discount_type":0,
+                        "distribution":false,
+                        "diy_price":false,
+                        "edate":1479816849000,
+                        "end_time":null,
+                        "fixed":false,
+                        "follow_num":19,
+                        "group":false,
+                        "hd_method":0,
+                        "id":110492,
+                        "image_value":"http://res.500mi.com/item/3501d08f9d4cd546e9654f7ed87f9c92.jpeg",
+                        "item_name":"康师傅鲜脆雪笋炒肉丝面136g",
+                        "item_struct_props":[],
+                        "manager_cate_name":"",
+                        "manager_cate_id":0,
+                        "member_price":3700,
+                        "member_price_value":"37.00",
+                        "min_num":0,
+                        "module_id":null,
+                        "module_sku_id":null,
+                        "no_rebate":false,
+                        "num":null,
+                        "open_code":"331088",
+                        "open_codes":"PP33L5F3",
+                        "order_promotion":false,
+                        "order_num":0,
+                        "orign":"",
+                        "parent_id":0,
+                        "partner":null,
+                        "partner_id":36819,
+                        "partner_name":"",
+                        "percent":false,
+                        "prepay":false,
+                        "presale":false,
+                        "price":3700,
+                        "price_real":null,
+                        "price_real_value":"",
+                        "price_value":"37.00",
+                        "price_define":"",
+                        "price_define_do":null,
+                        "promotion_title":"",
+                        "props":"",
+                        "props_ext":"",
+                        "puser_id":38218,
+                        "rank":0,
+                        "retail":true,
+                        "safe_num":0,
+                        "sale_rule":"",
+                        "sale_rule_do":{
+                            "commission_rate":null,
+                            "end_time":"",
+                            "maxinum":null,
+                            "minimum":null,
+                            "price":null,
+                            "start_time":"",
+                            "total":null,
+                            "virtual_start":null
+                        },
+                        "send_rule":"",
+                        "share_num":2,
+                        "shop_name":"",
+                        "shop_id":2663,
+                        "short_code":"",
+                        "sin":"6920152483411",
+                        "sinr":"6920152483411",
+                        "sku_cost_price_value":"",
+                        "sku_cost_price":null,
+                        "sku_id":0,
+                        "sku_total":0,
+                        "soldout":false,
+                        "spec":"136g*12桶",
+                        "special":"",
+                        "spot_price_value":"0",
+                        "spot_rule_d_o":null,
+                        "spot_price":0,
+                        "spot_rule":"",
+                        "spu_d_o":null,
+                        "spu_id":12429,
+                        "start_time":null,
+                        "status":1,
+                        "status_cname":"已上架",
+                        "stock_out":0,
+                        "storage":999,
+                        "storage_num":null,
+                        "tag":"",
+                        "type":0,
+                        "type_ch":false,
+                        "type_fa":false,
+                        "unit":"箱",
+                        "upshelf":true,
+                        "url":"8896f030dcf40763e2567a6b2193cf8e.jpg",
+                        "urls":"8896f030dcf40763e2567a6b2193cf8e.jpg",
+                        "warehousing":true,
+                        "wholesale":false
+                    },{
+                        "activity_price":null,
+                        "advance":false,
+                        "app_show":true,
+                        "attr_activity":false,
+                        "attribute":4608,
+                        "best_box":false,
+                        "beyond_num":0,
+                        "biz_type":201,
+                        "brand":"康师傅",
+                        "category_name":"",
+                        "category_id":0,
+                        "cdate":1404196559000,
+                        "commission_s":0,
+                        "commission_t":0,
+                        "cost_price_value":"0",
+                        "cost_price":0,
+                        "count":null,
+                        "cut":false,
+                        "description":"",
+                        "discount":0,
+                        "discount_type_cname":"无优惠",
+                        "discount_type":0,
+                        "distribution":false,
+                        "diy_price":false,
+                        "edate":1479816849000,
+                        "end_time":null,
+                        "fixed":false,
+                        "follow_num":19,
+                        "group":false,
+                        "hd_method":0,
+                        "id":110492,
+                        "image_value":"http://res.500mi.com/item/3501d08f9d4cd546e9654f7ed87f9c92.jpeg",
+                        "item_name":"康师傅鲜脆雪笋炒肉丝面136g",
+                        "item_struct_props":[],
+                        "manager_cate_name":"",
+                        "manager_cate_id":0,
+                        "member_price":3700,
+                        "member_price_value":"37.00",
+                        "min_num":0,
+                        "module_id":null,
+                        "module_sku_id":null,
+                        "no_rebate":false,
+                        "num":null,
+                        "open_code":"331088",
+                        "open_codes":"PP33L5F3",
+                        "order_promotion":false,
+                        "order_num":0,
+                        "orign":"",
+                        "parent_id":0,
+                        "partner":null,
+                        "partner_id":36819,
+                        "partner_name":"",
+                        "percent":false,
+                        "prepay":false,
+                        "presale":false,
+                        "price":3700,
+                        "price_real":null,
+                        "price_real_value":"",
+                        "price_value":"37.00",
+                        "price_define":"",
+                        "price_define_do":null,
+                        "promotion_title":"",
+                        "props":"",
+                        "props_ext":"",
+                        "puser_id":38218,
+                        "rank":0,
+                        "retail":true,
+                        "safe_num":0,
+                        "sale_rule":"",
+                        "sale_rule_do":{
+                            "commission_rate":null,
+                            "end_time":"",
+                            "maxinum":null,
+                            "minimum":null,
+                            "price":null,
+                            "start_time":"",
+                            "total":null,
+                            "virtual_start":null
+                        },
+                        "send_rule":"",
+                        "share_num":2,
+                        "shop_name":"",
+                        "shop_id":2663,
+                        "short_code":"",
+                        "sin":"6920152483411",
+                        "sinr":"6920152483411",
+                        "sku_cost_price_value":"",
+                        "sku_cost_price":null,
+                        "sku_id":0,
+                        "sku_total":0,
+                        "soldout":false,
+                        "spec":"136g*12桶",
+                        "special":"",
+                        "spot_price_value":"0",
+                        "spot_rule_d_o":null,
+                        "spot_price":0,
+                        "spot_rule":"",
+                        "spu_d_o":null,
+                        "spu_id":12429,
+                        "start_time":null,
+                        "status":1,
+                        "status_cname":"已上架",
+                        "stock_out":0,
+                        "storage":999,
+                        "storage_num":null,
+                        "tag":"",
+                        "type":0,
+                        "type_ch":false,
+                        "type_fa":false,
+                        "unit":"箱",
+                        "upshelf":true,
+                        "url":"8896f030dcf40763e2567a6b2193cf8e.jpg",
+                        "urls":"8896f030dcf40763e2567a6b2193cf8e.jpg",
+                        "warehousing":true,
+                        "wholesale":false
+                    },{
+                        "activity_price":null,
+                        "advance":false,
+                        "app_show":true,
+                        "attr_activity":false,
+                        "attribute":4608,
+                        "best_box":false,
+                        "beyond_num":0,
+                        "biz_type":201,
+                        "brand":"康师傅",
+                        "category_name":"",
+                        "category_id":0,
+                        "cdate":1404196559000,
+                        "commission_s":0,
+                        "commission_t":0,
+                        "cost_price_value":"0",
+                        "cost_price":0,
+                        "count":null,
+                        "cut":false,
+                        "description":"",
+                        "discount":0,
+                        "discount_type_cname":"无优惠",
+                        "discount_type":0,
+                        "distribution":false,
+                        "diy_price":false,
+                        "edate":1479816849000,
+                        "end_time":null,
+                        "fixed":false,
+                        "follow_num":19,
+                        "group":false,
+                        "hd_method":0,
+                        "id":110492,
+                        "image_value":"http://res.500mi.com/item/3501d08f9d4cd546e9654f7ed87f9c92.jpeg",
+                        "item_name":"康师傅鲜脆雪笋炒肉丝面136g",
+                        "item_struct_props":[],
+                        "manager_cate_name":"",
+                        "manager_cate_id":0,
+                        "member_price":3700,
+                        "member_price_value":"37.00",
+                        "min_num":0,
+                        "module_id":null,
+                        "module_sku_id":null,
+                        "no_rebate":false,
+                        "num":null,
+                        "open_code":"331088",
+                        "open_codes":"PP33L5F3",
+                        "order_promotion":false,
+                        "order_num":0,
+                        "orign":"",
+                        "parent_id":0,
+                        "partner":null,
+                        "partner_id":36819,
+                        "partner_name":"",
+                        "percent":false,
+                        "prepay":false,
+                        "presale":false,
+                        "price":3700,
+                        "price_real":null,
+                        "price_real_value":"",
+                        "price_value":"37.00",
+                        "price_define":"",
+                        "price_define_do":null,
+                        "promotion_title":"",
+                        "props":"",
+                        "props_ext":"",
+                        "puser_id":38218,
+                        "rank":0,
+                        "retail":true,
+                        "safe_num":0,
+                        "sale_rule":"",
+                        "sale_rule_do":{
+                            "commission_rate":null,
+                            "end_time":"",
+                            "maxinum":null,
+                            "minimum":null,
+                            "price":null,
+                            "start_time":"",
+                            "total":null,
+                            "virtual_start":null
+                        },
+                        "send_rule":"",
+                        "share_num":2,
+                        "shop_name":"",
+                        "shop_id":2663,
+                        "short_code":"",
+                        "sin":"6920152483411",
+                        "sinr":"6920152483411",
+                        "sku_cost_price_value":"",
+                        "sku_cost_price":null,
+                        "sku_id":0,
+                        "sku_total":0,
+                        "soldout":false,
+                        "spec":"136g*12桶",
+                        "special":"",
+                        "spot_price_value":"0",
+                        "spot_rule_d_o":null,
+                        "spot_price":0,
+                        "spot_rule":"",
+                        "spu_d_o":null,
+                        "spu_id":12429,
+                        "start_time":null,
+                        "status":1,
+                        "status_cname":"已上架",
+                        "stock_out":0,
+                        "storage":999,
+                        "storage_num":null,
+                        "tag":"",
+                        "type":0,
+                        "type_ch":false,
+                        "type_fa":false,
+                        "unit":"箱",
+                        "upshelf":true,
+                        "url":"8896f030dcf40763e2567a6b2193cf8e.jpg",
+                        "urls":"8896f030dcf40763e2567a6b2193cf8e.jpg",
+                        "warehousing":true,
+                        "wholesale":false
+                    }
+                ],
+                aboutDetail: {
+                    '商品编号': '34598739792',
+                    '外形': '半球形',
+                    '清晰度': '8MP',
+                    '焦距': '2.8nm',
+                    '水平角度': '106度',
+                    '逆光处理': 'ture WDR',
+                    '视频压缩': 'H.265+',
+                    '声频': 'line in/out'
+                },
+                comment: [{
+                    avatar: 'static/image/shexiangtou1.png',
+                    acount: '测试用户',
+                    bought: {
+                        val1: '200W像素',
+                        val2: '2mm焦距'
+                    },
+                    text: '功能很强大 很不错，很好的一次购物体验！！！！！功能很强大 很不错，很好的一次购物体验。功能很强大 很不错，很好的一次购物体验。',
+                    imgs: {
+                        img1: 'static/image/shexiangtou1.png',
+                        img2: 'static/image/shexiangtou1.png',
+                        img3: 'static/image/shexiangtou1.png',
+                        img4: 'static/image/shexiangtou1.png',
+                    },
+                    time: '2017-12-21 20:35:58',
+                    app: '来自：iPhone客户端',
+
+                },{
+                    avatar: 'static/image/shexiangtou1.png',
+                    acount: '测试用户',
+                    bought: {
+                        val1: '200W像素',
+                        val2: '2mm焦距'
+                    },
+                    text: '功能很强大 很不错，很好的一次购物体验！！！！！功能很强大 很不错，很好的一次购物体验。功能很强大 很不错，很好的一次购物体验。',
+                    imgs: {
+                        img1: 'static/image/shexiangtou1.png',
+                        img2: 'static/image/shexiangtou1.png',
+                        img3: 'static/image/shexiangtou1.png',
+                        img4: 'static/image/shexiangtou1.png',
+                    },
+                    time: '2017-12-21 20:35:58'
+                },{
+                    avatar: 'static/image/shexiangtou1.png',
+                    acount: '测试用户',
+                    bought: {
+                        val1: '200W像素',
+                        val2: '2mm焦距'
+                    },
+                    text: '功能很强大 很不错，很好的一次购物体验！！！！！功能很强大 很不错，很好的一次购物体验。功能很强大 很不错，很好的一次购物体验。',
+                    imgs: {
+                        img1: 'static/image/shexiangtou1.png',
+                        img2: 'static/image/shexiangtou1.png',
+                        img3: 'static/image/shexiangtou1.png',
+                        img4: 'static/image/shexiangtou1.png',
+                    },
+                    time: '2017-12-21 20:35:58'
+                },{
+                    avatar: 'static/image/shexiangtou1.png',
+                    account: '测试用户',
+                    bought: {
+                        val1: '200W像素',
+                        val2: '2mm焦距'
+                    },
+                    text: '功能很强大 很不错，很好的一次购物体验！！！！功能很强大 很不错，很好的一次购物体验。功能很强大 很不错，很好的一次购物体验。功能很强大 很不错，很好的一次购物体验！！！！！功能很强大 很不错，很好的一次购物体验。功能很强大 很不错，很好的一次购物体验。',
+                    imgs: {
+                        img1: 'static/image/shexiangtou1.png',
+                        img2: 'static/image/shexiangtou1.png',
+                        img3: 'static/image/shexiangtou1.png',
+                        img4: 'static/image/shexiangtou1.png',
+                    },
+                    time: '2017-12-21 20:35:58'
+                },{
+                    avatar: 'static/image/shexiangtou1.png',
+                    account: '测试用户',
+                    bought: {
+                        val1: '200W像素',
+                        val2: '2mm焦距'
+                    },
+                    text: '功能很强大 很不错，很好的一次购物体验。功能很强大 很不错，很好的一次购物体验。功能很强大 很不错，很好的一次购物体验！！！！！功能很强大 很不错，很好的一次购物体验。功能很强大 很不错，很好的一次购物体验。',
+                    imgs: {
+                        img1: 'static/image/shexiangtou1.png',
+                        img2: 'static/image/shexiangtou1.png',
+                        img3: 'static/image/shexiangtou1.png',
+                        img4: 'static/image/shexiangtou1.png',
+                    },
+                    time: '2017-12-21 20:35:58'
+                },{
+                    avatar: 'static/image/shexiangtou1.png',
+                    account: '测试用户',
+                    bought: {
+                        val1: '200W像素',
+                        val2: '2mm焦距'
+                    },
+                    text: '功能很强大 很不错，很好的一次购物体验。功能很强大 很不错，很好的一次购物体验。功能很强大 很不错，很好的一次购物体验！！！！！功能很强大 很不错，很好的一次购物体验。功能很强大 很不错，很好的一次购物体验。',
+                    imgs: {
+                        img1: 'static/image/shexiangtou1.png',
+                        img2: 'static/image/shexiangtou1.png',
+                        img3: 'static/image/shexiangtou1.png',
+                        img4: 'static/image/shexiangtou1.png',
+                    },
+                    time: '2017-12-21 20:35:58'
+                },]
             }
         },
         methods:{
@@ -268,6 +1009,7 @@
 </script>
 
 <style lang="less">
+    @import '//at.alicdn.com/t/font_516449_1in90gr5l8yyzaor.css';
     .detail{
         .el-breadcrumb{
             font-size: 14px;
@@ -279,7 +1021,7 @@
             align-items: flex-start;
             .detail-img-box{
                 width: 400px;
-                margin-right: 48px;
+                margin-right: 24px;
                 .prc_info{
                     .big{
                         box-sizing: border-box;
@@ -292,35 +1034,51 @@
                     }
                     .small{
                         display: flex;
-                        a{
-                            display: inline;
+                        justify-content: space-between;
+                        .small_img{
                             width: 70px;
                             height: 70px;
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                            img{
-                                width: 38px;
-                                height: 40px;
-                            }
+                            background-size: cover;
+                            background-position: center;
+
                         }
                         .is_active{
                             border:solid 1px #48a2ff;
                         }
                     }
                 }
+                .info_num{
+                    color: #a3a3a3;
+                    margin-top: 20px;
+                    display: flex;
+                    justify-content: space-between;
+                    font-size: 14px;
+                    .icons{
+                        width:120px;
+                        display: flex;
+                        justify-content: space-between;
+                        i{
+                            font-size: 14px;
+                            margin-right: 4px;
+                            color: #48a2ff;
+                            line-height: 14px;
+                        }
+                    }
+                }
             }
             .detail-sku-box{
+                margin-bottom: 24px;
+                margin-right: 12px;
                 color:rgba(0,0,0,0.5);
                 flex: 1;
                 h3{
                     color: rgba(0,0,0,0.7);
                     font-size: 16px;
                     line-height: 16px;
-                    font-family: MicrosoftYaHei-Bold;
+                    font-weight: bold;
                 }
                 p.brief{
-                    margin:8px 0 16px 0;
+                    margin:6px 0 16px 0;
                     span{
                         color:#bcbcbc;
                         font-size: 12px;
@@ -344,10 +1102,14 @@
                     border:1px solid #ff3b41;
                     color:#ff3b41;
                     line-height: 21px;
-                    width:181px;
+                    width:155px;
                     margin-top:10px;
+                    font-size: 12px;
+                    padding-left: 6px;
                 }
                 .radio{
+                    margin-bottom: 6px;
+                    width: 600px;
                     .el-radio{
                         width: 60px;
                         height: 20px;
@@ -395,22 +1157,28 @@
                 }
 
                 .num{
+                    margin-bottom: -2px;
+                    .el-input-number--mini{
+                        line-height: 24px;
+                    }
                     .el-input-number{
                         width:84px;
-                        margin-left: 12px;
+                        margin-left: 0px;
                         margin-bottom: 12px;
                         border: 1px solid rgba(0,0,0,0.2);
                         border-radius: 0;
                         .el-input__inner{
                             border-radius: 0px;
                             border:none;
+                            height: 20px;
                         }
                         span{
-                            width: 28px;
+                            width: 22px;
+                            line-height: 20px;
                             background: rgb(238, 238, 238);
                             border: 1px solid #dcdfe6;
                             margin-left: -2px;
-                            margin-top: -1px;
+                            margin-top: -2px;
                             i{
                                 font-size: 18px;
                                 color: rgba(0,0,0,0.7);
@@ -429,8 +1197,18 @@
                         }
                     }
                 }
+                .mark{
+                    margin-bottom: 8px;
+                    p {
+                        font-size: 12px;
+                    }
+                }
                 .el-alert{
                     height: 40px;
+                    padding: 8px 0;
+                    .el-alert__title{
+                        font-size: 12px;
+                    }
                 }
                 .buttons{
                     display: inline-block;
@@ -441,165 +1219,304 @@
                         background: #ff3b41;
                         color:white;
                         border:none;
-                        font-family: MicrosoftYaHei-Bold;
-                        font-size: 24px;
+                        font-weight: bold;
+                        font-size: 20px;
                         border-radius: 4px;
                     }
                     button:nth-child(2){
-                        margin-left: 24px;
+                        margin-left: 16px;
                         border:1px solid #ff3b41;
                         background: #fff;
                         color:#ff3b41;
                     }
                 }
             }
-            .detail-buy-history{
-                width: 290px;
-                height: 500px;
-                background-color: red;
-            }
+
         }
 
-        // 报废了
-        .detail_center{
-            font-size: 14px;
-            color:rgba(0,0,0,0.5);
-            h3{
-                color: rgba(0,0,0,0.7);
-                font-size: 16px;
-                margin-bottom: 48px;
-                line-height: 16px;
-                font-family: MicrosoftYaHei-Bold;
-            }
-            .info{
-                span{
-                    display: inline-block;
-                    width:70px;
+        /*// 报废了*/
+        /*.detail_center{*/
+            /*border:1px solid red;*/
+            /*font-size: 14px;*/
+            /*color:rgba(0,0,0,0.5);*/
+            /*h3{*/
+                /*color: rgba(0,0,0,0.7);*/
+                /*font-size: 16px;*/
+                /*margin-bottom: 48px;*/
+                /*line-height: 16px;*/
+                /*font-family: MicrosoftYaHei-Bold;*/
+            /*}*/
+            /*.info{*/
+                /*span{*/
+                    /*display: inline-block;*/
+                    /*width:70px;*/
+                /*}*/
+                /*.tips{*/
+                    /*width:420px;*/
+                    /*display: inline-block;*/
+                    /*margin-left: 12px;*/
+                    /*vertical-align: top;*/
+                    /*.el-radio{*/
+                        /*display: inline-block;*/
+                        /*margin: 0 24px 24px 0px;*/
+                        /*float: left;*/
+                        /*width: 60px;*/
+                        /*height: 20px;*/
+                        /*padding:0;*/
+                        /*color:rgba(0,0,0,0.5);*/
+                        /*border:1px solid rgba(0,0,0,0.2);*/
+                        /*border-radius: 0;*/
+                        /*margin-right: 12px;*/
+                        /*span.el-radio__input{*/
+                            /*display: none;*/
+                        /*}*/
+                        /*span.el-radio__label{*/
+                            /*padding: 0;*/
+                            /*text-align: center;*/
+                            /*font-size: 12px;*/
+                            /*width:60px;*/
+                            /*line-height: 19px;*/
+                            /*margin-top: -2px;*/
+
+                        /*}*/
+                    /*}*/
+                    /*.el-radio:hover{*/
+                        /*border:1px solid #ff3b41;*/
+                    /*}*/
+                    /*.el-radio.is-checked{*/
+                        /*border:1px solid #ff3b41;*/
+                        /*position: relative;*/
+                        /*span{*/
+                            /*color:rgba(0,0,0,0.5);*/
+                        /*}*/
+                    /*}*/
+                    /*.el-radio.is-checked::after{*/
+                        /*content:'';*/
+                        /*width: 0;*/
+                        /*height: 0;*/
+                        /*border-right: 6px solid red;*/
+                        /*border-bottom: 6px solid red;*/
+                        /*border-top: 6px solid transparent;*/
+                        /*border-left: 6px solid transparent;*/
+                        /*position: absolute;*/
+                        /*bottom: 0;*/
+                        /*right: 0;*/
+                    /*}*/
+                    /*.el-radio.is-bordered+.el-radio.is-bordered{*/
+                        /*margin-left: 0px;*/
+                    /*}*/
+                /*}*/
+                /*.price{*/
+                    /*margin-bottom: 24px;*/
+                    /*span{*/
+                        /*line-height: 21px;*/
+                    /*}*/
+                    /*.tips{*/
+                        /*color:#ff3b41;*/
+                        /*font-size: 12px;*/
+                        /*border: 1px solid #ff3b41;*/
+                        /*width:160px;*/
+                        /*line-height: 21px;*/
+                        /*text-align: center;*/
+                        /*cursor: pointer;*/
+                    /*}*/
+                /*}*/
+                /*.num{*/
+                    /*.el-input-number{*/
+                        /*width:84px;*/
+                        /*margin-left: 12px;*/
+                        /*margin-bottom: 24px;*/
+                        /*border: 1px solid rgba(0,0,0,0.2);*/
+                        /*border-radius: 0;*/
+                        /*.el-input__inner{*/
+                            /*border-radius: 0px;*/
+                            /*border:none;*/
+                        /*}*/
+                        /*span{*/
+                            /*width: 28px;*/
+                            /*background: #eee;*/
+                            /*border: 1px solid #dcdfe6;*/
+                            /*margin-left: -2px;*/
+                            /*margin-top: -1px;*/
+                            /*i{*/
+                                /*font-size: 18px;*/
+                                /*color: rgba(0,0,0,0.7);*/
+                                /*font-weight: bolder;*/
+                                /*margin-top: 3px;*/
+                            /*}*/
+                        /*}*/
+                        /*span.el-input-number__increase{*/
+                            /*margin-right: -2px;*/
+                        /*}*/
+                    /*}*/
+                /*}*/
+                /*.mark{*/
+                    /*margin-bottom: 24px;*/
+                    /*span{*/
+                        /*display:inline;*/
+                        /*margin-left: 24px;*/
+                    /*}*/
+                /*}*/
+            /*}*/
+            /*.buttons{*/
+                /*button{*/
+                    /*width:180px;*/
+                    /*height: 50px;*/
+                    /*background: #ff3b41;*/
+                    /*color:white;*/
+                    /*border:none;*/
+                    /*font-family: MicrosoftYaHei-Bold;*/
+                    /*font-size: 24px;*/
+                    /*border-radius: 4px;*/
+                /*}*/
+                /*button:nth-child(2){*/
+                    /*margin-left: 24px;*/
+                    /*border:1px solid #ff3b41;*/
+                    /*background: #fff;*/
+                    /*color:#ff3b41;*/
+                /*}*/
+            /*}*/
+        /*}*/
+        .detail-bottom{
+            margin-top: 48px;
+            .detail_side{
+                display: flex;
+                justify-content: space-between;
+                .detail_side_img{
+                    margin-right: 48px;
                 }
-                .tips{
-                    width:420px;
-                    display: inline-block;
-                    margin-left: 12px;
-                    vertical-align: top;
-                    .el-radio{
-                        display: inline-block;
-                        margin: 0 24px 24px 0px;
-                        float: left;
-                        width: 60px;
-                        height: 20px;
-                        padding:0;
-                        color:rgba(0,0,0,0.5);
-                        border:1px solid rgba(0,0,0,0.2);
-                        border-radius: 0;
-                        margin-right: 12px;
-                        span.el-radio__input{
-                            display: none;
+                .detail_goods{
+                    flex:1;
+                    .el-tabs{
+                        border: none;
+                        box-shadow: none;
+                        -webkit-box-shadow:none;
+                        .el-tabs__header{
+                            background: #f6f6f6;
+                            border:none;
+                            .el-tabs__item{
+                                border: none;
+                                font-size: 16px;
+                                width:115px;
+                                height: 38px;
+                                line-height: 38px;
+                                text-align: center;
+                            }
+                            .el-tabs__item:hover{
+                                color:#ff3b41;
+                            }
+                            .el-tabs__item.is-active{
+                                color:#fff;
+                                background-color:#ff3b41;
+                                border: none;
+                            }
                         }
-                        span.el-radio__label{
-                            padding: 0;
-                            text-align: center;
-                            font-size: 12px;
-                            width:60px;
-                            line-height: 19px;
-                            margin-top: -2px;
+                        .el-tabs__content{
+                            color: #a3a3a3;
+                            padding: 29px 0;
+                            border-bottom: 1px solid #E5E5E5;
+                            font-size: 14px;
+                            position: relative;
+                        }
+                        .aboutDetail{
+                            display: flex;
+                            flex-wrap: wrap;
+                            justify-content: flex-start;
+                            padding-bottom: 24px;
+                            border-bottom: 1px solid #E5E5E5;
+                            li{
+                                width: 24.8%;
+                                line-height: 28px;
+                            }
+                            li.more{
+                                position: absolute;
+                                top: 85px;
+                                right: -135px;
+                                i{
+                                    display: inline-block;
+                                    transform: rotateZ(180deg);
+                                }
+                            }
+                        }
+                        .imgDetail{
+                            li{
+                                width:100%;
+                                height: 500px;
+                                background-repeat: no-repeat;
+                                background-size: contain;
+                                background-position: center;
+                            }
 
                         }
                     }
-                    .el-radio:hover{
-                        border:1px solid #ff3b41;
-                    }
-                    .el-radio.is-checked{
-                        border:1px solid #ff3b41;
-                        position: relative;
-                        span{
-                            color:rgba(0,0,0,0.5);
-                        }
-                    }
-                    .el-radio.is-checked::after{
-                        content:'';
-                        width: 0;
-                        height: 0;
-                        border-right: 6px solid red;
-                        border-bottom: 6px solid red;
-                        border-top: 6px solid transparent;
-                        border-left: 6px solid transparent;
-                        position: absolute;
-                        bottom: 0;
-                        right: 0;
-                    }
-                    .el-radio.is-bordered+.el-radio.is-bordered{
-                        margin-left: 0px;
-                    }
                 }
-                .price{
-                    margin-bottom: 24px;
-                    span{
-                        line-height: 21px;
-                    }
-                    .tips{
-                        color:#ff3b41;
-                        font-size: 12px;
-                        border: 1px solid #ff3b41;
-                        width:160px;
-                        line-height: 21px;
-                        text-align: center;
-                        cursor: pointer;
-                    }
-                }
-                .num{
-                    .el-input-number{
-                        width:84px;
-                        margin-left: 12px;
-                        margin-bottom: 24px;
-                        border: 1px solid rgba(0,0,0,0.2);
-                        border-radius: 0;
-                        .el-input__inner{
-                            border-radius: 0px;
-                            border:none;
-                        }
-                        span{
-                            width: 28px;
-                            background: #eee;
-                            border: 1px solid #dcdfe6;
-                            margin-left: -2px;
-                            margin-top: -1px;
-                            i{
-                                font-size: 18px;
-                                color: rgba(0,0,0,0.7);
-                                font-weight: bolder;
-                                margin-top: 3px;
-                            }
-                        }
-                        span.el-input-number__increase{
-                            margin-right: -2px;
+            }
+
+        }
+
+        // 购买记录和热卖推荐
+        .detail-buy-history, .detail_side_img{
+            width: 290px;
+            background: #fff;
+            border:1px solid #ccc;
+            .header{
+                height: 36px;
+                line-height: 36px;
+                color:#737373 ;
+                border-bottom:1px solid #ccc;
+                padding: 0 12px;
+                display: flex;
+                justify-content: space-between;
+                font-size: 16px;
+                .icons{
+                    width:40px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    div{
+                        color: #b6b6b6;
+                        i{
+                            display: block;
+                            font-size: 14px;
                         }
                     }
-                }
-                .mark{
-                    margin-bottom: 24px;
-                    span{
-                        display:inline;
-                        margin-left: 24px;
+                    .icon-right{
+                        margin-top: -4px;
+                        transform: rotateZ(180deg);
                     }
                 }
             }
-            .buttons{
-                button{
-                    width:180px;
-                    height: 50px;
-                    background: #ff3b41;
-                    color:white;
-                    border:none;
-                    font-family: MicrosoftYaHei-Bold;
-                    font-size: 24px;
-                    border-radius: 4px;
+            li{
+                text-align: center;
+                background: #ffffff;
+                margin: 0 15px;
+                border-bottom: 1px solid #ccc;
+                .img{
+                    height: 146px;
+                    background-position: center;
+                    background-size: cover;
                 }
-                button:nth-child(2){
-                    margin-left: 24px;
-                    border:1px solid #ff3b41;
-                    background: #fff;
-                    color:#ff3b41;
+                p.brand{
+                    line-height: 14px;
+                    font-weight: bold;
+                    font-size: 14px;
+                    color: #707070;
                 }
+                p.name{
+                    margin: 10px 0;
+                    font-size: 14px;
+                    color: #a3a3a3;
+                }
+                p.price{
+                    color:#ff3d43;
+                    font-size: 16px;
+                    font-weight: bold;
+                    margin-bottom: 24px;
+                }
+                position: relative;
+            }
+            li:last-child{
+                border-bottom: none;
             }
         }
     }
@@ -674,12 +1591,7 @@
         display: block;
         clear: both;
     }
-    .detali{
-        .detali_left{
-            float: left;
-        }
 
-    }
     .breadcrumb{
         color: #646464;
         font: 14px/40px "MicrosoftYaHei";
@@ -698,24 +1610,6 @@
         }
     }
 
-    .num{
-        font:14px/46px "MicrosoftYaHei";
-        color: #000;
-    }
-    ._detali_center{
-        float: left;
-    }
-    .detail_side{
-        display: flex;
-        justify-content: space-between;
 
-    }
-    .detail_side_img{
-        width: 290px;
-        height: 760px;
-        background-color: red;
-    }
-    .detail_goods{
-        width: 1109px;
-    }
+
 </style>

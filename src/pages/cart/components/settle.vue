@@ -454,6 +454,7 @@
                 i{
                     margin-right: 12px;
                     color:#f13a40;
+                    font-size: 12px;
                 }
                 span{
                     color: rgba(0,0,0,0.5);
@@ -481,12 +482,11 @@
             }
             .el-button{
                 width: 160px;
-
                 height: 50px;
                 background-color: #f13a40;
                 border-radius: 4px;
                 color: #fff;
-                font-size: 26px;
+                font-size: 22px;
                 line-height: 0;
             }
         }

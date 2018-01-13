@@ -512,10 +512,11 @@ table {
         margin-top: 15px;
         background: #fff;
       li{
-          width: 290px;
           height: 296px;
           text-align: center;
           background: #ffffff;
+          border-bottom: solid 1px #ddd;
+          margin: 0 10px;
           .img{
               width:290px;
               height: 222px;
@@ -526,7 +527,7 @@ table {
               line-height: 18px;
               height: 18px;
               font-weight: bold;
-              font-size: 18px;
+              font-size: 14px;
               color: #707070;
           }
           p.name{
@@ -588,7 +589,7 @@ table {
 
         }
     }
-    .alone li:nth-child(1){
+    .alone {
         border-top: 2px solid #f0a13b;
     }
   }

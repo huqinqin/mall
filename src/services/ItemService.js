@@ -21,4 +21,21 @@ export default class ItemService extends BaseService {
         };
         return super.getRequest('/wholesale/item/get_item_with_props',params)
     }
+
+    /**
+     * 搜索商品列表
+     * @param text
+     * @param condition
+     * @returns {*}
+     */
+    static searchItemList(text,condition){
+        let params = {
+            text ,
+            condition
+        };
+        //
+        return super.getRequest('/static/test/json/search.item.json',params)
+    }
+
+
 }

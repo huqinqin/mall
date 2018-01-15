@@ -14,6 +14,7 @@ export default class CartService extends BaseService {
         let params
         params = {
             user_id: uid,
+            order_type : 'self_order',
             num: param.num,
             carrier_uid: 158635,
             item_props: JSON.stringify([
@@ -27,7 +28,7 @@ export default class CartService extends BaseService {
                 }
             ),
         };
-        return super.getRequest('//wholesale/cart/putCartPlus',params);
+        return super.getRequest('/wholesale/cart/putCartPlus',params);
     }
 
     /**

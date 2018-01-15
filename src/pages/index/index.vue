@@ -538,7 +538,7 @@ table {
           p.price{
               color:#ff3d43;
               font-size: 16px;
-              font-family: MicrosoftYaHei-Bold;
+              font-weight: bold;
           }
 
         /*._side_box{*/
@@ -604,7 +604,8 @@ table {
 
     .right{
         margin-top: 10px;
-        font-size:14px/40px "MicrosoftYaHei";
+        font-weight: bold;
+        font-size: 14px;
         color: #707070;
         align-self: center;
         span{

@@ -7,7 +7,7 @@
               <span class="register">免费注册</span>
             </li>
             <li class="">
-              <a href="" class="news">快报</a>
+              <a href="" class="news top-menu">快报</a>
               <a href="" class="top-menu">我的订单</a>
               <a href="" class="top-menu">收藏夹</a>
               <a href="" ><i class="iconfont icon-shouji"></i>手机下单更优惠</a>
@@ -181,7 +181,7 @@
         .header-box{
           color: white;
           height:30px;
-          line-height: 30px;
+          line-height: 26px;
           background-color: #181818;
           padding: 0;
           width: 100%;
@@ -192,25 +192,36 @@
           }
           li{
             align-self: center;
+            a{
+                color:white;
+                font-size: 12px;
 
+            }
             span{
-              color: white;
-              font-size: 12px;
-              text-decoration: none;
-              position: relative;
+                color: white;
+                font-size: 12px;
+                text-decoration: none;
+                position: relative;
+                display:inline-block;
+                cursor:pointer;
             }
             span.login{
-              color:#f13a40;
-              margin-right: 18px;
-              font-weight:bold;
-              cursor:pointer;
+                color:#f13a40;
+                margin-right: 18px;
+                font-weight:bold;
             }
+            span.register{
+
+            }
+
             .news{
-              margin-right: 14px;
+              /*margin-right: 14px;*/
             }
             .top-menu{
               padding-right: 12px;
-              margin-left: 12px;
+              margin-left: 6px;
+              position: relative;
+              display:inline-block;
             }
             .top-menu:before{
               content: '';
@@ -219,7 +230,7 @@
               background-color: white;
               position: absolute;
               right:0;
-              top:3px;
+              top:8px;
             }
             .icon-shouji{
               font-size: 12px;

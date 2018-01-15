@@ -13,11 +13,11 @@
                     </div>
                     <!--大图下面的小图-->
                     <div class="small">
-                        <div class="small_img is_active" :style="{backgroundImage:'url('+prc.link+')'}"></div>
-                        <div class="small_img" :style="{backgroundImage:'url('+prc.link+')'}"></div>
-                        <div class="small_img" :style="{backgroundImage:'url('+prc.link+')'}"></div>
-                        <div class="small_img" :style="{backgroundImage:'url('+prc.link+')'}"></div>
-                        <div class="small_img" :style="{backgroundImage:'url('+prc.link+')'}"></div>
+                        <div @click="showImage" class="small_img is_active" :style="{backgroundImage:'url('+prc.link+')'}"></div>
+                        <div @click="showImage" class="small_img" :style="{backgroundImage:'url('+prc.link+')'}"></div>
+                        <div @click="showImage" class="small_img" :style="{backgroundImage:'url('+prc.link+')'}"></div>
+                        <div @click="showImage" class="small_img" :style="{backgroundImage:'url('+prc.link+')'}"></div>
+                        <div @click="showImage" class="small_img" :style="{backgroundImage:'url('+prc.link+')'}"></div>
                     </div>
                 </div>
                 <!-- 商品编号 -->
@@ -121,12 +121,15 @@
                                 <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5242272330824122911.jpg')"></li>
                                 <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5229634969841837893.jpg')"></li>
                                 <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/4963729093161931870.jpg')"></li>
+                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5532971629685536760.jpg')"></li>
                                 <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5350762759762531367.jpg')"></li>
+                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/4965255310328801883.jpg')"></li>
                                 <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5137305903631243455.jpg')"></li>
                                 <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5747589952679423507.jpg')"></li>
                                 <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5106751131035694348.jpg')"></li>
                                 <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5491884177797444478.jpg')"></li>
                                 <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5342218004086739092.jpg')"></li>
+                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5652469014129041638.jpg')"></li>
                                 <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5089808701764818455.jpg')"></li>
 
                             </ul>
@@ -148,6 +151,7 @@
     </div>
 </template>
 <script>
+    import $ from 'jquery'
     import itemService from '@/services/ItemService'
     export default {
         name : 'detailInfo',
@@ -999,6 +1003,12 @@
                     this.$ltsMessage.show({type:"error",message:msg.error_message})
                 });
             },
+            showImage(e){
+                $(e.currentTarget).addClass('is_active')
+                $(e.currentTarget).siblings().removeClass('is_active')
+                console.log(e.currentTarget)
+                console.log($('big'))
+            }
         },
         mounted(){
             let id = this.$route.query.id;
@@ -1039,7 +1049,9 @@
                             width: 70px;
                             height: 70px;
                             background-size: cover;
+                            border:1px solid rgba(0,0,0,0);
                             background-position: center;
+                            cursor: pointer;
 
                         }
                         .is_active{
@@ -1057,6 +1069,9 @@
                         width:120px;
                         display: flex;
                         justify-content: space-between;
+                        div{
+                            cursor: pointer;
+                        }
                         i{
                             font-size: 14px;
                             margin-right: 4px;
@@ -1430,8 +1445,10 @@
                             }
                             li.more{
                                 position: absolute;
-                                top: 85px;
-                                right: -135px;
+                                top: 80px;
+                                left:100%;
+                                margin-left: -80px;
+                                cursor: pointer;
                                 i{
                                     display: inline-block;
                                     transform: rotateZ(180deg);
@@ -1439,6 +1456,8 @@
                             }
                         }
                         .imgDetail{
+                            max-height: 2000px;
+                            overflow: auto;
                             li{
                                 width:100%;
                                 height: 500px;

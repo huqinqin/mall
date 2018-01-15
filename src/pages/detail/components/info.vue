@@ -31,33 +31,27 @@
             </div>
             <div class="detail-sku-box">
                 <!-- 商品标题-->
-                <h3>LTS 1080P普及型会议终端TS2000</h3>
+                <h3>{{item.item_name}}</h3>
                 <p class="brief"><span>性能强劲</span><span>电池保护</span><span>独特电路</span><span>防止干扰</span></p>
                 <!-- 商品属性-->
                 <el-form label-position="left" label-width="80px">
                     <el-form-item label="价格">
                         <div class="tips">完成登录注册，享受惊爆价</div>
                     </el-form-item>
-                    <el-form-item label="供电方式" class="radio">
-                        <el-radio-group v-model="sku_1">
-                            <el-radio label="1" border>DC12V</el-radio>
-                            <el-radio label="2" border>AC14V</el-radio>
-                            <el-radio label="3" border>POE</el-radio>
-                        </el-radio-group>
-                    </el-form-item>
-                    <el-form-item label="像素分类" class="radio">
-                        <el-radio-group v-model="sku_2">
-                            <el-radio v-for="item in sku_2Data" :label=item.label :key=item.label border>{{item.content}}</el-radio>
+                    <el-form-item v-for="prop in item.item_prop_value_maps" :key="prop.prop_name" :label="prop.prop_name" class="radio">
+                        <el-radio-group v-model="prop.checked_prop">
+                            <el-radio v-for="propValue in prop.prop_values"  :disabled="!propValue.can_checked" :label="propValue.value" :key="propValue.value" :change="checkedProp(prop,item)"  border>{{propValue.value}}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                     <el-form-item label="采购量" class="num">
-                        <el-input-number v-model="count" size="mini" @change="inputNumberChange" :min="1" :max="10" label="描述文字"></el-input-number>
+                        <el-input-number v-model="item.num" size="mini" @change="inputNumberChange" :min="1" :max="10" label="描述文字"></el-input-number>
+                        {{checkedSpu.storage}}
                     </el-form-item>
                     <el-form-item label="温馨提示" class="mark">
                         <p>不支持60天无理由退换(如果商品参加活动，退换货以活动规则为准)</p>
                     </el-form-item>
                     <el-form-item class="buttons">
-                        <button>立即购买</button>
+                        <button @click="addCart">立即购买</button>
                         <button>加入购物车</button>
                     </el-form-item>
                 </el-form>
@@ -153,6 +147,7 @@
 <script>
     import $ from 'jquery'
     import itemService from '@/services/ItemService'
+    import cartService from '@/services/CartService'
     export default {
         name : 'detailInfo',
         props : {},
@@ -937,6 +932,12 @@
                     this.$ltsMessage.show({type:'error',message:msg.errorMessage})
                 })
             },
+            checkedProp(prop,data,checkedValue){
+                console.log(prop.checked_prop);
+                if(prop.checked_prop != ""){
+                    this.skuMapEach(prop,data);
+                }
+            },
             skuMapEach(prop,data){
                 let key = prop.prop_name;
                 let prop_value = {};
@@ -945,18 +946,23 @@
                 checked_sku_prop[key] = prop.checked_prop;
                 // 匹配库存
                 prop_value[key] =  prop.checked_prop;
-                data.item_prop_value_maps.forEach((value,index,array)=>{
-                    if(value.prop_name !== prop.prop_name){
-                        checked_sku_prop[value.prop_name] = value.checked_prop;
-                        this.equalsProp(checked_sku_prop,data.item_struct_props,'checkedSku');
-                        value.prop_values.forEach((val,key,array)=>{
-                            prop_value[value.prop_name] = val.value;
-                            val.can_checked = this.equalsProp(prop_value,data.item_struct_props);
-                        })
-                    }
-                })
+                if(data.item_prop_value_maps.length > 1) {
+                    data.item_prop_value_maps.forEach((value, index, array) => {
+                        if (value.prop_name !== prop.prop_name) {
+                            checked_sku_prop[value.prop_name] = value.checked_prop;
+                            this.equalsProp(checked_sku_prop, data.item_struct_props, 'checkedSku',data.item_prop_value_maps.length);
+                            value.prop_values.forEach((val, key, array) => {
+                                prop_value[value.prop_name] = val.value;
+                                val.can_checked = this.equalsProp(prop_value, data.item_struct_props,data.item_prop_value_maps.length);
+                            })
+                        }
+                    })
+                }else{
+                    this.equalsProp(checked_sku_prop, data.item_struct_props, 'checkedSku',data.item_prop_value_maps.length);
+                }
             },
-            equalsProp(propObj,skuList,type){
+            equalsProp(propObj,skuList,type,skuLength){
+                console.log(propObj);
                 let Boolean = 0; // 0 false, 1 true;
                 let self = this;
                 try{
@@ -975,7 +981,7 @@
                                 return false;
                             }
                         }
-                        if(count >= 2 && sku.storage > 0){
+                        if(count >= skuLength && sku.storage > 0){
                             if(type == 'checkedSku'){
                                 self.checkedSpu = sku;
                             }
@@ -996,8 +1002,8 @@
                     return false;
                 }
             },
-            addCart(item) {
-                cartService.putCartPlus(this.customerUid,item,this.checkedSpu).then((data) => {
+            addCart() {
+                cartService.putCartPlus(this.customerUid,this.item,this.checkedSpu).then((data) => {
                     this.queryCartList();
                 },(msg) => {
                     this.$ltsMessage.show({type:"error",message:msg.error_message})
@@ -1248,150 +1254,6 @@
             }
 
         }
-
-        /*// 报废了*/
-        /*.detail_center{*/
-            /*border:1px solid red;*/
-            /*font-size: 14px;*/
-            /*color:rgba(0,0,0,0.5);*/
-            /*h3{*/
-                /*color: rgba(0,0,0,0.7);*/
-                /*font-size: 16px;*/
-                /*margin-bottom: 48px;*/
-                /*line-height: 16px;*/
-                /*font-family: MicrosoftYaHei-Bold;*/
-            /*}*/
-            /*.info{*/
-                /*span{*/
-                    /*display: inline-block;*/
-                    /*width:70px;*/
-                /*}*/
-                /*.tips{*/
-                    /*width:420px;*/
-                    /*display: inline-block;*/
-                    /*margin-left: 12px;*/
-                    /*vertical-align: top;*/
-                    /*.el-radio{*/
-                        /*display: inline-block;*/
-                        /*margin: 0 24px 24px 0px;*/
-                        /*float: left;*/
-                        /*width: 60px;*/
-                        /*height: 20px;*/
-                        /*padding:0;*/
-                        /*color:rgba(0,0,0,0.5);*/
-                        /*border:1px solid rgba(0,0,0,0.2);*/
-                        /*border-radius: 0;*/
-                        /*margin-right: 12px;*/
-                        /*span.el-radio__input{*/
-                            /*display: none;*/
-                        /*}*/
-                        /*span.el-radio__label{*/
-                            /*padding: 0;*/
-                            /*text-align: center;*/
-                            /*font-size: 12px;*/
-                            /*width:60px;*/
-                            /*line-height: 19px;*/
-                            /*margin-top: -2px;*/
-
-                        /*}*/
-                    /*}*/
-                    /*.el-radio:hover{*/
-                        /*border:1px solid #ff3b41;*/
-                    /*}*/
-                    /*.el-radio.is-checked{*/
-                        /*border:1px solid #ff3b41;*/
-                        /*position: relative;*/
-                        /*span{*/
-                            /*color:rgba(0,0,0,0.5);*/
-                        /*}*/
-                    /*}*/
-                    /*.el-radio.is-checked::after{*/
-                        /*content:'';*/
-                        /*width: 0;*/
-                        /*height: 0;*/
-                        /*border-right: 6px solid red;*/
-                        /*border-bottom: 6px solid red;*/
-                        /*border-top: 6px solid transparent;*/
-                        /*border-left: 6px solid transparent;*/
-                        /*position: absolute;*/
-                        /*bottom: 0;*/
-                        /*right: 0;*/
-                    /*}*/
-                    /*.el-radio.is-bordered+.el-radio.is-bordered{*/
-                        /*margin-left: 0px;*/
-                    /*}*/
-                /*}*/
-                /*.price{*/
-                    /*margin-bottom: 24px;*/
-                    /*span{*/
-                        /*line-height: 21px;*/
-                    /*}*/
-                    /*.tips{*/
-                        /*color:#ff3b41;*/
-                        /*font-size: 12px;*/
-                        /*border: 1px solid #ff3b41;*/
-                        /*width:160px;*/
-                        /*line-height: 21px;*/
-                        /*text-align: center;*/
-                        /*cursor: pointer;*/
-                    /*}*/
-                /*}*/
-                /*.num{*/
-                    /*.el-input-number{*/
-                        /*width:84px;*/
-                        /*margin-left: 12px;*/
-                        /*margin-bottom: 24px;*/
-                        /*border: 1px solid rgba(0,0,0,0.2);*/
-                        /*border-radius: 0;*/
-                        /*.el-input__inner{*/
-                            /*border-radius: 0px;*/
-                            /*border:none;*/
-                        /*}*/
-                        /*span{*/
-                            /*width: 28px;*/
-                            /*background: #eee;*/
-                            /*border: 1px solid #dcdfe6;*/
-                            /*margin-left: -2px;*/
-                            /*margin-top: -1px;*/
-                            /*i{*/
-                                /*font-size: 18px;*/
-                                /*color: rgba(0,0,0,0.7);*/
-                                /*font-weight: bolder;*/
-                                /*margin-top: 3px;*/
-                            /*}*/
-                        /*}*/
-                        /*span.el-input-number__increase{*/
-                            /*margin-right: -2px;*/
-                        /*}*/
-                    /*}*/
-                /*}*/
-                /*.mark{*/
-                    /*margin-bottom: 24px;*/
-                    /*span{*/
-                        /*display:inline;*/
-                        /*margin-left: 24px;*/
-                    /*}*/
-                /*}*/
-            /*}*/
-            /*.buttons{*/
-                /*button{*/
-                    /*width:180px;*/
-                    /*height: 50px;*/
-                    /*background: #ff3b41;*/
-                    /*color:white;*/
-                    /*border:none;*/
-                    /*font-family: MicrosoftYaHei-Bold;*/
-                    /*font-size: 24px;*/
-                    /*border-radius: 4px;*/
-                /*}*/
-                /*button:nth-child(2){*/
-                    /*margin-left: 24px;*/
-                    /*border:1px solid #ff3b41;*/
-                    /*background: #fff;*/
-                    /*color:#ff3b41;*/
-                /*}*/
-            /*}*/
-        /*}*/
         .detail-bottom{
             margin-top: 48px;
             .detail_side{

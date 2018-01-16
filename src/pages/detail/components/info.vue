@@ -52,7 +52,7 @@
                     </el-form-item>
                     <el-form-item class="buttons">
                         <button @click="addCart">立即购买</button>
-                        <button>加入购物车</button>
+                        <button v-login>加入购物车</button>
                     </el-form-item>
                 </el-form>
             </div>
@@ -1003,6 +1003,7 @@
                 }
             },
             addCart() {
+                this.checkedAllAuth();
                 cartService.putCartPlus(this.customerUid,this.item,this.checkedSpu).then((data) => {
                     this.queryCartList();
                 },(msg) => {

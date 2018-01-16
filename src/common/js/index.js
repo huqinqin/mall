@@ -12,6 +12,7 @@ import Message from '../components/lts-message'
 import MessageBox from '../components/lts-messageBox'
 import ltsHeader from '@/layout/mall_Layout_1.0.0/lts-header.vue'
 import ltsFooter from '@/layout/mall_Layout_1.0.0/lts-footer.vue'
+import mixinAuth from '@/library/Auth.js'
 
 import config from 'config'
 
@@ -49,8 +50,6 @@ export default function (App, router = new Router()) {
   new Vue({
     el        : '#app',
     i18n      : i18n,
-    Loading   : Loading,
-    Message   : Message,
     router,
     template  : '<Layout/>',
     components: {Layout}

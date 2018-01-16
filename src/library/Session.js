@@ -5,9 +5,10 @@ export default {
     isLogin(){
         return this.getSessionData() != null;
     },
-    checkLogin(){
+    checkLogin(selfContext){
+        selfContext.$emit("showLogin");
         if (!this.isLogin()) {
-            location.href = config.loginPage;
+            selfContext.$emit("showLogin");
         }
     },
     getSessionData(){

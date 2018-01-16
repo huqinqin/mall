@@ -82,12 +82,14 @@
             <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
                 <el-table-column label="商品信息" width="450" class="column-1"  align="center">
                     <template slot-scope="scope">
-                        <img :src="scope.row.img" alt="商品">
-                        <div class="content">
-                            <p>{{scope.row.info}}</p>
-                        </div>
-                        <div class="other">
-                            <p v-for="(value,key) in scope.row.more">{{key}}: {{value}}</p>
+                        <div class="cart-item-info">
+                            <img :src="scope.row.img" alt="商品">
+                            <div class="content">
+                                <p>{{scope.row.info}}</p>
+                            </div>
+                            <div class="other">
+                                <p v-for="(value,key) in scope.row.more">{{key}}: {{value}}</p>
+                            </div>
                         </div>
                     </template>
                 </el-table-column>
@@ -115,6 +117,7 @@
 <script>
     export default {
         name: "settle",
+        props: ['items'],
         data(){
             return{
                 chooseAll: true,
@@ -130,29 +133,7 @@
                     address: '西湖区三墩镇振华路西城博司12楼1201',
                     mobile: '183 **** 5921'
                 }],
-                tableData: [{
-                    img: require('@/assets/img/shangping_html.png'),
-                    info: '海康威视DS-CD0DDDDDDDDDD',
-                    more: {
-                        '像素': '1200W',
-                        '焦距': '4mm',
-                    },
-                    price: '$500.00',
-                    num: 1,
-                    count: '$500.00',
-                    handle: 'iconfont  icon-shanchu',
-                },{
-                    img: require('@/assets/img/shangping_html.png'),
-                    info: '海康威视DS-CD0DDDDDDDDDD',
-                    more: {
-                        '像素': '1200W',
-                        '焦距': '4mm',
-                    },
-                    price: '$500.00',
-                    num: 1,
-                    count: '$500.00',
-                    handle: 'iconfont  icon-shanchu',
-                }],
+                tableData: [],
                 multipleTable: [],
                 num: 10,
                 sum: {
@@ -207,13 +188,14 @@
             }
         },
         mounted(){
+            console.log(this.$route.params.items)
+            this.formData = this.$route.params.items
             this.sum.result = this.sum.amount + this.sum.express + this.sum.tax - this.sum.benefit
         }
   }
 </script>
 
 <style lang="less">
-    @import '//at.alicdn.com/t/font_516449_7rh4bqfshns1c3di.css';
     .settle{
         .el-table__header-wrapper{
             height: 60px;
@@ -232,26 +214,26 @@
         }
         .el-table{
             font-size: 14px;
-            .el-table_1_column_1{
-                .cell{
+            .cell{
+                .cart-item-info{
                     width:100%;
                     display: flex;
                     justify-content: space-between;
-                }
-                img{
-                    width:116px;
-                    height: 116px;
-                    border: 1px solid #dadada;
-                }
-                div{
-                    width:120px;
-                    p{
-                        line-height: 30px;
-                        font-size: 12px;
-                        text-align: left;
+                    img{
+                        width:116px;
+                        height: 116px;
+                        border: 1px solid #dadada;
                     }
-                    p:first-child{
-                        margin-top: 12px;
+                    div{
+                        width:120px;
+                        p{
+                            line-height: 30px;
+                            font-size: 12px;
+                            text-align: left;
+                        }
+                        p:first-child{
+                            margin-top: 12px;
+                        }
                     }
                 }
             }
@@ -491,5 +473,4 @@
             }
         }
     }
-
 </style>

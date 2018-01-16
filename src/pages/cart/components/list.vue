@@ -1,7 +1,7 @@
 <template>
     <div class="list">
         <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%" align="right" @selection-change="handleSelectionChange">
-            <el-table-column type="selection" width="60%" align="right"></el-table-column>
+            <el-table-column type="selection" width="60%" align="right" @change="checkItem"></el-table-column>
             <el-table-column label="商品信息" width="450" class="column-1"  align="center">
                 <template slot-scope="scope">
                     <div class="item-img" :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+scope.row.url+')'}"></div>
@@ -69,16 +69,41 @@
         data() {
             return {
                 chooseAll: false,
+                historyData: [],
                 isIndeterminate: true,
                 tableData: [],
                 cart: {
                     cartTotal: 0,
                     cartPriceTotal: 0,
                 },
+                checkedItem: [{
+                    img: require('@/assets/img/shangping_html.png'),
+                    info: '海康威视DS-CD0DDDDDDDDDD',
+                    more: {
+                        '像素': '1200W',
+                        '焦距': '4mm',
+                    },
+                    price: '$500.00',
+                    num: 1,
+                    count: '$500.00',
+                    handle: 'iconfont  icon-shanchu',
+                },{
+                    img: require('@/assets/img/shangping_html.png'),
+                    info: '海康威视DS-CD0DDDDDDDDDD',
+                    more: {
+                        '像素': '1200W',
+                        '焦距': '4mm',
+                    },
+                    price: '$500.00',
+                    num: 1,
+                    count: '$500.00',
+                    handle: 'iconfont  icon-shanchu',
+                }],
+
             }
         },
         mounted(){
-          this.queryCartList();
+            cartService.queryCartList();
         },
         methods:{
             queryCartList(){
@@ -100,15 +125,30 @@
                 this.multipleSelection = this.chooseAll ? [] : this.tableData
                 console.log(this.multipleSelection)
             },
+            // 购物车结算
             check() {
                 this.$emit('submit', 1)
-                this.$router.push({path: '/settle'})
+                this.$router.push({name: 'settle', params: { items: this.checkedItem }})
+
             },
+            // 修改购物车数量
             inputNumeberChange(row){
                 console.log(row)
+                console.log('数量置为x，加入购物车')
+                console.log(row)
+                cartService.putCartPlus(params)
             },
+            // 删除购物车条目
             deleteHandle(index, row){
                 this.tableData.splice(index,1)
+                console.log('数量置为0，加入购物车')
+                console.log(row)
+                cartService.putCartPlus(params)
+            },
+            // 购物车里选择条目
+            checkItem(value){
+                this.checkedItem = value
+                console.log(this.checkedItem)
             }
         },
         watch: {
@@ -125,6 +165,7 @@
                         this.cart.cartPriceTotal += parseInt(value.num) * parseInt(value.price);
                     })
                 }
+
             },
         }
   }
@@ -319,9 +360,6 @@
                         margin-left: 12px;
                     }
                 }
-
-
-
                 li:hover{
                     animation: floats 0.3s ease forwards;
                 }

@@ -2,11 +2,11 @@ import BaseService from "./abstract/BaseService";
 export default class CartService extends BaseService {
     /**
      * return ture
-     * param userId 工程商ID
-     * param num 数量
-     * param carrierUid 市场Uid
-     * param cartItemKey 商品信息
-     * param itemPropDOS 商品属性信息
+     * param  userId 工程商ID
+     * param  num 数量
+     * param  carrierUid 市场Uid
+     * param  cartItemKey 商品信息
+     * param  itemPropDOS 商品属性信息
      * @autor 小猪
      * remark 添加购物车
      */
@@ -42,8 +42,13 @@ export default class CartService extends BaseService {
     static queryCartList(userId){
         let params
         params = {
-            user_id: userId
+            user_id: userId,
+            order_type : 'self_order',
+            carrier_uid: 158635,
         };
         return super.getRequest('/wholesale/cart/queryCartList',params)
     }
+
+
+
 }

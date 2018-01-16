@@ -34,8 +34,8 @@
                 <h3>{{item.item_name}}</h3>
                 <p class="brief"><span>性能强劲</span><span>电池保护</span><span>独特电路</span><span>防止干扰</span></p>
                 <!-- 商品属性-->
-                <el-form label-position="left" label-width="80px">
-                    <el-form-item label="价格">
+                <el-form label-position="left" label-width="80px" :model="formData">
+                    <el-form-item label="价格" prop>
                         <div class="tips">完成登录注册，享受惊爆价</div>
                     </el-form-item>
                     <el-form-item v-for="prop in item.item_prop_value_maps" :key="prop.prop_name" :label="prop.prop_name" class="radio">
@@ -44,15 +44,15 @@
                         </el-radio-group>
                     </el-form-item>
                     <el-form-item label="采购量" class="num">
-                        <el-input-number v-model="item.num" size="mini" @change="inputNumberChange" :min="1" :max="10" label="描述文字"></el-input-number>
+                        <el-input-number v-model="item.num" size="mini" @change="inputNumberChange" :min="1" label="描述文字"></el-input-number>
                         {{checkedSpu.storage}}
                     </el-form-item>
                     <el-form-item label="温馨提示" class="mark">
                         <p>不支持60天无理由退换(如果商品参加活动，退换货以活动规则为准)</p>
                     </el-form-item>
                     <el-form-item class="buttons">
-                        <button @click="addCart">立即购买</button>
-                        <button v-login>加入购物车</button>
+                        <button @click="buyNow">立即购买</button>
+                        <button @click="addCart">加入购物车</button>
                     </el-form-item>
                 </el-form>
             </div>
@@ -156,6 +156,9 @@
                 activeName: 'first',
                 sku_1: '',
                 sku_2: '',
+                formData: {
+
+                },
                 sku_2Data: [{
                     label: 0,
                     content: '200W'
@@ -922,8 +925,7 @@
                 console.log(tab,event);
             },
             inputNumberChange(value){
-                console.log(value)
-
+                console.log(this.item.num)
             },
             getItemDetail(id){
                 itemService.getItemDetail(id).then((data)=>{
@@ -1003,12 +1005,15 @@
                 }
             },
             addCart() {
-                this.checkedAllAuth();
                 cartService.putCartPlus(this.customerUid,this.item,this.checkedSpu).then((data) => {
-                    this.queryCartList();
+                    this.$ltsMessage.show({type:"success",message:'加入购物车成功'})
                 },(msg) => {
                     this.$ltsMessage.show({type:"error",message:msg.error_message})
                 });
+            },
+            buyNow(){
+                console.log(this.item.num)
+                console.log(this.checkedSpu)
             },
             showImage(e){
                 $(e.currentTarget).addClass('is_active')
@@ -1244,12 +1249,16 @@
                         font-weight: bold;
                         font-size: 20px;
                         border-radius: 4px;
+                        cursor: pointer;
                     }
                     button:nth-child(2){
                         margin-left: 16px;
                         border:1px solid #ff3b41;
                         background: #fff;
                         color:#ff3b41;
+                    }
+                    button:focus{
+                        outline: none;
                     }
                 }
             }

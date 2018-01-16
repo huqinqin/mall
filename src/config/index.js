@@ -2,17 +2,14 @@
  * 是否为开发者模式
  * @type {boolean}
  */
-
-const isDebug = false;
+import api from './api'
+const isDebug = true;
 const isUseMock = false;
 export default {
     url: {
         main: 'http://work.local.lts.com:8085'
     },
-    api: {
-        api: 'http://work.local.lts.com:8085/gateway/api',
-        service: 'http://work.local.lts.com:8085/gateway'
-    },
+    api:api(isDebug),
     homePage: '/',
     loginPage: '/login',
     appKey: '00000-500mi',

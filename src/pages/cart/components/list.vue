@@ -24,7 +24,7 @@
             </el-table-column>
             <el-table-column label="小计"align="center">
                 <template slot-scope="scope">
-                    <div class="count">{{scope.row.num*scope.row.price}}</div>
+                    <div class="count" ref="count">{{scope.row.num*scope.row.price}}</div>
                 </template>
             </el-table-column>
             <el-table-column label="操作"align="center">
@@ -125,7 +125,7 @@
                 let total = 0;
                 this.multipleSelection = value;
                 this.multipleSelection.forEach((item)=>{
-                     total += item.num  *  item.price;
+                    total += item.num  *  item.price;
                 })
                 this.totalPrice = total;
                 console.log(this.multipleSelection)
@@ -143,9 +143,14 @@
             },
             // 修改购物车数量
             inputNumeberChange(row){
-                console.log(row)
-                console.log('数量置为x，加入购物车')
-                console.log(row)
+                console.log(row);
+                let total = 0;
+                this.multipleSelection.forEach((item)=>{
+                    setTimeout(()=>{
+                        total += item.num   *  item.price;
+                        this.totalPrice = total;
+                    },20)
+                })
                /* cartService.putCartPlus(params)*/
             },
             // 删除购物车条目
@@ -177,6 +182,7 @@
                 }
 
             },
+
         }
   }
 </script>

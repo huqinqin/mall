@@ -34,6 +34,14 @@ const i18n = new VueI18n({
     en: require('@/lang/en').default
   }
 })
+
+
+Vue.filter('strtime2str', function (strtime) {
+    if (!strtime) return '';
+    return dateUtils.timeToStr(dateUtils.getUnixTime(strtime));
+});
+
+
 Vue.filter('timestamp2str', function (timestamp) {
     if (!timestamp) return ''
     return dateUtils.format(new Date(timestamp))

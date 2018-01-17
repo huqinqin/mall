@@ -3,7 +3,7 @@
         <div class="address">
             <h5>收货地址</h5>
             <ul>
-                <li class="default">
+                <li class="default" ref="address">
                     <header>
                         <div><p>{{defaultAddressData.name}} （{{defaultAddressData.city}}）</p></div>
                         <div><span>默认地址</span></div>
@@ -13,7 +13,6 @@
                         <p>电话：{{defaultAddressData.mobile}}</p>
                     </main>
                     <footer>
-                        <button @click="setDefault">设为默认</button>
                         <button @click="editAddress">修改</button>
                     </footer>
                 </li>
@@ -27,61 +26,31 @@
                     </main>
                     <footer>
                         <button @click="setDefault">设为默认</button>
-                        <button @click="editAddress">修改</button>
+                        <button @click="editAddress(item)">修改</button>
                     </footer>
                 </li>
                 <li class="addAddress" @click="addAddress">
                     <i class="iconfont icon-add"></i>
                     <div>添加地址</div>
                 </li>
+                
             </ul>
         </div>
-        <!--<div class="bill">-->
-            <!--<h5>账单地址：</h5>-->
-            <!--<ul>-->
-                <!--<li class="default">-->
-                    <!--<header>-->
-                        <!--<div><p>{{defaultBillressData.name}} （{{defaultBillressData.city}}）</p></div>-->
-                        <!--<div><span>默认地址</span></div>-->
-                    <!--</header>-->
-                    <!--<main>-->
-                        <!--<p>{{defaultBillressData.address}}</p>-->
-                        <!--<p>电话：{{defaultBillressData.mobile}}</p>-->
-                    <!--</main>-->
-                    <!--<footer>-->
-                        <!--<button @click="setDefault">设为默认</button>-->
-                        <!--<button @click="editAddress">修改</button>-->
-                    <!--</footer>-->
-                <!--</li>-->
-                <!--<li v-for="item in billData">-->
-                    <!--<header>-->
-                        <!--<div><p>{{item.name}} （{{item.city}}）</p></div>-->
-                    <!--</header>-->
-                    <!--<main>-->
-                        <!--<p>{{item.address}}</p>-->
-                        <!--<p>电话：{{item.mobile}}</p>-->
-                    <!--</main>-->
-                    <!--<footer>-->
-                        <!--<button @click="setDefault">设为默认</button>-->
-                        <!--<button @click="editAddress">修改</button>-->
-                    <!--</footer>-->
-                <!--</li>-->
-                <!--<li class="addBill" @click="addBill">-->
-                    <!--<i class="iconfont icon-add"></i>-->
-                    <!--<div>添加地址</div>-->
-                <!--</li>-->
-            <!--</ul>-->
-        <!--</div>-->
+
         <div class="inPrice">
             <h5>送货单是否包含价格 </h5>
-            <el-button :class="{active: inPrice === 1}"  @click="chooseInPrice">否</el-button>
-            <el-button :class="{active: inPrice === 0}" @click="chooseInPrice">是</el-button>
+            <el-radio-group v-model="inPrice">
+                <el-radio-button label="是"></el-radio-button>
+                <el-radio-button label="否"></el-radio-button>
+            </el-radio-group>
 
         </div>
         <div class="delivery">
             <h5>配送方式</h5>
-            <el-button :class="{active: deliver === 0}"  @click="chooseDeliver">快递</el-button>
-            <el-button :class="{active: deliver === 1}" @click="chooseDeliver">自提</el-button>
+            <el-radio-group v-model="deliver">
+                <el-radio-button label="快递"></el-radio-button>
+                <el-radio-button label="自提"></el-radio-button>
+            </el-radio-group>
         </div>
         <div class="order">
             <h5>订单信息</h5>
@@ -143,8 +112,8 @@
         data(){
             return{
                 // 送货单是否包含价格，配送方式
-                inPrice:1,
-                deliver:0,
+                inPrice:'否',
+                deliver:'快递',
                 // 是否使用余额
                 useBalance: true,
                 chooseAll: true,
@@ -191,9 +160,10 @@
             setDefault(){
                 alert('set default')
             },
-            editAddress(){
-                alert('edit address')
+            editAddress(item){
+                console.log(item)
             },
+
             addAddress(){
                 alert('add address')
             },
@@ -289,25 +259,7 @@
                     }
                 }
             }
-            /*img{*/
-                /*width: 116px;*/
-                /*height: 116px;*/
-                /*background-color: #ffffff;*/
-                /*border: solid 1px #dadada;*/
-                /*float: left;*/
-            /*}*/
-            /*.content{*/
-                /*margin-left: 125px;*/
-                /*padding: 15px 0;*/
-                /*width:174px;*/
-                /*p{*/
-                    /*line-height: 30px;*/
-                    /*font-size: 14px;*/
-                    /*white-space: nowrap;*/
-                    /*text-overflow: ellipsis;*/
-                    /*overflow:hidden;*/
-                /*}*/
-            /*}*/
+
             .cart-delete{
                 line-height: 40px;
                 font-size: 22px;
@@ -329,7 +281,7 @@
             margin-bottom: 23px;
             width:100%;
         }
-        .address,.bill{
+        .address,{
             margin: 0 24px;
             display: flex;
             flex-wrap: wrap;
@@ -432,6 +384,25 @@
         }
         .delivery,.inPrice{
             margin: 0 24px;
+            .el-radio-group{
+                margin-bottom: 24px;
+                label{
+                    margin-right: 16px;
+                    span{
+                        width:120px;
+                        height: 35px;
+                        line-height: 8px;
+                        border:none;
+                        background: #f6f6f6;
+                        border-radius: 4px;
+                    }
+                }
+                label.is-active{
+                    span{
+                        background: #1fa4f8;
+                    }
+                }
+            }
             .el-button{
                 width: 120px;
                 height: 35px;

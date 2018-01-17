@@ -5,9 +5,9 @@
                 <el-breadcrumb-item :to="{ path: '/' }">商品</el-breadcrumb-item>
                 <el-breadcrumb-item>所有商品</el-breadcrumb-item>
             </el-breadcrumb>
-            <!--<div class="tags" v-if="tag.length > 0">-->
-                <!--<el-tag  v-for="(tag,index) in search.condition" :key="tag" type="danger" closable @close="delCondition(index)">{{tag}}</el-tag>-->
-            <!--</div>-->
+            <div class="tags" v-if="tag.length > 0">
+                <el-tag  v-for="(tag,index) in search.condition" :key="tag" type="danger" closable @close="delCondition(index)">{{tag}}</el-tag>
+            </div>
         </div>
         <div class="condition" :class="{shown: minItem > 3}">
             <el-form>
@@ -15,11 +15,12 @@
                     :class="{showAll: key === selectedItem }"
                     v-for="(item,key,index) in condition"
                     :label="key"
+                    :key = "key"
                     label-width="100px"
                     label-position="right"
                     v-show="index < minItem">
                     <ul>
-                        <li v-for="subItem in item" @click="searchWithText(item,subItem)" >
+                        <li v-for="(subItem,index) in item" @click="searchWithText(item,subItem)" :key="index">
                             {{subItem}}
                         </li>
                     </ul>
@@ -55,7 +56,7 @@
             </div>
             <div class="search-result">
                 <ul class="result">
-                    <li v-for="item in data">
+                    <li v-for="item in data" :key="item.sin">
                         <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
                         <p class="brand">{{item.brand}}</p>
                         <p class="name">{{item.item_name}}</p>

@@ -1541,7 +1541,7 @@
                     "hd_status": 0,
                     "hd_status_title": "未配送",
                     "last_refund_status": 1,
-                    "num": 1.000,
+                    "num": 1000,
                     "open_code": "lts2open",
                     "parent_id": 27519748890,
                     "partner": null,
@@ -1648,6 +1648,7 @@
                     "stid": 6046769463,
                     "stock_out_num": 0,
                     "tid": 27519758890,
+
                     "wholesale_item_d_o": {
                         "activity_item": false,
                         "attr_activity": false,
@@ -1750,6 +1751,10 @@
                 }
             ]
         },
+
+
+
+
         {
             "attribute": 0,
             "biz_type": 20,

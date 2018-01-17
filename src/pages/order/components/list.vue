@@ -1,32 +1,36 @@
 <template>
     <div class="orderList">
         <lts-search-form @get-from="getParameter" :form-fileds="form.formFileds" :form-inlines="form.formInline" />
-        <el-table :data="datalist" v-loading="loading" default-expand-all style="width: 100%">
+        <el-table :data="datalist" v-loading="loading" default-expand-all style="width: 100%" class="orderItem">
             <el-table-column type="expand">
                 <template slot-scope="scope">
-                    <el-table :data="scope.row.wholesale_order_items" style="width: 100%">
-                        <el-table-column type="index" label="#" width="30"/>
-                        <el-table-column label="商品" header-align="center" align="left" :show-overflow-tooltip="true" >
+                    <el-table :data="scope.row.wholesale_order_items" style="width: 100%" class="goodsItem">
+                        <el-table-column type="index" label="" width="30"/>
+                        <el-table-column label="商品" header-align="center" align="left" :show-overflow-tooltip="true" width="300">
+
                             <template slot-scope="subscope">
-                                <img :src="subscope.row.wholesale_item_d_o.image_value + '@100w_2e'" class="item" />
-                                {{subscope.row.wholesale_item_d_o.item_name}}
+                                <div class="goods">
+                                    <div class="img" :style="{backgroundImage : 'url(' + subscope.row.wholesale_item_d_o.image_value +')'}"></div>
+                                    <!--<img :src="subscope.row.wholesale_item_d_o.image_value + '@100w_2e'" class="item" />-->
+                                    <div class="content">
+                                        <p>${{subscope.row.wholesale_item_d_o.item_name}}</p>
+                                        <p>${{subscope.row.wholesale_item_d_o.spec}}</p>
+                                    </div>
+                                </div>
+
                             </template>
                         </el-table-column>
-                        <el-table-column prop="wholesale_item_d_o.spec" label="规格" align="center" width="100" />
-                        <el-table-column prop="num" label="数量" align="center" width="80">
-                            <template slot-scope="subscope">{{subscope.row.num}}{{subscope.row.unit}}</template>
+                        <el-table-column prop="num" label="数量" align="center" >
+                            <template slot-scope="subscope">{{subscope.row.num}}{{subscope.row.wholesale_item_d_o.unit}}</template>
                         </el-table-column>
-                        <el-table-column label="应付" align="center" width="80">
-                            <template slot-scope="subscope">{{subscope.row.pay | money2str}}</template>
+                        <el-table-column label="应付" align="center" >
+                            <template slot-scope="subscope">
+                                <p>{{subscope.row.pay_real | money2str}}</p>
+                                <p class="fakePay">{{subscope.row.pay | money2str}}</p>
+                            </template>
                         </el-table-column>
-                        <el-table-column label="优惠" align="center" width="80">
-                            <template slot-scope="subscope">{{subscope.row.discount | money2str}}</template>
-                        </el-table-column>
-                        <el-table-column label="实付" align="center" width="80">
-                            <template slot-scope="subscope">{{subscope.row.pay_real | money2str}}</template>
-                        </el-table-column>
-                        <el-table-column prop="hd_status_title" label="配送状态" align="center" width="100" />
-                        <el-table-column prop="status_title" label="状态" align="center" width="100" >
+                        <el-table-column prop="hd_status_title" label="配送状态" align="center" />
+                        <el-table-column prop="status_title" label="状态" align="center">
                             <template slot-scope="subscope">
                                 <span v-if="subscope.row.status == 9">
                                     {{subscope.row.closed_reason_title}}
@@ -50,7 +54,7 @@
                                 </span>
                             </template>
                         </el-table-column>
-                        <el-table-column label="操作" align="center" width="80">
+                        <el-table-column label="操作" align="center" >
                             <template slot-scope="subscope">
                                 <el-dropdown @command="handleMenuItemClick">
                                     <span class="el-dropdown-link">
@@ -65,11 +69,11 @@
                     </el-table>
                 </template>
             </el-table-column>
-            <el-table-column type="index" label="#"/>
+            <el-table-column type="index" label=""/>
             <el-table-column prop="tid" label="订单编号" align="center" width="120" />
             <el-table-column prop="user_name" label="工程商" header-align="center" align="center" width="200" :show-overflow-tooltip="true" />
-            <el-table-column prop="receiver_mobile" label="手机" header-align="center" align="left" width="120" />
-            <el-table-column prop="user_addr" label="地址" header-align="center" align="left" :show-overflow-tooltip="true" />
+            <el-table-column prop="receiver_mobile" label="手机" header-align="center" align="center" width="120" />
+            <el-table-column prop="user_addr" label="地址" header-align="center" align="center" :show-overflow-tooltip="true" />
             <el-table-column label="应付" align="center" width="80">
                 <template slot-scope="scope">{{scope.row.pay | money2str}}</template>
             </el-table-column>
@@ -292,16 +296,57 @@
 </script>
 <style lang="less">
     .orderList{
-        .item {
-            width: 50px;
-            height: 50px;
-            margin-right: 110px;
-            margin-left: 120px;
-        }
         .el-dropdown-link {
             cursor: pointer;
             color: #409eff;
         }
+        .el-table.orderItem{
+            border:1px solid red;
+            .has-gutter{
+                tr{
+                    th{
+                        background-color: rgba(0,0,0,0.05);
+                    }
+                    /*th.el-table_1_column_2{*/
+                        /*.cell{*/
+                            /*margin-left: 24px;*/
+                        /*}*/
+                    /*}*/
+                }
+            }
+        }
+
+        .el-table.goodsItem{
+            .el-table__header-wrapper{
+                display: none;
+            }
+            .goods{
+                display: flex;
+                justify-content: space-around;
+                .img{
+                    width:80px;
+                    height: 80px;
+                    background-position: center center;
+                    background-size: cover;
+                }
+                .content{
+                    width:120px;
+                    p{
+                        overflow: hidden;
+                        text-overflow:ellipsis;
+                        white-space: nowrap;
+                    }
+
+                }
+            }
+            p.fakePay{
+                text-decoration: line-through;
+            }
+        }
+
+
+
+
     }
 
 </style>

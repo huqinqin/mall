@@ -102,7 +102,7 @@
                                 <li v-for="(value,key) in aboutDetail">
                                     {{key}}: {{value}}
                                 </li>
-                                <li class="more">全部参数 <i class="iconfont icon-shangyiye-copy-copy"></i></li>
+                                <li class="more">详细 <i class="iconfont icon-shangyiye-copy-copy"></i></li>
                             </ul>
                             <ul class="imgDetail">
                                 <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/4715008730056764668.jpg')"></li>
@@ -128,16 +128,16 @@
 
                             </ul>
                         </el-tab-pane>
-                        <!--<el-tab-pane label="规格与包装" name="second">规格与包装</el-tab-pane>-->
-                        <!--<el-tab-pane label="商品评价" name="third">-->
+                        <el-tab-pane label="规格与包装" name="second">规格与包装</el-tab-pane>
+                        <el-tab-pane label="商品评价" name="third">
                             <!--<ul class="comments">-->
                                 <!--<li v-for="item in comments">-->
 
                                 <!--</li>-->
                             <!--</ul>-->
-                        <!--</el-tab-pane>-->
-                        <!--<el-tab-pane label="服务保障" name="fourth">服务保障</el-tab-pane>-->
-                        <!--<el-tab-pane label="下载" name="five">下载</el-tab-pane>-->
+                        </el-tab-pane>
+                        <el-tab-pane label="服务保障" name="fourth">服务保障</el-tab-pane>
+                        <el-tab-pane label="下载" name="five">下载</el-tab-pane>
                     </el-tabs>
                 </div>
             </div>
@@ -1058,8 +1058,8 @@
                         display: flex;
                         justify-content: space-between;
                         .small_img{
-                            width: 70px;
-                            height: 70px;
+                            width: 80px;
+                            height: 80px;
                             background-size: cover;
                             border:1px solid rgba(0,0,0,0);
                             background-position: center;
@@ -1239,15 +1239,15 @@
                 }
                 .buttons{
                     display: inline-block;
-
                     button{
-                        width:180px;
-                        height: 50px;
+                        width:160px;
+                        height: 40px;
+
                         background: #ff3b41;
                         color:white;
                         border:none;
                         font-weight: bold;
-                        font-size: 20px;
+                        font-size: 18px;
                         border-radius: 4px;
                         cursor: pointer;
                     }
@@ -1275,16 +1275,15 @@
                 .detail_goods{
                     flex:1;
                     .el-tabs{
-                        border: none;
                         box-shadow: none;
                         -webkit-box-shadow:none;
+                        border-bottom: 1px solid #e3e3e3;
                         .el-tabs__header{
                             background: #f6f6f6;
-                            border:none;
                             .el-tabs__item{
-                                border: none;
+                                border-top: 2px solid #f6f6f6;
+                                width:122px;
                                 font-size: 16px;
-                                width:115px;
                                 height: 38px;
                                 line-height: 38px;
                                 text-align: center;
@@ -1293,9 +1292,11 @@
                                 color:#ff3b41;
                             }
                             .el-tabs__item.is-active{
-                                color:#fff;
-                                background-color:#ff3b41;
-                                border: none;
+                                color:#ff3b41;
+                                background-color:#fff;
+                                border-bottom: 1px solid #fff;
+                                border-right: 1px solid #e3e3e3;
+
                             }
                         }
                         .el-tabs__content{
@@ -1311,6 +1312,7 @@
                             justify-content: flex-start;
                             padding-bottom: 24px;
                             border-bottom: 1px solid #E5E5E5;
+                            margin-left: 24px;
                             li{
                                 width: 24.8%;
                                 line-height: 28px;
@@ -1321,15 +1323,22 @@
                                 left:100%;
                                 margin-left: -80px;
                                 cursor: pointer;
+                                color: #48a2ff;
                                 i{
                                     display: inline-block;
                                     transform: rotateZ(180deg);
+                                    font-size: 14px;
+                                    position: relative;
+                                    top:-2px;
+
                                 }
                             }
                         }
                         .imgDetail{
                             max-height: 2000px;
                             overflow: auto;
+                            margin-top: 24px;
+
                             li{
                                 width:100%;
                                 height: 500px;
@@ -1358,7 +1367,7 @@
                 padding: 0 12px;
                 display: flex;
                 justify-content: space-between;
-                font-size: 16px;
+                font-size: 14px;
                 .icons{
                     width:40px;
                     display: flex;
@@ -1381,11 +1390,12 @@
                 text-align: center;
                 background: #ffffff;
                 margin: 0 15px;
-                border-bottom: 1px solid #ccc;
+                border-bottom: 1px solid #f2f2f2;
                 .img{
                     height: 146px;
                     background-position: center;
-                    background-size: cover;
+                    background-size: contain;
+                    background-repeat: no-repeat;
                 }
                 p.brand{
                     line-height: 14px;
@@ -1494,7 +1504,7 @@
             color: #646464;
             float: left;
         }
-        span{
+        span {
             color: #646464;
             margin: 1px 6px 0;
             float: left;

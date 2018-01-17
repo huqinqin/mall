@@ -1,7 +1,7 @@
 <template>
     <div class="settle">
         <div class="address">
-            <h5>收货地址：</h5>
+            <h5>收货地址</h5>
             <ul>
                 <li class="default">
                     <header>
@@ -72,13 +72,19 @@
                 <!--</li>-->
             <!--</ul>-->
         <!--</div>-->
+        <div class="inPrice">
+            <h5>送货单是否包含价格 </h5>
+            <el-button :class="{active: inPrice === 1}"  @click="chooseInPrice">否</el-button>
+            <el-button :class="{active: inPrice === 0}" @click="chooseInPrice">是</el-button>
+
+        </div>
         <div class="delivery">
-            <h5>配送方式： </h5>
-            <el-button>快递</el-button>
-            <el-button>自提</el-button>
+            <h5>配送方式</h5>
+            <el-button :class="{active: deliver === 0}"  @click="chooseDeliver">快递</el-button>
+            <el-button :class="{active: deliver === 1}" @click="chooseDeliver">自提</el-button>
         </div>
         <div class="order">
-            <h5>订单信息： </h5>
+            <h5>订单信息</h5>
             <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
                 <el-table-column label="商品信息" width="450" class="column-1"  align="center">
                     <template slot-scope="scope">
@@ -103,14 +109,30 @@
                     </template>
                 </el-table-column>
             </el-table>
-            <div class="remark"><span>买家留言：</span><el-input></el-input></div>
+            <div class="remark"><span>买家留言 </span><el-input></el-input></div>
         </div>
-        <div class="coupon" @click="useCoupon"><p><i class="iconfont icon-icon-test1"></i>使用优惠券 <span>（没有优惠券可以使用）</span></p></div>
-        <div class="submitOrder">
-            <div>商品价格：{{sum.amount}} + 运费：{{sum.express}} + 税额：{{sum.tax}} - 红包：{{sum.benefit}} = 总计：${{sum.result}}</div>
-            <div>应付金额：<span>$500.00</span></div>
+        <div class="balance">
+            <el-checkbox v-model="useBalance">使用余额</el-checkbox>
+        </div>
+        <div class="someCount">
+            <div class="count">
+                <p>商品应付金额 <span>{{sum.amount.toFixed(2)}}</span></p>
+                <p>运费 <span>+{{sum.express.toFixed(2)}}</span></p>
+                <p>税费 <span>+{{sum.tax.toFixed(2)}}</span></p>
+                <p class="result">应付金额 <span>${{sum.result.toFixed(2)}}</span></p>
+            </div>
+        </div>
+        <div class="allInfo">
+            <p>联系人 {{checkedAddress.name}}</p>
+            <p>联系电话 {{checkedAddress.mobile}}</p>
+            <p>收货地址 {{checkedAddress.address}}</p>
+            <p>账单地址 {{checkedAddress.address}}</p>
+            <p>资格证地址 {{checkedAddress.address}}</p>
+        </div>
+        <div class="submit">
             <el-button @click="settle">提交订单</el-button>
         </div>
+
     </div>
 </template>
 
@@ -120,7 +142,18 @@
         props: ['items'],
         data(){
             return{
+                // 送货单是否包含价格，配送方式
+                inPrice:1,
+                deliver:0,
+                // 是否使用余额
+                useBalance: true,
                 chooseAll: true,
+                checkedAddress: {
+                    name: '抹茶',
+                    city: '浙江省杭州市',
+                    address: '西湖区三墩镇振华路西城博司12楼1201',
+                    mobile: '183 **** 5921'
+                },
                 defaultAddressData: {
                     name: '抹茶',
                     city: '浙江省杭州市',
@@ -183,8 +216,26 @@
             deleteHandle(){
                 alert('asf')
             },
-            useCoupon(){
-                alert('使用优惠券')
+            // 选择订单是否包含价格
+            chooseInPrice(e){
+                switch(e.target.innerText){
+                    case '是':
+                        this.inPrice = 0
+                        break
+                    case '否':
+                        this.inPrice = 1
+                }
+            },
+
+            // 选择配送方式
+            chooseDeliver(e){
+                switch(e.target.innerText){
+                    case '快递':
+                        this.deliver = 0
+                        break
+                    case '自提':
+                        this.deliver = 1
+                }
             }
         },
         mounted(){
@@ -197,6 +248,7 @@
 
 <style lang="less">
     .settle{
+        overflow: hidden;
         .el-table__header-wrapper{
             height: 60px;
         }
@@ -378,7 +430,7 @@
                 }
             }
         }
-        .delivery{
+        .delivery,.inPrice{
             margin: 0 24px;
             .el-button{
                 width: 120px;
@@ -393,7 +445,8 @@
                     font-size: 16px;
                 }
             }
-            .el-button:focus{
+
+            .active{
                 background-color: #1fa4f8;
                 border:1px solid #1fa4f8;
                 color:white;
@@ -419,12 +472,12 @@
                     input{
                         height: 30px;
                     }
-
                 }
             }
         }
-        .coupon{
+        .balance{
             margin: 24px 0;
+            padding-left: 24px;
             width: 100%;
             height: 40px;
             background-color: rgba(0, 0, 0, 0.05);
@@ -443,34 +496,65 @@
                 }
             }
         }
-        .coupon:hover{
-            cursor: pointer;
-        }
-        .submitOrder{
+        .someCount{
             margin-right: 24px;
             display: flex;
             flex-direction: column;
             align-items: flex-end;
             line-height: 40px;
-            margin-bottom: 100px;
-            div{
-                font-size: 12px;
-                color:rgba(0,0,0,0.7);
+            border-bottom: 1px solid #f2f2f2;
+            .count{
+                p{
+                    text-align: right;
+                    font-size: 14px;
+                    color:#737373;
+                    line-height: 26px;
+                }
                 span{
-                    color:#f81f22;
-                    font-size: 26px;
-                    font-weight: bold;
+                    display: inline-block;
+                    width:100px;
+                    color:#f13a40;
+
+                }
+                p.result{
+                    font-size: 14px;
+                    line-height: 50px;
+                    color:#737373;;
+                    span{
+                        color:#f13a40;
+                        font-size: 20px;
+                        font-weight: bold;
+                    }
                 }
             }
+        }
+        .allInfo{
+            text-align: right;
+            color: #a3a3a3;
+            font-size: 14px;
+            margin-top: 12px;
+            padding-right: 24px;
+            letter-spacing: 0px;
+            p{
+                line-height: 26px;
+            }
+        }
+        .submit{
+            text-align: right;
+            margin-right: 24px;
+            margin-top: 24px;
             .el-button{
                 width: 160px;
-                height: 50px;
+                height: 40px;
                 background-color: #f13a40;
                 border-radius: 4px;
                 color: #fff;
-                font-size: 22px;
+                font-size: 18px;
                 line-height: 0;
+                font-weight: bold;
+
             }
         }
+
     }
 </style>

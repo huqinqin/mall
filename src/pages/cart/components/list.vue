@@ -43,8 +43,8 @@
                 </p>
             </div>
             <div class="check">
-                <p><span>应付金额：<strong>$500.00</strong></span></p>
-                <el-button @click="check">去结算</el-button>
+                <!--<p><span>应付金额：<strong>$500.00</strong></span></p>-->
+                <el-button @click="check">立即结算</el-button>
             </div>
         </div>
         <div class="history">
@@ -294,13 +294,13 @@
             .check{
                 text-align: right;
                 .el-button{
-                    background-color: #f81f22;
+                    background-color: #ff3b41;
                     border-radius: 4px;
                     width: 160px;
-                    height: 50px;
+                    height: 40px;
                     line-height: 0px;
-                    font-size: 24px;
-                    font-family: MicrosoftYaHei-Bold;
+                    font-size: 18px;
+                    font-weight: bold;
                     span{
                         color: #fff;
                     }

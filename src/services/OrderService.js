@@ -12,4 +12,25 @@ export default class OrderService extends BaseService {
         };
         return super.getRequest('/wholesale/trade/create_trade',params)
     }
+
+    // from nation
+
+    static get(tid){
+        let param = {
+            tid : tid,
+        };
+        return super.getRequest('/static/test/json/detail.27519708890.json', param);
+    }
+    static getList(param = {}, page = 1, page_size = 10, order_by = 'cdate desc'){
+        param.page = page;
+        param.page_size = page_size;
+        param.order_by = order_by;
+        return super.getRequest('/static/test/json/order.list.json', param);
+    }
+    static accept(tid){
+        let param = {
+            tid : tid,
+        };
+        return super.getRequest('/store/order/accept', param);
+    }
 }

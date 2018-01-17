@@ -5,31 +5,45 @@
                 <el-breadcrumb-item :to="{ path: '/' }">商品</el-breadcrumb-item>
                 <el-breadcrumb-item>所有商品</el-breadcrumb-item>
             </el-breadcrumb>
-            <div class="tags">
-                <el-tag v-for="(tag,index) in search.condition" closable @close="delCondition(index)">{{tag}}</el-tag>
-            </div>
+            <!--<div class="tags" v-if="tag.length > 0">-->
+                <!--<el-tag  v-for="(tag,index) in search.condition" :key="tag" type="danger" closable @close="delCondition(index)">{{tag}}</el-tag>-->
+            <!--</div>-->
         </div>
-        <div class="condition">
+        <div class="condition" :class="{shown: minItem > 3}">
             <el-form>
-                <el-form-item v-for="(item,key) in condition" :label="key + ':'" label-width="100px" label-position="right">
+                <el-form-item
+                    :class="{showAll: key === selectedItem }"
+                    v-for="(item,key,index) in condition"
+                    :label="key"
+                    label-width="100px"
+                    label-position="right"
+                    v-show="index < minItem">
                     <ul>
-                        <li v-for="subItem in item" @click="searchWithText(item,subItem)" class="{active: activeLi === selected }">
+                        <li v-for="subItem in item" @click="searchWithText(item,subItem)" >
                             {{subItem}}
                         </li>
                     </ul>
-                    
-                    <button>更多</button>
+                    <div class="buttons" @click="showAllCondition" ref="buttons">
+                        <button>更多</button><i class="iconfont icon-xianshigengduo"></i>
+                    </div>
                 </el-form-item>
             </el-form>
+            <div class="loadMore" @click="showMore">
+                <button>更多选项</button>
+                <i class="iconfont icon-xianshigengduo"></i>
+            </div>
+
         </div>
         <div class="content">
             <div class="header">
                 <div class="left">
-                    <div v-for="(item,key) in orderBy" :class="key" @click="selectOrderBy" >{{item}}</div>
-                    <div class="input"><i class="iconfont icon-qc-jine"></i><input type="text" class="lowest"></div>
+                    <div class="synth" @click="selectOrderBy">综合</div>
+                    <div class="price" @click="selectOrderBy">价格<i class="iconfont icon-shang1"></i></div>
+                    <div class="time" @click="selectOrderBy">上架时间<i class="iconfont icon-shang1"></i></div>
+                    <div class="input"><i class="iconfont icon-dingdanjine"></i><input type="text" class="lowest" @input="showRangeButton"></div>
                     <div class="hr"></div>
-                    <div class="input"><i  class="iconfont icon-qc-jine"></i><input type="text" class="highest"></div>
-                    <button>确定</button>
+                    <div class="input"><i  class="iconfont icon-dingdanjine"></i><input type="text" class="highest" @input="showRangeButton"></div>
+                    <button v-show="showRange">确定</button>
                 </div>
                 <div class="right">
                     <div><span>{{search.page}}</span>/{{search.totalPage}}</div>
@@ -55,8 +69,8 @@
                 </ul>
                 <el-pagination background
                                layout="prev, pager, next"
-                               :total="40"
-                               page-size="8"
+                               :total= "search.totalPage"
+                               :page-size= "search.pageSize"
                                prev-text="上一页"
                                next-text="下一页"></el-pagination>
             </div>
@@ -72,19 +86,21 @@
         data(){
             return{
                 activeLi: '',
-                // 选择排序方式
-                orderBy: {synth:'综合',price:'价格',time:'上架时间'},
                 activeOrderBy: '',
+                selectedItem: '',
+                minItem: 3,
+                showRange: false,
                 condition: {},
                 search:{
                     condition:[],
                     text:'',
-                    page:0,
-                    pageSize:20,
-                    totalPage:0,
+                    page:1,
+                    pageSize:8,
+                    totalPage:45,
                 },
                 data:[]
             }
+
         },
         mounted(){
             this.init();
@@ -111,7 +127,6 @@
                 if(item){
                     this.search.condition.push(item);
                 }
-
                 ItemService.searchItemList(this.search.text,this.search.condition).then((rtn)=>{
                     this.data = rtn;
                 })
@@ -119,10 +134,14 @@
             // 加载条件
             loadCondition(){
                 this.condition = {
-
-                    '像素':['100W','101W','102W','103W','104W','105W','106W','107W','108W'],
+                    '像素':['100W','101W','102W','103W','104W','105W','106W','107W','108W',
+                        '100W','101W','102W','103W','104W','105W','106W','107W','108W',
+                        '100W','101W','102W','103W','104W','105W','106W','107W','108W',
+                        '100W','101W','102W','103W','104W','105W','106W','107W','108W'],
                     '镜头':['2.8mm','2.8mm','2.8mm','2.8mm','2.8mm','2.8mm','2.8mm','2.8mm'],
                     '供电方式':['DC12V','DC12V','DC12V','DC12V','DC12V','DC12V','DC12V','DC12V',],
+                    '供电123':['DC12V','DC12V','DC12V','DC12V','DC12V','DC12V','DC12V','DC12V',],
+                    '供电321':['DC12V','DC12V','DC12V','DC12V','DC12V','DC12V','DC12V','DC12V',],
                 }
             },
 
@@ -134,11 +153,27 @@
             selected(selected){
                 this.activeLi = selected
             },
-            selectOrderBy(selected){
-                this.activeOrderBy = selected
+            selectOrderBy(e){
+                this.activeOrderBy = e.target.innerText
+                console.log(e.target.innerText)
+            },
+
+            // 点击更多按钮
+            showAllCondition(e){
+                this.selectedItem = this.selectedItem === e.path[3].childNodes[0].innerText ? '' : e.path[3].childNodes[0].innerText
+                console.log(this.selectedItem)
+
+            },
+            // 加载所有条件
+            showMore(){
+                this.minItem = this.minItem === 3 ? 100 : 3
+            },
+
+            // 输入价格区间显示确定按钮
+            showRangeButton(){
+                this.showRange = true
             }
         }
-
     }
 </script>
 
@@ -146,7 +181,14 @@
     *{
         box-sizing: border-box;
     }
+    button{
+        cursor:pointer;
+    }
+    button:focus{
+        outline: none;
+    }
     .search{
+        overflow: hidden;
         ul{
             display: flex;
         }
@@ -173,6 +215,7 @@
                     line-height: 18px;
                     border-radius: 0;
                     margin-right: 12px;
+                    margin-bottom: -2px;
                     background: #fff;
                     color: #ff3b41;
                     text-align: center;
@@ -195,23 +238,134 @@
         .condition{
             width:100%;
             height: 116px;
-            border:1px solid #e3e3e3;
-            margin-top: 36px;
+            margin-top: 34px;
+            display:inline-block;
+            .el-form{
+                border:1px solid #e3e3e3;
+            }
             .el-form-item{
                 height: 36px;
-                line-height: 36px;
-                margin-bottom: 0;
                 overflow: hidden;
-                li{
-                    color:#777;
-                    font-size: 14px;
-                    margin-right: 12px;
-                    cursor:pointer;
+                position: relative;
+                border-bottom: 1px dashed #e3e3e3;
+                margin-bottom: 0;
+                transition: all ease 5s;
+                label{
+                    line-height: 36px;
                 }
-                li.active{
-                    border:1px solid red;
+                label::after{
+                    content:':';
+                }
+                ul{
+                    width:80%;
+                    display: flex;
+                    flex-wrap: wrap;
+                    li{
+                        color:#777;
+                        font-size: 14px;
+                        line-height: 36px;
+                        margin-right: 12px;
+                        cursor:pointer;
+                    }
+                    li:hover{
+                        color: #ff3b41;
+                    }
+                }
+                .buttons{
+                    position: absolute;
+                    z-index: 20;
+                    right: 97px;
+                    top:-3px;
+                    color:#777;
+                    font-size: 12px;
+                    cursor: pointer;
+                    button{
+                        width: 62px;
+                        height: 26px;
+                        background: #fff;
+                        border:1px solid #777;
+                        padding-left: 0;
+                        color:#777;
+                        cursor: pointer;
+                    }
+                    i{
+                        position: absolute;
+                        right:2px;
+                        top:0;
+                    }
                 }
             }
+            .el-form-item.showAll{
+                height:auto;
+                overflow: visible;
+                .el-form-item{
+                    min-height: 36px;
+                    label{
+                        min-height: 36px;
+                    }
+                }
+            }
+            position: relative;
+            .loadMore{
+                color: #777;
+                position: relative;
+                left: 50%;
+                top: -2px;
+                margin-left: -123px;
+                margin-top: -1px;
+                border-top:2px solid #fff;
+                button{
+                    width: 247px;
+                    height: 42px;
+                    color: #777;
+                    background: #fff;
+                    font-size: 12px;
+                    border: 1px solid #e3e3e3;
+                    border-top: 1px solid #fff;
+                    cursor: pointer;
+                }
+                i{
+                    position: relative;
+                    left:160px;
+                    top:-28px;
+                    cursor: pointer;
+                    display: block;
+                }
+            }
+            /*
+            * 没有显示全的样式
+            *
+            */
+            .el-form{
+                border-bottom: 1px solid #e3e3e3;
+                .el-form-item:nth-child(3){
+                    border-bottom:none;
+                }
+            }
+
+
+
+        }
+        .condition.shown{
+            /*
+            * 显示全了的样式
+            *
+            */
+            .el-form{
+                .el-form-item:nth-child(3){
+                    border-bottom:1px dashed #e3e3e3;
+                }
+                .el-form-item:last-child{
+                    border-bottom:none;
+                }
+                .loadMore{
+                    i{
+                        transform: rotate(30deg);
+                    }
+
+                }
+            }
+
         }
         .content{
             margin-top: 64px;
@@ -228,10 +382,12 @@
                     display: flex;
                     justify-content: flex-start;
                     align-items: center;
+                    color:#777;
                     div{
                         line-height: 40px;
                         border-right:1px solid #e3e3e3;
                         text-align: center;
+                        cursor: pointer;
                     }
                     .synth{
                         width:58px;
@@ -287,9 +443,10 @@
                     }
                 }
                 .right{
-                    width:160px;
+                    width:124px;
                     display: flex;
                     justify-content: space-between;
+                    color: #999;
                     .buttons{
                         button{
                             padding:0;
@@ -301,6 +458,9 @@
                             position: relative;
 
                         }
+                    }
+                    span{
+                        color: #ff3b41;
                     }
                 }
             }
@@ -314,7 +474,7 @@
                     margin-bottom: 80px;
                     li{
                         width:23%;
-                        height: 432px;
+                        height: 430px;
                         overflow: hidden;
                         margin-top: 36px;
                         text-align: center;

@@ -1,0 +1,84 @@
+{
+    "data": {
+        "accept_time": null,
+        "carrier_uid": null,
+        "cdate": 1510567968000,
+        "deal_remark": [],
+        "edate": 1515657099000,
+        "end_time": 1510567968000,
+        "fund_no": "2017111318127519478202",
+        "hd_status_title": "未定义",
+        "hd_oid": "",
+        "hd_status": 0,
+        "id": 9204,
+        "item_remark": {
+            "item_id": 2101093,
+            "item_name": "八宝粥+两根长鼻王",
+            "num": 1.000,
+            "order_cdate": "2017-11-13 18:08:09",
+            "out_time": "2017-11-13 18:08:09",
+            "pay_time": "2017-11-13 18:08:09",
+            "price": 3900,
+            "sinr": "3014410140045",
+            "spec": "无描述"
+        },
+        "oid": 27519478202,
+        "op_uid": 0,
+        "open_code": "lts2open",
+        "paid_owner_title": "物流商",
+        "paid_owner": null,
+        "paid_remark": {
+            "blc_paid": 0,
+            "hd_paid": 0,
+            "prov_paid": 0,
+            "spot_paid": 3800
+        },
+        "real_num": 1.000,
+        "refund": 3800,
+        "refund_method_title": "小店直接赔",
+        "refund_type_title": "交易完成后",
+        "refund_method": 4,
+        "refund_real": 3800,
+        "refund_type": 403,
+        "remark": [
+            {
+                "date": "2017-11-13 18:12:48",
+                "discount": "",
+                "remark": "收银机退货申请自动通过",
+                "to_uid": 158202,
+                "uid": null
+            }
+        ],
+        "reverse_reason_title": "其它原因",
+        "reverse_reason": "REFUND_OTHER",
+        "reverse_remark": {
+            "bad_item": null,
+            "return_item": {
+                "num": 1,
+                "refund": 3800,
+                "storage_return": true,
+                "unit": "组"
+            },
+            "stockout_item": null
+        },
+        "sku_id": null,
+        "spot_code": "330106126139",
+        "start_time": 1514974368000,
+        "status": 7,
+        "status_title": "退款成功",
+        "stid": 6046679144,
+        "tid": 27519468202,
+        "to_uid": 139144,
+        "tobuy_time": 1510567968000,
+        "total_num": 1.000,
+        "user_id": 158202,
+        "user_name": "默认下单会员",
+        "voucher": ""
+    },
+    "error_code": 999,
+    "error_message": "",
+    "error_name": "SERVICE_ERROR",
+    "fail": false,
+    "success": true,
+    "success_message": ""
+}

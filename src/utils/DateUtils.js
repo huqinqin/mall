@@ -1,4 +1,20 @@
 export default {
+    FORMAT:{
+        CN: {
+            YMDHMS :'yyyy-MM-dd hh:mm:ss',
+            YMD :'yyyy-MM-dd hh:mm:ss'
+        },
+        EN: {
+            YMDHMS : 'MM-dd-yyyy hh:mm:ss',
+            YMD : 'MM-dd-yyyy'
+        },
+    },
+    getNearWeek : function(){
+        return [this.timeToStr(new Date().getTime() - 3600 * 1000 * 24 * 7, this.FORMAT.CN.YMDHMS), this.format(new Date(), this.FORMAT.CN.YMDHMS)];
+    },
+    getNearMonth : function(){
+        return [this.timeToStr(new Date().getTime() - 3600 * 1000 * 24 * 30, this.FORMAT.CN.YMDHMS), this.format(new Date(), this.FORMAT.CN.YMDHMS)];
+    },
     getDateStr : function(date){
         let y = date.getFullYear();
         let m = date.getMonth() + 1;

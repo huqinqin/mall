@@ -9,7 +9,9 @@ export default {
     url: {
         main: 'http://work.local.lts.com:8085'
     },
-    api:api(isDebug),
+    api:{
+        service:'http://work.local.lts.com:8085/gateway'
+    },
     homePage: '/',
     loginPage: '/login',
     appKey: '00000-500mi',

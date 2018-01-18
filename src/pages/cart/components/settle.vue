@@ -99,7 +99,7 @@
                 </el-table-column>
                 <el-table-column label="小计" align="center">
                     <template slot-scope="scope">
-                        <div class="count">{{scope.row.count}}</div>
+                        <div class="count" ref="count">{{scope.row.num*scope.row.price}}</div>
                     </template>
                 </el-table-column>
             </el-table>
@@ -108,18 +108,20 @@
         <div class="coupon" @click="useCoupon"><p><i class="iconfont icon-icon-test1"></i>使用优惠券 <span>（没有优惠券可以使用）</span></p></div>
         <div class="submitOrder">
             <div>商品价格：{{sum.amount}} + 运费：{{sum.express}} + 税额：{{sum.tax}} - 红包：{{sum.benefit}} = 总计：${{sum.result}}</div>
-            <div>应付金额：<span>$500.00</span></div>
+            <div>应付金额：<span>{{totalPrice}}</span></div>
             <el-button @click="settle">提交订单</el-button>
         </div>
     </div>
 </template>
 
 <script>
+    import  cartService from '@/services/CartService.js'
     export default {
         name: "settle",
         props: ['items'],
         data(){
             return{
+                totalPrice:0,
                 chooseAll: true,
                 defaultAddressData: {
                     name: '抹茶',
@@ -185,12 +187,33 @@
             },
             useCoupon(){
                 alert('使用优惠券')
+            },
+            queryCartList(){
+                this.tableData = cartService.queryCartList(158716).datalist;
+                console.log(this.tableData);
+            },
+            calPrice(){
+                setTimeout(()=>{
+                    let arr = [];
+                    for(let i =0;i<4;i++){
+                        arr[i] = parseInt(document.getElementsByClassName("count")[i].innerHTML);
+                    }
+                    arr.forEach((value,index)=>{
+                        this.totalPrice += value;
+                        console.log(value);
+                    });
+                    console.log(this.totalPrice);
+                })
             }
         },
         mounted(){
-            console.log(this.$route.params.items)
+            console.log(this.$route.params.items);
             this.formData = this.$route.params.items
-            this.sum.result = this.sum.amount + this.sum.express + this.sum.tax - this.sum.benefit
+            this.sum.result = this.sum.amount + this.sum.express + this.sum.tax - this.sum.benefit;
+            setTimeout(()=>{
+                this.queryCartList();
+                this.calPrice();
+            },20)
         }
   }
 </script>

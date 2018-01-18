@@ -33,4 +33,18 @@ export default class OrderService extends BaseService {
         };
         return super.getRequest('/store/order/accept', param);
     }
+    /*模拟下单*/
+    static simulateCreateTrade(param){
+        let params = {
+            wholesale_trade_request : JSON.stringify(param)
+        };
+        return super.postRequest('/installer/trade/simulate_create_trade',params)
+    }
+    /*正式下单*/
+    static createTrade(param){
+        let params = {
+            wholesale_trade_request : JSON.stringify(param)
+        };
+        return super.postRequest('/installer/trade/create_trade',params)
+    }
 }

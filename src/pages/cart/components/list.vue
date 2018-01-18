@@ -1,44 +1,51 @@
 <template>
     <div class="list">
-        <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%" align="right" @selection-change="handleSelectionChange">
-            <el-table-column type="selection" width="60%" align="right" @change="checkItem"></el-table-column>
-            <el-table-column label="商品信息" width="450" class="column-1"  align="center">
-                <template slot-scope="scope">
-                    <div class="item-img" :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+scope.row.url+')'}"></div>
-                    <div class="content">
-                        <p>{{scope.row.item_name}}</p>
-                    </div>
-                    <div class="other">
-                        <p v-for="(value,key) in scope.row.item_props">{{value.prop_value}}</p>
-                    </div>
-                </template>
-            </el-table-column>
-            <el-table-column prop="price" label="单价" align="center">
-            </el-table-column>
-            <el-table-column label="数量" prop="num" align="center">
-                <template slot-scope="scope">
-                    <div class="inputNumber">
-                        <el-input-number :min='1' size="small" v-model="scope.row.num" @change="inputNumeberChange(scope.row)" label="描述文字"></el-input-number>
-                    </div>
-                </template>
-            </el-table-column>
-            <el-table-column label="小计"align="center">
-                <template slot-scope="scope">
-                    <div class="count" ref="count">{{scope.row.num*scope.row.price}}</div>
-                </template>
-            </el-table-column>
-            <el-table-column label="操作"align="center">
-                <template slot-scope="scope">
-                    <div class="cart-delete" @click="deleteHandle(scope.$index, scope.row)">
-                        <i class="iconfont icon-shanchu"></i>
-                    </div>
-                </template>
-            </el-table-column>
+        <el-table
+            ref="multipleTable"
+            :data="tableData"
+            tooltip-effect="dark"
+            style="width: 100%" align="right"
+            @selection-change="handleSelectionChange"
+        >
+             <el-table-column type="selection" width="60%" align="right" @change="checkItem"></el-table-column>
+             <el-table-column label="商品信息" width="450" class="column-1"  align="center">
+                        <template slot-scope="scope">
+                            <div class="item-img" :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+scope.row.url+')'}"></div>
+                            <div class="content">
+                                <p>{{scope.row.item_name}}</p>
+                            </div>
+                            <div class="other">
+                                <p v-for="(value,key) in scope.row.item_props">{{value.prop_value}}</p>
+                            </div>
+                        </template>
+                    </el-table-column>
+             <el-table-column prop="price" label="单价" align="center">
+                    </el-table-column>
+             <el-table-column label="数量" prop="num" align="center">
+                        <template slot-scope="scope">
+                            <div class="inputNumber">
+                                <el-input-number :min='1' size="small" v-model="scope.row.num" @change="inputNumeberChange(scope.row)" label="描述文字"></el-input-number>
+                            </div>
+                        </template>
+                    </el-table-column>
+             <el-table-column label="小计"align="center">
+                        <template slot-scope="scope">
+                            <div class="count" ref="count">{{scope.row.num*scope.row.price}}</div>
+                        </template>
+                    </el-table-column>
+             <el-table-column label="操作"align="center">
+                        <template slot-scope="scope">
+                            <div class="cart-delete" @click="deleteHandle(scope.$index, scope.row)">
+                                <i class="iconfont icon-shanchu"></i>
+                            </div>
+                        </template>
+                    </el-table-column>
         </el-table>
+
         <div class="table-footer">
             <div class="choose">
                 <p>
-                    <el-checkbox v-model="tableData.chooseAll" @change="chooseAllSelect">全选</el-checkbox>
+                    <el-checkbox   v-model="chooseAll" @change="chooseAllSelect(chooseAll)">全选</el-checkbox>
                     <span>删除选中商品</span>
                 </p>
             </div>
@@ -70,7 +77,6 @@
             return {
                 chooseAll: false,
                 historyData: [],
-                isIndeterminate: true,
                 tableData: [],
                 totalPrice:0,
                 cart: {
@@ -122,24 +128,63 @@
             },
             // 单选框
             handleSelectionChange(value){
-                let total = 0;
-                this.multipleSelection = value;
-                this.multipleSelection.forEach((item)=>{
-                    total += item.num  *  item.price;
-                })
-                this.totalPrice = total;
-                console.log(this.multipleSelection)
+                    this.multipleSelection = [];
+                    let total = 0;
+                    this.multipleSelection = value;
+                    this.multipleSelection.forEach((item) => {
+                        total += item.num * item.price;
+                    })
+                    this.totalPrice = total;
+                    this.chooseAll = false;
+                    console.log(this.multipleSelection);
             },
             // 全选框 -- 选不上啊
-            chooseAllSelect(){
-                this.chooseAll = this.chooseAll ? false : true
+            chooseAllSelect(val){
+                console.log(val);
+                if (val) {
+                    this.tableData.forEach((val) => {
+                        this.$refs.multipleTable.toggleRowSelection(val,true);
+                    });
+                    this.chooseAll = true;
+                }else {
+                    this.$refs.multipleTable.clearSelection();
+                    this.chooseAll = false;
+                }
+               /* if(val){
+                    this.chooseAll = true;
+                    this.multipleSelection = this.tableData;
+                    let total = 0;
+                    this.multipleSelection.forEach((item)=>{
+                        total += item.num  *  item.price;
+                    })
+                    this.totalPrice = total;
+                    for(let i=0;i<document.getElementsByClassName("el-checkbox__input").length;i++){
+                        document.getElementsByClassName("el-checkbox__input")[i].classList.add("is-checked");
+                    }
+                }else{
+                    this.chooseAll = false;
+                    this.multipleSelection = [];
+                    this.totalPrice = 0;
+                    for(let i=0;i<document.getElementsByClassName("el-checkbox__input").length;i++){
+                        document.getElementsByClassName("el-checkbox__input")[i].classList.remove("is-checked");
+                    }
+                }
+                console.log(this.multipleSelection);*/
+
+               /* this.chooseAll = this.chooseAll ? true : false;
                 this.multipleSelection = this.chooseAll ? [] : this.tableData
-                console.log(this.multipleSelection)
+                console.log(this.multipleSelection)*/
+            },
+            handleCheckedCitiesChange(value) {
+                console.log(value);
+                let checkedCount = value.length;
+                this.chooseAll = checkedCount === this.tableData.length;
+                this.isIndeterminate = checkedCount > 0 && checkedCount < this.tableData.length;
             },
             // 购物车结算
             check() {
                 this.$emit('submit', 1)
-                this.$router.push({name: 'settle', params: { items: this.checkedItem }})
+                this.$router.push({name: 'settle', params: { items: [this.multipleSelection] }})
             },
             // 修改购物车数量
             inputNumeberChange(row){

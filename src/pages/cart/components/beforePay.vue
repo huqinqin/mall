@@ -41,12 +41,11 @@
             return{
                 useCredit: true,
                 chosenItem:'',
-
                 formData: {
-                    number: '2389498484950043',
+                    number: 2389498484950043,
                     delivery: '快递',
                     name: '摄像头',
-                    amount: '500'
+                    amount: 500
                 },
                 creditData: [{
                     src: require('@/assets/img/xinyongka02_html.png'),
@@ -74,6 +73,12 @@
             }
         },
         methods:{
+            payTotalPrice(){
+                this.formData.amount = this.$route.params.item[0];
+                this.formData.number = this.$route.params.item[1];  
+                console.log(this.$route.params.item[1]);
+                console.log(this.formData.amount);
+            },
             addCredit(){
                 alert('add credit')
             },
@@ -91,7 +96,7 @@
 
         },
         mounted(){
-
+           this.payTotalPrice();
         }
   }
 </script>

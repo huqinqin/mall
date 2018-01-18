@@ -25,23 +25,22 @@
                         <p>电话：{{item.mobile}}</p>
                     </main>
                     <footer>
-                        <button @click="setDefault">设为默认</button>
+                        <button @click="">设为默认</button>
                         <button @click="editAddress(item)">修改</button>
                     </footer>
                 </li>
-                <li class="addAddress" @click="showAddAddress = true">
+                <li class="addAddress" @click="addAddress">
                     <i class="iconfont icon-add"></i>
                     <div>添加地址</div>
                 </li>
-
             </ul>
-
-            <el-dialog title="收货地址" :visible.sync="showAddAddress">
+            <el-dialog title="收货地址" :visible.sync="showAddAddress" center>
                 <el-form :model="addForm">
                     <el-form-item label="地区" >
                         <el-cascader
                             :options="cityOptions"
-                            @change="selectCity">
+                            @change="selectCity"
+                            :placeholder="addForm.city">
                         </el-cascader>
                     </el-form-item>
                     <el-form-item label="街道" >
@@ -56,10 +55,12 @@
                     <el-form-item label="联系电话" >
                         <el-input v-model="addForm.mobile"></el-input>
                     </el-form-item>
+                    <el-form-item label="" class="radio">
+                        <el-checkbox v-model="setDefault">设为默认地址</el-checkbox>
+                    </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
-                    <el-button @click="showAddAddress = false">取 消</el-button>
-                    <el-button type="primary" @click="showAddAddress = false">确 定</el-button>
+                    <el-button type="primary" @click="submitFrom">确 定</el-button>
                 </div>
             </el-dialog>
         </div>
@@ -136,6 +137,7 @@
 
 <script>
     import  cartService from '@/services/CartService.js'
+    import  addressService from '@/services/AddressService.js'
     export default {
         name: "settle",
         props: ['items'],
@@ -326,15 +328,10 @@
                     }
                 ],
                 selectedCity:'',
-                addForm:{
-                    name:123,
-                    city:'qwe',
-                    address:'asd',
-                    mobile: 'zxc',
-                    postcode: 321
-                },
-
+                setDefault: false,
+                addForm:{},
                 chooseAll: true,
+                editOrAdd: false,
                 checkedAddress: {
                     name: '抹茶',
                     city: '浙江省杭州市',
@@ -376,13 +373,33 @@
             }
         },
         methods: {
-            setDefault(){
-                alert('set default')
-            },
-            editAddress(item){
-                console.log(item)
-            },
 
+            // setDefault(){
+            //     alert('set default')
+            // },
+            editAddress(item){
+                this.editOrAdd = true
+                this.addForm = item
+            },
+            addAddress(){
+                this.editOrAdd = true
+            },
+            // 查询地址列表
+            getAddressList(){
+                addressService.getList().then((data) => {
+                    console.log(data)
+                })
+            },
+            // 提交新的地址
+            submitFrom(){
+                alert(123)
+
+                console.log(this.addForm)
+                let service = addressService.addItem().then((data) => {
+                    console.log(data)
+                })
+                this.showAddAddress = false
+            },
             addAddress(){
                 alert('add address')
             },
@@ -410,7 +427,7 @@
             },
             queryCartList(){
                 this.tableData = cartService.queryCartList(158716).datalist;
-                console.log(this.tableData);
+                // console.log(this.tableData);
             },
             calPrice() {
                 setTimeout(() => {
@@ -420,9 +437,9 @@
                     }
                     arr.forEach((value, index) => {
                         this.totalPrice += value;
-                        console.log(value);
+                        // console.log(value);
                     });
-                    console.log(this.totalPrice);
+                    // console.log(this.totalPrice);
                 })
             },
             // 选择订单是否包含价格
@@ -453,7 +470,7 @@
             },
         },
         mounted(){
-            console.log(this.$route.params.items);
+            // console.log(this.$route.params.items);
             this.formData = this.$route.params.items
             this.sum.result = this.sum.amount + this.sum.express + this.sum.tax - this.sum.benefit;
             setTimeout(()=>{
@@ -467,6 +484,9 @@
 <style lang="less">
     .settle{
         overflow: hidden;
+        button{
+            cursor: pointer;
+        }
         .el-table__header-wrapper{
             height: 60px;
         }
@@ -630,8 +650,51 @@
                 }
             }
             .el-dialog{
-                .el-cascader{
-                    display: block;
+                width:488px;
+                padding:40px;
+                padding-bottom: 18px;
+                .el-dialog__header{
+                    padding-top: 0;
+                    font-size: 16px;
+                    font-weight: bold;
+                    color: #585858;
+                }
+                .el-dialog__body{
+                    padding:0;
+                    .el-cascader{
+                        display: block;
+                        .el-cascader__label{
+                            top:24px;
+                        }
+                    }
+                    .el-form-item{
+                        margin-bottom: 11px;
+                        .el-form-item__label{
+                            color: #a3a3a3;
+                            margin-left: 3px;
+                            line-height: 24px;
+                        }
+                        .el-input{
+                            input{
+                                height: 30px;
+
+                            }
+                        }
+                    }
+                    .el-form-item.radio{
+                        margin-top: -10px;
+
+                    }
+                }
+                .dialog-footer{
+                    .el-button{
+                        background: #ff3b41;
+                        width:150px;
+                        height: 30px;
+                        font-weight: bold;
+                        border:none;
+                        line-height: 1px;
+                    }
                 }
             }
         }
@@ -779,6 +842,5 @@
 
             }
         }
-
     }
 </style>

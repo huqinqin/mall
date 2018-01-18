@@ -1,9 +1,9 @@
 <template>
     <div class="settle">
         <div class="address">
-            <h5>收货地址：</h5>
+            <h5>收货地址</h5>
             <ul>
-                <li class="default">
+                <li class="default" ref="address">
                     <header>
                         <div><p>{{defaultAddressData.name}} （{{defaultAddressData.city}}）</p></div>
                         <div><span>默认地址</span></div>
@@ -13,7 +13,6 @@
                         <p>电话：{{defaultAddressData.mobile}}</p>
                     </main>
                     <footer>
-                        <button @click="setDefault">设为默认</button>
                         <button @click="editAddress">修改</button>
                     </footer>
                 </li>
@@ -27,58 +26,34 @@
                     </main>
                     <footer>
                         <button @click="setDefault">设为默认</button>
-                        <button @click="editAddress">修改</button>
+                        <button @click="editAddress(item)">修改</button>
                     </footer>
                 </li>
                 <li class="addAddress" @click="addAddress">
                     <i class="iconfont icon-add"></i>
                     <div>添加地址</div>
                 </li>
+
             </ul>
         </div>
-        <!--<div class="bill">-->
-            <!--<h5>账单地址：</h5>-->
-            <!--<ul>-->
-                <!--<li class="default">-->
-                    <!--<header>-->
-                        <!--<div><p>{{defaultBillressData.name}} （{{defaultBillressData.city}}）</p></div>-->
-                        <!--<div><span>默认地址</span></div>-->
-                    <!--</header>-->
-                    <!--<main>-->
-                        <!--<p>{{defaultBillressData.address}}</p>-->
-                        <!--<p>电话：{{defaultBillressData.mobile}}</p>-->
-                    <!--</main>-->
-                    <!--<footer>-->
-                        <!--<button @click="setDefault">设为默认</button>-->
-                        <!--<button @click="editAddress">修改</button>-->
-                    <!--</footer>-->
-                <!--</li>-->
-                <!--<li v-for="item in billData">-->
-                    <!--<header>-->
-                        <!--<div><p>{{item.name}} （{{item.city}}）</p></div>-->
-                    <!--</header>-->
-                    <!--<main>-->
-                        <!--<p>{{item.address}}</p>-->
-                        <!--<p>电话：{{item.mobile}}</p>-->
-                    <!--</main>-->
-                    <!--<footer>-->
-                        <!--<button @click="setDefault">设为默认</button>-->
-                        <!--<button @click="editAddress">修改</button>-->
-                    <!--</footer>-->
-                <!--</li>-->
-                <!--<li class="addBill" @click="addBill">-->
-                    <!--<i class="iconfont icon-add"></i>-->
-                    <!--<div>添加地址</div>-->
-                <!--</li>-->
-            <!--</ul>-->
-        <!--</div>-->
+
+        <div class="inPrice">
+            <h5>送货单是否包含价格 </h5>
+            <el-radio-group v-model="inPrice">
+                <el-radio-button label="是"></el-radio-button>
+                <el-radio-button label="否"></el-radio-button>
+            </el-radio-group>
+
+        </div>
         <div class="delivery">
-            <h5>配送方式： </h5>
-            <el-button>快递</el-button>
-            <el-button>自提</el-button>
+            <h5>配送方式</h5>
+            <el-radio-group v-model="deliver">
+                <el-radio-button label="快递"></el-radio-button>
+                <el-radio-button label="自提"></el-radio-button>
+            </el-radio-group>
         </div>
         <div class="order">
-            <h5>订单信息： </h5>
+            <h5>订单信息</h5>
             <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
                 <el-table-column label="商品信息" width="450" class="column-1"  align="center">
                     <template slot-scope="scope">
@@ -103,14 +78,32 @@
                     </template>
                 </el-table-column>
             </el-table>
-            <div class="remark"><span>买家留言：</span><el-input></el-input></div>
+            <div class="remark"><span>买家留言 </span><el-input></el-input></div>
         </div>
-        <div class="coupon" @click="useCoupon"><p><i class="iconfont icon-icon-test1"></i>使用优惠券 <span>（没有优惠券可以使用）</span></p></div>
-        <div class="submitOrder">
-            <div>商品价格：{{sum.amount}} + 运费：{{sum.express}} + 税额：{{sum.tax}} - 红包：{{sum.benefit}} = 总计：${{sum.result}}</div>
-            <div>应付金额：<span>{{totalPrice}}</span></div>
+        <div class="balance">
+            <el-checkbox v-model="useBalance">使用余额</el-checkbox>
+        </div>
+
+        <div class="someCount">
+            <div class="count">
+                <p>商品应付金额 <span>{{sum.amount.toFixed(2)}}</span></p>
+                <p>运费 <span>+{{sum.express.toFixed(2)}}</span></p>
+                <p>税费 <span>+{{sum.tax.toFixed(2)}}</span></p>
+                <p>红包 <span>-{{sum.benefit.toFixed(2)}}</span></p>
+                <p class="result">应付金额 <span>${{totalPrice.toFixed(2)}}</span></p>
+            </div>
+        </div>
+        <div class="allInfo">
+            <p>联系人 {{checkedAddress.name}}</p>
+            <p>联系电话 {{checkedAddress.mobile}}</p>
+            <p>收货地址 {{checkedAddress.address}}</p>
+            <p>账单地址 {{checkedAddress.address}}</p>
+            <p>资格证地址 {{checkedAddress.address}}</p>
+        </div>
+        <div class="submit">
             <el-button @click="settle">提交订单</el-button>
         </div>
+
     </div>
 </template>
 
@@ -121,8 +114,20 @@
         props: ['items'],
         data(){
             return{
+
                 totalPrice:0,
+                // 送货单是否包含价格，配送方式
+                inPrice:'否',
+                deliver:'快递',
+                // 是否使用余额
+                useBalance: true,
                 chooseAll: true,
+                checkedAddress: {
+                    name: '抹茶',
+                    city: '浙江省杭州市',
+                    address: '西湖区三墩镇振华路西城博司12楼1201',
+                    mobile: '183 **** 5921'
+                },
                 defaultAddressData: {
                     name: '抹茶',
                     city: '浙江省杭州市',
@@ -160,9 +165,10 @@
             setDefault(){
                 alert('set default')
             },
-            editAddress(){
-                alert('edit address')
+            editAddress(item){
+                console.log(item)
             },
+
             addAddress(){
                 alert('add address')
             },
@@ -192,18 +198,39 @@
                 this.tableData = cartService.queryCartList(158716).datalist;
                 console.log(this.tableData);
             },
-            calPrice(){
-                setTimeout(()=>{
+            calPrice() {
+                setTimeout(() => {
                     let arr = [];
-                    for(let i =0;i<4;i++){
+                    for (let i = 0; i < 4; i++) {
                         arr[i] = parseInt(document.getElementsByClassName("count")[i].innerHTML);
                     }
-                    arr.forEach((value,index)=>{
+                    arr.forEach((value, index) => {
                         this.totalPrice += value;
                         console.log(value);
                     });
                     console.log(this.totalPrice);
                 })
+            },
+            // 选择订单是否包含价格
+            chooseInPrice(e){
+                switch(e.target.innerText){
+                    case '是':
+                        this.inPrice = 0
+                        break
+                    case '否':
+                        this.inPrice = 1
+                }
+            },
+
+            // 选择配送方式
+            chooseDeliver(e){
+                switch(e.target.innerText){
+                    case '快递':
+                        this.deliver = 0
+                        break
+                    case '自提':
+                        this.deliver = 1
+                }
             }
         },
         mounted(){
@@ -220,6 +247,7 @@
 
 <style lang="less">
     .settle{
+        overflow: hidden;
         .el-table__header-wrapper{
             height: 60px;
         }
@@ -260,25 +288,7 @@
                     }
                 }
             }
-            /*img{*/
-                /*width: 116px;*/
-                /*height: 116px;*/
-                /*background-color: #ffffff;*/
-                /*border: solid 1px #dadada;*/
-                /*float: left;*/
-            /*}*/
-            /*.content{*/
-                /*margin-left: 125px;*/
-                /*padding: 15px 0;*/
-                /*width:174px;*/
-                /*p{*/
-                    /*line-height: 30px;*/
-                    /*font-size: 14px;*/
-                    /*white-space: nowrap;*/
-                    /*text-overflow: ellipsis;*/
-                    /*overflow:hidden;*/
-                /*}*/
-            /*}*/
+
             .cart-delete{
                 line-height: 40px;
                 font-size: 22px;
@@ -300,7 +310,7 @@
             margin-bottom: 23px;
             width:100%;
         }
-        .address,.bill{
+        .address,{
             margin: 0 24px;
             display: flex;
             flex-wrap: wrap;
@@ -401,8 +411,27 @@
                 }
             }
         }
-        .delivery{
+        .delivery,.inPrice{
             margin: 0 24px;
+            .el-radio-group{
+                margin-bottom: 24px;
+                label{
+                    margin-right: 16px;
+                    span{
+                        width:120px;
+                        height: 35px;
+                        line-height: 8px;
+                        border:none;
+                        background: #f6f6f6;
+                        border-radius: 4px;
+                    }
+                }
+                label.is-active{
+                    span{
+                        background: #1fa4f8;
+                    }
+                }
+            }
             .el-button{
                 width: 120px;
                 height: 35px;
@@ -416,7 +445,8 @@
                     font-size: 16px;
                 }
             }
-            .el-button:focus{
+
+            .active{
                 background-color: #1fa4f8;
                 border:1px solid #1fa4f8;
                 color:white;
@@ -442,12 +472,12 @@
                     input{
                         height: 30px;
                     }
-
                 }
             }
         }
-        .coupon{
+        .balance{
             margin: 24px 0;
+            padding-left: 24px;
             width: 100%;
             height: 40px;
             background-color: rgba(0, 0, 0, 0.05);
@@ -466,34 +496,65 @@
                 }
             }
         }
-        .coupon:hover{
-            cursor: pointer;
-        }
-        .submitOrder{
+        .someCount{
             margin-right: 24px;
             display: flex;
             flex-direction: column;
             align-items: flex-end;
             line-height: 40px;
-            margin-bottom: 100px;
-            div{
-                font-size: 12px;
-                color:rgba(0,0,0,0.7);
+            border-bottom: 1px solid #f2f2f2;
+            .count{
+                p{
+                    text-align: right;
+                    font-size: 14px;
+                    color:#737373;
+                    line-height: 26px;
+                }
                 span{
-                    color:#f81f22;
-                    font-size: 26px;
-                    font-weight: bold;
+                    display: inline-block;
+                    width:100px;
+                    color:#f13a40;
+
+                }
+                p.result{
+                    font-size: 14px;
+                    line-height: 50px;
+                    color:#737373;;
+                    span{
+                        color:#f13a40;
+                        font-size: 20px;
+                        font-weight: bold;
+                    }
                 }
             }
+        }
+        .allInfo{
+            text-align: right;
+            color: #a3a3a3;
+            font-size: 14px;
+            margin-top: 12px;
+            padding-right: 24px;
+            letter-spacing: 0px;
+            p{
+                line-height: 26px;
+            }
+        }
+        .submit{
+            text-align: right;
+            margin-right: 24px;
+            margin-top: 24px;
             .el-button{
                 width: 160px;
-                height: 50px;
+                height: 40px;
                 background-color: #f13a40;
                 border-radius: 4px;
                 color: #fff;
-                font-size: 22px;
+                font-size: 18px;
                 line-height: 0;
+                font-weight: bold;
+
             }
         }
+
     }
 </style>

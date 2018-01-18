@@ -90,6 +90,10 @@
     .gray{
         background-color: #eeeeee;
     }
+    a{
+        color:inherit;
+        text-decoration: none;
+    }
     body,
     ol,
     ul,

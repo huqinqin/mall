@@ -33,7 +33,6 @@ export default class ItemService extends BaseService {
             text ,
             condition
         };
-        //
         return super.getRequest('/static/test/json/search.item.json',params)
     }
 

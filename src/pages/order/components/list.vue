@@ -6,15 +6,15 @@
                 <template slot-scope="scope">
                     <el-table :data="scope.row.wholesale_order_items" style="width: 100%" class="goodsItem">
                         <el-table-column type="index" label="" width="30"/>
-                        <el-table-column label="商品" header-align="center" align="left" :show-overflow-tooltip="true" width="300">
+                        <el-table-column label="商品" header-align="center" align="left" :show-overflow-tooltip="true" width="400">
 
                             <template slot-scope="subscope">
                                 <div class="goods">
                                     <div class="img" :style="{backgroundImage : 'url(' + subscope.row.wholesale_item_d_o.image_value +')'}"></div>
                                     <!--<img :src="subscope.row.wholesale_item_d_o.image_value + '@100w_2e'" class="item" />-->
                                     <div class="content">
-                                        <p>${{subscope.row.wholesale_item_d_o.item_name}}</p>
-                                        <p>${{subscope.row.wholesale_item_d_o.spec}}</p>
+                                        <p>{{subscope.row.wholesale_item_d_o.item_name}}</p>
+                                        <p>{{subscope.row.wholesale_item_d_o.spec}}</p>
                                     </div>
                                 </div>
 
@@ -25,8 +25,8 @@
                         </el-table-column>
                         <el-table-column label="应付" align="center" >
                             <template slot-scope="subscope">
-                                <p>{{subscope.row.pay_real | money2str}}</p>
-                                <p class="fakePay">{{subscope.row.pay | money2str}}</p>
+                                <p>${{subscope.row.pay_real | money2str}}</p>
+                                <p class="fakePay">${{subscope.row.pay | money2str}}</p>
                             </template>
                         </el-table-column>
                         <el-table-column prop="hd_status_title" label="配送状态" align="center" />
@@ -49,12 +49,12 @@
                                         退款已关闭
                                     </span>
                                     <span v-else>
-                                        {{subscope.row.status_title}}
+                                        12345678{{subscope.row.status_title}}
                                     </span>
                                 </span>
                             </template>
                         </el-table-column>
-                        <el-table-column label="操作" align="center" >
+                        <el-table-column label="操作" width="80" align="center" >
                             <template slot-scope="subscope">
                                 <el-dropdown @command="handleMenuItemClick">
                                     <span class="el-dropdown-link">
@@ -71,15 +71,9 @@
             </el-table-column>
             <el-table-column type="index" label=""/>
             <el-table-column prop="tid" label="订单编号" align="center" width="120" />
-            <el-table-column prop="user_name" label="工程商" header-align="center" align="center" width="200" :show-overflow-tooltip="true" />
+            <el-table-column prop="user_name" label="工程商" header-align="center" align="center" width="160" :show-overflow-tooltip="true" />
             <el-table-column prop="receiver_mobile" label="手机" header-align="center" align="center" width="120" />
             <el-table-column prop="user_addr" label="地址" header-align="center" align="center" :show-overflow-tooltip="true" />
-            <el-table-column label="应付" align="center" width="80">
-                <template slot-scope="scope">{{scope.row.pay | money2str}}</template>
-            </el-table-column>
-            <el-table-column label="优惠" align="center" width="80">
-                <template slot-scope="scope">{{scope.row.discount | money2str}}</template>
-            </el-table-column>
             <el-table-column label="合计" align="center" width="80">
                 <template slot-scope="scope">
                     <el-tooltip placement="top">
@@ -90,8 +84,8 @@
                     </el-tooltip>
                 </template>
             </el-table-column>
-            <el-table-column prop="pay_info.pay_type_title" label="付款类型" align="center" width="100" />
-            <el-table-column prop="pay_info.pay_status_title" label="付款状态" align="center" width="100" />
+            <el-table-column prop="pay_info.pay_type_title" label="付款类型" align="center" width="80" />
+            <el-table-column prop="pay_info.pay_status_title" label="付款状态" align="center" width="80" />
             <el-table-column prop="status_title" label="状态" align="center" width="100">
                 <template slot-scope="scope">
                     <el-tag type="success" v-if="scope.row.status == 7 || scope.row.status == 9">
@@ -108,6 +102,7 @@
                     <el-dropdown @command="handleMenuItemClick">
                         <span class="el-dropdown-link">
                             操作<i class="el-icon-arrow-down el-icon--right"></i>
+
                         </span>
                         <el-dropdown-menu slot="dropdown">
                             <el-dropdown-item><router-link :to="'/detail/' + scope.row.tid">详情</router-link></el-dropdown-item>
@@ -301,25 +296,40 @@
             color: #409eff;
         }
         .el-table.orderItem{
-            border:1px solid red;
             .has-gutter{
                 tr{
                     th{
-                        background-color: rgba(0,0,0,0.05);
+                        background-color: #f6f6f6;
                     }
-                    /*th.el-table_1_column_2{*/
-                        /*.cell{*/
-                            /*margin-left: 24px;*/
-                        /*}*/
-                    /*}*/
                 }
+            }
+            .el-table__row{
+                background: #f2f8fe;
+
+            }
+            .el-table__expanded-cell{
+                padding: 12px 0 48px 0;
+
+
+            }
+
+            // 订单列表hover 背景色变化覆盖
+            .el-table__expanded-cell:hover{
+                background: #fff!important;;
+
             }
         }
 
         .el-table.goodsItem{
+
             .el-table__header-wrapper{
                 display: none;
             }
+            .el-table__row{
+                background: #fff;
+
+            }
+
             .goods{
                 display: flex;
                 justify-content: space-around;
@@ -336,16 +346,17 @@
                         text-overflow:ellipsis;
                         white-space: nowrap;
                     }
-
                 }
             }
             p.fakePay{
                 text-decoration: line-through;
             }
+            .el-table__expanded-cell{
+                padding-bottom: 36px;
+
+            }
+
         }
-
-
-
 
     }
 

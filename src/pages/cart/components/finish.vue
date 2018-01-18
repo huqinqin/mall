@@ -12,14 +12,13 @@
                 <p>物流方式：快递</p>
                 <p>支付方式：信用卡</p>
                 <div class="button">
-                    <button class="go" @click="gogogo"><span>再逛逛</span></button>
-                    <button class="back" @click="back"><span>回首页</span></button>
+                    <button class="go" @click="backToIndex"><span>回到首页</span></button>
+                    <button class="back" @click="back"><span>订单详情</span></button>
                 </div>
             </div>
         </div>
     </div>
 </template>
-
 <script>
     export default {
         name: "finish",
@@ -29,7 +28,7 @@
             }
         },
         methods:{
-            gogogo(){
+            backToIndex(){
                 alert('再逛逛')
             },
             back(){
@@ -38,69 +37,68 @@
         }
     }
 </script>
-
-<style scoped lang="less">
-    .mark{
-        margin: 24px 0;
-        width: 100%;
-        height: 40px;
-        background-color: rgba(0, 0, 0, 0.05);
-        color: rgba(0,0,0,0.7);
-        line-height: 40px;
-        font-size: 12px;
-        p{
-            margin-left: 24px;
-        }
-    }
-    .result{
-        width: 649px;
-        height: 243px;
-        margin:100px auto;
-        display: flex;
-        justify-content: space-between;
-        img{
-            width: 237px;
-            height: 216px;
-        }
-        .content{
-            width:330px;
-            text-align: left;
-            h3{
-                font-size: 36px;
-                color: #f13a40;
-                line-height: 50px;
-            }
+<style lang="less">
+    .finish{
+        .mark{
+            margin: 24px 0;
+            width: 100%;
+            height: 40px;
+            background-color: rgba(0, 0, 0, 0.05);
+            color: rgba(0,0,0,0.7);
+            line-height: 40px;
+            font-size: 12px;
             p{
-                line-height: 24px;
-                font-size: 14px;
-                color: rgba(0,0,0,0.5);
+                margin-left: 24px;
             }
+        }
+        .result{
+            width: 649px;
+            height: 243px;
+            margin:100px auto;
+            display: flex;
+            justify-content: space-between;
+            img{
+                width: 237px;
+                height: 216px;
+            }
+            .content{
+                width:330px;
+                text-align: left;
+                h3{
+                    font-size: 36px;
+                    color: #f13a40;
+                    line-height: 50px;
+                }
+                p{
+                    line-height: 24px;
+                    font-size: 14px;
+                    color: rgba(0,0,0,0.5);
+                }
 
-            .button{
-                button{
-                    margin-top: 10px;
-                    border-radius: 4px;
-                    width: 100px;
-                    height: 30px;
-                    border: none;
-                    span{
-                        color: white;
-                        font-size: 14px;
-                        line-height: 29PX;
+                .button{
+                    button{
+                        margin-top: 10px;
+                        border-radius: 4px;
+                        width: 100px;
+                        height: 30px;
+                        border: none;
+                        span{
+                            color: white;
+                            font-size: 14px;
+                            line-height: 29PX;
+                        }
+                    }
+                    button+button{
+                        margin-left: 12px;
+                    }
+                    button.go{
+                        background-color: #f13a40;
+                    }
+                    button.back{
+                        background-color: rgba(0, 0, 0, 0.5);
                     }
                 }
-                button+button{
-                    margin-left: 12px;
-                }
-                button.go{
-                    background-color: #f13a40;
-                }
-                button.back{
-                    background-color: rgba(0, 0, 0, 0.5);
-                }
             }
-
-
         }
     }
 </style>

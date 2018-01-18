@@ -33,6 +33,7 @@
                     <i class="iconfont icon-add"></i>
                     <div>添加地址</div>
                 </li>
+
             </ul>
 
             <el-dialog title="收货地址" :visible.sync="showAddAddress">
@@ -101,7 +102,7 @@
                 </el-table-column>
                 <el-table-column label="小计" align="center">
                     <template slot-scope="scope">
-                        <div class="count">{{scope.row.count}}</div>
+                        <div class="count" ref="count">{{scope.row.num*scope.row.price}}</div>
                     </template>
                 </el-table-column>
             </el-table>
@@ -110,12 +111,14 @@
         <div class="balance">
             <el-checkbox v-model="useBalance">使用余额</el-checkbox>
         </div>
+
         <div class="someCount">
             <div class="count">
                 <p>商品应付金额 <span>{{sum.amount.toFixed(2)}}</span></p>
                 <p>运费 <span>+{{sum.express.toFixed(2)}}</span></p>
                 <p>税费 <span>+{{sum.tax.toFixed(2)}}</span></p>
-                <p class="result">应付金额 <span>${{sum.result.toFixed(2)}}</span></p>
+                <p>红包 <span>-{{sum.benefit.toFixed(2)}}</span></p>
+                <p class="result">应付金额 <span>${{totalPrice.toFixed(2)}}</span></p>
             </div>
         </div>
         <div class="allInfo">
@@ -132,11 +135,14 @@
 </template>
 
 <script>
+    import  cartService from '@/services/CartService.js'
     export default {
         name: "settle",
         props: ['items'],
         data(){
             return{
+
+                totalPrice:0,
                 // 送货单是否包含价格，配送方式
                 inPrice:'否',
                 deliver:'快递',
@@ -399,6 +405,26 @@
             deleteHandle(){
                 alert('asf')
             },
+            useCoupon(){
+                alert('使用优惠券')
+            },
+            queryCartList(){
+                this.tableData = cartService.queryCartList(158716).datalist;
+                console.log(this.tableData);
+            },
+            calPrice() {
+                setTimeout(() => {
+                    let arr = [];
+                    for (let i = 0; i < 4; i++) {
+                        arr[i] = parseInt(document.getElementsByClassName("count")[i].innerHTML);
+                    }
+                    arr.forEach((value, index) => {
+                        this.totalPrice += value;
+                        console.log(value);
+                    });
+                    console.log(this.totalPrice);
+                })
+            },
             // 选择订单是否包含价格
             chooseInPrice(e){
                 switch(e.target.innerText){
@@ -427,9 +453,13 @@
             },
         },
         mounted(){
-            console.log(this.$route.params.items)
+            console.log(this.$route.params.items);
             this.formData = this.$route.params.items
-            this.sum.result = this.sum.amount + this.sum.express + this.sum.tax - this.sum.benefit
+            this.sum.result = this.sum.amount + this.sum.express + this.sum.tax - this.sum.benefit;
+            setTimeout(()=>{
+                this.queryCartList();
+                this.calPrice();
+            },20)
         }
   }
 </script>

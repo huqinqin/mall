@@ -18,13 +18,13 @@
             <el-table-column label="数量" prop="num" align="center">
                 <template slot-scope="scope">
                     <div class="inputNumber">
-                        <el-input-number :min='0' size="small" v-model="scope.row.num" @change="inputNumeberChange(scope.row)" label="描述文字"></el-input-number>
+                        <el-input-number :min='1' size="small" v-model="scope.row.num" @change="inputNumeberChange(scope.row)" label="描述文字"></el-input-number>
                     </div>
-                    </template>
+                </template>
             </el-table-column>
             <el-table-column label="小计"align="center">
                 <template slot-scope="scope">
-                    <div class="count">{{scope.row.num*scope.row.price}}</div>
+                    <div class="count" ref="count">{{scope.row.num*scope.row.price}}</div>
                 </template>
             </el-table-column>
             <el-table-column label="操作"align="center">
@@ -43,8 +43,8 @@
                 </p>
             </div>
             <div class="check">
-                <!--<p><span>应付金额：<strong>$500.00</strong></span></p>-->
-                <el-button @click="check">立即结算</el-button>
+                <p><span>应付金额：<strong>{{totalPrice}}</strong></span></p>
+                <el-button @click="check">去结算</el-button>
             </div>
         </div>
         <div class="history">
@@ -72,6 +72,7 @@
                 historyData: [],
                 isIndeterminate: true,
                 tableData: [],
+                totalPrice:0,
                 cart: {
                     cartTotal: 0,
                     cartPriceTotal: 0,
@@ -103,20 +104,30 @@
             }
         },
         mounted(){
-            cartService.queryCartList();
+            setTimeout(()=>{
+                this.queryCartList();
+            },20)
         },
         methods:{
+//            queryCartList(){
+//                cartService.queryCartList(158716).then((data)=>{
+//                    this.tableData = data.data;
+//                    console.log(this.tableData);
+//                },(msg)=>{
+//                    this.$ltsMessage.show({type:'error',message:msg.errorMessage})
+//                })
+//            },
             queryCartList(){
-                cartService.queryCartList(158716).then((data)=>{
-                    this.tableData = data.data;
-                    console.log(this.tableData);
-                },(msg)=>{
-                    this.$ltsMessage.show({type:'error',message:msg.errorMessage})
-                })
+                this.tableData = cartService.queryCartList(158716).datalist;
             },
             // 单选框
             handleSelectionChange(value){
-                this.multipleSelection = value
+                let total = 0;
+                this.multipleSelection = value;
+                this.multipleSelection.forEach((item)=>{
+                    total += item.num  *  item.price;
+                })
+                this.totalPrice = total;
                 console.log(this.multipleSelection)
             },
             // 全选框 -- 选不上啊
@@ -129,21 +140,25 @@
             check() {
                 this.$emit('submit', 1)
                 this.$router.push({name: 'settle', params: { items: this.checkedItem }})
-
             },
             // 修改购物车数量
             inputNumeberChange(row){
-                console.log(row)
-                console.log('数量置为x，加入购物车')
-                console.log(row)
-                cartService.putCartPlus(params)
+                console.log(row);
+                let total = 0;
+                this.multipleSelection.forEach((item)=>{
+                    setTimeout(()=>{
+                        total += item.num   *  item.price;
+                        this.totalPrice = total;
+                    },20)
+                })
+               /* cartService.putCartPlus(params)*/
             },
             // 删除购物车条目
             deleteHandle(index, row){
                 this.tableData.splice(index,1)
                 console.log('数量置为0，加入购物车')
                 console.log(row)
-                cartService.putCartPlus(params)
+               /* cartService.putCartPlus(params)*/
             },
             // 购物车里选择条目
             checkItem(value){
@@ -167,6 +182,7 @@
                 }
 
             },
+
         }
   }
 </script>
@@ -294,13 +310,13 @@
             .check{
                 text-align: right;
                 .el-button{
-                    background-color: #ff3b41;
+                    background-color: #f81f22;
                     border-radius: 4px;
                     width: 160px;
-                    height: 40px;
+                    height: 50px;
                     line-height: 0px;
-                    font-size: 18px;
-                    font-weight: bold;
+                    font-size: 24px;
+                    font-family: MicrosoftYaHei-Bold;
                     span{
                         color: #fff;
                     }

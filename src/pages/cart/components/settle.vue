@@ -141,6 +141,7 @@
 <script>
     import  cartService from '@/services/CartService.js'
     import  addressService from '@/services/AddressService.js'
+    import orderService from '@/services/OrderService.js'
     export default {
         name: "settle",
         props: ['items'],
@@ -349,8 +350,7 @@
                 alert('input numeber change')
             },
             settle(){
-                this.$emit('submit',2)
-                this.$router.push({path: '/beforePay'})
+                this.submitOrder();
             },
             deleteHandle(){
                 alert('asf')
@@ -360,12 +360,79 @@
             },
             queryCartList(){
                 this.tableData = cartService.queryCartList(158716).datalist;
-                // console.log(this.tableData);
+
             },
+            /*正式下单*/
+            submitOrder(){
+                let items = [];
+                this.tableData.forEach(function(value,index,array){
+                    let item_prop_ids = [];
+                    value.item_props.forEach(function (val,key,array) {
+                        item_prop_ids.push(val.id)
+                    })
+
+                    let Obj = {
+                        "id":value.id,
+                        "num":value.num,
+                        "puser_id":value.puser_id,
+                        "spu_id":value.spu_id,
+                        "item_prop_ids": item_prop_ids
+                    }
+                    items.push(Obj);
+                })
+                let params = {
+                    user_id : this.user_id,
+                    items : JSON.stringify(items),
+                    hdMethod : this.deliveryType,
+                    remarkList : this.remark,
+                    payMethod: "online", //
+                    source: "work.500mi.com.shop.pifa.market"
+                };
+                orderService.createTrade(params).then((data)=>{
+                    console.log(data.data);
+                    this.$emit('submit',2);
+                    this.$router.push({name: 'beforePay',params:{item:[this.totalPrice,data.data]}});
+                },(msg)=>{
+                    this.$ltsMessage.show({type:'error',message:msg.error_message})
+                })
+            },
+            /*模拟下单*/
+            simulateCreateTrade(){
+                let items = [];
+                this.tableData.forEach(function(value,index,array){
+                    let item_prop_ids = [];
+                    item_prop_ids.push(value.item_props[0].id);
+                    /* value.item_props.forEach(function (val,key,array) {
+                         item_prop_ids.push(val.id)
+                     })*/
+                    console.log(item_prop_ids);
+                    let Obj = {
+                        "id":value.id,
+                        "num":value.num,
+                        "puser_id":value.puser_id,
+                        "spu_id":value.spu_id,
+                        "item_prop_ids": item_prop_ids
+                    }
+                    items.push(Obj);
+                })
+                let params = {
+                    user_id : this.user_id,
+                    items : JSON.stringify(items),
+                    payMethod: "online", //
+                    source: "work.500mi.com.shop.pifa.market"
+                };
+                orderService.simulateCreateTrade(params).then((data)=>{
+                },(msg)=>{
+                    this.$ltsMessage.show({type:'error',message:msg.error_message})
+                })
+            },
+            /*计算价格*/
             calPrice() {
                 setTimeout(() => {
                     let arr = [];
-                    for (let i = 0; i < 4; i++) {
+                    let len = document.getElementsByClassName("count").length;
+                    console.log("len:"+ len);
+                    for (let i = 0; i < len-1; i++) {
                         arr[i] = parseInt(document.getElementsByClassName("count")[i].innerHTML);
                     }
                     arr.forEach((value, index) => {
@@ -407,6 +474,7 @@
 
                 this.queryCartList();
                 this.calPrice();
+                this.simulateCreateTrade();
             },20)
         }
   }

@@ -75,7 +75,7 @@
         methods:{
             payTotalPrice(){
                 this.formData.amount = this.$route.params.item[0];
-                this.formData.number = this.$route.params.item[1];  
+                this.formData.number = this.$route.params.item[1];
                 console.log(this.$route.params.item[1]);
                 console.log(this.formData.amount);
             },

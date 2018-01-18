@@ -6,9 +6,9 @@ export default {
         return this.getSessionData() != null;
     },
     checkLogin(selfContext){
-        selfContext.$emit("showLogin");
         if (!this.isLogin()) {
             selfContext.$emit("showLogin");
+            return false;
         }
     },
     getSessionData(){

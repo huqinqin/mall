@@ -7,8 +7,8 @@
               <span class="register">免费注册</span>
             </li>
             <li class="">
-              <a href="/reverse" class="news top-menu">快报(退款)</a>
-              <a href="/order" class="top-menu">我的订单</a>
+              <a href="/reverse" class="news top-menu">快报</a>
+              <a href="/order" class="top-menu" v-login>我的订单</a>
               <a href="" class="top-menu">收藏夹</a>
               <a href="" ><i class="iconfont icon-shouji"></i>手机下单更优惠</a>
             </li>

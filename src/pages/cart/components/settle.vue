@@ -29,13 +29,40 @@
                         <button @click="editAddress(item)">修改</button>
                     </footer>
                 </li>
-                <li class="addAddress" @click="addAddress">
+                <li class="addAddress" @click="showAddAddress = true">
                     <i class="iconfont icon-add"></i>
                     <div>添加地址</div>
                 </li>
-                
             </ul>
+
+            <el-dialog title="收货地址" :visible.sync="showAddAddress">
+                <el-form :model="addForm">
+                    <el-form-item label="地区" >
+                        <el-cascader
+                            :options="cityOptions"
+                            @change="selectCity">
+                        </el-cascader>
+                    </el-form-item>
+                    <el-form-item label="街道" >
+                        <el-input v-model="addForm.address"></el-input>
+                    </el-form-item>
+                    <el-form-item label="邮编" >
+                        <el-input v-model="addForm.postcode"></el-input>
+                    </el-form-item>
+                    <el-form-item label="联系人" >
+                        <el-input v-model="addForm.name"></el-input>
+                    </el-form-item>
+                    <el-form-item label="联系电话" >
+                        <el-input v-model="addForm.mobile"></el-input>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="showAddAddress = false">取 消</el-button>
+                    <el-button type="primary" @click="showAddAddress = false">确 定</el-button>
+                </div>
+            </el-dialog>
         </div>
+
 
         <div class="inPrice">
             <h5>送货单是否包含价格 </h5>
@@ -101,7 +128,6 @@
         <div class="submit">
             <el-button @click="settle">提交订单</el-button>
         </div>
-
     </div>
 </template>
 
@@ -116,6 +142,192 @@
                 deliver:'快递',
                 // 是否使用余额
                 useBalance: true,
+                // 地址框
+                showAddAddress: false,
+                showEditAddress: false,
+                cityOptions: [
+                    {
+                        value: 'zujian',
+                        label: '组件',
+                        children: [
+                            {
+                                value: 'basic',
+                                label: 'Basic',
+                                children: [
+                                    {
+                                        value: 'layout',
+                                        label: 'Layout 布局'
+                                    },
+                                    {
+                                        value: 'color',
+                                        label: 'Color 色彩'
+                                    },
+                                    {
+                                        value: 'typography',
+                                        label: 'Typography 字体'
+                                    },
+                                    {
+                                        value: 'icon',
+                                        label: 'Icon 图标'
+                                    },
+                                    {
+                                        value: 'button',
+                                        label: 'Button 按钮'
+                                    }
+                                ]
+                            },
+                            {
+                                value: 'form',
+                                label: 'Form',
+                                children: [
+                                    {
+                                        value: 'radio',
+                                        label: 'Radio 单选框'
+                                    },
+                                    {
+                                        value: 'checkbox',
+                                        label: 'Checkbox 多选框'
+                                    },
+                                    {
+                                        value: 'input',
+                                        label: 'Input 输入框'
+                                    },
+                                    {
+                                        value: 'input-number',
+                                        label: 'InputNumber 计数器'
+                                    },
+                                    {
+                                        value: 'select',
+                                        label: 'Select 选择器'
+                                    },
+                                    {
+                                        value: 'cascader',
+                                        label: 'Cascader 级联选择器'
+                                    },
+                                    {
+                                        value: 'switch',
+                                        label: 'Switch 开关'
+                                    },
+                                    {
+                                        value: 'slider',
+                                        label: 'Slider 滑块'
+                                    },
+                                    {
+                                        value: 'time-picker',
+                                        label: 'TimePicker 时间选择器'
+                                    }
+                                ]
+                            },
+                            {
+                                value: 'data',
+                                label: 'Data',
+                                children: [
+                                    {
+                                        value: 'table',
+                                        label: 'Table 表格'
+                                    },
+                                    {
+                                        value: 'tag',
+                                        label: 'Tag 标签'
+                                    },
+                                    {
+                                        value: 'progress',
+                                        label: 'Progress 进度条'
+                                    },
+                                    {
+                                        value: 'tree',
+                                        label: 'Tree 树形控件'
+                                    },
+                                    {
+                                        value: 'pagination',
+                                        label: 'Pagination 分页'
+                                    }
+                                ]
+                            },
+                            {
+                                value: 'notice',
+                                label: 'Notice',
+                                children: [
+                                    {
+                                        value: 'alert',
+                                        label: 'Alert 警告'
+                                    },
+                                    {
+                                        value: 'loading',
+                                        label: 'Loading 加载'
+                                    },
+                                    {
+                                        value: 'message',
+                                        label: 'Message 消息提示'
+                                    }
+                                ]
+                            },
+                            {
+                                value: 'navigation',
+                                label: 'Navigation',
+                                children: [
+                                    {
+                                        value: 'menu',
+                                        label: 'NavMenu 导航菜单'
+                                    },
+                                    {
+                                        value: 'tabs',
+                                        label: 'Tabs 标签页'
+                                    },
+                                    {
+                                        value: 'breadcrumb',
+                                        label: 'Breadcrumb 面包屑'
+                                    }
+                                ]
+                            },
+                            {
+                                value: 'others',
+                                label: 'Others',
+                                children: [
+                                    {
+                                        value: 'dialog',
+                                        label: 'Dialog 对话框'
+                                    },
+                                    {
+                                        value: 'tooltip',
+                                        label: 'Tooltip 文字提示'
+                                    },
+                                    {
+                                        value: 'popover',
+                                        label: 'Popover 弹出框'
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        value: 'ziyuan',
+                        label: '资源',
+                        children: [
+                            {
+                                value: 'axure',
+                                label: 'Axure Components'
+                            },
+                            {
+                                value: 'sketch',
+                                label: 'Sketch Templates'
+                            },
+                            {
+                                value: 'jiaohu',
+                                label: '组件交互文档'
+                            }
+                        ]
+                    }
+                ],
+                selectedCity:'',
+                addForm:{
+                    name:123,
+                    city:'qwe',
+                    address:'asd',
+                    mobile: 'zxc',
+                    postcode: 321
+                },
+
                 chooseAll: true,
                 checkedAddress: {
                     name: '抹茶',
@@ -123,6 +335,7 @@
                     address: '西湖区三墩镇振华路西城博司12楼1201',
                     mobile: '183 **** 5921'
                 },
+
                 defaultAddressData: {
                     name: '抹茶',
                     city: '浙江省杭州市',
@@ -206,7 +419,12 @@
                     case '自提':
                         this.deliver = 1
                 }
-            }
+            },
+            //选择城市
+            selectCity(value){
+                this.selectedCity = value[0] + value[1] + value[2]
+                console.log(this.selectedCity)
+            },
         },
         mounted(){
             console.log(this.$route.params.items)
@@ -281,7 +499,7 @@
             margin-bottom: 23px;
             width:100%;
         }
-        .address,{
+        .address{
             margin: 0 24px;
             display: flex;
             flex-wrap: wrap;
@@ -379,6 +597,11 @@
                         margin-top: 10px;
                         font-size: 14px;
                     }
+                }
+            }
+            .el-dialog{
+                .el-cascader{
+                    display: block;
                 }
             }
         }

@@ -14,3 +14,14 @@ Vue.directive('login',{
         }
     }
 })
+
+Vue.directive('ltsLoginShow',{
+    bind(el,binding){
+        if(binding.arg == session.checkLogin().toString()){
+
+        }else{
+            el.style.display = 'none'
+        }
+
+    }
+})

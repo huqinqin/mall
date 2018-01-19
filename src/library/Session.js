@@ -7,8 +7,10 @@ export default {
     },
     checkLogin(selfContext){
         if (!this.isLogin()) {
-            selfContext.$emit("showLogin");
+            if(selfContext){selfContext.$emit("showLogin");}
             return false;
+        }else{
+            return true;
         }
     },
     getSessionData(){

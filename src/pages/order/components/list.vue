@@ -1,13 +1,12 @@
 <template>
     <div class="orderList">
-        <lts-search-form @get-from="getParameter" :form-fileds="form.formFileds" :form-inlines="form.formInline" />
+        <lts-search-form @get-from="getParameter" :form-fileds="form.formFileds" :form-inlines="form.formInline" ref="searchForm"/>
         <el-table :data="datalist" v-loading="loading" default-expand-all style="width: 100%" class="orderItem">
             <el-table-column type="expand">
                 <template slot-scope="scope">
                     <el-table :data="scope.row.wholesale_order_items" style="width: 100%" class="goodsItem">
                         <el-table-column type="index" label="" width="30"/>
                         <el-table-column label="商品" header-align="center" align="left" :show-overflow-tooltip="true" width="400">
-
                             <template slot-scope="subscope">
                                 <div class="goods">
                                     <div class="img" :style="{backgroundImage : 'url(' + subscope.row.wholesale_item_d_o.image_value +')'}"></div>
@@ -102,7 +101,6 @@
                     <el-dropdown @command="handleMenuItemClick">
                         <span class="el-dropdown-link">
                             操作<i class="el-icon-arrow-down el-icon--right"></i>
-
                         </span>
                         <el-dropdown-menu slot="dropdown">
                             <el-dropdown-item><router-link :to="'/detail/' + scope.row.tid">详情</router-link></el-dropdown-item>
@@ -124,7 +122,6 @@
             :layout="pagination.layout"
             :total="pagination.total">
         </el-pagination>
-
         <reverse-apply :visible.sync="dialogVisible" v-bind:order-item="refundOrder" v-bind:installer="refundInstaller" v-bind:item="refundItem" />
     </div>
 </template>
@@ -146,10 +143,10 @@
                 refundInstaller:{},
                 refundItem:{},
                 params: {
-                    tid: '',
+                  /*  tid: '',
                     status: '',
                     start_time: '',
-                    end_time: '',
+                    end_time: '',*/
                 },
                 form: {
                     formFileds: [
@@ -194,7 +191,7 @@
                     page: 1,
                     pagesize: 10,
                     total: 0,
-                    sizes: [10, 20, 30],
+                    sizes: [10, 20, 30,40],
                     layout: "total, sizes, prev, pager, next, jumper" // total 总条目数  prev 上一页 next 下一页 sizes 支持分组
                 },
             }
@@ -241,7 +238,15 @@
                 return order.pay_type == 3 && order.status == 0;
             },
             search() {
-                orderService.getList(this.params, this.pagination.page, this.pagination.page_size, 'cdate desc').then((resp) => {
+                let param = {};
+                for(let key in this.params){
+                    if(this.params[key] == '' || this.params[key] == undefined || this.params[key] == null){
+
+                    }else{
+                        param[key] = this.params[key];
+                    }
+                }
+                orderService.getList(param, this.pagination.page, this.pagination.page_size, 'cdate desc').then((resp) => {
                     this.loading = false;
                     this.datalist = resp.datalist;
                     this.pagination.total = resp.total;
@@ -260,9 +265,11 @@
                     this.params.start_time = this.form.formInline.date[0];
                     this.params.end_time = this.form.formInline.date[1];
                 }
-                this.params.tid = this.form.formInline.tid;
-                this.params.item_name = this.form.formInline.item_name;
+                if(this.form.formInline.tid){
+                    this.params.tid = this.form.formInline.tid;
+                }
                 this.params.status = this.form.formInline.status;
+                /*this.params.item_name = this.form.formInline.item_name;*/
             },
             handleSizeChange(val) {
                 this.pagination.pageSize = val;

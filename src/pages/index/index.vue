@@ -25,21 +25,21 @@
         </div>
     </div>
     <!-- poster -->
-    <!--<div class="poster">-->
-        <!--<div class="one">-->
-          <!--<a href="/detail?id=123">-->
-              <!--&lt;!&ndash;<img src="../../assets/inder_img/guanggao1.png" alt="">&ndash;&gt;-->
-          <!--</a>-->
-        <!--</div>-->
-        <!--<div class="two">-->
-          <!--<a href="" class="top">-->
-              <!--&lt;!&ndash;<img src="../../assets/inder_img/guanggao2.png" alt="">&ndash;&gt;-->
-          <!--</a>-->
-          <!--<a href="">-->
-              <!--&lt;!&ndash;<img src="../../assets/inder_img/guanggao3.png" alt="">&ndash;&gt;-->
-          <!--</a>-->
-        <!--</div>-->
-    <!--</div>-->
+    <div class="poster">
+        <div class="one">
+          <a href="">
+              <img src="../../assets/img/menjin.png" alt="">
+          </a>
+        </div>
+        <div class="two">
+          <a href="" class="top">
+              <img src="../../assets/img/jiatingSolution.png" alt="">
+          </a>
+          <a href="">
+              <img src="../../assets/img/retailSolution.png" alt="">
+          </a>
+        </div>
+    </div>
      <!-- main -->
     <div class="content">
         <div class="item-box">
@@ -80,17 +80,19 @@
               </div>
               <ul class="best-sellers">
                   <li v-for="item in hotList" :key="item.id">
-                      <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
-                      <div class="item-spec">
-                          <p class="line-one">{{item.brand}}</p>
-                          <p class="line-two">{{item.item_name}}</p>
-                          <p class="line-three">{{item.promotion_title}}</p>
-                          <p class="line-four"></p>
-                          <div class="item-price">
-                              <button v-ltsLoginShow:false>登录之后查看价格</button>
-                              <p v-ltsLoginShow:true class="price">${{item.price }}</p>
+                      <a :href="'/detail#/?id=' + item.id">
+                          <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
+                          <div class="item-spec">
+                              <p class="line-one">{{item.brand}}</p>
+                              <p class="line-two">{{item.item_name}}</p>
+                              <p class="line-three">{{item.promotion_title}}</p>
+                              <p class="line-four"></p>
+                              <div class="item-price">
+                                  <button v-ltsLoginShow:false>登录之后查看价格</button>
+                                  <p v-ltsLoginShow:true class="price">${{item.price }}</p>
+                              </div>
                           </div>
-                      </div>
+                      </a>
                   </li>
               </ul>
         </div>
@@ -222,6 +224,7 @@ import homeService from '@/services/HomeService.js'
         height: 350px;
         display: flex;
         justify-content: space-between;
+        margin: 12px 0 24px 0;
         .one{
             width: 895px;
             height: 350px;
@@ -315,15 +318,7 @@ import homeService from '@/services/HomeService.js'
                         background-size: contain;
                     }
                 }
-                li::after{
-                    content:'';
-                    width:260px;
-                    height: 1px;
-                    background: #f2f2f2;
-                    position: absolute;
-                    top:100%;
-                    left:15px;
-                }
+
             }
         }
         li{

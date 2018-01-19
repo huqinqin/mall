@@ -10,25 +10,17 @@ export default class CartService extends BaseService {
      * @autor 小猪
      * remark 添加购物车
      */
-    static putCartPlus(uid,param,checkedSpu){
-        let params
+    static putCartPlus(param,checkedSpu){
+        let params;
+        checkedSpu.spuId = checkedSpu.spu_id;
         params = {
-            user_id: uid,
-            order_type : 'self_order',
+            item_id : param.id,
             num: param.num,
-            carrier_uid: 158635,
             item_props: JSON.stringify([
                 checkedSpu
             ]),
-            cart_item_key: JSON.stringify(
-                {
-                    puserId: 158635,
-                    spuId: param.spuId,
-                    itemId: param.id,
-                }
-            ),
         };
-        return super.getRequest('/wholesale/cart/putCartPlus',params);
+        return super.getRequest('/installer/cart/putCartPlus',params);
     }
 
 

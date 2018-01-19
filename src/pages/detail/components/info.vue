@@ -3,21 +3,16 @@
         <!-- top -->
         <el-breadcrumb separator-class="el-icon-arrow-right">
             <el-breadcrumb-item><a href="/index">首页</a></el-breadcrumb-item>
-            <el-breadcrumb-item><a href="javascript:void(0)">首页</a></el-breadcrumb-item>
-            <el-breadcrumb-item>首页</el-breadcrumb-item>
+            <el-breadcrumb-item><a href="javascript:void(0)">商品详情</a></el-breadcrumb-item>
         </el-breadcrumb>
         <div class="detail-top">
             <div class="detail-img-box">
-                <div class="prc_info" v-for="prc in prc_info" :key="prc.index">
-                    <div class="big" :style="{backgroundImage:'url('+prc.link+')'}">
+                <div class="prc_info" v-for="prc in item.item_images" :key="prc.index">
+                    <div class="big" :style="{backgroundImage:'url('+prc.url+')'}">
                     </div>
                     <!--大图下面的小图-->
                     <div class="small">
-                        <div @click="showImage" class="small_img is_active" :style="{backgroundImage:'url('+prc.link+')'}"></div>
-                        <div @click="showImage" class="small_img" :style="{backgroundImage:'url('+prc.link+')'}"></div>
-                        <div @click="showImage" class="small_img" :style="{backgroundImage:'url('+prc.link+')'}"></div>
-                        <div @click="showImage" class="small_img" :style="{backgroundImage:'url('+prc.link+')'}"></div>
-                        <div @click="showImage" class="small_img" :style="{backgroundImage:'url('+prc.link+')'}"></div>
+                        <div @click="showImage" class="small_img is_active" :style="{backgroundImage:'url('+prc.url+')'}"></div>
                     </div>
                 </div>
                 <!-- 商品编号 -->
@@ -105,29 +100,9 @@
                                 </li>
                                 <li class="more">详细 <i class="iconfont icon-shangyiye-copy-copy"></i></li>
                             </ul>
-                            <ul class="imgDetail">
-                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/4715008730056764668.jpg')"></li>
-                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/4743979195889279268.jpg')"></li>
-                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5440626719605415871.jpg')"></li>
-                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5320242678543224123.jpg')"></li>
-                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5266738026055269797.jpg')"></li>
-                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5590420552948228031.jpg')"></li>
-                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5649115564348094686.jpg')"></li>
-                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5242272330824122911.jpg')"></li>
-                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5229634969841837893.jpg')"></li>
-                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/4963729093161931870.jpg')"></li>
-                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5532971629685536760.jpg')"></li>
-                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5350762759762531367.jpg')"></li>
-                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/4965255310328801883.jpg')"></li>
-                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5137305903631243455.jpg')"></li>
-                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5747589952679423507.jpg')"></li>
-                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5106751131035694348.jpg')"></li>
-                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5491884177797444478.jpg')"></li>
-                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5342218004086739092.jpg')"></li>
-                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5652469014129041638.jpg')"></li>
-                                <li style="backgroundImage: url('http://image01.homedo.com/Files/Images/Editor/2017-06-20/5089808701764818455.jpg')"></li>
-
-                            </ul>
+                            <div class="item-detail" >
+                                <div v-html="item.description"></div>
+                            </div>
                         </el-tab-pane>
                         <el-tab-pane label="规格与包装" name="second">规格与包装</el-tab-pane>
                         <el-tab-pane label="商品评价" name="third">
@@ -1005,8 +980,8 @@
                     return false;
                 }
             },
-            addCart() {debugger;
-                cartService.putCartPlus(this.customerUid,this.item,this.checkedSpu).then((data) => {
+            addCart() {
+                cartService.putCartPlus(this.item,this.checkedSpu).then((data) => {
                     this.$ltsMessage.show({type:"success",message:'加入购物车成功'})
                 },(msg) => {
                     this.$ltsMessage.show({type:"error",message:msg.error_message})
@@ -1498,6 +1473,9 @@
         content: "";
         display: block;
         clear: both;
+    }
+    .detail{
+        text-align: center;
     }
 
     .breadcrumb{

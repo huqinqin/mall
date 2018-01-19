@@ -37,7 +37,7 @@
 
                       <!--<el-cascader slot="prepend" placeholder="请选择" :options="options" v-model="selectedOptions" @change="handleChange">-->
                       <!--</el-cascader>-->
-                      <a slot="append" :href="'/search?cate=' + select + '&keywords=' + input5"><el-button icon="el-icon-search" @click="searchItem"></el-button></a>
+                      <a slot="append" :href="'/search?cateId=' + select + '&keywords=' + input5"><el-button icon="el-icon-search" @click="searchItem"></el-button></a>
                   </el-input>
               </div>
         </div>

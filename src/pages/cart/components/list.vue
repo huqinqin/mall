@@ -111,20 +111,30 @@
         mounted(){
             setTimeout(()=>{
                 this.queryCartList();
+               /* this.putCartPlus();*/
             },20)
         },
         methods:{
-//            queryCartList(){
-//                cartService.queryCartList(158716).then((data)=>{
-//                    this.tableData = data.data;
-//                    console.log(this.tableData);
-//                },(msg)=>{
-//                    this.$ltsMessage.show({type:'error',message:msg.errorMessage})
-//                })
-//            },
-            queryCartList(){
+           queryCartList(){
+               cartService.queryCartList().then((data)=>{
+                   console.log(data);
+                   this.tableData = data.datalist;
+                   console.log(this.tableData);
+               },(msg)=>{
+                    this.$ltsMessage.show({type:'error',message:msg.errorMessage})
+               })
+           },
+           /* putCartPlus(){
+                cartService.putCartPlus().then((data)=>{
+                    this.tableData = data.data;
+                    console.log(this.tableData);
+                },(msg)=>{
+                    this.$ltsMessage.show({type:'error',message:msg.errorMessage})
+                })
+            },*/
+          /*  queryCartList(){
                 this.tableData = cartService.queryCartList(158716).datalist;
-            },
+            },*/
             // 单选框
             handleSelectionChange(value){
                     this.multipleSelection = [];
@@ -139,7 +149,6 @@
             },
             // 全选框 -- 选不上啊
             chooseAllSelect(val){
-                console.log(val);
                 if (val) {
                     this.tableData.forEach((val) => {
                         this.$refs.multipleTable.toggleRowSelection(val,true);
@@ -174,16 +183,16 @@
                 this.multipleSelection = this.chooseAll ? [] : this.tableData
                 console.log(this.multipleSelection)*/
             },
-            handleCheckedCitiesChange(value) {
+           /* handleCheckedCitiesChange(value) {
                 console.log(value);
                 let checkedCount = value.length;
                 this.chooseAll = checkedCount === this.tableData.length;
                 this.isIndeterminate = checkedCount > 0 && checkedCount < this.tableData.length;
-            },
+            },*/
             // 购物车结算
             check() {
                 this.$emit('submit', 1)
-                this.$router.push({name: 'settle', params: { items: [this.multipleSelection] }})
+                this.$router.push({name: 'settle', params: { items: [this.multipleSelection],price:this.totalPrice }})
             },
             // 修改购物车数量
             inputNumeberChange(row){

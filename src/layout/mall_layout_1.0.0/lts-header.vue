@@ -3,9 +3,8 @@
         <div class="header-box">
           <ul class="s-span-page">
             <li class="sign">
-              <span class="login" v-login v-if="!userInfo">立即登录</span>
-              <span class="login"  v-else>欢迎，{{userInfo.account.user_id}}</span>
-              <!--<span class="register">免费注册</span>-->
+              <span class="login" v-login>立即登录</span>
+              <span class="register">免费注册</span>
             </li>
             <li class="">
               <a href="/reverse" class="news top-menu">快报</a>
@@ -31,11 +30,14 @@
               <div class="s-span-page search-bar">
                   <el-input placeholder="请输入内容" v-model="input5" class="input-with-select ">
                       <el-select v-model="select" slot="prepend" placeholder="请选择">
-                          <el-option label="餐厅名" value="1"></el-option>
-                          <el-option label="订单号" value="2"></el-option>
-                          <el-option label="用户电话" value="3"></el-option>
+                          <el-option label="餐厅名" value="one"></el-option>
+                          <el-option label="订单号" value="two"></el-option>
+                          <el-option label="用户电话" value="three"></el-option>
                       </el-select>
-                      <el-button slot="append" icon="el-icon-search"></el-button>
+
+                      <!--<el-cascader slot="prepend" placeholder="请选择" :options="options" v-model="selectedOptions" @change="handleChange">-->
+                      <!--</el-cascader>-->
+                      <a slot="append" :href="'/search?cate=' + select + '&keywords=' + input5"><el-button icon="el-icon-search" @click="searchItem"></el-button></a>
                   </el-input>
               </div>
         </div>
@@ -47,11 +49,11 @@
                         <i class="iconfont icon-turnoff"></i>
                         <img src="@/assets/img/denglu.tou.png" alt="顶部图片">
                     </el-form-item>
-                    <el-form-item label="用户名/邮箱：" prop="acount">
-                        <el-input v-model="form.acount" placeholder="请输入您的用户名或邮箱"></el-input>
+                    <el-form-item label="账户名：" prop="acount">
+                        <el-input v-model="form.acount" placeholder="用户名/手机号/邮箱"></el-input>
                     </el-form-item>
                     <el-form-item label="密码：" prop="password" class="password">
-                        <el-input type="password" ref="password" v-model="form.password" placeholder="请输入您的密码">
+                        <el-input type="password" v-model="form.password" placeholder="请输入您的密码">
                         </el-input>
                         <i class="iconfont icon-yanjing" @click="showPassword" ref="eye"></i>
                     </el-form-item>
@@ -68,13 +70,13 @@
                     <el-form-item>
                         <button class="signup">注册</button>
                     </el-form-item>
-                    <!--<el-form-item>-->
-                        <!--<div class="otherLogin">第三方登录</div>-->
-                        <!--<div class="icons">-->
-                            <!--<a href="#"><img src="@/assets/img/icon1.png" alt="icon1"></a>-->
-                            <!--<a href="#"><img src="@/assets/img/icon2.png" alt="icon2"></a>-->
-                        <!--</div>-->
-                    <!--</el-form-item>-->
+                    <el-form-item>
+                        <div class="otherLogin">第三方登录</div>
+                        <div class="icons">
+                            <a href="#"><img src="@/assets/img/icon1.png" alt="icon1"></a>
+                            <a href="#"><img src="@/assets/img/icon2.png" alt="icon2"></a>
+                        </div>
+                    </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
                 </div>
@@ -84,13 +86,12 @@
 </template>
 <script>
     import {store} from 'ltsutil'
-    import session from '@/library/Session'
     import userService from '@/services/UserService.js'
     export default {
         name : "lts-header",
         data(){
           return{
-             menuList : [
+              menuList : [
                  {
                      name : 'ip solution',
                      icon : 'icon-IPjiejuefangan',
@@ -154,11 +155,10 @@
                     link : '/cart'
                  }
                 ],
-             input5  : '',
-             select : '',
-
-             userInfo : {},
-
+              input5  : '',
+              select : '',
+              options: [],
+              selectedOptions:[],
               //登录
               loginVisible:false,
               unread: 100,
@@ -186,38 +186,47 @@
             },
             login(data){
                 userService.login(this.form.acount,this.form.password).then((data)=>{
-                    this.loginVisible = false
-                    this.getUserInfo();
-
 
                 },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.error_message})
                 })
             },
-            getUserInfo(){
-                this.userInfo = JSON.parse(store.getItem('SESSION_DATA'));
-                if(Object.keys(this.userInfo).length === 0){
-                    userService.get().then((data)=>{
-                        this.userInfo = data.data;
-                        session.login({account: data.data});
-                    },(msg)=>{
-                        this.$ltsMessage.show({type:'error',message:msg.error_message})
-                    });
-                }
-            },
             showLogin(data){
                 this.loginVisible = true
             },
             showPassword(){
-                this.$refs.password.type = this.$refs.password.type == "text" ? 'password' : 'text';
+                this.loginVisible = false
+                console.log(this.$refs.eye)
+            },
+            searchItem(){
+                this.$router.push({ path: 'order' })
+            },
+            // 获取类目数据
+            getLocalstorage(){
+                let data = localStorage.getItem('categoryList')
+                // data.forEach((value)=>{
+                //     value.label = value.name
+                //     value.value = value.name
+                //     if(value.children){
+                //         value.children.forEach((value1) => {
+                //             value1.label = value1.name
+                //             value1.value = value1.name
+                //         })
+                //     }
+                // })
+                console.log(data)
+            },
+            handleChange(){
+                console.log('选择')
             }
         },
         created(){
             this.selfContext.$on("showLogin",this.showLogin)
         },
         mounted(){
-            this.getUserInfo();
+//            session.checkLogin();
             this.account = store.getItem('account');
+            this.getLocalstorage()
         }
     }
 </script>

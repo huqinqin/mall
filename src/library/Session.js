@@ -7,8 +7,10 @@ export default {
     },
     checkLogin(selfContext){
         if (!this.isLogin()) {
-            selfContext.$emit("showLogin");
+            if(selfContext){selfContext.$emit("showLogin");}
             return false;
+        }else{
+            return true;
         }
     },
     getSessionData(){
@@ -24,7 +26,6 @@ export default {
     },
     login(sessionData){
         store.setItem(config.sessDataName, JSON.stringify(sessionData));
-        location.href = config.homePage;
     },
     logout(){
         store.removeItem(config.sessDataName);

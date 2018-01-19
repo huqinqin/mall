@@ -1,11 +1,11 @@
 <template>
     <el-container class="main">
-        <el-header height="auto" @click="handleSelect">
-            <lts-header @showLogin="login"></lts-header>
+        <el-header height="auto">
+            <lts-header></lts-header>
         </el-header>
         <el-container class="lts-main">
             <el-main class="s-span-page">
-                <lts-content @showLogin="login"/>
+                <lts-content/>
             </el-main>
             <el-footer height="300px">
                 <lts-footer></lts-footer>
@@ -18,6 +18,7 @@
     import config from 'config'
     import userService from '@/services/UserService'
     import session from '@/library/Session'
+    import categoryService from '@/services/CategoryService.js'
     import $ from 'jquery'
     import {ltsTable,ltsSearchForm} from 'ui'
     import mixinAuth from '@/library/Auth.js'
@@ -32,26 +33,19 @@
             }
         },
         methods: {
-            handleSelect() {
-                this.checkAuth();
-            },
-            logout(){
-                userService.logout().then((resp)=>{
-                    session.logout();
-                },(err)=>{
-                    this.$ltsMessage.show({type: "error", message: err.error_message});
+//            logout(){
+//                userService.logout().then((resp)=>{
+//                    session.logout();
+//                },(err)=>{
+//                    this.$ltsMessage.show({type: "error", message: err.error_message});
+//                })
+//            },
+            getCategoryList(){
+                categoryService.getList().then((data)=>{
+                    localStorage.setItem("categoryList", JSON.stringify(data.datalist));
+                },(msg)=>{
+                    this.$ltsMessage.show({type:'error',message:msg.error_message})
                 })
-            },
-            login(data){
-                this.loginVisible = true
-            },
-            showPassword(){
-                console.log(this.$refs.eye)
-            }
-        },
-        watch: {
-            open: function () {
-                consoel.log(this.open)
             }
         },
         created(){
@@ -72,7 +66,11 @@
             }
           }
         },
+
         mounted() {
+            if(!localStorage.getItem("categoryList")){
+                this.getCategoryList()
+            }
         }
     }
 </script>

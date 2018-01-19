@@ -32,11 +32,12 @@
             <div class="detail-sku-box">
                 <!-- 商品标题-->
                 <h3>{{item.item_name}}</h3>
-                <p class="brief"><span>性能强劲</span><span>电池保护</span><span>独特电路</span><span>防止干扰</span></p>
+                <p class="brief">{{item.promotion_title}}</p>
                 <!-- 商品属性-->
                 <el-form label-position="left" label-width="80px" :model="formData">
                     <el-form-item label="价格" prop>
-                        <div class="tips">完成登录注册，享受惊爆价</div>
+                        <div class="tips" v-ltsLoginShow:false>完成登录注册，享受惊爆价</div>
+                        <div v-ltsLoginShow:true class="detail_price"> ${{item.price}}</div>
                     </el-form-item>
                     <el-form-item v-for="prop in item.item_prop_value_maps" :key="prop.prop_name" :label="prop.prop_name" class="radio">
                         <el-radio-group v-model="prop.checked_prop">
@@ -51,8 +52,8 @@
                         <p>不支持60天无理由退换(如果商品参加活动，退换货以活动规则为准)</p>
                     </el-form-item>
                     <el-form-item class="buttons">
-                        <button @click="buyNow">立即购买</button>
-                        <button @click="addCart">加入购物车</button>
+                        <button v-login @click="buyNow" >立即购买</button>
+                        <button v-login @click="addCart" >加入购物车</button>
                     </el-form-item>
                 </el-form>
             </div>
@@ -1004,7 +1005,7 @@
                     return false;
                 }
             },
-            addCart() {
+            addCart() {debugger;
                 cartService.putCartPlus(this.customerUid,this.item,this.checkedSpu).then((data) => {
                     this.$ltsMessage.show({type:"success",message:'加入购物车成功'})
                 },(msg) => {
@@ -1127,12 +1128,15 @@
                 }
                 .tips{
                     border:1px solid #ff3b41;
-                    color:#ff3b41;
+
                     line-height: 21px;
                     width:155px;
                     margin-top:10px;
                     font-size: 12px;
                     padding-left: 6px;
+                }
+                .detail_price{
+                    color:#ff3b41;
                 }
                 .radio{
                     margin-bottom: 6px;
@@ -1381,7 +1385,7 @@
                         }
                     }
                     .icon-right{
-                        margin-top: -4px;
+                        margin-top: -3px;
                         transform: rotateZ(180deg);
                     }
                 }
@@ -1392,9 +1396,12 @@
                 margin: 0 15px;
                 border-bottom: 1px solid #f2f2f2;
                 .img{
+                    width:146px;
                     height: 146px;
+                    margin: 0 auto;
                     background-position: center;
                     background-size: contain;
+                    background-repeat: no-repeat;
                     background-repeat: no-repeat;
                 }
                 p.brand{

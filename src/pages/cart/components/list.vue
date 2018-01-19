@@ -5,10 +5,9 @@
             :data="tableData"
             tooltip-effect="dark"
             style="width: 100%" align="right"
-            @selection-change="handleSelectionChange"
-        >
+            @selection-change="handleSelectionChange">
              <el-table-column type="selection" width="60%" align="right" @change="checkItem"></el-table-column>
-             <el-table-column label="商品信息" width="450" class="column-1"  align="center">
+             <el-table-column label="商品信息" width="450"  align="center">
                         <template slot-scope="scope">
                             <div class="item-img" :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+scope.row.url+')'}"></div>
                             <div class="content">
@@ -50,8 +49,8 @@
                 </p>
             </div>
             <div class="check">
-                <p><span>应付金额：<strong>{{totalPrice}}</strong></span></p>
-                <el-button @click="check">去结算</el-button>
+                <p><span>应付金额&nbsp;&nbsp;<strong>${{totalPrice}}</strong></span></p>
+                <el-button @click="check">立即结算</el-button>
             </div>
         </div>
         <div class="history">
@@ -234,7 +233,7 @@
 <style lang="less">
     .list{
         .el-table__header-wrapper{
-            height: 60px;
+            height: 40px;
         }
         .has-gutter{
             tr{
@@ -243,8 +242,12 @@
                     .el-checkbox{
                         visibility: hidden;
                     }
+                    .cell{
+                        margin-top: -4px;
+                    }
                 }
-                th.el-table_1_column_2{
+                /*th.el-table_1_column_2{*/
+                th:nth-child(2){
                     .cell{
                         margin-left: 24px;
                     }
@@ -253,41 +256,43 @@
         }
         .el-table{
             font-size: 14px;
-            tbody tr:nth-child(2){
-                .el-table_1_column_1{
-                    .el-checkbox{
-                        width: 40px;
-                        height: 20px;
-                        span{
-                            display:none;
-                        }
-                        position: relative;
-                        background: rgba(0,0,0,0.1);
-                        margin-left: 5px;
-                    }
-                    .el-checkbox::after{
-                        content:'失效';
-                        width:40px;
-                        height: 20px;
-                        position: absolute;
-                        z-index: 10;
-                        left:-7px;
-                        top:-1px;
-                        font-size: 12px;
-                        color:#fff;
-                    }
-                }
+            /*tbody tr:nth-child(2){*/
+                /*失效商品*/
+                /*.el-table_1_column_1{*/
+                    /*.el-checkbox{*/
+                        /*width: 40px;*/
+                        /*height: 20px;*/
+                        /*span{*/
+                            /*display:none;*/
+                        /*}*/
+                        /*position: relative;*/
+                        /*background: rgba(0,0,0,0.1);*/
+                        /*margin-left: 5px;*/
+                    /*}*/
+                    /*.el-checkbox::after{*/
+                        /*content:'失效';*/
+                        /*width:40px;*/
+                        /*height: 20px;*/
+                        /*position: absolute;*/
+                        /*z-index: 10;*/
+                        /*left:-7px;*/
+                        /*top:-1px;*/
+                        /*font-size: 12px;*/
+                        /*color:#fff;*/
+                    /*}*/
+                /*}*/
 
-            }
-            .el-table_1_column_2{
+            /*}*/
+            /*.el-table_1_column_2{*/
+            tbody tr td:nth-child(2){
                 .cell{
                     width:100%;
                     display: flex;
                     justify-content: space-between;
                 }
                 .item-img{
-                    width:116px;
-                    height: 116px;
+                    width:80px;
+                    height: 80px;
                     border: 1px solid #dadada;
                     background-position: center;
                     background-size: cover;
@@ -296,7 +301,7 @@
                     width:120px;
                     p{
                         line-height: 30px;
-                        font-size: 12px;
+                        font-size: 14px;
                         text-align: left;
                     }
                     p:first-child{
@@ -311,7 +316,7 @@
                 line-height: 40px;
                 font-size: 22px;
                 color: #cecece;
-                i{font-size: 22px;}
+                i{font-size: 18px;}
             }
             .count{
                 color:red;
@@ -357,10 +362,10 @@
                     background-color: #f81f22;
                     border-radius: 4px;
                     width: 160px;
-                    height: 50px;
+                    height: 40px;
                     line-height: 0px;
-                    font-size: 24px;
-                    font-family: MicrosoftYaHei-Bold;
+                    font-size: 18px;
+                    font-weight: bold;
                     span{
                         color: #fff;
                     }
@@ -396,7 +401,6 @@
                     }
                     p{
                         line-height: 18px;
-                        font-family: MicrosoftYaHei-Bold;
                         font-weight: bold;
                         font-size: 18px;
                         margin-top: 12px;

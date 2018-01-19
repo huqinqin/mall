@@ -3,7 +3,7 @@
  * @type {boolean}
  */
 import api from './api'
-const isDebug = true;
+const isDebug = false;
 const isUseMock = false;
 export default {
     url: {

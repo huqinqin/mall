@@ -3,68 +3,72 @@
         <div class="address">
             <h5>收货地址</h5>
             <ul>
-                <li class="default" ref="address">
-                    <header>
-                        <div><p>{{defaultAddressData.name}} （{{defaultAddressData.city}}）</p></div>
-                        <div><span>默认地址</span></div>
-                    </header>
-                    <main>
-                        <p>{{defaultAddressData.address}}</p>
-                        <p>电话：{{defaultAddressData.mobile}}</p>
-                    </main>
-                    <footer>
-                        <button @click="editAddress">修改</button>
-                    </footer>
+                <li  v-for="(item,key) in addressData" :class="{default:item.id === defaultId}" @click="checkAddress(item)">
+                    <div v-if="item.status === 1"  >
+                        <header>
+                            <div><p>{{item.user_name}}({{item.address}}) </p></div>
+                        </header>
+                        <main>
+                            <p>{{item.building}}</p>
+                            <p>电话：{{item.mobile}}</p>
+                        </main>
+                        <footer>
+                            <button class="default" @click="toggleDefault(item)">设为默认</button>
+                            <button @click="deleteAddress(item,key)">删除</button>
+                            <button @click="editAddress(item)">修改</button>
+                        </footer>
+                    </div>
+                    <div v-else>
+                        <header>
+                            <div><p>{{item.user_name}}({{item.address}}) </p></div>
+                        </header>
+                        <main>
+                            <p>{{item.building}}</p>
+                            <p>电话：{{item.mobile}}</p>
+                        </main>
+
+                        <footer>
+                            <button class="default" @click="toggleDefault(item)">设为默认</button>
+                            <button @click="deleteAddress(item,key)">删除</button>
+                            <button @click="editAddress(item)">修改</button>
+                        </footer>
+                    </div>
                 </li>
-                <li v-for="item in addressData">
-                    <header>
-                        <div><p>{{item.name}} （{{item.city}}）</p></div>
-                    </header>
-                    <main>
-                        <p>{{item.address}}</p>
-                        <p>电话：{{item.mobile}}</p>
-                    </main>
-                    <footer>
-                        <button @click="setDefault">设为默认</button>
-                        <button @click="editAddress(item)">修改</button>
-                    </footer>
-                </li>
-                <li class="addAddress" @click="showAddAddress = true">
+                <li class="addAddress" @click="addAddress">
                     <i class="iconfont icon-add"></i>
                     <div>添加地址</div>
                 </li>
-
             </ul>
-
-            <el-dialog title="收货地址" :visible.sync="showAddAddress">
+            <el-dialog title="收货地址" :visible.sync="showAddAddress" center>
                 <el-form :model="addForm">
                     <el-form-item label="地区" >
                         <el-cascader
                             :options="cityOptions"
-                            @change="selectCity">
+                            @change="selectCity"
+                            :placeholder="addForm.address">
                         </el-cascader>
                     </el-form-item>
                     <el-form-item label="街道" >
-                        <el-input v-model="addForm.address"></el-input>
+                        <el-input v-model="addForm.building"></el-input>
                     </el-form-item>
                     <el-form-item label="邮编" >
-                        <el-input v-model="addForm.postcode"></el-input>
+                        <el-input v-model="addForm.lc_code"></el-input>
                     </el-form-item>
                     <el-form-item label="联系人" >
-                        <el-input v-model="addForm.name"></el-input>
+                        <el-input v-model="addForm.user_name"></el-input>
                     </el-form-item>
                     <el-form-item label="联系电话" >
                         <el-input v-model="addForm.mobile"></el-input>
                     </el-form-item>
+                    <el-form-item label="" class="radio">
+                        <el-checkbox v-model="setDefault">设为默认地址</el-checkbox>
+                    </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
-                    <el-button @click="showAddAddress = false">取 消</el-button>
-                    <el-button type="primary" @click="showAddAddress = false">确 定</el-button>
+                    <el-button type="primary" @click="submitFrom">确 定</el-button>
                 </div>
             </el-dialog>
         </div>
-
-
         <div class="inPrice">
             <h5>送货单是否包含价格 </h5>
             <el-radio-group v-model="inPrice">
@@ -122,11 +126,11 @@
             </div>
         </div>
         <div class="allInfo">
-            <p>联系人 {{checkedAddress.name}}</p>
+            <p>联系人 {{checkedAddress.user_name}}</p>
             <p>联系电话 {{checkedAddress.mobile}}</p>
-            <p>收货地址 {{checkedAddress.address}}</p>
-            <p>账单地址 {{checkedAddress.address}}</p>
-            <p>资格证地址 {{checkedAddress.address}}</p>
+            <p>收货地址 {{checkedAddress.address}}{{checkedAddress.building}}</p>
+            <p>账单地址 {{checkedAddress.address}}{{checkedAddress.building}}</p>
+            <p>资格证地址 {{checkedAddress.address}}{{checkedAddress.building}}</p>
         </div>
         <div class="submit">
             <el-button @click="settle">提交订单</el-button>
@@ -136,6 +140,7 @@
 
 <script>
     import  cartService from '@/services/CartService.js'
+    import  addressService from '@/services/AddressService.js'
     import orderService from '@/services/OrderService.js'
     export default {
         name: "settle",
@@ -153,207 +158,94 @@
                 showEditAddress: false,
                 cityOptions: [
                     {
-                        value: 'zujian',
-                        label: '组件',
+                        value: '浙江省',
+                        label: '浙江省',
                         children: [
                             {
-                                value: 'basic',
-                                label: 'Basic',
+                                value: '杭州市',
+                                label: '杭州市',
                                 children: [
                                     {
-                                        value: 'layout',
-                                        label: 'Layout 布局'
+                                        value: '西湖区',
+                                        label: '西湖区'
                                     },
                                     {
-                                        value: 'color',
-                                        label: 'Color 色彩'
+                                        value: '余杭区',
+                                        label: '余杭区'
                                     },
                                     {
-                                        value: 'typography',
-                                        label: 'Typography 字体'
-                                    },
-                                    {
-                                        value: 'icon',
-                                        label: 'Icon 图标'
-                                    },
-                                    {
-                                        value: 'button',
-                                        label: 'Button 按钮'
+                                        value: '滨江区',
+                                        label: '滨江区'
                                     }
                                 ]
                             },
                             {
-                                value: 'form',
-                                label: 'Form',
+                                value: '宁波市',
+                                label: '宁波市',
                                 children: [
                                     {
-                                        value: 'radio',
-                                        label: 'Radio 单选框'
+                                        value: '江北区',
+                                        label: '江北区'
                                     },
                                     {
-                                        value: 'checkbox',
-                                        label: 'Checkbox 多选框'
+                                        value: '北仑区',
+                                        label: '北仑区'
                                     },
                                     {
-                                        value: 'input',
-                                        label: 'Input 输入框'
-                                    },
-                                    {
-                                        value: 'input-number',
-                                        label: 'InputNumber 计数器'
-                                    },
-                                    {
-                                        value: 'select',
-                                        label: 'Select 选择器'
-                                    },
-                                    {
-                                        value: 'cascader',
-                                        label: 'Cascader 级联选择器'
-                                    },
-                                    {
-                                        value: 'switch',
-                                        label: 'Switch 开关'
-                                    },
-                                    {
-                                        value: 'slider',
-                                        label: 'Slider 滑块'
-                                    },
-                                    {
-                                        value: 'time-picker',
-                                        label: 'TimePicker 时间选择器'
-                                    }
-                                ]
-                            },
-                            {
-                                value: 'data',
-                                label: 'Data',
-                                children: [
-                                    {
-                                        value: 'table',
-                                        label: 'Table 表格'
-                                    },
-                                    {
-                                        value: 'tag',
-                                        label: 'Tag 标签'
-                                    },
-                                    {
-                                        value: 'progress',
-                                        label: 'Progress 进度条'
-                                    },
-                                    {
-                                        value: 'tree',
-                                        label: 'Tree 树形控件'
-                                    },
-                                    {
-                                        value: 'pagination',
-                                        label: 'Pagination 分页'
-                                    }
-                                ]
-                            },
-                            {
-                                value: 'notice',
-                                label: 'Notice',
-                                children: [
-                                    {
-                                        value: 'alert',
-                                        label: 'Alert 警告'
-                                    },
-                                    {
-                                        value: 'loading',
-                                        label: 'Loading 加载'
-                                    },
-                                    {
-                                        value: 'message',
-                                        label: 'Message 消息提示'
-                                    }
-                                ]
-                            },
-                            {
-                                value: 'navigation',
-                                label: 'Navigation',
-                                children: [
-                                    {
-                                        value: 'menu',
-                                        label: 'NavMenu 导航菜单'
-                                    },
-                                    {
-                                        value: 'tabs',
-                                        label: 'Tabs 标签页'
-                                    },
-                                    {
-                                        value: 'breadcrumb',
-                                        label: 'Breadcrumb 面包屑'
-                                    }
-                                ]
-                            },
-                            {
-                                value: 'others',
-                                label: 'Others',
-                                children: [
-                                    {
-                                        value: 'dialog',
-                                        label: 'Dialog 对话框'
-                                    },
-                                    {
-                                        value: 'tooltip',
-                                        label: 'Tooltip 文字提示'
-                                    },
-                                    {
-                                        value: 'popover',
-                                        label: 'Popover 弹出框'
+                                        value: '奉化区',
+                                        label: '奉化区'
                                     }
                                 ]
                             }
                         ]
                     },
                     {
-                        value: 'ziyuan',
-                        label: '资源',
+                        value: '江苏省',
+                        label: '江苏省',
                         children: [
                             {
-                                value: 'axure',
-                                label: 'Axure Components'
+                                value: '南京市',
+                                label: '南京市',
+                                children: [
+                                    {
+                                        value: '玄武区',
+                                        label: '玄武区'
+                                    },
+                                    {
+                                        value: '雨花台区',
+                                        label: '雨花台区'
+                                    },
+                                    {
+                                        value: '江宁区',
+                                        label: '江宁区'
+                                    }
+                                ]
                             },
                             {
-                                value: 'sketch',
-                                label: 'Sketch Templates'
-                            },
-                            {
-                                value: 'jiaohu',
-                                label: '组件交互文档'
+                                value: '苏州市',
+                                label: '苏州市',
+                                children: [
+                                    {
+                                        value: '姑苏区',
+                                        label: '姑苏区'
+                                    },
+                                    {
+                                        value: '吴江区',
+                                        label: '吴江区'
+                                    }
+                                ]
                             }
                         ]
                     }
                 ],
-                selectedCity:'',
-                addForm:{
-                    name:123,
-                    city:'qwe',
-                    address:'asd',
-                    mobile: 'zxc',
-                    postcode: 321
-                },
-
+                setDefault: false,
+                defaultId:'',
+                addForm:{},
+                // 点击的是修改还是新增
+                editOrAdd: true,
                 chooseAll: true,
-                checkedAddress: {
-                    name: '抹茶',
-                    city: '浙江省杭州市',
-                    address: '西湖区三墩镇振华路西城博司12楼1201',
-                    mobile: '183 **** 5921'
-                },
-
-                defaultAddressData: {
-                    name: '抹茶',
-                    city: '浙江省杭州市',
-                    address: '西湖区三墩镇振华路西城博司12楼1201',
-                    mobile: '183 **** 5921'
-                },
-                addressData:[{
-                    name: '抹茶',
-                    city: '浙江省杭州市',
-                    address: '西湖区三墩镇振华路西城博司12楼1201',
-                    mobile: '183 **** 5921'
-                }],
+                checkedAddress: {},
+                addressData:[],
                 tableData: [],
                 multipleTable: [],
                 num: 10,
@@ -365,7 +257,6 @@
                     result: 0
                 },
                 data:{
-                    类名: '',
                     link: '',
                     datalist:[
                         {},
@@ -376,15 +267,77 @@
             }
         },
         methods: {
-            setDefault(){
-                alert('set default')
-            },
-            editAddress(item){
-                console.log(item)
+
+            // 设置默认地址
+            toggleDefault(item){
+                addressService.toggleDefault(item).then((data) => {
+                    this.$ltsMessage.show({type:'success',message:'操作成功'})
+                },(msg)=>{
+                    this.$ltsMessage.show({type:'error',message:msg.errorMessage})
+                })
             },
 
+            // 选择地址
+            checkAddress(item){
+                this.checkedAddress = item
+                this.defaultId = item.id
+
+
+            },
+            // 编辑地址
+            editAddress(item){
+                this.editOrAdd = true
+                this.showAddAddress = true
+                this.addForm = item
+            },
+            //选择城市
+            selectCity(value){
+                this.addForm.address = ''
+                value.forEach((value)=>{
+                    this.addForm.address += value
+                })
+            },
+            // 添加地址
             addAddress(){
-                alert('add address')
+                this.editOrAdd = false
+                this.showAddAddress = true
+            },
+            // 查询地址列表
+            getAddressList(){
+                addressService.getList('158716').then((data) => {
+                    this.addressData = data.datalist
+                    this.addressData.forEach((value,index)=>{
+                        if(value.status === 1){
+                            this.defaultId = value.id
+                        }
+                        let position = value.address.indexOf(value.building)
+                        if(position !== 0){
+                            value.address = value.address.slice(0,position)
+                        }
+                    })
+                })
+            },
+            // 提交地址表单
+            submitFrom(){
+                this.addForm.setDefault = this.setDefault
+                this.addForm.rank = this.addressData.length + 1
+                if(!this.editOrAdd){
+                    this.addressData.push(this.addForm)
+                }
+                let service = this.editOrAdd ? addressService.updateItem(this.addForm) : addressService.addItem(this.addForm)
+                service.then((data) => {
+                    this.$ltsMessage.show({type:'success',message:'操作成功'})
+                },(msg)=>{
+                    this.$ltsMessage.show({type:'error',message:msg.errorMessage})
+                })
+                this.showAddAddress = false
+            },
+            // 删除地址
+            deleteAddress(item,key){
+                this.addressData.splice(key,1)
+                addressService.deleteItem(item).then((data) => {
+                    this.$ltsMessage.show({type:'success',message:'删除成功'})
+                })
             },
             editBill(){
                 alert('edit bill')
@@ -408,10 +361,8 @@
                 alert('使用优惠券')
             },
             queryCartList(){
-               /* this.tableData = this.items;*/
-                this.tableData = this.$route.params.items[0];
-                /*this.tableData = cartService.queryCartList(158716).datalist;*/
-                console.log(this.tableData);
+                this.tableData = cartService.queryCartList(158716).datalist;
+
             },
             /*正式下单*/
             submitOrder(){
@@ -488,9 +439,9 @@
                     }
                     arr.forEach((value, index) => {
                         this.totalPrice += value;
-                        console.log(value);
+                        // console.log(value);
                     });
-                    console.log(this.totalPrice);
+                    // console.log(this.totalPrice);
                 })
             },
             // 选择订单是否包含价格
@@ -514,17 +465,15 @@
                         this.deliver = 1
                 }
             },
-            //选择城市
-            selectCity(value){
-                this.selectedCity = value[0] + value[1] + value[2]
-                console.log(this.selectedCity)
-            },
+
         },
         mounted(){
-            console.log(this.$route.params.items);
+            // console.log(this.$route.params.items);
             this.formData = this.$route.params.items
             this.sum.result = this.sum.amount + this.sum.express + this.sum.tax - this.sum.benefit;
+            this.getAddressList()
             setTimeout(()=>{
+
                 this.queryCartList();
                 this.calPrice();
                 this.simulateCreateTrade();
@@ -536,15 +485,23 @@
 <style lang="less">
     .settle{
         overflow: hidden;
+        button{
+            cursor: pointer;
+        }
+
         .el-table__header-wrapper{
-            height: 60px;
+            height: 40px;
         }
         .has-gutter{
             tr{
                 th{
                     background-color: rgba(0,0,0,0.05);
+                    .cell{
+                        margin-top: -4px;
+                        margin-left: 24px;
+                    }
                 }
-                th.el-table_1_column_1{
+                th:nth-child(1){
                     .cell{
                         margin-left: 24px;
                     }
@@ -559,8 +516,8 @@
                     display: flex;
                     justify-content: space-between;
                     img{
-                        width:116px;
-                        height: 116px;
+                        width:80px;
+                        height: 80px;
                         border: 1px solid #dadada;
                     }
                     div{
@@ -605,12 +562,15 @@
             ul{
                 display: flex;
                 flex-wrap: wrap;
-                margin-bottom: 48px;
+                margin-bottom: 24px;
                 li{
                     width: 280px;
                     height: 122px;
                     box-shadow: 0px 3px 15px 0px #f1f1f1;
                     border-radius: 4px;
+                    margin-right: 10px;
+                    margin-bottom: 12px;
+
                     header{
                         border-top:2px solid rgba(0,0,0,0.2);
                         border-bottom: 1px solid rgba(0,0,0,0.05);
@@ -631,6 +591,11 @@
                         line-height: 24px;
                         padding: 0 12px;
                         margin-top: 6px;
+                        p{
+                            overflow: hidden;
+                            text-overflow:ellipsis;
+                            white-space: nowrap;
+                        }
                     }
                     footer{
                         display: flex;
@@ -649,14 +614,14 @@
                         }
                     }
                 }
-                li+li{
-                    margin-left: 12px;
-                }
                 li.default{
                     header{
                         border-top:2px solid #f81f22;
                         display: flex;
                         justify-content: space-between;
+                    }
+                    button.default{
+                        display: none;
                     }
                 }
                 li.default:hover{
@@ -686,7 +651,7 @@
                     flex-direction: column;
                     justify-content: center;
                     align-items: center;
-                    font-family: MicrosoftYaHei-Bold;
+                    font-weight: bold;
                     color: rgba(0,0,0,0.5);
                     i{
                         font-size: 32px;
@@ -699,8 +664,58 @@
                 }
             }
             .el-dialog{
-                .el-cascader{
-                    display: block;
+                width:488px;
+                padding:40px;
+                padding-bottom: 18px;
+                overflow: hidden;
+                .el-dialog__header{
+                    padding-top: 0;
+                    font-size: 16px;
+                    font-weight: bold;
+                    color: #585858;
+                    button:hover{
+                        i{
+                            color:#ff3b41;
+                        }
+                    }
+                }
+                .el-dialog__body{
+                    padding:0;
+                    .el-cascader{
+                        display: block;
+                        .el-cascader__label{
+                            top:24px;
+                        }
+                    }
+                    .el-form-item{
+                        margin-bottom: 11px;
+                        .el-form-item__label{
+                            color: #a3a3a3;
+                            margin-left: 3px;
+                            line-height: 24px;
+                        }
+                        .el-input{
+                            input{
+                                height: 30px;
+                            }
+                        }
+                    }
+                    .el-form-item.radio{
+                        margin-top: -10px;
+
+                    }
+                }
+                .dialog-footer{
+                    .el-button{
+                        background: #ff3b41;
+                        width:160px;
+                        height: 40px;
+                        font-weight: bold;
+                        border:none;
+                        line-height: 1px;
+                        font-size: 16px;
+
+                    }
                 }
             }
         }
@@ -848,6 +863,5 @@
 
             }
         }
-
     }
 </style>

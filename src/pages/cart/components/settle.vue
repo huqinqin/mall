@@ -364,7 +364,7 @@
                 this.tableData = cartService.queryCartList(158716).datalist;
 
             },*/
-            queryCartList(){
+            /*queryCartList(){
                 cartService.queryCartList().then((data)=>{
                     console.log(data);
                     this.tableData = data.datalist;
@@ -372,7 +372,7 @@
                 },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.errorMessage})
                 })
-            },
+            },*/
             /*正式下单*/
             submitOrder(){
                 let items = [];
@@ -480,13 +480,14 @@
         },
         mounted(){
             // console.log(this.$route.params.items);
+            this.tableData = this.$route.params.items[0];
+            console.log(this.tableData);
             setTimeout(()=>{
-                this.formData = this.$route.params.items;
                 this.totalPrice = this.$route.params.price;
                 console.log(this.totalPrice);
                 this.sum.result = this.sum.amount + this.sum.express + this.sum.tax - this.sum.benefit;
                 this.getAddressList()
-                this.queryCartList();
+                /*this.queryCartList();*/
                 this.simulateCreateTrade();
             },20)
         }

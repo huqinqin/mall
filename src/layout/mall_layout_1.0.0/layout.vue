@@ -68,9 +68,7 @@
         },
 
         mounted() {
-            if(!localStorage.getItem("categoryList")){
-                this.getCategoryList()
-            }
+            this.getCategoryList()
         }
     }
 </script>
@@ -81,6 +79,13 @@
         padding: 0;
         height:100%;
         min-width: 1200px;
+        .el-popper{
+            .el-cascader-menu{
+                height: auto;
+
+            }
+        }
+
     }
     .white{
         background-color: white;

@@ -59,7 +59,8 @@
                           <div class="img" :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+item.url+')'}"></div>
                           <div class="item-spec">
                               <p class="line-one">{{item.brand}}</p>
-                              <p class="line-two">{{item.item_name}}</p>
+                              <!--<p class="line-two">{{item.item_name}}</p>-->
+                              <p class="line-two">{{item.id}}</p>
                               <p class="line-three">{{item.promotion_title}}</p>
                               <p class="line-four" ></p>
                               <div class="item-price">

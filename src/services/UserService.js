@@ -12,4 +12,8 @@ export default class UserService extends BaseService {
     static logout(){
         return super.getRequest('/user/logout', {});
     }
+    static get(){
+        return super.getRequest('/user/get');
+    }
+
 }

@@ -3,8 +3,9 @@
         <div class="header-box">
           <ul class="s-span-page">
             <li class="sign">
-              <span class="login" v-login>立即登录</span>
-              <span class="register">免费注册</span>
+              <span class="login" v-login v-if="!userInfo">立即登录</span>
+              <span class="login"  v-else>欢迎，{{userInfo.account.user_id}}</span>
+              <!--<span class="register">免费注册</span>-->
             </li>
             <li class="">
               <a href="/reverse" class="news top-menu">快报</a>
@@ -50,7 +51,7 @@
                         <el-input v-model="form.acount" placeholder="请输入您的用户名或邮箱"></el-input>
                     </el-form-item>
                     <el-form-item label="密码：" prop="password" class="password">
-                        <el-input type="password" v-model="form.password" placeholder="请输入您的密码">
+                        <el-input type="password" ref="password" v-model="form.password" placeholder="请输入您的密码">
                         </el-input>
                         <i class="iconfont icon-yanjing" @click="showPassword" ref="eye"></i>
                     </el-form-item>
@@ -67,13 +68,13 @@
                     <el-form-item>
                         <button class="signup">注册</button>
                     </el-form-item>
-                    <el-form-item>
-                        <div class="otherLogin">第三方登录</div>
-                        <div class="icons">
-                            <a href="#"><img src="@/assets/img/icon1.png" alt="icon1"></a>
-                            <a href="#"><img src="@/assets/img/icon2.png" alt="icon2"></a>
-                        </div>
-                    </el-form-item>
+                    <!--<el-form-item>-->
+                        <!--<div class="otherLogin">第三方登录</div>-->
+                        <!--<div class="icons">-->
+                            <!--<a href="#"><img src="@/assets/img/icon1.png" alt="icon1"></a>-->
+                            <!--<a href="#"><img src="@/assets/img/icon2.png" alt="icon2"></a>-->
+                        <!--</div>-->
+                    <!--</el-form-item>-->
                 </el-form>
                 <div slot="footer" class="dialog-footer">
                 </div>
@@ -83,6 +84,7 @@
 </template>
 <script>
     import {store} from 'ltsutil'
+    import session from '@/library/Session'
     import userService from '@/services/UserService.js'
     export default {
         name : "lts-header",
@@ -155,6 +157,8 @@
              input5  : '',
              select : '',
 
+             userInfo : {},
+
               //登录
               loginVisible:false,
               unread: 100,
@@ -182,24 +186,37 @@
             },
             login(data){
                 userService.login(this.form.acount,this.form.password).then((data)=>{
+                    this.loginVisible = false
+                    this.getUserInfo();
+
 
                 },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.error_message})
                 })
             },
+            getUserInfo(){
+                this.userInfo = JSON.parse(store.getItem('SESSION_DATA'));
+                if(Object.keys(this.userInfo).length === 0){
+                    userService.get().then((data)=>{
+                        this.userInfo = data.data;
+                        session.login({account: data.data});
+                    },(msg)=>{
+                        this.$ltsMessage.show({type:'error',message:msg.error_message})
+                    });
+                }
+            },
             showLogin(data){
                 this.loginVisible = true
             },
             showPassword(){
-                this.loginVisible = false
-                console.log(this.$refs.eye)
+                this.$refs.password.type = this.$refs.password.type == "text" ? 'password' : 'text';
             }
         },
         created(){
             this.selfContext.$on("showLogin",this.showLogin)
         },
         mounted(){
-//            session.checkLogin();
+            this.getUserInfo();
             this.account = store.getItem('account');
         }
     }

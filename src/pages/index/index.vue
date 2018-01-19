@@ -79,17 +79,19 @@
               </div>
               <ul class="best-sellers">
                   <li v-for="item in hotList" :key="item.id">
-                      <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
-                      <div class="item-spec">
-                          <p class="line-one">{{item.brand}}</p>
-                          <p class="line-two">{{item.item_name}}</p>
-                          <p class="line-three">{{item.promotion_title}}</p>
-                          <p class="line-four"></p>
-                          <div class="item-price">
-                              <button v-ltsLoginShow:false>登录之后查看价格</button>
-                              <p v-ltsLoginShow:true class="price">${{item.price }}</p>
+                      <a :href="'/detail#/?id=' + item.id">
+                          <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
+                          <div class="item-spec">
+                              <p class="line-one">{{item.brand}}</p>
+                              <p class="line-two">{{item.item_name}}</p>
+                              <p class="line-three">{{item.promotion_title}}</p>
+                              <p class="line-four"></p>
+                              <div class="item-price">
+                                  <button v-ltsLoginShow:false>登录之后查看价格</button>
+                                  <p v-ltsLoginShow:true class="price">${{item.price }}</p>
+                              </div>
                           </div>
-                      </div>
+                      </a>
                   </li>
               </ul>
         </div>

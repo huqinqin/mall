@@ -661,11 +661,34 @@
                 width:488px;
                 padding:40px;
                 padding-bottom: 18px;
+                overflow: hidden;
                 .el-dialog__header{
                     padding-top: 0;
                     font-size: 16px;
                     font-weight: bold;
                     color: #585858;
+                    position: relative;
+                    button{
+                        width:47px;
+                        height: 47px;
+                        border-radius: 50%;
+                        background: #e8e8e8;
+                        position: absolute;
+                        top:-63px;
+                        right:-64px;
+                        i{
+                            position: absolute;
+                            left:8px;
+                            bottom:8px;
+                            font-size: 12px;
+                            color:white;
+                        }
+                    }
+                    button:hover{
+                        i{
+                            color:#ff3b41;
+                        }
+                    }
                 }
                 .el-dialog__body{
                     padding:0;
@@ -685,7 +708,6 @@
                         .el-input{
                             input{
                                 height: 30px;
-
                             }
                         }
                     }

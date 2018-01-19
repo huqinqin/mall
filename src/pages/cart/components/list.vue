@@ -255,29 +255,30 @@
         .el-table{
             font-size: 14px;
             tbody tr:nth-child(2){
-                .el-table_1_column_1{
-                    .el-checkbox{
-                        width: 40px;
-                        height: 20px;
-                        span{
-                            display:none;
-                        }
-                        position: relative;
-                        background: rgba(0,0,0,0.1);
-                        margin-left: 5px;
-                    }
-                    .el-checkbox::after{
-                        content:'失效';
-                        width:40px;
-                        height: 20px;
-                        position: absolute;
-                        z-index: 10;
-                        left:-7px;
-                        top:-1px;
-                        font-size: 12px;
-                        color:#fff;
-                    }
-                }
+                /*失效商品*/
+                /*.el-table_1_column_1{*/
+                    /*.el-checkbox{*/
+                        /*width: 40px;*/
+                        /*height: 20px;*/
+                        /*span{*/
+                            /*display:none;*/
+                        /*}*/
+                        /*position: relative;*/
+                        /*background: rgba(0,0,0,0.1);*/
+                        /*margin-left: 5px;*/
+                    /*}*/
+                    /*.el-checkbox::after{*/
+                        /*content:'失效';*/
+                        /*width:40px;*/
+                        /*height: 20px;*/
+                        /*position: absolute;*/
+                        /*z-index: 10;*/
+                        /*left:-7px;*/
+                        /*top:-1px;*/
+                        /*font-size: 12px;*/
+                        /*color:#fff;*/
+                    /*}*/
+                /*}*/
 
             }
             .el-table_1_column_2{

@@ -91,17 +91,6 @@
                       <p class="name">{{item.item_name}}</p>
                       <p class="price">${{item.price_value}}</p>
                   </li>
-                  <!--<li v-for="item in side" :key="item.index">-->
-                      <!--&lt;!&ndash; <img :src="item.link" alt=""> &ndash;&gt;-->
-                      <!--<div class="_side_box">-->
-                          <!--&lt;!&ndash; <i class="_side_good_i"></i> &ndash;&gt;-->
-                          <!--<img :src="item.link" alt="" class="_side_good_img">-->
-                      <!--</div>-->
-                      <!--<p class="alone-one">{{item.name}}</p>-->
-                      <!--<p class="alone-two">{{item.info}}</p>-->
-                      <!--<p class="alone-there">{{item.prace}}</p>-->
-                      <!--<i></i>-->
-                  <!--</li>-->
               </ul>
         </div>
 
@@ -117,20 +106,6 @@ import homeService from '@/services/HomeService.js'
     data(){
       return{
         index_banner:[],
-
-          // {
-          //   link:"static/image/BANNERTU.png",
-          //   href:""
-          // },
-          // {
-          //   link:"static/image/BANNERTU.png",
-          //   href:""
-          // },
-          // {
-          //   link:"static/image/BANNERTU.png",
-          //   href:""
-          // }
-
         index_welcome:[
           {
            link:"static/image/BANNERTU.png",
@@ -140,11 +115,6 @@ import homeService from '@/services/HomeService.js'
           {link:"static/image/BANNERTU.png"}
         ],
         itemList : [],
-        // index_welcome:{
-        //   link:"static/image/BANNERTU.png",
-        //   link:"static/image/BANNERTU.png",
-        //   link:"static/image/BANNERTU.png"
-        // }
           hotList: [],
       }
     },
@@ -161,7 +131,6 @@ import homeService from '@/services/HomeService.js'
                 this.itemList = data.floor.datalist;
                 this.hotList = data.hot_buys.datalist[0].items;
                 this.index_banner = data.banner.datalist;
-                console.log(this.index_banner)
             },(msg) => {
                 console.log('error')
             })

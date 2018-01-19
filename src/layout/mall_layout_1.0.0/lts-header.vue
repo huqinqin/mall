@@ -30,11 +30,14 @@
               <div class="s-span-page search-bar">
                   <el-input placeholder="请输入内容" v-model="input5" class="input-with-select ">
                       <el-select v-model="select" slot="prepend" placeholder="请选择">
-                          <el-option label="餐厅名" value="1"></el-option>
-                          <el-option label="订单号" value="2"></el-option>
-                          <el-option label="用户电话" value="3"></el-option>
+                          <el-option label="餐厅名" value="one"></el-option>
+                          <el-option label="订单号" value="two"></el-option>
+                          <el-option label="用户电话" value="three"></el-option>
                       </el-select>
-                      <el-button slot="append" icon="el-icon-search"></el-button>
+
+                      <!--<el-cascader slot="prepend" placeholder="请选择" :options="options" v-model="selectedOptions" @change="handleChange">-->
+                      <!--</el-cascader>-->
+                      <a slot="append" :href="'/search?cate=' + select + '&keywords=' + input5"><el-button icon="el-icon-search" @click="searchItem"></el-button></a>
                   </el-input>
               </div>
         </div>
@@ -46,8 +49,8 @@
                         <i class="iconfont icon-turnoff"></i>
                         <img src="@/assets/img/denglu.tou.png" alt="顶部图片">
                     </el-form-item>
-                    <el-form-item label="用户名/邮箱：" prop="acount">
-                        <el-input v-model="form.acount" placeholder="请输入您的用户名或邮箱"></el-input>
+                    <el-form-item label="账户名：" prop="acount">
+                        <el-input v-model="form.acount" placeholder="用户名/手机号/邮箱"></el-input>
                     </el-form-item>
                     <el-form-item label="密码：" prop="password" class="password">
                         <el-input type="password" v-model="form.password" placeholder="请输入您的密码">
@@ -88,7 +91,7 @@
         name : "lts-header",
         data(){
           return{
-             menuList : [
+              menuList : [
                  {
                      name : 'ip solution',
                      icon : 'icon-IPjiejuefangan',
@@ -152,9 +155,10 @@
                     link : '/cart'
                  }
                 ],
-             input5  : '',
-             select : '',
-
+              input5  : '',
+              select : '',
+              options: [],
+              selectedOptions:[],
               //登录
               loginVisible:false,
               unread: 100,
@@ -193,6 +197,27 @@
             showPassword(){
                 this.loginVisible = false
                 console.log(this.$refs.eye)
+            },
+            searchItem(){
+                this.$router.push({ path: 'order' })
+            },
+            // 获取类目数据
+            getLocalstorage(){
+                let data = localStorage.getItem('categoryList')
+                // data.forEach((value)=>{
+                //     value.label = value.name
+                //     value.value = value.name
+                //     if(value.children){
+                //         value.children.forEach((value1) => {
+                //             value1.label = value1.name
+                //             value1.value = value1.name
+                //         })
+                //     }
+                // })
+                console.log(data)
+            },
+            handleChange(){
+                console.log('选择')
             }
         },
         created(){
@@ -201,6 +226,7 @@
         mounted(){
 //            session.checkLogin();
             this.account = store.getItem('account');
+            this.getLocalstorage()
         }
     }
 </script>

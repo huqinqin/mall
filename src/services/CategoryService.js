@@ -6,7 +6,7 @@ export default class CategoryService extends BaseService {
      * return datalist
      * */
     static getList(){
-        return super.getRequest('/category/getCarrierCategoryList')
+        return super.getRequest('/installer/category/get_carrier_category_list')
     }
 
 }

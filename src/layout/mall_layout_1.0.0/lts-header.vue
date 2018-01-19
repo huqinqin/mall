@@ -4,14 +4,15 @@
           <ul class="s-span-page">
             <li class="sign">
               <span class="login" v-login v-if="!userInfo">立即登录</span>
-              <span class="login"  v-else>欢迎，{{userInfo.account.user_id}}</span>
+              <span class="login"  v-if="userInfo">欢迎，{{userInfo.account.user_id}}</span>
               <!--<span class="register">免费注册</span>-->
             </li>
             <li class="">
               <a href="/reverse" class="news top-menu">快报</a>
               <a href="/order" class="top-menu" v-login>我的订单</a>
               <a href="" class="top-menu" v-login>收藏夹</a>
-              <a href="" ><i class="iconfont icon-shouji"></i>手机下单更优惠</a>
+              <a href="javascript:void(0)" ><i class="iconfont icon-shouji"></i>手机下单更优惠</a>
+              <a href="javascript:void(0)" @click="logout" v-if="userInfo">退出</a>
             </li>
           </ul>
         </div>
@@ -178,6 +179,8 @@
             login(){
             },
             logout(){
+                session.logout();
+                this.userInfo = {};
                 userService.logout().then((resp)=>{
                     session.logout();
                 },(err)=>{
@@ -188,22 +191,20 @@
                 userService.login(this.form.acount,this.form.password).then((data)=>{
                     this.loginVisible = false
                     this.getUserInfo();
-
-
                 },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.error_message})
                 })
             },
             getUserInfo(){
+                userService.get().then((data)=>{
+                    this.userInfo = data.data;
+                    session.login({account: data.data});
+                },(msg)=>{
+                    this.$ltsMessage.show({type:'error',message:msg.error_message})
+                });
+            },
+            getLocalUser(){
                 this.userInfo = JSON.parse(store.getItem('SESSION_DATA'));
-                if(Object.keys(this.userInfo).length === 0){
-                    userService.get().then((data)=>{
-                        this.userInfo = data.data;
-                        session.login({account: data.data});
-                    },(msg)=>{
-                        this.$ltsMessage.show({type:'error',message:msg.error_message})
-                    });
-                }
             },
             showLogin(data){
                 this.loginVisible = true
@@ -214,11 +215,8 @@
         },
         created(){
             this.selfContext.$on("showLogin",this.showLogin)
+            this.getLocalUser();
         },
-        mounted(){
-            this.getUserInfo();
-            this.account = store.getItem('account');
-        }
     }
 </script>
 <style lang="less">

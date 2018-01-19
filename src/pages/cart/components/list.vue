@@ -18,7 +18,7 @@
                                 <p v-for="(value,key) in scope.row.item_props">{{value.prop_value}}</p>
                             </div>
                         </template>
-                    </el-table-column>
+              </el-table-column>
              <el-table-column prop="price" label="单价" align="center">
                     </el-table-column>
              <el-table-column label="数量" prop="num" align="center">
@@ -225,7 +225,6 @@
                         this.cart.cartPriceTotal += parseInt(value.num) * parseInt(value.price);
                     })
                 }
-
             },
 
         }

@@ -142,7 +142,6 @@
         props: ['items'],
         data(){
             return{
-
                 totalPrice:0,
                 // 送货单是否包含价格，配送方式
                 inPrice:'否',

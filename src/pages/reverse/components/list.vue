@@ -124,11 +124,11 @@
                 },
                 optType: '',
                 params: {
-                    tid: '',
+                   /* tid: '',
                     item_name: '',
                     status: '',
                     start_time: '',
-                    end_time: '',
+                    end_time: '',*/
                 },
                 form: {
                     formFileds: [
@@ -194,8 +194,16 @@
                 this.dialogVisible = true;
             },
             search() {
-                reverseService.getList(this.params.tid, this.params.status, this.params.start_time, this.params.end_time,
-                    this.pagination.page, this.pagination.pageSize, this.params.order_by).then((resp) => {
+                /*debugger;*/
+                let param = {};
+                for(let key in this.params){
+                    if(this.params[key] == ''||this.params[key] == undefined || this.params[key] == null){
+
+                    }else{
+                        param[key] = this.params[key];
+                    }
+                }
+                reverseService.getList(param, this.pagination.page, this.pagination.pageSize, 'cdate desc').then((resp) => {
                     this.loading = false;
                     this.datalist = resp.datalist;
                     this.pagination.total = resp.total;
@@ -214,8 +222,12 @@
                     this.params.start_time = this.form.formInline.date[0];
                     this.params.end_time = this.form.formInline.date[1];
                 }
-                this.params.tid = this.form.formInline.tid;
-                this.params.item_name = this.form.formInline.item_name;
+                if(this.form.formInline.tid){
+                    this.params.tid = this.form.formInline.tid;
+                }
+                if(this.form.formInline.item_name){
+                    this.params.item_name = this.form.formInline.item_name;
+                }
                 this.params.status = this.form.formInline.status;
             },
             handleSizeChange(val) {

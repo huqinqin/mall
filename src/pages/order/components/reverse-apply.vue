@@ -137,6 +137,7 @@
         },
         methods: {
             onSubmitRefund(){
+                console.log("000");
                 this.$refs['form'].validate((valid) => {
                     if (valid) {
                         let stock_item = {},

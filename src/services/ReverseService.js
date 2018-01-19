@@ -1,23 +1,26 @@
 import BaseService from "./abstract/BaseService";
-import {CommonUtils} from 'ltsutil'
+import CommonUtils from '../utils/CommonUtils'
 export default class OrderService extends BaseService{
     static get(id){
         let param = {
             id : id,
         };
-        return super.getRequest('/static/test/json/detail.9205.json', param);
+        return super.getRequest('/installer/reverse/detail', param);
     }
-    static getList(oid, status, start_time, end_time, page = 1, page_size = 10, order_by = ''){
-        let param = {
-            oid : oid,
+    static getList(param={}, page = 1, page_size = 10, order_by = 'cdate desc'){
+        /*let param = {
+            tid : tid,
             status : status,
             start_time : start_time,
             end_time : end_time,
             page : page,
             page_size : page_size,
             order_by : order_by
-        };
-        return super.getRequest('/static/test/json/reverse.list.json', param);
+        };*/
+        param.page = page;
+        param.page_size = page_size;
+        param.order_by = order_by;
+        return super.getRequest('/installer/reverse/list', param);
     }
     static apply(oid, installer_uid, reverse_reason, stock_item = {}, return_item = {}, bad_item = {}, remark){
         let param = {
@@ -26,16 +29,16 @@ export default class OrderService extends BaseService{
             reverse_reason : reverse_reason,
             remark : remark,
         };
-        if (!commonUtils.isBlankObject(stock_item)) {
+        if (!CommonUtils.isBlankObject(stock_item)) {
             param.stock_item = JSON.stringify(stock_item);
         }
-        if (!commonUtils.isBlankObject(return_item)) {
+        if (!CommonUtils.isBlankObject(return_item)) {
             param.return_item = JSON.stringify(return_item);
         }
-        if (!commonUtils.isBlankObject(bad_item)) {
+        if (!CommonUtils.isBlankObject(bad_item)) {
             param.bad_item = JSON.stringify(bad_item);
         }
-        return super.postRequest('/store/reverse/apply', param);
+        return super.postRequest('/installer/reverse/apply', param);
     }
     static operate(id, installer_uid, op_type, remark, deal_remark){
         let param = {

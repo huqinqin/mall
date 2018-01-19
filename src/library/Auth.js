@@ -12,13 +12,13 @@ Vue.mixin({
         }
     }
 });
-Vue.directive('login',{
-    inserted(el) {
-        $("body").delegate(el,'click',()=>{
-            if(!session.checkLogin(eventHub)){
-                // 未登录 拦截一切事件
-                return false;
-            }
-        })
-    }
-})
+// Vue.directive('login',{
+//     inserted(el) {
+//         $("body").delegate(el,'click',()=>{
+//             if(!session.checkLogin(eventHub)){
+//                 // 未登录 拦截一切事件
+//                 return false;
+//             }
+//         })
+//     }
+// })

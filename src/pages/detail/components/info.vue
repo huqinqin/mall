@@ -1381,7 +1381,7 @@
                         }
                     }
                     .icon-right{
-                        margin-top: -4px;
+                        margin-top: -3px;
                         transform: rotateZ(180deg);
                     }
                 }

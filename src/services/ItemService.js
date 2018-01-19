@@ -56,7 +56,7 @@ export default class ItemService extends BaseService {
                 discountType:search.discountType,
                 allStatus:search.allStatus,
                 sin:search.sin,
-                propValues:search.propValues
+                propValues:search.condition
             }),
             page:search.page,
             page_size:search.page_size,

@@ -104,7 +104,6 @@
                     text:'',
                     page:1,
                     pageSize:20,
-
                     totalPage:5,
                     cateId:'',
                     itemName:'',
@@ -164,13 +163,13 @@
 
                 // 加入条件
                 if(item){
-                    this.search.condition.push(item);
+                    this.search.condition.push(item)
                 }
                 this.submit()
             },
             // 调接口
             submit(){
-                this.search.itemName = this.queryString('keywords')
+                this.search.itemName = decodeURI(this.queryString('keywords'))
                 this.search.cateId = this.queryString('cateId')
                 ItemService.searchItem(this.search).then((rtn)=>{
                     this.data = rtn.data.item_d_o_list
@@ -184,7 +183,7 @@
 
             // 关闭条件
             delCondition(index) {
-                this.search.condition.splice(index, 1);
+                this.search.condition.splice(index, 1)
                 this.searchWithText(this.text);
             },
             selected(selected){

@@ -36,5 +36,35 @@ export default class ItemService extends BaseService {
         return super.getRequest('/static/test/json/search.item.json',params)
     }
 
+    /**
+     * 搜索详细的商品
+     * @param item_search
+     * @param page
+     * @param page_size
+     * @param order_by
+     * @returns {*}
+     */
+    static searchItem(param){
+        let params = {
+            item_search : JSON.stringify({
+                puserIds:'',
+                itemName:'',
+                brand:'',
+                cateId:'',
+                attribute_1:'',
+                discountType:'',
+                allStatus:'',
+                sin:'',
+                propValues:''
+            }),
+            page:1,
+            page_size:10,
+            order_by: ''
+        };
+        return super.getRequest('/installer/item',params)
+    }
+
+
+
 
 }

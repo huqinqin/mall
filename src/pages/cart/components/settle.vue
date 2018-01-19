@@ -3,7 +3,7 @@
         <div class="address">
             <h5>收货地址</h5>
             <ul>
-                <li  v-for="(item,key) in addressData" :class="{default:item.id === defaultId}">
+                <li  v-for="(item,key) in addressData" :class="{default:item.id === defaultId}" @click="checkAddress(item)">
                     <div v-if="item.status === 1"  >
                         <header>
                             <div><p>{{item.user_name}}({{item.address}}) </p></div>
@@ -126,11 +126,11 @@
             </div>
         </div>
         <div class="allInfo">
-            <p>联系人 {{checkedAddress.name}}</p>
+            <p>联系人 {{checkedAddress.user_name}}</p>
             <p>联系电话 {{checkedAddress.mobile}}</p>
-            <p>收货地址 {{checkedAddress.address}}</p>
-            <p>账单地址 {{checkedAddress.address}}</p>
-            <p>资格证地址 {{checkedAddress.address}}</p>
+            <p>收货地址 {{checkedAddress.address}}{{checkedAddress.building}}</p>
+            <p>账单地址 {{checkedAddress.address}}{{checkedAddress.building}}</p>
+            <p>资格证地址 {{checkedAddress.address}}{{checkedAddress.building}}</p>
         </div>
         <div class="submit">
             <el-button @click="settle">提交订单</el-button>
@@ -245,12 +245,7 @@
                 // 点击的是修改还是新增
                 editOrAdd: true,
                 chooseAll: true,
-                checkedAddress: {
-                    name: '抹茶',
-                    city: '浙江省杭州市',
-                    building: '西湖区三墩镇振华路西城博司7幢12楼',
-                    mobile: '183 **** 5921'
-                },
+                checkedAddress: {},
                 addressData:[],
                 tableData: [],
                 multipleTable: [],
@@ -283,6 +278,14 @@
                 })
             },
 
+            // 选择地址
+            checkAddress(item){
+                this.checkedAddress = item
+                this.defaultId = item.id
+
+
+            },
+            // 编辑地址
             editAddress(item){
                 this.editOrAdd = true
                 this.showAddAddress = true
@@ -486,15 +489,20 @@
         button{
             cursor: pointer;
         }
+
         .el-table__header-wrapper{
-            height: 60px;
+            height: 40px;
         }
         .has-gutter{
             tr{
                 th{
                     background-color: rgba(0,0,0,0.05);
+                    .cell{
+                        margin-top: -4px;
+                        margin-left: 24px;
+                    }
                 }
-                th.el-table_1_column_1{
+                th:nth-child(1){
                     .cell{
                         margin-left: 24px;
                     }
@@ -509,8 +517,8 @@
                     display: flex;
                     justify-content: space-between;
                     img{
-                        width:116px;
-                        height: 116px;
+                        width:80px;
+                        height: 80px;
                         border: 1px solid #dadada;
                     }
                     div{
@@ -556,13 +564,12 @@
                 display: flex;
                 flex-wrap: wrap;
                 margin-bottom: 24px;
-
                 li{
                     width: 280px;
                     height: 122px;
                     box-shadow: 0px 3px 15px 0px #f1f1f1;
                     border-radius: 4px;
-                    margin-right: 12px;
+                    margin-right: 10px;
                     margin-bottom: 12px;
 
                     header{
@@ -667,23 +674,6 @@
                     font-size: 16px;
                     font-weight: bold;
                     color: #585858;
-                    position: relative;
-                    button{
-                        width:47px;
-                        height: 47px;
-                        border-radius: 50%;
-                        background: #e8e8e8;
-                        position: absolute;
-                        top:-63px;
-                        right:-64px;
-                        i{
-                            position: absolute;
-                            left:8px;
-                            bottom:8px;
-                            font-size: 12px;
-                            color:white;
-                        }
-                    }
                     button:hover{
                         i{
                             color:#ff3b41;
@@ -719,11 +709,13 @@
                 .dialog-footer{
                     .el-button{
                         background: #ff3b41;
-                        width:150px;
-                        height: 30px;
+                        width:160px;
+                        height: 40px;
                         font-weight: bold;
                         border:none;
                         line-height: 1px;
+                        font-size: 16px;
+
                     }
                 }
             }

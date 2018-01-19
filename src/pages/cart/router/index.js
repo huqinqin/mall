@@ -24,6 +24,7 @@ export default new Router({
     },
     {
       path: '/beforePay',
+      name: 'beforePay',
       component: BeforePay
     },
     {

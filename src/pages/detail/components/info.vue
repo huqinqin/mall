@@ -1392,7 +1392,9 @@
                 margin: 0 15px;
                 border-bottom: 1px solid #f2f2f2;
                 .img{
+                    width:146px;
                     height: 146px;
+                    margin: 0 auto;
                     background-position: center;
                     background-size: contain;
                     background-repeat: no-repeat;

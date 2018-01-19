@@ -47,6 +47,7 @@ export default class CartService extends BaseService {
             order_type: 'self_order',
             carrier_uid: 158635,
         };
+
         return {
             "current_page_no": 1,
             "data": null,
@@ -269,6 +270,5 @@ export default class CartService extends BaseService {
             "total": 0,
             "total_page_count": 0
         }
-
     }
 }

@@ -18,6 +18,7 @@
     import config from 'config'
     import userService from '@/services/UserService'
     import session from '@/library/Session'
+    import categoryService from '@/services/CategoryService.js'
     import $ from 'jquery'
     import {ltsTable,ltsSearchForm} from 'ui'
     import mixinAuth from '@/library/Auth.js'
@@ -39,6 +40,13 @@
 //                    this.$ltsMessage.show({type: "error", message: err.error_message});
 //                })
 //            },
+            getCategoryList(){
+                categoryService.getList().then((data)=>{
+                    localStorage.setItem("categoryList", JSON.stringify(data.datalist));
+                },(msg)=>{
+                    this.$ltsMessage.show({type:'error',message:msg.error_message})
+                })
+            }
         },
         created(){
           config.isWhite ? $("html").attr('class','white') : $("html").attr('class','gray');
@@ -58,7 +66,11 @@
             }
           }
         },
+
         mounted() {
+            if(!localStorage.getItem("categoryList")){
+                this.getCategoryList()
+            }
         }
     }
 </script>

@@ -19,7 +19,7 @@ export default class ItemService extends BaseService {
         let params = {
             item_id : id
         };
-        return super.getRequest('/wholesale/item/get_item_with_props',params)
+        return super.getRequest('/installer/item/get_item_with_props',params)
     }
 
     /**

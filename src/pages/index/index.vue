@@ -55,17 +55,19 @@
               </div>
               <ul class="item-list-box">
                   <li  v-for="item in itemlist.items" :key="item.sin">
-                      <div class="img" :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+item.url+')'}"></div>
-                      <div class="item-spec">
-                          <p class="line-one">{{item.brand}}</p>
-                          <p class="line-two">{{item.item_name}}</p>
-                          <p class="line-three">{{item.promotion_title}}</p>
-                          <p class="line-four" ></p>
-                          <div class="item-price">
-                             <button v-ltsLoginShow:false>登录之后查看价格</button>
-                             <p v-ltsLoginShow:true class="price">${{item.price }}</p>
+                      <a :href="'/detail#/?id=' + item.id">
+                          <div class="img" :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+item.url+')'}"></div>
+                          <div class="item-spec">
+                              <p class="line-one">{{item.brand}}</p>
+                              <p class="line-two">{{item.item_name}}</p>
+                              <p class="line-three">{{item.promotion_title}}</p>
+                              <p class="line-four" ></p>
+                              <div class="item-price">
+                                 <button v-ltsLoginShow:false>登录之后查看价格</button>
+                                 <p v-ltsLoginShow:true class="price">${{item.price }}</p>
+                              </div>
                           </div>
-                      </div>
+                      </a>
                   </li>
               </ul>
             </div>
@@ -151,6 +153,7 @@ import homeService from '@/services/HomeService.js'
             width:100%;
             background-size: cover;
             background-position: center;
+            height: 500px;
         }
     }
 
@@ -275,7 +278,6 @@ import homeService from '@/services/HomeService.js'
             }
             .item-list-box {
                 display: flex;
-                justify-content: space-between;
                 flex-wrap: wrap;
                 li {
                     // box-sizing: border-box;
@@ -284,7 +286,10 @@ import homeService from '@/services/HomeService.js'
                     min-width: 200px;
                     width: 24%;
                     margin-bottom: 12px;
-
+                    margin-right: 1%
+                }
+                li:nth-child(4n){
+                    margin-right: 0%;
                 }
             }
         }
@@ -306,7 +311,7 @@ import homeService from '@/services/HomeService.js'
                         width:242px;
                         height: 242px;
                         background-position: center;
-                        background-size: cover;
+                        background-size: contain;
                     }
                 }
                 li::after{

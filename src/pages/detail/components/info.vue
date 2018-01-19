@@ -32,11 +32,12 @@
             <div class="detail-sku-box">
                 <!-- 商品标题-->
                 <h3>{{item.item_name}}</h3>
-                <p class="brief"><span>性能强劲</span><span>电池保护</span><span>独特电路</span><span>防止干扰</span></p>
+                <p class="brief">{{item.promotion_title}}</p>
                 <!-- 商品属性-->
                 <el-form label-position="left" label-width="80px" :model="formData">
                     <el-form-item label="价格" prop>
-                        <div class="tips">完成登录注册，享受惊爆价</div>
+                        <div class="tips" v-ltsLoginShow:false>完成登录注册，享受惊爆价</div>
+                        <div v-ltsLoginShow:true class="detail_price"> ${{item.price}}</div>
                     </el-form-item>
                     <el-form-item v-for="prop in item.item_prop_value_maps" :key="prop.prop_name" :label="prop.prop_name" class="radio">
                         <el-radio-group v-model="prop.checked_prop">
@@ -1127,12 +1128,15 @@
                 }
                 .tips{
                     border:1px solid #ff3b41;
-                    color:#ff3b41;
+
                     line-height: 21px;
                     width:155px;
                     margin-top:10px;
                     font-size: 12px;
                     padding-left: 6px;
+                }
+                .detail_price{
+                    color:#ff3b41;
                 }
                 .radio{
                     margin-bottom: 6px;
@@ -1397,6 +1401,7 @@
                     margin: 0 auto;
                     background-position: center;
                     background-size: contain;
+                    background-repeat: no-repeat;
                     background-repeat: no-repeat;
                 }
                 p.brand{

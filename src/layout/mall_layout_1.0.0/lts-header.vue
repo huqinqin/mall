@@ -97,7 +97,7 @@
                      icon : 'icon-IPjiejuefangan',
                      first : 'IP',
                      last : 'SOLUTION',
-                     link : '/detail#/?id=2101176'
+                     link : 'javascript:void(0)'
                  },
                  {
                      name : 'hdtvi solution',
@@ -189,7 +189,7 @@
             },
             login(data){
                 userService.login(this.form.acount,this.form.password).then((data)=>{
-                    this.loginVisible = false
+                    this.loginVisible = false;
                     this.getUserInfo();
                 },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.error_message})
@@ -199,6 +199,7 @@
                 userService.get().then((data)=>{
                     this.userInfo = data.data;
                     session.login({account: data.data});
+                    location.reload();
                 },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.error_message})
                 });

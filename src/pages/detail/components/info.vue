@@ -51,8 +51,8 @@
                         <p>不支持60天无理由退换(如果商品参加活动，退换货以活动规则为准)</p>
                     </el-form-item>
                     <el-form-item class="buttons">
-                        <button @click="buyNow">立即购买</button>
-                        <button @click="addCart">加入购物车</button>
+                        <button v-login @click="buyNow" >立即购买</button>
+                        <button v-login @click="addCart" >加入购物车</button>
                     </el-form-item>
                 </el-form>
             </div>
@@ -1004,7 +1004,7 @@
                     return false;
                 }
             },
-            addCart() {
+            addCart() {debugger;
                 cartService.putCartPlus(this.customerUid,this.item,this.checkedSpu).then((data) => {
                     this.$ltsMessage.show({type:"success",message:'加入购物车成功'})
                 },(msg) => {

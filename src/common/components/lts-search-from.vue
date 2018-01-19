@@ -51,7 +51,7 @@
                             ></el-autocomplete>
                         </div>
                         <div v-else-if="val.type == 'select'">
-                            <el-select v-model="formInline[val.bindValue]" :placeholder="val.bindPlaceholder">
+                            <el-select v-model="formInline[val.bindValue]" @change="selectChange" :placeholder="val.bindPlaceholder">
                                 <el-option v-for="(opt,index) in val.children" :label="opt.label" :key="opt.bindValue"
                                            :value="opt.bindValue"></el-option>
                             </el-select>
@@ -142,6 +142,9 @@
             },
             handleSelect(item) {
               this.formInline.callbackParameter = item;
+            },
+            selectChange(val){
+
             },
             cascAderHandleChange(val){
                 this.$emit("cascAderHandleChange",val);

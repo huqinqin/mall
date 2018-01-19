@@ -118,7 +118,7 @@
 
         <div class="someCount">
             <div class="count">
-                <p>商品应付金额 <span>{{sum.amount.toFixed(2)}}</span></p>
+                <p>商品应付金额 <span class="money">${{totalPrice.toFixed(2)}}</span></p>
                 <p>运费 <span>+{{sum.express.toFixed(2)}}</span></p>
                 <p>税费 <span>+{{sum.tax.toFixed(2)}}</span></p>
                 <p>红包 <span>-{{sum.benefit.toFixed(2)}}</span></p>
@@ -147,7 +147,6 @@
         props: ['items'],
         data(){
             return{
-
                 totalPrice:0,
                 // 送货单是否包含价格，配送方式
                 inPrice:'否',
@@ -361,10 +360,19 @@
             useCoupon(){
                 alert('使用优惠券')
             },
-            queryCartList(){
+            /*queryCartList(){
                 this.tableData = cartService.queryCartList(158716).datalist;
 
-            },
+            },*/
+            /*queryCartList(){
+                cartService.queryCartList().then((data)=>{
+                    console.log(data);
+                    this.tableData = data.datalist;
+                    console.log(this.tableData);
+                },(msg)=>{
+                    this.$ltsMessage.show({type:'error',message:msg.errorMessage})
+                })
+            },*/
             /*正式下单*/
             submitOrder(){
                 let items = [];
@@ -430,12 +438,14 @@
                 })
             },
             /*计算价格*/
-            calPrice() {
+           /* calPrice() {
                 setTimeout(() => {
                     let arr = [];
                     let len = document.getElementsByClassName("count").length;
-                    console.log("len:"+ len);
-                    for (let i = 0; i < len-1; i++) {
+                    console.log(document.getElementsByClassName("count"));
+                    console.log("len:"+ len );
+                    for (let i = 0; i < len; i++) {
+                        console.log(document.getElementsByClassName("count")[i]);
                         arr[i] = parseInt(document.getElementsByClassName("count")[i].innerHTML);
                     }
                     arr.forEach((value, index) => {
@@ -444,7 +454,7 @@
                     });
                     // console.log(this.totalPrice);
                 })
-            },
+            },*/
             // 选择订单是否包含价格
             chooseInPrice(e){
                 switch(e.target.innerText){
@@ -470,13 +480,14 @@
         },
         mounted(){
             // console.log(this.$route.params.items);
-            this.formData = this.$route.params.items
-            this.sum.result = this.sum.amount + this.sum.express + this.sum.tax - this.sum.benefit;
-            this.getAddressList()
+            this.tableData = this.$route.params.items[0];
+            console.log(this.tableData);
             setTimeout(()=>{
-
-                this.queryCartList();
-                this.calPrice();
+                this.totalPrice = this.$route.params.price;
+                console.log(this.totalPrice);
+                this.sum.result = this.sum.amount + this.sum.express + this.sum.tax - this.sum.benefit;
+                this.getAddressList()
+                /*this.queryCartList();*/
                 this.simulateCreateTrade();
             },20)
         }

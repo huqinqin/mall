@@ -44,24 +44,25 @@ export default class ItemService extends BaseService {
      * @param order_by
      * @returns {*}
      */
-    static searchItem(param){
+    static searchItem(search){
+        console.log(search)
         let params = {
             item_search : JSON.stringify({
-                puserIds:'',
-                itemName:'',
-                brand:'',
-                cateId:'',
-                attribute_1:'',
-                discountType:'',
-                allStatus:'',
-                sin:'',
-                propValues:''
+                puserIds:search.puserIds,
+                itemName:search.itemName,
+                brand:search.brand,
+                cateId:search.cateId,
+                attribute_1:search.attribute_1,
+                discountType:search.discountType,
+                allStatus:search.allStatus,
+                sin:search.sin,
+                propValues:search.condition
             }),
-            page:1,
-            page_size:10,
+            page:search.page,
+            page_size:search.page_size,
             order_by: ''
         };
-        return super.getRequest('/installer/item',params)
+        return super.getRequest('/installer/item/get_item_with_aggregate',params)
     }
 
 

@@ -146,7 +146,7 @@ import homeService from '@/services/HomeService.js'
 
 ._index{
     overflow: hidden;
-    background-color: #f6f6f6;
+    background-color: #eee;
     .banner{
         .img{
             height: auto;

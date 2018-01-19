@@ -5,7 +5,7 @@
                 <el-breadcrumb-item :to="{ path: '/' }">商品</el-breadcrumb-item>
                 <el-breadcrumb-item>所有商品</el-breadcrumb-item>
             </el-breadcrumb>
-            <div class="tags" v-if="tag.length > 0">
+            <div class="tags" v-if="search.condition.length > 0">
                 <el-tag  v-for="(tag,index) in search.condition" :key="tag" type="danger" closable @close="delCondition(index)">{{tag}}</el-tag>
             </div>
         </div>
@@ -24,12 +24,13 @@
                             {{subItem}}
                         </li>
                     </ul>
-                    <div class="buttons" @click="showAllCondition" ref="buttons">
-                        <button>更多</button><i class="iconfont icon-xianshigengduo"></i>
-                    </div>
+                    <!--更多（暂时不做，没那么多）-->
+                    <!--<div class="buttons" @click="showAllCondition" ref="buttons">-->
+                        <!--<button>更多</button><i class="iconfont icon-xianshigengduo"></i>-->
+                    <!--</div>-->
                 </el-form-item>
             </el-form>
-            <div class="loadMore" @click="showMore">
+            <div class="loadMore" @click="showMore" v-if="condition.length > 3">
                 <button>更多选项</button>
                 <i class="iconfont icon-xianshigengduo"></i>
             </div>
@@ -49,14 +50,14 @@
                 <div class="right">
                     <div><span>{{search.page}}</span>/{{search.totalPage}}</div>
                     <div class="buttons">
-                        <el-button icon="el-icon-arrow-left"></el-button>
-                        <el-button icon="el-icon-arrow-right"></el-button>
+                        <el-button icon="el-icon-arrow-left" @click="prePage"></el-button>
+                        <el-button icon="el-icon-arrow-right" @click="nextPage"></el-button>
                     </div>
                 </div>
             </div>
             <div class="search-result">
                 <ul class="result">
-                    <li v-for="item in data" :key="item.sin">
+                    <li v-for="item in data" :key="item.id">
                         <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
                         <p class="brand">{{item.brand}}</p>
                         <p class="name">{{item.item_name}}</p>
@@ -68,12 +69,17 @@
                         </div>
                     </li>
                 </ul>
-                <el-pagination background
-                               layout="prev, pager, next"
-                               :total= "search.totalPage"
-                               :page-size= "search.pageSize"
-                               prev-text="上一页"
-                               next-text="下一页"></el-pagination>
+                <el-pagination
+                    background
+                    layout="prev, pager, next"
+                    :total= "search.totalPage * search.pageSize"
+                    :page-size= "search.pageSize"
+                    prev-text="上一页"
+                    next-text="下一页"
+                    :current-page="search.page"
+                    @current-change="changePage"></el-pagination>
+
+
             </div>
         </div>
     </div>
@@ -90,26 +96,57 @@
                 activeOrderBy: '',
                 selectedItem: '',
                 minItem: 3,
+                tag:[],
                 showRange: false,
                 condition: {},
                 search:{
                     condition:[],
                     text:'',
                     page:1,
-                    pageSize:8,
-                    totalPage:45,
+                    pageSize:20,
+                    totalPage:5,
+                    cateId:'',
+                    itemName:'',
+                    brand:'',
+                    puserId:'',
+                    attribute_1:'',
+                    discountType:'',
+                    allStatus:'',
+                    sin:'',
+                    propValues:''
                 },
                 data:[]
             }
 
         },
         mounted(){
-            this.init();
+            this.submit()
         },
         methods: {
-            init(){
-                this.loadCondition();
-                this.searchWithText();
+
+            changePage(currentPage){
+                this.search.page = currentPage
+                this.searchWithText()
+            },
+            // 上下一页
+            prePage(){
+                this.search.page--
+            },
+            nextPage(){
+                this.search.page++
+            },
+
+            // 获取参数
+            queryString(name){
+                let query = window.location.search.substring(1)
+                let vars = query.split("&")
+                for(let i=0;i<vars.length;i++){
+                    let pair = vars[i].split('=')
+                    if(pair[0] === name){
+                        return pair[1]
+                    }
+                }
+                return false
             },
             searchWithText(spceList = [],item = ''){
                 // 排除同一组规格的条件
@@ -126,29 +163,27 @@
 
                 // 加入条件
                 if(item){
-                    this.search.condition.push(item);
+                    this.search.condition.push(item)
                 }
-                ItemService.searchItemList(this.search.text,this.search.condition).then((rtn)=>{
-                    this.data = rtn;
-                })
+                this.submit()
             },
-            // 加载条件
-            loadCondition(){
-                this.condition = {
-                    '像素':['100W','101W','102W','103W','104W','105W','106W','107W','108W',
-                        '100W','101W','102W','103W','104W','105W','106W','107W','108W',
-                        '100W','101W','102W','103W','104W','105W','106W','107W','108W',
-                        '100W','101W','102W','103W','104W','105W','106W','107W','108W'],
-                    '镜头':['2.8mm','2.8mm','2.8mm','2.8mm','2.8mm','2.8mm','2.8mm','2.8mm'],
-                    '供电方式':['DC12V','DC12V','DC12V','DC12V','DC12V','DC12V','DC12V','DC12V',],
-                    '供电123':['DC12V','DC12V','DC12V','DC12V','DC12V','DC12V','DC12V','DC12V',],
-                    '供电321':['DC12V','DC12V','DC12V','DC12V','DC12V','DC12V','DC12V','DC12V',],
-                }
+            // 调接口
+            submit(){
+                this.search.itemName = decodeURI(this.queryString('keywords'))
+                this.search.cateId = this.queryString('cateId')
+                ItemService.searchItem(this.search).then((rtn)=>{
+                    this.data = rtn.data.item_d_o_list
+                    let data2 = rtn.data.aggregate_cate_prop_map
+                    for(let val in data2){
+                        this.condition[val] = data2[val].split(',')
+                    }
+
+                })
             },
 
             // 关闭条件
             delCondition(index) {
-                this.search.condition.splice(index, 1);
+                this.search.condition.splice(index, 1)
                 this.searchWithText(this.text);
             },
             selected(selected){

@@ -5,7 +5,6 @@
             <li class="sign">
               <span class="login" v-login v-if="!userInfo">立即登录</span>
               <span class="login"  v-if="userInfo">欢迎，{{userInfo.account.user_id}}</span>
-              <!--<span class="register">免费注册</span>-->
             </li>
             <li class="">
               <a href="/reverse" class="news top-menu">快报</a>
@@ -30,13 +29,10 @@
                 </ul>
               </div>
               <div class="s-span-page search-bar">
-                  <el-input placeholder="请输入内容" v-model="input5" class="input-with-select ">
-                      <el-select v-model="select" slot="prepend" placeholder="请选择">
-                          <el-option label="餐厅名" value="1"></el-option>
-                          <el-option label="订单号" value="2"></el-option>
-                          <el-option label="用户电话" value="3"></el-option>
-                      </el-select>
-                      <el-button slot="append" icon="el-icon-search"></el-button>
+                  <el-input placeholder="请输入内容" v-model="input5" class="input-with-select">
+                      <el-cascader slot="prepend" placeholder="全部分类" :show-all-levels="false" :options="options" v-model="selectedOptions" @change="handleChange">
+                      </el-cascader>
+                      <a slot="append" :href="'/search?cateId=' + select + '&keywords=' + input5"><el-button icon="el-icon-search"></el-button></a>
                   </el-input>
               </div>
         </div>
@@ -91,7 +87,7 @@
         name : "lts-header",
         data(){
           return{
-             menuList : [
+              menuList : [
                  {
                      name : 'ip solution',
                      icon : 'icon-IPjiejuefangan',
@@ -155,11 +151,11 @@
                     link : '/cart'
                  }
                 ],
-             input5  : '',
-             select : '',
-
-             userInfo : {},
-
+              input5  : '',
+              select : '',
+              options:[],
+              selectedOptions:[],
+              userInfo : {},
               //登录
               loginVisible:false,
               unread: 100,
@@ -212,12 +208,63 @@
             },
             showPassword(){
                 this.$refs.password.type = this.$refs.password.type == "text" ? 'password' : 'text';
+            },
+            // 获取类目数据
+            getLocalStorage(){
+                let data = JSON.parse(localStorage.getItem('categoryList'))
+                data.forEach((value)=>{
+                    value.label = value.name
+                    value.value = value.name
+                    if(value.children){
+                        value.children.forEach((value1) => {
+                            value1.label = value1.name
+                            value1.value = value1.name
+                            if(value1.children.length === 0){
+                                delete value1.children
+                            }else{
+                                value1.children.forEach((value2) => {
+                                    value1.label = value1.name
+                                    value1.value = value1.name
+                                })
+                            }
+                        })
+                    }
+                })
+                this.options = data
+                console.log(data)
+            },
+            // 级联选择器选择类目
+            handleChange(value){
+                console.log(value)
+                this.options.forEach((item) => {
+                    if(item.name === value[0]){
+                        this.select = item.id
+                        if(value[1]){
+                            item.children.forEach((item1)=>{
+                                if(item1.name === value[1]){
+                                    this.select = item1.id
+                                    if(value[2]){
+                                        item1.children.forEach((item2)=>{
+                                            if(item2.name === value[2]){
+                                                this.select = item2.id
+                                            }
+                                        })
+                                    }
+                                }
+                            })
+                        }
+                    }
+                })
+                console.log(this.select)
             }
         },
         created(){
             this.selfContext.$on("showLogin",this.showLogin)
             this.getLocalUser();
         },
+        mounted(){
+            this.getLocalStorage()
+        }
     }
 </script>
 <style lang="less">
@@ -270,6 +317,19 @@
                         }
                     }
                 }
+            }
+            .input-with-select{
+                .el-input-group__prepend{
+                    padding:0;
+                    border:none;
+                    .el-cascader{
+                        width:110px;
+                    }
+                }
+                .el-input-group__append{
+                    border:none;
+                }
+
             }
         }
         .header-box{

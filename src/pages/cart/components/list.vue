@@ -7,32 +7,32 @@
             style="width: 100%" align="right"
             @selection-change="handleSelectionChange">
              <el-table-column type="selection" width="60%" align="right" @change="checkItem"></el-table-column>
-             <el-table-column label="商品信息" width="450"  align="center">
+             <el-table-column label="商品信息"   align="center">
                         <template slot-scope="scope">
                             <div class="item-img" :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+scope.row.url+')'}"></div>
                             <div class="content">
                                 <p>{{scope.row.item_name}}</p>
                             </div>
-                            <div class="other">
-                                <p v-for="(value,key) in scope.row.item_props">{{value.prop_value}}</p>
-                            </div>
+                            <ul class="other">
+                                <li v-for="(item,index) in scope.row.item_props[0].prop_value">{{index}}:{{item}}</li>
+                            </ul>
                         </template>
               </el-table-column>
-             <el-table-column prop="price" label="单价" align="center">
+             <el-table-column prop="price" width="200" label="单价" align="center">
                     </el-table-column>
-             <el-table-column label="数量" prop="num" align="center">
+             <el-table-column label="数量" width="200" prop="num" align="center">
                         <template slot-scope="scope">
                             <div class="inputNumber">
                                 <el-input-number :min='1' size="small" v-model="scope.row.num" @change="inputNumeberChange(scope.row)" label="描述文字"></el-input-number>
                             </div>
                         </template>
                     </el-table-column>
-             <el-table-column label="小计"align="center">
+             <el-table-column label="小计" width="200" align="center">
                         <template slot-scope="scope">
                             <div class="count" ref="count">{{scope.row.num*scope.row.price}}</div>
                         </template>
                     </el-table-column>
-             <el-table-column label="操作"align="center">
+             <el-table-column label="操作" width="200" align="center">
                         <template slot-scope="scope">
                             <div class="cart-delete" @click="deleteHandle(scope.$index, scope.row)">
                                 <i class="iconfont icon-shanchu"></i>
@@ -77,6 +77,7 @@
                 chooseAll: false,
                 historyData: [],
                 tableData: [],
+                tableDataItem:{},
                 totalPrice:0,
                 cart: {
                     cartTotal: 0,
@@ -119,10 +120,17 @@
                cartService.queryCartList().then((data)=>{
                    console.log(data);
                    this.tableData = data.datalist;
-                   console.log(this.tableData);
+
+                   this.tableData.forEach((item)=>{
+                       if(item.item_props[0].prop_value == ""||item.item_props[0].prop_value==null||item.item_props[0].prop_value==undefined){
+                           item.item_props[0].prop_value = {};
+                       }else{
+                           item.item_props[0].prop_value = JSON.parse(item.item_props[0].prop_value);
+                       }
+                   })
                },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.errorMessage})
-               })
+               });
            },
            /* putCartPlus(){
                 cartService.putCartPlus().then((data)=>{
@@ -258,7 +266,7 @@
                 /*th.el-table_1_column_2{*/
                 th:nth-child(2){
                     .cell{
-                        margin-left: 24px;
+                        text-align: left;
                     }
                 }
             }
@@ -297,6 +305,7 @@
                 .cell{
                     width:100%;
                     display: flex;
+                    align-items: center;
                     justify-content: space-between;
                 }
                 .item-img{
@@ -305,6 +314,16 @@
                     border: 1px solid #dadada;
                     background-position: center;
                     background-size: cover;
+                    flex:0 0 80px;
+                }
+                .content{
+                    flex: 0 0 300px;
+                    margin-left: -9%;
+                }
+                .other{
+                    flex:0 0 150px;
+                    text-align: left;
+                    margin-left: -9%;
                 }
                 div{
                     width:120px;

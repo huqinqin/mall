@@ -4,7 +4,7 @@
           <ul class="s-span-page">
             <li class="sign">
               <span class="login" v-login v-if="!userInfo">立即登录</span>
-              <span class="login"  v-if="userInfo">欢迎，{{userInfo.account.user_id}}</span>
+              <span class="login"  v-if="userInfo">欢迎，{{userInfo.account.user_name}}</span>
             </li>
             <li class="">
               <a href="/reverse" class="news top-menu">快报</a>
@@ -29,10 +29,18 @@
                 </ul>
               </div>
               <div class="s-span-page search-bar">
-                  <el-input placeholder="请输入内容" v-model="input5" class="input-with-select">
-                      <el-cascader slot="prepend" placeholder="全部分类" :show-all-levels="false" :options="options" v-model="selectedOptions" @change="handleChange">
+                  <el-input placeholder="请输入内容" v-model="keywords" class="input-with-select">
+                      <el-cascader
+                          slot="prepend"
+                          :placeholder="select"
+                          :show-all-levels="false"
+                          expand-trigger="hover"
+                          :options="options"
+                          v-model="selectedOptions"
+                          @change="handleChange">
                       </el-cascader>
-                      <a slot="append" :href="'/search?cateId=' + select + '&keywords=' + input5"><el-button icon="el-icon-search"></el-button></a>
+                      <!--<a slot="append" :href="'/search?cateId=' + selectId + '&keywords=' + keywords + '&cate=' + select"><el-button icon="el-icon-search"></el-button></a>-->
+                      <el-button slot="append"  icon="el-icon-search" @click="searchToHref"></el-button>
                   </el-input>
               </div>
         </div>
@@ -86,6 +94,8 @@
     export default {
         name : "lts-header",
         data(){
+
+
           return{
               menuList : [
                  {
@@ -151,8 +161,9 @@
                     link : '/cart'
                  }
                 ],
-              input5  : '',
-              select : '',
+              keywords: '',
+              select: '',
+              selectId : '',
               options:[],
               selectedOptions:[],
               userInfo : {},
@@ -209,53 +220,67 @@
             showPassword(){
                 this.$refs.password.type = this.$refs.password.type == "text" ? 'password' : 'text';
             },
+            searchToHref(){
+                location.href = '/search#/?cateId=' + this.selectedOptions + '&keywords=' + this.keywords + '&cate=' + this.select
+            },
+
+
+
             // 获取类目数据
             getLocalStorage(){
                 let data = JSON.parse(localStorage.getItem('categoryList'))
                 data.forEach((value)=>{
                     value.label = value.name
-                    value.value = value.name
-                    if(value.children){
+                    value.value = value.id
+                    if(value.children.length === 0){
+                        delete value.children
+                    }else{
                         value.children.forEach((value1) => {
                             value1.label = value1.name
-                            value1.value = value1.name
+                            value1.value = value1.id
                             if(value1.children.length === 0){
                                 delete value1.children
                             }else{
                                 value1.children.forEach((value2) => {
                                     value1.label = value1.name
-                                    value1.value = value1.name
+                                    value1.value = value1.id
                                 })
                             }
                         })
                     }
                 })
                 this.options = data
+                this.options.unshift({
+                    label:'全部',
+                    value:''
+                })
                 console.log(data)
             },
-            // 级联选择器选择类目
             handleChange(value){
-                console.log(value)
-                this.options.forEach((item) => {
-                    if(item.name === value[0]){
-                        this.select = item.id
-                        if(value[1]){
-                            item.children.forEach((item1)=>{
-                                if(item1.name === value[1]){
-                                    this.select = item1.id
-                                    if(value[2]){
-                                        item1.children.forEach((item2)=>{
-                                            if(item2.name === value[2]){
-                                                this.select = item2.id
-                                            }
-                                        })
-                                    }
-                                }
-                            })
-                        }
-                    }
-                })
-                console.log(this.select)
+                // 级联选择器选择类目
+                // this.options.forEach((item) => {
+                //     if(item.name === value[0]){
+                //         this.selectId = item.id
+                //         this.select = item.name
+                //         if(value[1]){
+                //             item.children.forEach((item1)=>{
+                //                 if(item1.name === value[1]){
+                //                     this.selectId = item1.id
+                //                     this.select = item.name
+                //                     if(value[2]){
+                //                         item1.children.forEach((item2)=>{
+                //                             if(item2.name === value[2]){
+                //                                 this.selectId = item2.id
+                //                                 this.select = item.name
+                //                             }
+                //                         })
+                //                     }
+                //                 }
+                //             })
+                //         }
+                //     }
+                // })
+                window.location.href = '/search#/?cateId=' + this.selectedOptions + '&keywords=' + this.keywords + '&cate=' + this.select
             }
         },
         created(){
@@ -263,12 +288,22 @@
             this.getLocalUser();
         },
         mounted(){
+            let cateList = []
+            if(this.$route.query.cateId){
+                this.$route.query.cateId.split(",").forEach((value) => {
+                    cateList.push(+value)
+                })
+            }
+            this.selectedOptions = cateList;
             this.getLocalStorage()
+
+
         }
     }
 </script>
 <style lang="less">
     .mall-header{
+
         a{
             color:inherit;
             text-decoration: none;

@@ -12,13 +12,13 @@ export default class CartService extends BaseService {
      */
     static putCartPlus(param,checkedSpu){
         let params;
+        checkedSpu.spuId = checkedSpu.spu_id;
         params = {
-            order_type : 'self_order',
+            item_id : param.id,
             num: param.num,
             item_props: JSON.stringify([
                 checkedSpu
             ]),
-            item_id: param.id
         };
         return super.getRequest('/installer/cart/put_cart_plus',params);
     }
@@ -32,15 +32,15 @@ export default class CartService extends BaseService {
      * @auth taohua
      * @remark 查询购物车
      */
-    static queryCartList() {
+    static queryCartList(userId) {
         let params
         params = {
-            /*user_id: userId,*/
+            user_id: userId,
             order_type: 'self_order',
-            /*carrier_uid: 158635,*/
+            carrier_uid: 158635,
         };
-        return super.getRequest('/installer/cart/query_cart_list',params);
-        /*return {
+
+        return {
             "current_page_no": 1,
             "data": null,
             "datalist": [{
@@ -261,6 +261,6 @@ export default class CartService extends BaseService {
             "success_message": "",
             "total": 0,
             "total_page_count": 0
-        }*/
+        }
     }
 }

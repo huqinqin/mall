@@ -10,7 +10,7 @@ export default {
         main: 'http://work.local.lts.com:8085'
     },
     api:{
-        service:'http://work.local.lts.com:8085/gateway'
+        service:'http://mall.lts.com:18085/gateway'
     },
     homePage: '/',
     loginPage: '/login',

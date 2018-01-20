@@ -101,7 +101,7 @@
                                 </li>
                                 <li class="more">详细 <i class="iconfont icon-shangyiye-copy-copy"></i></li>
                             </ul>
-                            <div class="item-detail" >
+                            <div class="item_detail" >
                                 <div v-html="item.description"></div>
                             </div>
                         </el-tab-pane>
@@ -1173,6 +1173,9 @@
                             }
 
                         }
+                    }
+                    .item_detail{
+                        text-align: center;
                     }
                 }
             }

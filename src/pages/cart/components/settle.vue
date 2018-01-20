@@ -90,9 +90,16 @@
             <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
                 <el-table-column label="商品信息"   align="left">
                     <template slot-scope="scope">
-                        <div class="item-img" :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+scope.row.url+')'}"></div>
-                        <div class="content">
-                            <p>{{scope.row.item_name}}</p>
+                        <div class="cart-item-info">
+                            <img :src="'http://res.500mi.com/item/' + scope.row.url" alt="商品">
+                            <div class="content">
+                                <p>{{scope.row.item_name}}</p>
+                            </div>
+                            <div class="other">
+                                <p v-for="(value,index) in scope.row.item_props">
+                                    <span v-for="(val,key) in value.propValue">{{key}}: {{val}}</span>
+                                </p>
+                            </div>
                         </div>
                         <ul class="other">
                             <li v-for="(item,index) in scope.row.item_props[0].prop_value">{{index}}:{{item}}</li>
@@ -417,6 +424,9 @@
                 this.tableData.forEach(function(value,index,array){
                     let item_prop_ids = [];
                     item_prop_ids.push(value.item_props[0].id);
+                    value.item_props.forEach(function (val,key,array) {
+                        val.propValue = JSON.parse(val.prop_value)
+                    })
                     /* value.item_props.forEach(function (val,key,array) {
                          item_prop_ids.push(val.id)
                      })*/
@@ -436,8 +446,8 @@
                     payMethod: "online", //
                     source: "work.500mi.com.shop.pifa.market"
                 };
-                orderService.simulateCreateTrade(params).then((data)=>{
-                    console.log(this.info.account.user_id);
+                orderService.simulateCreateTrade(params).then((resp)=>{
+                    this.totalPrice = resp.data.wholesale_order.pay_real;
                 },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.error_message})
                 })
@@ -484,18 +494,17 @@
 
         },
         mounted(){
-            // console.log(this.$route.params.items);
-            this.tableData = this.$route.params.items[0];
-            console.log(this.tableData);
-            setTimeout(()=>{
-                this.totalPrice = this.$route.params.price;
-                console.log(this.totalPrice);
-                this.sum.result = this.sum.amount + this.sum.express + this.sum.tax - this.sum.benefit;
-                this.getAddressList()
-                /*this.queryCartList();*/
-                this.simulateCreateTrade();
-            },20)
-        }
+            if(this.$route.query && this.$route.query.item){
+                this.tableData.push(JSON.parse(this.$route.query.item));
+            }else{
+                this.tableData = this.$route.params.items[0];
+                setTimeout(()=>{
+                    this.sum.result = this.sum.amount + this.sum.express + this.sum.tax - this.sum.benefit;
+                },20)
+            }
+            this.getAddressList()
+            this.simulateCreateTrade();
+        },
   }
 </script>
 

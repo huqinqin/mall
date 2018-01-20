@@ -155,8 +155,9 @@ import homeService from '@/services/HomeService.js'
         .img{
             height: auto;
             width:100%;
-            background-size: cover;
-            background-position: center;
+            background-size: 100% 100%;
+            background-position: center center;
+            background-repeat: no-repeat;
             height: 500px;
         }
     }

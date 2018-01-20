@@ -10,9 +10,8 @@ import 'element-ui/lib/theme-chalk/index.css'
 import Loading from '../components/lts-loading'
 import Message from '../components/lts-message'
 import MessageBox from '../components/lts-messageBox'
-import ltsHeader from '@/layout/mall_Layout_1.0.0/lts-header.vue'
-import ltsFooter from '@/layout/mall_Layout_1.0.0/lts-footer.vue'
-import mixinAuth from '@/library/Auth.js'
+import ltsHeader from '@/layout/mall_layout_1.0.0/lts-header.vue'
+import ltsFooter from '@/layout/mall_layout_1.0.0/lts-footer.vue'
 
 import config from 'config'
 

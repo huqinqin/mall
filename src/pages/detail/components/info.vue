@@ -39,9 +39,10 @@
                             <el-radio v-for="propValue in prop.prop_values"  :disabled="!propValue.can_checked" :label="propValue.value" :key="propValue.value" :change="checkedProp(prop,item)"  border>{{propValue.value}}</el-radio>
                         </el-radio-group>
                     </el-form-item>
-                    <el-form-item label="采购量" class="num">
-                        <el-input-number v-model="item.num" size="mini" @change="inputNumberChange" :min="1" label="描述文字"></el-input-number>
-                        {{checkedSpu.storage}}
+                    <el-form-item label="采购量" class="num" >
+                        <el-input-number v-model="item.num" size="mini" @change="inputNumberChange" :min="1"></el-input-number>
+                        <span v-if="checkedSpu.storage > 0" class="storage_spec">库存{{checkedSpu.storage}}{{item.unit}} </span>
+                        <span v-else-if="checkedSpu && checkedSpu.storage <= 0" class="storage_spec">缺货</span>
                     </el-form-item>
                     <el-form-item label="温馨提示" class="mark">
                         <p>不支持60天无理由退换(如果商品参加活动，退换货以活动规则为准)</p>
@@ -104,16 +105,16 @@
                                 <div v-html="item.description"></div>
                             </div>
                         </el-tab-pane>
-                        <el-tab-pane label="规格与包装" name="second">规格与包装</el-tab-pane>
-                        <el-tab-pane label="商品评价" name="third">
-                            <!--<ul class="comments">-->
-                                <!--<li v-for="item in comments">-->
+                        <!--<el-tab-pane label="规格与包装" name="second">规格与包装</el-tab-pane>-->
+                        <!--<el-tab-pane label="商品评价" name="third">-->
+                            <!--&lt;!&ndash;<ul class="comments">&ndash;&gt;-->
+                                <!--&lt;!&ndash;<li v-for="item in comments">&ndash;&gt;-->
 
-                                <!--</li>-->
-                            <!--</ul>-->
-                        </el-tab-pane>
-                        <el-tab-pane label="服务保障" name="fourth">服务保障</el-tab-pane>
-                        <el-tab-pane label="下载" name="five">下载</el-tab-pane>
+                                <!--&lt;!&ndash;</li>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+                        <!--</el-tab-pane>-->
+                        <!--<el-tab-pane label="服务保障" name="fourth">服务保障</el-tab-pane>-->
+                        <!--<el-tab-pane label="下载" name="five">下载</el-tab-pane>-->
                     </el-tabs>
                 </div>
             </div>
@@ -135,64 +136,8 @@
                 formData: {
 
                 },
-                sku_2Data: [{
-                    label: 0,
-                    content: '200W'
-                }, {
-                    label: 1,
-                    content: '201W'
-                }, {
-                    label: 2,
-                    content: '202W'
-                }, {
-                    label: 3,
-                    content: '203W'
-                }, {
-                    label: 4,
-                    content: '204W'
-                }, {
-                    label: 5,
-                    content: '205W'
-                }, {
-                    label: 6,
-                    content: '206W'
-                }, {
-                    label: 7,
-                    content: '207W'
-                }, {
-                    label: 8,
-                    content: '208W'
-                }, {
-                    label: 9,
-                    content: '209W'
-                }, {
-                    label: 10,
-                    content: '210W'
-                }, {
-                    label: 11,
-                    content: '211W'
-                },{
-                    label: 11,
-                    content: '211W'
-                },{
-                    label: 11,
-                    content: '211W'
-                },],
                 count: '',
-                prc_info: [
-                    {
-                        href: "",
-                        link: "static/image/shexiangtou1.png",
-                        alt: "",
-                        num: "111111"
-                    }
-                ],
-                detail_center: [
-                    {
-                        p1: "1988.00",
-                        p2: "888800"
-                    }
-                ],
+                prc_info: [],
                 detail_side_img: [
                     {
                         href: "",
@@ -801,99 +746,7 @@
                     '视频压缩': 'H.265+',
                     '声频': 'line in/out'
                 },
-                comment: [{
-                    avatar: 'static/image/shexiangtou1.png',
-                    acount: '测试用户',
-                    bought: {
-                        val1: '200W像素',
-                        val2: '2mm焦距'
-                    },
-                    text: '功能很强大 很不错，很好的一次购物体验！！！！！功能很强大 很不错，很好的一次购物体验。功能很强大 很不错，很好的一次购物体验。',
-                    imgs: {
-                        img1: 'static/image/shexiangtou1.png',
-                        img2: 'static/image/shexiangtou1.png',
-                        img3: 'static/image/shexiangtou1.png',
-                        img4: 'static/image/shexiangtou1.png',
-                    },
-                    time: '2017-12-21 20:35:58',
-                    app: '来自：iPhone客户端',
-
-                },{
-                    avatar: 'static/image/shexiangtou1.png',
-                    acount: '测试用户',
-                    bought: {
-                        val1: '200W像素',
-                        val2: '2mm焦距'
-                    },
-                    text: '功能很强大 很不错，很好的一次购物体验！！！！！功能很强大 很不错，很好的一次购物体验。功能很强大 很不错，很好的一次购物体验。',
-                    imgs: {
-                        img1: 'static/image/shexiangtou1.png',
-                        img2: 'static/image/shexiangtou1.png',
-                        img3: 'static/image/shexiangtou1.png',
-                        img4: 'static/image/shexiangtou1.png',
-                    },
-                    time: '2017-12-21 20:35:58'
-                },{
-                    avatar: 'static/image/shexiangtou1.png',
-                    acount: '测试用户',
-                    bought: {
-                        val1: '200W像素',
-                        val2: '2mm焦距'
-                    },
-                    text: '功能很强大 很不错，很好的一次购物体验！！！！！功能很强大 很不错，很好的一次购物体验。功能很强大 很不错，很好的一次购物体验。',
-                    imgs: {
-                        img1: 'static/image/shexiangtou1.png',
-                        img2: 'static/image/shexiangtou1.png',
-                        img3: 'static/image/shexiangtou1.png',
-                        img4: 'static/image/shexiangtou1.png',
-                    },
-                    time: '2017-12-21 20:35:58'
-                },{
-                    avatar: 'static/image/shexiangtou1.png',
-                    account: '测试用户',
-                    bought: {
-                        val1: '200W像素',
-                        val2: '2mm焦距'
-                    },
-                    text: '功能很强大 很不错，很好的一次购物体验！！！！功能很强大 很不错，很好的一次购物体验。功能很强大 很不错，很好的一次购物体验。功能很强大 很不错，很好的一次购物体验！！！！！功能很强大 很不错，很好的一次购物体验。功能很强大 很不错，很好的一次购物体验。',
-                    imgs: {
-                        img1: 'static/image/shexiangtou1.png',
-                        img2: 'static/image/shexiangtou1.png',
-                        img3: 'static/image/shexiangtou1.png',
-                        img4: 'static/image/shexiangtou1.png',
-                    },
-                    time: '2017-12-21 20:35:58'
-                },{
-                    avatar: 'static/image/shexiangtou1.png',
-                    account: '测试用户',
-                    bought: {
-                        val1: '200W像素',
-                        val2: '2mm焦距'
-                    },
-                    text: '功能很强大 很不错，很好的一次购物体验。功能很强大 很不错，很好的一次购物体验。功能很强大 很不错，很好的一次购物体验！！！！！功能很强大 很不错，很好的一次购物体验。功能很强大 很不错，很好的一次购物体验。',
-                    imgs: {
-                        img1: 'static/image/shexiangtou1.png',
-                        img2: 'static/image/shexiangtou1.png',
-                        img3: 'static/image/shexiangtou1.png',
-                        img4: 'static/image/shexiangtou1.png',
-                    },
-                    time: '2017-12-21 20:35:58'
-                },{
-                    avatar: 'static/image/shexiangtou1.png',
-                    account: '测试用户',
-                    bought: {
-                        val1: '200W像素',
-                        val2: '2mm焦距'
-                    },
-                    text: '功能很强大 很不错，很好的一次购物体验。功能很强大 很不错，很好的一次购物体验。功能很强大 很不错，很好的一次购物体验！！！！！功能很强大 很不错，很好的一次购物体验。功能很强大 很不错，很好的一次购物体验。',
-                    imgs: {
-                        img1: 'static/image/shexiangtou1.png',
-                        img2: 'static/image/shexiangtou1.png',
-                        img3: 'static/image/shexiangtou1.png',
-                        img4: 'static/image/shexiangtou1.png',
-                    },
-                    time: '2017-12-21 20:35:58'
-                },]
+                comment: []
             }
         },
         methods:{
@@ -1019,7 +872,7 @@
             align-items: flex-start;
             .detail-img-box{
                 width: 400px;
-                margin-right: 24px;
+                margin-right: 48px;
                 .prc_info{
                     .big{
                         box-sizing: border-box;
@@ -1089,21 +942,10 @@
                     }
                 }
                 .el-form-item{
-                    margin-bottom: 12px;
-                }
-                .el-form-item:nth-child(2){
-                    .el-form-item__label{
-                        margin-top: -5px;
-                    }
-                }
-                .el-form-item:nth-child(3){
-                    .el-form-item__label{
-                        margin-top: -10px;
-                    }
+                    margin-bottom: 0;
                 }
                 .tips{
                     border:1px solid #ff3b41;
-
                     line-height: 21px;
                     width:155px;
                     margin-top:10px;
@@ -1112,9 +954,10 @@
                 }
                 .detail_price{
                     color:#ff3b41;
+                    font-size: 18px;
+                    font-weight: bold;
                 }
                 .radio{
-                    margin-bottom: 6px;
                     width: 600px;
                     .el-radio{
                         width: 60px;
@@ -1123,7 +966,6 @@
                         border-radius: 0;
                         text-align: center;
                         margin-right: 24px;
-                        margin-bottom: 12px;
                         .el-radio__input{
                             display: none;
                         }
@@ -1201,6 +1043,10 @@
                             }
 
                         }
+                    }
+                    .storage_spec{
+                        font-size: 12px;
+                        margin-left: 20px;
                     }
                 }
                 .mark{
@@ -1330,9 +1176,7 @@
                     }
                 }
             }
-
         }
-
         // 购买记录和热卖推荐
         .detail-buy-history, .detail_side_img{
             width: 290px;
@@ -1403,99 +1247,5 @@
             }
         }
     }
-
-    // 公共样式
-    body, ol, ul, h1, h2, h3, h4, h5, h6, p, th, td, dl, dd, form, fieldset, legend, input, textarea, select, td, figure {
-        margin: 0;
-        padding: 0; }
-
-    body {
-
-        word-wrap: break-word; }
-
-    html {
-        font-family: "Microsoft Yahei"; }
-
-    a, u, s, del {
-        color: #666;
-        text-decoration: none; }
-
-    a:hover {
-        text-decoration: underline; }
-
-    i, em, b {
-        font-style: normal;
-        font-weight: 100; }
-
-    li {
-        list-style: none; }
-
-    img {
-        vertical-align: middle; }
-
-    fieldset, a img, .bor0 {
-        border: 0; }
-
-    table {
-        border-collapse: collapse; }
-
-    /*合并表格边框*/
-    .ind2 {
-        text-indent: 2em; }
-
-    .cu {
-        cursor: pointer; }
-
-    /*垂直对齐属性*/
-    .valign:after {
-        content: "";
-        display: inline-block;
-        vertical-align: middle;
-        width: 0px;
-        height: 100%; }
-
-    /*文本溢出出现省略号*/
-    .over {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap; }
-
-    /*clear清除浮动和防止margin-top向上传递*/
-    .clear {
-        zoom: 1;
-        /*只有ie能识别*/ }
-
-    .clear:before {
-        content: "";
-        display: table; }
-
-    .clear:after {
-        content: "";
-        display: block;
-        clear: both;
-    }
-    .detail{
-        text-align: center;
-    }
-
-    .breadcrumb{
-        color: #646464;
-        font: 14px/40px "MicrosoftYaHei";
-        height: 40px;
-        padding-bottom: 8px;
-        position: relative;
-        z-index: 10000;
-        a{
-            color: #646464;
-            float: left;
-        }
-        span {
-            color: #646464;
-            margin: 1px 6px 0;
-            float: left;
-        }
-    }
-
-
 
 </style>

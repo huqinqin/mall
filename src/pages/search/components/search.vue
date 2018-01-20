@@ -38,9 +38,9 @@
         <div class="content">
             <div class="header">
                 <div class="left">
-                    <div class="synth" @click="selectOrderBy">综合</div>
-                    <div class="price" @click="selectOrderBy">价格<i class="iconfont icon-shang1"></i></div>
-                    <div class="time" @click="selectOrderBy">上架时间<i class="iconfont icon-shang1"></i></div>
+                    <div class="synth" @click="selectOrderBy" :class="{active:activeItem == '综合'}">综合</div>
+                    <div class="price" @click="selectOrderBy" :class="{active:activeItem == '价格',isDesc:priceDesc}">价格<i class="iconfont icon-shang1"></i></div>
+                    <div class="time" @click="selectOrderBy" :class="{active:activeItem == '上架时间',isDesc:cdateDesc}">上架时间<i class="iconfont icon-shang1"></i></div>
                     <!--<div class="input"><i class="iconfont icon-dingdanjine"></i><input type="text" class="lowest" @input="showRangeButton"></div>-->
                     <!--<div class="hr"></div>-->
                     <!--<div class="input"><i  class="iconfont icon-dingdanjine"></i><input type="text" class="highest" @input="showRangeButton"></div>-->
@@ -49,8 +49,8 @@
                 <div class="right">
                     <div><span>{{search.page}}</span>/{{search.totalPage}}</div>
                     <div class="buttons">
-                        <el-button icon="el-icon-arrow-left" @click="prePage"></el-button>
-                        <el-button icon="el-icon-arrow-right" @click="nextPage"></el-button>
+                        <el-button icon="el-icon-arrow-left" @click="prePage" :disabled="search.page === 1"></el-button>
+                        <el-button icon="el-icon-arrow-right" @click="nextPage" :disabled="search.page === search.totalPage"></el-button>
                     </div>
                 </div>
             </div>
@@ -77,8 +77,6 @@
                     next-text="下一页"
                     :current-page="search.page"
                     @current-change="changePage"></el-pagination>
-
-
             </div>
         </div>
     </div>
@@ -98,6 +96,9 @@
                 tag:[],
                 showRange: false,
                 condition: {},
+                activeItem: '综合',
+                priceDesc: false,
+                cdateDesc: false,
                 search:{
                     condition:[],
                     text:'',
@@ -119,8 +120,10 @@
             }
 
         },
+        created(){
+            this.selfContext.$on("getItemList",this.submit)
+        },
         mounted(){
-            console.log(this.$route.query)
             this.submit()
         },
         methods: {
@@ -136,19 +139,6 @@
             nextPage(){
                 this.search.page++
             },
-
-            // 获取参数
-            queryString(name){
-                let query = window.location.search.substring(1)
-                let vars = query.split("&")
-                for(let i=0;i<vars.length;i++){
-                    let pair = vars[i].split('=')
-                    if(pair[0] === name){
-                        return pair[1]
-                    }
-                }
-                return false
-            },
             searchWithText(spceList = [],item = ''){
                 // 排除同一组规格的条件
                 for (var n=0;n<spceList.length ;n++){
@@ -161,22 +151,19 @@
                         })
                     }else break;
                 }
-
                 // 加入条件
                 if(item){
                     this.search.condition.push(item)
                 }
                 this.submit()
+
+
+
             },
             // 调接口
             submit(){
-                this.search.itemName = decodeURI(this.queryString('keywords')) ? decodeURI(this.queryString('keywords')) : this.search.itemName
-                this.search.cateId = this.queryString('cateId') ? this.queryString('cateId') : this.search.cateId
-                this.search.cate = decodeURI(this.queryString('cate')) ? decodeURI(this.queryString('cate')) : this.search.cate
-                console.log(this.search)
-
-
-
+                this.search.itemName = this.$route.query.keywords
+                this.search.cateId = this.$route.query.cateId.split(',')
                 ItemService.searchItem(this.search).then((rtn)=>{
                     this.data = rtn.data.item_d_o_list
                     let data2 = rtn.data.aggregate_cate_prop_map
@@ -199,14 +186,19 @@
                 switch (e.target.innerText){
                     case '综合':
                         this.search.orderBy = ''
+                        this.activeItem = '综合'
                         break
                     case '价格':
                         this.search.orderBy = this.search.orderBy === 'price' ? 'price desc' : 'price'
+                        this.activeItem = '价格'
                         break
                     case '上架时间':
                         this.search.orderBy = this.search.orderBy === 'cdate' ? 'cdate desc' : 'cdate'
+                        this.activeItem = '上架时间'
                         break
                 }
+
+
                 this.submit()
             },
 
@@ -441,9 +433,6 @@
                     }
                     .synth{
                         width:58px;
-                        color:white;
-                        background: #ff3b41;
-                        border-right:1px solid #ff3b41;
                     }
                     .price{
                         width:92px;
@@ -451,8 +440,17 @@
                     .time{
                         width:119px;
                     }
-                    div.selected{
+                    div.active{
+                        color:white;
+                        background: #ff3b41;
+                        border-right:1px solid #ff3b41;
                     }
+                    div.desc{
+                        i{
+                            transform: rotate(90deg)
+                        }
+                    }
+
                     div.hr{
                         width:25px;
                         height: 1px;

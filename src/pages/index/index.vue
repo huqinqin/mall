@@ -102,6 +102,7 @@
 <script>
 import homeService from '@/services/HomeService.js'
   export default {
+    name : 'index',
     mounted(){
         this.getList();
     },

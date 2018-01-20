@@ -87,24 +87,22 @@
         <div class="order">
             <h5>订单信息</h5>
             <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
-                <el-table-column label="商品信息" width="450" class="column-1"  align="center">
+                <el-table-column label="商品信息"   align="left">
                     <template slot-scope="scope">
-                        <div class="cart-item-info">
-                            <img :src="scope.row.img" alt="商品">
-                            <div class="content">
-                                <p>{{scope.row.info}}</p>
-                            </div>
-                            <div class="other">
-                                <p v-for="(value,key) in scope.row.more">{{key}}: {{value}}</p>
-                            </div>
+                        <div class="item-img" :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+scope.row.url+')'}"></div>
+                        <div class="content">
+                            <p>{{scope.row.item_name}}</p>
                         </div>
+                        <ul class="other">
+                            <li v-for="(item,index) in scope.row.item_props[0].prop_value">{{index}}:{{item}}</li>
+                        </ul>
                     </template>
                 </el-table-column>
-                <el-table-column prop="price" label="单价" align="center">
+                <el-table-column prop="price" width="250" label="单价" align="center">
                 </el-table-column>
-                <el-table-column label="数量" prop="num" align="center">
+                <el-table-column label="数量" width="250" prop="num" align="center">
                 </el-table-column>
-                <el-table-column label="小计" align="center">
+                <el-table-column label="小计" width="250" align="center">
                     <template slot-scope="scope">
                         <div class="count" ref="count">{{scope.row.num*scope.row.price}}</div>
                     </template>
@@ -401,6 +399,7 @@
                 };
                 orderService.createTrade(params).then((data)=>{
                     console.log(data.data);
+                    console.log(params);
                     this.$emit('submit',2);
                     this.$router.push({name: 'beforePay',params:{item:[this.totalPrice,data.data]}});
                 },(msg)=>{
@@ -495,6 +494,42 @@
 </script>
 
 <style lang="less">
+    tbody tr td:first-child{
+        .cell{
+            width:100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .item-img{
+            width:80px;
+            height: 80px;
+            border: 1px solid #dadada;
+            background-position: center;
+            background-size: cover;
+            flex:0 0 80px;
+        }
+        .content{
+            flex: 0 0 300px;
+            margin-left: -60%;
+        }
+        .other{
+            flex:0 0 150px;
+            text-align: left;
+            margin-left: -60%;
+        }
+        div{
+            width:120px;
+            p{
+                line-height: 30px;
+                font-size: 14px;
+                text-align: left;
+            }
+            p:first-child{
+                margin-top: 12px;
+            }
+        }
+    }
     .settle{
         overflow: hidden;
         button{
@@ -510,12 +545,12 @@
                     background-color: rgba(0,0,0,0.05);
                     .cell{
                         margin-top: -4px;
-                        margin-left: 24px;
+                        /*margin-left: 24px;*/
                     }
                 }
                 th:nth-child(1){
                     .cell{
-                        margin-left: 24px;
+                        /*margin-left: 24px;*/
                     }
                 }
             }

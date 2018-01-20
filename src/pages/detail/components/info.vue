@@ -839,7 +839,30 @@
                 });
             },
             buyNow(){
-                window.open('/cart#/settle?item=' + JSON.stringify(this.item) + '&checkedSpu=' + JSON.stringify(this.checkedSpu));
+                let items = {
+                    "activity_id":null,
+                    "attribute":this.item.attribute,
+                    "brand":this.item.brand,
+                    "category_id":this.item.category_id,
+                    "discount_type":this.item.discount_type,
+                    "id":this.item.id,
+                    "item_name":this.item.item_name,
+                    "item_props":[this.checkedSpu],
+                    "maxinum":this.item.maxinum,
+                    "mininum":this.item.mininum,
+                    "num":this.item.num,
+                    "price":this.item.price,
+                    "price_real":this.item.price_real,
+                    "proxy_distribute_num":this.item.proxy_distribute_num,
+                    "puser_id":this.item.puser_id,
+                    "spec_unit":this.item.spec_unit,
+                    "spu_id":this.item.spu_id,
+                    "status":this.item.status,
+                    "storage":this.item.storage,
+                    "tag":this.item.tag,
+                    "url":this.item.url
+                };
+                window.open('/cart#/settle?item=' + JSON.stringify(items));
             },
             showImage(e){
                 $(e.currentTarget).addClass('is_active')

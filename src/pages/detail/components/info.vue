@@ -840,9 +840,8 @@
                     this.$ltsMessage.show({type:"error",message:msg.error_message})
                 });
             },
-            buyNow(){
-                console.log(this.item.num)
-                console.log(this.checkedSpu)
+            buyNow(){debugger;
+                location.href = '/cart#/settle?item=' + encodeURI(this.item)  + '&checkEdSpu=' + encodeURI(this.checkedSpu);
             },
             showImage(e){
                 $(e.currentTarget).addClass('is_active')

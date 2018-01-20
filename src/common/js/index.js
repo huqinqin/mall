@@ -50,9 +50,7 @@ Vue.filter('money2str', function (money) {
     return (money / 100).toFixed(2)
 })
 export default function (App, router = new Router()) {
-  let Boolean = true
-  App.__file.indexOf('index.vue') > 0 ? Boolean = false : Boolean = true;
-  config.isWhite = Boolean
+ 
   Layout.components = {'lts-content': App,'lts-header': ltsHeader,'lts-footer':ltsFooter}
   new Vue({
     el        : '#app',

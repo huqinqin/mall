@@ -48,7 +48,7 @@
                         <p>不支持60天无理由退换(如果商品参加活动，退换货以活动规则为准)</p>
                     </el-form-item>
                     <el-form-item class="buttons">
-                        <button v-login @click="buyNow">立即购买</button>
+                        <button @click="buyNow">立即购买</button>
                         <button v-login @click="addCart" >加入购物车</button>
                     </el-form-item>
                 </el-form>
@@ -764,7 +764,6 @@
                 })
             },
             checkedProp(prop,data,checkedValue){
-                console.log(prop.checked_prop);
                 if(prop.checked_prop != ""){
                     this.skuMapEach(prop,data);
                 }
@@ -839,8 +838,8 @@
                     this.$ltsMessage.show({type:"error",message:msg.error_message})
                 });
             },
-            buyNow(){debugger;
-                location.href = "http://work.local.lts.com:8085/cart#/settle";
+            buyNow(){
+                window.open('/cart#/settle?item=' + JSON.stringify(this.item) + '&checkedSpu=' + JSON.stringify(this.checkedSpu));
             },
             showImage(e){
                 $(e.currentTarget).addClass('is_active')

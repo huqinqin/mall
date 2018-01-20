@@ -480,17 +480,19 @@
 
         },
         mounted(){
-            // console.log(this.$route.params.items);
-            this.tableData = this.$route.params.items[0];
-            console.log(this.tableData);
-            setTimeout(()=>{
-                this.totalPrice = this.$route.params.price;
-                console.log(this.totalPrice);
-                this.sum.result = this.sum.amount + this.sum.express + this.sum.tax - this.sum.benefit;
-                this.getAddressList()
-                /*this.queryCartList();*/
-                this.simulateCreateTrade();
-            },20)
+            if(this.$route.query && this.$route.query.item){
+                this.tableData = this.$route.query.item;
+            }else{
+                this.tableData = this.$route.params.items[0];
+                setTimeout(()=>{
+                    this.totalPrice = this.$route.params.price;
+                    console.log(this.totalPrice);
+                    this.sum.result = this.sum.amount + this.sum.express + this.sum.tax - this.sum.benefit;
+                    this.getAddressList()
+                    /*this.queryCartList();*/
+                    this.simulateCreateTrade();
+                },20)
+            }
         }
   }
 </script>

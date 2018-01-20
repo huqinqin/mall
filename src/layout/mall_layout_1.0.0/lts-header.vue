@@ -4,7 +4,7 @@
           <ul class="s-span-page">
             <li class="sign">
               <span class="login" v-login v-if="!userInfo">立即登录</span>
-              <span class="login"  v-if="userInfo">欢迎，{{userInfo.account.user_id}}</span>
+              <span class="login"  v-if="userInfo">欢迎，{{userInfo.account.user_name}}</span>
             </li>
             <li class="">
               <a href="/reverse" class="news top-menu">快报</a>

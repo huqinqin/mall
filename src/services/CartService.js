@@ -20,7 +20,7 @@ export default class CartService extends BaseService {
                 checkedSpu
             ]),
         };
-        return super.getRequest('/installer/cart/putCartPlus',params);
+        return super.getRequest('/installer/cart/put_cart_plus',params);
     }
 
 

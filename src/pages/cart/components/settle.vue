@@ -101,9 +101,6 @@
                                 </p>
                             </div>
                         </div>
-                        <ul class="other">
-                            <li v-for="(item,index) in scope.row.item_props[0].prop_value">{{index}}:{{item}}</li>
-                        </ul>
                     </template>
                 </el-table-column>
                 <el-table-column prop="price" width="250" label="单价" align="center">
@@ -426,6 +423,7 @@
                     item_prop_ids.push(value.item_props[0].id);
                     value.item_props.forEach(function (val,key,array) {
                         val.propValue = JSON.parse(val.prop_value)
+                        console.log(val.propValue);
                     })
                     /* value.item_props.forEach(function (val,key,array) {
                          item_prop_ids.push(val.id)

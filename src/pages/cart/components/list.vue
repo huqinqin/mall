@@ -120,7 +120,6 @@
                cartService.queryCartList().then((data)=>{
                    console.log(data);
                    this.tableData = data.datalist;
-
                    this.tableData.forEach((item)=>{
                        if(item.item_props[0].prop_value == ""||item.item_props[0].prop_value==null||item.item_props[0].prop_value==undefined){
                            item.item_props[0].prop_value = {};

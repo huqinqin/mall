@@ -413,7 +413,7 @@
                     this.user_id = this.info.account.user_id;
                     console.log(this.user_id);
                     this.$emit('submit',2);
-                    this.$router.push({name: 'beforePay',params:{item:[this.totalPrice,data.data,this.user_id]}});
+                    this.$router.push({name: 'beforePay',params:{item:[this.totalPrice,data.data]}});
                 },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.error_message})
                 })

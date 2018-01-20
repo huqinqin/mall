@@ -83,8 +83,35 @@
                 alert('add credit')
             },
             goPay(){
-                this.$router.push({path: '/finish'})
-                this.$emit('submit',4)
+                //this.$router.push({path: '/finish'});
+                //this.$emit('submit',4);
+                let tid = this.$route.params.item[1];
+                console.log(tid);
+                let commonIp = 'http://work.local.lts.com:8085';
+                let return_url = '/cart#/finish';
+                let fail_url = '/cart#/fail';
+
+                this.$confirm('正在支付。。。', '提示', {
+                    confirmButtonText: '支付完成',
+                    type: 'warning',
+                    showClose: false,
+                    showCancelButton: false
+                }).then(() => {
+                    this.checkOrder(tid);
+                }).catch(() => {
+                });
+                window.open(encodeURI(commonIp) + '/gateway/base/pay/alipay/create_pay?tid='+tid+'&return_url='+ encodeURI(commonIp) + encodeURI(return_url)  +'&fail_url='+ encodeURI(commonIp) + encodeURI(fail_url) +'');
+            },
+            checkOrder(tid){
+                orderService.checkOrder(tid).then((data)=>{
+                    if(data.data.pay_status == 2){//已支付
+                        this.$router.push({name:"finish",params:{}});
+                    }else{//未支付
+                        this.$router.push({name:"fail",params:{}});
+                    }
+                },(msg)=>{
+                    this.$router.push({name:"fail",params:{}});
+                });
             },
             toggleChoose(key){
                 this.chosenItem = key

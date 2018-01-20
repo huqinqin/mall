@@ -45,13 +45,12 @@ export default class ItemService extends BaseService {
      * @returns {*}
      */
     static searchItem(search){
-        console.log(search)
         let params = {
             item_search : JSON.stringify({
                 puserIds:search.puserIds,
                 itemName:search.itemName,
                 brand:search.brand,
-                cateId:search.cateId,
+                cateId:search.cateId[search.cateId.length-1],
                 attribute_1:search.attribute_1,
                 discountType:search.discountType,
                 allStatus:search.allStatus,
@@ -62,10 +61,7 @@ export default class ItemService extends BaseService {
             page_size:search.pageSize,
             order_by: search.orderBy
         };
+        console.log(params)
         return super.getRequest('/installer/item/get_item_with_aggregate',params)
     }
-
-
-
-
 }

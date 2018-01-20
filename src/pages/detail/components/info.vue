@@ -48,7 +48,7 @@
                         <p>不支持60天无理由退换(如果商品参加活动，退换货以活动规则为准)</p>
                     </el-form-item>
                     <el-form-item class="buttons">
-                        <button v-login @click="buyNow" >立即购买</button>
+                        <button v-login @click="buyNow">立即购买</button>
                         <button v-login @click="addCart" >加入购物车</button>
                     </el-form-item>
                 </el-form>
@@ -101,7 +101,7 @@
                                 </li>
                                 <li class="more">详细 <i class="iconfont icon-shangyiye-copy-copy"></i></li>
                             </ul>
-                            <div class="item-detail" >
+                            <div class="item_detail" >
                                 <div v-html="item.description"></div>
                             </div>
                         </el-tab-pane>
@@ -793,7 +793,6 @@
                 }
             },
             equalsProp(propObj,skuList,type,skuLength){
-                console.log(propObj);
                 let Boolean = 0; // 0 false, 1 true;
                 let self = this;
                 try{
@@ -840,15 +839,12 @@
                     this.$ltsMessage.show({type:"error",message:msg.error_message})
                 });
             },
-            buyNow(){
-                console.log(this.item.num)
-                console.log(this.checkedSpu)
+            buyNow(){debugger;
+                location.href = "http://work.local.lts.com:8085/cart#/settle";
             },
             showImage(e){
                 $(e.currentTarget).addClass('is_active')
                 $(e.currentTarget).siblings().removeClass('is_active')
-                console.log(e.currentTarget)
-                console.log($('big'))
             }
         },
         mounted(){
@@ -951,6 +947,7 @@
                     margin-top:10px;
                     font-size: 12px;
                     padding-left: 6px;
+                    color:#ff3b41;
                 }
                 .detail_price{
                     color:#ff3b41;
@@ -1173,6 +1170,9 @@
                             }
 
                         }
+                    }
+                    .item_detail{
+                        text-align: center;
                     }
                 }
             }

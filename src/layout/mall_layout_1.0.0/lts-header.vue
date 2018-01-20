@@ -39,8 +39,7 @@
                           v-model="selectedOptions"
                           @change="handleChange">
                       </el-cascader>
-                      <!--<a slot="append" :href="'/search?cateId=' + selectId + '&keywords=' + keywords + '&cate=' + select"><el-button icon="el-icon-search"></el-button></a>-->
-                      <el-button slot="append"  icon="el-icon-search" @click="searchToHref"></el-button>
+                      <el-button slot="append" icon="el-icon-search" @click="searchToHref"></el-button>
                   </el-input>
               </div>
         </div>
@@ -73,13 +72,6 @@
                     <el-form-item>
                         <button class="signup">注册</button>
                     </el-form-item>
-                    <!--<el-form-item>-->
-                        <!--<div class="otherLogin">第三方登录</div>-->
-                        <!--<div class="icons">-->
-                            <!--<a href="#"><img src="@/assets/img/icon1.png" alt="icon1"></a>-->
-                            <!--<a href="#"><img src="@/assets/img/icon2.png" alt="icon2"></a>-->
-                        <!--</div>-->
-                    <!--</el-form-item>-->
                 </el-form>
                 <div slot="footer" class="dialog-footer">
                 </div>
@@ -162,7 +154,7 @@
                  }
                 ],
               keywords: '',
-              select: '',
+              select: '全部分类',
               selectId : '',
               options:[],
               selectedOptions:[],
@@ -221,10 +213,9 @@
                 this.$refs.password.type = this.$refs.password.type == "text" ? 'password' : 'text';
             },
             searchToHref(){
-                location.href = '/search#/?cateId=' + this.selectedOptions + '&keywords=' + this.keywords + '&cate=' + this.select
+                location.href = '/search#/?cateId=' + this.selectedOptions + '&keywords=' + this.keywords
+                this.selfContext.$emit('getItemList')
             },
-
-
 
             // 获取类目数据
             getLocalStorage(){
@@ -258,46 +249,30 @@
             },
             handleChange(value){
                 // 级联选择器选择类目
-                // this.options.forEach((item) => {
-                //     if(item.name === value[0]){
-                //         this.selectId = item.id
-                //         this.select = item.name
-                //         if(value[1]){
-                //             item.children.forEach((item1)=>{
-                //                 if(item1.name === value[1]){
-                //                     this.selectId = item1.id
-                //                     this.select = item.name
-                //                     if(value[2]){
-                //                         item1.children.forEach((item2)=>{
-                //                             if(item2.name === value[2]){
-                //                                 this.selectId = item2.id
-                //                                 this.select = item.name
-                //                             }
-                //                         })
-                //                     }
-                //                 }
-                //             })
-                //         }
-                //     }
-                // })
-                window.location.href = '/search#/?cateId=' + this.selectedOptions + '&keywords=' + this.keywords + '&cate=' + this.select
+                this.keywords = ''
+                window.location.href = '/search#/?cateId=' + this.selectedOptions
+                this.selfContext.$emit('getItemList')
+            },
+            getParamas(){
+                let cateList = []
+                if(this.$route && this.$route.query.cateId){
+                    this.$route.query.cateId.split(",").forEach((value) => {
+                        cateList.push(+value)
+                    })
+                    this.selectedOptions = cateList;
+                }
+                if(this.$route && this.$route.query.keywords){
+                    this.keywords = this.$route.query.keywords
+                }
             }
         },
         created(){
             this.selfContext.$on("showLogin",this.showLogin)
-            this.getLocalUser();
+            this.getLocalUser()
         },
         mounted(){
-            let cateList = []
-            if(this.$route.query.cateId){
-                this.$route.query.cateId.split(",").forEach((value) => {
-                    cateList.push(+value)
-                })
-            }
-            this.selectedOptions = cateList;
+            this.getParamas()
             this.getLocalStorage()
-
-
         }
     }
 </script>
@@ -309,7 +284,7 @@
             text-decoration: none;
         }
         .el-header{
-            padding: 0;
+            padding: 0 !important;
         }
         .el-select .el-input {
             width: 130px;

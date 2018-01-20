@@ -59,8 +59,8 @@ export default class ItemService extends BaseService {
                 propValues:search.condition
             }),
             page:search.page,
-            page_size:search.page_size,
-            order_by: ''
+            page_size:search.pageSize,
+            order_by: search.orderBy
         };
         return super.getRequest('/installer/item/get_item_with_aggregate',params)
     }

@@ -4,6 +4,7 @@ import $ from 'jquery'
 
 let eventHub = new Vue() // 组件传递事件的Context
 Vue.prototype.selfContext = eventHub
+
 Vue.directive('login',{
     inserted(el) {
         el.onclick = function(){

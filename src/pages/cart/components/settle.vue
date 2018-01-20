@@ -141,11 +141,14 @@
     import  cartService from '@/services/CartService.js'
     import  addressService from '@/services/AddressService.js'
     import orderService from '@/services/OrderService.js'
+    import {store} from 'ltsutil'
     export default {
         name: "settle",
         props: ['items'],
         data(){
             return{
+                user_id:0,
+                info:JSON.parse(store.getItem('SESSION_DATA')),
                 totalPrice:0,
                 // 送货单是否包含价格，配送方式
                 inPrice:'否',
@@ -400,9 +403,10 @@
                 };
                 orderService.createTrade(params).then((data)=>{
                     console.log(data.data);
-                    console.log(params);
+                    this.user_id = this.info.account.user_id;
+                    console.log(this.user_id);
                     this.$emit('submit',2);
-                    this.$router.push({name: 'beforePay',params:{item:[this.totalPrice,data.data]}});
+                    this.$router.push({name: 'beforePay',params:{item:[this.totalPrice,data.data,this.user_id]}});
                 },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.error_message})
                 })
@@ -433,6 +437,7 @@
                     source: "work.500mi.com.shop.pifa.market"
                 };
                 orderService.simulateCreateTrade(params).then((data)=>{
+                    console.log(this.info.account.user_id);
                 },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.error_message})
                 })

@@ -37,11 +37,9 @@
         </ul>
       </div>
     </div>
-
   </div>
 </template>
 <script>
-  import {store} from 'ltsutil'
   export default {
     name : "lts-footer",
     data(){

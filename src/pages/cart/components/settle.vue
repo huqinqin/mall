@@ -151,7 +151,6 @@
         props: ['items'],
         data(){
             return{
-                user_id:0,
                 info:JSON.parse(store.getItem('SESSION_DATA')),
                 totalPrice:0,
                 // 送货单是否包含价格，配送方式
@@ -409,7 +408,7 @@
                     console.log(data.data);
                     this.user_id = this.info.account.user_id;
                     console.log(this.user_id);
-                    this.$emit('submit',2);
+                    this.$emit('submit',3);
                     this.$router.push({name: 'beforePay',params:{item:[this.totalPrice,data.data]}});
                 },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.error_message})
@@ -422,7 +421,7 @@
                     let item_prop_ids = [];
                     item_prop_ids.push(value.item_props[0].id);
                     value.item_props.forEach(function (val,key,array) {
-                        val.propValue = JSON.parse(val.prop_value)
+                        val.propValue = val.prop_value
                         console.log(val.propValue);
                     })
                     /* value.item_props.forEach(function (val,key,array) {
@@ -446,28 +445,13 @@
                 };
                 orderService.simulateCreateTrade(params).then((resp)=>{
                     this.totalPrice = resp.data.wholesale_order.pay_real;
+                    this.$emit('submit',2);
+                    console.log(this.totalPrice);
                 },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.error_message})
                 })
             },
             /*计算价格*/
-           /* calPrice() {
-                setTimeout(() => {
-                    let arr = [];
-                    let len = document.getElementsByClassName("count").length;
-                    console.log(document.getElementsByClassName("count"));
-                    console.log("len:"+ len );
-                    for (let i = 0; i < len; i++) {
-                        console.log(document.getElementsByClassName("count")[i]);
-                        arr[i] = parseInt(document.getElementsByClassName("count")[i].innerHTML);
-                    }
-                    arr.forEach((value, index) => {
-                        this.totalPrice += value;
-                        // console.log(value);
-                    });
-                    // console.log(this.totalPrice);
-                })
-            },*/
             // 选择订单是否包含价格
             chooseInPrice(e){
                 switch(e.target.innerText){

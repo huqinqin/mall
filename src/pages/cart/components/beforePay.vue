@@ -35,6 +35,7 @@
 
 <script>
     import $ from 'jquery'
+    import orderService from '@/services/OrderService.js'
     export default {
         name: "beforePay",
         data(){
@@ -84,7 +85,6 @@
             },
             goPay(){
                 //this.$router.push({path: '/finish'});
-                //this.$emit('submit',4);
                 let tid = this.$route.params.item[1];
                 console.log(tid);
                 let commonIp = 'http://work.local.lts.com:8085';
@@ -106,7 +106,9 @@
                 orderService.checkOrder(tid).then((data)=>{
                     if(data.data.pay_status == 2){//已支付
                         this.$router.push({name:"finish",params:{}});
+                        this.$emit('submit',4);
                     }else{//未支付
+                        console.log("000");
                         this.$router.push({name:"fail",params:{}});
                     }
                 },(msg)=>{

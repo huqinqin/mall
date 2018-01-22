@@ -15,6 +15,7 @@
                     <button class="go" @click="backToIndex"><span>回到首页</span></button>
                     <button class="back" @click="back"><span>订单详情</span></button>
                 </div>
+                
             </div>
         </div>
     </div>

@@ -3,7 +3,7 @@
      <!-- banner -->
     <div class="banner">
       <el-carousel height="500px">
-        <el-carousel-item v-for="banner in index_banner" :key="banner.banner_url">
+        <el-carousel-item v-for="banner in index_banner" :key="banner.banner_url" :autoplay="isAuto">
           <a :href="banner.link_url">
             <div class="img" :style="{backgroundImage : 'url(' + banner.banner_url +')'}"></div>
           </a>
@@ -57,18 +57,19 @@
                   <li  v-for="item in itemlist.items" :key="item.sin">
                       <a :href="'/detail#/?id=' + item.id">
                           <div class="img" :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+item.url+')'}"></div>
+                      </a>
                           <div class="item-spec">
                               <p class="line-one">{{item.brand}}</p>
                               <!--<p class="line-two">{{item.item_name}}</p>-->
-                              <p class="line-two">{{item.id}}</p>
+                              <p class="line-two">{{item.item_name}}</p>
                               <p class="line-three">{{item.promotion_title}}</p>
                               <p class="line-four" ></p>
                               <div class="item-price">
-                                 <button v-ltsLoginShow:false>登录之后查看价格</button>
+                                 <button v-ltsLoginShow:false v-login>登录之后查看价格</button>
                                  <p v-ltsLoginShow:true class="price">${{item.price }}</p>
                               </div>
                           </div>
-                      </a>
+
                   </li>
               </ul>
             </div>
@@ -107,6 +108,7 @@ import homeService from '@/services/HomeService.js'
     },
     data(){
       return{
+        isAuto:false,
         index_banner:[],
         index_welcome:[
           {

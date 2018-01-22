@@ -50,9 +50,12 @@ Vue.filter('money2str', function (money) {
     return (money / 100).toFixed(2)
 })
 export default function (App, router = new Router()) {
-  let Boolean = true
-  App.name && App.name == 'index' ? Boolean = false : Boolean = true;
-  config.isWhite = Boolean
+  let isIndex = true,isCart = true
+  App.name && App.name == 'index' ? isIndex = true : isIndex = false;
+  App.name && (App.name == 'cart' || App.name == 'order') ? isCart = true : isCart = false;
+  console.log(App.name);
+  config.isWhite = isIndex
+  config.isCart = isCart
   Layout.components = {'lts-content': App,'lts-header': ltsHeader,'lts-footer':ltsFooter}
   new Vue({
     el        : '#app',

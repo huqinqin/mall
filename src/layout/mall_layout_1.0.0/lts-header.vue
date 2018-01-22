@@ -15,7 +15,7 @@
             </li>
           </ul>
         </div>
-        <div class="product">
+        <div class="product" v-if="!isShowMenu">
               <div class="menu-list s-span-page">
                 <ul>
                     <li v-for="value in menuList">
@@ -81,13 +81,12 @@
 </template>
 <script>
     import {store} from 'ltsutil'
+    import config from 'config'
     import session from '@/library/Session'
     import userService from '@/services/UserService.js'
     export default {
         name : "lts-header",
         data(){
-
-
           return{
               menuList : [
                  {
@@ -171,17 +170,17 @@
               loginRules:{
                   acount:[{required: true, message: '请输入用户名或邮箱'}],
                   password:[{required: true, message: '请输入密码'}]
-              }
+              },
+              isShowMenu : true,
           }
         },
         methods:{
             login(){
             },
             logout(){
-                session.logout();
-                this.userInfo = {};
                 userService.logout().then((resp)=>{
                     session.logout();
+                    this.userInfo = {};
                 },(err)=>{
                     this.$ltsMessage.show({type: "error", message: err.error_message});
                 })
@@ -204,7 +203,8 @@
                 });
             },
             getLocalUser(){
-                this.userInfo = JSON.parse(store.getItem('SESSION_DATA'));
+                this.userInfo = JSON.parse(store.getItem(config.sessDataName));
+                console.log(this.userInfo);
             },
             showLogin(data){
                 this.loginVisible = true
@@ -269,6 +269,7 @@
         created(){
             this.selfContext.$on("showLogin",this.showLogin)
             this.getLocalUser()
+            this.isShowMenu = config.isCart;
         },
         mounted(){
             this.getParamas()

@@ -49,7 +49,7 @@
             }
         },
         created(){
-          config.isWhite ? $("html").attr('class','white') : $("html").attr('class','gray');
+          config.isWhite ? $("html").attr('class','gray'): $("html").attr('class','white') ;
           $(document).ready(function(){
             resize();
           })
@@ -140,7 +140,7 @@
       }
     }
     .el-header {
-        padding: 0 !important;
+        padding: 0;
     }
     .lts-main {
         .el-main{

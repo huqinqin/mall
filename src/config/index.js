@@ -16,7 +16,7 @@ export default {
     loginPage: '/login',
     appKey: '00000-500mi',
     // 用户session在本地存储名
-    sessDataName: 'SESSION_DATA',
+    sessDataName: 'SESSION_MALL_DATA',
     isUseMock: isUseMock,
     isDebug: isDebug,
     // log等级 debug info error warnning notice prod, 暂未实现
@@ -24,4 +24,5 @@ export default {
 
     // 页面配置  暂时放这里
     isWhite : false, // 是不是白色背景
+    isCart : false, // 是不是购物车
 }

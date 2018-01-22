@@ -29,17 +29,22 @@
                 <h3>{{item.item_name}}</h3>
                 <p class="brief">{{item.promotion_title}}</p>
                 <!-- 商品属性-->
-                <el-form label-position="left" label-width="80px" :model="formData">
+                <el-form label-position="left" label-width="80px" ref="ruleForm">
                     <el-form-item label="价格" prop>
                         <div class="tips" v-ltsLoginShow:false>完成登录注册，享受惊爆价</div>
-                        <div v-ltsLoginShow:true class="detail_price"> ${{item.price}}</div>
+                        <div v-ltsLoginShow:true class="detail_price" v-if="!checkedSpu.price">${{item.price}}</div>
+                        <div v-ltsLoginShow:true class="detail_price" v-else>${{checkedSpu.price}}</div>
                     </el-form-item>
-                    <el-form-item v-for="prop in item.item_prop_value_maps" :key="prop.prop_name" :label="prop.prop_name" class="radio">
-                        <el-radio-group v-model="prop.checked_prop">
-                            <el-radio v-for="propValue in prop.prop_values"  :disabled="!propValue.can_checked" :label="propValue.value" :key="propValue.value" :change="checkedProp(prop,item)"  border>{{propValue.value}}</el-radio>
-                        </el-radio-group>
-                    </el-form-item>
-                    <el-form-item label="采购量" class="num" >
+                    <div :class="[showPropsError ? 'error' : '']" @click="closeError">
+                        <el-form-item v-for="prop in item.item_prop_value_maps" :key="prop.prop_name" :label="prop.prop_name" class="radio sku_prop" >
+                            <el-radio-group v-model="prop.checked_prop">
+                                <el-radio v-for="propValue in prop.prop_values"  :disabled="!propValue.can_checked" :label="propValue.value" :key="propValue.value" :change="checkedProp(prop,item)"  border>{{propValue.value}}</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <i class="el-icon-close"></i>
+                        <div class="el-form-item__error">请选择商品属性。若商品属性不可选。请联系销售</div>
+                    </div>
+                    <el-form-item label="采购量" class="num">
                         <el-input-number v-model="item.num" size="mini" @change="inputNumberChange" :min="1"></el-input-number>
                         <span v-if="checkedSpu.storage > 0" class="storage_spec">库存{{checkedSpu.storage}}{{item.unit}} </span>
                         <span v-else-if="checkedSpu && checkedSpu.storage <= 0" class="storage_spec">缺货</span>
@@ -47,9 +52,9 @@
                     <el-form-item label="温馨提示" class="mark">
                         <p>不支持60天无理由退换(如果商品参加活动，退换货以活动规则为准)</p>
                     </el-form-item>
-                    <el-form-item class="buttons">
-                        <button @click="buyNow">立即购买</button>
-                        <button v-login @click="addCart" >加入购物车</button>
+                    <el-form-item class="buttons" >
+                        <button @click="buyNow"><div v-login>立即购买</div></button>
+                        <button @click="addCart" ><div v-login>加入购物车</div></button>
                     </el-form-item>
                 </el-form>
             </div>
@@ -133,9 +138,6 @@
                 activeName: 'first',
                 sku_1: '',
                 sku_2: '',
-                formData: {
-
-                },
                 count: '',
                 prc_info: [],
                 detail_side_img: [
@@ -746,7 +748,9 @@
                     '视频压缩': 'H.265+',
                     '声频': 'line in/out'
                 },
-                comment: []
+                comment: [],
+
+                showPropsError : false,
             }
         },
         methods:{
@@ -831,7 +835,10 @@
                     return false;
                 }
             },
-            addCart() {
+            addCart() {debugger;
+                if(!this.validate()){
+                    return false;
+                }
                 cartService.putCartPlus(this.item,this.checkedSpu).then((data) => {
                     this.$ltsMessage.show({type:"success",message:'加入购物车成功'})
                 },(msg) => {
@@ -839,6 +846,9 @@
                 });
             },
             buyNow(){
+                if(!this.validate()){
+                    return false;
+                }
                 let items = {
                     "activity_id":null,
                     "attribute":this.item.attribute,
@@ -864,9 +874,20 @@
                 };
                 window.open('/cart#/settle?item=' + JSON.stringify(items));
             },
+            validate(){
+              if(!this.checkedSpu.spu_id){
+                  this.showPropsError = true;
+                  return false;
+              }else{
+                  return true;
+              }
+            },
             showImage(e){
                 $(e.currentTarget).addClass('is_active')
                 $(e.currentTarget).siblings().removeClass('is_active')
+            },
+            closeError(){
+              this.showPropsError = false;
             }
         },
         mounted(){
@@ -940,11 +961,34 @@
                     }
                 }
             }
+            .error{
+                border:solid 1px red;
+                padding: 0 10px;
+                margin-bottom: 10px !important;
+                position: relative;
+                .el-form-item__error{
+                    display: block;
+                }
+                .el-icon-close{
+                    position: absolute;
+                    right: 10px;
+                    top: 5px;
+                    color: red;
+                    display: block;
+                }
+            }
+            .el-form-item__error{
+                display: none;
+            }
+            .el-icon-close{
+                display: none;
+            }
             .detail-sku-box{
                 margin-bottom: 24px;
                 margin-right: 12px;
                 color:rgba(0,0,0,0.5);
                 flex: 1;
+
                 h3{
                     color: rgba(0,0,0,0.7);
                     font-size: 16px;
@@ -977,7 +1021,6 @@
                     font-weight: bold;
                 }
                 .radio{
-                    width: 600px;
                     .el-radio{
                         width: 60px;
                         height: 20px;
@@ -1041,7 +1084,7 @@
                         }
                         span{
                             width: 22px;
-                            line-height: 20px;
+                            line-height: 18px;
                             background: rgb(238, 238, 238);
                             border: 1px solid #dcdfe6;
                             margin-left: -2px;

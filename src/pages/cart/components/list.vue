@@ -44,8 +44,8 @@
         <div class="table-footer">
             <div class="choose">
                 <p>
-                    <el-checkbox   v-model="chooseAll" @change="chooseAllSelect(chooseAll)">全选</el-checkbox>
-                    <span>删除选中商品</span>
+                    <!--<el-checkbox   v-model="chooseAll" @change="chooseAllSelect(chooseAll)">全选</el-checkbox>-->
+                    <!--<span>删除选中商品</span>-->
                 </p>
             </div>
             <div class="check">
@@ -131,14 +131,16 @@
                     this.$ltsMessage.show({type:'error',message:msg.errorMessage})
                });
            },
-           /* putCartPlus(){
-                cartService.putCartPlus().then((data)=>{
-                    this.tableData = data.data;
-                    console.log(this.tableData);
-                },(msg)=>{
-                    this.$ltsMessage.show({type:'error',message:msg.errorMessage})
+           putCartPlus(item){
+                return new Promise((resolve, reject) => {
+                    cartService.putCartPlus(item).then((data)=>{
+                        resolve(data);
+                    },(msg)=>{
+                        this.$ltsMessage.show({type:'error',message:msg.errorMessage})
+                        reject(msg);
+                    })
                 })
-            },*/
+           },
           /*  queryCartList(){
                 this.tableData = cartService.queryCartList(158716).datalist;
             },*/
@@ -165,37 +167,7 @@
                     this.$refs.multipleTable.clearSelection();
                     this.chooseAll = false;
                 }
-               /* if(val){
-                    this.chooseAll = true;
-                    this.multipleSelection = this.tableData;
-                    let total = 0;
-                    this.multipleSelection.forEach((item)=>{
-                        total += item.num  *  item.price;
-                    })
-                    this.totalPrice = total;
-                    for(let i=0;i<document.getElementsByClassName("el-checkbox__input").length;i++){
-                        document.getElementsByClassName("el-checkbox__input")[i].classList.add("is-checked");
-                    }
-                }else{
-                    this.chooseAll = false;
-                    this.multipleSelection = [];
-                    this.totalPrice = 0;
-                    for(let i=0;i<document.getElementsByClassName("el-checkbox__input").length;i++){
-                        document.getElementsByClassName("el-checkbox__input")[i].classList.remove("is-checked");
-                    }
-                }
-                console.log(this.multipleSelection);*/
-
-               /* this.chooseAll = this.chooseAll ? true : false;
-                this.multipleSelection = this.chooseAll ? [] : this.tableData
-                console.log(this.multipleSelection)*/
             },
-           /* handleCheckedCitiesChange(value) {
-                console.log(value);
-                let checkedCount = value.length;
-                this.chooseAll = checkedCount === this.tableData.length;
-                this.isIndeterminate = checkedCount > 0 && checkedCount < this.tableData.length;
-            },*/
             // 购物车结算
             check() {
                 this.$emit('submit', 1)
@@ -203,22 +175,31 @@
             },
             // 修改购物车数量
             inputNumeberChange(row){
-                console.log(row);
                 let total = 0;
-                this.multipleSelection.forEach((item)=>{
-                    setTimeout(()=>{
-                        total += item.num   *  item.price;
-                        this.totalPrice = total;
-                    },20)
+                this.$nextTick( ()=> {
+                    this.putCartPlus(row).then((data)=>{
+                        this.multipleSelection.forEach((item)=>{
+                            setTimeout(()=>{
+                                total += item.num   *  item.price;
+                                this.totalPrice = total;
+                            },20)
+                        })
+                    },(msg)=>{
+                        console.log("加入购物车失败");
+                    })
                 })
+
+
                /* cartService.putCartPlus(params)*/
             },
             // 删除购物车条目
             deleteHandle(index, row){
-                this.tableData.splice(index,1)
-                console.log('数量置为0，加入购物车')
-                console.log(row)
-               /* cartService.putCartPlus(params)*/
+                row.num = 0;
+                this.putCartPlus(row).then((data)=>{
+                    this.tableData.splice(index,1)
+                },(msg)=>{
+                    this.$ltsMessage.show({type:'error',message:msg.errorMessage})
+                })
             },
             // 购物车里选择条目
             checkItem(value){

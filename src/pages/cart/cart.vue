@@ -1,7 +1,7 @@
 <template>
     <div class="cart">
         <div class="header">
-            <img src="../../assets/img/LOGO_html.png" alt="LTS-logo">
+            <a href="/index"><img src="../../assets/img/LOGO_html.png" alt="LTS-logo"></a>
             <el-steps :active=active align-center finish-status="success">
                 <el-step title="我的进货单"></el-step>
                 <el-step title="填写/确认订单信息"></el-step>

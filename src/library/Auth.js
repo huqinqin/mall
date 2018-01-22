@@ -7,9 +7,10 @@ Vue.prototype.selfContext = eventHub
 
 Vue.directive('login',{
     inserted(el) {
-        el.onclick = function(){
+        el.onclick = function($event){
             if(!session.checkLogin(eventHub)){
                 // 未登录 拦截一切事件
+                $event.stopPropagation();
                 return false;
             }
         }

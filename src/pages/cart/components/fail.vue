@@ -4,7 +4,7 @@
         <div class="result">
             <div class="content">
                 <h3>支付失败</h3>
-                <p>商品编号：325462766383462</p>
+                <p>商品编号：{{tid}}</p>
                 <p>收货人：抹茶 183 **** 5921</p>
                 <p>收货地址：西湖区三墩镇振华路西城博司12楼1201</p>
                 <p>物流方式：快递</p>
@@ -23,7 +23,7 @@
         name: "finish",
         data(){
             return{
-
+              tid:0
             }
         },
         methods:{
@@ -32,7 +32,13 @@
             },
             back(){
                 alert('回首页')
+            },
+            getTid(){
+                this.tid = this.$route.params.tid;
             }
+        },
+        mounted(){
+            this.getTid();
         }
     }
 </script>

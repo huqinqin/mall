@@ -105,11 +105,10 @@
             checkOrder(tid){
                 orderService.checkOrder(tid).then((data)=>{
                     if(data.data.pay_status == 2){//已支付
-                        this.$router.push({name:"finish",params:{}});
+                        this.$router.push({name:"finish",params:{tid:tid}});
                         this.$emit('submit',4);
                     }else{//未支付
-                        console.log("000");
-                        this.$router.push({name:"fail",params:{}});
+                        this.$router.push({name:"fail",params:{tid:tid}});
                     }
                 },(msg)=>{
                     this.$router.push({name:"fail",params:{}});

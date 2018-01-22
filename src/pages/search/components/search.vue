@@ -170,7 +170,8 @@
 
                     this.data = rtn.data.item_d_o_list
                     let data2 = rtn.data.aggregate_cate_prop_map
-                    // 这里计算页数
+                    // TOOD 这里计算页数
+
                     for(let val in data2){
                         this.condition[val] = data2[val].split(',')
                     }
@@ -523,12 +524,11 @@
                     flex-wrap: wrap;
 
 
-                    justify-content: space-between;
                     width:100%;
                     margin-bottom: 80px;
                     li{
                         width:19%;
-                        min-width:290px;
+                        margin-right: 1%;
                         height: 430px;
                         overflow: hidden;
                         margin-top: 36px;
@@ -601,7 +601,6 @@
                                 border:none;
                             }
                         }
-
                     }
                     li::after{
                         content:'';
@@ -626,6 +625,9 @@
                         p.price{
                             padding-bottom: 20px;
                         }
+                    }
+                    li:nth-child(5n){
+                        margin-right: 0;
                     }
                 }
                 .el-pagination{

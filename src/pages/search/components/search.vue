@@ -57,7 +57,9 @@
             <div class="search-result">
                 <ul class="result">
                     <li v-for="item in data" :key="item.id">
-                        <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
+                        <a :href="'/detail#/?id=' + item.id">
+                            <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
+                        </a>
                         <p class="brand">{{item.brand}}</p>
                         <p class="name">{{item.item_name}}</p>
                         <p class="sin">{{item.sin}}</p>
@@ -65,7 +67,7 @@
                         <div class="handle">
                             <button class="cart"><i class="iconfont icon-gouwuche3"></i></button>
                             <button class="favo"><i class="iconfont icon-shoucang1"></i></button>
-                        </div>
+                            </div>
                     </li>
                 </ul>
                 <el-pagination
@@ -165,8 +167,11 @@
                 this.search.itemName = this.$route.query.keywords
                 this.search.cateId = this.$route.query.cateId.split(',')
                 ItemService.searchItem(this.search).then((rtn)=>{
+
                     this.data = rtn.data.item_d_o_list
                     let data2 = rtn.data.aggregate_cate_prop_map
+                    // TOOD 这里计算页数
+
                     for(let val in data2){
                         this.condition[val] = data2[val].split(',')
                     }
@@ -519,12 +524,11 @@
                     flex-wrap: wrap;
 
 
-                    justify-content: space-between;
                     width:100%;
                     margin-bottom: 80px;
                     li{
                         width:19%;
-                        min-width:290px;
+                        margin-right: 1%;
                         height: 430px;
                         overflow: hidden;
                         margin-top: 36px;
@@ -597,7 +601,6 @@
                                 border:none;
                             }
                         }
-
                     }
                     li::after{
                         content:'';
@@ -622,6 +625,9 @@
                         p.price{
                             padding-bottom: 20px;
                         }
+                    }
+                    li:nth-child(5n){
+                        margin-right: 0;
                     }
                 }
                 .el-pagination{

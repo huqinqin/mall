@@ -38,7 +38,6 @@
                     <i class="iconfont icon-add"></i>
                     <div>添加地址</div>
                 </li>
-                <li style="{height: 0; padding: 0; overflow: hidden;}"></li>
             </ul>
             <el-dialog title="收货地址" :visible.sync="showAddAddress" center>
                 <el-form :model="addForm">
@@ -605,15 +604,16 @@
             flex-wrap: wrap;
             ul{
                 display: flex;
-                justify-content: space-between;
                 flex-wrap: wrap;
                 margin-bottom: 24px;
+                width:100%;
                 li{
                     width: 280px;
                     height: 122px;
                     box-shadow: 0px 3px 15px 0px #f1f1f1;
                     border-radius: 4px;
                     margin-bottom: 12px;
+                    margin-right: 12px;
                     header{
                         border-top:2px solid rgba(0,0,0,0.2);
                         border-bottom: 1px solid rgba(0,0,0,0.05);
@@ -704,6 +704,12 @@
                         margin-top: 10px;
                         font-size: 14px;
                     }
+                }
+                li:nth-child(4n){
+                    height: 0;
+                    width:0;
+                    padding:0;
+                    overflow: hidden;
                 }
             }
             u::after {

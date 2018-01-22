@@ -87,24 +87,26 @@
         <div class="order">
             <h5>订单信息</h5>
             <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
-                <el-table-column label="商品信息" width="450" class="column-1"  align="center">
+                <el-table-column label="商品信息"   align="left">
                     <template slot-scope="scope">
                         <div class="cart-item-info">
-                            <img :src="scope.row.img" alt="商品">
+                            <img :src="'http://res.500mi.com/item/' + scope.row.url" alt="商品">
                             <div class="content">
-                                <p>{{scope.row.info}}</p>
+                                <p>{{scope.row.item_name}}</p>
                             </div>
                             <div class="other">
-                                <p v-for="(value,key) in scope.row.more">{{key}}: {{value}}</p>
+                                <p v-for="(value,index) in scope.row.item_props">
+                                    <span v-for="(val,key) in value.propValue">{{key}}: {{val}}</span>
+                                </p>
                             </div>
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="price" label="单价" align="center">
+                <el-table-column prop="price" width="250" label="单价" align="center">
                 </el-table-column>
-                <el-table-column label="数量" prop="num" align="center">
+                <el-table-column label="数量" width="250" prop="num" align="center">
                 </el-table-column>
-                <el-table-column label="小计" align="center">
+                <el-table-column label="小计" width="250" align="center">
                     <template slot-scope="scope">
                         <div class="count" ref="count">{{scope.row.num*scope.row.price}}</div>
                     </template>
@@ -142,11 +144,13 @@
     import  cartService from '@/services/CartService.js'
     import  addressService from '@/services/AddressService.js'
     import orderService from '@/services/OrderService.js'
+    import {store} from 'ltsutil'
     export default {
         name: "settle",
         props: ['items'],
         data(){
             return{
+                info:JSON.parse(store.getItem('SESSION_DATA')),
                 totalPrice:0,
                 // 送货单是否包含价格，配送方式
                 inPrice:'否',
@@ -401,7 +405,9 @@
                 };
                 orderService.createTrade(params).then((data)=>{
                     console.log(data.data);
-                    this.$emit('submit',2);
+                    this.user_id = this.info.account.user_id;
+                    console.log(this.user_id);
+                    this.$emit('submit',3);
                     this.$router.push({name: 'beforePay',params:{item:[this.totalPrice,data.data]}});
                 },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.error_message})
@@ -413,6 +419,10 @@
                 this.tableData.forEach(function(value,index,array){
                     let item_prop_ids = [];
                     item_prop_ids.push(value.item_props[0].id);
+                    value.item_props.forEach(function (val,key,array) {
+                        val.propValue = val.prop_value
+                        console.log(val.propValue);
+                    })
                     /* value.item_props.forEach(function (val,key,array) {
                          item_prop_ids.push(val.id)
                      })*/
@@ -432,29 +442,15 @@
                     payMethod: "online", //
                     source: "work.500mi.com.shop.pifa.market"
                 };
-                orderService.simulateCreateTrade(params).then((data)=>{
+                orderService.simulateCreateTrade(params).then((resp)=>{
+                    this.totalPrice = resp.data.wholesale_order.pay_real;
+                    this.$emit('submit',2);
+                    console.log(this.totalPrice);
                 },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.error_message})
                 })
             },
             /*计算价格*/
-           /* calPrice() {
-                setTimeout(() => {
-                    let arr = [];
-                    let len = document.getElementsByClassName("count").length;
-                    console.log(document.getElementsByClassName("count"));
-                    console.log("len:"+ len );
-                    for (let i = 0; i < len; i++) {
-                        console.log(document.getElementsByClassName("count")[i]);
-                        arr[i] = parseInt(document.getElementsByClassName("count")[i].innerHTML);
-                    }
-                    arr.forEach((value, index) => {
-                        this.totalPrice += value;
-                        // console.log(value);
-                    });
-                    // console.log(this.totalPrice);
-                })
-            },*/
             // 选择订单是否包含价格
             chooseInPrice(e){
                 switch(e.target.innerText){
@@ -479,22 +475,57 @@
 
         },
         mounted(){
-            // console.log(this.$route.params.items);
-            this.tableData = this.$route.params.items[0];
-            console.log(this.tableData);
-            setTimeout(()=>{
-                this.totalPrice = this.$route.params.price;
-                console.log(this.totalPrice);
-                this.sum.result = this.sum.amount + this.sum.express + this.sum.tax - this.sum.benefit;
-                this.getAddressList()
-                /*this.queryCartList();*/
-                this.simulateCreateTrade();
-            },20)
-        }
+            if(this.$route.query && this.$route.query.item){
+                this.tableData.push(JSON.parse(this.$route.query.item));
+            }else{
+                this.tableData = this.$route.params.items[0];
+                setTimeout(()=>{
+                    this.sum.result = this.sum.amount + this.sum.express + this.sum.tax - this.sum.benefit;
+                },20)
+            }
+            this.getAddressList()
+            this.simulateCreateTrade();
+        },
   }
 </script>
 
 <style lang="less">
+    tbody tr td:first-child{
+        .cell{
+            width:100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .item-img{
+            width:80px;
+            height: 80px;
+            border: 1px solid #dadada;
+            background-position: center;
+            background-size: cover;
+            flex:0 0 80px;
+        }
+        .content{
+            flex: 0 0 300px;
+            margin-left: -60%;
+        }
+        .other{
+            flex:0 0 150px;
+            text-align: left;
+            margin-left: -60%;
+        }
+        div{
+            width:120px;
+            p{
+                line-height: 30px;
+                font-size: 14px;
+                text-align: left;
+            }
+            p:first-child{
+                margin-top: 12px;
+            }
+        }
+    }
     .settle{
         overflow: hidden;
         button{
@@ -510,12 +541,12 @@
                     background-color: rgba(0,0,0,0.05);
                     .cell{
                         margin-top: -4px;
-                        margin-left: 24px;
+                        /*margin-left: 24px;*/
                     }
                 }
                 th:nth-child(1){
                     .cell{
-                        margin-left: 24px;
+                        /*margin-left: 24px;*/
                     }
                 }
             }

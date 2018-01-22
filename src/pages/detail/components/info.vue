@@ -48,7 +48,7 @@
                         <p>不支持60天无理由退换(如果商品参加活动，退换货以活动规则为准)</p>
                     </el-form-item>
                     <el-form-item class="buttons">
-                        <button v-login @click="buyNow" >立即购买</button>
+                        <button @click="buyNow">立即购买</button>
                         <button v-login @click="addCart" >加入购物车</button>
                     </el-form-item>
                 </el-form>
@@ -764,7 +764,6 @@
                 })
             },
             checkedProp(prop,data,checkedValue){
-                console.log(prop.checked_prop);
                 if(prop.checked_prop != ""){
                     this.skuMapEach(prop,data);
                 }
@@ -793,7 +792,6 @@
                 }
             },
             equalsProp(propObj,skuList,type,skuLength){
-                console.log(propObj);
                 let Boolean = 0; // 0 false, 1 true;
                 let self = this;
                 try{
@@ -841,14 +839,34 @@
                 });
             },
             buyNow(){
-                console.log(this.item.num)
-                console.log(this.checkedSpu)
+                let items = {
+                    "activity_id":null,
+                    "attribute":this.item.attribute,
+                    "brand":this.item.brand,
+                    "category_id":this.item.category_id,
+                    "discount_type":this.item.discount_type,
+                    "id":this.item.id,
+                    "item_name":this.item.item_name,
+                    "item_props":[this.checkedSpu],
+                    "maxinum":this.item.maxinum,
+                    "mininum":this.item.mininum,
+                    "num":this.item.num,
+                    "price":this.item.price,
+                    "price_real":this.item.price_real,
+                    "proxy_distribute_num":this.item.proxy_distribute_num,
+                    "puser_id":this.item.puser_id,
+                    "spec_unit":this.item.spec_unit,
+                    "spu_id":this.item.spu_id,
+                    "status":this.item.status,
+                    "storage":this.item.storage,
+                    "tag":this.item.tag,
+                    "url":this.item.url
+                };
+                window.open('/cart#/settle?item=' + JSON.stringify(items));
             },
             showImage(e){
                 $(e.currentTarget).addClass('is_active')
                 $(e.currentTarget).siblings().removeClass('is_active')
-                console.log(e.currentTarget)
-                console.log($('big'))
             }
         },
         mounted(){
@@ -951,6 +969,7 @@
                     margin-top:10px;
                     font-size: 12px;
                     padding-left: 6px;
+                    color:#ff3b41;
                 }
                 .detail_price{
                     color:#ff3b41;

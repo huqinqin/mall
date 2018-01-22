@@ -50,4 +50,10 @@ export default class OrderService extends BaseService {
         };
         return super.postRequest('/installer/trade/create_trade',params)
     }
+    static checkOrder(param){
+        let params = {
+            tid: param
+        };
+        return super.getRequest('/store/order/detail',params);
+    }
 }

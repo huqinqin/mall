@@ -7,10 +7,10 @@ const isDebug = false;
 const isUseMock = false;
 export default {
     url: {
-        main: 'http://work.local.lts.com:8085'
+        main: 'http://mall.lts.com:18085'
     },
     api:{
-        service:'http://work.local.lts.com:8085/gateway'
+        service:'http://mall.lts.com:18085/gateway'
     },
     homePage: '/',
     loginPage: '/login',

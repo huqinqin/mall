@@ -2,7 +2,7 @@
   <div class="_index">
      <!-- banner -->
     <div class="banner">
-      <el-carousel height="500px">
+      <el-carousel height="500px" :autoplay=isAuto>
         <el-carousel-item v-for="banner in index_banner" :key="banner.banner_url" :autoplay="isAuto">
           <a :href="banner.link_url">
             <div class="img" :style="{backgroundImage : 'url(' + banner.banner_url +')'}"></div>
@@ -28,7 +28,7 @@
     <div class="poster">
         <div class="one">
           <a href="">
-              <img src="../../assets/img/menjin.png" alt="">
+              <img src="http://specimen.oss-cn-hangzhou.aliyuncs.com/tmp/menjin_html%201.png" alt="">
           </a>
         </div>
         <div class="two">
@@ -60,9 +60,7 @@
                       </a>
                           <div class="item-spec">
                               <p class="line-one">{{item.brand}}</p>
-                              <!--<p class="line-two">{{item.item_name}}</p>-->
                               <p class="line-two">{{item.item_name}}</p>
-                              <p class="line-three">{{item.promotion_title}}</p>
                               <p class="line-four" ></p>
                               <div class="item-price">
                                  <button v-ltsLoginShow:false v-login>登录之后查看价格</button>
@@ -86,8 +84,6 @@
                           <div class="item-spec">
                               <p class="line-one">{{item.brand}}</p>
                               <p class="line-two">{{item.item_name}}</p>
-                              <p class="line-three">{{item.promotion_title}}</p>
-                              <p class="line-four"></p>
                               <div class="item-price">
                                   <button v-ltsLoginShow:false>登录之后查看价格</button>
                                   <p v-ltsLoginShow:true class="price">${{item.price }}</p>
@@ -288,13 +284,12 @@ import homeService from '@/services/HomeService.js'
                 display: flex;
                 flex-wrap: wrap;
                 li {
-                    // box-sizing: border-box;
                     background-color: #ffffff;
                     text-align: center;
                     min-width: 200px;
                     width: 24%;
                     margin-bottom: 12px;
-                    margin-right: 1%
+                    margin-right: 1%;
                 }
                 li:nth-child(4n){
                     margin-right: 0%;
@@ -365,6 +360,7 @@ import homeService from '@/services/HomeService.js'
                     margin-top:24px;
                     margin-bottom: 24px;
                     background-color: #ffffff;
+                    font-weight: bold;
                     .price{
                         color: #ff3b41;
                     }

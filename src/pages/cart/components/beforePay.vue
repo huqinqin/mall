@@ -35,6 +35,7 @@
 
 <script>
     import $ from 'jquery'
+    import config from 'config'
     import orderService from '@/services/OrderService.js'
     export default {
         name: "beforePay",
@@ -87,10 +88,8 @@
                 //this.$router.push({path: '/finish'});
                 let tid = this.$route.params.item[1];
                 console.log(tid);
-                let commonIp = 'http://work.local.lts.com:8085';
                 let return_url = '/cart#/finish';
                 let fail_url = '/cart#/fail';
-
                 this.$confirm('正在支付。。。', '提示', {
                     confirmButtonText: '支付完成',
                     type: 'warning',
@@ -100,7 +99,7 @@
                     this.checkOrder(tid);
                 }).catch(() => {
                 });
-                window.open(encodeURI(commonIp) + '/gateway/base/pay/alipay/create_pay?tid='+tid+'&return_url='+ encodeURI(commonIp) + encodeURI(return_url)  +'&fail_url='+ encodeURI(commonIp) + encodeURI(fail_url) +'');
+                window.open(config.url.main + '/gateway/base/pay/alipay/create_pay?tid='+tid+'&return_url='+ config.url.main + return_url +'&fail_url='+ config.url.main + fail_url +'');
             },
             checkOrder(tid){
                 orderService.checkOrder(tid).then((data)=>{

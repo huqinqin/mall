@@ -120,11 +120,11 @@
 
         <div class="someCount">
             <div class="count">
-                <p>商品应付金额 <span class="money">${{totalPrice.toFixed(2)}}</span></p>
+                <p>商品应付金额 <span class="money">${{totalPrice}}</span></p>
                 <p>运费 <span>+{{sum.express.toFixed(2)}}</span></p>
                 <p>税费 <span>+{{sum.tax.toFixed(2)}}</span></p>
                 <p>红包 <span>-{{sum.benefit.toFixed(2)}}</span></p>
-                <p class="result">应付金额 <span>${{totalPrice.toFixed(2)}}</span></p>
+                <p class="result">应付金额 <span>${{totalPrice}}</span></p>
             </div>
         </div>
         <div class="allInfo">
@@ -285,8 +285,6 @@
             checkAddress(item){
                 this.checkedAddress = item
                 this.defaultId = item.id
-
-
             },
             // 编辑地址
             editAddress(item){
@@ -398,15 +396,14 @@
                 let params = {
                     user_id : this.user_id,
                     items : JSON.stringify(items),
-                    hdMethod : this.deliveryType,
                     remarkList : this.remark,
-                    payMethod: "online", //
+                    hidePrice : this.inPrice == '否' ? false  : true,
+                    hdMethod : this.deliver == '快递' ? 'SHSM' : 'ZITI',
+                    userAddr : '',
+                    payMethod: "online",
                     source: "work.500mi.com.shop.pifa.market"
                 };
                 orderService.createTrade(params).then((data)=>{
-                    console.log(data.data);
-                    this.user_id = this.info.account.user_id;
-                    console.log(this.user_id);
                     this.$emit('submit',3);
                     this.$router.push({name: 'beforePay',params:{item:[this.totalPrice,data.data]}});
                 },(msg)=>{
@@ -443,7 +440,7 @@
                     source: "work.500mi.com.shop.pifa.market"
                 };
                 orderService.simulateCreateTrade(params).then((resp)=>{
-                    this.totalPrice = resp.data.wholesale_order.pay_real;
+                    this.totalPrice = resp.data.wholesale_order.fee_total_value;
                     this.$emit('submit',2);
                     console.log(this.totalPrice);
                 },(msg)=>{

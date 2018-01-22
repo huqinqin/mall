@@ -44,17 +44,21 @@
                         <i class="el-icon-close"></i>
                         <div class="el-form-item__error">请选择商品属性。若商品属性不可选。请联系销售</div>
                     </div>
-                    <el-form-item label="采购量" class="num">
-                        <el-input-number v-model="item.num" size="mini" @change="inputNumberChange" :min="1"></el-input-number>
-                        <span v-if="checkedSpu.storage > 0" class="storage_spec">库存{{checkedSpu.storage}}{{item.unit}} </span>
-                        <span v-else-if="checkedSpu && checkedSpu.storage <= 0" class="storage_spec">缺货</span>
-                    </el-form-item>
+                    <div :class="[item.num > checkedSpu.storage ? 'error' : '']" @click="closeError">
+                        <el-form-item label="采购量" class="num" >
+                            <el-input-number v-model="item.num" size="mini" @change="inputNumberChange" :min="1"></el-input-number>
+                            <span v-if="checkedSpu.storage > 0" class="storage_spec">有货</span>
+                            <span v-else-if="checkedSpu && checkedSpu.storage <= 0" class="storage_spec">缺货</span>
+                            <div class="el-form-item__error" >您所填写的数量超过库存！</div>
+                            <i class="el-icon-close"></i>
+                        </el-form-item>
+                    </div>
                     <el-form-item label="温馨提示" class="mark">
                         <p>不支持60天无理由退换(如果商品参加活动，退换货以活动规则为准)</p>
                     </el-form-item>
                     <el-form-item class="buttons" >
-                        <button @click="buyNow"><div v-login>立即购买</div></button>
-                        <button @click="addCart" ><div v-login>加入购物车</div></button>
+                        <button @click.stop="buyNow"><div v-login>立即购买</div></button>
+                        <button @click.stop="addCart" ><div v-login>加入购物车</div></button>
                     </el-form-item>
                 </el-form>
             </div>
@@ -835,7 +839,7 @@
                     return false;
                 }
             },
-            addCart() {debugger;
+            addCart() {
                 if(!this.validate()){
                     return false;
                 }
@@ -971,7 +975,7 @@
                 }
                 .el-icon-close{
                     position: absolute;
-                    right: 10px;
+                    right: 0px;
                     top: 5px;
                     color: red;
                     display: block;
@@ -1081,6 +1085,7 @@
                             border-radius: 0px;
                             border:none;
                             height: 20px;
+                            padding: 0 15px;
                         }
                         span{
                             width: 22px;

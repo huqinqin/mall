@@ -14,7 +14,7 @@ export default class AddressService extends BaseService {
             pagesize:20,
             orderby:'status desc'
         }
-        return super.getRequest('/consumer_address/get_list',params)
+        return super.getRequest('/installer/consumer_address/get_list',params)
     }
 
     /**
@@ -26,7 +26,7 @@ export default class AddressService extends BaseService {
         let params = {
             id:id
         }
-        return super.getRequest('/consumer_address/get',params)
+        return super.getRequest('/installer/consumer_address/get',params)
 
     }
 
@@ -52,7 +52,7 @@ export default class AddressService extends BaseService {
         let params = {
             address:JSON.stringify(address)
         }
-        return super.getRequest('/consumer_address/add',params)
+        return super.getRequest('/installer/consumer_address/add',params)
     }
 
     /**
@@ -69,7 +69,7 @@ export default class AddressService extends BaseService {
             status: -1
         }
 
-        return super.getRequest('/consumer_address/update_status_plus',params)
+        return super.getRequest('/installer/consumer_address/update_status_plus',params)
     }
 
 
@@ -103,7 +103,7 @@ export default class AddressService extends BaseService {
             address:JSON.stringify(address)
         }
 
-        return super.getRequest('/consumer_address/update',params)
+        return super.getRequest('/installer/consumer_address/update',params)
     }
 
     /**
@@ -122,7 +122,7 @@ export default class AddressService extends BaseService {
             user_id:"158716",
             id: form.id
         }
-        return super.getRequest('/consumer_address/change_default_address',params)
+        return super.getRequest('/installer/consumer_address/change_default_address',params)
     }
 
 

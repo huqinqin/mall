@@ -10,14 +10,14 @@ export default class CartService extends BaseService {
      * @autor 小猪
      * remark 添加购物车
      */
-    static putCartPlus(param){debugger;
+    static putCartPlus(param,checkedSpu){
         let params;
-        param.item_props[0].spuId = param.item_props[0].spu_id;
+        checkedSpu.spuId = checkedSpu.spu_id;
         params = {
             item_id : param.id,
             num: param.num,
             item_props: JSON.stringify([
-                param.item_props[0]
+                checkedSpu
             ]),
         };
         return super.getRequest('/installer/cart/put_cart_plus',params);

@@ -55,7 +55,7 @@
               </div>
               <ul class="item-list-box">
                   <li  v-for="item in itemlist.items" :key="item.sin">
-                      <a :href="'/detail#/?id=' + item.id">
+                      <a :href="'/detail?#/?id=' + item.id">
                           <div class="img" :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+item.url+')'}"></div>
                       </a>
                           <div class="item-spec">
@@ -81,7 +81,7 @@
               </div>
               <ul class="best-sellers">
                   <li v-for="item in hotList" :key="item.id">
-                      <a :href="'/detail#/?id=' + item.id">
+                      <a :href="'/detail?#/?id=' + item.id">
                           <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
                           <div class="item-spec">
                               <p class="line-one">{{item.brand}}</p>

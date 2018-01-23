@@ -19,22 +19,14 @@
           <li>条款条件</li>
         </ul>
         <ul>
+          <li>关注我们:</li>
           <li>
-            <p class="email">留下您的邮件，及时收到信息</p>
-            <p class="email-remark">促销等活动信息将通过邮件通知到您</p>
-            <p class="email-input"><input type="text"></p>
-            <p class="submit-email"><el-button>提交</el-button></p>
+              <a v-for="link in footerLinkList" :style="{backgroundImage: 'url('+link.img+')'}" :href="link.link" :key="link.value" class="link-img-box"></a>
           </li>
         </ul>
       </div>
       <div class="footer-link-box">
-        <ul>
-          <li>关注我们:</li>
-          <li>
-            <a v-for="link in footerLinkList" :style="{backgroundImage: 'url('+link.img+')'}" :href="link.link" :key="link.value" class="link-img-box"></a>
-          </li>
-          <li>Copyright © 2018 LT Security Inc., All Rights Reserved</li>
-        </ul>
+          <div>Copyright © 2018 LT Security Inc., All Rights Reserved</div>
       </div>
     </div>
   </div>
@@ -87,6 +79,7 @@
     margin: auto;
     .footer-menu-box{
       padding-top:35px;
+      margin-bottom:35px;
       display: flex;
       justify-content: space-between;
       text-align: left;
@@ -129,20 +122,22 @@
           background-color: red;
           color: #fff;
         }
+         .link-img-box{
+              display: inline-block;
+              width: 30px;
+              height:30px;
+              background-size: cover;
+              margin-right: 12px;
+              margin-top: 12px;
+         }
       }
     }
     .footer-link-box{
       text-align: left;
       font-size: 14px;
       color: #737373;
-      .link-img-box{
-        display: inline-block;
-        width: 30px;
-        height:30px;
-        background-size: cover;
-        margin-right: 12px;
-        margin-top: 12px;
-      }
+      text-align: center;
+
     }
 
   }

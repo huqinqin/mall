@@ -8,32 +8,31 @@
                 <el-tag  v-for="(tag,index) in search.condition" :key="tag" type="danger" closable @close="delCondition(index)">{{tag}}</el-tag>
             </div>
         </div>
-        <div class="condition" :class="{shown: minItem > 3}" v-show="condition.length > 0">
+        <div class="condition" :class="{shown: minItem > 3}" v-if="condition.length > 0">
             <el-form>
                 <el-form-item
-                    :class="{showAll: key === selectedItem }"
-                    v-for="(item,key,index) in condition"
-                    :label="key"
-                    :key = "key"
-                    label-width="100px"
+                    v-for="(propObj,index) in condition"
+                    :label="propObj.name"
+                    :key = "propObj.name"
+                    :class="{showAll: propObj.name === selectedItem }"
+                    label-width="300px"
                     label-position="right"
                     v-show="index < minItem">
                     <ul>
-                        <li v-for="(subItem,index) in item" @click="searchWithText(item,subItem)" :key="index">
+                        <li v-for="(subItem,index) in propObj.value" @click="searchWithText(propObj,subItem)" :key="subItem">
                             {{subItem}}
                         </li>
                     </ul>
-                    <!--更多（暂时不做，没那么多）-->
                     <!--<div class="buttons" @click="showAllCondition" ref="buttons">-->
                     <!--<button>更多</button><i class="iconfont icon-xianshigengduo"></i>-->
                     <!--</div>-->
                 </el-form-item>
+
             </el-form>
             <div class="loadMore" @click="showMore" v-if="condition.length > 3">
                 <button>更多选项</button>
                 <i class="iconfont icon-xianshigengduo"></i>
             </div>
-
         </div>
         <div class="content">
             <div class="header">
@@ -47,10 +46,10 @@
                     <!--<button v-show="showRange">确定</button>-->
                 </div>
                 <div class="right">
-                    <div><span>{{search.page}}</span>/{{search.totalPage}}</div>
+                    <div><span>{{search.page}}</span>/{{rightTotal}}</div>
                     <div class="buttons">
                         <el-button icon="el-icon-arrow-left" @click="prePage" :disabled="search.page === 1"></el-button>
-                        <el-button icon="el-icon-arrow-right" @click="nextPage" :disabled="search.page === search.totalPage"></el-button>
+                        <el-button icon="el-icon-arrow-right" @click="nextPage" :disabled="search.page === rightTotal"></el-button>
                     </div>
                 </div>
             </div>
@@ -59,21 +58,15 @@
                     <li v-for="item in data" :key="item.id">
                         <a :href="'/detail#/?id=' + item.id">
                             <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
+                            <p class="name">{{item.item_name}}</p>
+                            <p class="price">${{item.price_value}}</p>
                         </a>
-                        <p class="brand">{{item.brand}}</p>
-                        <p class="name">{{item.item_name}}</p>
-                        <p class="sin">{{item.sin}}</p>
-                        <p class="price">${{item.price_value}}</p>
-                        <div class="handle">
-                            <button class="cart"><i class="iconfont icon-gouwuche3"></i></button>
-                            <button class="favo"><i class="iconfont icon-shoucang1"></i></button>
-                            </div>
                     </li>
                 </ul>
                 <el-pagination
                     background
                     layout="prev, pager, next"
-                    :total= "search.totalPage * search.pageSize"
+                    :total= "search.totalPage"
                     :page-size= "search.pageSize"
                     prev-text="上一页"
                     next-text="下一页"
@@ -97,7 +90,7 @@
                 minItem: 3,
                 tag:[],
                 showRange: false,
-                condition: {},
+                condition: [],
                 activeItem: '综合',
                 priceDesc: false,
                 cdateDesc: false,
@@ -106,7 +99,7 @@
                     text:'',
                     page:1,
                     pageSize:20,
-                    totalPage:5,
+                    totalPage:1,
                     cateId:'',
                     itemName:'',
                     brand:'',
@@ -118,7 +111,8 @@
                     propValues:'',
                     orderBy:''
                 },
-                data:[]
+                data:[],
+                rightTotal : 0,
             }
 
         },
@@ -129,7 +123,6 @@
             this.submit()
         },
         methods: {
-
             changePage(currentPage){
                 this.search.page = currentPage
                 this.searchWithText()
@@ -167,15 +160,17 @@
                 this.search.itemName = this.$route.query.keywords
                 this.search.cateId = this.$route.query.cateId.split(',')
                 ItemService.searchItem(this.search).then((rtn)=>{
-
                     this.data = rtn.data.item_d_o_list
-                    let data2 = rtn.data.aggregate_cate_prop_map
                     // TOOD 这里计算页数
+                    this.search.totalPage = rtn.data.total;
 
-                    for(let val in data2){
-                        this.condition[val] = data2[val].split(',')
-                    }
-
+                    this.rightTotal = Math.ceil(this.search.totalPage/this.search.pageSize);
+                    this.condition = rtn.data.aggregate_cate_prop_list;
+//                    for(let val in rtn.data.aggregate_cate_prop_map){
+//                        let key = rtn.data.aggregate_cate_prop_map[val],Object = {};
+//                        Object[key] = rtn.data.aggregate_cate_prop_map[val].split(',');
+//                        this.condition.push(Object);
+//                    }
                 })
             },
 
@@ -259,7 +254,6 @@
                 margin-left: 12px;
                 .el-tag{
                     border:1px solid #ff3b41;
-                    width:80px;
                     height: 20px;
                     line-height: 18px;
                     border-radius: 0;
@@ -269,10 +263,12 @@
                     color: #ff3b41;
                     text-align: center;
                     position: relative;
+                    padding: 0 15px;
                     i{
                         color: #ff3b41;
-                        left: 10px;
-                        top:-2px;
+                        right: -1px;
+                        top:1px;
+                        position: absolute;
                     }
                     i:hover{
                         color: #ff3b41;
@@ -281,6 +277,9 @@
                 .el-tag:nth-child(1){
                     i{
                     }
+                }
+                .el-tag__close:hover{
+                    background-color: transparent;
                 }
             }
         }
@@ -298,9 +297,10 @@
                 position: relative;
                 border-bottom: 1px dashed #e3e3e3;
                 margin-bottom: 0;
-                transition: all ease 5s;
+                padding-left: 50px;
                 label{
                     line-height: 36px;
+                    overflow: hidden;
                 }
                 label::after{
                     content:':';
@@ -529,48 +529,37 @@
                     li{
                         width:19%;
                         margin-right: 1%;
-                        height: 430px;
                         overflow: hidden;
                         margin-top: 36px;
                         text-align: center;
-                        border:1px  solid #ddd;
+                        border:1px  solid #f2f2f2;
                         .img{
                             width:100%;
                             height: 222px;
                             background-position: center center;
                             background-size: contain;
                             background-repeat: no-repeat;
-                            margin-bottom: 48px;
                             transition: all ease .4s;
                         }
-                        p.brand{
-                            line-height: 18px;
-                            height: 18px;
-                            font-weight: bold;
-                            font-size: 14px;
-                            color: #707070;
-                            transition: all ease .2s;
-                        }
                         p.name{
-                            margin: 10px 0;
+                            margin: 10px;
                             font-size: 14px;
                             color: #a3a3a3;
+                            line-height: 18px;
+                            height: 54px;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            display: -webkit-box;
+                            -webkit-line-clamp: 3;
+                            -webkit-box-orient: vertical;
                         }
-                        p.sin{
-                            margin: 10px 10px;
-                            padding-bottom: 10px;
-                            font-size: 14px;
-                            color: #a3a3a3;
-                            border-bottom: 1px solid #ddd;
-                            transition: all ease .2s;
-                        }
-
                         p.price{
-                            color:#ff3d43;
+                            border-top:solid 1px #f2f2f2;
+                            color:#ff3d41;
                             font-size: 26px;
                             font-weight: bold;
-                            padding-bottom: 28px;
-                            transition: all ease .2s;
+                            margin-top: 24px;
+                            padding: 24px 0 30px 0;
                         }
                         position: relative;
                         .handle{
@@ -611,20 +600,6 @@
                         top:100%;
                         left:15px;
 
-                    }
-                    li:hover{
-                        .img{
-                            margin-bottom: 0px;
-                        }
-                        p.brand{
-                            margin-top: 6px;
-                        }
-                        p.sin{
-                            margin-bottom: 8px;
-                        }
-                        p.price{
-                            padding-bottom: 20px;
-                        }
                     }
                     li:nth-child(5n){
                         margin-right: 0;

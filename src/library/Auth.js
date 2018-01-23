@@ -24,7 +24,6 @@ Vue.directive('ltsLoginShow',{
         }else{
             el.style.display = 'none'
         }
-
     }
 })
 

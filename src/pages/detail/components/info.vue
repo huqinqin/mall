@@ -7,20 +7,12 @@
         </el-breadcrumb>
         <div class="detail-top">
             <div class="detail-img-box">
-                <div class="prc_info" v-for="prc in item.item_images" :key="prc.index">
-                    <div class="big" :style="{backgroundImage:'url('+prc.url+')'}">
+                <div class="prc_info" >
+                    <div class="big" :style="{backgroundImage:'url('+activeImg.url+')'}">
                     </div>
                     <!--大图下面的小图-->
                     <div class="small">
-                        <div @click="showImage" class="small_img is_active" :style="{backgroundImage:'url('+prc.url+')'}"></div>
-                    </div>
-                </div>
-                <!-- 商品编号 -->
-                <div class="info_num"  v-for="prc in prc_info" :key="prc.index">
-                    <div>商品编号：<span>{{prc.num}}</span></div>
-                    <div class="icons">
-                        <div class="follow"><i class="iconfont icon-follow"></i>关注</div>
-                        <div class="share"><i class="iconfont icon-09"></i>分享</div>
+                        <div  class="small_img" v-for="prc in item.item_images" :key="prc.index" @mouseover="showImage(prc,$event)" :style="{backgroundImage:'url('+prc.url+')'}"></div>
                     </div>
                 </div>
             </div>
@@ -29,7 +21,7 @@
                 <h3>{{item.item_name}}</h3>
                 <p class="brief">{{item.promotion_title}}</p>
                 <!-- 商品属性-->
-                <el-form label-position="left" label-width="80px" ref="ruleForm">
+                <el-form label-position="left" label-width="120px" ref="ruleForm">
                     <el-form-item label="价格" prop>
                         <div class="tips" v-ltsLoginShow:false>完成登录注册，享受惊爆价</div>
                         <div v-ltsLoginShow:true class="detail_price" v-if="!checkedSpu.price">${{item.price}}</div>
@@ -38,7 +30,10 @@
                     <div :class="[showPropsError ? 'error' : '']" @click="closeError">
                         <el-form-item v-for="prop in item.item_prop_value_maps" :key="prop.prop_name" :label="prop.prop_name" class="radio sku_prop" >
                             <el-radio-group v-model="prop.checked_prop">
-                                <el-radio v-for="propValue in prop.prop_values"  :disabled="!propValue.can_checked" :label="propValue.value" :key="propValue.value" :change="checkedProp(prop,item)"  border>{{propValue.value}}</el-radio>
+                                <el-radio v-for="propValue in prop.prop_values"  :disabled="!propValue.can_checked" :label="propValue.value" :key="propValue.value" :change="checkedProp(prop,item)"  border>
+                                    {{propValue.value}}
+                                    <i class="iconfont icon-duihao"></i>
+                                </el-radio>
                             </el-radio-group>
                         </el-form-item>
                         <i class="el-icon-close"></i>
@@ -742,6 +737,7 @@
                         "wholesale":false
                     }
                 ],
+                activeImg : '',
                 aboutDetail: {
                     '商品编号': '34598739792',
                     '外形': '半球形',
@@ -767,6 +763,7 @@
             getItemDetail(id){
                 itemService.getItemDetail(id).then((data)=>{
                     this.item = data.data
+                    this.activeImg = this.item.item_images[0];
                 },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.errorMessage})
                 })
@@ -886,9 +883,10 @@
                   return true;
               }
             },
-            showImage(e){
+            showImage(prc,e){
                 $(e.currentTarget).addClass('is_active')
                 $(e.currentTarget).siblings().removeClass('is_active')
+                this.activeImg = prc;
             },
             closeError(){
               this.showPropsError = false;
@@ -903,7 +901,6 @@
 </script>
 
 <style lang="less">
-    @import '//at.alicdn.com/t/font_516449_1in90gr5l8yyzaor.css';
     .detail{
         .el-breadcrumb{
             font-size: 14px;
@@ -928,15 +925,19 @@
                     }
                     .small{
                         display: flex;
-                        justify-content: space-between;
+                        justify-content: center;
                         .small_img{
-                            width: 80px;
-                            height: 80px;
+                            width: 60px;
+                            height: 60px;
                             background-size: cover;
                             border:1px solid rgba(0,0,0,0);
                             background-position: center;
                             cursor: pointer;
-
+                            border:solid 1px #eee;
+                            margin-right: 20px;
+                        }
+                        .small_img:last-child{
+                            margin-right: 0px;
                         }
                         .is_active{
                             border:solid 1px #48a2ff;
@@ -1026,12 +1027,13 @@
                 }
                 .radio{
                     .el-radio{
-                        width: 60px;
-                        height: 20px;
-                        padding:0;
+                        height: 28px;
+                        padding: 0;
                         border-radius: 0;
-                        text-align: center;
-                        margin-right: 24px;
+                        line-height: 28px;
+                        font-size: 14px;
+                        width: auto!important;
+                        border:1px solid #b8b7bd ;
                         .el-radio__input{
                             display: none;
                         }
@@ -1040,11 +1042,14 @@
                             font-size: 12px;
                             color: rgba(0,0,0,0.5);
                             line-height: 19px;
-                            margin-left: -10px;
+                            padding: 0 9px;
                         }
                     }
+                    .iconfont {
+
+                    }
                     .el-radio:hover{
-                        border:1px solid #ff3b41;
+                        border:1px solid #FF0036
                     }
                     .el-radio.is-checked{
                         border:1px solid #ff3b41;

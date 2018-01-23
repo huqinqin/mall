@@ -203,7 +203,6 @@
             },
             getLocalUser(){
                 this.userInfo = JSON.parse(store.getItem(config.sessDataName));
-                console.log(this.userInfo);
             },
             showLogin(data){
                 this.loginVisible = true
@@ -244,7 +243,6 @@
                     label:'全部',
                     value:''
                 })
-                console.log(data)
             },
             handleChange(value){
                 // 级联选择器选择类目

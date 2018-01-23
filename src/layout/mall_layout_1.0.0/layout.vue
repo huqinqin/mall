@@ -145,7 +145,6 @@
     .lts-main {
         .el-main{
           padding: 0;
-          min-height:800px;
           background-color: white;
         }
         .el-footer {

@@ -56,4 +56,11 @@ export default class OrderService extends BaseService {
         };
         return super.getRequest('/store/order/detail',params);
     }
+    /*获取订单的详细信息*/
+    static detailOrder(param){
+        let params = {
+            tid: param
+        };
+        return super.getRequest('/store/order/query_single_by_tid',params);
+    }
 }

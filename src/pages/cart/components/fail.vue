@@ -5,8 +5,8 @@
             <div class="content">
                 <h3>支付失败</h3>
                 <p>订单编号:{{tid}}</p>
-                <p>收货人：{{this.detailOrder.user_name}} {{this.detailOrder.receive_mobile}}</p>
-                <p>收货地址：{{this.detailOrder.user_addr}}</p>
+                <p>收货人：{{this.detailOrder.user_name}} {{this.detailOrder.mobile}}</p>
+                <p>收货地址：{{this.detailOrder.address}}</p>
                 <p>物流方式：{{method}}</p>
                 <div class="button">
                     <button class="go" @click="gogogo"><span>我的订单</span></button>
@@ -18,11 +18,14 @@
 </template>
 
 <script>
+    import detailOrder from '@/services/OrderService'
     export default {
         name: "finish",
         data(){
             return{
-              tid:0
+                tid:0,
+                detailOrder:[],
+                method:"快递"
             }
         },
         methods:{
@@ -37,7 +40,7 @@
                 console.log(this.tid);
                 detailOrder.detailOrder(this.tid).then((data) => {
                     this.$ltsMessage.show({type:'success',message:"下单成功"});
-                    this.detailOrder = data.data;
+                    this.detailOrder = JSON.parse(data.data.user_addr);
                     if(this.detailOrder.wholesale_order_items[0].s_h_s_m === true){
                         this.method = "送货上门"
                     }else{

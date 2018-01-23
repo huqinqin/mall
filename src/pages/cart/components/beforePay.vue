@@ -57,11 +57,11 @@
                     amount: ''
                 },
                 creditData: {
-                    src: 'src/assets/pay/credit.png',
+                    src: '/src/assets/pay/credit.png',
                     alt: 'credit'
                 },
                 onlineData: {
-                    src: 'src/assets/pay/alipay.png',
+                    src: '/src/assets/pay/aplipay.png',
                     alt: 'alipay'
                 },
             }

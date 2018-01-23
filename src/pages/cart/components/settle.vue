@@ -386,7 +386,7 @@
                     remarkList : this.remark,
                     hidePrice : this.inPriceType,
                     hdMethod : this.deliveryType,
-                    userAddr : '',
+                    userAddr : this.checkedAddress,
                     payMethod: "online",
                     source: "work.500mi.com.shop.pifa.market"
                 };

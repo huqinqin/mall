@@ -33,11 +33,10 @@
                       <el-cascader
                           slot="prepend"
                           :placeholder="select"
-                          :show-all-levels="false"
                           expand-trigger="hover"
                           :options="options"
                           v-model="selectedOptions"
-                          style="width: 150px"
+                          style="width: 240px"
                           @change="handleChange">
                       </el-cascader>
                       <el-button slot="append" icon="el-icon-search" @click="searchToHref"></el-button>
@@ -67,10 +66,10 @@
                         </div>
                     </el-form-item>
                     <el-form-item>
-                        <button  @click="login">登录</button>
+                        <button type="button" @click="login">登录</button>
                     </el-form-item>
                     <el-form-item>
-                        <button  class="signup">注册</button>
+                        <button type="button" class="signup">注册</button>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
@@ -254,7 +253,7 @@
                 let cateList = []
                 if(this.$route && this.$route.query.cateId){
                     this.$route.query.cateId.split(",").forEach((value) => {
-                        cateList.push(+value)
+                        cateList.push(+value);
                     })
                     this.selectedOptions = cateList;
                 }
@@ -265,13 +264,11 @@
         },
         created(){
             this.selfContext.$on("showLogin",this.showLogin)
-            this.getLocalUser()
             this.isShowMenu = config.isCart;
-        },
-        mounted(){
+            this.getLocalUser()
             this.getParamas()
             this.getLocalStorage()
-        }
+        },
     }
 </script>
 <style lang="less">

@@ -48,7 +48,7 @@
                                         退款已关闭
                                     </span>
                                     <span v-else>
-                                        12345678{{subscope.row.status_title}}
+                                        {{subscope.row.status_title}}
                                     </span>
                                 </span>
                             </template>

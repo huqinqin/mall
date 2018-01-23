@@ -13,17 +13,17 @@
             <div class="credit">
                 <h6>信用卡：</h6>
                 <ul>
-                    <li v-for="item in creditData" :class="{chosen:chosenItem === item.alt}" @click="toggleChoose(item.alt)"><img :src=item.src :alt=item.alt></li>
-                    <li class="addCredit" @click="addCredit">
-                        <i class="iconfont icon-add"></i>
-                        <div>添加信用卡</div>
+                    <li :class="{chosen:chosenItem === item.alt}" @click="toggleChoose(creditData.alt)">
+                        <img src='/src/assets/credit.png' :alt=creditData.alt>
                     </li>
                 </ul>
             </div>
             <div class="online">
                 <h6>在线支付：</h6>
                 <ul>
-                    <li v-for="item in onlineData" :class="{chosen:chosenItem === item.alt}" @click="toggleChoose(item.alt)"><img :src=item.src :alt=item.alt></li>
+                    <li :class="{chosen:chosenItem === item.alt}" @click="toggleChoose(onlineData.alt)">
+                        <img src='/src/assets/alipay.png' :alt=onlineData.alt>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -32,6 +32,14 @@
         </div>
     </div>
 </template>
+
+
+
+
+
+
+
+
 
 <script>
     import $ from 'jquery'
@@ -49,29 +57,33 @@
                     name: '摄像头',
                     amount: 500
                 },
-                creditData: [{
-                    src: require('@/assets/img/xinyongka02_html.png'),
-                    alt: 'credit1'
-                },{
-                    src: require('@/assets/img/xinyongka02_html.png'),
-                    alt: 'credit2'
-                },{
-                    src: require('@/assets/img/xinyongka02_html.png'),
-                    alt: 'credit3'
-                },{
-                    src: require('@/assets/img/xinyongka02_html.png'),
-                    alt: 'credit4'
-                }],
-                onlineData: [{
-                    src: require('@/assets/img/xinyongka02_html.png'),
-                    alt: 'online5'
-                },{
-                    src: require('@/assets/img/xinyongka02_html.png'),
-                    alt: 'online6'
-                },{
-                    src: require('@/assets/img/xinyongka02_html.png'),
-                    alt: 'online7'
-                }]
+                creditData: {
+                    src: '/src/assets/credit.png',
+                    alt: 'credit'
+                },
+                // {
+                //     src: require('@/assets/img/xinyongka02_html.png'),
+                //     alt: 'credit2'
+                // },{
+                //     src: require('@/assets/img/xinyongka02_html.png'),
+                //     alt: 'credit3'
+                // },{
+                //     src: require('@/assets/img/xinyongka02_html.png'),
+                //     alt: 'credit4'
+                // }
+
+                onlineData: {
+                    src: '/src/assets/alipay.png',
+                    alt: 'alipay'
+                },
+                // {
+                //     src: require('@/assets/img/xinyongka02_html.png'),
+                //     alt: 'online6'
+                // },{
+                //     src: require('@/assets/img/xinyongka02_html.png'),
+                //     alt: 'online7'
+                // }
+
             }
         },
         methods:{

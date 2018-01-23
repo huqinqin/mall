@@ -10,25 +10,23 @@
         </div>
         <div class="condition" :class="{shown: minItem > 3}" v-if="condition.length > 0">
             <el-form>
-                <div  v-for="(propObj,index) in condition" :key="index">
-                    <el-form-item
-                        :class="{showAll: key === selectedItem }"
-                        v-for="(prop,key,count) in propObj"
-                        :label="key"
-                        :key = "key"
-                        label-width="300px"
-                        label-position="right"
-                        v-show="index < minItem">
-                        <ul>
-                            <li v-for="(subItem,index) in prop" @click="searchWithText(propObj,subItem)" :key="subItem">
-                                {{subItem}}
-                            </li>
-                        </ul>
-                        <!--<div class="buttons" @click="showAllCondition" ref="buttons">-->
-                        <!--<button>更多</button><i class="iconfont icon-xianshigengduo"></i>-->
-                        <!--</div>-->
-                    </el-form-item>
-                </div>
+                <el-form-item
+                    v-for="(propObj,index) in condition"
+                    :label="propObj.name"
+                    :key = "propObj.name"
+                    :class="{showAll: propObj.name === selectedItem }"
+                    label-width="300px"
+                    label-position="right"
+                    v-show="index < minItem">
+                    <ul>
+                        <li v-for="(subItem,index) in propObj.value" @click="searchWithText(propObj,subItem)" :key="subItem">
+                            {{subItem}}
+                        </li>
+                    </ul>
+                    <!--<div class="buttons" @click="showAllCondition" ref="buttons">-->
+                    <!--<button>更多</button><i class="iconfont icon-xianshigengduo"></i>-->
+                    <!--</div>-->
+                </el-form-item>
 
             </el-form>
             <div class="loadMore" @click="showMore" v-if="condition.length > 3">
@@ -167,11 +165,12 @@
                     this.search.totalPage = rtn.data.total;
 
                     this.rightTotal = Math.ceil(this.search.totalPage/this.search.pageSize);
-                    for(let val in rtn.data.aggregate_cate_prop_map){
-                        let key = rtn.data.aggregate_cate_prop_map[val],Object = {};
-                        Object[key] = rtn.data.aggregate_cate_prop_map[val].split(',');
-                        this.condition.push(Object);
-                    }
+                    this.condition = rtn.data.aggregate_cate_prop_list;
+//                    for(let val in rtn.data.aggregate_cate_prop_map){
+//                        let key = rtn.data.aggregate_cate_prop_map[val],Object = {};
+//                        Object[key] = rtn.data.aggregate_cate_prop_map[val].split(',');
+//                        this.condition.push(Object);
+//                    }
                 })
             },
 
@@ -255,7 +254,6 @@
                 margin-left: 12px;
                 .el-tag{
                     border:1px solid #ff3b41;
-                    width:80px;
                     height: 20px;
                     line-height: 18px;
                     border-radius: 0;
@@ -265,6 +263,7 @@
                     color: #ff3b41;
                     text-align: center;
                     position: relative;
+                    padding: 0 15px;
                     i{
                         color: #ff3b41;
                         right: -1px;

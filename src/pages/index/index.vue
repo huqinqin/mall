@@ -1,7 +1,7 @@
 <template>
   <div class="_index">
      <!-- banner -->
-    <div class="banner">
+    <div class="banner" v-if="index_banner.length > 0">
       <el-carousel height="500px" :autoplay=isAuto>
         <el-carousel-item v-for="banner in index_banner" :key="banner.banner_url" :autoplay="isAuto">
           <a :href="banner.link_url">
@@ -42,7 +42,7 @@
     </div>
      <!-- main -->
     <div class="content">
-        <div class="item-box">
+        <div class="item-box" v-if="itemList.length > 0">
             <div v-for="itemlist in itemList" :key="itemlist.name">
               <div class="item-list-title">
                   <div class="i">
@@ -55,7 +55,7 @@
               </div>
               <ul class="item-list-box">
                   <li  v-for="item in itemlist.items" :key="item.sin">
-                      <a :href="'/detail?#/?id=' + item.id">
+                      <a :href="'/detail#/?id=' + item.id">
                           <div class="img" :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+item.url+')'}"></div>
                       </a>
                           <div class="item-spec">
@@ -73,13 +73,13 @@
             </div>
         </div>
         <!-- side -->
-        <div class="side">
+        <div class="side" v-if="hotList.length > 0">
               <div class="title">
                  <div class="i"><span>热卖单品</span></div>
               </div>
               <ul class="best-sellers">
                   <li v-for="item in hotList" :key="item.id">
-                      <a :href="'/detail?#/?id=' + item.id">
+                      <a :href="'/detail#/?id=' + item.id">
                           <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
                           <div class="item-spec">
                               <p class="line-one">{{item.brand}}</p>

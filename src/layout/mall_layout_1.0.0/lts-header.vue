@@ -29,7 +29,7 @@
                 </ul>
               </div>
               <div class="s-span-page search-bar">
-                  <el-input placeholder="请输入内容" v-model="keywords" class="input-with-select">
+                  <el-input placeholder="搜索商品" v-model="keywords" class="input-with-select">
                       <el-cascader
                           slot="prepend"
                           :placeholder="select"
@@ -37,6 +37,7 @@
                           expand-trigger="hover"
                           :options="options"
                           v-model="selectedOptions"
+                          style="width: 150px"
                           @change="handleChange">
                       </el-cascader>
                       <el-button slot="append" icon="el-icon-search" @click="searchToHref"></el-button>
@@ -48,11 +49,11 @@
             <el-dialog :visible.sync="loginVisible">
                 <el-form :model="form" :rules="loginRules">
                     <el-form-item class="head">
-                        <i class="iconfont icon-turnoff"></i>
+                        <i class="iconfont icon-turnoff" @click="loginVisible = false"></i>
                         <img src="@/assets/img/denglu.tou.png" alt="顶部图片">
                     </el-form-item>
                     <el-form-item label="用户名/邮箱：" prop="acount">
-                        <el-input v-model="form.acount" placeholder="请输入您的用户名或邮箱"></el-input>
+                        <el-input name="test"  v-model="form.acount" placeholder="请输入您的用户名或邮箱"></el-input>
                     </el-form-item>
                     <el-form-item label="密码：" prop="password" class="password">
                         <el-input type="password" ref="password" v-model="form.password" placeholder="请输入您的密码">
@@ -62,15 +63,14 @@
                     <el-form-item>
                         <div class="aboutPassword">
                             <el-checkbox v-model="form.checked">记住密码</el-checkbox>
-                            <!--<el-radio v-model="form.radio" label="1">备选项</el-radio>-->
                             <div><a href="#">忘记密码?</a></div>
                         </div>
                     </el-form-item>
                     <el-form-item>
-                        <button @click="login">登录</button>
+                        <button  @click="login">登录</button>
                     </el-form-item>
                     <el-form-item>
-                        <button class="signup">注册</button>
+                        <button  class="signup">注册</button>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
@@ -175,8 +175,6 @@
           }
         },
         methods:{
-            login(){
-            },
             logout(){
                 userService.logout().then((resp)=>{
                     session.logout();
@@ -190,6 +188,7 @@
                     this.loginVisible = false;
                     this.getUserInfo();
                 },(msg)=>{
+
                     this.$ltsMessage.show({type:'error',message:msg.error_message})
                 })
             },
@@ -426,9 +425,10 @@
                                 font-size: 20px;
                                 display: block;
                                 position: absolute;
-                                top: -4px;
-                                left: 352px;
+                                top: 4px;
+                                right: -30px;
                                 cursor: pointer;
+                                color: white;
                             }
                             i:hover{
                                 color:white;
@@ -437,7 +437,6 @@
                         .el-form-item{
                             padding: 0 40px;
                             margin-bottom: 0;
-
                             img{
                                 width:381px;
                                 height: 80px;

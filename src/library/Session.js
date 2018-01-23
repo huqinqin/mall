@@ -29,6 +29,6 @@ export default {
     },
     logout(){
         store.removeItem(config.sessDataName);
-        location.href = config.loginPage;
+        location.href = config.homePage;
     }
 }

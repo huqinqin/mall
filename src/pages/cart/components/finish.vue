@@ -1,21 +1,18 @@
 <template>
     <div class="finish">
-        <div class="mark"><p>您的订单已经生成，请尽快完成支付，防止商品被抢光</p></div>
+        <div class="mark"><p>恭喜您，订单已经支付完成！</p></div>
         <div class="result">
-            <img src="../../../assets/img/tup_html.png" alt="goods">
             <div class="content">
                 <h3>支付成功</h3>
-                <p>商品名称：摄像头</p>
-                <p>商品编号：{{tid}}</p>
-                <p>收货人：抹茶 183 **** 5921</p>
-                <p>收货地址：西湖区三墩镇振华路西城博司12楼1201</p>
-                <p>物流方式：快递</p>
-                <p>支付方式：信用卡</p>
+                <p>订单编号:{{tid}}</p>
+                <p>收货人：{{this.detailOrder.user_name}} {{this.detailOrder.receive_mobile}}</p>
+                <p>收货地址：{{this.detailOrder.user_addr}}</p>
+                <p>物流方式：{{method}}</p>
+                <p>支付方式: 信用卡</p>
                 <div class="button">
-                    <button class="go" @click="backToIndex"><span>回到首页</span></button>
-                    <button class="back" @click="back"><span>订单详情</span></button>
+                    <button class="go" @click="gogogo"><span>我的订单</span></button>
+                    <button class="back" @click="back"><span>回到首页</span></button>
                 </div>
-                
             </div>
         </div>
     </div>
@@ -29,18 +26,33 @@
             }
         },
         methods:{
-            backToIndex(){
-                alert('再逛逛')
+            gogogo(){
+                this.$router.push({name:"order",params:{}});
             },
             back(){
-                alert('回首页')
+                this.$router.push({path:"/",params:{}});
             },
             getTid(){
                 this.tid = this.$route.params.tid;
+                console.log(this.tid);
+                detailOrder.detailOrder(this.tid).then((data) => {
+                    this.$ltsMessage.show({type:'success',message:"下单成功"});
+                    this.detailOrder = data.data;
+                    if(this.detailOrder.wholesale_order_items[0].s_h_s_m === true){
+                        this.method = "送货上门"
+                    }else{
+                        this.method = "快递"
+                    }
+                    console.log(data);
+                },(msg) => {
+                    this.$ltsMessage.show({type:'error',message:msg.error_message})
+                    console.log(msg);
+                })
             }
         },
         mounted(){
             this.getTid();
+            this.$emit('submit',4);
         }
     }
 </script>

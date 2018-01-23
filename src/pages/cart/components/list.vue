@@ -7,7 +7,7 @@
             style="width: 100%" align="right"
             @selection-change="handleSelectionChange">
              <el-table-column type="selection"  align="right" @change="checkItem"></el-table-column>
-             <el-table-column label="商品信息"   align="center">
+             <el-table-column label="商品信息"   align="center" width="510">
                     <template slot-scope="scope">
                         <div class="item-img" :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+scope.row.url+')'}"></div>
                         <div class="content">
@@ -20,9 +20,9 @@
                         </ul>
                     </template>
              </el-table-column>
-             <el-table-column prop="price" width="200" label="单价" align="center">
+             <el-table-column prop="price" width="" label="单价" align="center">
              </el-table-column>
-             <el-table-column prop="price" width="200" label="库存" align="center">
+             <el-table-column prop="price" width="" label="库存" align="center">
                  <template slot-scope="scope">
                      <p v-if="scope.row.item_props[0].storage >= scope.row.num">有货</p>
                      <p v-else>库存不足</p>
@@ -35,12 +35,12 @@
                     </div>
                 </template>
              </el-table-column>
-             <el-table-column label="小计" width="200" align="center">
+             <el-table-column label="小计" width="" align="center">
                 <template slot-scope="scope">
                     <div class="count" ref="count">{{scope.row.num*scope.row.price}}</div>
                 </template>
              </el-table-column>
-             <el-table-column label="操作" width="200" align="center">
+             <el-table-column label="操作" width="" align="center">
                 <template slot-scope="scope">
                     <div class="cart-delete" @click="deleteHandle(scope.$index, scope.row)">
                         <i class="iconfont icon-shanchu"></i>
@@ -178,7 +178,7 @@
             // 购物车结算
             check() {
                 this.$emit('submit', 1)
-                this.$router.push({name: 'settle', params: { items: [this.multipleSelection],price:this.totalPrice }})
+                this.$router.push({name: 'settle', params: { 'items': this.multipleSelection,"cartItems":this.cartItemList,"cartTotal":this.cart}})
             },
             // 修改购物车数量
             inputNumeberChange(row){

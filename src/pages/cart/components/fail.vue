@@ -1,17 +1,16 @@
 <template>
     <div class="finish">
-        <div class="mark"><p>您的订单已经生成，请尽快完成支付，防止商品被抢光</p></div>
+        <div class="mark"><p>您在支付的时候好像出现了一些问题</p></div>
         <div class="result">
             <div class="content">
                 <h3>支付失败</h3>
-                <p>商品编号：{{tid}}</p>
-                <p>收货人：抹茶 183 **** 5921</p>
-                <p>收货地址：西湖区三墩镇振华路西城博司12楼1201</p>
-                <p>物流方式：快递</p>
-                <p>支付方式：信用卡</p>
+                <p>订单编号:{{tid}}</p>
+                <p>收货人：{{this.detailOrder.user_name}} {{this.detailOrder.receive_mobile}}</p>
+                <p>收货地址：{{this.detailOrder.user_addr}}</p>
+                <p>物流方式：{{method}}</p>
                 <div class="button">
-                    <button class="go" @click="gogogo"><span>再逛逛</span></button>
-                    <button class="back" @click="back"><span>回首页</span></button>
+                    <button class="go" @click="gogogo"><span>我的订单</span></button>
+                    <button class="back" @click="back"><span>回到首页</span></button>
                 </div>
             </div>
         </div>
@@ -28,13 +27,27 @@
         },
         methods:{
             gogogo(){
-                alert('再逛逛')
+                this.$router.push({name:"order",params:{}});
             },
             back(){
-                alert('回首页')
+                this.$router.push({path:"/",params:{}});
             },
             getTid(){
                 this.tid = this.$route.params.tid;
+                console.log(this.tid);
+                detailOrder.detailOrder(this.tid).then((data) => {
+                    this.$ltsMessage.show({type:'success',message:"下单成功"});
+                    this.detailOrder = data.data;
+                    if(this.detailOrder.wholesale_order_items[0].s_h_s_m === true){
+                        this.method = "送货上门"
+                    }else{
+                        this.method = "快递"
+                    }
+                    console.log(data);
+                },(msg) => {
+                    this.$ltsMessage.show({type:'error',message:msg.error_message})
+                    console.log(msg);
+                })
             }
         },
         mounted(){

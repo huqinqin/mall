@@ -3,7 +3,7 @@
         <div class="mark"><p>您的订单已经生成，请尽快完成支付，防止商品被抢光</p></div>
         <div class="info">
             <p>订单编号：{{formData.number}}</p>
-            <p><span>商品名称：{{formData.name}}</span><span>应付金额：${{formData.amount}}</span><span>物流方式：{{formData.delivery}}</span></p>
+            <p><span>应付金额：${{formData.amount}}</span></p>
         </div>
         <div class="payment">
             <h5>支付方式</h5>
@@ -13,16 +13,16 @@
             <div class="credit">
                 <h6>信用卡：</h6>
                 <ul>
-                    <li :class="{chosen:chosenItem === item.alt}" @click="toggleChoose(creditData.alt)">
-                        <img src='/src/assets/credit.png' :alt=creditData.alt>
+                    <li :class="{chosen:chosenItem === creditData.alt}" @click="toggleChoose(creditData.alt)">
+                        <img :src=creditData.src :alt=creditData.alt>
                     </li>
                 </ul>
             </div>
             <div class="online">
                 <h6>在线支付：</h6>
                 <ul>
-                    <li :class="{chosen:chosenItem === item.alt}" @click="toggleChoose(onlineData.alt)">
-                        <img src='/src/assets/alipay.png' :alt=onlineData.alt>
+                    <li :class="{chosen:chosenItem === creditData.alt}" @click="toggleChoose(onlineData.alt)">
+                        <img :src=onlineData.src :alt=onlineData.alt>
                     </li>
                 </ul>
             </div>
@@ -49,81 +49,29 @@
         name: "beforePay",
         data(){
             return{
-                useCredit: true,
+                useCredit: false,
                 chosenItem:'',
+                tid:'',
                 formData: {
-                    number: 2389498484950043,
-                    delivery: '快递',
-                    name: '摄像头',
-                    amount: 500
+                    number: '',
+                    amount: ''
                 },
                 creditData: {
-                    src: '/src/assets/credit.png',
+                    src: 'src/assets/pay/credit.png',
                     alt: 'credit'
                 },
-                // {
-                //     src: require('@/assets/img/xinyongka02_html.png'),
-                //     alt: 'credit2'
-                // },{
-                //     src: require('@/assets/img/xinyongka02_html.png'),
-                //     alt: 'credit3'
-                // },{
-                //     src: require('@/assets/img/xinyongka02_html.png'),
-                //     alt: 'credit4'
-                // }
-
                 onlineData: {
-                    src: '/src/assets/alipay.png',
+                    src: 'src/assets/pay/alipay.png',
                     alt: 'alipay'
                 },
-                // {
-                //     src: require('@/assets/img/xinyongka02_html.png'),
-                //     alt: 'online6'
-                // },{
-                //     src: require('@/assets/img/xinyongka02_html.png'),
-                //     alt: 'online7'
-                // }
-
             }
         },
         methods:{
             payTotalPrice(){
+                console.log(this.$route.params)
                 this.formData.amount = this.$route.params.item[0];
                 this.formData.number = this.$route.params.item[1];
-                console.log(this.$route.params.item[1]);
-                console.log(this.formData.amount);
-            },
-            addCredit(){
-                alert('add credit')
-            },
-            goPay(){
-                //this.$router.push({path: '/finish'});
-                let tid = this.$route.params.item[1];
-                console.log(tid);
-                let return_url = '/cart#/finish';
-                let fail_url = '/cart#/fail';
-                this.$confirm('正在支付。。。', '提示', {
-                    confirmButtonText: '支付完成',
-                    type: 'warning',
-                    showClose: false,
-                    showCancelButton: false
-                }).then(() => {
-                    this.checkOrder(tid);
-                }).catch(() => {
-                });
-                window.open(config.url.main + '/gateway/base/pay/alipay/create_pay?tid='+tid+'&return_url='+ config.url.main + return_url +'&fail_url='+ config.url.main + fail_url +'');
-            },
-            checkOrder(tid){
-                orderService.checkOrder(tid).then((data)=>{
-                    if(data.data.pay_status == 2){//已支付
-                        this.$router.push({name:"finish",params:{tid:tid}});
-                        this.$emit('submit',4);
-                    }else{//未支付
-                        this.$router.push({name:"fail",params:{tid:tid}});
-                    }
-                },(msg)=>{
-                    this.$router.push({name:"fail",params:{}});
-                });
+                this.tid = this.$route.params.item[1];
             },
             toggleChoose(key){
                 this.chosenItem = key
@@ -131,8 +79,33 @@
             },
             onlyCredit(){
                 this.chosenItem = ''
-            }
+            },
+            goPay(){
+                let return_url = '/customerorder#/finish';
+                let fail_url = '/customerorder#/fail';
 
+                this.$confirm('正在支付。。。', '提示', {
+                    confirmButtonText: '支付完成',
+                    type: 'warning',
+                    showClose: false,
+                    showCancelButton: false
+                }).then(() => {
+                    this.checkOrder(this.tid);
+                }).catch(() => {
+                });
+                window.open(config.url.main + '/gateway/base/pay/alipay/create_pay?tid=' + this.tid + '&return_url=' + config.url.main + return_url + '&fail_url='+ config.url.main + fail_url + '');
+            },
+            checkOrder(tid){
+                orderService.checkOrder(tid).then((data)=>{
+                    if(data.data.pay_status === 2){//已支付
+                        this.$router.push({name:"finish",params:{tid:tid}});
+                    }else{//未支付
+                        this.$router.push({name:"fail",params:{tid:tid}});
+                    }
+                },(msg)=>{
+                    this.$router.push({name:"fail",params:{tid:tid}});
+                });
+            }
         },
         mounted(){
            this.payTotalPrice();

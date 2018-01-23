@@ -61,7 +61,7 @@
                         <el-input v-model="addForm.mobile"></el-input>
                     </el-form-item>
                     <el-form-item label="" class="radio">
-                        <el-checkbox v-model="setDefault">设为默认地址</el-checkbox>
+                        <el-checkbox v-model="addForm.setDefault">设为默认地址</el-checkbox>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
@@ -71,23 +71,22 @@
         </div>
         <div class="inPrice">
             <h5>送货单是否包含价格 </h5>
-            <el-radio-group v-model="inPrice">
-                <el-radio-button label="是"></el-radio-button>
-                <el-radio-button label="否"></el-radio-button>
+            <el-radio-group v-model="inPriceType">
+                <el-radio-button label="true">是</el-radio-button>
+                <el-radio-button label="false">否</el-radio-button>
             </el-radio-group>
-
         </div>
         <div class="delivery">
-            <h5>配送方式</h5>
-            <el-radio-group v-model="deliver">
-                <el-radio-button label="快递"></el-radio-button>
-                <el-radio-button label="自提"></el-radio-button>
+            <h5>配送方式： </h5>
+            <el-radio-group v-model="deliveryType">
+                <el-radio-button label="SHSM" value="">快递</el-radio-button>
+                <el-radio-button label="ZITI" value="">自提</el-radio-button>
             </el-radio-group>
         </div>
         <div class="order">
             <h5>订单信息</h5>
-            <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
-                <el-table-column label="商品信息"   align="left">
+            <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%">
+                <el-table-column label="商品信息"   align="left" width="520">
                     <template slot-scope="scope">
                         <div class="cart-item-info">
                             <img :src="'http://res.500mi.com/item/' + scope.row.url" alt="商品">
@@ -102,11 +101,11 @@
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="price" width="250" label="单价" align="center">
+                <el-table-column prop="price" width="" label="单价" align="center">
                 </el-table-column>
-                <el-table-column label="数量" width="250" prop="num" align="center">
+                <el-table-column label="数量" width="" prop="num" align="center">
                 </el-table-column>
-                <el-table-column label="小计" width="250" align="center">
+                <el-table-column label="小计" width="" align="center">
                     <template slot-scope="scope">
                         <div class="count" ref="count">{{scope.row.num*scope.row.price}}</div>
                     </template>
@@ -120,7 +119,7 @@
 
         <div class="someCount">
             <div class="count">
-                <p>商品应付金额 <span class="money">${{totalPrice}}</span></p>
+                <p>商品应付金额 <span class="money">${{sum.amount.toFixed(2)}}</span></p>
                 <p>运费 <span>+{{sum.express.toFixed(2)}}</span></p>
                 <p>税费 <span>+{{sum.tax.toFixed(2)}}</span></p>
                 <p>红包 <span>-{{sum.benefit.toFixed(2)}}</span></p>
@@ -150,15 +149,14 @@
         props: ['items'],
         data(){
             return{
+
+
                 info:JSON.parse(store.getItem('SESSION_DATA')),
-                totalPrice:0,
-                // 送货单是否包含价格，配送方式
-                inPrice:'否',
-                deliver:'快递',
-                // 是否使用余额
-                useBalance: true,
-                // 地址框
-                showAddAddress: false,
+                totalPrice:'',
+                inPriceType:'false', // 送货单是否包含价格，配送方式
+                deliveryType:'SHSM', // 送货上门or快递
+                useBalance: false,   // 是否使用余额s
+                showAddAddress: false, // 地址框
                 showEditAddress: false,
                 cityOptions: [
                     {
@@ -242,11 +240,11 @@
                         ]
                     }
                 ],
-                setDefault: false,
                 defaultId:'',
-                addForm:{},
-                // 点击的是修改还是新增
-                editOrAdd: true,
+                addForm:{
+                    setDefault: false,
+                },
+                editOrAdd: true, // 点击的是修改还是新增
                 chooseAll: true,
                 checkedAddress: {},
                 addressData:[],
@@ -254,7 +252,7 @@
                 multipleTable: [],
                 num: 10,
                 sum: {
-                    amount: 500.00,
+                    amount: 0.00,
                     express: 0.00,
                     tax: 0.00,
                     benefit: 0.00,
@@ -270,8 +268,13 @@
                 }
             }
         },
-        methods: {
 
+        // computed: {
+        //     totalPrice: function () {
+        //         return this.sum.amount + this.sum.express + this.sum.tax - this.sum.benefit;
+        //     }
+        // },
+        methods: {
             // 设置默认地址
             toggleDefault(item){
                 addressService.toggleDefault(item).then((data) => {
@@ -311,6 +314,7 @@
                     this.addressData.forEach((value,index)=>{
                         if(value.status === 1){
                             this.defaultId = value.id
+                            this.checkedAddress = value
                         }
                         let position = value.address.indexOf(value.building)
                         if(position !== 0){
@@ -341,27 +345,10 @@
                     this.$ltsMessage.show({type:'success',message:'删除成功'})
                 })
             },
-            editBill(){
-                alert('edit bill')
-            },
-            addBill(){
-                alert('add bill')
-            },
-            handleSelectionChange(){
-                alert('handleSelectionChange')
-            },
-            inputNumberChange(){
-                alert('input numeber change')
-            },
             settle(){
                 this.submitOrder();
             },
-            deleteHandle(){
-                alert('asf')
-            },
-            useCoupon(){
-                alert('使用优惠券')
-            },
+
             /*queryCartList(){
                 this.tableData = cartService.queryCartList(158716).datalist;
 
@@ -397,8 +384,8 @@
                     user_id : this.user_id,
                     items : JSON.stringify(items),
                     remarkList : this.remark,
-                    hidePrice : this.inPrice == '否' ? false  : true,
-                    hdMethod : this.deliver == '快递' ? 'SHSM' : 'ZITI',
+                    hidePrice : this.inPriceType,
+                    hdMethod : this.deliveryType,
                     userAddr : '',
                     payMethod: "online",
                     source: "work.500mi.com.shop.pifa.market"
@@ -420,9 +407,6 @@
                         val.propValue = val.prop_value
                         console.log(val.propValue);
                     })
-                    /* value.item_props.forEach(function (val,key,array) {
-                         item_prop_ids.push(val.id)
-                     })*/
                     console.log(item_prop_ids);
                     let Obj = {
                         "id":value.id,
@@ -448,40 +432,22 @@
                 })
             },
             /*计算价格*/
-            // 选择订单是否包含价格
-            chooseInPrice(e){
-                switch(e.target.innerText){
-                    case '是':
-                        this.inPrice = 0
-                        break
-                    case '否':
-                        this.inPrice = 1
-                }
-            },
-
-            // 选择配送方式
-            chooseDeliver(e){
-                switch(e.target.innerText){
-                    case '快递':
-                        this.deliver = 0
-                        break
-                    case '自提':
-                        this.deliver = 1
-                }
-            },
-
         },
         mounted(){
-            if(this.$route.query && this.$route.query.item){
-                this.tableData.push(JSON.parse(this.$route.query.item));
-            }else{
-                this.tableData = this.$route.params.items[0];
-                setTimeout(()=>{
-                    this.sum.result = this.sum.amount + this.sum.express + this.sum.tax - this.sum.benefit;
-                },20)
-            }
+            console.log(this.$route.params)
+            this.tableData = this.$route.params.items;
+            this.sum.amount = this.$route.params.cartTotal.cartPriceTotal;
+            this.user_id = this.$route.params.userId;
+            // this.tableData.forEach(function (value,index,array) {
+            //     value.item_props.forEach(function (val,key,array) {
+            //         val.prop_value =  JSON.parse(val.prop_value);
+            //     })
+            // })
+            this.totalPrice = this.sum.amount + this.sum.express + this.sum.tax - this.sum.benefit
             this.getAddressList()
+
             this.simulateCreateTrade();
+
         },
   }
 </script>
@@ -504,12 +470,12 @@
         }
         .content{
             flex: 0 0 300px;
-            margin-left: -60%;
+            margin-left: 24px;
         }
         .other{
             flex:0 0 150px;
             text-align: left;
-            margin-left: -60%;
+            margin-left: 24px;
         }
         div{
             width:120px;
@@ -769,19 +735,20 @@
                 }
             }
         }
+
+
+
         .delivery,.inPrice{
             margin: 0 24px;
             .el-radio-group{
                 margin-bottom: 24px;
                 label{
-                    margin-right: 16px;
                     span{
                         width:120px;
                         height: 35px;
                         line-height: 8px;
                         border:none;
                         background: #f6f6f6;
-                        border-radius: 4px;
                     }
                 }
                 label.is-active{
@@ -793,7 +760,6 @@
             .el-button{
                 width: 120px;
                 height: 35px;
-                margin-left: 12px;
                 background-color: #f6f6f6;
                 margin-bottom: 48px;
                 line-height: 0px;

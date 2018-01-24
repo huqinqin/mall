@@ -65,7 +65,7 @@
                     </li>
                 </ul>
             </div>
-            <div v-for="itemlist in itemList" :key="itemlist.name">
+            <div v-for="itemlist in itemList" :key="itemlist.name" class="item-level">
               <div class="item-list-title">
                   <div class="i">
                       <span>{{itemlist.name}}</span>
@@ -385,7 +385,7 @@ import homeService from '@/services/HomeService.js'
             -webkit-transform: translate3d(0, -2px, 0);
             transform: translate3d(0, -2px, 0);
         }
-        li:last-child{
+        .item-level:last-child{
             margin-bottom: 20px;
         }
         li{

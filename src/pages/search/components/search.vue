@@ -1,7 +1,7 @@
 <template>
     <div class="search">
         <div class="nav">
-            <el-breadcrumb separator-class="el-icon-arrow-right">
+            <el-breadcrumb separator-class="el-icon-arrow-right" v-if="data.length > 0">
                 <el-breadcrumb-item :to="{ path: '/' }">商品</el-breadcrumb-item>
             </el-breadcrumb>
             <div class="tags" v-if="search.condition.length > 0">
@@ -36,7 +36,7 @@
                 </button>
             </div>
         </div>
-        <div class="content">
+        <div class="content" v-if="data.length > 0">
             <div class="header">
                 <div class="left">
                     <div class="synth" @click="selectOrderBy" :class="{active:activeItem == '综合'}">综合</div>
@@ -79,6 +79,11 @@
                     @current-change="changePage"></el-pagination>
             </div>
         </div>
+        <div v-else class="error">
+            <div :style="{backgroundImage: 'url('+errorImg+')'}">
+
+            </div>
+        </div>
     </div>
 </template>
 
@@ -119,6 +124,8 @@
                 data:[],
                 rightTotal : 0,
                 closeProps : false,
+
+                errorImg : require('@/assets/img/error.png'),
             }
 
         },
@@ -645,6 +652,18 @@
                     }
                 }
             }
+        }
+    }
+    .error{
+        width: 818px;
+        height: 417px;
+
+        margin: auto;
+        div{
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-repeat: no-repeat;
         }
     }
 </style>

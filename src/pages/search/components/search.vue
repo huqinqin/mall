@@ -30,8 +30,10 @@
 
             </el-form>
             <div class="loadMore" @click="showMore" v-if="condition.length > 3">
-                <button>更多选项</button>
-                <i class="iconfont icon-xianshigengduo"></i>
+                <button>
+                    <span>更多选项</span>
+                    <i class="iconfont icon-xianshigengduo"></i>
+                </button>
             </div>
         </div>
         <div class="content">
@@ -59,7 +61,10 @@
                         <a :href="'/detail#/?id=' + item.id">
                             <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
                             <p class="name">{{item.item_name}}</p>
-                            <p class="price">${{item.price_value}}</p>
+                            <div class="item-price">
+                                <button v-ltsLoginShow:false v-login>登录之后查看价格</button>
+                                <p class="price" v-ltsLoginShow:true>${{item.price_value}}</p>
+                            </div>
                         </a>
                     </li>
                 </ul>
@@ -210,7 +215,7 @@
             },
             // 加载所有条件
             showMore(){
-                this.minItem = this.minItem === 3 ? 100 : 3
+                this.minItem = this.minItem === 3 ? this.condition.length : 3
             },
 
             // 输入价格区间显示确定按钮
@@ -372,13 +377,14 @@
                     border: 1px solid #e3e3e3;
                     border-top: 1px solid #fff;
                     cursor: pointer;
-                }
-                i{
-                    position: relative;
-                    left:160px;
-                    top:-28px;
-                    cursor: pointer;
-                    display: block;
+                    display: flex;
+                    span{
+                        flex:1;
+                    }
+                    i{
+                        cursor: pointer;
+                        display: block;
+                    }
                 }
             }
             /*
@@ -553,13 +559,22 @@
                             -webkit-line-clamp: 3;
                             -webkit-box-orient: vertical;
                         }
-                        p.price{
+                        .item-price{
                             border-top:solid 1px #f2f2f2;
                             color:#ff3d41;
                             font-size: 26px;
                             font-weight: bold;
                             margin-top: 24px;
                             padding: 24px 0 30px 0;
+                            button {
+                                border: none;
+                                width:60%;
+                                height: 26px;
+                                font-weight: bold;
+                                font-size: 12px;
+                                color: #ff3b41;
+                                box-shadow: 0px 2px 15px 2px #e9e9e9;
+                            }
                         }
                         position: relative;
                         .handle{

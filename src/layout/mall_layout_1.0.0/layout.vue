@@ -140,7 +140,7 @@
       }
     }
     .el-header {
-        padding: 0;
+        padding: 0 !important;
     }
     .lts-main {
         .el-main{

@@ -7,18 +7,20 @@
             style="width: 100%" align="right"
             @selection-change="handleSelectionChange">
              <el-table-column type="selection"  align="right" @change="checkItem"></el-table-column>
-             <el-table-column label="商品信息"   align="center" width="510">
-                    <template slot-scope="scope">
+             <el-table-column label="商品信息"   align="center" width="600">
+                <template slot-scope="scope">
+                    <a :href="'/detail#/?id=' + scope.row.id">
                         <div class="item-img" :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+scope.row.url+')'}"></div>
                         <div class="content">
                             <p>{{scope.row.item_name}}</p>
                         </div>
                         <ul class="other">
                             <li v-for="(item,index) in scope.row.item_props">
-                                <span v-for="(val,key) in item.prop_value">{{key}}:{{val}}</span>
+                                <p v-for="(val,key) in item.prop_value">{{key}}:{{val}}</p>
                             </li>
                         </ul>
-                    </template>
+                    </a>
+                </template>
              </el-table-column>
              <el-table-column prop="price" width="" label="单价" align="center">
                  <template slot-scope="scope">
@@ -248,13 +250,12 @@
                 th{
                     background-color: rgba(0,0,0,0.05);
                     .el-checkbox{
-                        visibility: hidden;
+                        margin-left: -16px;
                     }
                     .cell{
                         margin-top: -4px;
                     }
                 }
-                /*th.el-table_1_column_2{*/
                 th:nth-child(2){
                     .cell{
                         text-align: left;
@@ -265,7 +266,7 @@
         .el-table{
             font-size: 14px;
             tbody tr td:nth-child(2){
-                .cell{
+                .cell a{
                     width:100%;
                     display: flex;
                     align-items: center;
@@ -288,7 +289,7 @@
                     text-align: left;
                     margin-left: 30px;
                 }
-                div{
+                div a{
                     width:120px;
                     p{
                         line-height: 30px;

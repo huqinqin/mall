@@ -60,7 +60,7 @@
                     <li v-for="item in data" :key="item.id">
                         <a :href="'/detail#/?id=' + item.id">
                             <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
-                            <p class="name">{{item.item_name}}</p>
+                            <p class="name" :title="item.item_name">{{item.item_name}}</p>
                             <div class="item-price">
                                 <button v-ltsLoginShow:false v-login>登录之后查看价格</button>
                                 <p class="price" v-ltsLoginShow:true>${{item.price_value}}</p>

@@ -57,16 +57,15 @@
                   <li  v-for="item in itemlist.items" :key="item.sin">
                       <a :href="'/detail#/?id=' + item.id">
                           <div class="img" :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+item.url+')'}"></div>
-                      </a>
                           <div class="item-spec">
-                              <p class="line-one">{{item.brand}}</p>
                               <p class="line-two">{{item.item_name}}</p>
                               <p class="line-four" ></p>
                               <div class="item-price">
-                                 <button v-ltsLoginShow:false v-login>登录之后查看价格</button>
-                                 <p v-ltsLoginShow:true class="price">${{item.price }}</p>
+                                  <button v-ltsLoginShow:false v-login>登录之后查看价格</button>
+                                  <p v-ltsLoginShow:true class="price">${{item.price }}</p>
                               </div>
                           </div>
+                      </a>
 
                   </li>
               </ul>
@@ -82,7 +81,6 @@
                       <a :href="'/detail#/?id=' + item.id">
                           <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
                           <div class="item-spec">
-                              <p class="line-one">{{item.brand}}</p>
                               <p class="line-two">{{item.item_name}}</p>
                               <div class="item-price">
                                   <button v-ltsLoginShow:false>登录之后查看价格</button>
@@ -153,7 +151,7 @@ import homeService from '@/services/HomeService.js'
         .img{
             height: auto;
             width:100%;
-            background-size: 100% 100%;
+            background-size: cover;
             background-position: center center;
             background-repeat: no-repeat;
             height: 500px;

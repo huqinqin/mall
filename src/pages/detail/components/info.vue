@@ -2,8 +2,8 @@
     <div class="detail">
         <!-- top -->
         <el-breadcrumb separator-class="el-icon-arrow-right">
-            <el-breadcrumb-item><a href="/index">首页</a></el-breadcrumb-item>
-            <el-breadcrumb-item><a href="javascript:void(0)">商品详情</a></el-breadcrumb-item>
+            <!--<el-breadcrumb-item><a href="/index">首页</a></el-breadcrumb-item>
+            <el-breadcrumb-item><a href="javascript:void(0)">商品详情</a></el-breadcrumb-item>-->
         </el-breadcrumb>
         <div class="detail-top">
             <div class="detail-img-box">
@@ -30,7 +30,7 @@
                     <div :class="[showPropsError ? 'error' : '']" @click="closeError">
                         <el-form-item v-for="prop in item.item_prop_value_maps" :key="prop.prop_name" :label="prop.prop_name" class="radio sku_prop" >
                             <el-radio-group v-model="prop.checked_prop">
-                                <el-radio v-for="propValue in prop.prop_values"  :disabled="!propValue.can_checked" :label="propValue.value" :key="propValue.value" :change="checkedProp(prop,item)"  border>
+                                <el-radio v-for="propValue in prop.prop_values"   :disabled="!propValue.can_checked" :label="propValue.value" :key="propValue.value" :change="checkedProp(prop,item)"  border>
                                     {{propValue.value}}
                                     <i class="iconfont icon-duihao"></i>
                                 </el-radio>
@@ -49,7 +49,7 @@
                         </el-form-item>
                     </div>
                     <el-form-item label="温馨提示" class="mark">
-                        <p>不支持60天无理由退换(如果商品参加活动，退换货以活动规则为准)</p>
+                        <p>支持30天无理由退换(如果商品参加活动，退换货以活动规则为准)</p>
                     </el-form-item>
                     <el-form-item class="buttons" >
                         <button @click.stop="buyNow"><div v-login>立即购买</div></button>
@@ -103,7 +103,7 @@
                                 <li v-for="(value,key) in aboutDetail">
                                     {{key}}: {{value}}
                                 </li>
-                                <li class="more">详细 <i class="iconfont icon-shangyiye-copy-copy"></i></li>
+                                <li class="more" v-if="aboutDetail.length > 8">详细 <i class="iconfont icon-shangyiye-copy-copy"></i></li>
                             </ul>
                             <div class="item_detail" >
                                 <div v-html="item.description"></div>
@@ -762,7 +762,8 @@
             },
             getItemDetail(id){
                 itemService.getItemDetail(id).then((data)=>{
-                    this.item = data.data
+                    this.item = data.data;
+                    this.aboutDetail = JSON.parse(this.item.item_struct_props[0].prop_value);
                     this.activeImg = this.item.item_images[0];
                 },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.errorMessage})
@@ -890,11 +891,21 @@
             },
             closeError(){
               this.showPropsError = false;
+            },
+            handle(){
+                this.item.item_prop_value_maps.forEach((item,index)=>{
+                    if(!item.prop_values[0].can_checked){
+                        
+                    }
+                })
             }
         },
         mounted(){
             let id = this.$route.query.id;
             this.getItemDetail(id);
+            setTimeout(()=>{
+                this.handle();
+            },20)
         },
 
     }
@@ -933,7 +944,7 @@
                             border:1px solid rgba(0,0,0,0);
                             background-position: center;
                             cursor: pointer;
-                            border:solid 1px #eee;
+                            border:solid 1px #afafb3;
                             margin-right: 20px;
                         }
                         .small_img:last-child{
@@ -1039,10 +1050,13 @@
                         }
                         .el-radio__label{
                             text-align: center;
-                            font-size: 12px;
-                            color: rgba(0,0,0,0.5);
+                            font-size: 14px;
+                            color: #a3a3a3;
                             line-height: 19px;
                             padding: 0 9px;
+                        }
+                        .is-disabled{
+                            border: 1px dotted #a3a3a3;
                         }
                     }
                     .iconfont {
@@ -1111,7 +1125,7 @@
                         }
                         span.el-input-number__decrease{
                             i{
-                                color:white;
+                                color:rgba(0, 0, 0, 0.7);
                             }
 
                         }
@@ -1184,6 +1198,7 @@
                                 height: 38px;
                                 line-height: 38px;
                                 text-align: center;
+                                font-weight: bold;
                             }
                             .el-tabs__item:hover{
                                 color:#ff3b41;
@@ -1295,7 +1310,6 @@
                     margin: 0 auto;
                     background-position: center;
                     background-size: contain;
-                    background-repeat: no-repeat;
                     background-repeat: no-repeat;
                 }
                 p.brand{

@@ -66,7 +66,6 @@
                               </div>
                           </div>
                       </a>
-
                   </li>
               </ul>
             </div>
@@ -257,12 +256,12 @@ import homeService from '@/services/HomeService.js'
                     padding-left: 11px;
                 }
                 .i::before{
-                    content:'';
-                    width:3px;
+                    content: '';
+                    width: 3px;
                     height: 14px;
                     background: #3b85ff;
                     position: absolute;
-                    top:5px;
+                    top: 5px;
                     left: 0px;
                 }
                 .more{
@@ -285,7 +284,7 @@ import homeService from '@/services/HomeService.js'
                     background-color: #ffffff;
                     text-align: center;
                     min-width: 200px;
-                    width: 24%;
+                    flex:1;
                     margin-bottom: 12px;
                     margin-right: 1%;
                 }
@@ -299,6 +298,19 @@ import homeService from '@/services/HomeService.js'
             .title{
                 margin-top: 14px;
                 color:#737373;
+                .i{
+                    position: relative;
+                    padding-left: 11px;
+                }
+                .i::before{
+                    content: '';
+                    width: 3px;
+                    height: 14px;
+                    background: #3b85ff;
+                    position: absolute;
+                    top: 5px;
+                    left: 0px;
+                }
             }
             .best-sellers{
                 margin-top: 15px;
@@ -343,9 +355,8 @@ import homeService from '@/services/HomeService.js'
                     color: #a3a3a3;
                 }
                 .line-four {
-                    width: 266px;
                     border-top: 1px solid #f2f2f2;
-                    margin: 0 auto;
+                    margin: 0 12px;
                 }
                 p{
                     overflow: hidden;

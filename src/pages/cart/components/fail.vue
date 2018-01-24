@@ -20,7 +20,7 @@
 <script>
     import detailOrder from '@/services/OrderService'
     export default {
-        name: "finish",
+        name: "fail",
         data(){
             return{
                 tid:0,
@@ -39,7 +39,7 @@
                 this.tid = this.$route.params.tid;
                 console.log(this.tid);
                 detailOrder.detailOrder(this.tid).then((data) => {
-                    this.$ltsMessage.show({type:'success',message:"下单成功"});
+                    this.$ltsMessage.show({type:'error',message:"支付失败"});
                     this.detailOrder = JSON.parse(data.data.user_addr);
                     if(this.detailOrder.wholesale_order_items[0].s_h_s_m === true){
                         this.method = "送货上门"

@@ -14,15 +14,15 @@
                 <h6>信用卡：</h6>
                 <ul>
                     <li :class="{chosen:chosenItem === creditData.alt}" @click="toggleChoose(creditData.alt)">
-                        <img :src=creditData.src :alt=creditData.alt>
+                       <img src='../../../assets/pay/credit.png' :alt=creditData.alt>
                     </li>
                 </ul>
             </div>
             <div class="online">
                 <h6>在线支付：</h6>
                 <ul>
-                    <li :class="{chosen:chosenItem === creditData.alt}" @click="toggleChoose(onlineData.alt)">
-                        <img :src=onlineData.src :alt=onlineData.alt>
+                    <li :class="{chosen:chosenItem === onlineData.alt}" @click="toggleChoose(onlineData.alt)">
+                        <img class="ali" src='../../../assets/pay/aplipay.png' :alt=onlineData.alt>
                     </li>
                 </ul>
             </div>
@@ -32,15 +32,6 @@
         </div>
     </div>
 </template>
-
-
-
-
-
-
-
-
-
 <script>
     import $ from 'jquery'
     import config from 'config'
@@ -50,18 +41,18 @@
         data(){
             return{
                 useCredit: false,
-                chosenItem:'',
+                chosenItem:'alipay',
                 tid:'',
                 formData: {
                     number: '',
                     amount: ''
                 },
                 creditData: {
-                    src: '/src/assets/pay/credit.png',
+                    src: '../../../assets/pay/credit.png',
                     alt: 'credit'
                 },
                 onlineData: {
-                    src: '/src/assets/pay/aplipay.png',
+                    src: '../../../assets/pay/aplipay.png',
                     alt: 'alipay'
                 },
             }
@@ -81,6 +72,9 @@
                 this.chosenItem = ''
             },
             goPay(){
+
+
+
                 let return_url = '/customerorder#/finish';
                 let fail_url = '/customerorder#/fail';
 
@@ -93,6 +87,7 @@
                     this.checkOrder(this.tid);
                 }).catch(() => {
                 });
+console.log(config.url.main + '/gateway/base/pay/alipay/create_pay?tid=' + this.tid + '&return_url=' + config.url.main + return_url + '&fail_url='+ config.url.main + fail_url + '')
                 window.open(config.url.main + '/gateway/base/pay/alipay/create_pay?tid=' + this.tid + '&return_url=' + config.url.main + return_url + '&fail_url='+ config.url.main + fail_url + '');
             },
             checkOrder(tid){
@@ -120,7 +115,7 @@
             width: 100%;
             height: 40px;
             background-color: rgba(0, 0, 0, 0.05);
-            color: rgba(0,0,0,0.7);
+            color: rgba(0,0,0,0.8);
             line-height: 40px;
             font-size: 12px;
             p{
@@ -151,93 +146,44 @@
                 font-size: 16px;
             }
             .useCredit{
-                margin-left: 24px;
                 margin-top: 24px;
 
             }
-            .credit{
-                margin-top: 23px;
-                margin-left: 24px;
+            .credit,.online{
+                margin-top: 12px;
                 h6{
                     font-size: 14px;
                     color: #777777;
+                    margin-bottom: 0;
                 }
                 ul{
+                    padding-left: 0;
                     display: flex;
                     justify-content: flex-start;
-                    flex-wrap: wrap;
+                    margin: 0;
                 }
                 li{
+                    list-style: none;
                     border:2px solid #fff;
                     width: 84px;
                     height: 52px;
                     background-color: #ffffff;
                     margin-top: 12px;
-                    border-radius: 4px;
                     img{
                         width: 80px;
                         height: 48px;
-                        border-radius: 4px;
+                        border:2px solid #e3e3e3;
+                        border-radius: 6px;
+                    }
+                    img.ali{
+                        width:48px;
                     }
                 }
                 li.chosen{
-                    border:2px solid red;
-                    border-radius: 5px;
-                }
-                li+li{
-                    margin-left: 12px;
-                }
-                li.addCredit{
-                    width: 84px;
-                    height: 52px;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: center;
-                    margin-top: 14px;
-                    color: #999999;
-                    border:1px solid #eaeaea;
-                    font-weight: bold;
-                    i{
-                        font-size: 18px;
-                        color:#ccc;
-                    }
-                    div{
-                        font-size: 11px;
-                        margin-top: 2px;
-                    }
-                }
-            }
-            .online{
-                margin: 23px 24px;
-                h6{
-                    font-size: 14px;
-                    color: #777777;
-                }
-                ul{
-                    display: flex;
-                    justify-content: flex-start;
-                    flex-wrap: wrap;
-                }
-                li{
-                    width: 84px;
-                    height: 52px;
-                    background-color: #ffffff;
-                    margin-top: 12px;
-                    border:2px solid #fff;
-                    border-radius: 4px;
                     img{
-                        width: 80px;
-                        height: 48px;
-                        border-radius: 4px;
+                        border:2px solid red;
+                        border-radius: 6px;
                     }
-                }
-                li.chosen{
-                    border:2px solid red;
-                    border-radius: 5px;
-                }
-                li+li{
-                    margin-left: 12px;
                 }
             }
             padding-bottom: 54px;

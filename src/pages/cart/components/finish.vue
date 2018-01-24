@@ -10,8 +10,8 @@
                 <p>物流方式：{{method}}</p>
                 <p>支付方式： 信用卡</p>
                 <div class="button">
-                    <button class="go" @click="gogogo"><span>我的订单</span></button>
-                    <button class="back" @click="back"><span>回到首页</span></button>
+                    <a href="/order"><button class="go"><span>我的订单</span></button></a>
+                    <a href="/"><button class="back"><span>回到首页</span></button></a>
                 </div>
             </div>
         </div>
@@ -29,12 +29,6 @@
             }
         },
         methods:{
-            gogogo(){
-                this.$router.push({name:"order",params:{}});
-            },
-            back(){
-                this.$router.push({path:"/",params:{}});
-            },
             getTid(){
                 this.tid = this.$route.params.tid;
                 console.log(this.tid);
@@ -104,6 +98,7 @@
                         width: 100px;
                         height: 30px;
                         border: none;
+                        cursor: pointer;
                         span{
                             color: white;
                             font-size: 14px;

@@ -3,36 +3,32 @@
         <div class="address">
             <h5>收货地址</h5>
             <ul>
-                <li  v-for="(item,key) in addressData" :class="{default:item.id === defaultId}" @click="checkAddress(item)">
-                    <div v-if="item.status === 1" >
-                        <header>
-                            <div><p>{{item.user_name}}({{item.address}}) </p></div>
-                        </header>
-                        <main>
-                            <p>{{item.building}}</p>
-                            <p>电话：{{item.mobile}}</p>
-                        </main>
-                        <footer>
-                            <button class="default" @click="toggleDefault(item)">设为默认</button>
-                            <button @click="deleteAddress(item,key)">删除</button>
-                            <button @click="editAddress(item)">修改</button>
-                        </footer>
-                    </div>
-                    <div v-else>
-                        <header>
-                            <div><p>{{item.user_name}}({{item.address}}) </p></div>
-                        </header>
-                        <main>
-                            <p>{{item.building}}</p>
-                            <p>电话：{{item.mobile}}</p>
-                        </main>
-
-                        <footer>
-                            <button class="default" @click="toggleDefault(item)">设为默认</button>
-                            <button @click="deleteAddress(item,key)">删除</button>
-                            <button @click="editAddress(item)">修改</button>
-                        </footer>
-                    </div>
+                <li :class="{default:defaultAddress.id === defaultId}" v-show="defaultAddress.user_name" @click="checkAddress(defaultAddress)">
+                    <header>
+                        <div><p>{{defaultAddress.user_name}}({{defaultAddress.address}}) </p></div>
+                    </header>
+                    <main>
+                        <p>{{defaultAddress.building}}</p>
+                        <p>电话：{{defaultAddress.mobile}}</p>
+                    </main>
+                    <footer>
+                        <button class="default" @click="toggleDefault(defaultAddress)">设为默认</button>
+                        <button @click="editAddress(defaultAddress)">修改</button>
+                    </footer>
+                </li>
+                <li  v-for="(item,key) in addressData" :class="{default:item.id === defaultId}" @click="checkAddress(item)" v-if="item.status === 0">
+                    <header>
+                        <div><p>{{item.user_name}}({{item.address}}) </p></div>
+                    </header>
+                    <main>
+                        <p>{{item.building}}</p>
+                        <p>电话：{{item.mobile}}</p>
+                    </main>
+                    <footer>
+                        <button class="default" @click="toggleDefault(item)">设为默认</button>
+                        <button @click="deleteAddress(item,key)">删除</button>
+                        <button @click="editAddress(item)">修改</button>
+                    </footer>
                 </li>
                 <li class="addAddress" @click="addAddress">
                     <i class="iconfont icon-add"></i>
@@ -86,19 +82,21 @@
         <div class="order">
             <h5>订单信息</h5>
             <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%">
-                <el-table-column label="商品信息"   align="left" width="520">
+                <el-table-column label="商品信息"   align="left" width="650">
                     <template slot-scope="scope">
-                        <div class="cart-item-info">
-                            <img :src="'http://res.500mi.com/item/' + scope.row.url" alt="商品">
-                            <div class="content">
-                                <p>{{scope.row.item_name}}</p>
+                        <a :href="'/detail#/?id=' + scope.row.id">
+                            <div class="cart-item-info">
+                                <img class="item-img" :src="'http://res.500mi.com/item/' + scope.row.url" alt="商品">
+                                <div class="content">
+                                    <p>{{scope.row.item_name}}</p>
+                                </div>
+                                <div class="other">
+                                    <div v-for="(value,index) in scope.row.item_props">
+                                        <p v-for="(val,key) in value.propValue">{{key}}: {{val}}</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="other">
-                                <p v-for="(value,index) in scope.row.item_props">
-                                    <span v-for="(val,key) in value.propValue">{{key}}: {{val}}</span>
-                                </p>
-                            </div>
-                        </div>
+                        </a>
                     </template>
                 </el-table-column>
 
@@ -249,6 +247,7 @@
                 editOrAdd: true, // 点击的是修改还是新增
                 chooseAll: true,
                 checkedAddress: {},
+                defaultAddress:{},
                 addressData:[],
                 tableData: [],
                 multipleTable: [],
@@ -291,6 +290,7 @@
                 this.editOrAdd = true
                 this.showAddAddress = true
                 this.addForm = item
+                this.addForm.setDefault = item.status === 1 ? true : false
             },
             //选择城市
             selectCity(value){
@@ -301,18 +301,23 @@
             },
             // 添加地址
             addAddress(){
+                for(let val in this.addForm){
+                    this.addForm[val] = ''
+                }
                 this.editOrAdd = false
                 this.showAddAddress = true
             },
             // 查询地址列表
             getAddressList(){
-                
+
                 addressService.getList().then((data) => {
                     this.addressData = data.datalist
                     this.addressData.forEach((value,index)=>{
                         if(value.status === 1){
                             this.defaultId = value.id
+
                             this.checkedAddress = value
+                            this.defaultAddress = value
                         }
                         let position = value.address.indexOf(value.building)
                         if(position !== 0){
@@ -444,6 +449,7 @@
             justify-content: space-between;
         }
         .item-img{
+            margin-top: 12px;
             width:80px;
             height: 80px;
             border: 1px solid #dadada;
@@ -455,13 +461,7 @@
             flex: 0 0 300px;
             margin-left: 24px;
         }
-        .other{
-            flex:0 0 150px;
-            text-align: left;
-            margin-left: 24px;
-        }
         div{
-            width:120px;
             p{
                 line-height: 30px;
                 font-size: 14px;
@@ -471,6 +471,13 @@
                 margin-top: 12px;
             }
         }
+        .other div{
+            width: 170px;
+            flex:0 0 170px;
+            text-align: left;
+            margin-left: 24px;
+        }
+
     }
     .settle{
         overflow: hidden;
@@ -512,10 +519,10 @@
                         border: 1px solid #dadada;
                     }
                     div{
-                        width:120px;
+                        /*width:120px;*/
                         p{
                             line-height: 30px;
-                            font-size: 12px;
+                            font-size: 14px;
                             text-align: left;
                         }
                         p:first-child{
@@ -734,6 +741,7 @@
                         line-height: 12px;
                         border:none;
                         background: #f6f6f6;
+                        box-shadow:none;
                     }
                 }
                 label.is-active{

@@ -2,8 +2,8 @@
     <div class="detail">
         <!-- top -->
         <el-breadcrumb separator-class="el-icon-arrow-right">
-            <el-breadcrumb-item><a href="/index">首页</a></el-breadcrumb-item>
-            <el-breadcrumb-item><a href="javascript:void(0)">商品详情</a></el-breadcrumb-item>
+            <!--<el-breadcrumb-item><a href="/index">首页</a></el-breadcrumb-item>
+            <el-breadcrumb-item><a href="javascript:void(0)">商品详情</a></el-breadcrumb-item>-->
         </el-breadcrumb>
         <div class="detail-top">
             <div class="detail-img-box">
@@ -19,7 +19,7 @@
             <div class="detail-sku-box">
                 <!-- 商品标题-->
                 <h3>{{item.item_name}}</h3>
-                <p class="brief">{{item.promotion_title}}</p>
+                <!--<p class="brief">{{item.promotion_title}}</p>-->
                 <!-- 商品属性-->
                 <el-form label-position="left" label-width="120px" ref="ruleForm">
                     <el-form-item label="价格" prop>
@@ -29,8 +29,8 @@
                     </el-form-item>
                     <div :class="[showPropsError ? 'error' : '']" @click="closeError">
                         <el-form-item v-for="prop in item.item_prop_value_maps" :key="prop.prop_name" :label="prop.prop_name" class="radio sku_prop" >
-                            <el-radio-group v-model="prop.checked_prop">
-                                <el-radio v-for="propValue in prop.prop_values"  :disabled="!propValue.can_checked" :label="propValue.value" :key="propValue.value" :change="checkedProp(prop,item)"  border>
+                            <el-radio-group v-model="prop.checked_prop" @change="checkedProp(prop,item)">
+                                <el-radio v-for="propValue in prop.prop_values"  :disabled="!propValue.can_checked" :label="propValue.value" :key="propValue.value">
                                     {{propValue.value}}
                                     <i class="iconfont icon-duihao"></i>
                                 </el-radio>
@@ -49,12 +49,13 @@
                         </el-form-item>
                     </div>
                     <el-form-item label="温馨提示" class="mark">
-                        <p>不支持60天无理由退换(如果商品参加活动，退换货以活动规则为准)</p>
+                        <p @click="fade">支持30天无理由退换(如果商品参加活动，退换货以活动规则为准)</p>
                     </el-form-item>
                     <el-form-item class="buttons" >
-                        <button @click.stop="buyNow"><div v-login>立即购买</div></button>
-                        <button @click.stop="addCart" ><div v-login>加入购物车</div></button>
+                        <button @click.stop="buyNow" type="button"><div v-login>立即购买</div></button>
+                        <button @click.stop="addCart" type="button"><div v-login>加入购物车</div></button>
                     </el-form-item>
+                    <addCartSuccess v-if="flag"></addCartSuccess>
                 </el-form>
             </div>
             <div class="detail-buy-history">
@@ -103,7 +104,7 @@
                                 <li v-for="(value,key) in aboutDetail">
                                     {{key}}: {{value}}
                                 </li>
-                                <li class="more">详细 <i class="iconfont icon-shangyiye-copy-copy"></i></li>
+                                <li class="more" v-if="aboutDetail.length > 8">详细 <i class="iconfont icon-shangyiye-copy-copy"></i></li>
                             </ul>
                             <div class="item_detail" >
                                 <div v-html="item.description"></div>
@@ -129,7 +130,9 @@
     import $ from 'jquery'
     import itemService from '@/services/ItemService'
     import cartService from '@/services/CartService'
+    import addCartSuccess from 'ui/components/lts-addCartSuccess.vue'
     export default {
+        components:{addCartSuccess},
         name : 'detailInfo',
         props : {},
         data() {
@@ -139,6 +142,7 @@
                 sku_2: '',
                 count: '',
                 prc_info: [],
+                flag:false,
                 detail_side_img: [
                     {
                         href: "",
@@ -151,592 +155,8 @@
                 ],
                 item : {},
                 checkedSpu : {},
-                buyHistory: [
-                    {
-                        "activity_price":null,
-                        "advance":false,
-                        "app_show":true,
-                        "attr_activity":false,
-                        "attribute":4608,
-                        "best_box":false,
-                        "beyond_num":0,
-                        "biz_type":201,
-                        "brand":"康师傅",
-                        "category_name":"",
-                        "category_id":0,
-                        "cdate":1404196559000,
-                        "commission_s":0,
-                        "commission_t":0,
-                        "cost_price_value":"0",
-                        "cost_price":0,
-                        "count":null,
-                        "cut":false,
-                        "description":"",
-                        "discount":0,
-                        "discount_type_cname":"无优惠",
-                        "discount_type":0,
-                        "distribution":false,
-                        "diy_price":false,
-                        "edate":1479816849000,
-                        "end_time":null,
-                        "fixed":false,
-                        "follow_num":19,
-                        "group":false,
-                        "hd_method":0,
-                        "id":110492,
-                        "image_value":"http://res.500mi.com/item/3501d08f9d4cd546e9654f7ed87f9c92.jpeg",
-                        "item_name":"康师傅鲜脆雪笋炒肉丝面136g",
-                        "item_struct_props":[],
-                        "manager_cate_name":"",
-                        "manager_cate_id":0,
-                        "member_price":3700,
-                        "member_price_value":"37.00",
-                        "min_num":0,
-                        "module_id":null,
-                        "module_sku_id":null,
-                        "no_rebate":false,
-                        "num":null,
-                        "open_code":"331088",
-                        "open_codes":"PP33L5F3",
-                        "order_promotion":false,
-                        "order_num":0,
-                        "orign":"",
-                        "parent_id":0,
-                        "partner":null,
-                        "partner_id":36819,
-                        "partner_name":"",
-                        "percent":false,
-                        "prepay":false,
-                        "presale":false,
-                        "price":3700,
-                        "price_real":null,
-                        "price_real_value":"",
-                        "price_value":"37.00",
-                        "price_define":"",
-                        "price_define_do":null,
-                        "promotion_title":"",
-                        "props":"",
-                        "props_ext":"",
-                        "puser_id":38218,
-                        "rank":0,
-                        "retail":true,
-                        "safe_num":0,
-                        "sale_rule":"",
-                        "sale_rule_do":{
-                            "commission_rate":null,
-                            "end_time":"",
-                            "maxinum":null,
-                            "minimum":null,
-                            "price":null,
-                            "start_time":"",
-                            "total":null,
-                            "virtual_start":null
-                        },
-                        "send_rule":"",
-                        "share_num":2,
-                        "shop_name":"",
-                        "shop_id":2663,
-                        "short_code":"",
-                        "sin":"6920152483411",
-                        "sinr":"6920152483411",
-                        "sku_cost_price_value":"",
-                        "sku_cost_price":null,
-                        "sku_id":0,
-                        "sku_total":0,
-                        "soldout":false,
-                        "spec":"136g*12桶",
-                        "special":"",
-                        "spot_price_value":"0",
-                        "spot_rule_d_o":null,
-                        "spot_price":0,
-                        "spot_rule":"",
-                        "spu_d_o":null,
-                        "spu_id":12429,
-                        "start_time":null,
-                        "status":1,
-                        "status_cname":"已上架",
-                        "stock_out":0,
-                        "storage":999,
-                        "storage_num":null,
-                        "tag":"",
-                        "type":0,
-                        "type_ch":false,
-                        "type_fa":false,
-                        "unit":"箱",
-                        "upshelf":true,
-                        "url":"8896f030dcf40763e2567a6b2193cf8e.jpg",
-                        "urls":"8896f030dcf40763e2567a6b2193cf8e.jpg",
-                        "warehousing":true,
-                        "wholesale":false
-                    },{
-                        "activity_price":null,
-                        "advance":false,
-                        "app_show":true,
-                        "attr_activity":false,
-                        "attribute":4608,
-                        "best_box":false,
-                        "beyond_num":0,
-                        "biz_type":201,
-                        "brand":"康师傅",
-                        "category_name":"",
-                        "category_id":0,
-                        "cdate":1404196559000,
-                        "commission_s":0,
-                        "commission_t":0,
-                        "cost_price_value":"0",
-                        "cost_price":0,
-                        "count":null,
-                        "cut":false,
-                        "description":"",
-                        "discount":0,
-                        "discount_type_cname":"无优惠",
-                        "discount_type":0,
-                        "distribution":false,
-                        "diy_price":false,
-                        "edate":1479816849000,
-                        "end_time":null,
-                        "fixed":false,
-                        "follow_num":19,
-                        "group":false,
-                        "hd_method":0,
-                        "id":110492,
-                        "image_value":"http://res.500mi.com/item/3501d08f9d4cd546e9654f7ed87f9c92.jpeg",
-                        "item_name":"康师傅鲜脆雪笋炒肉丝面136g",
-                        "item_struct_props":[],
-                        "manager_cate_name":"",
-                        "manager_cate_id":0,
-                        "member_price":3700,
-                        "member_price_value":"37.00",
-                        "min_num":0,
-                        "module_id":null,
-                        "module_sku_id":null,
-                        "no_rebate":false,
-                        "num":null,
-                        "open_code":"331088",
-                        "open_codes":"PP33L5F3",
-                        "order_promotion":false,
-                        "order_num":0,
-                        "orign":"",
-                        "parent_id":0,
-                        "partner":null,
-                        "partner_id":36819,
-                        "partner_name":"",
-                        "percent":false,
-                        "prepay":false,
-                        "presale":false,
-                        "price":3700,
-                        "price_real":null,
-                        "price_real_value":"",
-                        "price_value":"37.00",
-                        "price_define":"",
-                        "price_define_do":null,
-                        "promotion_title":"",
-                        "props":"",
-                        "props_ext":"",
-                        "puser_id":38218,
-                        "rank":0,
-                        "retail":true,
-                        "safe_num":0,
-                        "sale_rule":"",
-                        "sale_rule_do":{
-                            "commission_rate":null,
-                            "end_time":"",
-                            "maxinum":null,
-                            "minimum":null,
-                            "price":null,
-                            "start_time":"",
-                            "total":null,
-                            "virtual_start":null
-                        },
-                        "send_rule":"",
-                        "share_num":2,
-                        "shop_name":"",
-                        "shop_id":2663,
-                        "short_code":"",
-                        "sin":"6920152483411",
-                        "sinr":"6920152483411",
-                        "sku_cost_price_value":"",
-                        "sku_cost_price":null,
-                        "sku_id":0,
-                        "sku_total":0,
-                        "soldout":false,
-                        "spec":"136g*12桶",
-                        "special":"",
-                        "spot_price_value":"0",
-                        "spot_rule_d_o":null,
-                        "spot_price":0,
-                        "spot_rule":"",
-                        "spu_d_o":null,
-                        "spu_id":12429,
-                        "start_time":null,
-                        "status":1,
-                        "status_cname":"已上架",
-                        "stock_out":0,
-                        "storage":999,
-                        "storage_num":null,
-                        "tag":"",
-                        "type":0,
-                        "type_ch":false,
-                        "type_fa":false,
-                        "unit":"箱",
-                        "upshelf":true,
-                        "url":"8896f030dcf40763e2567a6b2193cf8e.jpg",
-                        "urls":"8896f030dcf40763e2567a6b2193cf8e.jpg",
-                        "warehousing":true,
-                        "wholesale":false
-                    }
-                ],
-                hotSale: [
-                    {
-                        "activity_price":null,
-                        "advance":false,
-                        "app_show":true,
-                        "attr_activity":false,
-                        "attribute":4608,
-                        "best_box":false,
-                        "beyond_num":0,
-                        "biz_type":201,
-                        "brand":"康师傅",
-                        "category_name":"",
-                        "category_id":0,
-                        "cdate":1404196559000,
-                        "commission_s":0,
-                        "commission_t":0,
-                        "cost_price_value":"0",
-                        "cost_price":0,
-                        "count":null,
-                        "cut":false,
-                        "description":"",
-                        "discount":0,
-                        "discount_type_cname":"无优惠",
-                        "discount_type":0,
-                        "distribution":false,
-                        "diy_price":false,
-                        "edate":1479816849000,
-                        "end_time":null,
-                        "fixed":false,
-                        "follow_num":19,
-                        "group":false,
-                        "hd_method":0,
-                        "id":110492,
-                        "image_value":"http://res.500mi.com/item/3501d08f9d4cd546e9654f7ed87f9c92.jpeg",
-                        "item_name":"康师傅鲜脆雪笋炒肉丝面136g",
-                        "item_struct_props":[],
-                        "manager_cate_name":"",
-                        "manager_cate_id":0,
-                        "member_price":3700,
-                        "member_price_value":"37.00",
-                        "min_num":0,
-                        "module_id":null,
-                        "module_sku_id":null,
-                        "no_rebate":false,
-                        "num":null,
-                        "open_code":"331088",
-                        "open_codes":"PP33L5F3",
-                        "order_promotion":false,
-                        "order_num":0,
-                        "orign":"",
-                        "parent_id":0,
-                        "partner":null,
-                        "partner_id":36819,
-                        "partner_name":"",
-                        "percent":false,
-                        "prepay":false,
-                        "presale":false,
-                        "price":3700,
-                        "price_real":null,
-                        "price_real_value":"",
-                        "price_value":"37.00",
-                        "price_define":"",
-                        "price_define_do":null,
-                        "promotion_title":"",
-                        "props":"",
-                        "props_ext":"",
-                        "puser_id":38218,
-                        "rank":0,
-                        "retail":true,
-                        "safe_num":0,
-                        "sale_rule":"",
-                        "sale_rule_do":{
-                            "commission_rate":null,
-                            "end_time":"",
-                            "maxinum":null,
-                            "minimum":null,
-                            "price":null,
-                            "start_time":"",
-                            "total":null,
-                            "virtual_start":null
-                        },
-                        "send_rule":"",
-                        "share_num":2,
-                        "shop_name":"",
-                        "shop_id":2663,
-                        "short_code":"",
-                        "sin":"6920152483411",
-                        "sinr":"6920152483411",
-                        "sku_cost_price_value":"",
-                        "sku_cost_price":null,
-                        "sku_id":0,
-                        "sku_total":0,
-                        "soldout":false,
-                        "spec":"136g*12桶",
-                        "special":"",
-                        "spot_price_value":"0",
-                        "spot_rule_d_o":null,
-                        "spot_price":0,
-                        "spot_rule":"",
-                        "spu_d_o":null,
-                        "spu_id":12429,
-                        "start_time":null,
-                        "status":1,
-                        "status_cname":"已上架",
-                        "stock_out":0,
-                        "storage":999,
-                        "storage_num":null,
-                        "tag":"",
-                        "type":0,
-                        "type_ch":false,
-                        "type_fa":false,
-                        "unit":"箱",
-                        "upshelf":true,
-                        "url":"8896f030dcf40763e2567a6b2193cf8e.jpg",
-                        "urls":"8896f030dcf40763e2567a6b2193cf8e.jpg",
-                        "warehousing":true,
-                        "wholesale":false
-                    },{
-                        "activity_price":null,
-                        "advance":false,
-                        "app_show":true,
-                        "attr_activity":false,
-                        "attribute":4608,
-                        "best_box":false,
-                        "beyond_num":0,
-                        "biz_type":201,
-                        "brand":"康师傅",
-                        "category_name":"",
-                        "category_id":0,
-                        "cdate":1404196559000,
-                        "commission_s":0,
-                        "commission_t":0,
-                        "cost_price_value":"0",
-                        "cost_price":0,
-                        "count":null,
-                        "cut":false,
-                        "description":"",
-                        "discount":0,
-                        "discount_type_cname":"无优惠",
-                        "discount_type":0,
-                        "distribution":false,
-                        "diy_price":false,
-                        "edate":1479816849000,
-                        "end_time":null,
-                        "fixed":false,
-                        "follow_num":19,
-                        "group":false,
-                        "hd_method":0,
-                        "id":110492,
-                        "image_value":"http://res.500mi.com/item/3501d08f9d4cd546e9654f7ed87f9c92.jpeg",
-                        "item_name":"康师傅鲜脆雪笋炒肉丝面136g",
-                        "item_struct_props":[],
-                        "manager_cate_name":"",
-                        "manager_cate_id":0,
-                        "member_price":3700,
-                        "member_price_value":"37.00",
-                        "min_num":0,
-                        "module_id":null,
-                        "module_sku_id":null,
-                        "no_rebate":false,
-                        "num":null,
-                        "open_code":"331088",
-                        "open_codes":"PP33L5F3",
-                        "order_promotion":false,
-                        "order_num":0,
-                        "orign":"",
-                        "parent_id":0,
-                        "partner":null,
-                        "partner_id":36819,
-                        "partner_name":"",
-                        "percent":false,
-                        "prepay":false,
-                        "presale":false,
-                        "price":3700,
-                        "price_real":null,
-                        "price_real_value":"",
-                        "price_value":"37.00",
-                        "price_define":"",
-                        "price_define_do":null,
-                        "promotion_title":"",
-                        "props":"",
-                        "props_ext":"",
-                        "puser_id":38218,
-                        "rank":0,
-                        "retail":true,
-                        "safe_num":0,
-                        "sale_rule":"",
-                        "sale_rule_do":{
-                            "commission_rate":null,
-                            "end_time":"",
-                            "maxinum":null,
-                            "minimum":null,
-                            "price":null,
-                            "start_time":"",
-                            "total":null,
-                            "virtual_start":null
-                        },
-                        "send_rule":"",
-                        "share_num":2,
-                        "shop_name":"",
-                        "shop_id":2663,
-                        "short_code":"",
-                        "sin":"6920152483411",
-                        "sinr":"6920152483411",
-                        "sku_cost_price_value":"",
-                        "sku_cost_price":null,
-                        "sku_id":0,
-                        "sku_total":0,
-                        "soldout":false,
-                        "spec":"136g*12桶",
-                        "special":"",
-                        "spot_price_value":"0",
-                        "spot_rule_d_o":null,
-                        "spot_price":0,
-                        "spot_rule":"",
-                        "spu_d_o":null,
-                        "spu_id":12429,
-                        "start_time":null,
-                        "status":1,
-                        "status_cname":"已上架",
-                        "stock_out":0,
-                        "storage":999,
-                        "storage_num":null,
-                        "tag":"",
-                        "type":0,
-                        "type_ch":false,
-                        "type_fa":false,
-                        "unit":"箱",
-                        "upshelf":true,
-                        "url":"8896f030dcf40763e2567a6b2193cf8e.jpg",
-                        "urls":"8896f030dcf40763e2567a6b2193cf8e.jpg",
-                        "warehousing":true,
-                        "wholesale":false
-                    },{
-                        "activity_price":null,
-                        "advance":false,
-                        "app_show":true,
-                        "attr_activity":false,
-                        "attribute":4608,
-                        "best_box":false,
-                        "beyond_num":0,
-                        "biz_type":201,
-                        "brand":"康师傅",
-                        "category_name":"",
-                        "category_id":0,
-                        "cdate":1404196559000,
-                        "commission_s":0,
-                        "commission_t":0,
-                        "cost_price_value":"0",
-                        "cost_price":0,
-                        "count":null,
-                        "cut":false,
-                        "description":"",
-                        "discount":0,
-                        "discount_type_cname":"无优惠",
-                        "discount_type":0,
-                        "distribution":false,
-                        "diy_price":false,
-                        "edate":1479816849000,
-                        "end_time":null,
-                        "fixed":false,
-                        "follow_num":19,
-                        "group":false,
-                        "hd_method":0,
-                        "id":110492,
-                        "image_value":"http://res.500mi.com/item/3501d08f9d4cd546e9654f7ed87f9c92.jpeg",
-                        "item_name":"康师傅鲜脆雪笋炒肉丝面136g",
-                        "item_struct_props":[],
-                        "manager_cate_name":"",
-                        "manager_cate_id":0,
-                        "member_price":3700,
-                        "member_price_value":"37.00",
-                        "min_num":0,
-                        "module_id":null,
-                        "module_sku_id":null,
-                        "no_rebate":false,
-                        "num":null,
-                        "open_code":"331088",
-                        "open_codes":"PP33L5F3",
-                        "order_promotion":false,
-                        "order_num":0,
-                        "orign":"",
-                        "parent_id":0,
-                        "partner":null,
-                        "partner_id":36819,
-                        "partner_name":"",
-                        "percent":false,
-                        "prepay":false,
-                        "presale":false,
-                        "price":3700,
-                        "price_real":null,
-                        "price_real_value":"",
-                        "price_value":"37.00",
-                        "price_define":"",
-                        "price_define_do":null,
-                        "promotion_title":"",
-                        "props":"",
-                        "props_ext":"",
-                        "puser_id":38218,
-                        "rank":0,
-                        "retail":true,
-                        "safe_num":0,
-                        "sale_rule":"",
-                        "sale_rule_do":{
-                            "commission_rate":null,
-                            "end_time":"",
-                            "maxinum":null,
-                            "minimum":null,
-                            "price":null,
-                            "start_time":"",
-                            "total":null,
-                            "virtual_start":null
-                        },
-                        "send_rule":"",
-                        "share_num":2,
-                        "shop_name":"",
-                        "shop_id":2663,
-                        "short_code":"",
-                        "sin":"6920152483411",
-                        "sinr":"6920152483411",
-                        "sku_cost_price_value":"",
-                        "sku_cost_price":null,
-                        "sku_id":0,
-                        "sku_total":0,
-                        "soldout":false,
-                        "spec":"136g*12桶",
-                        "special":"",
-                        "spot_price_value":"0",
-                        "spot_rule_d_o":null,
-                        "spot_price":0,
-                        "spot_rule":"",
-                        "spu_d_o":null,
-                        "spu_id":12429,
-                        "start_time":null,
-                        "status":1,
-                        "status_cname":"已上架",
-                        "stock_out":0,
-                        "storage":999,
-                        "storage_num":null,
-                        "tag":"",
-                        "type":0,
-                        "type_ch":false,
-                        "type_fa":false,
-                        "unit":"箱",
-                        "upshelf":true,
-                        "url":"8896f030dcf40763e2567a6b2193cf8e.jpg",
-                        "urls":"8896f030dcf40763e2567a6b2193cf8e.jpg",
-                        "warehousing":true,
-                        "wholesale":false
-                    }
-                ],
+                buyHistory: [],
+                hotSale: [],
                 activeImg : '',
                 aboutDetail: {
                     '商品编号': '34598739792',
@@ -762,8 +182,12 @@
             },
             getItemDetail(id){
                 itemService.getItemDetail(id).then((data)=>{
-                    this.item = data.data
+                    this.item = data.data.item;
+                    this.aboutDetail = JSON.parse(this.item.item_struct_props[0].prop_value);
                     this.activeImg = this.item.item_images[0];
+
+                    this.hotSale = data.data.hot_recomment.items;
+                    this.buyHistory = data.data.user_order_history;
                 },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.errorMessage})
                 })
@@ -788,7 +212,7 @@
                             this.equalsProp(checked_sku_prop, data.item_struct_props, 'checkedSku',data.item_prop_value_maps.length);
                             value.prop_values.forEach((val, key, array) => {
                                 prop_value[value.prop_name] = val.value;
-                                val.can_checked = this.equalsProp(prop_value, data.item_struct_props,data.item_prop_value_maps.length);
+                                val.can_checked = this.equalsProp(prop_value, data.item_struct_props,'',data.item_prop_value_maps.length);
                             })
                         }
                     })
@@ -845,6 +269,9 @@
                 },(msg) => {
                     this.$ltsMessage.show({type:"error",message:msg.error_message})
                 });
+            },
+            fade(){
+                this.flag = true;
             },
             buyNow(){
                 if(!this.validate()){
@@ -933,7 +360,7 @@
                             border:1px solid rgba(0,0,0,0);
                             background-position: center;
                             cursor: pointer;
-                            border:solid 1px #eee;
+                            border:solid 1px #afafb3;
                             margin-right: 20px;
                         }
                         .small_img:last-child{
@@ -1034,13 +461,14 @@
                         font-size: 14px;
                         width: auto!important;
                         border:1px solid #b8b7bd ;
+                        color:red;
                         .el-radio__input{
                             display: none;
                         }
                         .el-radio__label{
                             text-align: center;
-                            font-size: 12px;
-                            color: rgba(0,0,0,0.5);
+                            font-size: 14px;
+                            color: #606266;
                             line-height: 19px;
                             padding: 0 9px;
                         }
@@ -1057,6 +485,12 @@
                         span{
                             color:rgba(0,0,0,0.5);
                         }
+                    }
+                    .el-radio.is-disabled{
+                        border: 1px dashed #a3a3a3;
+                    }
+                    .el-radio.is-disabled .el-radio__label{
+                        color:#a3a3a3;
                     }
                     .el-radio.is-checked::after{
                         content:'';
@@ -1111,7 +545,7 @@
                         }
                         span.el-input-number__decrease{
                             i{
-                                color:white;
+                                color:rgba(0, 0, 0, 0.7);
                             }
 
                         }
@@ -1180,10 +614,11 @@
                             .el-tabs__item{
                                 border-top: 2px solid #f6f6f6;
                                 width:122px;
-                                font-size: 16px;
+                                font-size: 14px;
                                 height: 38px;
                                 line-height: 38px;
                                 text-align: center;
+                                font-weight: bold;
                             }
                             .el-tabs__item:hover{
                                 color:#ff3b41;
@@ -1253,10 +688,18 @@
             }
         }
         // 购买记录和热卖推荐
+        .detail-buy-history{
+            ul{
+                overflow-y: scroll;
+                max-height: 434px;
+            }
+        }
         .detail-buy-history, .detail_side_img{
             width: 290px;
             background: #fff;
             border:1px solid #ccc;
+
+            overflow: hidden;
             .header{
                 height: 36px;
                 line-height: 36px;
@@ -1284,6 +727,7 @@
                     }
                 }
             }
+
             li{
                 text-align: center;
                 background: #ffffff;
@@ -1319,6 +763,11 @@
             li:last-child{
                 border-bottom: none;
             }
+        }
+    }
+    .b1200{
+        .detail-img-box{
+            margin-right: 29px !important;
         }
     }
 

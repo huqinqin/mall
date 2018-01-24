@@ -42,8 +42,30 @@
     </div>
      <!-- main -->
     <div class="content">
-        <div class="item-box" v-if="itemList.length > 0">
-            <div v-for="itemlist in itemList" :key="itemlist.name">
+        <div class="item-box">
+            <div class="hot-item">
+                <div class="item-list-title">
+                    <div class="i">
+                        <span>热卖单品</span>
+                    </div>
+                </div>
+                <ul class="item-list-box">
+                    <li  v-for="item in hotList" :key="item.sin">
+                        <a :href="'/detail#/?id=' + item.id" target="_blank">
+                            <div class="img" :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+item.url+')'}"></div>
+                            <div class="item-spec">
+                                <p class="line-two" :title="item.item_name">{{item.item_name}}</p>
+                                <p class="line-four" ></p>
+                                <div class="item-price">
+                                    <button v-ltsLoginShow:false v-login>登录之后查看价格</button>
+                                    <p v-ltsLoginShow:true class="price">${{item.price}}</p>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div v-for="itemlist in itemList" :key="itemlist.name" class="item-level">
               <div class="item-list-title">
                   <div class="i">
                       <span>{{itemlist.name}}</span>
@@ -55,19 +77,17 @@
               </div>
               <ul class="item-list-box">
                   <li  v-for="item in itemlist.items" :key="item.sin">
-                      <a :href="'/detail#/?id=' + item.id">
+                      <a :href="'/detail#/?id=' + item.id" target="_blank">
                           <div class="img" :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+item.url+')'}"></div>
-                      </a>
                           <div class="item-spec">
-                              <p class="line-one">{{item.brand}}</p>
-                              <p class="line-two">{{item.item_name}}</p>
+                              <p class="line-two" :title="item.item_name">{{item.item_name}}</p>
                               <p class="line-four" ></p>
                               <div class="item-price">
-                                 <button v-ltsLoginShow:false v-login>登录之后查看价格</button>
-                                 <p v-ltsLoginShow:true class="price">${{item.price }}</p>
+                                  <button v-ltsLoginShow:false v-login>登录之后查看价格</button>
+                                  <p v-ltsLoginShow:true class="price">${{item.price}}</p>
                               </div>
                           </div>
-
+                      </a>
                   </li>
               </ul>
             </div>
@@ -79,11 +99,10 @@
               </div>
               <ul class="best-sellers">
                   <li v-for="item in hotList" :key="item.id">
-                      <a :href="'/detail#/?id=' + item.id">
+                      <a :href="'/detail#/?id=' + item.id" target="_blank">
                           <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
                           <div class="item-spec">
-                              <p class="line-one">{{item.brand}}</p>
-                              <p class="line-two">{{item.item_name}}</p>
+                              <p class="line-two" :title="item.item_name">{{item.item_name}}</p>
                               <div class="item-price">
                                   <button v-ltsLoginShow:false>登录之后查看价格</button>
                                   <p v-ltsLoginShow:true class="price">${{item.price }}</p>
@@ -145,7 +164,39 @@ import homeService from '@/services/HomeService.js'
 <style src="@/assets/iconfont/iconfont.css"></style>
 <style lang="less" scoped>
 
-
+.b1200 {
+    .side{
+        display: none;
+    }
+    .hot-item{
+        display: block;
+    }
+    .item-box{
+        li{
+            margin-right: 13px;
+        }
+        li:nth-child(4n){
+            margin-right: 0;
+        }
+    }
+}
+.b1500{
+    .side{
+        margin-left: 30px;
+        display: block;
+    }
+    .hot-item{
+        display: none;
+    }
+    .item-box {
+        li {
+            margin-right: 16px;
+        }
+        li:nth-child(5n) {
+            margin-right: 0;
+        }
+    }
+}
 ._index{
     overflow: hidden;
     background-color: #eee;
@@ -153,7 +204,7 @@ import homeService from '@/services/HomeService.js'
         .img{
             height: auto;
             width:100%;
-            background-size: 100% 100%;
+            background-size: cover;
             background-position: center center;
             background-repeat: no-repeat;
             height: 500px;
@@ -247,7 +298,6 @@ import homeService from '@/services/HomeService.js'
         justify-content: space-between;
         .item-box {
             flex: 1;
-            margin-right: 30px;
             .item-list-title{
                 display: flex;
                 justify-content: space-between;
@@ -259,12 +309,12 @@ import homeService from '@/services/HomeService.js'
                     padding-left: 11px;
                 }
                 .i::before{
-                    content:'';
-                    width:3px;
+                    content: '';
+                    width: 3px;
                     height: 14px;
                     background: #3b85ff;
                     position: absolute;
-                    top:5px;
+                    top: 5px;
                     left: 0px;
                 }
                 .more{
@@ -286,10 +336,8 @@ import homeService from '@/services/HomeService.js'
                 li {
                     background-color: #ffffff;
                     text-align: center;
-                    min-width: 200px;
-                    width: 24%;
+                    width: 290px;
                     margin-bottom: 12px;
-                    margin-right: 1%;
                 }
                 li:nth-child(4n){
                     margin-right: 0%;
@@ -297,21 +345,32 @@ import homeService from '@/services/HomeService.js'
             }
         }
         .side{
-            width: 290px;
+            width: 260px;
             .title{
                 margin-top: 14px;
                 color:#737373;
+                .i{
+                    position: relative;
+                    padding-left: 11px;
+                }
+                .i::before{
+                    content: '';
+                    width: 3px;
+                    height: 14px;
+                    background: #3b85ff;
+                    position: absolute;
+                    top: 5px;
+                    left: 0px;
+                }
             }
             .best-sellers{
                 margin-top: 15px;
-                background: #fff;
                 li{
                     text-align: center;
                     background: #ffffff;
                     border-bottom: solid 1px #f2f2f2;
-                    margin: 0 24px;
+                    margin-bottom: 12px;
                     .img{
-                        width:242px;
                         height: 242px;
                         background-position: center;
                         background-size: contain;
@@ -320,7 +379,17 @@ import homeService from '@/services/HomeService.js'
 
             }
         }
+        li:hover{
+            -webkit-box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            -webkit-transform: translate3d(0, -2px, 0);
+            transform: translate3d(0, -2px, 0);
+        }
+        .item-level:last-child{
+            margin-bottom: 20px;
+        }
         li{
+            transition: all ease .2s;
             .img{
                 background-size: cover;
                 background-position: center center;
@@ -338,6 +407,13 @@ import homeService from '@/services/HomeService.js'
                     margin: 12px 0;
                     font-size: 14px;
                     color: #a3a3a3;
+                    line-height: 18px;
+                    height: 54px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 3;
+                    -webkit-box-orient: vertical;
                 }
                 .line-three {
                     margin: 12px 0 24px;
@@ -345,14 +421,10 @@ import homeService from '@/services/HomeService.js'
                     color: #a3a3a3;
                 }
                 .line-four {
-                    width: 266px;
                     border-top: 1px solid #f2f2f2;
-                    margin: 0 auto;
+                    margin: 0 12px;
                 }
                 p{
-                    overflow: hidden;
-                    text-overflow:ellipsis;
-                    white-space: nowrap;
                     padding-left: 24px;
                     padding-right: 24px;
                 }

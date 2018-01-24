@@ -10,7 +10,7 @@
               <a href="/reverse" class="news top-menu">快报</a>
               <a href="/order" class="top-menu" v-login>我的订单</a>
               <a href="" class="top-menu" v-login>收藏夹</a>
-              <a href="javascript:void(0)" ><i class="iconfont icon-shouji"></i>手机下单更优惠</a>
+              <a href="javascript:void(0)" ><i class="iconfont icon-shouji"></i>手机下单更便捷</a>
               <a href="javascript:void(0)" @click="logout" v-if="userInfo">退出</a>
             </li>
           </ul>
@@ -20,7 +20,12 @@
                 <ul>
                     <li v-for="value in menuList">
                         <a :href="value.link" v-if="value.type == 'logo'" class="header-logo" :style="{backgroundImage : 'url('+value.icon+')'}"></a>
-                        <a :href="value.link" v-else>
+                        <a :href="value.link" v-else-if="!value.needLogin">
+                            <span class="iconfont" :class="value.icon"></span>
+                            <p>{{value.first}}</p>
+                            <p>{{value.last}}</p>
+                        </a>
+                        <a :href="value.link" v-else v-login>
                             <span class="iconfont" :class="value.icon"></span>
                             <p>{{value.first}}</p>
                             <p>{{value.last}}</p>
@@ -93,62 +98,71 @@
                      icon : 'icon-IPjiejuefangan',
                      first : 'IP',
                      last : 'SOLUTION',
-                     link : 'javascript:void(0)'
+                     link : 'javascript:void(0)',
+                     needLogin : false
                  },
                  {
                      name : 'hdtvi solution',
                      icon : 'icon-jiankong',
                      first : 'HD-TVI',
                      last : 'SOLUTION',
-                     link : 'javascript:void(0)'
+                     link : 'javascript:void(0)',
+                     needLogin : false
                  },
                  {
                      name : 'shopby scenario',
                      icon : 'icon-qiyejiejuefangan',
                      first : 'SHOP BY',
                      last : 'SCENARIO',
-                     link : 'javascript:void(0)'
+                     link : 'javascript:void(0)',
+                     needLogin : false
                  },
                  {
-                     name : 'surveiliance system vulider',
+                     name : 'project registration',
                      icon : 'icon-jiatingjiejuefangan',
-                     first : 'SURVEILANCE',
-                     last : 'SYSTEM BULIDER',
-                     link : 'javascript:void(0)'
+                     first : 'Project',
+                     last : 'Registration',
+                     link : 'javascript:void(0)',
+                     needLogin : false
                  },
                  {
                      name : 'logo',
                      icon :  require('../../assets/img/header-logo.png'),
                      type : 'logo',
-                     link : '/'
+                     link : '/',
+                     needLogin : false
                  },
                  {
                      name : 'call experts',
                      icon : 'icon-lianxixiaoshoukefu',
                      first : 'CALL',
                      last : 'EXPERTS',
-                     link : 'javascript:void(0)'
+                     link : 'javascript:void(0)',
+                     needLogin : false
                  },
                  {
                     name : 'support center',
                     icon : 'icon-zhichi',
                     first : 'SUPPORT',
                     last : 'CENTER',
-                    link : 'javascript:void(0)'
+                    link : 'javascript:void(0)',
+                    needLogin : false
                  },
                  {
                     name : 'my favorite',
                     icon : 'icon-wodezuiai',
                     first : 'MY',
                     last : 'FAVOURITE',
-                    link : 'javascript:void(0)'
+                    link : 'javascript:void(0)',
+                    needLogin : true
                  },
                  {
                     name : 'suopping cart',
                     icon : 'icon-gouwuche2',
                     first : 'SUOPPING',
                     last : 'CART',
-                    link : '/cart'
+                    link : '/cart',
+                    needLogin : true
                  }
                 ],
               keywords: '',

@@ -97,7 +97,6 @@
                     cartPriceTotal: 0,
                 },
                 checkedItem: [{
-                    img: require('@/assets/img/shangping_html.png'),
                     info: '海康威视DS-CD0DDDDDDDDDD',
                     more: {
                         '像素': '1200W',
@@ -108,7 +107,6 @@
                     count: '$500.00',
                     handle: 'iconfont  icon-shanchu',
                 },{
-                    img: require('@/assets/img/shangping_html.png'),
                     info: '海康威视DS-CD0DDDDDDDDDD',
                     more: {
                         '像素': '1200W',

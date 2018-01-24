@@ -19,7 +19,7 @@ export default class ItemService extends BaseService {
         let params = {
             item_id : id
         };
-        return super.getRequest('/installer/item/get_item_with_props',params)
+        return super.getRequest('/installer/item/get_item_detail_full',params);
     }
 
     /**
@@ -33,7 +33,7 @@ export default class ItemService extends BaseService {
             text ,
             condition
         };
-        return super.getRequest('/static/test/json/search.item.json',params)
+        return super.getRequest('/static/test/json/search.item.json',params);
     }
 
     /**

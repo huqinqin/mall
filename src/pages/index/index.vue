@@ -42,7 +42,29 @@
     </div>
      <!-- main -->
     <div class="content">
-        <div class="item-box" v-if="itemList.length > 0">
+        <div class="item-box">
+            <div class="hot-item">
+                <div class="item-list-title">
+                    <div class="i">
+                        <span>热卖单品</span>
+                    </div>
+                </div>
+                <ul class="item-list-box">
+                    <li  v-for="item in hotList" :key="item.sin">
+                        <a :href="'/detail#/?id=' + item.id">
+                            <div class="img" :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+item.url+')'}"></div>
+                            <div class="item-spec">
+                                <p class="line-two">{{item.item_name}}</p>
+                                <p class="line-four" ></p>
+                                <div class="item-price">
+                                    <button v-ltsLoginShow:false v-login>登录之后查看价格</button>
+                                    <p v-ltsLoginShow:true class="price">${{item.price}}</p>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
             <div v-for="itemlist in itemList" :key="itemlist.name">
               <div class="item-list-title">
                   <div class="i">
@@ -62,7 +84,7 @@
                               <p class="line-four" ></p>
                               <div class="item-price">
                                   <button v-ltsLoginShow:false v-login>登录之后查看价格</button>
-                                  <p v-ltsLoginShow:true class="price">${{item.price }}</p>
+                                  <p v-ltsLoginShow:true class="price">${{item.price}}</p>
                               </div>
                           </div>
                       </a>
@@ -142,7 +164,39 @@ import homeService from '@/services/HomeService.js'
 <style src="@/assets/iconfont/iconfont.css"></style>
 <style lang="less" scoped>
 
-
+.b1200 {
+    .side{
+        display: none;
+    }
+    .hot-item{
+        display: block;
+    }
+    .item-box{
+        li{
+            margin-right: 13px;
+        }
+        li:nth-child(4n){
+            margin-right: 0;
+        }
+    }
+}
+.b1500{
+    .side{
+        margin-left: 30px;
+        display: block;
+    }
+    .hot-item{
+        display: none;
+    }
+    .item-box {
+        li {
+            margin-right: 16px;
+        }
+        li:nth-child(5n) {
+            margin-right: 0;
+        }
+    }
+}
 ._index{
     overflow: hidden;
     background-color: #eee;
@@ -244,7 +298,6 @@ import homeService from '@/services/HomeService.js'
         justify-content: space-between;
         .item-box {
             flex: 1;
-            margin-right: 30px;
             .item-list-title{
                 display: flex;
                 justify-content: space-between;
@@ -283,10 +336,8 @@ import homeService from '@/services/HomeService.js'
                 li {
                     background-color: #ffffff;
                     text-align: center;
-                    min-width: 200px;
-                    flex:1;
+                    width: 290px;
                     margin-bottom: 12px;
-                    margin-right: 1%;
                 }
                 li:nth-child(4n){
                     margin-right: 0%;
@@ -294,7 +345,7 @@ import homeService from '@/services/HomeService.js'
             }
         }
         .side{
-            width: 290px;
+            width: 260px;
             .title{
                 margin-top: 14px;
                 color:#737373;
@@ -319,9 +370,7 @@ import homeService from '@/services/HomeService.js'
                     text-align: center;
                     background: #ffffff;
                     border-bottom: solid 1px #f2f2f2;
-                    margin: 0 24px;
                     .img{
-                        width:242px;
                         height: 242px;
                         background-position: center;
                         background-size: contain;

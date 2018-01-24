@@ -52,8 +52,8 @@
                         <p @click="fade">支持30天无理由退换(如果商品参加活动，退换货以活动规则为准)</p>
                     </el-form-item>
                     <el-form-item class="buttons" >
-                        <button @click.stop="buyNow"><div v-login>立即购买</div></button>
-                        <button @click.stop="addCart" ><div v-login>加入购物车</div></button>
+                        <button @click.stop="buyNow" type="button"><div v-login>立即购买</div></button>
+                        <button @click.stop="addCart" type="button"><div v-login>加入购物车</div></button>
                     </el-form-item>
                     <addCartSuccess v-if="flag"></addCartSuccess>
                 </el-form>

@@ -63,4 +63,10 @@ export default class OrderService extends BaseService {
         };
         return super.getRequest('/store/order/query_single_by_tid',params);
     }
+    static close_by_tid(tid){
+        let params = {
+            tid: tid
+        };
+        return super.getRequest('/installer/order/close_by_tid',params);
+    }
 }

@@ -49,13 +49,18 @@
                         </el-form-item>
                     </div>
                     <el-form-item label="温馨提示" class="mark">
-                        <p @click="fade">支持30天无理由退换(如果商品参加活动，退换货以活动规则为准)</p>
+                        <p>支持30天无理由退换(如果商品参加活动，退换货以活动规则为准)</p>
                     </el-form-item>
                     <el-form-item class="buttons" >
-                        <button @click.stop="buyNow" type="button"><div v-login>立即购买</div></button>
+                         <button @click.stop="buyNow" type="button"><div v-login>立即购买</div></button>
                         <button @click.stop="addCart" type="button"><div v-login>加入购物车</div></button>
                     </el-form-item>
-                    <addCartSuccess v-if="flag"></addCartSuccess>
+                    <addCartSuccess
+                        v-show="flag"
+                        @fade="hide"
+                        @jump="jump"
+                        :info = "hotSale"
+                    ></addCartSuccess>
                 </el-form>
             </div>
             <div class="detail-buy-history">
@@ -66,14 +71,21 @@
                         <div class="icon-right"><i class="iconfont  icon-iconfontzuo"></i></div>
                     </div>
                 </div>
-                <ul>
+                <ul v-if="buyHistory">
                     <li v-for="item in buyHistory">
-                        <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
-                        <p class="brand">{{item.brand}}</p>
-                        <p class="name">{{item.item_name}}</p>
-                        <p class="price">${{item.price_value}}</p>
+                        <a :href="'/detail#/?id=' + item.id" target="_blank">
+                            <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
+                            <p class="brand">{{item.brand}}</p>
+                            <p class="name">{{item.item_name}}</p>
+                            <p class="price">${{item.price_value}}</p>
+                        </a>
                     </li>
                 </ul>
+                <div v-else class="history_null" >
+                    <div :style="{backgroundImage:'url(' + nullImg + ')'}">
+
+                    </div>
+                </div>
             </div>
         </div>
         <!-- bottom -->
@@ -89,10 +101,12 @@
                     </div>
                     <ul>
                         <li v-for="item in hotSale">
-                            <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
-                            <p class="brand">{{item.brand}}</p>
-                            <p class="name">{{item.item_name}}</p>
-                            <p class="price">${{item.price_value}}</p>
+                            <a :href="'/detail#/?id=' + item.id" target="_blank">
+                                <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
+                                <p class="brand">{{item.brand}}</p>
+                                <p class="name">{{item.item_name}}</p>
+                                <p class="price">${{item.price_value}}</p>
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -169,7 +183,7 @@
                     '声频': 'line in/out'
                 },
                 comment: [],
-
+                nullImg : require('@/assets/img/buynull.png'),
                 showPropsError : false,
             }
         },
@@ -178,7 +192,17 @@
                 console.log(tab,event);
             },
             inputNumberChange(value){
-                console.log(this.item.num)
+                console.log(this.item.num);
+                this.item.item_struct_props.forEach((item)=>{
+                    console.log(item.storage,this.item.num);
+                    if(this.item.num > item.storage){
+                        this.dis = true;
+                        console.log(this.dis);
+                    }else{
+                        this.dis = false;
+                        console.log(this.dis);
+                    }
+                })
             },
             getItemDetail(id){
                 itemService.getItemDetail(id).then((data)=>{
@@ -264,14 +288,17 @@
                 if(!this.validate()){
                     return false;
                 }
+                if(!this.showPropsError){
+                    this.flag = true;
+                }
                 cartService.putCartPlus(this.item,this.checkedSpu).then((data) => {
                     this.$ltsMessage.show({type:"success",message:'加入购物车成功'})
                 },(msg) => {
                     this.$ltsMessage.show({type:"error",message:msg.error_message})
                 });
             },
-            fade(){
-                this.flag = true;
+            hide(){
+                this.flag = false;
             },
             buyNow(){
                 if(!this.validate()){
@@ -317,6 +344,9 @@
             },
             closeError(){
               this.showPropsError = false;
+            },
+            jump(){
+                location.href = "http://work.local.lts.com:8085/cart#/";
             }
         },
         mounted(){
@@ -352,7 +382,6 @@
                     }
                     .small{
                         display: flex;
-                        justify-content: center;
                         .small_img{
                             width: 60px;
                             height: 60px;
@@ -691,7 +720,7 @@
         .detail-buy-history{
             ul{
                 overflow-y: scroll;
-                max-height: 434px;
+                height: 434px;
             }
         }
         .detail-buy-history, .detail_side_img{
@@ -762,6 +791,18 @@
             }
             li:last-child{
                 border-bottom: none;
+            }
+            .history_null{
+                height: 434px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                div{
+                    width: 183px;
+                    height: 128px;
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                }
             }
         }
     }

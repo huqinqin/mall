@@ -207,7 +207,7 @@
             deleteHandle(index, row){
                 row.num = 0;
                 this.putCartPlus(row).then((data)=>{
-                    this.tableData.splice(index,1)
+                    this.queryCartList();
                 },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.errorMessage})
                 })

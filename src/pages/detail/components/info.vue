@@ -19,7 +19,7 @@
             <div class="detail-sku-box">
                 <!-- 商品标题-->
                 <h3>{{item.item_name}}</h3>
-                <p class="brief">{{item.promotion_title}}</p>
+                <!--<p class="brief">{{item.promotion_title}}</p>-->
                 <!-- 商品属性-->
                 <el-form label-position="left" label-width="120px" ref="ruleForm">
                     <el-form-item label="价格" prop>
@@ -52,8 +52,8 @@
                         <p>支持30天无理由退换(如果商品参加活动，退换货以活动规则为准)</p>
                     </el-form-item>
                     <el-form-item class="buttons" >
-                        <button @click.stop="buyNow"><div v-login>立即购买</div></button>
-                        <button @click.stop="addCart"><div v-login>加入购物车</div></button>
+                         <button @click.stop="buyNow" type="button"><div v-login>立即购买</div></button>
+                        <button @click.stop="addCart" type="button"><div v-login>加入购物车</div></button>
                     </el-form-item>
                     <addCartSuccess
                         v-show="flag"
@@ -71,7 +71,7 @@
                         <div class="icon-right"><i class="iconfont  icon-iconfontzuo"></i></div>
                     </div>
                 </div>
-                <ul>
+                <ul v-if="buyHistory">
                     <li v-for="item in buyHistory">
                         <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
                         <p class="brand">{{item.brand}}</p>
@@ -79,6 +79,11 @@
                         <p class="price">${{item.price_value}}</p>
                     </li>
                 </ul>
+                <div v-else class="history_null" >
+                    <div :style="{backgroundImage:'url(' + nullImg + ')'}">
+
+                    </div>
+                </div>
             </div>
         </div>
         <!-- bottom -->
@@ -174,6 +179,7 @@
                     '声频': 'line in/out'
                 },
                 comment: [],
+                nullImg : require('@/assets/img/buynull.png'),
                 showPropsError : false,
             }
         },
@@ -372,7 +378,6 @@
                     }
                     .small{
                         display: flex;
-                        justify-content: center;
                         .small_img{
                             width: 60px;
                             height: 60px;
@@ -634,7 +639,7 @@
                             .el-tabs__item{
                                 border-top: 2px solid #f6f6f6;
                                 width:122px;
-                                font-size: 16px;
+                                font-size: 14px;
                                 height: 38px;
                                 line-height: 38px;
                                 text-align: center;
@@ -711,7 +716,7 @@
         .detail-buy-history{
             ul{
                 overflow-y: scroll;
-                max-height: 434px;
+                height: 434px;
             }
         }
         .detail-buy-history, .detail_side_img{
@@ -783,6 +788,23 @@
             li:last-child{
                 border-bottom: none;
             }
+            .history_null{
+                height: 434px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                div{
+                    width: 183px;
+                    height: 128px;
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                }
+            }
+        }
+    }
+    .b1200{
+        .detail-img-box{
+            margin-right: 29px !important;
         }
     }
 

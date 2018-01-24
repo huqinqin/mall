@@ -306,7 +306,8 @@
             },
             // 查询地址列表
             getAddressList(){
-                addressService.getList('158716').then((data) => {
+                
+                addressService.getList().then((data) => {
                     this.addressData = data.datalist
                     this.addressData.forEach((value,index)=>{
                         if(value.status === 1){
@@ -350,10 +351,6 @@
                 let items = [];
                 this.tableData.forEach(function(value,index,array){
                     let item_prop_ids = [];
-                    value.item_props.forEach(function (val,key,array) {
-                        item_prop_ids.push(val.id)
-                    })
-
                     let Obj = {
                         "id":value.id,
                         "num":value.num,
@@ -385,12 +382,8 @@
                 let items = [];
                 this.tableData.forEach(function(value,index,array){
                     let item_prop_ids = [];
+
                     item_prop_ids.push(value.item_props[0].id);
-                    value.item_props.forEach(function (val,key,array) {
-                        val.propValue = val.prop_value
-                        console.log(val.propValue);
-                    })
-                    console.log(item_prop_ids);
                     let Obj = {
                         "id":value.id,
                         "num":value.num,
@@ -417,9 +410,24 @@
             /*计算价格*/
         },
         mounted(){
-            console.log(this.$route.params)
-            this.tableData = this.$route.params.items;
-            this.user_id = this.$route.params.userId;
+            if(this.$route.query && this.$route.query.item){
+                let item = JSON.parse(this.$route.query.item);
+                item.item_props.forEach(function (val,key,array) {
+                    val.propValue = JSON.parse(val.prop_value);
+                })
+                this.tableData.push(item);
+            }else{
+                let items = this.$route.params.items
+                items.forEach(function (item,inde,array) {
+                    item.item_props.forEach(function (val,key,array) {
+                        val.propValue = val.prop_value;
+                    })
+                })
+                this.tableData = items;
+                this.user_id = this.$route.params.userId;
+            }
+
+            console.log(this.tableData);
             this.getAddressList()
             this.simulateCreateTrade();
         },

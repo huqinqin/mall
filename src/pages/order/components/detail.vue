@@ -61,7 +61,8 @@
                     {{order.receiver_mobile}}
                 </el-form-item>
                 <el-form-item label="地址">
-                    {{order.user_addr}}
+                     {{order.user_addr.address}}
+                     {{order.user_addr.building}}
                 </el-form-item>
             </el-form>
         </el-card>
@@ -143,37 +144,32 @@
                 <el-table-column
                     prop="wholesale_item_d_o.item_name"
                     label="商品"
+                    max-width="600px"
                 >
                 </el-table-column>
                 <el-table-column
-                    label="单价"
-                    width="80">
+                    label="单价">
                     <template slot-scope="scope">{{scope.row.wholesale_item_d_o.price | money2str}}</template>
                 </el-table-column>
                 <el-table-column
                     prop="num"
-                    label="数量"
-                    width="80">
+                    label="数量">
                 </el-table-column>
                 <el-table-column
-                    label="应付"
-                    width="80">
+                    label="应付">
                     <template slot-scope="scope">{{scope.row.pay | money2str}}</template>
                 </el-table-column>
                 <el-table-column
-                    label="实付"
-                    width="80">
+                    label="实付">
                     <template slot-scope="scope">{{scope.row.pay_real | money2str}}</template>
                 </el-table-column>
                 <el-table-column
                     prop="hd_status_title"
-                    label="物流状态"
-                    width="100">
+                    label="物流状态">
                 </el-table-column>
                 <el-table-column
                     prop="status_title"
-                    label="订单状态"
-                    width="80">
+                    label="订单状态">
                 </el-table-column>
             </el-table>
         </el-card>
@@ -200,6 +196,7 @@
         methods: {
             get () {
                 orderService.get(this.order.tid).then((resp) => {
+                    resp.data.user_addr = JSON.parse(resp.data.user_addr);
                     this.order = resp.data;
                 },(err) => {
 

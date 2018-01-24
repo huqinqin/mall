@@ -1,7 +1,7 @@
 <template>
     <div class="search">
         <div class="nav">
-            <el-breadcrumb separator-class="el-icon-arrow-right">
+            <el-breadcrumb separator-class="el-icon-arrow-right" v-if="data.length > 0">
                 <el-breadcrumb-item :to="{ path: '/' }">商品</el-breadcrumb-item>
             </el-breadcrumb>
             <div class="tags" v-if="search.condition.length > 0">
@@ -16,7 +16,7 @@
                     :key = "propObj.name"
                     :class="{showAll: propObj.name === selectedItem }"
                     label-width="200px"
-                    label-position="right">
+                    label-position="left">
                     <ul>
                         <li v-for="(subItem,index) in propObj.value" @click="searchWithText(propObj,subItem)" :key="subItem">
                             {{subItem}}
@@ -36,7 +36,7 @@
                 </button>
             </div>
         </div>
-        <div class="content">
+        <div class="content" v-if="data.length > 0">
             <div class="header">
                 <div class="left">
                     <div class="synth" @click="selectOrderBy" :class="{active:activeItem == '综合'}">综合</div>
@@ -58,9 +58,9 @@
             <div class="search-result">
                 <ul class="result">
                     <li v-for="item in data" :key="item.id">
-                        <a :href="'/detail#/?id=' + item.id">
+                        <a :href="'/detail#/?id=' + item.id" target="_blank">
                             <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
-                            <p class="name">{{item.item_name}}</p>
+                            <p class="name" :title="item.item_name">{{item.item_name}}</p>
                             <div class="item-price">
                                 <button v-ltsLoginShow:false v-login>登录之后查看价格</button>
                                 <p class="price" v-ltsLoginShow:true>${{item.price_value}}</p>
@@ -77,6 +77,11 @@
                     next-text="下一页"
                     :current-page="search.page"
                     @current-change="changePage"></el-pagination>
+            </div>
+        </div>
+        <div v-else-if="data.length <= 0 && isLoadEnding" class="error">
+            <div :style="{backgroundImage: 'url('+errorImg+')'}">
+
             </div>
         </div>
     </div>
@@ -119,6 +124,10 @@
                 data:[],
                 rightTotal : 0,
                 closeProps : false,
+
+                errorImg : require('@/assets/img/error.png'),
+
+                isLoadEnding : false,
             }
 
         },
@@ -172,6 +181,7 @@
 
                     this.rightTotal = Math.ceil(this.search.totalPage/this.search.pageSize);
                     this.condition = rtn.data.aggregate_cate_prop_list;
+                    this.isLoadEnding = true;
 //                    for(let val in rtn.data.aggregate_cate_prop_map){
 //                        let key = rtn.data.aggregate_cate_prop_map[val],Object = {};
 //                        Object[key] = rtn.data.aggregate_cate_prop_map[val].split(',');
@@ -541,8 +551,14 @@
                     flex-wrap: wrap;
                     width:100%;
                     margin-bottom: 80px;
-
+                    li:hover{
+                        -webkit-box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+                        box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+                        -webkit-transform: translate3d(0, -2px, 0);
+                        transform: translate3d(0, -2px, 0);
+                    }
                     li{
+                        transition: all ease .2s;
                         width:290px;
                         overflow: hidden;
                         margin-top: 36px;
@@ -639,6 +655,18 @@
                     }
                 }
             }
+        }
+    }
+    .error{
+        width: 818px;
+        height: 417px;
+
+        margin: auto;
+        div{
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-repeat: no-repeat;
         }
     }
 </style>

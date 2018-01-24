@@ -51,10 +51,10 @@
                 </div>
                 <ul class="item-list-box">
                     <li  v-for="item in hotList" :key="item.sin">
-                        <a :href="'/detail#/?id=' + item.id">
+                        <a :href="'/detail#/?id=' + item.id" target="_blank">
                             <div class="img" :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+item.url+')'}"></div>
                             <div class="item-spec">
-                                <p class="line-two">{{item.item_name}}</p>
+                                <p class="line-two" :title="item.item_name">{{item.item_name}}</p>
                                 <p class="line-four" ></p>
                                 <div class="item-price">
                                     <button v-ltsLoginShow:false v-login>登录之后查看价格</button>
@@ -65,7 +65,7 @@
                     </li>
                 </ul>
             </div>
-            <div v-for="itemlist in itemList" :key="itemlist.name">
+            <div v-for="itemlist in itemList" :key="itemlist.name" class="item-level">
               <div class="item-list-title">
                   <div class="i">
                       <span>{{itemlist.name}}</span>
@@ -77,10 +77,10 @@
               </div>
               <ul class="item-list-box">
                   <li  v-for="item in itemlist.items" :key="item.sin">
-                      <a :href="'/detail#/?id=' + item.id">
+                      <a :href="'/detail#/?id=' + item.id" target="_blank">
                           <div class="img" :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+item.url+')'}"></div>
                           <div class="item-spec">
-                              <p class="line-two">{{item.item_name}}</p>
+                              <p class="line-two" :title="item.item_name">{{item.item_name}}</p>
                               <p class="line-four" ></p>
                               <div class="item-price">
                                   <button v-ltsLoginShow:false v-login>登录之后查看价格</button>
@@ -99,10 +99,10 @@
               </div>
               <ul class="best-sellers">
                   <li v-for="item in hotList" :key="item.id">
-                      <a :href="'/detail#/?id=' + item.id">
+                      <a :href="'/detail#/?id=' + item.id" target="_blank">
                           <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
                           <div class="item-spec">
-                              <p class="line-two">{{item.item_name}}</p>
+                              <p class="line-two" :title="item.item_name">{{item.item_name}}</p>
                               <div class="item-price">
                                   <button v-ltsLoginShow:false>登录之后查看价格</button>
                                   <p v-ltsLoginShow:true class="price">${{item.price }}</p>
@@ -365,11 +365,11 @@ import homeService from '@/services/HomeService.js'
             }
             .best-sellers{
                 margin-top: 15px;
-                background: #fff;
                 li{
                     text-align: center;
                     background: #ffffff;
                     border-bottom: solid 1px #f2f2f2;
+                    margin-bottom: 12px;
                     .img{
                         height: 242px;
                         background-position: center;
@@ -379,7 +379,17 @@ import homeService from '@/services/HomeService.js'
 
             }
         }
+        li:hover{
+            -webkit-box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            -webkit-transform: translate3d(0, -2px, 0);
+            transform: translate3d(0, -2px, 0);
+        }
+        .item-level:last-child{
+            margin-bottom: 20px;
+        }
         li{
+            transition: all ease .2s;
             .img{
                 background-size: cover;
                 background-position: center center;
@@ -397,6 +407,13 @@ import homeService from '@/services/HomeService.js'
                     margin: 12px 0;
                     font-size: 14px;
                     color: #a3a3a3;
+                    line-height: 18px;
+                    height: 54px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 3;
+                    -webkit-box-orient: vertical;
                 }
                 .line-three {
                     margin: 12px 0 24px;
@@ -408,9 +425,6 @@ import homeService from '@/services/HomeService.js'
                     margin: 0 12px;
                 }
                 p{
-                    overflow: hidden;
-                    text-overflow:ellipsis;
-                    white-space: nowrap;
                     padding-left: 24px;
                     padding-right: 24px;
                 }

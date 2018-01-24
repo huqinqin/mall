@@ -49,13 +49,18 @@
                         </el-form-item>
                     </div>
                     <el-form-item label="温馨提示" class="mark">
-                        <p @click="fade">支持30天无理由退换(如果商品参加活动，退换货以活动规则为准)</p>
+                        <p>支持30天无理由退换(如果商品参加活动，退换货以活动规则为准)</p>
                     </el-form-item>
                     <el-form-item class="buttons" >
                         <button @click.stop="buyNow"><div v-login>立即购买</div></button>
-                        <button @click.stop="addCart" ><div v-login>加入购物车</div></button>
+                        <button @click.stop="addCart"><div v-login>加入购物车</div></button>
                     </el-form-item>
-                    <addCartSuccess v-if="flag"></addCartSuccess>
+                    <addCartSuccess
+                        v-show="flag"
+                        @fade="hide"
+                        @jump="jump"
+                        :info = "hotSale"
+                    ></addCartSuccess>
                 </el-form>
             </div>
             <div class="detail-buy-history">
@@ -169,7 +174,6 @@
                     '声频': 'line in/out'
                 },
                 comment: [],
-
                 showPropsError : false,
             }
         },
@@ -178,7 +182,17 @@
                 console.log(tab,event);
             },
             inputNumberChange(value){
-                console.log(this.item.num)
+                console.log(this.item.num);
+                this.item.item_struct_props.forEach((item)=>{
+                    console.log(item.storage,this.item.num);
+                    if(this.item.num > item.storage){
+                        this.dis = true;
+                        console.log(this.dis);
+                    }else{
+                        this.dis = false;
+                        console.log(this.dis);
+                    }
+                })
             },
             getItemDetail(id){
                 itemService.getItemDetail(id).then((data)=>{
@@ -264,14 +278,17 @@
                 if(!this.validate()){
                     return false;
                 }
+                if(!this.showPropsError){
+                    this.flag = true;
+                }
                 cartService.putCartPlus(this.item,this.checkedSpu).then((data) => {
                     this.$ltsMessage.show({type:"success",message:'加入购物车成功'})
                 },(msg) => {
                     this.$ltsMessage.show({type:"error",message:msg.error_message})
                 });
             },
-            fade(){
-                this.flag = true;
+            hide(){
+                this.flag = false;
             },
             buyNow(){
                 if(!this.validate()){
@@ -317,6 +334,9 @@
             },
             closeError(){
               this.showPropsError = false;
+            },
+            jump(){
+                location.href = "http://work.local.lts.com:8085/cart#/";
             }
         },
         mounted(){

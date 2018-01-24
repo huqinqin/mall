@@ -58,7 +58,7 @@
             <div class="search-result">
                 <ul class="result">
                     <li v-for="item in data" :key="item.id">
-                        <a :href="'/detail#/?id=' + item.id">
+                        <a :href="'/detail#/?id=' + item.id" target="_blank">
                             <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
                             <p class="name" :title="item.item_name">{{item.item_name}}</p>
                             <div class="item-price">

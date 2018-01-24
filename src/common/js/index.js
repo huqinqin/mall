@@ -6,7 +6,7 @@ import Router from 'vue-router'
 import {dateUtils} from 'ltsutil'
 
 import Layout from 'layout'
-import 'element-ui/lib/theme-chalk/index.css'
+import '../../../static/css/element-variables.scss'
 import Loading from '../components/lts-loading'
 import Message from '../components/lts-message'
 import MessageBox from '../components/lts-messageBox'
@@ -53,7 +53,6 @@ export default function (App, router = new Router()) {
   let isIndex = true,isCart = true
   App.name && App.name == 'index' ? isIndex = true : isIndex = false;
   App.name && (App.name == 'cart' || App.name == 'order') ? isCart = true : isCart = false;
-  console.log(App.name);
   config.isWhite = isIndex
   config.isCart = isCart
   Layout.components = {'lts-content': App,'lts-header': ltsHeader,'lts-footer':ltsFooter}

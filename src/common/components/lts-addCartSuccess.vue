@@ -41,11 +41,12 @@
             padding: 24px;
             margin:0 24px;
             background-color: white;
+            box-sizing: border-box;
             .delete{
                 width: 21px;
                 height: 18px;
                 position: relative;
-                right:0;
+                left:490px;
                 top:0;
             }
             .innerWrapper{
@@ -70,7 +71,7 @@
                     font-size: 14px;
                     text-align: center;
                     font-family: "Microsoft YaHei";
-                    margin-left: 70%;
+                    margin-left: 150px;
                     display: flex;
                     justify-content: center;
                 }
@@ -141,6 +142,7 @@
                   {img:"../../assets/icon/shangpin.png",desc:"hahah",price:"1010"},
                   {img:"../../assets/icon/shangpin.png",desc:"hahah",price:"1020"},
                   {img:"../../assets/icon/shangpin.png",desc:"hahah",price:"1030"},
+                  {img:"../../assets/icon/shangpin.png",desc:"hahah",price:"1030"}
               ]
           }
       },

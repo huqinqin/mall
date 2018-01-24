@@ -30,7 +30,7 @@
                     <div :class="[showPropsError ? 'error' : '']" @click="closeError">
                         <el-form-item v-for="prop in item.item_prop_value_maps" :key="prop.prop_name" :label="prop.prop_name" class="radio sku_prop" >
                             <el-radio-group v-model="prop.checked_prop">
-                                <el-radio v-for="propValue in prop.prop_values"   :disabled="!propValue.can_checked" :label="propValue.value" :key="propValue.value" :change="checkedProp(prop,item)"  border>
+                                <el-radio v-for="propValue in prop.prop_values"  :disabled="!propValue.can_checked" :label="propValue.value" :key="propValue.value" :change="checkedProp(prop,item)"  border>
                                     {{propValue.value}}
                                     <i class="iconfont icon-duihao"></i>
                                 </el-radio>
@@ -49,12 +49,13 @@
                         </el-form-item>
                     </div>
                     <el-form-item label="温馨提示" class="mark">
-                        <p>支持30天无理由退换(如果商品参加活动，退换货以活动规则为准)</p>
+                        <p @click="fade">支持30天无理由退换(如果商品参加活动，退换货以活动规则为准)</p>
                     </el-form-item>
                     <el-form-item class="buttons" >
                         <button @click.stop="buyNow"><div v-login>立即购买</div></button>
                         <button @click.stop="addCart" ><div v-login>加入购物车</div></button>
                     </el-form-item>
+                    <addCartSuccess v-if="flag"></addCartSuccess>
                 </el-form>
             </div>
             <div class="detail-buy-history">
@@ -129,7 +130,9 @@
     import $ from 'jquery'
     import itemService from '@/services/ItemService'
     import cartService from '@/services/CartService'
+    import addCartSuccess from 'ui/components/lts-addCartSuccess.vue'
     export default {
+        components:{addCartSuccess},
         name : 'detailInfo',
         props : {},
         data() {
@@ -139,6 +142,7 @@
                 sku_2: '',
                 count: '',
                 prc_info: [],
+                flag:false,
                 detail_side_img: [
                     {
                         href: "",
@@ -847,6 +851,9 @@
                     this.$ltsMessage.show({type:"error",message:msg.error_message})
                 });
             },
+            fade(){
+                this.flag = true;
+            },
             buyNow(){
                 if(!this.validate()){
                     return false;
@@ -891,21 +898,11 @@
             },
             closeError(){
               this.showPropsError = false;
-            },
-            handle(){
-                this.item.item_prop_value_maps.forEach((item,index)=>{
-                    if(!item.prop_values[0].can_checked){
-                        
-                    }
-                })
             }
         },
         mounted(){
             let id = this.$route.query.id;
             this.getItemDetail(id);
-            setTimeout(()=>{
-                this.handle();
-            },20)
         },
 
     }
@@ -1045,18 +1042,16 @@
                         font-size: 14px;
                         width: auto!important;
                         border:1px solid #b8b7bd ;
+                        color:red;
                         .el-radio__input{
                             display: none;
                         }
                         .el-radio__label{
                             text-align: center;
                             font-size: 14px;
-                            color: #a3a3a3;
+                            color: #606266;
                             line-height: 19px;
                             padding: 0 9px;
-                        }
-                        .is-disabled{
-                            border: 1px dotted #a3a3a3;
                         }
                     }
                     .iconfont {
@@ -1071,6 +1066,12 @@
                         span{
                             color:rgba(0,0,0,0.5);
                         }
+                    }
+                    .el-radio.is-disabled{
+                        border: 1px dashed #a3a3a3;
+                    }
+                    .el-radio.is-disabled .el-radio__label{
+                        color:#a3a3a3;
                     }
                     .el-radio.is-checked::after{
                         content:'';

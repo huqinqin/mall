@@ -6,8 +6,8 @@ export default new Router({
     routes: [
         {
             path: '/',
-            name : 'info',
-            component : info
+            name: 'info',
+            component: info
         }
     ]
 })

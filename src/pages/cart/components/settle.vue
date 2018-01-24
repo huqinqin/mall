@@ -306,7 +306,8 @@
             },
             // 查询地址列表
             getAddressList(){
-                addressService.getList('158716').then((data) => {
+                
+                addressService.getList().then((data) => {
                     this.addressData = data.datalist
                     this.addressData.forEach((value,index)=>{
                         if(value.status === 1){

@@ -1,10 +1,14 @@
 <template>
     <transition name="fade">
-        <div class="wrapper">
+        <el-dialog
+                     width="34%"
+                     center
+                     :visible.sync="show"
+                     class="wrapper">
             <div class="box">
                 <div class="iconfont icon-iconset0127 delete" @click="fade"></div>
                 <div class="innerWrapper">
-                    <i  v-if="type === 0" class="iconfont icon-chenggong "></i>
+                    <i  v-if="type === 0" class="iconfont icon-chenggong icon"></i>
                     <i  v-if="type === 1" class="iconfont icon-turnoff icon"></i>
                     <i  v-if="type === 2" class="iconfont icon-chenggong icon"></i>
                     <i  v-if="type === 3" class="iconfont icon-chenggong icon"></i>
@@ -23,7 +27,7 @@
                     </li>
                 </ul>
             </div>
-        </div>
+        </el-dialog>
     </transition>
 
 </template>
@@ -34,6 +38,12 @@
     }
     .fade-enter, .fade-leave-to{
         opacity: 0;
+    }
+    .el-dialog{
+        width: 551px;
+    }
+    .el-dialog--center .el-dialog__header{
+        padding:0 !important;
     }
     .wrapper{
         position: fixed;
@@ -48,7 +58,7 @@
         align-items: center;
         .box{
             width: 551px;
-            padding: 16px;
+            padding: 18px;
             margin:0 24px;
             background-color: white;
             box-sizing: border-box;
@@ -67,7 +77,10 @@
                 .icon{
                     width: 26px;
                     height: 26px;
-                    background-color: aqua;
+                    color: #0bdc0b;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
                 }
                 .title{
                     margin-left: 15px;
@@ -104,12 +117,12 @@
                     width: 90px;
                     word-break: break-all;
                     .bg{
+                        border: 1px solid rgba(0,0,0,0.3);
                         width: 90px;
                         height: 90px;
                         background-size: 100% 100%;
                         background-position: center center;
                         background-repeat: no-repeat;
-                        background-color: aqua;
                     }
                     .desc{
                         text-align: center;
@@ -130,12 +143,16 @@
 
 <script>
   import ElButton from "../../../node_modules/element-ui/packages/button/src/button.vue";
+  import ElDialog from "../../../node_modules/element-ui/packages/dialog/src/component.vue";
   export default {
-      components: {ElButton},
+      components: {
+          ElDialog,
+          ElButton},
       props:{
+
           title:{
               type:String,
-              default:"已成功加入购物车"
+              default:"已成功加入购物车!"
           },
           btnTitle:{
               type:String,
@@ -158,13 +175,31 @@
                   {img:"../../assets/icon/shangpin.png",desc:"hahah",price:"1030"},
                   {img:"../../assets/icon/shangpin.png",desc:"hahah",price:"1030"}
               ]
+          },
+          flag:{
+              type:Boolean,
+              default:false
           }
       },
       data(){
           return{
+            show:false
+          }
+      },
+      watch:{
+          flag(){
+              this.show = this.flag;
+          },
+          show(){
+              if(!this.show){
+                  this.close();
+              }
           }
       },
       methods:{
+          close(){
+              this.$emit('update:flag',false);
+          },
           fade(){
               this.$emit("fade");
           },

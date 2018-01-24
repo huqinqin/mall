@@ -53,10 +53,10 @@
                     </el-form-item>
                     <el-form-item class="buttons" >
                          <button @click.stop="buyNow" type="button"><div v-login>立即购买</div></button>
-                        <button @click.stop="addCart" type="button"><div v-login>加入购物车</div></button>
+                        <el-button @click.stop="addCart" type="button"><div v-login>加入购物车</div></el-button>
                     </el-form-item>
                     <addCartSuccess
-                        v-show="flag"
+                        :flag.sync="flag"
                         @fade="hide"
                         @jump="jump"
                         :info = "hotSale"
@@ -288,10 +288,10 @@
                 if(!this.validate()){
                     return false;
                 }
-                if(!this.showPropsError){
-                    this.flag = true;
-                }
                 cartService.putCartPlus(this.item,this.checkedSpu).then((data) => {
+                    if(!this.showPropsError) {
+                        this.flag = true;
+                    }
                     this.$ltsMessage.show({type:"success",message:'加入购物车成功'})
                 },(msg) => {
                     this.$ltsMessage.show({type:"error",message:msg.error_message})

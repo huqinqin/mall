@@ -765,5 +765,10 @@
             }
         }
     }
+    .b1200{
+        .detail-img-box{
+            margin-right: 29px !important;
+        }
+    }
 
 </style>

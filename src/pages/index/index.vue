@@ -365,11 +365,11 @@ import homeService from '@/services/HomeService.js'
             }
             .best-sellers{
                 margin-top: 15px;
-                background: #fff;
                 li{
                     text-align: center;
                     background: #ffffff;
                     border-bottom: solid 1px #f2f2f2;
+                    margin-bottom: 12px;
                     .img{
                         height: 242px;
                         background-position: center;
@@ -379,7 +379,17 @@ import homeService from '@/services/HomeService.js'
 
             }
         }
+        li:hover{
+            -webkit-box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            -webkit-transform: translate3d(0, -2px, 0);
+            transform: translate3d(0, -2px, 0);
+        }
+        li:last-child{
+            margin-bottom: 20px;
+        }
         li{
+            transition: all ease .2s;
             .img{
                 background-size: cover;
                 background-position: center center;
@@ -397,6 +407,13 @@ import homeService from '@/services/HomeService.js'
                     margin: 12px 0;
                     font-size: 14px;
                     color: #a3a3a3;
+                    line-height: 18px;
+                    height: 54px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 3;
+                    -webkit-box-orient: vertical;
                 }
                 .line-three {
                     margin: 12px 0 24px;
@@ -408,9 +425,6 @@ import homeService from '@/services/HomeService.js'
                     margin: 0 12px;
                 }
                 p{
-                    overflow: hidden;
-                    text-overflow:ellipsis;
-                    white-space: nowrap;
                     padding-left: 24px;
                     padding-right: 24px;
                 }

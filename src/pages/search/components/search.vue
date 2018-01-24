@@ -16,7 +16,7 @@
                     :key = "propObj.name"
                     :class="{showAll: propObj.name === selectedItem }"
                     label-width="200px"
-                    label-position="right">
+                    label-position="left">
                     <ul>
                         <li v-for="(subItem,index) in propObj.value" @click="searchWithText(propObj,subItem)" :key="subItem">
                             {{subItem}}
@@ -541,8 +541,14 @@
                     flex-wrap: wrap;
                     width:100%;
                     margin-bottom: 80px;
-
+                    li:hover{
+                        -webkit-box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+                        box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+                        -webkit-transform: translate3d(0, -2px, 0);
+                        transform: translate3d(0, -2px, 0);
+                    }
                     li{
+                        transition: all ease .2s;
                         width:290px;
                         overflow: hidden;
                         margin-top: 36px;

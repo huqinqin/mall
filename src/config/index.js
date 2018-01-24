@@ -12,6 +12,12 @@ export default {
     api:{
         service:'http://mall.lts.com:18085/gateway'
     },
+    // url: {
+    //     main: 'http://work.local.lts.com:8085'
+    // },
+    // api:{
+    //     service:'http://work.local.lts.com:8085/gateway'
+    // },
     homePage: '/',
     loginPage: '/login',
     appKey: '00000-500mi',

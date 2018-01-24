@@ -68,10 +68,12 @@
                 </div>
                 <ul v-if="buyHistory">
                     <li v-for="item in buyHistory">
-                        <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
-                        <p class="brand">{{item.brand}}</p>
-                        <p class="name">{{item.item_name}}</p>
-                        <p class="price">${{item.price_value}}</p>
+                        <a :href="'/detail#/?id=' + item.id" target="_blank">
+                            <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
+                            <p class="brand">{{item.brand}}</p>
+                            <p class="name">{{item.item_name}}</p>
+                            <p class="price">${{item.price_value}}</p>
+                        </a>
                     </li>
                 </ul>
                 <div v-else class="history_null" >
@@ -94,10 +96,12 @@
                     </div>
                     <ul>
                         <li v-for="item in hotSale">
-                            <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
-                            <p class="brand">{{item.brand}}</p>
-                            <p class="name">{{item.item_name}}</p>
-                            <p class="price">${{item.price_value}}</p>
+                            <a :href="'/detail#/?id=' + item.id" target="_blank">
+                                <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
+                                <p class="brand">{{item.brand}}</p>
+                                <p class="name">{{item.item_name}}</p>
+                                <p class="price">${{item.price_value}}</p>
+                            </a>
                         </li>
                     </ul>
                 </div>

@@ -4,7 +4,7 @@
             <h5>收货地址</h5>
             <ul>
                 <li  v-for="(item,key) in addressData" :class="{default:item.id === defaultId}" @click="checkAddress(item)">
-                    <div v-if="item.status === 1"  >
+                    <div v-if="item.status === 1" >
                         <header>
                             <div><p>{{item.user_name}}({{item.address}}) </p></div>
                         </header>
@@ -101,17 +101,21 @@
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="price" width="" label="单价" align="center">
+
+                <el-table-column prop="" width="" label="单价" align="center">
+                    <template slot-scope="scope">
+                        <div>${{(scope.row.item_props[0].price/100).toFixed(2)}}</div>
+                    </template>
                 </el-table-column>
                 <el-table-column label="数量" width="" prop="num" align="center">
                 </el-table-column>
                 <el-table-column label="小计" width="" align="center">
                     <template slot-scope="scope">
-                        <div class="count" ref="count">{{scope.row.num*scope.row.price}}</div>
+                        <div class="count" ref="count">${{(scope.row.num*scope.row.item_props[0].price/100).toFixed(2)}}</div>
                     </template>
                 </el-table-column>
             </el-table>
-            <div class="remark"><span>买家留言 </span><el-input></el-input></div>
+            <div class="remark"><span>买家留言： </span><el-input v-model="remark"></el-input></div>
         </div>
         <div class="balance">
             <el-checkbox v-model="useBalance">使用余额</el-checkbox>
@@ -119,19 +123,19 @@
 
         <div class="someCount">
             <div class="count">
-                <p>商品应付金额 <span class="money">${{sum.amount.toFixed(2)}}</span></p>
-                <p>运费 <span>+{{sum.express.toFixed(2)}}</span></p>
-                <p>税费 <span>+{{sum.tax.toFixed(2)}}</span></p>
-                <p>红包 <span>-{{sum.benefit.toFixed(2)}}</span></p>
-                <p class="result">应付金额 <span>${{totalPrice}}</span></p>
+                <p>商品应付金额： <span class="money">${{(sum.amount/100).toFixed(2)}}</span></p>
+                <p>运费： <span>+{{sum.express.toFixed(2)}}</span></p>
+                <p>税费： <span>+{{sum.tax.toFixed(2)}}</span></p>
+                <p>红包： <span>-{{sum.benefit.toFixed(2)}}</span></p>
+                <p class="result">应付金额： <span>${{totalPrice}}</span></p>
             </div>
         </div>
         <div class="allInfo">
-            <p>联系人 {{checkedAddress.user_name}}</p>
-            <p>联系电话 {{checkedAddress.mobile}}</p>
-            <p>收货地址 {{checkedAddress.address}}{{checkedAddress.building}}</p>
-            <p>账单地址 {{checkedAddress.address}}{{checkedAddress.building}}</p>
-            <p>资格证地址 {{checkedAddress.address}}{{checkedAddress.building}}</p>
+            <p>联系人： {{checkedAddress.user_name}}</p>
+            <p>联系电话： {{checkedAddress.mobile}}</p>
+            <p>收货地址： {{checkedAddress.address}}{{checkedAddress.building}}</p>
+            <p>账单地址： {{checkedAddress.address}}{{checkedAddress.building}}</p>
+            <p>资格证地址： {{checkedAddress.address}}{{checkedAddress.building}}</p>
         </div>
         <div class="submit">
             <el-button @click="settle">提交订单</el-button>
@@ -149,8 +153,6 @@
         props: ['items'],
         data(){
             return{
-
-
                 info:JSON.parse(store.getItem('SESSION_DATA')),
                 totalPrice:'',
                 inPriceType:'false', // 送货单是否包含价格，配送方式
@@ -251,6 +253,7 @@
                 tableData: [],
                 multipleTable: [],
                 num: 10,
+                remark:'',
                 sum: {
                     amount: 0.00,
                     express: 0.00,
@@ -268,12 +271,6 @@
                 }
             }
         },
-
-        // computed: {
-        //     totalPrice: function () {
-        //         return this.sum.amount + this.sum.express + this.sum.tax - this.sum.benefit;
-        //     }
-        // },
         methods: {
             // 设置默认地址
             toggleDefault(item){
@@ -348,20 +345,6 @@
             settle(){
                 this.submitOrder();
             },
-
-            /*queryCartList(){
-                this.tableData = cartService.queryCartList(158716).datalist;
-
-            },*/
-            /*queryCartList(){
-                cartService.queryCartList().then((data)=>{
-                    console.log(data);
-                    this.tableData = data.datalist;
-                    console.log(this.tableData);
-                },(msg)=>{
-                    this.$ltsMessage.show({type:'error',message:msg.errorMessage})
-                })
-            },*/
             /*正式下单*/
             submitOrder(){
                 let items = [];
@@ -424,9 +407,9 @@
                     source: "work.500mi.com.shop.pifa.market"
                 };
                 orderService.simulateCreateTrade(params).then((resp)=>{
+                    this.sum.amount = resp.data.wholesale_order.pay_info.money_pay
                     this.totalPrice = resp.data.wholesale_order.fee_total_value;
                     this.$emit('submit',2);
-                    console.log(this.totalPrice);
                 },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.error_message})
                 })
@@ -436,23 +419,15 @@
         mounted(){
             console.log(this.$route.params)
             this.tableData = this.$route.params.items;
-            this.sum.amount = this.$route.params.cartTotal.cartPriceTotal;
             this.user_id = this.$route.params.userId;
-            // this.tableData.forEach(function (value,index,array) {
-            //     value.item_props.forEach(function (val,key,array) {
-            //         val.prop_value =  JSON.parse(val.prop_value);
-            //     })
-            // })
-            this.totalPrice = this.sum.amount + this.sum.express + this.sum.tax - this.sum.benefit
             this.getAddressList()
-
             this.simulateCreateTrade();
-
         },
-  }
+    }
 </script>
 
 <style lang="less">
+
     tbody tr td:first-child{
         .cell{
             width:100%;
@@ -491,6 +466,7 @@
     }
     .settle{
         overflow: hidden;
+
         button{
             cursor: pointer;
         }
@@ -516,6 +492,7 @@
         }
         .el-table{
             font-size: 14px;
+            margin-left: 24px;
             .cell{
                 .cart-item-info{
                     width:100%;
@@ -573,7 +550,7 @@
                 li{
                     width: 280px;
                     height: 122px;
-                    box-shadow: 0px 3px 15px 0px #f1f1f1;
+                    box-shadow: 0px 3px 15px 0px #e8e8e8;
                     border-radius: 4px;
                     margin-bottom: 12px;
                     margin-right: 12px;
@@ -746,7 +723,7 @@
                     span{
                         width:120px;
                         height: 35px;
-                        line-height: 8px;
+                        line-height: 12px;
                         border:none;
                         background: #f6f6f6;
                     }
@@ -781,7 +758,6 @@
                 margin-left: 24px;
             }
             padding-bottom:24px;
-            border-bottom:1px solid rgba(0,0,0,0.05);
             .remark{
                 margin-top: 24px;
                 margin-left: 24px;
@@ -800,8 +776,9 @@
             }
         }
         .balance{
-            margin: 24px 0;
+            margin: 6px 0;
             padding-left: 24px;
+            margin-left: 24px;
             width: 100%;
             height: 40px;
             background-color: rgba(0, 0, 0, 0.05);

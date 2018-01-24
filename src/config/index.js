@@ -6,11 +6,17 @@ import api from './api'
 const isDebug = false;
 const isUseMock = false;
 export default {
+    // url: {
+    //     main: 'http://mall.lts.com:18085'
+    // },
+    // api:{
+    //     service:'http://mall.lts.com:18085/gateway'
+    // },
     url: {
-        main: 'http://mall.lts.com:18085'
+        main: 'http://work.local.lts.com:8085'
     },
     api:{
-        service:'http://mall.lts.com:18085/gateway'
+        service:'http://work.local.lts.com:8085/gateway'
     },
     homePage: '/',
     loginPage: '/login',

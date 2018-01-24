@@ -21,8 +21,11 @@
                     </template>
              </el-table-column>
              <el-table-column prop="price" width="" label="单价" align="center">
+                 <template slot-scope="scope">
+                     <div>${{(scope.row.item_props[0].price/100).toFixed(2)}}</div>
+                 </template>
              </el-table-column>
-             <el-table-column prop="price" width="" label="库存" align="center">
+             <el-table-column prop="" width="" label="库存" align="center">
                  <template slot-scope="scope">
                      <p v-if="scope.row.item_props[0].storage >= scope.row.num">有货</p>
                      <p v-else>库存不足</p>
@@ -37,7 +40,8 @@
              </el-table-column>
              <el-table-column label="小计" width="" align="center">
                 <template slot-scope="scope">
-                    <div class="count" ref="count">{{scope.row.num*scope.row.price}}</div>
+                    <!--<div class="count" ref="count">${{scope.row.num*scope.row.price}}</div>-->
+                    <div class="count" ref="count">${{(scope.row.num*scope.row.item_props[0].price/100).toFixed(2)}}</div>
                 </template>
              </el-table-column>
              <el-table-column label="操作" width="" align="center">
@@ -56,8 +60,8 @@
                 </p>
             </div>
             <div class="check">
-                <p><span>应付金额&nbsp;&nbsp;<strong>${{totalPrice}}</strong></span></p>
-                <el-button @click="check" :disabled="multipleSelection.length <= 0 ">立即结算</el-button>
+                <p><span>应付金额&nbsp;&nbsp;<strong>${{(totalPrice/100).toFixed(2)}}</strong></span></p>
+                <el-button @click="check" :disabled="multipleSelection.length <= 0 && tooManyItems">立即结算</el-button>
             </div>
         </div>
         <div class="history">
@@ -81,6 +85,7 @@
         name: "list",
         data() {
             return {
+                tooManyItems:true,
                 chooseAll: false,
                 historyData: [],
                 tableData: [],
@@ -157,7 +162,7 @@
                     let total = 0;
                     this.multipleSelection = value;
                     this.multipleSelection.forEach((item) => {
-                        total += item.num * item.price;
+                        total += item.num * item.item_props[0].price;
                     })
                     this.totalPrice = total;
                     this.chooseAll = false;
@@ -187,7 +192,7 @@
                     this.putCartPlus(row).then((data)=>{
                         this.multipleSelection.forEach((item)=>{
                             setTimeout(()=>{
-                                total += item.num   *  item.price;
+                                total += item.num   *  item.item_props[0].price;
                                 this.totalPrice = total;
                             },20)
                         })
@@ -195,6 +200,7 @@
                         console.log("加入购物车失败");
                     })
                 })
+
 
 
                /* cartService.putCartPlus(params)*/
@@ -229,7 +235,6 @@
                     })
                 }
             },
-
         }
   }
 </script>
@@ -239,6 +244,7 @@
         .el-table__header-wrapper{
             height: 40px;
         }
+
         .has-gutter{
             tr{
                 th{
@@ -303,6 +309,7 @@
                 line-height: 40px;
                 font-size: 22px;
                 color: #cecece;
+                cursor: pointer;
                 i{font-size: 18px;}
             }
             .count{

@@ -66,7 +66,7 @@
                         <div class="icon-right"><i class="iconfont  icon-iconfontzuo"></i></div>
                     </div>
                 </div>
-                <ul>
+                <ul v-if="buyHistory">
                     <li v-for="item in buyHistory">
                         <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
                         <p class="brand">{{item.brand}}</p>
@@ -74,6 +74,11 @@
                         <p class="price">${{item.price_value}}</p>
                     </li>
                 </ul>
+                <div v-else class="history_null" >
+                    <div :style="{backgroundImage:'url(' + nullImg + ')'}">
+
+                    </div>
+                </div>
             </div>
         </div>
         <!-- bottom -->
@@ -169,7 +174,7 @@
                     '声频': 'line in/out'
                 },
                 comment: [],
-
+                nullImg : require('@/assets/img/buynull.png'),
                 showPropsError : false,
             }
         },
@@ -691,7 +696,7 @@
         .detail-buy-history{
             ul{
                 overflow-y: scroll;
-                max-height: 434px;
+                height: 434px;
             }
         }
         .detail-buy-history, .detail_side_img{
@@ -762,6 +767,18 @@
             }
             li:last-child{
                 border-bottom: none;
+            }
+            .history_null{
+                height: 434px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                div{
+                    width: 183px;
+                    height: 128px;
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                }
             }
         }
     }

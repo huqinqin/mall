@@ -357,7 +357,6 @@
                     }
                     .small{
                         display: flex;
-                        justify-content: center;
                         .small_img{
                             width: 60px;
                             height: 60px;

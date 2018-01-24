@@ -54,7 +54,7 @@
                         <a :href="'/detail#/?id=' + item.id">
                             <div class="img" :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+item.url+')'}"></div>
                             <div class="item-spec">
-                                <p class="line-two">{{item.item_name}}</p>
+                                <p class="line-two" :title="item.item_name">{{item.item_name}}</p>
                                 <p class="line-four" ></p>
                                 <div class="item-price">
                                     <button v-ltsLoginShow:false v-login>登录之后查看价格</button>
@@ -80,7 +80,7 @@
                       <a :href="'/detail#/?id=' + item.id">
                           <div class="img" :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+item.url+')'}"></div>
                           <div class="item-spec">
-                              <p class="line-two">{{item.item_name}}</p>
+                              <p class="line-two" :title="item.item_name">{{item.item_name}}</p>
                               <p class="line-four" ></p>
                               <div class="item-price">
                                   <button v-ltsLoginShow:false v-login>登录之后查看价格</button>
@@ -102,7 +102,7 @@
                       <a :href="'/detail#/?id=' + item.id">
                           <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
                           <div class="item-spec">
-                              <p class="line-two">{{item.item_name}}</p>
+                              <p class="line-two" :title="item.item_name">{{item.item_name}}</p>
                               <div class="item-price">
                                   <button v-ltsLoginShow:false>登录之后查看价格</button>
                                   <p v-ltsLoginShow:true class="price">${{item.price }}</p>

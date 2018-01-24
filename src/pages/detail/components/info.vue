@@ -19,7 +19,7 @@
             <div class="detail-sku-box">
                 <!-- 商品标题-->
                 <h3>{{item.item_name}}</h3>
-                <p class="brief">{{item.promotion_title}}</p>
+                <!--<p class="brief">{{item.promotion_title}}</p>-->
                 <!-- 商品属性-->
                 <el-form label-position="left" label-width="120px" ref="ruleForm">
                     <el-form-item label="价格" prop>

@@ -7,9 +7,9 @@ export default class AddressService extends BaseService {
      * @autor taohua
      * remark 查询地址列表
      */
-    static getList(uid){
+    static getList(){
         let params = {
-            address:JSON.stringify({'userId':uid}),
+            address:'',
             page:1,
             pagesize:20,
             orderby:'status desc'
@@ -38,9 +38,8 @@ export default class AddressService extends BaseService {
      * @autor taohua
      * remark 新增地址
      */
-    static addItem(form,setDefault){
+    static addItem(form){
         let address = {
-            userId:"158716",
             mobile:form.mobile,
             userName:form.user_name,
             address:form.address + form.building,
@@ -72,10 +71,6 @@ export default class AddressService extends BaseService {
         return super.getRequest('/installer/consumer_address/update_status_plus',params)
     }
 
-
-
-
-
     /**
      * return
      * param userId 用户ID
@@ -89,7 +84,6 @@ export default class AddressService extends BaseService {
      */
     static updateItem(form){
         let address = {
-            userId:"158716",
             mobile:form.mobile,
             userName:form.user_name,
             address:form.address + form.building,
@@ -108,7 +102,6 @@ export default class AddressService extends BaseService {
 
     /**
      * return
-     * param userId 用户ID
      * param id 单条地址ID
      * param 其他修改的数据
      * @autor taohua
@@ -119,7 +112,6 @@ export default class AddressService extends BaseService {
      */
     static toggleDefault(form){
         let params = {
-            user_id:"158716",
             id: form.id
         }
         return super.getRequest('/installer/consumer_address/change_default_address',params)

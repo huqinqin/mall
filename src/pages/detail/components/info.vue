@@ -1296,7 +1296,6 @@
                     background-position: center;
                     background-size: contain;
                     background-repeat: no-repeat;
-                    background-repeat: no-repeat;
                 }
                 p.brand{
                     line-height: 14px;

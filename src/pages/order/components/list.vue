@@ -61,6 +61,7 @@
                                     </span>
                                     <el-dropdown-menu slot="dropdown">
                                         <el-dropdown-item command="refund" :data="subscope.row" v-if="isCanRefund(subscope.row)">退货退款</el-dropdown-item>
+                                        <el-dropdown-item command="refund" :data="subscope.row" v-if="isCanRefund(subscope.row)">退货退款</el-dropdown-item>
                                     </el-dropdown-menu>
                                 </el-dropdown>
                             </template>
@@ -72,7 +73,11 @@
             <el-table-column prop="tid" label="订单编号" align="center" width="120" />
             <el-table-column prop="user_name" label="工程商" header-align="center" align="center" width="160" :show-overflow-tooltip="true" />
             <el-table-column prop="receiver_mobile" label="手机" header-align="center" align="center" width="120" />
-            <el-table-column prop="user_addr" label="地址" header-align="center" align="center" :show-overflow-tooltip="true" />
+            <el-table-column  label="地址" header-align="center" align="center" :show-overflow-tooltip="true" >
+                <template slot-scope="scope">
+                    <div>{{scope.row.user_addr.address}}{{scope.row.user_addr.building}}</div>
+                </template>
+            </el-table-column>
             <el-table-column label="合计" align="center" width="80">
                 <template slot-scope="scope">
                     <el-tooltip placement="top">
@@ -104,8 +109,8 @@
                         </span>
                         <el-dropdown-menu slot="dropdown">
                             <el-dropdown-item><router-link :to="'/detail/' + scope.row.tid">详情</router-link></el-dropdown-item>
-                            <el-dropdown-item command="accept" v-if="isCanDeal(scope.row)">受理</el-dropdown-item>
-                            <el-dropdown-item command="reject" v-if="isCanDeal(scope.row)">拒绝</el-dropdown-item>
+                            <el-dropdown-item command="pay" :data="scope.row" v-if="isCanPay(scope.row)">去支付</el-dropdown-item>
+                            <el-dropdown-item command="close" :data="scope.row" v-if="isCanPay(scope.row)">关闭订单</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
                 </template>
@@ -130,6 +135,7 @@
     import {ltsSearchForm} from 'ui'
     import reverseApply from './reverse-apply'
     import orderService from '@/services/OrderService'
+    import config from 'config'
     export default {
         components: {
             ltsSearchForm, reverseApply
@@ -199,6 +205,7 @@
         methods: {
             handleMenuItemClick(command, data) {
                 let order;
+
                 switch (command) {
                     case "accept":
                         order = data.$vnode.data.attrs.data;
@@ -215,6 +222,27 @@
                     case "refund":
                         const orderItem = data.$vnode.data.attrs.data;
                         this.showRefundOrderItem(orderItem);
+                        break;
+                    case "pay":
+                        let return_url = '/customerorder#/finish';
+                        let fail_url = '/customerorder#/fail';
+                        order = data.$vnode.data.attrs.data;
+                        window.open(config.url.main + '/gateway/base/pay/alipay/create_pay?tid=' + order.tid + '&return_url=' + config.url.main + return_url + '&fail_url='+ config.url.main + fail_url + '');
+                        break;
+                    case "close":
+                        this.$confirm('是否删除订单?', '提示', {
+                            confirmButtonText: '确定',
+                            cancelButtonText: '取消',
+                            type: 'warning'
+                        }).then(() =>{
+                            order = data.$vnode.data.attrs.data;
+                            orderService.close_by_tid(order.tid).then((data)=>{
+                                this.$ltsMessage.show({type:'success',message:'删除成功'});
+                                this.search();
+                            },(msg)=>{
+                                this.$ltsMessage.show({type:'error',message:msg.error_message})
+                            })
+                        });
                         break;
                     default:
                         break;
@@ -237,6 +265,9 @@
             isCanDeal(order){
                 return order.pay_type == 3 && order.status == 0;
             },
+            isCanPay(order){
+                return order.pay_status == 0;
+            },
             search() {
                 let param = {};
                 for(let key in this.params){
@@ -248,6 +279,9 @@
                 }
                 orderService.getList(param, this.pagination.page, this.pagination.page_size, 'cdate desc').then((resp) => {
                     this.loading = false;
+                    resp.datalist.forEach(function (value,index,array) {
+                        value.user_addr = JSON.parse(value.user_addr);
+                    })
                     this.datalist = resp.datalist;
                     this.pagination.total = resp.total;
                 }, (err) => {

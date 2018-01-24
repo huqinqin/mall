@@ -614,7 +614,7 @@
                             .el-tabs__item{
                                 border-top: 2px solid #f6f6f6;
                                 width:122px;
-                                font-size: 16px;
+                                font-size: 14px;
                                 height: 38px;
                                 line-height: 38px;
                                 text-align: center;

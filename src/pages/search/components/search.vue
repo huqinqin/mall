@@ -79,7 +79,7 @@
                     @current-change="changePage"></el-pagination>
             </div>
         </div>
-        <div v-else class="error">
+        <div v-else-if="data.length <= 0 && isLoadEnding" class="error">
             <div :style="{backgroundImage: 'url('+errorImg+')'}">
 
             </div>
@@ -126,6 +126,8 @@
                 closeProps : false,
 
                 errorImg : require('@/assets/img/error.png'),
+
+                isLoadEnding : false,
             }
 
         },
@@ -179,6 +181,7 @@
 
                     this.rightTotal = Math.ceil(this.search.totalPage/this.search.pageSize);
                     this.condition = rtn.data.aggregate_cate_prop_list;
+                    this.isLoadEnding = true;
 //                    for(let val in rtn.data.aggregate_cate_prop_map){
 //                        let key = rtn.data.aggregate_cate_prop_map[val],Object = {};
 //                        Object[key] = rtn.data.aggregate_cate_prop_map[val].split(',');

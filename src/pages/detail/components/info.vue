@@ -78,18 +78,18 @@
                     <li v-for="item in buyHistory">
                         <a :href="'/detail#/?id=' + item.id" target="_blank">
                             <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
-                            <p class="brand">{{item.brand}}</p>
-                            <p class="name">{{item.item_name}}</p>
-                            <p class="price">
-                                <lts-money :money="item.price"></lts-money>
-                            </p>
+                            <p class="name" :title="item.item_name">{{item.item_name}}</p>
+                            <p class="line-four" ></p>
+                            <div class="item-price">
+                                <p v-ltsLoginShow:true class="price">
+                                    <lts-money :money="item.price"></lts-money>
+                                </p>
+                            </div>
                         </a>
                     </li>
                 </ul>
                 <div v-else class="history_null" >
-                    <div :style="{backgroundImage:'url(' + nullImg + ')'}">
-
-                    </div>
+                    <div :style="{backgroundImage:'url(' + nullImg + ')'}"></div>
                 </div>
             </div>
         </div>
@@ -104,15 +104,18 @@
                             <div class="icon-right"><i class="iconfont  icon-iconfontzuo"></i></div>
                         </div>
                     </div>
-                    <ul>
-                        <li v-for="item in hotSale">
+                    <ul class="item-list-box">
+                        <li v-for="item in hotSale" :key="item.id">
                             <a :href="'/detail#/?id=' + item.id" target="_blank">
                                 <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
-                                <p class="brand">{{item.brand}}</p>
-                                <p class="name">{{item.item_name}}</p>
-                                <p class="price">
-                                    <lts-money :money="item.price"></lts-money>
-                                </p>
+                                <p class="name" :title="item.item_name">{{item.item_name}}</p>
+                                <p class="line-four" ></p>
+                                <div class="item-price">
+                                    <button v-ltsLoginShow:false v-login>登录之后查看价格</button>
+                                    <p v-ltsLoginShow:true class="price">
+                                        <lts-money :money="item.price"></lts-money>
+                                    </p>
+                                </div>
                             </a>
                         </li>
                     </ul>
@@ -641,6 +644,7 @@
                 justify-content: space-between;
                 .detail_side_img{
                     margin-right: 48px;
+
                 }
                 .detail_goods{
                     flex:1;
@@ -737,7 +741,6 @@
             width: 290px;
             background: #fff;
             border:1px solid #ccc;
-
             overflow: hidden;
             .header{
                 height: 36px;
@@ -761,13 +764,15 @@
                         }
                     }
                     .icon-right{
-                        margin-top: -3px;
                         transform: rotateZ(180deg);
+                        margin-top: 2px;
                     }
                 }
             }
 
             li{
+
+
                 text-align: center;
                 background: #ffffff;
                 margin: 0 15px;
@@ -780,22 +785,38 @@
                     background-size: contain;
                     background-repeat: no-repeat;
                 }
-                p.brand{
-                    line-height: 14px;
-                    font-weight: bold;
-                    font-size: 14px;
-                    color: #707070;
-                }
+
                 p.name{
                     margin: 10px 0;
                     font-size: 14px;
                     color: #a3a3a3;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 3;
+                    -webkit-box-orient: vertical;
                 }
-                p.price{
-                    color:#ff3d43;
-                    font-size: 16px;
-                    font-weight: bold;
+                p.line-four{
+                    border-top: 1px solid #f2f2f2;
+                    margin: 0 12px;
+                }
+                .item-price{
+                    margin-top:24px;
                     margin-bottom: 24px;
+                    background-color: #ffffff;
+                    font-weight: bold;
+                    button{
+                        border: none;
+                        width:60%;
+                        height: 26px;
+                        font-weight: bold;
+                        font-size: 12px;
+                        color: #ff3b41;
+                        box-shadow: 0px 2px 15px 2px #e9e9e9;
+                    }
+                    .price{
+                        color: #ff3b41;
+                    }
                 }
                 position: relative;
             }

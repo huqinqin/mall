@@ -105,7 +105,7 @@
                           <div class="item-spec">
                               <p class="line-two" :title="item.item_name">{{item.item_name}}</p>
                               <div class="item-price">
-                                  <button v-ltsLoginShow:false>登录之后查看价格</button>
+                                  <button v-ltsLoginShow:false v-login>登录之后查看价格</button>
                                   <p v-ltsLoginShow:true class="price">
                                       <lts-money :money="item.price"></lts-money>
                                   </p>

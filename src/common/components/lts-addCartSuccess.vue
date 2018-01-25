@@ -22,7 +22,9 @@
                         <a :href="'/detail#/?id=' + item.id" target="_blank">
                            <div class="bg" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
                            <p class="desc">{{item.promotion_title}}</p>
-                           <p class="price">${{item.price}}</p>
+                           <p class="price">
+                               <lts-money :money="item.price"></lts-money>
+                           </p>
                         </a>
                     </li>
                 </ul>

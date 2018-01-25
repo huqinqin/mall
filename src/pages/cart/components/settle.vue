@@ -105,7 +105,7 @@
 
                 <el-table-column prop="" width="" label="单价" align="center">
                     <template slot-scope="scope">
-                        <div>${{(scope.row.item_props[0].price/100).toFixed(2)}}</div>
+                        <lts-money :money="scope.row.item_props[0].price"></lts-money>
                     </template>
                 </el-table-column>
                 <el-table-column label="数量" width="" prop="num" align="center">

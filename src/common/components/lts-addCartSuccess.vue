@@ -1,6 +1,7 @@
 <template>
     <transition name="fade">
         <el-dialog
+                     top="10hv"
                      width="551px"
                      center
                      :visible.sync="show"
@@ -13,7 +14,9 @@
                     <i  v-if="type === 2" class="iconfont icon-chenggong icon"></i>
                     <i  v-if="type === 3" class="iconfont icon-chenggong icon"></i>
                     <div class="title">{{title}}</div>
-                    <el-button  class="addCart" @click="jump">{{btnTitle}}</el-button>
+                    <a :href="'/cart#/'" target="_blank">
+                       <el-button  class="addCart">{{btnTitle}}</el-button>
+                    </a>
                 </div>
                 <hr style="height:1px;border:none;width: 100%;border-top: 1px solid #cecece;margin-top: 32px"/>
                 <h3 class="recommoned">{{recommoned}}</h3>
@@ -39,21 +42,6 @@
     .fade-enter, .fade-leave-to{
         opacity: 0;
     }
-    .el-dialog{
-        .el-dialog--center .el-dialog__header{
-            padding: 0!important;
-        }
-        .el-dialog__header{
-            padding:0!important;
-        }
-        .el-dialog--center .el-dialog__body{
-            padding:16px 24px !important;
-        }
-        .el-dialog__body{
-            padding:16px 26px!important;
-        }
-    }
-
     .wrapper{
         position: fixed;
         z-index: 100;
@@ -66,6 +54,18 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        .el-dialog--center .el-dialog__header{
+            padding: 0!important;
+        }
+        .el-dialog__header{
+            padding:0!important;
+        }
+        .el-dialog--center .el-dialog__body{
+            padding:16px 24px !important;
+        }
+        .el-dialog__body{
+            padding:16px 26px!important;
+        }
         .box{
             box-sizing: border-box;
             .delete{
@@ -101,7 +101,7 @@
                     font-size: 14px;
                     text-align: center;
                     font-family: "Microsoft YaHei";
-                    margin-left: 38%;
+                    margin-left: 170%;
                     display: flex;
                     justify-content: center;
                     font-size: 14px;
@@ -121,7 +121,7 @@
                 align-items: center;
                 overflow: hidden;
                 li{
-                    margin-left: 10px;
+                    margin-left: 11px;
                     width: 90px;
                     word-break: break-all;
                     .bg{

@@ -25,11 +25,9 @@
     export default {
         name: 'Layout',
         props: [
-            'isWhite'
         ],
         data() {
             return {
-                homePage: config.homePage,
             }
         },
         methods: {

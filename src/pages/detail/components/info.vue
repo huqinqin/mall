@@ -16,7 +16,7 @@
                     </div>
                 </div>
             </div>
-            <div class="detail-sku-box">
+            <div class="detail-sku-box" v-if="item.price">
                 <!-- 商品标题-->
                 <h3>{{item.item_name}}</h3>
                 <!--<p class="brief">{{item.promotion_title}}</p>-->
@@ -24,8 +24,12 @@
                 <el-form label-position="left" label-width="120px" ref="ruleForm" >
                     <el-form-item label="价格" class="price" prop>
                         <div class="tips" v-ltsLoginShow:false>完成登录注册，享受惊爆价</div>
-                        <div v-ltsLoginShow:true class="detail_price" v-if="!checkedSpu.price">${{item.price}}</div>
-                        <div v-ltsLoginShow:true class="detail_price" v-else>${{checkedSpu.price}}</div>
+                        <div v-ltsLoginShow:true class="detail_price" v-if="!checkedSpu.price">
+                            <lts-money :money="item.price"></lts-money>
+                        </div>
+                        <div v-ltsLoginShow:true class="detail_price" v-else>
+                            <lts-money :money="checkedSpu.price"></lts-money>
+                        </div>
                     </el-form-item>
                     <div :class="[showPropsError ? 'error' : '']" @click="closeError">
                         <el-form-item v-for="prop in item.item_prop_value_maps" :key="prop.prop_name" :label="prop.prop_name" class="radio sku_prop" >
@@ -58,7 +62,6 @@
                     <addCartSuccess
                         :flag.sync="flag"
                         @fade="hide"
-                        @jump="jump"
                         :info = "hotSale"
                     ></addCartSuccess>
                 </el-form>
@@ -77,7 +80,9 @@
                             <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
                             <p class="brand">{{item.brand}}</p>
                             <p class="name">{{item.item_name}}</p>
-                            <p class="price">${{item.price_value}}</p>
+                            <p class="price">
+                                <lts-money :money="item.price"></lts-money>
+                            </p>
                         </a>
                     </li>
                 </ul>
@@ -105,7 +110,9 @@
                                 <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
                                 <p class="brand">{{item.brand}}</p>
                                 <p class="name">{{item.item_name}}</p>
-                                <p class="price">${{item.price_value}}</p>
+                                <p class="price">
+                                    <lts-money :money="item.price"></lts-money>
+                                </p>
                             </a>
                         </li>
                     </ul>
@@ -210,7 +217,6 @@
                     this.item = data.data.item;
                     this.aboutDetail = JSON.parse(this.item.item_struct_props[0].prop_value);
                     this.activeImg = this.item.item_images[0];
-
                     this.hotSale = data.data.hot_recomment.items;
                     this.buyHistory = data.data.user_order_history;
                 },(msg)=>{
@@ -345,12 +351,12 @@
             },
             closeError(){
               this.showPropsError = false;
-            },
-            jump(){
-                location.href = config.url.main + "/cart#/";
             }
         },
         mounted(){
+
+        },
+        created(){
             let id = this.$route.query.id;
             this.getItemDetail(id);
         },

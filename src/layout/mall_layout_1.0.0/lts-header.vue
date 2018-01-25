@@ -88,6 +88,7 @@
     import config from 'config'
     import session from '@/library/Session'
     import userService from '@/services/UserService.js'
+    import categoryService from '@/services/CategoryService.js'
     export default {
         name : "lts-header",
         data(){
@@ -238,31 +239,43 @@
                     this.getCategoryList();
                 }
             },
-            filterCategory(data){
-                data.forEach((value)=>{
+            filterCategory(categoryList){
+                categoryList.forEach(function(value,index,array){
                     value.label = value.name
                     value.value = value.id
-                    if(value.children.length === 0){
-                        delete value.children
+                    if(value.children){
+                        if(value.children.length === 0){
+                            delete value.children
+                        }else{
+                            value.children.forEach((value1) => {
+                                value1.label = value1.name
+                                value1.value = value1.id
+                                if(value1.children){
+                                    if(value1.children.length === 0){
+                                        delete value1.children
+                                    }else{
+                                        value1.children.forEach((value2) => {
+                                            value1.label = value1.name
+                                            value1.value = value1.id
+                                        })
+                                    }
+                                }else{
+                                    return false;
+                                }
+
+                            })
+                        }
                     }else{
-                        value.children.forEach((value1) => {
-                            value1.label = value1.name
-                            value1.value = value1.id
-                            if(value1.children.length === 0){
-                                delete value1.children
-                            }else{
-                                value1.children.forEach((value2) => {
-                                    value1.label = value1.name
-                                    value1.value = value1.id
-                                })
-                            }
-                        })
+                        return false;
                     }
                 })
-                this.options = data
+                this.options = categoryList
                 this.options.unshift({
                     label:'全部',
-                    value:''
+                    value:'',
+                    name : '全部',
+                    id : 0,
+                    children : []
                 })
             },
             getCategoryList(){

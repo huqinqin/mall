@@ -16,7 +16,7 @@
                             {{scope.row.item_remark.num}}
                         </el-form-item>
                         <el-form-item label="原订单单价">
-                            {{scope.row.item_remark.price | money2str}}
+                            <lts-money :money="scope.row.item_remark.price"></lts-money>
                         </el-form-item>
                         <el-form-item label="退款类型">
                             {{scope.row.refund_type_title}}

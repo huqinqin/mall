@@ -17,7 +17,7 @@
                 {{reverse.item_remark.spec}}
             </el-form-item>
             <el-form-item label="单价">
-                {{reverse.item_remark.price | money2str}}
+                <lts-money :money="reverse.item_remark.price"></lts-money>
             </el-form-item>
             <el-form-item label="原订单数量">
                 {{reverse.item_remark.num}}

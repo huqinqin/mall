@@ -10,6 +10,6 @@ Vue.component('lts-money',{
         }
     },
     mounted(){
-       this.ltsmoney = (this.ltsmoney / 100).toFixed(2);
+       this.ltsmoney = (parseFloat(this.ltsmoney) / 100).toFixed(2);
     },
 })

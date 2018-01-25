@@ -26,7 +26,7 @@
                     {{detail.item_remark.spec}}
                 </el-form-item>
                 <el-form-item label="单价">
-                    {{detail.item_remark.price | money2str}}
+                    <lts-money :money="detail.item_remark.price"></lts-money>
                 </el-form-item>
             </el-form>
         </el-card>

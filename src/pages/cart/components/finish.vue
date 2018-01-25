@@ -4,11 +4,10 @@
         <div class="result">
             <div class="content">
                 <h3>支付成功</h3>
-                <p>订单编号:{{tid}}</p>
-                <p>收货人：{{this.detailOrder.user_name}} {{this.detailOrder.mobile}}</p>
-                <p>收货地址：{{this.detailOrder.address}}</p>
+                <p>订单编号：{{tid}}</p>
+                <p>收货人：{{this.detailOrder.user_name}} {{this.detailOrder.receiver_mobile}}</p>
+                <p :title="this.detailOrder.user_addr">收货地址：{{this.detailOrder.user_addr}}</p>
                 <p>物流方式：{{method}}</p>
-                <p>支付方式： 信用卡</p>
                 <div class="button">
                     <a href="/order"><button class="go"><span>我的订单</span></button></a>
                     <a href="/"><button class="back"><span>回到首页</span></button></a>
@@ -34,7 +33,7 @@
                 console.log(this.tid);
                 detailOrder.detailOrder(this.tid).then((data) => {
                     this.$ltsMessage.show({type:'success',message:"下单成功"});
-                    this.detailOrder = JSON.parse(data.data.user_addr);
+                    this.detailOrder = data.data;
                     if(this.detailOrder.wholesale_order_items[0].s_h_s_m === true){
                         this.method = "送货上门"
                     }else{
@@ -68,17 +67,14 @@
             }
         }
         .result{
-            width: 649px;
             height: 243px;
             margin:100px auto;
-            display: flex;
-            justify-content: space-between;
+            width:330px;
             img{
                 width: 237px;
                 height: 216px;
             }
             .content{
-                width:330px;
                 text-align: left;
                 h3{
                     font-size: 36px;
@@ -89,6 +85,9 @@
                     line-height: 24px;
                     font-size: 14px;
                     color: rgba(0,0,0,0.5);
+                    overflow: hidden;
+                    text-overflow:ellipsis;
+                    white-space: nowrap;
                 }
 
                 .button{

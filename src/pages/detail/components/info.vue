@@ -21,8 +21,8 @@
                 <h3>{{item.item_name}}</h3>
                 <!--<p class="brief">{{item.promotion_title}}</p>-->
                 <!-- 商品属性-->
-                <el-form label-position="left" label-width="120px" ref="ruleForm">
-                    <el-form-item label="价格" prop>
+                <el-form label-position="left" label-width="120px" ref="ruleForm" >
+                    <el-form-item label="价格" class="price" prop>
                         <div class="tips" v-ltsLoginShow:false>完成登录注册，享受惊爆价</div>
                         <div v-ltsLoginShow:true class="detail_price" v-if="!checkedSpu.price">${{item.price}}</div>
                         <div v-ltsLoginShow:true class="detail_price" v-else>${{checkedSpu.price}}</div>
@@ -292,7 +292,7 @@
                     if(!this.showPropsError) {
                         this.flag = true;
                     }
-                    this.$ltsMessage.show({type:"success",message:'加入购物车成功'})
+                   /* this.$ltsMessage.show({type:"success",message:'加入购物车成功'})*/
                 },(msg) => {
                     this.$ltsMessage.show({type:"error",message:msg.error_message})
                 });
@@ -358,6 +358,9 @@
 </script>
 
 <style lang="less">
+    .el-form-item__label{
+        margin-left: 24px;
+    }
     .detail{
         .el-breadcrumb{
             font-size: 14px;
@@ -453,7 +456,7 @@
                 h3{
                     color: rgba(0,0,0,0.7);
                     font-size: 16px;
-                    line-height: 16px;
+                    line-height: 24px;
                     font-weight: bold;
                 }
                 p.brief{
@@ -466,6 +469,14 @@
                 }
                 .el-form-item{
                     margin-bottom: 0;
+                    display: flex;
+                    align-items: center;
+                }
+                .price{
+                    margin-top: 7px;
+                }
+                .el-form-item__content{
+                    margin-left: 24px !important;
                 }
                 .tips{
                     border:1px solid #ff3b41;

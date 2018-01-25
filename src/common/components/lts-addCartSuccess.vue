@@ -1,7 +1,6 @@
 <template>
     <transition name="fade">
         <el-dialog
-                     top="15vh"
                      width="32%"
                      center
                      :visible.sync="show"
@@ -80,9 +79,6 @@
                     width: 26px;
                     height: 26px;
                     color: #67c23a;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
                 }
                 .icon:before{
                     width: 100%;

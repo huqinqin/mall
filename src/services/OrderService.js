@@ -48,7 +48,7 @@ export default class OrderService extends BaseService {
         let params = {
             wholesale_trade_request : JSON.stringify(param),
 
-            remark: 'remark'
+            remark: remark
         };
         return super.postRequest('/installer/trade/create_trade',params)
     }

@@ -62,7 +62,6 @@
                     <addCartSuccess
                         :flag.sync="flag"
                         @fade="hide"
-                        @jump="jump"
                         :info = "hotSale"
                     ></addCartSuccess>
                 </el-form>
@@ -352,9 +351,6 @@
             },
             closeError(){
               this.showPropsError = false;
-            },
-            jump(){
-                location.href = config.url.main + "/cart#/";
             }
         },
         mounted(){

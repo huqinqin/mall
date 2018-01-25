@@ -52,7 +52,7 @@
                         <p>支持30天无理由退换(如果商品参加活动，退换货以活动规则为准)</p>
                     </el-form-item>
                     <el-form-item class="buttons" >
-                         <button @click.stop="buyNow" type="button"><div v-login>立即购买</div></button>
+                        <button @click.stop="buyNow" type="button"><div v-login>立即购买</div></button>
                         <el-button @click.stop="addCart" type="button"><div v-login>加入购物车</div></el-button>
                     </el-form-item>
                     <addCartSuccess
@@ -145,6 +145,7 @@
     import itemService from '@/services/ItemService'
     import cartService from '@/services/CartService'
     import addCartSuccess from 'ui/components/lts-addCartSuccess.vue'
+    import config from 'config'
     export default {
         components:{addCartSuccess},
         name : 'detailInfo',
@@ -193,7 +194,7 @@
             },
             inputNumberChange(value){
                 console.log(this.item.num);
-                this.item.item_struct_props.forEach((item)=>{
+                /*this.item.item_struct_props.forEach((item)=>{
                     console.log(item.storage,this.item.num);
                     if(this.item.num > item.storage){
                         this.dis = true;
@@ -202,7 +203,7 @@
                         this.dis = false;
                         console.log(this.dis);
                     }
-                })
+                })*/
             },
             getItemDetail(id){
                 itemService.getItemDetail(id).then((data)=>{
@@ -346,7 +347,7 @@
               this.showPropsError = false;
             },
             jump(){
-                location.href = "http://work.local.lts.com:8085/cart#/";
+                location.href = config.url.main + "/cart#/";
             }
         },
         mounted(){

@@ -7,25 +7,11 @@
         </div>
         <div class="payment">
             <h5>支付方式</h5>
-            <div class="useCredit" @change="onlyCredit">
-                <el-checkbox v-model="useCredit">使用信用余额</el-checkbox>
-            </div>
-            <div class="credit">
-                <h6>信用卡：</h6>
-                <ul>
-                    <li :class="{chosen:chosenItem === creditData.alt}" @click="toggleChoose(creditData.alt)">
-                       <img src='../../../assets/pay/credit.png' :alt=creditData.alt>
-                    </li>
-                </ul>
-            </div>
-            <div class="online">
-                <h6>在线支付：</h6>
-                <ul>
-                    <li :class="{chosen:chosenItem === onlineData.alt}" @click="toggleChoose(onlineData.alt)">
-                        <img class="ali" src='../../../assets/pay/aplipay.png' :alt=onlineData.alt>
-                    </li>
-                </ul>
-            </div>
+            <el-radio-group v-model="howPay">
+                <el-radio label="remain" disabled>使用信用余额</el-radio>
+                <el-radio label="credit" disabled>使用信用卡</el-radio>
+                <el-radio label="alipay">使用支付宝</el-radio>
+            </el-radio-group>
         </div>
         <div class="goPay">
             <el-button @click="goPay">立即支付</el-button>
@@ -40,8 +26,7 @@
         name: "beforePay",
         data(){
             return{
-                useCredit: false,
-                chosenItem:'alipay',
+                howPay:'alipay',
                 tid:'',
                 formData: {
                     number: '',
@@ -64,20 +49,9 @@
                 this.formData.number = this.$route.params.item[1];
                 this.tid = this.$route.params.item[1];
             },
-            toggleChoose(key){
-                this.chosenItem = key
-                this.useCredit = false
-            },
-            onlyCredit(){
-                this.chosenItem = ''
-            },
             goPay(){
-
-
-
                 let return_url = '/customerorder#/finish';
                 let fail_url = '/customerorder#/fail';
-
                 this.$confirm('正在支付。。。', '提示', {
                     confirmButtonText: '支付完成',
                     type: 'warning',
@@ -87,7 +61,6 @@
                     this.checkOrder(this.tid);
                 }).catch(() => {
                 });
-console.log(config.url.main + '/gateway/base/pay/alipay/create_pay?tid=' + this.tid + '&return_url=' + config.url.main + return_url + '&fail_url='+ config.url.main + fail_url + '')
                 window.open(config.url.main + '/gateway/base/pay/alipay/create_pay?tid=' + this.tid + '&return_url=' + config.url.main + return_url + '&fail_url='+ config.url.main + fail_url + '');
             },
             checkOrder(tid){
@@ -128,7 +101,7 @@ console.log(config.url.main + '/gateway/base/pay/alipay/create_pay?tid=' + this.
         .info{
             height: 86px;
             border-bottom:1px solid rgba(0,0,0,0.05);
-            margin-left: 24px;
+            padding-left: 48px;
             vertical-align: middle;
             font-size: 14px;
             color: #777777;
@@ -140,53 +113,23 @@ console.log(config.url.main + '/gateway/base/pay/alipay/create_pay?tid=' + this.
             }
         }
         .payment{
-            margin: 24px 24px 0 24px;
+            margin-top: 24px;
+            padding-left: 24px;
             h5{
                 color: #777777;
                 font-size: 16px;
             }
-            .useCredit{
-                margin-top: 24px;
-
-            }
-            .credit,.online{
-                margin-top: 12px;
-                h6{
-                    font-size: 14px;
-                    color: #777777;
-                    margin-bottom: 0;
+            .el-radio-group{
+                margin-left: 24px;
+                padding: 24px 0;
+                .el-radio{
+                    display: block;
+                    margin-left: 0;
                 }
-                ul{
-                    padding-left: 0;
-                    display: flex;
-                    justify-content: flex-start;
-                    margin: 0;
-                }
-                li{
-                    list-style: none;
-                    border:2px solid #fff;
-                    width: 84px;
-                    height: 52px;
-                    background-color: #ffffff;
+                .el-radio+.el-radio{
                     margin-top: 12px;
-                    img{
-                        width: 80px;
-                        height: 48px;
-                        border:2px solid #e3e3e3;
-                        border-radius: 6px;
-                    }
-                    img.ali{
-                        width:48px;
-                    }
-                }
-                li.chosen{
-                    img{
-                        border:2px solid red;
-                        border-radius: 6px;
-                    }
                 }
             }
-            padding-bottom: 54px;
             border-bottom: 1px solid rgba(0,0,0,0.05);
         }
         .goPay{

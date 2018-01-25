@@ -4,13 +4,13 @@
         <div class="result">
             <div class="content">
                 <h3>支付失败</h3>
-                <p>订单编号:{{tid}}</p>
-                <p>收货人：{{this.detailOrder.user_name}} {{this.detailOrder.mobile}}</p>
-                <p>收货地址：{{this.detailOrder.address}}</p>
+                <p>订单编号：{{tid}}</p>
+                <p>收货人：{{this.detailOrder.user_name}} {{this.detailOrder.receiver_mobile}}</p>
+                <p :title="this.detailOrder.user_addr">收货地址：{{this.detailOrder.user_addr}}</p>
                 <p>物流方式：{{method}}</p>
                 <div class="button">
-                    <button class="go" @click="gogogo"><span>我的订单</span></button>
-                    <button class="back" @click="back"><span>回到首页</span></button>
+                    <a href="/order"><button class="go"><span>我的订单</span></button></a>
+                    <a href="/"><button class="back"><span>回到首页</span></button></a>
                 </div>
             </div>
         </div>
@@ -40,7 +40,7 @@
                 console.log(this.tid);
                 detailOrder.detailOrder(this.tid).then((data) => {
                     this.$ltsMessage.show({type:'error',message:"支付失败"});
-                    this.detailOrder = JSON.parse(data.data.user_addr);
+                    this.detailOrder = data.data;
                     if(this.detailOrder.wholesale_order_items[0].s_h_s_m === true){
                         this.method = "送货上门"
                     }else{
@@ -104,6 +104,7 @@
                     width: 100px;
                     height: 30px;
                     border: none;
+                    cursor: pointer;
                     span{
                         color: white;
                         font-size: 14px;

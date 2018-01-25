@@ -149,7 +149,9 @@
                 </el-table-column>
                 <el-table-column
                     label="单价">
-                    <template slot-scope="scope">{{scope.row.wholesale_item_d_o.price | money2str}}</template>
+                    <template slot-scope="scope">
+                        <lts-money :money="scope.row.wholesale_item_d_o.price"></lts-money>
+                    </template>
                 </el-table-column>
                 <el-table-column
                     prop="num"

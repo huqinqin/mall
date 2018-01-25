@@ -42,7 +42,9 @@
              </el-table-column>
              <el-table-column label="小计" width="100" align="center">
                 <template slot-scope="scope">
-                    <div class="count" ref="count">${{(scope.row.num*scope.row.item_props[0].price/100).toFixed(2)}}</div>
+                    <div class="count" ref="count">
+                        ${{(scope.row.num*scope.row.item_props[0].price/100).toFixed(2)}}
+                    </div>
                 </template>
              </el-table-column>
              <el-table-column label="操作" width="" align="center">

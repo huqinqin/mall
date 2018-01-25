@@ -33,20 +33,7 @@
             }
         },
         methods: {
-//            logout(){
-//                userService.logout().then((resp)=>{
-//                    session.logout();
-//                },(err)=>{
-//                    this.$ltsMessage.show({type: "error", message: err.error_message});
-//                })
-//            },
-            getCategoryList(){
-                categoryService.getList().then((data)=>{
-                    localStorage.setItem("categoryList", JSON.stringify(data.datalist));
-                },(msg)=>{
-                    this.$ltsMessage.show({type:'error',message:msg.error_message})
-                })
-            }
+
         },
         created(){
           config.isWhite ? $("html").attr('class','gray'): $("html").attr('class','white') ;
@@ -66,10 +53,6 @@
             }
           }
         },
-
-        mounted() {
-            this.getCategoryList()
-        }
     }
 </script>
 <style lang="less">

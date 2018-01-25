@@ -218,6 +218,7 @@
                 this.userInfo = JSON.parse(store.getItem(config.sessDataName));
             },
             showLogin(data){
+                store.clear(); // 清空localstorage
                 this.loginVisible = true
             },
             showPassword(){
@@ -230,7 +231,14 @@
 
             // 获取类目数据
             getLocalStorage(){
-                let data = JSON.parse(localStorage.getItem('categoryList'))
+                let data = JSON.parse(localStorage.getItem('categoryList'));
+                if(data){
+                    this.filterCategory(data);
+                }else{
+                    this.getCategoryList();
+                }
+            },
+            filterCategory(data){
                 data.forEach((value)=>{
                     value.label = value.name
                     value.value = value.id
@@ -257,6 +265,14 @@
                     value:''
                 })
             },
+            getCategoryList(){
+                categoryService.getList().then((data)=>{
+                    this.filterCategory(data.datalist);
+                    localStorage.setItem("categoryList", JSON.stringify(data.datalist));
+                },(msg)=>{
+                    this.$ltsMessage.show({type:'error',message:msg.error_message})
+                })
+            },
             handleChange(value){
                 // 级联选择器选择类目
                 this.keywords = ''
@@ -277,7 +293,7 @@
             }
         },
         created(){
-            this.selfContext.$on("showLogin",this.showLogin)
+            this.selfContext.$on("showLogin",this.showLogin);
             this.isShowMenu = config.isCart;
             this.getLocalUser()
             this.getParamas()
@@ -286,6 +302,9 @@
     }
 </script>
 <style lang="less">
+    .el-loading-mask{
+        z-index: 1000;
+    }
     .mall-header{
 
         a{
@@ -413,6 +432,7 @@
         }
         // 登录
         .login-dialog{
+            z-index: 10001;
             .el-dialog{
                 width:380px;
                 border-radius: 4px;

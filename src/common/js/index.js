@@ -12,6 +12,7 @@ import Message from '../components/lts-message'
 import MessageBox from '../components/lts-messageBox'
 import ltsHeader from '@/layout/mall_layout_1.0.0/lts-header.vue'
 import ltsFooter from '@/layout/mall_layout_1.0.0/lts-footer.vue'
+import ltsMoney from '../components/lts-money.js'
 
 import config from 'config'
 
@@ -24,6 +25,7 @@ Vue.prototype.$ltsMessageBox = MessageBox
 
 Vue.config.lang = 'en'
 Vue.config.productionTip = false
+
 
 const i18n = new VueI18n({
   locale  : Vue.config.lang,    // 语言标识

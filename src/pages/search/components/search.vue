@@ -63,7 +63,9 @@
                             <p class="name" :title="item.item_name">{{item.item_name}}</p>
                             <div class="item-price">
                                 <button v-ltsLoginShow:false v-login>登录之后查看价格</button>
-                                <p class="price" v-ltsLoginShow:true>${{item.price_value}}</p>
+                                <p class="price" v-ltsLoginShow:true>
+                                    <lts-money :money="item.price"></lts-money>
+                                </p>
                             </div>
                         </a>
                     </li>

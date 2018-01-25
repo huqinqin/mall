@@ -12,11 +12,11 @@
                     <a :href="'/detail#/?id=' + scope.row.id">
                         <div class="item-img" :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+scope.row.url+')'}"></div>
                         <div class="content">
-                            <p>{{scope.row.item_name}}</p>
+                            <p :title="scope.row.item_name">{{scope.row.item_name}}</p>
                         </div>
                         <ul class="other">
                             <li v-for="(item,index) in scope.row.item_props">
-                                <p v-for="(val,key) in item.prop_value">{{key}}:{{val}}</p>
+                                <p v-for="(val,key) in item.prop_value" :title="val">{{key}}:{{val}}</p>
                             </li>
                         </ul>
                     </a>
@@ -24,7 +24,7 @@
              </el-table-column>
              <el-table-column prop="price" width="" label="单价" align="center">
                  <template slot-scope="scope">
-                     <div>${{(scope.row.item_props[0].price/100).toFixed(2)}}</div>
+                     <lts-money :money="scope.row.item_props[0].price"></lts-money>
                  </template>
              </el-table-column>
              <el-table-column prop="" width="" label="库存" align="center">
@@ -40,9 +40,8 @@
                     </div>
                 </template>
              </el-table-column>
-             <el-table-column label="小计" width="" align="center">
+             <el-table-column label="小计" width="100" align="center">
                 <template slot-scope="scope">
-                    <!--<div class="count" ref="count">${{scope.row.num*scope.row.price}}</div>-->
                     <div class="count" ref="count">${{(scope.row.num*scope.row.item_props[0].price/100).toFixed(2)}}</div>
                 </template>
              </el-table-column>
@@ -244,7 +243,6 @@
         .el-table__header-wrapper{
             height: 40px;
         }
-
         .has-gutter{
             tr{
                 th{
@@ -266,11 +264,14 @@
         .el-table{
             font-size: 14px;
             tbody tr td:nth-child(2){
+                p{
+                    line-height: 30px;
+                    text-align: left;
+                }
                 .cell a{
                     width:100%;
                     display: flex;
                     align-items: center;
-                    justify-content: space-between;
                 }
                 .item-img{
                     width:80px;
@@ -281,28 +282,16 @@
                     flex:0 0 80px;
                 }
                 .content{
-                    flex: 0 0 250px;
-                    margin-left: 10px;
+                    width: 300px;
+                    margin-left: 24px;
                 }
                 .other{
-                    flex:0 0 150px;
-                    text-align: left;
-                    margin-left: 30px;
-                }
-                div a{
-                    width:120px;
-                    p{
-                        line-height: 30px;
-                        font-size: 14px;
-                        text-align: left;
-                    }
-                    p:first-child{
-                        margin-top: 12px;
-                    }
+                    width:250px;
+                    padding: 0 6px;
+                    margin-left: 24px;
+
                 }
             }
-
-
 
             .cart-delete{
                 line-height: 40px;

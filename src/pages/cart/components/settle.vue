@@ -3,7 +3,7 @@
         <div class="address">
             <h5>收货地址</h5>
             <ul>
-                <li :class="{default:defaultAddress.id === defaultId}" v-show="defaultAddress.user_name" @click="checkAddress(defaultAddress)">
+                <li :class="[{checked:defaultAddress.id === checkedId},{default:defaultAddress.id === defaultId}]" v-show="defaultAddress.user_name" @click="checkAddress(defaultAddress)">
                     <header>
                         <div><p>{{defaultAddress.user_name}}({{defaultAddress.address}}) </p></div>
                     </header>
@@ -12,11 +12,13 @@
                         <p>电话：{{defaultAddress.mobile}}</p>
                     </main>
                     <footer>
-                        <button class="default" @click="toggleDefault(defaultAddress)">设为默认</button>
+                        <button class="default" @click.stop="toggleDefault(defaultAddress)">设为默认</button>
+                        <button v-show="defaultAddress.id === defaultId">默认地址</button>
+                        <button class="delete" @click="deleteAddress(defaultAddress,0)">删除</button>
                         <button @click="editAddress(defaultAddress)">修改</button>
                     </footer>
                 </li>
-                <li  v-for="(item,key) in addressData" :class="{default:item.id === defaultId}" @click="checkAddress(item)" v-if="item.status === 0">
+                <li  v-for="(item,key) in addressData" :class="[{checked:item.id === checkedId},{default:item.id === defaultId}]" @click="checkAddress(item)" v-if="item.status === 0">
                     <header>
                         <div><p>{{item.user_name}}({{item.address}}) </p></div>
                     </header>
@@ -25,8 +27,9 @@
                         <p>电话：{{item.mobile}}</p>
                     </main>
                     <footer>
-                        <button class="default" @click="toggleDefault(item)">设为默认</button>
-                        <button @click="deleteAddress(item,key)">删除</button>
+                        <button class="default" @click.stop="toggleDefault(item)">设为默认</button>
+                        <button v-show="item.id === defaultId">默认地址</button>
+                        <button class="delete" @click="deleteAddress(item,key)">删除</button>
                         <button @click="editAddress(item)">修改</button>
                     </footer>
                 </li>
@@ -37,23 +40,23 @@
             </ul>
             <el-dialog title="收货地址" :visible.sync="showAddAddress" center>
                 <el-form :model="addForm">
-                    <el-form-item label="地区" >
+                    <el-form-item label="地区" :rules="[{required: true, message: '请输入地区', trigger: 'blur' }]">
                         <el-cascader
                             :options="cityOptions"
                             @change="selectCity"
                             :placeholder="addForm.address">
                         </el-cascader>
                     </el-form-item>
-                    <el-form-item label="街道" >
+                    <el-form-item label="街道" :rules="[{required: true, message: '请输入街道', trigger: 'blur' }]">
                         <el-input v-model="addForm.building"></el-input>
                     </el-form-item>
-                    <el-form-item label="邮编" >
+                    <el-form-item label="邮编" :rules="[{required: true, message: '请输入邮编', trigger: 'blur' }]">
                         <el-input v-model="addForm.lc_code"></el-input>
                     </el-form-item>
-                    <el-form-item label="联系人" >
+                    <el-form-item label="联系人" :rules="[{required: true, message: '请输入联系人', trigger: 'blur' }]">
                         <el-input v-model="addForm.user_name"></el-input>
                     </el-form-item>
-                    <el-form-item label="联系电话" >
+                    <el-form-item label="联系电话" :rules="[{required: true, message: '请输入联系电话', trigger: 'blur' }]">
                         <el-input v-model="addForm.mobile"></el-input>
                     </el-form-item>
                     <el-form-item label="" class="radio">
@@ -82,17 +85,17 @@
         <div class="order">
             <h5>订单信息</h5>
             <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%">
-                <el-table-column label="商品信息"   align="left" width="650">
+                <el-table-column label="商品信息"   align="left" width="700">
                     <template slot-scope="scope">
                         <a :href="'/detail#/?id=' + scope.row.id">
                             <div class="cart-item-info">
                                 <img class="item-img" :src="'http://res.500mi.com/item/' + scope.row.url" alt="商品">
                                 <div class="content">
-                                    <p>{{scope.row.item_name}}</p>
+                                    <p :title="scope.row.item_name">{{scope.row.item_name}}</p>
                                 </div>
                                 <div class="other">
                                     <div v-for="(value,index) in scope.row.item_props">
-                                        <p v-for="(val,key) in value.propValue">{{key}}: {{val}}</p>
+                                        <p v-for="(val,key) in value.propValue" :title="val">{{key}}: {{val}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -102,7 +105,7 @@
 
                 <el-table-column prop="" width="" label="单价" align="center">
                     <template slot-scope="scope">
-                        <div>${{(scope.row.item_props[0].price/100).toFixed(2)}}</div>
+                        <lts-money :money="scope.row.item_props[0].price"></lts-money>
                     </template>
                 </el-table-column>
                 <el-table-column label="数量" width="" prop="num" align="center">
@@ -241,6 +244,7 @@
                     }
                 ],
                 defaultId:'',
+                checkedId:'',
                 addForm:{
                     setDefault: false,
                 },
@@ -273,6 +277,7 @@
         methods: {
             // 设置默认地址
             toggleDefault(item){
+                this.defaultId = item.id
                 addressService.toggleDefault(item).then((data) => {
                     this.$ltsMessage.show({type:'success',message:'操作成功'})
                 },(msg)=>{
@@ -283,7 +288,7 @@
             // 选择地址
             checkAddress(item){
                 this.checkedAddress = item
-                this.defaultId = item.id
+                this.checkedId = item.id
             },
             // 编辑地址
             editAddress(item){
@@ -315,7 +320,7 @@
                     this.addressData.forEach((value,index)=>{
                         if(value.status === 1){
                             this.defaultId = value.id
-
+                            this.checkedId = value.id
                             this.checkedAddress = value
                             this.defaultAddress = value
                         }
@@ -334,6 +339,7 @@
                     this.addressData.push(this.addForm)
                 }
                 let service = this.editOrAdd ? addressService.updateItem(this.addForm) : addressService.addItem(this.addForm)
+
                 service.then((data) => {
                     this.$ltsMessage.show({type:'success',message:'操作成功'})
                 },(msg)=>{
@@ -356,6 +362,8 @@
                 let items = [];
                 this.tableData.forEach(function(value,index,array){
                     let item_prop_ids = [];
+                    item_prop_ids.push(value.item_props[0].id);
+
                     let Obj = {
                         "id":value.id,
                         "num":value.num,
@@ -368,14 +376,15 @@
                 let params = {
                     user_id : this.user_id,
                     items : JSON.stringify(items),
-                    remarkList : this.remark,
                     hidePrice : this.inPriceType,
                     hdMethod : this.deliveryType,
-                    userAddr : this.checkedAddress,
+                    receiverMobile:this.checkedAddress.mobile,
+                    userName: this.checkedAddress.user_name,
+                    userAddr : this.checkedAddress.address + this.checkedAddress.building,
                     payMethod: "online",
                     source: "work.500mi.com.shop.pifa.market"
                 };
-                orderService.createTrade(params).then((data)=>{
+                orderService.createTrade(params,this.remark).then((data)=>{
                     this.$emit('submit',3);
                     this.$router.push({name: 'beforePay',params:{item:[this.totalPrice,data.data]}});
                 },(msg)=>{
@@ -442,14 +451,16 @@
 <style lang="less">
 
     tbody tr td:first-child{
-        .cell{
+        p{
+            line-height: 30px;
+            text-align: left;
+        }
+        .cell a{
             width:100%;
             display: flex;
             align-items: center;
-            justify-content: space-between;
         }
         .item-img{
-            margin-top: 12px;
             width:80px;
             height: 80px;
             border: 1px solid #dadada;
@@ -458,26 +469,20 @@
             flex:0 0 80px;
         }
         .content{
-            flex: 0 0 300px;
+            width: 300px;
             margin-left: 24px;
         }
-        div{
+        .other{
+            width:250px;
+            padding: 0 6px;
+            margin-left: 24px;
             p{
-                line-height: 30px;
-                font-size: 14px;
-                text-align: left;
+                overflow: hidden;
+                text-overflow:ellipsis;
+                white-space: nowrap;
             }
-            p:first-child{
-                margin-top: 12px;
-            }
-        }
-        .other div{
-            width: 170px;
-            flex:0 0 170px;
-            text-align: left;
-            margin-left: 24px;
-        }
 
+        }
     }
     .settle{
         overflow: hidden;
@@ -563,12 +568,12 @@
                 margin-bottom: 24px;
                 width:100%;
                 li{
-                    width: 280px;
+                    width: 278px;
                     height: 122px;
                     box-shadow: 0px 3px 15px 0px #e8e8e8;
                     border-radius: 4px;
                     margin-bottom: 12px;
-                    margin-right: 12px;
+                    margin-right: 10px;
                     header{
                         border-top:2px solid rgba(0,0,0,0.2);
                         border-bottom: 1px solid rgba(0,0,0,0.05);
@@ -612,17 +617,22 @@
                         }
                     }
                 }
-                li.default{
+                li.checked{
                     header{
                         border-top:2px solid #f81f22;
                         display: flex;
                         justify-content: space-between;
                     }
+                }
+                li.default{
                     button.default{
                         display: none;
                     }
+                    button.delete{
+                        display: none;
+                    }
                 }
-                li.default:hover{
+                li.checked:hover{
                     header{
                         border-top:2px solid #f81f22;
                     }
@@ -659,12 +669,6 @@
                         margin-top: 10px;
                         font-size: 14px;
                     }
-                }
-                li:nth-child(4n){
-                    height: 0;
-                    width:0;
-                    padding:0;
-                    overflow: hidden;
                 }
             }
             u::after {

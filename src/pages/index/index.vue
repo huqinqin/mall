@@ -150,6 +150,9 @@ import homeService from '@/services/HomeService.js'
             homeService.getList().then((data) => {
                 this.itemList = data.floor.datalist;
                 this.hotList = data.hot_buys.datalist[0].items;
+                data.banner.datalist.forEach((val,index) => {
+                    val.content = JSON.parse(val.content)
+                })
                 this.index_banner = data.banner.datalist;
             },(msg) => {
                 console.log('error')

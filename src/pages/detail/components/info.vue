@@ -21,8 +21,8 @@
                 <h3>{{item.item_name}}</h3>
                 <!--<p class="brief">{{item.promotion_title}}</p>-->
                 <!-- 商品属性-->
-                <el-form label-position="left" label-width="120px" ref="ruleForm">
-                    <el-form-item label="价格" prop>
+                <el-form label-position="left" label-width="120px" ref="ruleForm" >
+                    <el-form-item label="价格" class="price" prop>
                         <div class="tips" v-ltsLoginShow:false>完成登录注册，享受惊爆价</div>
                         <div v-ltsLoginShow:true class="detail_price" v-if="!checkedSpu.price">${{item.price}}</div>
                         <div v-ltsLoginShow:true class="detail_price" v-else>${{checkedSpu.price}}</div>
@@ -52,11 +52,11 @@
                         <p>支持30天无理由退换(如果商品参加活动，退换货以活动规则为准)</p>
                     </el-form-item>
                     <el-form-item class="buttons" >
-                         <button @click.stop="buyNow" type="button"><div v-login>立即购买</div></button>
-                        <button @click.stop="addCart" type="button"><div v-login>加入购物车</div></button>
+                        <button @click.stop="buyNow" type="button"><div v-login>立即购买</div></button>
+                        <el-button @click.stop="addCart" type="button"><div v-login>加入购物车</div></el-button>
                     </el-form-item>
                     <addCartSuccess
-                        v-show="flag"
+                        :flag.sync="flag"
                         @fade="hide"
                         @jump="jump"
                         :info = "hotSale"
@@ -145,6 +145,7 @@
     import itemService from '@/services/ItemService'
     import cartService from '@/services/CartService'
     import addCartSuccess from 'ui/components/lts-addCartSuccess.vue'
+    import config from 'config'
     export default {
         components:{addCartSuccess},
         name : 'detailInfo',
@@ -193,7 +194,7 @@
             },
             inputNumberChange(value){
                 console.log(this.item.num);
-                this.item.item_struct_props.forEach((item)=>{
+                /*this.item.item_struct_props.forEach((item)=>{
                     console.log(item.storage,this.item.num);
                     if(this.item.num > item.storage){
                         this.dis = true;
@@ -202,7 +203,7 @@
                         this.dis = false;
                         console.log(this.dis);
                     }
-                })
+                })*/
             },
             getItemDetail(id){
                 itemService.getItemDetail(id).then((data)=>{
@@ -288,11 +289,11 @@
                 if(!this.validate()){
                     return false;
                 }
-                if(!this.showPropsError){
-                    this.flag = true;
-                }
                 cartService.putCartPlus(this.item,this.checkedSpu).then((data) => {
-                    this.$ltsMessage.show({type:"success",message:'加入购物车成功'})
+                    if(!this.showPropsError) {
+                        this.flag = true;
+                    }
+                   /* this.$ltsMessage.show({type:"success",message:'加入购物车成功'})*/
                 },(msg) => {
                     this.$ltsMessage.show({type:"error",message:msg.error_message})
                 });
@@ -346,7 +347,7 @@
               this.showPropsError = false;
             },
             jump(){
-                location.href = "http://work.local.lts.com:8085/cart#/";
+                location.href = config.url.main + "/cart#/";
             }
         },
         mounted(){
@@ -358,6 +359,9 @@
 </script>
 
 <style lang="less">
+    .el-form-item__label{
+        margin-left: 24px;
+    }
     .detail{
         .el-breadcrumb{
             font-size: 14px;
@@ -453,7 +457,7 @@
                 h3{
                     color: rgba(0,0,0,0.7);
                     font-size: 16px;
-                    line-height: 16px;
+                    line-height: 24px;
                     font-weight: bold;
                 }
                 p.brief{
@@ -466,6 +470,14 @@
                 }
                 .el-form-item{
                     margin-bottom: 0;
+                    display: flex;
+                    align-items: center;
+                }
+                .price{
+                    margin-top: 7px;
+                }
+                .el-form-item__content{
+                    margin-left: 24px !important;
                 }
                 .tips{
                     border:1px solid #ff3b41;

@@ -64,9 +64,10 @@ export default {
                 cache: false,
                 // status: "success", "notmodified", "error", "timeout", "abort", "parsererror"
                 success(data, status, xhr) {
-                    if (config.isDebug) {
-                        console.log(data);
-                        console.log(xhr.responseText);
+                    data = JSON.parse(data);
+                    if (data.error_name === "LOGIN_INVALID") {
+                       window.selfContext.$emit('showLogin');
+                       return false;
                     }
                     resolve(xhr.responseText);
                 },
@@ -115,9 +116,9 @@ export default {
                 traditional: true,
                 cache: false,
                 success(data, status, xhr) {
-                    if (config.isDebug) {
-                        console.log(data);
-                        console.log(xhr.responseText);
+                    if (data.error_name === "LOGIN_INVALID") {
+                        window.selfContext.$emit('showLogin');
+                        return false;
                     }
                     resolve(xhr.responseText);
                 },

@@ -1,7 +1,7 @@
 <template>
     <transition name="fade">
         <el-dialog
-                     width="34%"
+                     width="32%"
                      center
                      :visible.sync="show"
                      class="wrapper">
@@ -32,7 +32,7 @@
 
 </template>
 
-<style scoped lang="less">
+<style  lang="less">
     .fade-enter-active, .fade-leave-active{
         transition: all .5s;
     }
@@ -40,11 +40,14 @@
         opacity: 0;
     }
     .el-dialog{
-        width: 551px;
+        .el-dialog--center .el-dialog__header{
+            padding: 0!important;
+        }
+        .el-dialog__header{
+            padding:0!important;
+        }
     }
-    .el-dialog--center .el-dialog__header{
-        padding:0 !important;
-    }
+
     .wrapper{
         position: fixed;
         z-index: 100;
@@ -58,16 +61,14 @@
         align-items: center;
         .box{
             width: 551px;
-            padding: 18px;
-            margin:0 24px;
             background-color: white;
             box-sizing: border-box;
             .delete{
                 width: 21px;
                 height: 18px;
                 position: relative;
-                left:490px;
-                top:0;
+                left:100%;
+                top:-10px;
                 cursor: pointer;
             }
             .innerWrapper{
@@ -77,16 +78,18 @@
                 .icon{
                     width: 26px;
                     height: 26px;
-                    color: #0bdc0b;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
+                    color: #67c23a;
+                }
+                .icon:before{
+                    width: 100%;
+                    height: 100%;
                 }
                 .title{
                     margin-left: 15px;
                     font-family: "Microsoft YaHei";
                     font-weight: bold;
-                    color: rgba(0,0,0,0.35);
+                    color: rgba(0,0,0,0.85);
+                    font-size: 18px;
                 }
                 .addCart{
                     width: 110px;
@@ -95,7 +98,7 @@
                     font-size: 14px;
                     text-align: center;
                     font-family: "Microsoft YaHei";
-                    margin-left: 226px;
+                    margin-left: 40%;
                     display: flex;
                     justify-content: center;
                 }
@@ -113,7 +116,7 @@
                 align-items: center;
                 overflow: hidden;
                 li{
-                    margin-right: 13px;
+                    margin-left: 18px;
                     width: 90px;
                     word-break: break-all;
                     .bg{

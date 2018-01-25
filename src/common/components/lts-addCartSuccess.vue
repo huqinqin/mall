@@ -1,7 +1,7 @@
 <template>
     <transition name="fade">
         <el-dialog
-                     width="32%"
+                     width="551px"
                      center
                      :visible.sync="show"
                      class="wrapper">
@@ -15,7 +15,7 @@
                     <div class="title">{{title}}</div>
                     <el-button  class="addCart" @click="jump">{{btnTitle}}</el-button>
                 </div>
-                <hr style="width: 100%;color: #cecece;margin-top: 32px"/>
+                <hr style="height:1px;border:none;width: 100%;border-top: 1px solid #cecece;margin-top: 32px"/>
                 <h3 class="recommoned">{{recommoned}}</h3>
                 <ul class="list">
                       <li v-for = "(item,index) in info">
@@ -46,6 +46,12 @@
         .el-dialog__header{
             padding:0!important;
         }
+        .el-dialog--center .el-dialog__body{
+            padding:16px 24px !important;
+        }
+        .el-dialog__body{
+            padding:16px 26px!important;
+        }
     }
 
     .wrapper{
@@ -55,20 +61,18 @@
         top:0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0,0,0,0.5);
+        box-sizing: border-box;
+        /*background-color: rgba(0,0,0,0.5);*/
         display: flex;
         justify-content: center;
         align-items: center;
         .box{
-            width: 551px;
-            background-color: white;
             box-sizing: border-box;
             .delete{
-                width: 21px;
-                height: 18px;
+                font-size: 21px;
                 position: relative;
-                left:100%;
-                top:-10px;
+                left:97%;
+                top:0px;
                 cursor: pointer;
             }
             .innerWrapper{
@@ -76,8 +80,7 @@
                 align-items: center;
                 margin-top: 15px;
                 .icon{
-                    width: 26px;
-                    height: 26px;
+                    font-size: 26px;
                     color: #67c23a;
                 }
                 .icon:before{
@@ -93,20 +96,22 @@
                 }
                 .addCart{
                     width: 110px;
-                    background-color: #ff2511;
+                    background-color: #ff0000;
                     color: #fff;
                     font-size: 14px;
                     text-align: center;
                     font-family: "Microsoft YaHei";
-                    margin-left: 40%;
+                    margin-left: 38%;
                     display: flex;
                     justify-content: center;
+                    font-size: 14px;
                 }
             }
             .recommoned{
                 font-size: 16px;
                 color: #333;
                 margin-top: 24px;
+                font-family: "Microsoft YaHei";
             }
             .list{
                 width: 100%;
@@ -116,7 +121,7 @@
                 align-items: center;
                 overflow: hidden;
                 li{
-                    margin-left: 18px;
+                    margin-left: 10px;
                     width: 90px;
                     word-break: break-all;
                     .bg{
@@ -128,16 +133,19 @@
                         background-repeat: no-repeat;
                     }
                     .desc{
-                        text-align: center;
+                        text-align: left;
                         margin-top: 13px;
                         height: 42px;
                     }
                     .price{
-                        text-align: center;
+                        text-align: left;
                         color: red;
+                        font-weight: bold;
                     }
                 }
-
+                li:first-child{
+                    margin-left: 0;
+                }
             }
         }
 

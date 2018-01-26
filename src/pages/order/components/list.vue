@@ -75,7 +75,7 @@
             <el-table-column prop="receiver_mobile" label="手机" header-align="center" align="center" width="120" />
             <el-table-column  label="地址" header-align="center" align="center" :show-overflow-tooltip="true" >
                 <template slot-scope="scope">
-                    <div>{{scope.row.user_addr.address}}{{scope.row.user_addr.building}}</div>
+                    <div>{{scope.row.user_addr}}</div>
                 </template>
             </el-table-column>
             <el-table-column label="合计" align="center" width="80">
@@ -279,9 +279,6 @@
                 }
                 orderService.getList(param, this.pagination.page, this.pagination.page_size, 'cdate desc').then((resp) => {
                     this.loading = false;
-                    resp.datalist.forEach(function (value,index,array) {
-                        value.user_addr = JSON.parse(value.user_addr);
-                    })
                     this.datalist = resp.datalist;
                     this.pagination.total = resp.total;
                 }, (err) => {

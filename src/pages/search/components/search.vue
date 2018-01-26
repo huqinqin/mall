@@ -68,7 +68,7 @@
                                 </p>
                             </div>
                         </a>
-                    </li>
+                        </li>
                 </ul>
                 <el-pagination
                     background
@@ -91,7 +91,6 @@
 
 <script>
     import ItemService from '@/services/ItemService'
-
     export default {
         name: "search",
         data(){
@@ -168,9 +167,6 @@
                     this.search.condition.push(item)
                 }
                 this.submit()
-
-
-
             },
             // 调接口
             submit(){

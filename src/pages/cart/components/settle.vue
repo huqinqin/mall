@@ -381,6 +381,7 @@
                     receiverMobile:this.checkedAddress.mobile,
                     userName: this.checkedAddress.user_name,
                     userAddr : this.checkedAddress.address + this.checkedAddress.building,
+                    useBalance:false,
                     payMethod: "online",
                     source: "work.500mi.com.shop.pifa.market"
                 };
@@ -410,6 +411,7 @@
                 let params = {
                     user_id : this.user_id,
                     items : JSON.stringify(items),
+                    useBalance:false,
                     payMethod: "online", //
                     source: "work.500mi.com.shop.pifa.market"
                 };

@@ -28,16 +28,13 @@
     <div class="poster">
         <div class="one">
           <a href="">
-              <img src="http://specimen.oss-cn-hangzhou.aliyuncs.com/tmp/menjin_html%201.png" alt="">
+              <img :src="posterBig.content" :alt="posterBig.name">
           </a>
         </div>
         <div class="two">
-          <a href="" class="top">
-              <img src="../../assets/img/jiatingSolution.png" alt="">
-          </a>
-          <a href="">
-              <img src="../../assets/img/retailSolution.png" alt="">
-          </a>
+            <a v-for="item in posterSmall" href="" class="top">
+                <img :src="item.content" :alt="item.name">
+            </a>
         </div>
     </div>
      <!-- main -->
@@ -108,7 +105,7 @@
                           <div class="item-spec">
                               <p class="line-two" :title="item.item_name">{{item.item_name}}</p>
                               <div class="item-price">
-                                  <button v-ltsLoginShow:false>登录之后查看价格</button>
+                                  <button v-ltsLoginShow:false v-login>登录之后查看价格</button>
                                   <p v-ltsLoginShow:true class="price">
                                       <lts-money :money="item.price"></lts-money>
                                   </p>
@@ -132,6 +129,8 @@ import homeService from '@/services/HomeService.js'
       return{
         isAuto:false,
         index_banner:[],
+        posterSmall:[],
+        posterBig:'',
         index_welcome:[
           {
            link:"static/image/BANNERTU.png",
@@ -156,10 +155,11 @@ import homeService from '@/services/HomeService.js'
             homeService.getList().then((data) => {
                 this.itemList = data.floor.datalist;
                 this.hotList = data.hot_buys.datalist[0].items;
+                this.posterBig = data.fix_pic.datalist[0]
+                this.posterSmall = data.fix_pic_list.datalist
                 data.banner.datalist.forEach((val,index) => {
-                    val.content = JSON.parse(val.content)
+                    this.index_banner.push(JSON.parse(val.content))
                 })
-                this.index_banner = data.banner.datalist;
             },(msg) => {
                 console.log('error')
             })

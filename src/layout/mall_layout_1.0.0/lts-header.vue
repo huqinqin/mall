@@ -240,9 +240,13 @@
                 }
             },
             filterCategory(categoryList){
+                let count = 0;
                 categoryList.forEach(function(value,index,array){
                     value.label = value.name
                     value.value = value.id
+                    if(value.name == '全部'){
+                        count ++ ;
+                    }
                     if(value.children){
                         if(value.children.length === 0){
                             delete value.children
@@ -270,13 +274,15 @@
                     }
                 })
                 this.options = categoryList
-                this.options.unshift({
-                    label:'全部',
-                    value:'',
-                    name : '全部',
-                    id : 0,
-                    children : []
-                })
+                if(count == 0){
+                    this.options.unshift({
+                        label:'全部',
+                        value:'',
+                        name : '全部',
+                        id : '',
+                        children : ''
+                    })
+                }
             },
             getCategoryList(){
                 categoryService.getList().then((data)=>{

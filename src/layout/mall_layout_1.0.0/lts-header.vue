@@ -26,7 +26,7 @@
                             <p>{{value.last}}</p>
                         </a>
                         <a :href="value.link" v-else v-login>
-                            <el-badge :value="20" :max="99" class="item" v-if="value.name == 'suopping cart'">
+                            <el-badge :value="cart_num" :max="99" class="item" v-if="value.name == 'suopping cart'" :hidden="cart_num <= 0">
                                 <span class="iconfont" :class="[value.icon,value.name == 'suopping cart' ? 'cart' : '']">
                                 </span>
                             </el-badge>
@@ -94,6 +94,7 @@
     import session from '@/library/Session'
     import userService from '@/services/UserService.js'
     import categoryService from '@/services/CategoryService.js'
+    import cartService from '@/services/CartService.js'
     export default {
         name : "lts-header",
         data(){
@@ -191,6 +192,7 @@
                   password:[{required: true, message: '请输入密码'}]
               },
               isShowMenu : true,
+              cart_num : -1,
           }
         },
         methods:{
@@ -314,7 +316,14 @@
                 if(this.$route && this.$route.query.keywords){
                     this.keywords = this.$route.query.keywords
                 }
-            }
+            },
+            getCartNum(){
+                cartService.queryCartList().then((data)=>{
+                    this.cart_num = data.data;
+                },(msg)=>{
+                    this.$ltsMessage.show({type:'error',message:msg.error_message})
+                })
+            },
         },
         created(){
             this.selfContext.$on("showLogin",this.showLogin);
@@ -322,6 +331,7 @@
             this.getLocalUser()
             this.getParamas()
             this.getLocalStorage()
+            this.getCartNum();
         },
     }
 </script>

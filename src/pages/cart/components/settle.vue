@@ -118,9 +118,9 @@
             </el-table>
             <div class="remark"><span>买家留言： </span><el-input v-model="remark"></el-input></div>
         </div>
-        <div class="balance">
-            <el-checkbox v-model="useBalance">使用余额</el-checkbox>
-        </div>
+        <!--<div class="balance">-->
+            <!--<el-checkbox v-model="useBalance">使用余额</el-checkbox>-->
+        <!--</div>-->
 
         <div class="someCount">
             <div class="count">
@@ -279,7 +279,8 @@
             toggleDefault(item){
                 this.defaultId = item.id
                 addressService.toggleDefault(item).then((data) => {
-                    this.$ltsMessage.show({type:'success',message:'操作成功'})
+                    this.getAddressList()
+                    this.$ltsMessage.show({type:'success',message:'设为默认地址成功'})
                 },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.errorMessage})
                 })
@@ -313,17 +314,21 @@
                 this.showAddAddress = true
             },
             // 查询地址列表
-            getAddressList(){
 
+            getAddressList(){
                 addressService.getList().then((data) => {
                     this.addressData = data.datalist
                     this.addressData.forEach((value,index)=>{
                         if(value.status === 1){
+                            value.setDefault = true
                             this.defaultId = value.id
                             this.checkedId = value.id
                             this.checkedAddress = value
                             this.defaultAddress = value
+                        }else{
+                            value.setDefault = false
                         }
+                        console.log(value)
                         let position = value.address.indexOf(value.building)
                         if(position !== 0){
                             value.address = value.address.slice(0,position)
@@ -341,6 +346,7 @@
                 let service = this.editOrAdd ? addressService.updateItem(this.addForm) : addressService.addItem(this.addForm)
 
                 service.then((data) => {
+                    this.getAddressList()
                     this.$ltsMessage.show({type:'success',message:'操作成功'})
                 },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.errorMessage})
@@ -780,6 +786,7 @@
                 margin-left: 24px;
             }
             padding-bottom:24px;
+            border-bottom: 1px solid #f2f2f2;
             .remark{
                 margin-top: 24px;
                 margin-left: 24px;

@@ -71,4 +71,24 @@ export default class OrderService extends BaseService {
         };
         return super.getRequest('/installer/order/close_by_tid',params);
     }
+    /*模拟支付获取账户余额*/
+    static simulatePay(param){
+        let params = {
+            tid: param.tid,
+            pay_bank: param.payBank,
+            pay_source: param.paySource,
+        };
+        return super.postRequest('/trade_pay/simulate_pay_confirm',params);
+    }
+
+    /*使用余额支付*/
+    static createPay(param){
+        let params = {
+            tid: param.tid,
+            pay_bank: 'BALANCE',
+            pay_source: 'BALANCE',
+            use_balance: true
+        };
+        return super.postRequest('/base/pay/alipay/create_pay',params);
+    }
 }

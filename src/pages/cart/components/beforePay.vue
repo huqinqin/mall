@@ -4,17 +4,26 @@
         <div class="info">
             <p>订单编号：{{formData.number}}</p>
             <p><span>应付金额：${{formData.amount}}</span></p>
+            <p><span>账户余额：${{(balance/100).toFixed(2)}}</span></p>
+        </div>
+        <div class="balance">
+            <h5>是否使用账户余额</h5>
+            <el-radio-group v-model="useBalance" @change="qwert">
+                <el-radio-button label="true" :disabled="balance < moneyPay">是</el-radio-button>
+                <el-radio-button label="false">否</el-radio-button>
+            </el-radio-group>
+            <p v-show="balance < moneyPay">账户余额不足，请选择其他支付方式</p>
         </div>
         <div class="payment">
             <h5>支付方式</h5>
             <el-radio-group v-model="howPay">
                 <el-radio label="remain" disabled>使用信用余额</el-radio>
                 <el-radio label="credit" disabled>使用信用卡</el-radio>
-                <el-radio label="alipay">使用支付宝</el-radio>
+                <el-radio label="ALIPAY">使用支付宝</el-radio>
             </el-radio-group>
         </div>
         <div class="goPay">
-            <el-button @click="goPay">立即支付</el-button>
+            <el-button @click="gogogo">立即支付</el-button>
         </div>
     </div>
 </template>
@@ -26,32 +35,63 @@
         name: "beforePay",
         data(){
             return{
-                howPay:'alipay',
+                useCredit: false,
+                howPay: 'ALIPAY',
+                useBalance: false,
                 tid:'',
+                balance:'',
+                moneyPay:'',
                 formData: {
                     number: '',
                     amount: ''
                 },
                 creditData: {
-                    src: '../../../assets/pay/credit.png',
+                    src: '../../../assets/img/credit.png',
                     alt: 'credit'
                 },
                 onlineData: {
-                    src: '../../../assets/pay/aplipay.png',
+                    src: '../../../assets/img/aplipay.png',
                     alt: 'alipay'
                 },
             }
         },
         methods:{
+            qwert(val){
+                console.log(this.useBalance)
+                console.log(val)
+            },
+            // 模拟支付
+            simulatePay(){
+              let param = {
+                  tid: this.tid,
+                  payBank: this.howPay,
+                  paySource: this.howPay,
+              }
+                orderService.simulatePay(param).then((data) => {
+                    console.log(data)
+                    this.balance = data.data.balance;
+                    this.moneyPay = data.data.money_pay;
+                },(msg) => {
+                    this.$ltsMessage.show({type:'error',message:msg.error_message})
+                })
+            },
+
             payTotalPrice(){
                 console.log(this.$route.params)
                 this.formData.amount = this.$route.params.item[0];
                 this.formData.number = this.$route.params.item[1];
                 this.tid = this.$route.params.item[1];
             },
+            gogogo(){
+                if(this.useBalance === true && this.balance >= this.moneyPay){
+                    this.goPay()
+                }else{
+                    this.enoughBalance()
+                }
+            },
             goPay(){
-                let return_url = '/customerorder#/finish';
-                let fail_url = '/customerorder#/fail';
+                let return_url = '/cart#/finish';
+                let fail_url = '/cart#/fail';
                 this.$confirm('正在支付。。。', '提示', {
                     confirmButtonText: '支付完成',
                     type: 'warning',
@@ -61,7 +101,7 @@
                     this.checkOrder(this.tid);
                 }).catch(() => {
                 });
-                window.open(config.url.main + '/gateway/base/pay/alipay/create_pay?tid=' + this.tid + '&return_url=' + config.url.main + return_url + '&fail_url='+ config.url.main + fail_url + '');
+                window.open(config.url.main + '/gateway/base/pay/alipay/create_pay?use_balance='+ this.useBalance + '&tid=' + this.tid + '&return_url=' + config.url.main + return_url + '&fail_url='+ config.url.main + fail_url + '');
             },
             checkOrder(tid){
                 orderService.checkOrder(tid).then((data)=>{
@@ -73,10 +113,19 @@
                 },(msg)=>{
                     this.$router.push({name:"fail",params:{tid:tid}});
                 });
+            },
+            enoughBalance(){
+                orderService.createPay(this.tid).then((data) => {
+                    this.$router.push({name:"finish",params:{tid:this.tid}});
+                },(msg) => {
+                    this.$ltsMessage.show({type:'error',message:msg.error_message})
+                })
+
             }
         },
         mounted(){
            this.payTotalPrice();
+           this.simulatePay();
         }
   }
 </script>
@@ -99,7 +148,6 @@
             }
         }
         .info{
-            height: 86px;
             border-bottom:1px solid rgba(0,0,0,0.05);
             padding-left: 48px;
             vertical-align: middle;
@@ -112,13 +160,36 @@
                 }
             }
         }
+        h5{
+            color: #777777;
+            font-size: 16px;
+        }
+        .balance{
+            margin-top: 24px;
+            margin-left: 24px;
+            .el-radio-group{
+                margin-left: 24px;
+                margin-top: 24px;
+            }
+            .el-radio-button{
+                span{
+                    width:120px;
+                }
+            }
+            .el-radio-button:focus{
+                box-shadow: none;
+            }
+            p{
+                padding-left: 24px;
+                line-height: 12px;
+                color:red;
+                font-size: 12px;
+            }
+        }
         .payment{
             margin-top: 24px;
             padding-left: 24px;
-            h5{
-                color: #777777;
-                font-size: 16px;
-            }
+
             .el-radio-group{
                 margin-left: 24px;
                 padding: 24px 0;

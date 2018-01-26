@@ -765,7 +765,6 @@
                     }
                     .icon-right{
                         transform: rotateZ(180deg);
-                        margin-top: 2px;
                     }
                 }
             }

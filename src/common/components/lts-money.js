@@ -1,6 +1,6 @@
 import Vue from 'vue'
 Vue.component('lts-money',{
-    template: '<span>{{activeSymbol}}{{ ltsmoney }}</span>',
+    template: '<span>{{activeSymbol}}{{ commoney }}</span>',
     props: ['money'],
     data(){
         return {
@@ -9,7 +9,11 @@ Vue.component('lts-money',{
             ltsmoney : this.money,
         }
     },
-    mounted(){
-       this.ltsmoney = (parseFloat(this.ltsmoney) / 100).toFixed(2);
-    },
+    computed:{
+        commoney(){
+            this.ltsmoney = this.money;
+            return this.ltsmoney = (parseFloat(this.ltsmoney) / 100).toFixed(2);
+        }
+    }
+
 })

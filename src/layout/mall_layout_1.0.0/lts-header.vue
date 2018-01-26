@@ -26,7 +26,12 @@
                             <p>{{value.last}}</p>
                         </a>
                         <a :href="value.link" v-else v-login>
-                            <span class="iconfont" :class="value.icon"></span>
+                            <el-badge :value="20" :max="99" class="item" v-if="value.name == 'suopping cart'">
+                                <span class="iconfont" :class="[value.icon,value.name == 'suopping cart' ? 'cart' : '']">
+                                </span>
+                            </el-badge>
+                            <span class="iconfont" :class="[value.icon]" v-else>
+                            </span>
                             <p>{{value.first}}</p>
                             <p>{{value.last}}</p>
                         </a>
@@ -365,6 +370,9 @@
                             .iconfont{
                                 font-size: 42px;
                                 color: #4c4c4c;
+                            }
+                            .cart{
+                                color: #f13a40;
                             }
                             p{
                                 text-align: center;

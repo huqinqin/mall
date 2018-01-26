@@ -14,7 +14,7 @@
                     <i  v-if="type === 2" class="iconfont icon-chenggong icon"></i>
                     <i  v-if="type === 3" class="iconfont icon-chenggong icon"></i>
                     <div class="title">{{title}}</div>
-                    <a :href="'/cart#/'" target="_blank">
+                    <a :href="'/cart#/'">
                        <el-button  class="addCart">{{btnTitle}}</el-button>
                     </a>
                 </div>
@@ -22,13 +22,15 @@
                 <h3 class="recommoned">{{recommoned}}</h3>
                 <ul class="list">
                       <li v-for = "(item,index) in info">
-                        <a :href="'/detail#/?id=' + item.id" target="_blank">
-                           <div class="bg" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
-                           <p class="desc">{{item.promotion_title}}</p>
-                           <p class="price">
-                               <lts-money :money="item.price"></lts-money>
-                           </p>
-                        </a>
+                          <el-tooltip placement="top">
+                              <div slot="content"><p class="desc">{{item.promotion_title}}</p></div>
+                              <a :href=" '/detail#/?id=' + item.id" target="_self" @click="refresh">
+                                  <div class="bg" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
+                                  <p class="price">
+                                      <lts-money :money="item.price"></lts-money>
+                                  </p>
+                              </a>
+                          </el-tooltip>
                     </li>
                 </ul>
             </div>
@@ -220,6 +222,9 @@
           },
           jump(){
               this.$emit("jump");
+          },
+          refresh(){
+              location.reload();
           }
       }
   };

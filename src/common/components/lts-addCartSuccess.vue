@@ -23,7 +23,7 @@
                 <ul class="list">
                       <li v-for = "(item,index) in info">
                           <el-tooltip placement="top">
-                              <div slot="content"><p class="desc">{{item.promotion_title}}</p></div>
+                              <div slot="content"><p class="desc">{{item.item_name}}</p></div>
                               <a :href=" '/detail#/?id=' + item.id" target="_self" @click="refresh">
                                   <div class="bg" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
                                   <p class="price">

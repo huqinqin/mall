@@ -725,7 +725,9 @@
                         }
                     }
                     .item_detail{
-                        text-align: center;
+                        text-align: left;
+                        width: 750px;
+                        padding-top: 20px;
                     }
                 }
             }

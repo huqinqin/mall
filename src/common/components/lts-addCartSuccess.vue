@@ -133,11 +133,13 @@
                         background-size: 100% 100%;
                         background-position: center center;
                         background-repeat: no-repeat;
+                        box-sizing: border-box;
                     }
                     .desc{
                         text-align: left;
                         margin-top: 13px;
-                        height: 42px;
+                        height: 24px;
+                        overflow: hidden;
                     }
                     .price{
                         text-align: left;

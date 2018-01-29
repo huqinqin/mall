@@ -23,7 +23,7 @@
             </el-radio-group>
         </div>
         <div class="goPay">
-            <el-button @click="gogogo">立即支付</el-button>
+            <el-button @click="confirmPay">立即支付</el-button>
         </div>
     </div>
 </template>
@@ -82,7 +82,7 @@
                 this.formData.number = this.$route.params.item[1];
                 this.tid = this.$route.params.item[1];
             },
-            gogogo(){
+            confirmPay(){
                 if(this.useBalance === true.toString() && this.balance >= this.moneyPay){
                     this.enoughBalance()
                 }else{

@@ -61,8 +61,7 @@
                     {{order.receiver_mobile}}
                 </el-form-item>
                 <el-form-item label="地址">
-                     {{order.user_addr.address}}
-                     {{order.user_addr.building}}
+                     {{order.user_addr}}
                 </el-form-item>
             </el-form>
         </el-card>
@@ -198,7 +197,6 @@
         methods: {
             get () {
                 orderService.get(this.order.tid).then((resp) => {
-                    resp.data.user_addr = JSON.parse(resp.data.user_addr);
                     this.order = resp.data;
                 },(err) => {
 

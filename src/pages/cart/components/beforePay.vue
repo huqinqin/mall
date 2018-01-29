@@ -3,20 +3,18 @@
         <div class="mark"><p>您的订单已经生成，请尽快完成支付，防止商品被抢光</p></div>
         <div class="info">
             <p>订单编号：{{formData.number}}</p>
-            <p><span>应付金额：${{formData.amount}}</span></p>
-            <p><span>账户余额：${{(balance/100).toFixed(2)}}</span></p>
-        </div>
-        <div class="balance">
-            <h5>是否使用账户余额</h5>
-            <el-radio-group v-model="useBalance" @change="qwert">
-                <el-radio-button label="true" :disabled="balance < moneyPay">是</el-radio-button>
-                <el-radio-button label="false">否</el-radio-button>
-            </el-radio-group>
-            <p v-show="balance == 0">账户余额为零，请选择其他支付方式</p>
+            <p><span>物流方式：{{formData.deliveryType}}</span></p>
+            <p><span>应付金额：<lts-money :money="formData.amount"></lts-money></span></p>
+            <el-checkbox v-model="useBalance">使用账户余额</el-checkbox><span> (您的账户余额为<lts-money :money="balance"></lts-money>)</span>
         </div>
         <div class="payment">
-            <h5>支付方式</h5>
-            <el-radio-group v-model="howPay">
+            <div class="realPay">应付余额：
+                <span v-if="useBalance === false"><lts-money :money="formData.amount"></lts-money></span>
+                <span v-else-if="balance >= formData.amount"><lts-money :money="0"></lts-money></span>
+                <span v-else><lts-money :money="formData.amount - balance"></lts-money></span>
+            </div>
+            <h5 v-show="!(useBalance === true && balance >= formData.amount)">支付方式</h5>
+            <el-radio-group v-model="howPay" v-show="!(useBalance === true && balance >= formData.amount)">
                 <el-radio label="remain" disabled>使用信用余额</el-radio>
                 <el-radio label="credit" disabled>使用信用卡</el-radio>
                 <el-radio label="ALIPAY">使用支付宝</el-radio>
@@ -39,11 +37,12 @@
                 howPay: 'ALIPAY',
                 useBalance: false,
                 tid:'',
-                balance:'',
-                moneyPay:'',
+                balance:0,
+                moneyPay:0,
                 formData: {
                     number: '',
-                    amount: ''
+                    amount: '',
+                    deliveryType:'',
                 },
                 creditData: {
                     src: '../../../assets/img/credit.png',
@@ -56,10 +55,6 @@
             }
         },
         methods:{
-            qwert(val){
-                console.log(this.useBalance)
-                console.log(val)
-            },
             // 模拟支付
             simulatePay(){
               let param = {
@@ -81,9 +76,16 @@
                 this.formData.amount = this.$route.params.item[0];
                 this.formData.number = this.$route.params.item[1];
                 this.tid = this.$route.params.item[1];
+                switch(this.$route.params.item[2]){
+                    case 'SHSM':
+                        this.formData.deliveryType = '快递';
+                        break
+                    case 'ZITI':
+                        this.formData.deliveryType = '自提';
+                }
             },
             confirmPay(){
-                if(this.useBalance === true.toString() && this.balance >= this.moneyPay){
+                if(this.useBalance === true && this.balance >= this.moneyPay){
                     this.enoughBalance()
                 }else{
                     this.goPay()
@@ -120,7 +122,6 @@
                 },(msg) => {
                     this.$ltsMessage.show({type:'error',message:msg.error_message})
                 })
-
             }
         },
         mounted(){
@@ -149,49 +150,38 @@
         }
         .info{
             border-bottom:1px solid rgba(0,0,0,0.05);
-            padding-left: 48px;
+            padding-left: 24px;
+            padding-bottom: 6px;
             vertical-align: middle;
             font-size: 14px;
             color: #777777;
             p{
-                line-height: 36px;
+                line-height: 32px;
                 span+span{
                     margin-left: 24px;
                 }
+            }
+            .el-checkbox{
+                font-size: 14px;
+                line-height: 32px;
             }
         }
         h5{
             color: #777777;
             font-size: 16px;
         }
-        .balance{
-            margin-top: 24px;
-            margin-left: 24px;
-            .el-radio-group{
-                margin-left: 24px;
-                margin-top: 24px;
-            }
-            .el-radio-button{
-                span{
-                    width:120px;
-                }
-            }
-            .el-radio-button:focus{
-                box-shadow: none;
-            }
-            p{
-                padding-left: 24px;
-                line-height: 12px;
-                color:red;
-                font-size: 12px;
-            }
-        }
         .payment{
-            margin-top: 24px;
+            margin-top: 12px;
             padding-left: 24px;
-
+            .realPay{
+                color: #777777;
+                font-size: 14px;
+                span{
+                    color:#f13a40;
+                }
+                margin-bottom: 48px;
+            }
             .el-radio-group{
-                margin-left: 24px;
                 padding: 24px 0;
                 .el-radio{
                     display: block;
@@ -207,6 +197,7 @@
                 }
             }
             border-bottom: 1px solid rgba(0,0,0,0.05);
+
         }
         .goPay{
             margin: 60px 24px;

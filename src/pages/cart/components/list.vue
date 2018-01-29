@@ -43,7 +43,7 @@
              <el-table-column label="小计" width="100" align="center">
                 <template slot-scope="scope">
                     <div class="count" ref="count">
-                        ${{(scope.row.num*scope.row.item_props[0].price/100).toFixed(2)}}
+                        <lts-money :money="scope.row.num*scope.row.item_props[0].price"></lts-money>
                     </div>
                 </template>
              </el-table-column>
@@ -63,7 +63,7 @@
                 </p>
             </div>
             <div class="check">
-                <p><span>应付金额&nbsp;&nbsp;<strong>${{(totalPrice/100).toFixed(2)}}</strong></span></p>
+                <p><span>应付金额&nbsp;&nbsp;<strong><lts-money :money="totalPrice"></lts-money></strong></span></p>
                 <el-button @click="check" :disabled="multipleSelection.length <= 0 && tooManyItems">立即结算</el-button>
             </div>
         </div>
@@ -75,7 +75,7 @@
                     <p>{{item.name}}</p>
                     <p><span>{{item.info}}</span></p>
                     <p><span>{{item.model}}</span></p>
-                    <div class="price">${{item.price}}</div>
+                    <div class="price"><lts-money :money="item.price"></lts-money></div>
                 </li>
             </ul>
         </div>

@@ -158,7 +158,7 @@
                 totalPrice:'',
                 inPriceType:'false', // 送货单是否包含价格，配送方式
                 deliveryType:'SHSM', // 送货上门or快递
-                useBalance: false,   // 是否使用余额s
+                useBalance: false,   // 是否使用余额
                 showAddAddress: false, // 地址框
                 showEditAddress: false,
                 cityOptions: [
@@ -393,7 +393,7 @@
                 };
                 orderService.createTrade(params,this.remark).then((data)=>{
                     this.$emit('submit',3);
-                    this.$router.push({name: 'beforePay',params:{item:[this.totalPrice,data.data]}});
+                    this.$router.push({name: 'beforePay',params:{item:[this.totalPrice,data.data,this.deliveryType]}});
                 },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.error_message})
                 })

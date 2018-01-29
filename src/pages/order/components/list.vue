@@ -227,7 +227,7 @@
                         let return_url = '/customerorder#/finish';
                         let fail_url = '/customerorder#/fail';
                         order = data.$vnode.data.attrs.data;
-                        window.open(config.url.main + '/gateway/base/pay/alipay/create_pay?tid=' + order.tid + '&return_url=' + config.url.main + return_url + '&fail_url='+ config.url.main + fail_url + '');
+                        window.open(config.url.main + '/cart#/beforePay?tid=' + order.tid + '');
                         break;
                     case "close":
                         this.$confirm('是否删除订单?', '提示', {

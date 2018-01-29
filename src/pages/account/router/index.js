@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import Router from 'vue-router'
 import Signup from '../components/signup.vue'
 import Reset from '../components/reset.vue'

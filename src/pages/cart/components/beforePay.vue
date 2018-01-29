@@ -44,14 +44,6 @@
                     amount: '',
                     deliveryType:'',
                 },
-                creditData: {
-                    src: '../../../assets/img/credit.png',
-                    alt: 'credit'
-                },
-                onlineData: {
-                    src: '../../../assets/img/aplipay.png',
-                    alt: 'alipay'
-                },
             }
         },
         methods:{
@@ -73,7 +65,7 @@
 
             payTotalPrice(){
                 console.log(this.$route.params)
-                this.formData.amount = this.$route.params.item[0];
+                this.formData.amount = this.$route.params.item[0]*100;
                 this.formData.number = this.$route.params.item[1];
                 this.tid = this.$route.params.item[1];
                 switch(this.$route.params.item[2]){

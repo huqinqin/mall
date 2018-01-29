@@ -3,8 +3,16 @@
         <div class="mark"><p>您的订单已经生成，请尽快完成支付，防止商品被抢光</p></div>
         <div class="info">
             <p>订单编号：{{formData.number}}</p>
-            <p><span>应付金额：${{formData.amount}}</span></p>
-            <p><span>账户余额：${{(balance/100).toFixed(2)}}</span></p>
+            <p>
+                <span>
+                    应付金额：<lts-money :money="moneyPay"></lts-money>
+                </span>
+            </p>
+            <p>
+                <span>
+                    账户余额：<lts-money :money="balance"></lts-money>
+                </span>
+            </p>
         </div>
         <div class="balance">
             <h5>是否使用账户余额</h5>
@@ -44,15 +52,7 @@
                 formData: {
                     number: '',
                     amount: ''
-                },
-                creditData: {
-                    src: '../../../assets/img/credit.png',
-                    alt: 'credit'
-                },
-                onlineData: {
-                    src: '../../../assets/img/aplipay.png',
-                    alt: 'alipay'
-                },
+                }
             }
         },
         methods:{
@@ -68,19 +68,17 @@
                   paySource: this.howPay,
               }
                 orderService.simulatePay(param).then((data) => {
-                    console.log(data)
                     this.balance = data.data.balance;
                     this.moneyPay = data.data.money_pay;
                 },(msg) => {
                     this.$ltsMessage.show({type:'error',message:msg.error_message})
                 })
             },
-
             payTotalPrice(){
-                console.log(this.$route.params)
-                this.formData.amount = this.$route.params.item[0];
-                this.formData.number = this.$route.params.item[1];
-                this.tid = this.$route.params.item[1];
+                console.log(this.$route.query)
+                this.formData.number = this.$route.query.tid;
+                this.tid = this.$route.query.tid;
+                this.simulatePay();
             },
             gogogo(){
                 if(this.useBalance === true.toString() && this.balance >= this.moneyPay){
@@ -125,7 +123,6 @@
         },
         mounted(){
            this.payTotalPrice();
-           this.simulatePay();
         }
   }
 </script>

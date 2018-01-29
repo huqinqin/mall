@@ -393,7 +393,7 @@
                 };
                 orderService.createTrade(params,this.remark).then((data)=>{
                     this.$emit('submit',3);
-                    this.$router.push({name: 'beforePay',params:{item:[this.totalPrice,data.data]}});
+                    this.$router.push({name: 'beforePay',query:{tid:data.data}});
                 },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.error_message})
                 })

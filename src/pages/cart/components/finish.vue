@@ -32,7 +32,6 @@
                 this.tid = this.$route.params.tid;
                 console.log(this.tid);
                 detailOrder.detailOrder(this.tid).then((data) => {
-                    this.$ltsMessage.show({type:'success',message:"下单成功"});
                     this.detailOrder = data.data;
                     if(this.detailOrder.wholesale_order_items[0].s_h_s_m === true){
                         this.method = "送货上门"

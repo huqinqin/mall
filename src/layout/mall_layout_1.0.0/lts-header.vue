@@ -72,14 +72,14 @@
                     <el-form-item>
                         <div class="aboutPassword">
                             <el-checkbox v-model="form.checked">记住密码</el-checkbox>
-                            <div><a href="#">忘记密码?</a></div>
+                            <div @click="forgetPass" style="cursor: pointer">忘记密码?</div>
                         </div>
                     </el-form-item>
                     <el-form-item>
                         <button type="button" @click="login">登录</button>
                     </el-form-item>
                     <el-form-item>
-                        <button type="button" class="signup">注册</button>
+                        <button type="button" class="signup" @click="signup">注册</button>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
@@ -196,6 +196,14 @@
           }
         },
         methods:{
+            signup(){
+                location.href = '/account#/signup';
+                this.loginVisible = false;
+            },
+            forgetPass(){
+                location.href = '/account#/forget';
+                this.loginVisible = false;
+            },
             logout(){
                 userService.logout().then((resp)=>{
                     session.logout();

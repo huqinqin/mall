@@ -1,7 +1,7 @@
 <template>
     <div class="addressManage">
         <div class="info">
-            <img src="@/assets/address/avatar.png" alt="avatar" class="avatar">
+            <img src="@/assets/img/avatar.png" alt="avatar" class="avatar">
             <ul>
                 <li v-for="item in info">{{item}}</li>
             </ul>

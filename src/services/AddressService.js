@@ -39,6 +39,7 @@ export default class AddressService extends BaseService {
      * remark 新增地址
      */
     static addItem(form){
+        console.log(form)
         let address = {
             mobile:form.mobile,
             userName:form.user_name,
@@ -48,6 +49,7 @@ export default class AddressService extends BaseService {
             rank: form.rank,
             lcCode: form.lc_code
         }
+        console.log(address)
         let params = {
             address:JSON.stringify(address)
         }

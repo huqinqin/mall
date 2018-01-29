@@ -20,7 +20,7 @@
                 <el-radio-button label="true" :disabled="balance < moneyPay">是</el-radio-button>
                 <el-radio-button label="false">否</el-radio-button>
             </el-radio-group>
-            <p v-show="balance < moneyPay">账户余额不足，请选择其他支付方式</p>
+            <p v-show="balance == 0">账户余额为零，请选择其他支付方式</p>
         </div>
         <div class="payment">
             <h5>支付方式</h5>
@@ -31,7 +31,7 @@
             </el-radio-group>
         </div>
         <div class="goPay">
-            <el-button @click="gogogo">立即支付</el-button>
+            <el-button @click="confirmPay">立即支付</el-button>
         </div>
     </div>
 </template>
@@ -80,7 +80,7 @@
                 this.tid = this.$route.query.tid;
                 this.simulatePay();
             },
-            gogogo(){
+            confirmPay(){
                 if(this.useBalance === true.toString() && this.balance >= this.moneyPay){
                     this.enoughBalance()
                 }else{
@@ -196,6 +196,11 @@
                 }
                 .el-radio+.el-radio{
                     margin-top: 12px;
+                }
+                .el-radio:focus{
+                    .el-radio__inner{
+                        box-shadow: none;
+                    }
                 }
             }
             border-bottom: 1px solid rgba(0,0,0,0.05);

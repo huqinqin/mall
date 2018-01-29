@@ -82,13 +82,13 @@ export default class OrderService extends BaseService {
     }
 
     /*使用余额支付*/
-    static createPay(param){
+    static pay_confirm(tid){
         let params = {
-            tid: param.tid,
+            tid: tid,
             pay_bank: 'BALANCE',
             pay_source: 'BALANCE',
             use_balance: true
         };
-        return super.postRequest('/base/pay/alipay/create_pay',params);
+        return super.postRequest('/trade_pay/pay_confirm',params);
     }
 }

@@ -49,7 +49,7 @@
                           style="width: 240px"
                           @change="handleChange">
                       </el-cascader>
-                      <el-button slot="append" icon="el-icon-search" @click="searchToHref"></el-button>
+                      <el-button slot="append" type="primary" icon="el-icon-search" @click="searchToHref"></el-button>
                   </el-input>
               </div>
         </div>
@@ -326,7 +326,7 @@
                 }
             },
             getCartNum(){
-                cartService.queryCartList().then((data)=>{
+                cartService.queryCartCount().then((data)=>{
                     this.cart_num = data.data;
                 },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.error_message})
@@ -396,7 +396,14 @@
                                 text-align: center;
                                 color: #737373;
                                 font-size: 12px;
+                                transition: all ease .2s;
                             }
+                        }
+                        a:hover{
+                            p{
+                                color: #ff3b41;
+                            }
+
                         }
                     }
                 }

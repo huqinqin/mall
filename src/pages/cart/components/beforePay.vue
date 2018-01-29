@@ -83,10 +83,10 @@
                 this.tid = this.$route.params.item[1];
             },
             gogogo(){
-                if(this.useBalance === true && this.balance >= this.moneyPay){
-                    this.goPay()
-                }else{
+                if(this.useBalance === true.toString() && this.balance >= this.moneyPay){
                     this.enoughBalance()
+                }else{
+                    this.goPay()
                 }
             },
             goPay(){
@@ -115,7 +115,7 @@
                 });
             },
             enoughBalance(){
-                orderService.createPay(this.tid).then((data) => {
+                orderService.pay_confirm(this.tid).then((data) => {
                     this.$router.push({name:"finish",params:{tid:this.tid}});
                 },(msg) => {
                     this.$ltsMessage.show({type:'error',message:msg.error_message})

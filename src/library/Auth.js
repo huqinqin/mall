@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import session from '@/library/Session'
 import $ from 'jquery'
 

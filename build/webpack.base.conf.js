@@ -32,6 +32,10 @@ module.exports = {
         'ui'     : resolve('src') + '/common'
       }
     },
+    externals: {
+        'Vue' : 'vue',
+        'ElementUi': 'ELEMENT',
+    },
     module: {
         rules: [{
                 test: /\.vue$/,

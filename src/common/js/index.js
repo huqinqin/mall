@@ -1,8 +1,5 @@
-import Vue from 'vue'
-import ElementUI from 'element-ui'
 import VueI18n from 'vue-i18n'
 import VueResource from 'vue-resource'
-import Router from 'vue-router'
 import {dateUtils} from 'ltsutil'
 
 import Layout from 'layout'
@@ -16,7 +13,6 @@ import ltsMoney from '../components/lts-money.js'
 
 import config from 'config'
 
-Vue.use(ElementUI)
 Vue.use(VueI18n)
 
 Vue.prototype.$ltsLoading = Loading
@@ -36,21 +32,6 @@ const i18n = new VueI18n({
   }
 })
 
-
-Vue.filter('strtime2str', function (strtime) {
-    if (!strtime) return '';
-    return dateUtils.timeToStr(dateUtils.getUnixTime(strtime));
-});
-
-
-Vue.filter('timestamp2str', function (timestamp) {
-    if (!timestamp) return ''
-    return dateUtils.format(new Date(timestamp))
-})
-Vue.filter('money2str', function (money) {
-    if (!money) return ''
-    return (money / 100).toFixed(2)
-})
 export default function (App, router = new Router()) {
   let isIndex = true,isCart = true
   App.name && App.name == 'index' ? isIndex = true : isIndex = false;

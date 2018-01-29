@@ -46,7 +46,7 @@ export default class CartService extends BaseService {
      * @auth taohua
      * @remark 查询购物车数量
      */
-    static queryCartList() {
+    static queryCartCount() {
         return super.getRequest('/installer/cart/query_item_in_cart_count');
     }
 }

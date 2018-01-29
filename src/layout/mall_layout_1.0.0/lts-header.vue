@@ -326,7 +326,7 @@
                 }
             },
             getCartNum(){
-                cartService.queryCartList().then((data)=>{
+                cartService.queryCartCount().then((data)=>{
                     this.cart_num = data.data;
                 },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.error_message})

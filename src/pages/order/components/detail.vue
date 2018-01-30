@@ -2,7 +2,7 @@
     <div class="orderDetail">
         <el-row type="flex" justify="center">
             <el-col :span="12">
-                <el-steps :space="400" :active="order.status" align-center>
+                <el-steps :space="400" :active="order.status + 1" align-center  finish-status="success">
                     <el-step title="创建"></el-step>
                     <el-step title="付款"></el-step>
                     <el-step title="发货"></el-step>
@@ -93,13 +93,14 @@
                     {{order.pay_info.pay_type_title}}
                 </el-form-item>
                 <el-form-item label="应付">
-                    {{order.pay | money2str}}
+                    ${{order.pay_value}}
                 </el-form-item>
                 <el-form-item label="运费">
-                    {{order.fee_hd_all | money2str}}
+                    <lts-money :money="order.fee_hd_all"></lts-money>
+                    <!--{{order.fee_hd_all | money2str}}-->
                 </el-form-item>
                 <el-form-item label="实付">
-                    {{order.fee_total | money2str}}
+                    ${{order.pay_real_value}}
                 </el-form-item>
                 <el-form-item label="支付状态">
                     {{order.pay_info.pay_status_title}}
@@ -158,11 +159,11 @@
                 </el-table-column>
                 <el-table-column
                     label="应付">
-                    <template slot-scope="scope">{{scope.row.pay | money2str}}</template>
+                    <template slot-scope="scope">${{order.pay_value}}</template>
                 </el-table-column>
                 <el-table-column
                     label="实付">
-                    <template slot-scope="scope">{{scope.row.pay_real | money2str}}</template>
+                    <template slot-scope="scope">${{order.pay_real_value}}</template>
                 </el-table-column>
                 <el-table-column
                     prop="hd_status_title"
@@ -204,6 +205,7 @@
             }
         },
         mounted(){
+
             this.order.tid = this.$route.params.tid;
             this.get();
         }

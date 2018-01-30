@@ -4,17 +4,17 @@
         <div class="info">
             <p>订单编号：{{formData.number}}</p>
             <p><span>物流方式：{{formData.deliveryType}}</span></p>
-            <p><span>应付金额：<lts-money :money="formData.amount"></lts-money></span></p>
+            <p><span>应付金额：<lts-money :money="moneyPay"></lts-money></span></p>
             <el-checkbox v-model="useBalance">使用账户余额</el-checkbox><span> (您的账户余额为<lts-money :money="balance"></lts-money>)</span>
         </div>
         <div class="payment">
             <div class="realPay">应付余额：
-                <span v-if="useBalance === false"><lts-money :money="formData.amount"></lts-money></span>
-                <span v-else-if="balance >= formData.amount"><lts-money :money="0"></lts-money></span>
-                <span v-else><lts-money :money="formData.amount - balance"></lts-money></span>
+                <span v-if="useBalance === false"><lts-money :money="moneyPay"></lts-money></span>
+                <span v-else-if="balance >= moneyPay"><lts-money :money="0"></lts-money></span>
+                <span v-else><lts-money :money="moneyPay - balance"></lts-money></span>
             </div>
-            <h5 v-show="!(useBalance === true && balance >= formData.amount)">支付方式</h5>
-            <el-radio-group v-model="howPay" v-show="!(useBalance === true && balance >= formData.amount)">
+            <h5 v-show="!(useBalance === true && balance >= moneyPay)">支付方式</h5>
+            <el-radio-group v-model="howPay" v-show="!(useBalance === true && balance >= moneyPay)">
                 <el-radio label="remain" disabled>使用信用余额</el-radio>
                 <el-radio label="credit" disabled>使用信用卡</el-radio>
                 <el-radio label="ALIPAY">使用支付宝</el-radio>
@@ -42,7 +42,7 @@
                 formData: {
                     number: '',
                     amount: '',
-                    deliveryType:'',
+                    deliveryType:'快递',
                 },
             }
         },
@@ -55,7 +55,6 @@
                   paySource: this.howPay,
               }
                 orderService.simulatePay(param).then((data) => {
-                    console.log(data)
                     this.balance = data.data.balance;
                     this.moneyPay = data.data.money_pay;
                 },(msg) => {
@@ -64,17 +63,20 @@
             },
 
             payTotalPrice(){
-                console.log(this.$route.params)
-                this.formData.amount = this.$route.params.item[0]*100;
-                this.formData.number = this.$route.params.item[1];
-                this.tid = this.$route.params.item[1];
-                switch(this.$route.params.item[2]){
+                console.log(this.$route.query)
+                this.formData.number = this.$route.query.tid;
+                this.tid = this.$route.query.tid;
+                switch(this.$route.query.delivery){
                     case 'SHSM':
                         this.formData.deliveryType = '快递';
                         break
                     case 'ZITI':
                         this.formData.deliveryType = '自提';
                 }
+
+                this.simulatePay();
+
+
             },
             confirmPay(){
                 if(this.useBalance === true && this.balance >= this.moneyPay){
@@ -118,7 +120,6 @@
         },
         mounted(){
            this.payTotalPrice();
-           this.simulatePay();
         }
   }
 </script>

@@ -33,6 +33,7 @@
 </template>
 
 <script>
+    import ValidatorConfig from 'config/ValidatorConfig'
     export default {
         name: "forget",
         data(){
@@ -47,17 +48,13 @@
                     checkPass:'',
                 },
                 rules:{
-                    email: [
-                        { required: true, message: 'E-MAIL FORMAT ERROR OR REGISTERED', trigger: 'blur' },
-                    ],
-                    pass: [
-                        { required: true, message: 'CODE IS INCORRECT', trigger: 'blur' },
-                    ],
-                    checkPass: [
-                        { required: true, message: 'WRONG PASSWORD FORMAT', trigger: 'blur' },
-                    ],
+                    email: ValidatorConfig.email,
+                    pass: ValidatorConfig.password,
+                    checkPass: ValidatorConfig.passwordRepeat((rule, value, callback)=>{
+                        ValidatorConfig.validatePasswordRepeat(this.resetForm.pass, value, callback)
+                    }),
                     code: [
-                        { required: true, message: 'THE PASSWORD IS INCONSISTENT TWICE', trigger: 'blur' },
+                        { required: true, message: 'INCORRECT CODE', trigger: 'blur' },
                     ],
                 }
             }

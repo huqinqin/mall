@@ -201,7 +201,7 @@
                 this.loginVisible = false;
             },
             forgetPass(){
-                location.href = '/account#/forget';
+                location.href = '/account#/reset';
                 this.loginVisible = false;
             },
             logout(){

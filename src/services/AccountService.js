@@ -18,7 +18,7 @@ export default class AddressService extends BaseService {
     /**
      * return
      * param
-     * param
+     * param xxx 新密码
      * @autor taohua
      * remark 重置密码
      */
@@ -32,7 +32,7 @@ export default class AddressService extends BaseService {
     /**
      * return
      * param
-     * param
+     * param xxx 邮箱？？
      * @autor taohua
      * remark 获取验证码
      */
@@ -45,12 +45,11 @@ export default class AddressService extends BaseService {
 
     /**
      * return
-     * param
-     * param
+     * param xxx 验证码
      * @autor taohua
      * remark 校验验证码
      */
-    static checkCode() {
+    static checkCode(code) {
         let params = {
 
         }

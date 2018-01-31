@@ -33,10 +33,24 @@
 </template>
 
 <script>
-    import ValidatorConfig from 'config/ValidatorConfig'
+    import accountService from '@/services/AccountService.js'
+    import validatorConfig from '@/config/ValidatorConfig.js'
     export default {
         name: "forget",
         data(){
+            let checkPass = (rule,value,callback) => {
+                let reg =  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/;
+                if(!reg.test(value)){
+                    callback(new Error('密码必须同时包括大小写字母和数字!'))
+                }
+            }
+            let checkCode = (rule,value,callback) => {
+                accountService.checkCode(value).then((data) => {
+                    this.$ltsMessage.show({type: 'error', message: '验证成功'})
+                },(msg) => {
+                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                })
+            }
             return{
                 send:true,
                 sendAgain:false,
@@ -48,13 +62,15 @@
                     checkPass:'',
                 },
                 rules:{
-                    email: ValidatorConfig.email,
-                    pass: ValidatorConfig.password,
-                    checkPass: ValidatorConfig.passwordRepeat((rule, value, callback)=>{
-                        ValidatorConfig.validatePasswordRepeat(this.resetForm.pass, value, callback)
+                    email: validatorConfig.email,
+                    pass: [ { required: true, message: '内容不能为空', trigger: 'blur' },
+                            {validator:checkPass,trigger: 'blur,change'}],
+                    checkPass: validatorConfig.passwordRepeat((rule, value, callback)=>{
+                        validatorConfig.validatePasswordRepeat(this.resetForm.pass, value, callback)
                     }),
                     code: [
-                        { required: true, message: 'INCORRECT CODE', trigger: 'blur' },
+                        { required: true, message: '内容不能为空', trigger: 'blur' },
+                        {validator:checkCode,trigger: 'blur'}
                     ],
                 }
             }

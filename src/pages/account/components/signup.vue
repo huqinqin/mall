@@ -21,7 +21,7 @@
                 </el-form-item>
                 <el-form-item label="VERIFICATION CODE" prop="code" width="260" class="inline">
                     <el-input v-model="signupForm.code" ></el-input>
-                    <el-button @click="getCode">
+                    <el-button @click="getCode" :disable="countDisable === true">
                         <span v-if="send">SEND</span>
                         <span v-else-if="sendAgain">SEND AGAIN</span>
                         <span v-else>{{countdown + 's'}}</span>
@@ -48,14 +48,23 @@
 </template>
 
 <script>
-    import AccountService from '@/services/accountService.js'
+    import accountService from '@/services/AccountService.js'
+    import validatorConfig from '@/config/ValidatorConfig.js'
     export default {
         name: "signup",
         data(){
+            let checkCode = (rule,value,callback) => {
+                accountService.checkCode(value).then((data) => {
+                    this.$ltsMessage.show({type: 'error', message: '验证成功'})
+                },(msg) => {
+                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                })
+            }
             return{
                 send:true,
                 sendAgain:false,
                 countdown:3,
+                countDisable: false,
                 signupForm:{
                     companyName:'',
                     fisrtName:'',
@@ -68,24 +77,25 @@
                 },
                 rules:{
                     fisrtName: [
-                        { required: true, message: 'PLEASE ENTER', trigger: 'blur' },
+                        { required: true, message: '内容不能为空', trigger: 'blur' },
                     ],
                     lastName: [
-                        { required: true, message: 'PLEASE ENTER', trigger: 'blur' },
+                        { required: true, message: '内容不能为空', trigger: 'blur' },
                     ],
                     email: [
-                        { required: true, message: 'PLEASE ENTER THE E-MAIL', trigger: 'blur' },
-                        { type: 'email', message: 'E-MAIL FORMAT ERROR OR REGISTERED', trigger: 'blur,change' }
+                        { required: true, message: '内容不能为空', trigger: 'blur' },
+                        { type: 'email', message: '邮箱格式错误', trigger: 'blur,change' }
                     ],
                     pass: [
-                        { required: true, message: 'PLEASE ENTER THE PASSWORD', trigger: 'blur' },
-                        { min: 8, max: 20, message: 'THE PASSWORD CHARACTER LENGTH IS 8-20 CHARACTERS', trigger: 'blur' }
+                        { required: true, message: '内容不能为空', trigger: 'blur' },
+                        { min: 8, max: 20, message: '密码长度为8到20个字符', trigger: 'blur' },
                     ],
-                    checkPass: [
-                        { required: true, message: 'PLEASE ENTER THE PASSWORD AGAIN', trigger: 'blur' },
-                    ],
+                    checkPass: validatorConfig.passwordRepeat((rule, value, callback)=>{
+                        validatorConfig.validatePasswordRepeat(this.resetForm.pass, value, callback)
+                    }),
                     code: [
-                        { required: true, message: 'PLEASE ENTER THE CODE', trigger: 'blur' },
+                        { required: true, message: '内容不能为空', trigger: 'blur' },
+                        { validator:checkCode, message: '验证码错误', trigger: 'blur' },
                     ],
                 }
             }
@@ -93,29 +103,35 @@
         methods: {
             submitFrom(){
                 console.log(this.signupForm)
-                this.$router.push('/signupFinish')
+                accountService.creatAccount(this.signupForm).then((data) => {
+                    this.$ltsMessage.show({type: 'error', message: '创建成功'})
+                    this.$router.push('/signupFinish')
+                },(msg) => {
+                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                })
             },
             getCode(){
-                AccountService.getCode()
+                accountService.getCode().then((data) => {
+                    console.log(data)
+                    this.signupForm.code = ''
+                },(msg) => {
+                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                })
                 let self = this;
-                self.countdown = 3;
+                self.countdown = 5;
                 this.send = false;
                 self.sendAgain = false;
-                setInterval(function count() {
+                let clock = setInterval(() => {
                     if(self.countdown > 1){
                         self.countdown--;
+                        self.countDisable = true
                     }else{
+                        clearInterval(clock)
                         self.sendAgain = true;
+                        self.countDisable = false
                     }
                 },1000)
             },
-            checkCode(){
-                AccountService.checkCode(this.signupForm.code).then((data) => {
-                    condole.log(data)
-                },(msg) => {
-                    this.$ltsMessage.show({type: 'error', message: msg.msg.error_message });
-                })
-            }
         }
     }
 </script>
@@ -147,12 +163,11 @@
                 .el-form-item__content{
                     line-height: 30px;
                     .el-form-item__error{
-                        top:30px;
-                        left: 8px;
+                        top:34px;
+                        left:8px;
                     }
                 }
                 .el-form-item.checkbox{
-                    margin-top: -10px;
                     .el-checkbox__inner{
                         margin-bottom: 2px;
                         margin-right: 8px;

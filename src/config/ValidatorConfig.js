@@ -6,7 +6,7 @@
 export default {
     validatePasswordRepeat(password, passwordRepeat, callback) {
         if (password !== passwordRepeat) {
-            callback(new Error('DOUBLE PASSWORD INCONSISTENCY!'))
+            callback(new Error('两次密码不一致!'))
         } else {
             callback()
         }
@@ -14,7 +14,7 @@ export default {
     validatePassword(rule, value, callback){
         let reg =  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/;
         if(!reg.test(value)){
-            callback(new Error('INCORRECT PASSWORD FORMAT!'))
+            callback(new Error('密码格式错误!'))
         }
     },
     validateMobile(rule, value, callback){
@@ -31,13 +31,13 @@ export default {
         {min: 8, max: 30, message: '长度在 8 到 30 个字符', trigger: 'blur'}
     ],
     password: [
-        {required: true, message: 'PASSWORD IS ESSENTIAL', trigger: 'blur'},
+        {required: true, message: '请输入密码', trigger: 'blur'},
         {min: 8, max: 30, message: '密码长度在 8 到 30 个字符', trigger: 'blur'},
         {validator: this.validatePassword, trigger: 'blur'}
     ],
     email: [
-        {required: true, message: 'EMAIL IS ESSENTIAL', trigger: 'blur'},
-        {type: 'email', message: 'INCORRECT EMAIL FORMAT', trigger: 'blur,change'},
+        {required: true, message: '请输入邮箱', trigger: 'blur'},
+        {type: 'email', message: '邮箱格式错误', trigger: 'blur'},
         {validator: this.validateEmail, trigger: 'blur'}
     ],
     /**

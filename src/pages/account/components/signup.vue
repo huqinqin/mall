@@ -17,11 +17,11 @@
                     <el-input v-model="signupForm.lastName" ></el-input>
                 </el-form-item>
                 <el-form-item label="EMAIL" prop="email">
-                    <el-input v-model="signupForm.email" ></el-input>
+                    <el-input v-model="signupForm.email" @keyup.enter="getCode"></el-input>
                 </el-form-item>
                 <el-form-item label="VERIFICATION CODE" prop="code" width="260" class="inline">
                     <el-input v-model="signupForm.code" ></el-input>
-                    <el-button @click="getCode" :disable="countDisable === true">
+                    <el-button @click="getCode"   :disabled="!send && !sendAgain">
                         <span v-if="send">SEND</span>
                         <span v-else-if="sendAgain">SEND AGAIN</span>
                         <span v-else>{{countdown + 's'}}</span>
@@ -40,7 +40,7 @@
                     <el-checkbox v-model="signupForm.agree">AGREE《LTS USER AGREEMENT》</el-checkbox>
                 </el-form-item>
                 <el-form-item>
-                    <el-button class="confirm" :class="{canClick:signupForm.agree === true}" @click="submitFrom"><span>CREATE AN ACCOUNT</span></el-button>
+                    <el-button type="submit" class="confirm" :class="{canClick:signupForm.agree === true}" @click="submitFrom" ><span>CREATE AN ACCOUNT</span></el-button>
                 </el-form-item>
             </el-form>
         </main>
@@ -64,7 +64,6 @@
                 send:true,
                 sendAgain:false,
                 countdown:3,
-                countDisable: false,
                 signupForm:{
                     companyName:'',
                     fisrtName:'',
@@ -111,7 +110,7 @@
                 })
             },
             getCode(){
-                accountService.getCode().then((data) => {
+                accountService.getSignupCode().then((data) => {
                     console.log(data)
                     this.signupForm.code = ''
                 },(msg) => {
@@ -124,11 +123,9 @@
                 let clock = setInterval(() => {
                     if(self.countdown > 1){
                         self.countdown--;
-                        self.countDisable = true
                     }else{
                         clearInterval(clock)
                         self.sendAgain = true;
-                        self.countDisable = false
                     }
                 },1000)
             },
@@ -185,6 +182,9 @@
                             width:116px;
                             background: #3b98ff;
                             margin-right: -18px;
+                        }
+                        .el-button.is-disabled{
+                            color:white;
                         }
                     }
                 }

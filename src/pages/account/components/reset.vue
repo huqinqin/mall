@@ -6,13 +6,13 @@
             <div class="line"></div>
         </header>
         <main>
-            <el-form label-position="top" :model="resetForm" :rules="rules">
+            <el-form label-position="top" :model="resetForm" :rules="rules" >
                 <el-form-item label="EMAIL" prop="email">
                     <el-input v-model="resetForm.email" placeholder="PLEASE ENTER THE EMAIL ACCOUNT"></el-input>
                 </el-form-item>
                 <el-form-item label="VERIFICATION CODE" prop="code" width="260" class="inline">
                     <el-input v-model="resetForm.code" placeholder="ENTER CONFIRMATION CODE"></el-input>
-                    <el-button @click="getCode">
+                    <el-button @click="getCode" :disabled="!send && !sendAgain">
                         <span v-if="send">SEND</span>
                         <span v-else-if="sendAgain">SEND AGAIN</span>
                         <span v-else>{{countdown + 's'}}</span>
@@ -25,7 +25,7 @@
                     <el-input v-model="resetForm.checkPass" placeholder="ENTER THE NEW PASSWORD AGAIN"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button class="confirm" @click="submitFrom">SAVE</el-button>
+                    <el-button class="confirm" @click="submitFrom" >RESET</el-button>
                 </el-form-item>
             </el-form>
         </main>
@@ -77,19 +77,32 @@
         },
         methods: {
             submitFrom(){
+                accountService.resetPass(this.resetForm).then((data) => {
+                    console.log(data)
+                    history.back()
+                },(msg) => {
+                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                })
                 console.log(this.resetForm)
-                this.$router.push('/signupFinish')
             },
             getCode(){
                 let self = this;
-                self.countdown = 3;
+                self.countdown = 5;
                 this.send = false;
                 self.sendAgain = false;
-                setInterval(function count() {
-                    if(self.countdown > 0){
+                accountService.getResetCode(this.resetForm.email).then((data)=>{
+                    console.log(data)
+                },(msg) => {
+                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                })
+                let clock = setInterval(() => {
+                    if(self.countdown > 1){
                         self.countdown--;
+                        self.countDisable = true
                     }else{
+                        clearInterval(clock)
                         self.sendAgain = true;
+                        self.countDisable = false
                     }
                 },1000)
             }
@@ -141,6 +154,9 @@
                             width:116px;
                             background: #3b98ff;
                             margin-right: -18px;
+                        }
+                        .el-button.is-disabled{
+                            color:white;
                         }
                     }
                 }

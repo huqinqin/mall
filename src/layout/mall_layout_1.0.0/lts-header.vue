@@ -65,7 +65,7 @@
                         <el-input name="test"  v-model="form.acount" placeholder="请输入您的用户名或邮箱"></el-input>
                     </el-form-item>
                     <el-form-item label="密码：" prop="password" class="password">
-                        <el-input type="password" ref="password" v-model="form.password" placeholder="请输入您的密码">
+                        <el-input type="password" ref="password" v-model="form.password" placeholder="请输入您的密码" @keyup.enter.native="login">
                         </el-input>
                         <i class="iconfont icon-yanjing" @click="showPassword" ref="eye"></i>
                     </el-form-item>

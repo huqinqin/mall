@@ -31,7 +31,7 @@ export default {
         {min: 8, max: 30, message: '长度在 8 到 30 个字符', trigger: 'blur'}
     ],
     password: [
-        {required: true, message: '请输入密码', trigger: 'blur'},
+        {required: true, message: '内容不能为空', trigger: 'blur'},
         {min: 8, max: 30, message: '密码长度在 8 到 30 个字符', trigger: 'blur'},
         {validator: this.validatePassword, trigger: 'blur'}
     ],

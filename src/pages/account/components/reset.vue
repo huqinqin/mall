@@ -78,8 +78,8 @@
         methods: {
             submitFrom(){
                 accountService.resetPass(this.resetForm).then((data) => {
-                    console.log(data)
-                    history.back()
+                    // console.log(data)
+                    // history.back()
                 },(msg) => {
                     this.$ltsMessage.show({type: 'error', message: msg.error_message})
                 })
@@ -90,11 +90,6 @@
                 self.countdown = 5;
                 this.send = false;
                 self.sendAgain = false;
-                accountService.getResetCode(this.resetForm.email).then((data)=>{
-                    console.log(data)
-                },(msg) => {
-                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
-                })
                 let clock = setInterval(() => {
                     if(self.countdown > 1){
                         self.countdown--;
@@ -105,6 +100,11 @@
                         self.countDisable = false
                     }
                 },1000)
+                accountService.getResetCode(this.resetForm.email).then((data)=>{
+                    console.log(data)
+                },(msg) => {
+                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                })
             }
         }
     }
@@ -124,13 +124,11 @@
                     margin-left: 10px;
                     position: relative;
                     padding:0;
-
                 }
                 label::before{
                     position: absolute;
                     right:100%;
                 }
-
                 .el-input{
                     margin-bottom: 18px;
 

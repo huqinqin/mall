@@ -10,6 +10,7 @@ import MessageBox from '../components/lts-messageBox'
 import ltsHeader from '@/layout/mall_layout_1.0.0/lts-header.vue'
 import ltsFooter from '@/layout/mall_layout_1.0.0/lts-footer.vue'
 import ltsMoney from '../components/lts-money.js'
+import './filter'
 
 import config from 'config'
 

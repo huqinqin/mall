@@ -105,7 +105,6 @@
     import {ltsSearchForm} from 'ui'
     import optDialog from './opt-dialog'
     import reverseService from '@/services/ReverseService'
-
     export default {
         components: {
             ltsSearchForm, optDialog

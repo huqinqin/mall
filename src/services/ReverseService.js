@@ -22,12 +22,12 @@ export default class OrderService extends BaseService{
         param.order_by = order_by;
         return super.getRequest('/installer/reverse/list', param);
     }
-    static apply(oid, installer_uid, reverse_reason, stock_item = {}, return_item = {}, bad_item = {}, remark){
+    static apply(oid, reverse_reason, stock_item = {}, return_item = {}, bad_item = {}, remark, imageUrls){debugger;
         let param = {
             oid : oid,
-            installer_uid : installer_uid,
             reverse_reason : reverse_reason,
             remark : remark,
+            voucher : imageUrls,
         };
         if (!CommonUtils.isBlankObject(stock_item)) {
             param.stock_item = JSON.stringify(stock_item);

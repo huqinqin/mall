@@ -1,5 +1,4 @@
 import Lib from '@/common/js/'
-import Vue from 'vue'
 import Router from 'vue-router'
 import App from './reverse.vue'
 import list from './components/list'
@@ -11,10 +10,6 @@ let routerView = new Router({
     routes: [
         {
             path: '/',
-            component: list
-        },
-        {
-            path: '/list',
             component: list
         },
         {

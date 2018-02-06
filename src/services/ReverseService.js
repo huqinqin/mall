@@ -1,6 +1,6 @@
 import BaseService from "./abstract/BaseService";
 import CommonUtils from '../utils/CommonUtils'
-export default class OrderService extends BaseService{
+export default class ReverseService extends BaseService{
     static get(id){
         let param = {
             id : id,
@@ -22,22 +22,15 @@ export default class OrderService extends BaseService{
         param.order_by = order_by;
         return super.getRequest('/installer/reverse/list', param);
     }
-    static apply(oid, reverse_reason, stock_item = {}, return_item = {}, bad_item = {}, remark, imageUrls){debugger;
+    static apply(oid, reverse_reason, num, refund, remark, imageUrls){
         let param = {
             oid : oid,
             reverse_reason : reverse_reason,
             remark : remark,
+            num : num,
+            refund : refund,
             voucher : imageUrls,
         };
-        if (!CommonUtils.isBlankObject(stock_item)) {
-            param.stock_item = JSON.stringify(stock_item);
-        }
-        if (!CommonUtils.isBlankObject(return_item)) {
-            param.return_item = JSON.stringify(return_item);
-        }
-        if (!CommonUtils.isBlankObject(bad_item)) {
-            param.bad_item = JSON.stringify(bad_item);
-        }
         return super.postRequest('/installer/reverse/apply', param);
     }
     static operate(id, installer_uid, op_type, remark, deal_remark){

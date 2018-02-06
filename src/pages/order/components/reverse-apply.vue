@@ -161,19 +161,8 @@
 //                    this.fileList.forEach(function (value, index, array) {
 //                        imagesUrl = (imagesUrl == "") ? value.response.data.value : imagesUrl + "," + value.response.data.value;
 //                    });
-                imagesUrl = 'http://res.500mi.com/item/63f7c57364e975f39f3a35e309d89a15.png@30w_2e';
-                    let stock_item = {},
-                        return_item = {
-                            num : this.form.num,
-                            refund : this.form.refund
-                        },
-                        bad_item = {
-                            // num : 0,
-                            // unit : this.item.unit,
-                            // refund : 0,
-                        };
-
-                    reverseService.apply(this.orderItem.tid, this.form.reason, stock_item, return_item, bad_item, this.form.remark,imagesUrl).then((resp)=>{
+                imagesUrl = 'http://res.500mi.com/item/63f7c57364e975f39f3a35e309d89a15.png';
+                    reverseService.apply(this.tid, this.form.reason, this.form.num, this.form.refund, this.form.remark,imagesUrl).then((resp)=>{
                         this.$ltsMessage.show({type: 'success', message: "退货退款申请成功"});
                     },(error)=>{
                         this.$ltsMessage.show({type: 'error', message: "退货退款申请失败：" + error.error_message});

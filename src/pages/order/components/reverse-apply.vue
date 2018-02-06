@@ -1,14 +1,14 @@
 <template>
     <div class="reverse">
-        <div class="reversebox" v-for="(order,index) in orderItem.sell_order_list">
+        <div class="reversebox">
             <el-form  :model="form" :rules="rules" ref="form" label-position="top" size="small" label-width="110px" class="detail-info">
                 <el-form-item label="商品">
-                    <el-table :data="order.wholesale_order_items" border style="width: 100%">
+                    <el-table :data="orderItem.wholesale_item_d_o_list" border style="width: 100%">
                         <el-table-column label="商品信息" header-align="left" align="left">
                             <template slot-scope="scope">
                                 <div class="order-item-detail">
-                                    <img :src="scope.row.wholesale_item_d_o.image_value + '@30w_2e'" class="item" />
-                                    <div>{{scope.row.wholesale_item_d_o.item_name}}</div>
+                                    <img :src="scope.row.image_value + '@30w_2e'" class="item" />
+                                    <div>{{scope.row.item_name}}</div>
                                 </div>
                                 <div class="prop-box">
                                     <div v-for="(propObj,index) in scope.row.propValue">
@@ -21,12 +21,12 @@
                         </el-table-column>
                         <el-table-column label="单价/数量" width="103" header-align="center" align="center">
                             <template slot-scope="scope">
-                                <div>{{scope.row.num}}{{scope.row.wholesale_item_d_o.unit}}</div>
+                                <div>{{orderItem.num}}{{scope.row.unit}}</div>
                                 <!--<del class="text-secondary" v-if="scope.row.price > scope.row.price_real">-->
                                     <!--<lts-money :money="scope.row.price"></lts-money>-->
                                 <!--</del>-->
                                 <div>
-                                    <lts-money :money="scope.row.price_real"></lts-money>
+                                    <lts-money :money="orderItem.price_real"></lts-money>
                                 </div>
                             </template>
                         </el-table-column>
@@ -181,9 +181,9 @@
             },
             get () {
                 orderService.query_by_order_tid(this.tid).then((resp) => {
-                    this.form.refundMoney = resp.data.sell_order_list[0].wholesale_order_items[0].price_real;
-                    this.form.maxRefund = resp.data.sell_order_list[0].wholesale_order_items[0].num;
-                    console.log(this.form);
+                    this.form.refundMoney = resp.data.price_real;
+                    this.form.maxRefund = resp.data.num;
+                    resp.data.wholesale_item_d_o_list = [resp.data.wholesale_item_d_o];
                     this.orderItem = resp.data;
                 },(err) => {
                     this.$ltsMessage.show({type:'error',message:err.error_message})
@@ -272,9 +272,6 @@
         td{
             padding: 4px 0;
             color: #585858;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
             .order-item-detail{
                 display: flex;
                 align-items: center;

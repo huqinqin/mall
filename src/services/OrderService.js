@@ -32,7 +32,7 @@ export default class OrderService extends BaseService {
         let param = {
             order_tid : tid,
         };
-        return super.getRequest('/installer/order/query_by_order_tid', param);
+        return super.getRequest('/installer/order/get_order_by_order_tid', param);
     }
    /*获取订单的所有信息*/
     static getList(param = {}, page = 1, page_size = 10, order_by = 'cdate desc'){

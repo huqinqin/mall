@@ -1,6 +1,5 @@
 import BaseService from "./abstract/BaseService";
-import CommonUtils from '../utils/CommonUtils'
-export default class OrderService extends BaseService{
+export default class ReverseService extends BaseService{
     static get(id){
         let param = {
             id : id,
@@ -22,22 +21,15 @@ export default class OrderService extends BaseService{
         param.order_by = order_by;
         return super.getRequest('/installer/reverse/list', param);
     }
-    static apply(oid, installer_uid, reverse_reason, stock_item = {}, return_item = {}, bad_item = {}, remark){
+    static apply(oid, reverse_reason, num, refund, remark, imageUrls){
         let param = {
             oid : oid,
-            installer_uid : installer_uid,
             reverse_reason : reverse_reason,
             remark : remark,
+            num : num,
+            refund : refund,
+            voucher : imageUrls,
         };
-        if (!CommonUtils.isBlankObject(stock_item)) {
-            param.stock_item = JSON.stringify(stock_item);
-        }
-        if (!CommonUtils.isBlankObject(return_item)) {
-            param.return_item = JSON.stringify(return_item);
-        }
-        if (!CommonUtils.isBlankObject(bad_item)) {
-            param.bad_item = JSON.stringify(bad_item);
-        }
         return super.postRequest('/installer/reverse/apply', param);
     }
     static operate(id, installer_uid, op_type, remark, deal_remark){
@@ -49,5 +41,35 @@ export default class OrderService extends BaseService{
             deal_remark : deal_remark,
         };
         return super.postRequest('/store/reverse/operate', param);
+    }
+
+    /**
+     * 填写物流信息
+     * @param id
+     * @param express
+     * @param express_number
+     * @returns {*}
+     */
+    static set_express_number(id, express, express_number){
+        let param = {
+            id : id,
+            express : express,
+            express_number : express_number
+        };
+        return super.postRequest('/installer/reverse/set_express_number', param);
+    }
+
+    /**
+     * 撤销申请
+     * @param id
+     * @param remark
+     * @returns {*}
+     */
+    static cancel(id, remark){
+        let param = {
+            id : id,
+            remark : remark
+        };
+        return super.postRequest('/installer/reverse/cancel', param);
     }
 }

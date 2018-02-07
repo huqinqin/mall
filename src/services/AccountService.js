@@ -1,9 +1,9 @@
 import BaseService from "./abstract/BaseService";
-export default class AddressService extends BaseService {
+export default class AccountService extends BaseService {
 
 
     /**
-     * return 回到上一页
+     * return
      * param captach 验证码
      * param account 邮箱
      * param second_password 密码
@@ -29,12 +29,12 @@ export default class AddressService extends BaseService {
 
     static getResetCode(email) {
         let params = {
-            account:'taohua@huntlee.cn',
-            content:"<h1>$(captcha)<\/h1>"
-        }
+            account: 'taohua@huntlee.cn',
+            content: "<div>尊敬的" + "taohua@huntlee.cn" + "， 您好:<\/div><div><blockquote style=\"margin: 0 0 0 40px; border: none; padding: 0px;\"><div style=\"line-height:2;\">您在LTS商城（< a href=\"http:\/\/mall.lts.com\">mall.lts.com<\/a>)点击了忘记密码。<\/div><div>您的邮箱验证码为：<font color=\"#ff0000\" size=\"6\">$(captcha).<\/font><\/div><div style=\"line-height:2;\">注：请于30分钟内输入，工作人员不会向您索取，请勿告诉他人。如果您不需要修改密码，或者您从未点击过“忘记密码”按钮，请忽略本邮件。<\/div><div style=\"line-height:2;\">欢迎回到LTS，祝您购物愉快！<\/div><\/blockquote><\/div><div><includetail><!--<![endif]--><\/includetail><\/div>)"
+
+    }
         return super.getRequest('/user/send_email', params)
     }
-    // "<div>尊敬的" + "taohua@huntlee.cn" + "， 您好:<\/div><div><blockquote style=\"margin: 0 0 0 40px; border: none; padding: 0px;\"><div style=\"line-height:2;\">您在LTS商城（< a href=\"http:\/\/mall.lts.com\">mall.lts.com<\/a>)点击了忘记密码。<\/div><div>您的邮箱验证码为：<font color=\"#ff0000\" size=\"6\">$(captcha).<\/font><\/div><div style=\"line-height:2;\">注：请于30分钟内输入，工作人员不会向您索取，请勿告诉他人。如果您不需要修改密码，或者您从未点击过“忘记密码”按钮，请忽略本邮件。<\/div><div style=\"line-height:2;\">欢迎回到LTS，祝您购物愉快！<\/div><\/blockquote><\/div><div><includetail><!--<![endif]--><\/includetail><\/div>)"
     // <div style="line-height:2;">您也可以点击<a href="http://#">此链接</a>进入我的账户中心修改密码。</div>
     // 要不要???
 

@@ -22,6 +22,18 @@ export default class OrderService extends BaseService {
         };
         return super.getRequest('/installer/order/detail', param);
     }
+    /**
+     *retrun data
+     * params {order_tid}
+     * @auth xiaozhu
+     * @remark 获取子订单详情
+     **/
+    static query_by_order_tid(tid){
+        let param = {
+            order_tid : tid,
+        };
+        return super.getRequest('/installer/order/get_order_by_order_tid', param);
+    }
    /*获取订单的所有信息*/
     static getList(param = {}, page = 1, page_size = 10, order_by = 'cdate desc'){
         param.page = page;

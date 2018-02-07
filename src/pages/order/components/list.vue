@@ -1,40 +1,55 @@
 <template>
     <div class="orderList">
         <lts-search-form @get-from="getParameter" :form-fileds="form.formFileds" :form-inlines="form.formInline" ref="searchForm"/>
-        <el-table :data="datalist" v-loading="loading" default-expand-all style="width: 100%" class="orderItem">
+        <el-table :data="datalist" v-loading="loading" default-expand-all style="width: 100%;overflow: hidden;" class="order-table" :span-method="arraySpanMethod">
             <el-table-column type="expand">
                 <template slot-scope="scope">
-                    <el-table :data="scope.row.wholesale_order_items" style="width: 100%" class="goodsItem">
-                        <el-table-column type="index" label="" width="30"/>
-                        <el-table-column label="商品" header-align="center" align="left" :show-overflow-tooltip="true" width="400">
-                            <template slot-scope="subscope">
-                                <div class="goods">
-                                    <div class="img" :style="{backgroundImage : 'url(' + subscope.row.wholesale_item_d_o.image_value +')'}"></div>
-                                    <!--<img :src="subscope.row.wholesale_item_d_o.image_value + '@100w_2e'" class="item" />-->
-                                    <div class="content">
-                                        <p>{{subscope.row.wholesale_item_d_o.item_name}}</p>
-                                        <p>{{subscope.row.wholesale_item_d_o.spec}}</p>
+                    <div v-for="(order,index) in scope.row.sell_order_list">
+                        <el-table :data="order.wholesale_order_items" :show-header="showHeader" style="width: 100%" >
+                            <el-table-column align="left" :show-overflow-tooltip="true">
+                                <template slot-scope="subscope">
+                                    <div class="item-info">
+                                        <div class="order-item-detail">
+                                            <img :src="subscope.row.wholesale_item_d_o.image_value + '@100w_2e'" class="item" />
+                                            <div>{{subscope.row.wholesale_item_d_o.item_name}}</div>
+                                        </div>
+                                        <div class="prop-box">
+                                            <div v-for="(propObj,index) in subscope.row.propValue">
+                                                   <div v-for="(prop,key) in propObj">
+                                                       <i>{{key}}:{{prop}}</i>
+                                                   </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-
-                            </template>
-                        </el-table-column>
-                        <el-table-column prop="num" label="数量" align="center" >
-                            <template slot-scope="subscope">{{subscope.row.num}}{{subscope.row.wholesale_item_d_o.unit}}</template>
-                        </el-table-column>
-                        <el-table-column label="应付" align="center" >
-                            <template slot-scope="subscope">
-                                <p>${{subscope.row.pay_real | money2str}}</p>
-                                <p class="fakePay">${{subscope.row.pay | money2str}}</p>
-                            </template>
-                        </el-table-column>
-                        <el-table-column prop="hd_status_title" label="配送状态" align="center" />
-                        <el-table-column prop="status_title" label="状态" align="center">
-                            <template slot-scope="subscope">
+                                </template>
+                            </el-table-column>
+                            <el-table-column width="100">
+                                <template slot-scope="subscope">
+                                    <!--<del class="text-secondary" v-if="subscope.row.pay > subscope.row.pay_real">-->
+                                        <!--<lts-money :money="subscope.row.pay"></lts-money>-->
+                                    <!--</del>-->
+                                    <div style="color: #ff3b41;"><lts-money :money="subscope.row.price"></lts-money></div>
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="num" width="100">
+                                <template slot-scope="subscope">{{subscope.row.num}}{{subscope.row.wholesale_item_d_o.unit}}</template>
+                            </el-table-column>
+                            <el-table-column prop="hd_status_title" width="160">
+                                <template slot-scope="subscope">
+                                    <div style="color: #ff3b41;"><lts-money :money="subscope.row.pay_real"></lts-money></div>
+                                    <del class="text-secondary" v-if="subscope.row.pay > subscope.row.pay_real">
+                                        <lts-money :money="subscope.row.pay"></lts-money>
+                                    </del>
+                                    <!--<div>含运费:<lts-money :money="1"></lts-money></div>-->
+                                    <!--<div>含税费:<lts-money :money="2"></lts-money></div>-->
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="status_title" width="118">
+                                <template slot-scope="subscope">
                                 <span v-if="subscope.row.status == 9">
                                     {{subscope.row.closed_reason_title}}
                                 </span>
-                                <span v-else>
+                                    <span v-else>
                                     <span v-if="subscope.row.last_refund_status == 1">
                                         退款申请中
                                     </span>
@@ -42,7 +57,7 @@
                                         退款已驳回
                                     </span>
                                     <span v-else-if="subscope.row.last_refund_status == 7">
-                                        已退{{subscope.row.refund_num}}{{subscope.row.wholesale_item_d_o.unit}}{{subscope.row.refund_real | money2str}}元
+                                        已退{{subscope.row.refund_num}}{{subscope.row.wholesale_item_d_o.unit}}<lts-money :moeny="subscope.row.refund_real"></lts-money>元
                                     </span>
                                     <span v-else-if="subscope.row.last_refund_status == 9">
                                         退款已关闭
@@ -51,46 +66,46 @@
                                         {{subscope.row.status_title}}
                                     </span>
                                 </span>
-                            </template>
-                        </el-table-column>
-                        <el-table-column label="操作" width="80" align="center" >
-                            <template slot-scope="subscope">
-                                <el-dropdown @command="handleMenuItemClick">
-                                    <span class="el-dropdown-link">
-                                        操作<i class="el-icon-arrow-down el-icon--right"></i>
-                                    </span>
-                                    <el-dropdown-menu slot="dropdown">
-                                        <el-dropdown-item command="refund" :data="subscope.row" v-if="isCanRefund(subscope.row)">退货退款</el-dropdown-item>
-                                        <el-dropdown-item command="refund" :data="subscope.row" v-if="isCanRefund(subscope.row)">退货退款</el-dropdown-item>
-                                    </el-dropdown-menu>
-                                </el-dropdown>
-                            </template>
-                        </el-table-column>
-                    </el-table>
+                                </template>
+                            </el-table-column>
+                            <el-table-column width="130" align="center">
+                                <template slot-scope="subscope">
+                                    <!--<el-dropdown @command="handleMenuItemClick">-->
+                                    <!--<span class="el-dropdown-link">-->
+                                        <!--操作<i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>-->
+                                    <!--</span>-->
+                                        <!--&lt;!&ndash;<el-dropdown-menu slot="dropdown">&ndash;&gt;-->
+                                            <!--&lt;!&ndash;<el-dropdown-item command="refund" :data="subscope.row" v-if="isCanRefund(subscope.row)">退货退款</el-dropdown-item>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;<el-dropdown-item command="refund" :data="subscope.row" v-if="isCanRefund(subscope.row)">退货退款</el-dropdown-item>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;</el-dropdown-menu>&ndash;&gt;-->
+                                        <!--<el-button type="text">退款/退货</el-button>-->
+                                    <!--</el-dropdown>-->
+                                    <el-button type="text" class="probtn" size="mini" ><router-link :to="'/reverseApply/' + subscope.row.tid">退货退款</router-link></el-button>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </div>
                 </template>
             </el-table-column>
-            <el-table-column type="index" label=""/>
-            <el-table-column prop="tid" label="订单编号" align="center" width="120" />
-            <el-table-column prop="user_name" label="工程商" header-align="center" align="center" width="160" :show-overflow-tooltip="true" />
-            <el-table-column prop="receiver_mobile" label="手机" header-align="center" align="center" width="120" />
-            <el-table-column  label="地址" header-align="center" align="center" :show-overflow-tooltip="true" >
+            <el-table-column  label="商品信息" align="left">
                 <template slot-scope="scope">
-                    <div>{{scope.row.user_addr}}</div>
+                    <div>
+                        <span>{{scope.row.cdate | timestamp2str}}</span>
+                        <span>订单号:{{scope.row.tid}}</span>
+                        <span style="color: #3b98ff;">支付信息</span>
+                        <span style="font-size: 12px">手机下单</span>
+                    </div>
                 </template>
             </el-table-column>
-            <el-table-column label="合计" align="center" width="80">
+            <el-table-column label="单价" header-align="left" align="left" width="100" :show-overflow-tooltip="true" />
+            <el-table-column label="数量" header-align="left" align="left" width="100">
+            </el-table-column>
+            <el-table-column prop="pay_info.pay_type_title" label="实付款" align="left" width="160">
                 <template slot-scope="scope">
-                    <el-tooltip placement="top">
-                        <div slot="content">
-                            运费: {{scope.row.fee_hd_all | money2str}}
-                        </div>
-                        <div>{{scope.row.fee_total | money2str}}</div>
-                    </el-tooltip>
+                    <div><lts-money :money="scope.row.pay_real"></lts-money></div>
                 </template>
             </el-table-column>
-            <el-table-column prop="pay_info.pay_type_title" label="付款类型" align="center" width="80" />
-            <el-table-column prop="pay_info.pay_status_title" label="付款状态" align="center" width="80" />
-            <el-table-column prop="status_title" label="状态" align="center" width="100">
+            <el-table-column prop="status_title" label="交易状态" align="left" width="118">
                 <template slot-scope="scope">
                     <el-tag type="success" v-if="scope.row.status == 7 || scope.row.status == 9">
                         {{scope.row.status_title}}
@@ -98,36 +113,22 @@
                     <span v-else>{{scope.row.status_title}}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="创建时间" align="center" width="160">
-                <template slot-scope="scope">{{scope.row.cdate | timestamp2str}}</template>
-            </el-table-column>
-            <el-table-column label="操作" align="center" width="80">
+            <el-table-column label="交易操作" align="center" width="130">
                 <template slot-scope="scope">
                     <el-dropdown @command="handleMenuItemClick">
-                        <span class="el-dropdown-link">
+                        <el-button size="small" type="primary">
                             操作<i class="el-icon-arrow-down el-icon--right"></i>
-                        </span>
+                        </el-button>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item><router-link :to="'/detail/' + scope.row.tid">详情</router-link></el-dropdown-item>
-                            <el-dropdown-item command="pay" :data="scope.row" v-if="isCanPay(scope.row)">去支付</el-dropdown-item>
-                            <el-dropdown-item command="close" :data="scope.row" v-if="isCanPay(scope.row)">关闭订单</el-dropdown-item>
+                            <el-dropdown-item v-if="scope.row.pay_status == 0">支付</el-dropdown-item>
+                            <el-dropdown-item v-if="scope.row.pay_status == 0" command="close" :data="scope.row">订单取消</el-dropdown-item>
+                            <el-dropdown-item><router-link :to="'/detail/' + scope.row.tid">订单详情</router-link></el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
                 </template>
             </el-table-column>
         </el-table>
-        <el-pagination
-            background
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            style="text-align: right;margin-top:20px"
-            :current-page="pagination.page"
-            :page-sizes="pagination.sizes"
-            :page-size="pagination.pageSize"
-            :layout="pagination.layout"
-            :total="pagination.total">
-        </el-pagination>
-        <reverse-apply :visible.sync="dialogVisible" v-bind:order-item="refundOrder" v-bind:installer="refundInstaller" v-bind:item="refundItem" />
+        <!--<reverse-apply :visible.sync="dialogVisible" v-bind:order-item="refundOrder" v-bind:installer="refundInstaller" v-bind:item="refundItem" />-->
     </div>
 </template>
 <script>
@@ -148,6 +149,7 @@
                 refundOrder: {},
                 refundInstaller:{},
                 refundItem:{},
+                showHeader: false,
                 params: {
                   /*  tid: '',
                     status: '',
@@ -248,6 +250,9 @@
                         break;
                 }
             },
+            arraySpanMethod({ row, column, rowIndex, columnIndex }) {
+
+            },
             showRefundOrderItem(orderItem){
                 this.dialogVisible = true;
                 this.refundOrder = orderItem;
@@ -279,6 +284,15 @@
                 }
                 orderService.getList(param, this.pagination.page, this.pagination.page_size, 'cdate desc').then((resp) => {
                     this.loading = false;
+                    resp.datalist.forEach((value,index,array)=>{
+                        value.sell_order_list.forEach((sell,i,array)=>{
+                            sell.wholesale_order_items.forEach((item,key,array)=>{
+                                item.propValue = JSON.parse(item.props)
+                            })
+//                            value.hd_status = sell.wholesale_order_items[0].hd_status;
+//                            value.hd_status_title = sell.wholesale_order_items[0].hd_status_title;
+                        })
+                    })
                     this.datalist = resp.datalist;
                     this.pagination.total = resp.total;
                 }, (err) => {
@@ -309,7 +323,10 @@
             handleCurrentChange(val) {
                 this.pagination.page = val;
                 this.search()
-            }
+            },
+            reveresApply(data){debugger;
+              this.$router.push({name:'reverseApply',parmas:{order : data}})
+            },
         },
         mounted() {
             this.search();
@@ -330,71 +347,119 @@
 <style lang="less">
     .orderList{
         position: relative;
+        .el-form{
+            display: flex;
+            align-items: center;
+            .bizitem:last-child{
+                margin-right: 0px !important;
+            }
+        }
+        .bizitem{
+            margin-right: 24px;
+            width: 200px;
+            .el-select,el-input{
+                width:100%;
+            }
+            input{
+                border:solid 1px #b2b2b2;
+            }
+        }
         .el-dropdown-link {
             cursor: pointer;
             color: #409eff;
         }
-        .el-table.orderItem{
-            .has-gutter{
-                tr{
-                    th{
-                        background-color: #f6f6f6;
-                    }
-                }
-            }
-            .el-table__row{
-                background: #f2f8fe;
-
-            }
-            .el-table__expanded-cell{
-                padding: 12px 0 48px 0;
-
-
-            }
-
-            // 订单列表hover 背景色变化覆盖
-            .el-table__expanded-cell:hover{
-                background: #fff!important;;
-
-            }
+        .probtn:hover{
+            color: #fff;
+            background-color: #409EFF;
+            border-color: #409EFF;
+            padding: 4px 12px;
         }
-
-        .el-table.goodsItem{
-
-            .el-table__header-wrapper{
-                display: none;
+        .order-table{
+            th{
+                background-color: #f6f6f6;
+                margin-bottom: 12px;
+                padding: 9px 0;
             }
-            .el-table__row{
-                background: #fff;
-
+            .el-table__body-wrapper{
+                margin-top: 10px;
             }
-
-            .goods{
-                display: flex;
-                justify-content: space-around;
-                .img{
-                    width:80px;
-                    height: 80px;
-                    background-position: center center;
-                    background-size: cover;
-                }
-                .content{
-                    width:120px;
-                    p{
-                        overflow: hidden;
-                        text-overflow:ellipsis;
-                        white-space: nowrap;
-                    }
+            .expanded{
+                background-color: #eef6ff !important;
+                color: #979da3;
+                height: 40px;
+                td{
+                    border-bottom: none;
                 }
             }
-            p.fakePay{
-                text-decoration: line-through;
+            .el-tabs__content{
+                padding: 0;
+                border-right: 1px solid #b2b2b2;
+            }
+            .el-tabs--border-card{
+                border: 1px solid #b2b2b2;
+                border-top:none;
+                border-right: none;
+                box-shadow: none;
+                background: transparent;
+                .el-tabs__header{
+                    background: transparent;
+                    border-bottom: 1px solid #b2b2b2;
+                }
+                .el-tabs__item{
+                    border:none;
+                    border-right:1px solid #b2b2b2;
+                    border-bottom:1px solid #b2b2b2;
+                    border-top:1px solid #b2b2b2;
+                    margin: auto;
+                }
+                .el-tabs__item.is-active {
+                    color: #409EFF;
+                    background-color: #fff;
+                    border-bottom:none;
+                }
             }
             .el-table__expanded-cell{
-                padding-bottom: 36px;
+                padding: 0px;
+                .el-table__body-wrapper{
+                    margin-top: 0;
+                }
+                td{
+                    padding: 4px 0;
+                    color: #585858;
+                    .item-info{
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-start;
+                        .order-item-detail{
+                            display: flex;
+                            align-items: center;
+                            justify-content: flex-start;
+                            .item {
+                                width: 80px;
+                                height: 80px;
+                                margin-right: 5px;
+                            }
+                            div{
+                                width: 250px;
+                                overflow: hidden;
+                                display: -webkit-box;
+                                -webkit-line-clamp: 2;
+                                -webkit-box-orient: vertical;
+                                word-break: break-all;
+                            }
+                        }
+                        .prop-box{
+                            display: inline-block;
+                            min-width: 100px;
+                            margin-left: 10px;
+                        }
+                    }
 
+                }
+                i{
+                    font-style:normal
+                }
             }
-
         }
 
     }

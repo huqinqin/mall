@@ -42,4 +42,34 @@ export default class ReverseService extends BaseService{
         };
         return super.postRequest('/store/reverse/operate', param);
     }
+
+    /**
+     * 填写物流信息
+     * @param id
+     * @param express
+     * @param express_number
+     * @returns {*}
+     */
+    static set_express_number(id, express, express_number){
+        let param = {
+            id : id,
+            express : express,
+            express_number : express_number
+        };
+        return super.postRequest('/installer/reverse/set_express_number', param);
+    }
+
+    /**
+     * 撤销申请
+     * @param id
+     * @param remark
+     * @returns {*}
+     */
+    static cancel(id, remark){
+        let param = {
+            id : id,
+            remark : remark
+        };
+        return super.postRequest('/installer/reverse/cancel', param);
+    }
 }

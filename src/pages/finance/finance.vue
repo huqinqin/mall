@@ -2,7 +2,7 @@
     <div class="finance">
         <header>
             <div><i class="iconfont icon-qian1"></i>账户余额：<span class="red"><lts-money :money="1234565" /></span></div>
-            <div><i class="iconfont icon-qian"></i>信用余额：<span class="red"><lts-money :money="1234565" /></span></div>(已用信用<span class="red"><lts-money :money="1234"></lts-money>)</span>
+            <div><i class="iconfont icon-qian"></i>信用余额：<span class="red"><lts-money :money="1234565" /></span><small> (已用信用：<span class="red"><lts-money :money="1234"></lts-money></span>)</small></div>
         </header>
         <main>
             <el-form :inline="true">
@@ -20,13 +20,14 @@
                         range-separator="-"
                         start-placeholder="开始日期"
                         end-placeholder="结束日期"
+                        format="MM月 DD 日 yyyy年"
                         :picker-options="pickerOptions">
                     </el-date-picker>
                 </el-form-item>
                 <el-form-item><el-button type="primary" @click="getlist">查询</el-button></el-form-item>
             </el-form>
             <el-table :data="tableData">
-                <el-table-column type="index" width="50"></el-table-column>
+                <el-table-column type="index" width="50" label=""></el-table-column>
                 <el-table-column prop="time" label="操作时间"></el-table-column>
                 <el-table-column prop="type" label="账户类型"></el-table-column>
                 <el-table-column prop="sum" label="变动金额"></el-table-column>
@@ -49,7 +50,7 @@
         name : 'finance',
         data(){
             return{
-                seachForm:{
+                searchForm:{
                     type:'',
                     daterange:''
                 },
@@ -112,18 +113,31 @@
 
 <style lang="less">
     .finance{
+        color:#737373;
         span.red{color:#ff3b41;}
         span.bold{font-weight: bold}
         header{
             border-bottom: 1px solid #ddd;
             display: flex;
+            padding-bottom: 20px;
             div{
-                width:200px;
                 font-size: 16px;
+                height: 32px;
+                i{
+                    display: inline-block;
+                    font-size: 32px;
+                    vertical-align: middle;
+                    margin-right: 12px;
+                }
+                i.icon-qian1,i.icon-qian{
+                    color:#ff6c00;
+                }
+
             }
             div:first-child{margin-right: 48px;}
         }
         main{
+            padding-top: 12px;
             .el-select{width:300px;}
             .el-date-picker{width:300px;}
             .el-table{

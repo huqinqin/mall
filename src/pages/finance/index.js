@@ -6,10 +6,10 @@ Vue.config.productionTip = false;
 Vue.use(Router);
 let routerView = new Router({
     routes: [
-        {
-            path: '/list',
-            component: ''
-        }
+        // {
+        //     path: '/list',
+        //     component: ''
+        // }
     ]
 });
 Lib(App, routerView);

@@ -1,5 +1,5 @@
 <template>
-    <div class="signup">
+    <div class="register">
         <header>
             <div class="line"></div>
             <div class="title">REGISTER AN ACCOUNT</div>
@@ -42,8 +42,9 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="Upload distribution card" prop="checkPass">
+                <el-form-item label="Upload distribution card" prop="pic">
                     <el-upload
+                        :file-list="signupForm.url"
                         class="upload-demo"
                         drag
                         action="https://jsonplaceholder.typicode.com/posts/"
@@ -52,8 +53,8 @@
                         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
                     </el-upload>
                 </el-form-item>
-                <el-form-item label="Federal Tax ID" prop="checkPass">
-                    <span class="circle"></span>Sign Up for Newsletter
+                <el-form-item>
+                    <el-checkbox v-model="checked">Sign Up for Newsletter</el-checkbox>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="submit" class="confirm" :class="{canClick:signupForm.agree === true}" @click="submitFrom" ><span>CREATE AN ACCOUNT</span></el-button>
@@ -77,22 +78,22 @@
                 })
             }
             return{
+                checked:false,
                 send:true,
                 sendAgain:false,
                 countdown:3,
                 signupForm:{
+                    pic:'',
                     companyName:'',
                     fisrtName:'',
                     lastName:'',
                     email:'',
-                    code:'',
                     phone:'',
                     mobile:'',
-                    pass:'',
-                    checkPass:'',
                     address:'',
                     FTI:'',
                     Business:'',
+                    url:[],
                 },
                 rules:{
                     Business: [
@@ -110,45 +111,62 @@
                     lastName: [
                         { required: true, message: '内容不能为空', trigger: 'blur' },
                     ],
-                    /*email: [
-                        { required: true, message: '内容不能为空', trigger: 'blur' },
-                        { type: 'email', message: '邮箱格式错误', trigger: 'blur,change' }
-                    ],*/
                     email:validatorConfig.email,
-                    pass: [
+                    /*pass: [
                         { required: true, message: '内容不能为空', trigger: 'blur' },
                         { min: 8, max: 20, message: '密码长度为8到20个字符', trigger: 'blur' },
-                    ],
-                    checkPass: validatorConfig.passwordRepeat((rule, value, callback)=>{
+                    ],*/
+                   /* checkPass: validatorConfig.passwordRepeat((rule, value, callback)=>{
                         validatorConfig.validatePasswordRepeat(this.resetForm.pass, value, callback)
-                    }),
-                   /* code: [
-                        { required: true, message: '内容不能为空', trigger: 'blur' },
-                        { validator:checkCode, message: '验证码错误', trigger: 'blur' },
-                    ],*/
-                   /* mobile: [
-                        { required: true, message: '请输入手机号', trigger: 'blur' },
-                        { validator:mobile, message: '长度在11个字符', trigger: 'blur' }
-                    ],*/
+                    }),*/
                     mobile:validatorConfig.mobile,
-                    /*address: [
-                        { required: true, message: '请输入详细地址', trigger: 'blur' },
-                        { validator:address, message: '长度在 4 到 200 个字符', trigger: 'blur' }
-                    ]*/
                     address:validatorConfig.address,
                 },
                 options: [{
-                    value: '选项1',
-                    label: '黄金糕'
+                    value: 'Installer',
+                    label: 'Installer'
+                },{
+                    value: 'Wholesale',
+                    label: 'Wholesale'
+                },{
+                    value: 'Distributor',
+                    label: 'Distributor'
+                },{
+                    value: 'Integrator',
+                    label: 'Integrator'
+                },{
+                    value: 'Retailer',
+                    label: 'Retailer'
+                },{
+                    value: 'Online Store',
+                    label: 'Online Store'
+                },{
+                    value: 'Others',
+                    label: 'Others'
                 }],
                 value: ''
             }
         },
         methods: {
             submitFrom(){
-                console.log(this.signupForm)
-                accountService.creatAccount(this.signupForm).then((data) => {
-                    this.$ltsMessage.show({type: 'error', message: '创建成功'})
+                let params = {
+                    businessPhone:this.signupForm.phone,
+                    zipCode:this.signupForm.address,
+                    taxId:this.signupForm.FTI,
+                    typeOfBusiness:this.signupForm.Business,
+                    url:this.signupForm.url
+                };
+                let obj = {
+                    email: this.signupForm.email,
+                    contractName:this.signupForm.fisrtName + this.signupForm.lastName,
+                    companyName: this.signupForm.companyName,
+                    mobile:this.signupForm.mobile,
+                    type:3,
+                    from:'PC_WEB',
+                    ext:params
+                }
+                accountService.creatAccount(obj).then((data) => {
+                    this.$ltsMessage.show({type: 'success', message: '创建成功'})
                     this.$router.push('/signupFinish')
                 },(msg) => {
                     this.$ltsMessage.show({type: 'error', message: msg.error_message})
@@ -179,7 +197,7 @@
 </script>
 
 <style lang="less">
-    .signup{
+    .register{
         padding-bottom: 60px;
         border-bottom: 1px solid #f6f6f6;
         main{
@@ -233,6 +251,12 @@
                         }
                     }
                 }
+                .upload-demo .el-upload-dragger{
+                    width: 400px !important;
+                }
+                .el-select .el-input{
+                    width: 400px;
+                }
                 .el-form-item.name{
                     display: inline-block;
                     width: 180px;
@@ -250,6 +274,14 @@
                 }
                 .el-button.canClick{
                     background: #ff3b41;
+                }
+                .el-checkbox__input.is-checked .el-checkbox__inner{
+                    border-radius: 50%;
+                    margin-right: 10px;
+                }
+                .el-checkbox__inner{
+                    border-radius: 50%;
+                    margin-right: 10px;
                 }
                 .circle{
                     display: inline-block;

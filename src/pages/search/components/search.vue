@@ -57,7 +57,7 @@
             </div>
             <div class="search-result">
                 <ul class="result">
-                    <li v-for="item in data" :key="item.id">
+                    <li v-for="item in data" :key="item.id" v-bind:class="{'limit':item.type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1}">
                         <a :href="'/detail#/?id=' + item.id" target="_blank">
                             <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
                             <p class="name" :title="item.item_name">{{item.item_name}}</p>
@@ -239,6 +239,38 @@
 <style lang="less">
     *{
         box-sizing: border-box;
+    }
+
+    li{
+        box-sizing: border-box;
+        position: relative;
+        overflow: hidden;
+    }
+    /**/
+    li.reduce::before,li.discount::before,li.limit::before{
+        content:'';
+        color:white;
+        font-weight: bold;
+        font-size: 16px;
+        line-height: 35px;
+        text-align: center;
+        background: rgb(237,39,58);
+        width:110px;
+        height: 35px;
+        position: absolute;
+        top: 8px;
+        left: -29px;
+        transform:rotate(-45deg);
+    }
+    li.reduce::before{
+        content:'减价';
+    }
+    li.discount::before{
+        content:'折扣';
+    }
+    li.limit::before{
+        content:'限时限量';
+        font-size: 14px;
     }
     button{
         cursor:pointer;

@@ -21,6 +21,14 @@
                 <h3>{{item.item_name}}</h3>
                 <!--<p class="brief">{{item.promotion_title}}</p>-->
                 <!-- 商品属性-->
+                <div class="slogan">
+                    <span v-if="item.discount_type == 1">折扣商品</span>
+                    <span v-else-if="item.discount_type == 2">降价商品</span>
+                    <span v-else-if="item.type == 4">限时限量</span>
+                    <div class="count">
+                        <span v-if="already">开始倒计时</span><span v-if="!already">距离结束</span><span v-if="day>0">天</span><span>{{day}}-{{hr}}-{{min}}-{{sec}}</span>
+                    </div>
+                </div>
                 <el-form label-position="left" label-width="120px" ref="ruleForm" >
                     <el-form-item label="价格" class="price">
                         <div class="tips" v-ltsLoginShow:false>完成登录注册，享受惊爆价</div>
@@ -75,7 +83,7 @@
                     </div>
                 </div>
                 <ul v-if="buyHistory">
-                    <li v-for="item in buyHistory">
+                    <li v-for="item in buyHistory" :class="{ limit: item.type == 4, reduce:item.discount_type == 2, discount:item.discount_type == 1}">
                         <a :href="'/detail#/?id=' + item.id" target="_blank">
                             <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
                             <p class="name" :title="item.item_name">{{item.item_name}}</p>
@@ -105,7 +113,7 @@
                         </div>
                     </div>
                     <ul class="item-list-box">
-                        <li v-for="item in hotSale" :key="item.id">
+                        <li v-for="item in hotSale" :key="item.id" :class="{ limit: item.type == 4, reduce:item.discount_type == 2, discount:item.discount_type == 1}">
                             <a :href="'/detail#/?id=' + item.id" target="_blank">
                                 <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
                                 <p class="name" :title="item.item_name">{{item.item_name}}</p>
@@ -196,9 +204,40 @@
                 comment: [],
                 nullImg : require('@/assets/img/buynull.png'),
                 showPropsError : false,
+                day:'',
+                hr:'',
+                min:'',
+                sec:'',
+                already:false,
+                end:1543622400000
             }
         },
         methods:{
+            // 倒计时
+            countdown (end) {
+                let self = this
+
+                let now = Date.parse(new Date())
+                let msec = end - now
+                if(msec < 0){
+                    msec = Math.abs(msec)
+                }
+                // 计算时分秒数
+                this.day = parseInt(msec / 1000 / 60 / 60 / 24)
+                this.hr = parseInt(msec / 1000 / 60 / 60 % 24)
+                this.min = parseInt(msec / 1000 / 60 % 60)
+                this.sec = parseInt(msec / 1000 % 60)
+                // 个位数前补零
+                this.hr = this.hr > 9 ? this.hr : '0' + this.hr
+                this.min = this.min > 9 ? this.min : '0' + this.min
+                this.sec = this.sec > 9 ? this.sec : '0' + this.sec
+                // 倒计时开始
+                if (msec >= 0){
+                    setTimeout(function () {
+                        self.countdown(this.end)
+                    }, 1000)
+                }
+            },
             handleClick(tab,event){
                 console.log(tab,event);
             },
@@ -222,6 +261,19 @@
                     this.activeImg = this.item.item_images[0];
                     this.hotSale = data.data.hot_recomment.items;
                     this.buyHistory = data.data.user_order_history;
+                    if(this.item.type == 41){
+                        // let end = this.item.sale_rule_do.end_time
+                        let end = 1543622400000
+                        let now = Date.parse(new Date())
+                        let msec = end - now
+                        if(msec >= 0){
+                            this.already = false
+                        }else{
+                            this.already = true
+                            msec = Math.abs(msec)
+                        }
+                        this.countdown(this.end)
+                    }
                 },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.errorMessage})
                 })
@@ -369,6 +421,26 @@
 
 <style lang="less">
     .detail{
+        li{
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+        }
+        li.reduce::before,li.discount::before,li.limit::before{
+            content:'活动';
+            color:white;
+            font-weight: bold;
+            font-size: 18px;
+            line-height: 35px;
+            text-align: center;
+            background: rgb(237,39,58);
+            width:110px;
+            height: 35px;
+            position: absolute;
+            top: 8px;
+            left: -29px;
+            transform:rotate(-45deg)
+        }
         .el-breadcrumb{
             font-size: 14px;
             margin-bottom: 24px;
@@ -459,12 +531,31 @@
                 margin-right: 12px;
                 color:rgba(0,0,0,0.5);
                 flex: 1;
-
                 h3{
                     color: rgba(0,0,0,0.7);
                     font-size: 16px;
                     line-height: 24px;
                     font-weight: bold;
+                }
+                .slogan{
+                    width: 100%;
+                    line-height: 40px;
+                    border:1px solid red;
+                    font-size: 14px;
+                    font-weight: bold;
+                    color:white;
+                    background-image: url('../../../assets/img/denglu.tou.png');
+                    position: relative;
+                    span{
+                        margin-left: 24px;
+                    }
+                    .count{
+                        position: absolute;
+                        right:0;
+                        top:10px;
+                        border: 1px solid white;
+                        line-height: 20px;
+                    }
                 }
                 p.brief{
                     margin:6px 0 16px 0;

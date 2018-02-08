@@ -38,10 +38,8 @@
                     }else{
                         this.method = "快递"
                     }
-                    console.log(data);
                 },(msg) => {
                     this.$ltsMessage.show({type:'error',message:msg.error_message})
-                    console.log(msg);
                 })
             }
         },

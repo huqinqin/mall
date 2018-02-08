@@ -1,8 +1,8 @@
 <template>
     <div class="beforePay">
         <h5>支付</h5>
-        <div class="info" v-if="form.moneyPay !== ''">
-            <p>订单编号：{{formData.number}}</p>
+        <div class="info" >
+            <p>订单编号：{{tid}}</p>
             <p>待支付：<span class="red"><lts-money :money="form.moneyPay" /></span></p>
             <div>
                 <el-checkbox v-model="form.useBalance" :disabled="!form.balance">工程商账户余额</el-checkbox><span>（余额</span><lts-money v-if="form.balance !== ''" :money="form.balance"></lts-money><span>）</span>
@@ -34,11 +34,6 @@
         data(){
             return{
                 tid:'',
-                fileList: [{
-                    name:'09a7fc1066ec0bdcec2b8b014c4422af.png',
-                    value: "09a7fc1066ec0bdcec2b8b014c4422af.png",
-                    url:"http://res.500mi.com/item/09a7fc1066ec0bdcec2b8b014c4422af.png"
-                }],
                 form:{
                     useBalance: false,
                     balance:'',
@@ -47,17 +42,6 @@
                     used:'',
                     payBank:'BALANCE',
                 },
-                // balance:'',
-                // moneyPay:'',
-                // credit:'',
-                // used:'',
-                // payBank:'offline',
-                offData:{
-                    pay_time:'',
-                    content:'',
-                    pay_type:'CASH',
-                    urls:[]
-                },
                 formData: {
                     number: '',
                     amount: '',
@@ -65,29 +49,6 @@
             }
         },
         methods:{
-            // 上传图片
-            handleRemove(file, fileList) {
-
-            },
-            handlePictureCardPreview(file) {
-                this.dialogImageUrl = file.url;
-                this.dialogVisible = true;
-            },
-            handleUrlChange(file, fileList) {
-                this.fileList = fileList;
-            },
-            handleCheckLength(file) {
-                if (this.fileList.length <= 5) {
-                    this.$ltsMessage.show({type: 'success', message: '上传图片成功'});
-                    return true;
-                } else {
-                    this.$ltsMessage.show({type: 'error', message: '您只能上传五张图片'});
-                    return false;
-                }
-            },
-            handlePreview(response, file, fileList){
-                console.log(response, file, fileList)
-            },
             // 模拟支付
             simulatePay(){
                 let param = {
@@ -105,35 +66,36 @@
                 })
             },
             payTotalPrice(){
-                this.formData.amount = this.$route.params.item[0];
-                this.formData.number = this.$route.params.item[1];
-                this.tid = this.$route.params.item[1];
+                console.log(this.$route.query)
+                this.formData.number = this.$route.query.tid;
+                this.tid = this.$route.query.tid;
+                switch(this.$route.query.delivery){
+                    case 'SHSM':
+                        this.formData.deliveryType = '快递';
+                        break
+                    case 'ZITI':
+                        this.formData.deliveryType = '自提';
+                }
+                this.simulatePay();
             },
             // 确认支付
             confirmPay(){
-                this.offData.pay_time = new Date(this.offData.pay_time).getTime()
-                this.fileList.forEach((val) => {
-                    this.offData.urls.push(val.url)
-                })
-                this.form.offData = this.offData
-                if(this.form.used > 0){
-                    this.form.useBalance = true
+                if(this.form.payBank == 'OFFLINE'){
+                    alert(123)
                 }else{
-                    this.form.useBalance = false
+                    if(this.form.used > 0){
+                        this.form.useBalance = true
+                    }else{
+                        this.form.useBalance = false
+                    }
+                    orderService.pay_confirm(this.tid,this.form).then((data) => {
+                        this.$router.push({name:"finish",params:{tid:this.tid}});
+                    },(msg) => {
+                        this.$ltsMessage.show({type:'error',message:msg.error_message})
+                        this.$router.push({name:"fail",params:{tid:this.tid}});
+                        // this.$ltsMessage.show({type:'error',message:msg.error_message})
+                    })
                 }
-                orderService.pay_confirm(this.tid,this.form).then((data) => {
-                    this.$router.push({name:"finish",params:{tid:this.tid}});
-                },(msg) => {
-                    this.$ltsMessage.show({type:'error',message:msg.error_message})
-                    this.$router.push({name:"fail",params:{tid:this.tid}});
-                    // this.$ltsMessage.show({type:'error',message:msg.error_message})
-                })
-
-                // if(this.useBalance === true && this.balance >= this.moneyPay){
-                //     this.enoughBalance()
-                // }else{
-                //     this.goPay()
-                // }
             },
             // goPay(){
             //     let return_url = '/customerorder#/finish';
@@ -171,7 +133,6 @@
         },
         mounted(){
             this.payTotalPrice();
-            this.simulatePay();
         }
     }
 </script>

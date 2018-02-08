@@ -75,7 +75,7 @@ export default class OrderService extends BaseService {
         let params = {
             tid: param
         };
-        return super.getRequest('/store/order/query_single_by_tid',params);
+        return super.getRequest('/store/order/detail',params);
     }
     static close_by_tid(tid){
         let params = {
@@ -94,12 +94,13 @@ export default class OrderService extends BaseService {
     }
 
     /*使用余额支付*/
-    static pay_confirm(tid){
+    static pay_confirm(tid,form){
         let params = {
             tid: tid,
-            pay_bank: 'BALANCE',
+            pay_bank: form.payBank,
             pay_source: 'BALANCE',
-            use_balance: true
+            use_balance: form.useBalance,
+            balance_pay: form.used * 100,
         };
         return super.postRequest('/trade_pay/pay_confirm',params);
     }

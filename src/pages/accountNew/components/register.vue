@@ -42,7 +42,7 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="Upload distribution card" prop="checkPass">
+                <el-form-item label="Upload distribution card" prop="pic">
                     <el-upload
                         class="upload-demo"
                         drag
@@ -52,8 +52,8 @@
                         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
                     </el-upload>
                 </el-form-item>
-                <el-form-item label="Federal Tax ID" prop="checkPass">
-                    <span class="circle"></span>Sign Up for Newsletter
+                <el-form-item>
+                    <el-checkbox v-model="checked">Sign Up for Newsletter</el-checkbox>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="submit" class="confirm" :class="{canClick:signupForm.agree === true}" @click="submitFrom" ><span>CREATE AN ACCOUNT</span></el-button>
@@ -77,10 +77,12 @@
                 })
             }
             return{
+                checked:false,
                 send:true,
                 sendAgain:false,
                 countdown:3,
                 signupForm:{
+                    pic:'',
                     companyName:'',
                     fisrtName:'',
                     lastName:'',
@@ -88,8 +90,6 @@
                     code:'',
                     phone:'',
                     mobile:'',
-                    pass:'',
-                    checkPass:'',
                     address:'',
                     FTI:'',
                     Business:'',
@@ -110,36 +110,38 @@
                     lastName: [
                         { required: true, message: '内容不能为空', trigger: 'blur' },
                     ],
-                    /*email: [
-                        { required: true, message: '内容不能为空', trigger: 'blur' },
-                        { type: 'email', message: '邮箱格式错误', trigger: 'blur,change' }
-                    ],*/
                     email:validatorConfig.email,
-                    pass: [
+                    /*pass: [
                         { required: true, message: '内容不能为空', trigger: 'blur' },
                         { min: 8, max: 20, message: '密码长度为8到20个字符', trigger: 'blur' },
-                    ],
-                    checkPass: validatorConfig.passwordRepeat((rule, value, callback)=>{
+                    ],*/
+                   /* checkPass: validatorConfig.passwordRepeat((rule, value, callback)=>{
                         validatorConfig.validatePasswordRepeat(this.resetForm.pass, value, callback)
-                    }),
-                   /* code: [
-                        { required: true, message: '内容不能为空', trigger: 'blur' },
-                        { validator:checkCode, message: '验证码错误', trigger: 'blur' },
-                    ],*/
-                   /* mobile: [
-                        { required: true, message: '请输入手机号', trigger: 'blur' },
-                        { validator:mobile, message: '长度在11个字符', trigger: 'blur' }
-                    ],*/
+                    }),*/
                     mobile:validatorConfig.mobile,
-                    /*address: [
-                        { required: true, message: '请输入详细地址', trigger: 'blur' },
-                        { validator:address, message: '长度在 4 到 200 个字符', trigger: 'blur' }
-                    ]*/
                     address:validatorConfig.address,
                 },
                 options: [{
-                    value: '选项1',
-                    label: '黄金糕'
+                    value: 'Installer',
+                    label: 'Installer'
+                },{
+                    value: 'Wholesale',
+                    label: 'Wholesale'
+                },{
+                    value: 'Distributor',
+                    label: 'Distributor'
+                },{
+                    value: 'Integrator',
+                    label: 'Integrator'
+                },{
+                    value: 'Retailer',
+                    label: 'Retailer'
+                },{
+                    value: 'Online Store',
+                    label: 'Online Store'
+                },{
+                    value: 'Others',
+                    label: 'Others'
                 }],
                 value: ''
             }
@@ -233,6 +235,12 @@
                         }
                     }
                 }
+                .upload-demo .el-upload-dragger{
+                    width: 400px !important;
+                }
+                .el-select .el-input{
+                    width: 400px;
+                }
                 .el-form-item.name{
                     display: inline-block;
                     width: 180px;
@@ -250,6 +258,14 @@
                 }
                 .el-button.canClick{
                     background: #ff3b41;
+                }
+                .el-checkbox__input.is-checked .el-checkbox__inner{
+                    border-radius: 50%;
+                    margin-right: 10px;
+                }
+                .el-checkbox__inner{
+                    border-radius: 50%;
+                    margin-right: 10px;
                 }
                 .circle{
                     display: inline-block;

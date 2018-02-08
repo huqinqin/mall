@@ -44,11 +44,10 @@
                 </el-form-item>
                 <el-form-item label="Upload distribution card" prop="pic">
                     <el-upload
-                        :file-list="signupForm.url"
+                        :on-success="urlFileList"
                         class="upload-demo"
                         drag
-                        action="https://jsonplaceholder.typicode.com/posts/"
-                        multiple>
+                        action="/cgi/upload/file/misc/image">
                         <i class="el-icon-upload"></i>
                         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
                     </el-upload>
@@ -148,13 +147,16 @@
             }
         },
         methods: {
+            urlFileList(response, file, fileList){
+                this.signupForm.url.push(response.data.url);
+            },
             submitFrom(){
                 let params = {
                     businessPhone:this.signupForm.phone,
                     zipCode:this.signupForm.address,
                     taxId:this.signupForm.FTI,
                     typeOfBusiness:this.signupForm.Business,
-                    url:this.signupForm.url
+                    urls:this.signupForm.url
                 };
                 let obj = {
                     email: this.signupForm.email,

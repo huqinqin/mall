@@ -1,5 +1,5 @@
 <template>
-    <div class="reset">
+    <div class="forgotPsw">
         <header>
             <div class="line"></div>
             <div class="title">RETRIEVE THE PASSWORD</div>
@@ -111,7 +111,7 @@
 </script>
 
 <style lang="less">
-    .reset{
+    .forgotPsw{
         main{
             width:800px;
             margin: 45px auto;

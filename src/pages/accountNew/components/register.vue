@@ -1,5 +1,5 @@
 <template>
-    <div class="signup">
+    <div class="register">
         <header>
             <div class="line"></div>
             <div class="title">REGISTER AN ACCOUNT</div>
@@ -44,6 +44,7 @@
                 </el-form-item>
                 <el-form-item label="Upload distribution card" prop="pic">
                     <el-upload
+                        :file-list="signupForm.url"
                         class="upload-demo"
                         drag
                         action="https://jsonplaceholder.typicode.com/posts/"
@@ -87,12 +88,12 @@
                     fisrtName:'',
                     lastName:'',
                     email:'',
-                    code:'',
                     phone:'',
                     mobile:'',
                     address:'',
                     FTI:'',
                     Business:'',
+                    url:[],
                 },
                 rules:{
                     Business: [
@@ -148,9 +149,24 @@
         },
         methods: {
             submitFrom(){
-                console.log(this.signupForm)
-                accountService.creatAccount(this.signupForm).then((data) => {
-                    this.$ltsMessage.show({type: 'error', message: '创建成功'})
+                let params = {
+                    businessPhone:this.signupForm.phone,
+                    zipCode:this.signupForm.address,
+                    taxId:this.signupForm.FTI,
+                    typeOfBusiness:this.signupForm.Business,
+                    url:this.signupForm.url
+                };
+                let obj = {
+                    email: this.signupForm.email,
+                    contractName:this.signupForm.fisrtName + this.signupForm.lastName,
+                    companyName: this.signupForm.companyName,
+                    mobile:this.signupForm.mobile,
+                    type:3,
+                    from:'PC_WEB',
+                    ext:params
+                }
+                accountService.creatAccount(obj).then((data) => {
+                    this.$ltsMessage.show({type: 'success', message: '创建成功'})
                     this.$router.push('/signupFinish')
                 },(msg) => {
                     this.$ltsMessage.show({type: 'error', message: msg.error_message})
@@ -181,7 +197,7 @@
 </script>
 
 <style lang="less">
-    .signup{
+    .register{
         padding-bottom: 60px;
         border-bottom: 1px solid #f6f6f6;
         main{

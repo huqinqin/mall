@@ -21,12 +21,12 @@
                 <h3>{{item.item_name}}</h3>
                 <!--<p class="brief">{{item.promotion_title}}</p>-->
                 <!-- 商品属性-->
-                <div class="slogan">
-                    <span v-if="item.discount_type == 1">折扣商品</span>
-                    <span v-else-if="item.discount_type == 2">降价商品</span>
-                    <span v-else-if="item.type == 4">限时限量</span>
-                    <div class="count">
-                        <span v-if="already">开始倒计时</span><span v-if="!already">距离结束</span><span v-if="day>0">天</span><span>{{day}}-{{hr}}-{{min}}-{{sec}}</span>
+                <div class="slogan" v-if="!finished">
+                    <span v-if="item.discount_type == 1" class="bold">折扣商品</span>
+                    <span v-else-if="item.discount_type == 2" class="bold">降价商品</span>
+                    <span v-else-if="item.type == 4" class="bold">限时限量</span>
+                    <div class="count" >
+                        <span v-if="!started" class="bold">开始倒计时</span><span v-if="started" class="bold">距离结束</span><span v-if="day>0">{{day}}天</span><span><div>{{hr}}</div>:<div>{{min}}</div>:<div>{{sec}}</div></span>
                     </div>
                 </div>
                 <el-form label-position="left" label-width="120px" ref="ruleForm" >
@@ -208,20 +208,36 @@
                 hr:'',
                 min:'',
                 sec:'',
-                already:false,
-                end:1543622400000
+                started:false,
+                finished:true,
+                start:'',
+                end:'',
             }
         },
         methods:{
             // 倒计时
-            countdown (end) {
-                let self = this
+            countdown () {
 
+                let self = this
+                let start = this.start
+                let end = this.end
                 let now = Date.parse(new Date())
-                let msec = end - now
-                if(msec < 0){
-                    msec = Math.abs(msec)
+                let date
+                debugger
+                // 判断活动是否开始
+                if(now < start){
+                    // 还没开始
+                    this.started = false
+                    this.finished = false
+                    date = this.start
+                }else if(start <= now <= end){
+                    // 开始了还没结束
+                    this.started = true
+                    this.finished = false
+                    date = this.end
                 }
+                let msec = date - now
+
                 // 计算时分秒数
                 this.day = parseInt(msec / 1000 / 60 / 60 / 24)
                 this.hr = parseInt(msec / 1000 / 60 / 60 % 24)
@@ -234,7 +250,7 @@
                 // 倒计时开始
                 if (msec >= 0){
                     setTimeout(function () {
-                        self.countdown(this.end)
+                        self.countdown()
                     }, 1000)
                 }
             },
@@ -261,18 +277,18 @@
                     this.activeImg = this.item.item_images[0];
                     this.hotSale = data.data.hot_recomment.items;
                     this.buyHistory = data.data.user_order_history;
-                    if(this.item.type == 41){
-                        // let end = this.item.sale_rule_do.end_time
-                        let end = 1543622400000
+                    if(this.item.type == 4){
+                        this.end = this.item.sale_rule_do.end_time
+                        this.start = this.item.sale_rule_do.start_time
+                        // this.start = Date.parse(new Date('2018-03-01'))
+                        // this.end = Date.parse(new Date('2018-04-01'))
                         let now = Date.parse(new Date())
-                        let msec = end - now
-                        if(msec >= 0){
-                            this.already = false
+                        if(this.end > now){
+                            this.countdown()
                         }else{
-                            this.already = true
-                            msec = Math.abs(msec)
+                            // 活动结束，不显示了
+                            this.finished = true
                         }
-                        this.countdown(this.end)
                     }
                 },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.errorMessage})
@@ -445,6 +461,7 @@
             font-size: 14px;
             margin-bottom: 24px;
         }
+
         .detail-top{
             display: flex;
             justify-content: space-between;
@@ -542,19 +559,32 @@
                     line-height: 40px;
                     border:1px solid red;
                     font-size: 14px;
-                    font-weight: bold;
                     color:white;
-                    background-image: url('../../../assets/img/denglu.tou.png');
+                    background-image: url('../../../assets/img/xqbjt.png');
                     position: relative;
-                    span{
-                        margin-left: 24px;
+                    span.bold{
+                        font-weight: bold;
+                        margin:0 12px 0 24px;
                     }
                     .count{
                         position: absolute;
                         right:0;
                         top:10px;
-                        border: 1px solid white;
                         line-height: 20px;
+                        div{
+                            display: inline-block;
+                            width:20px;
+                            height: 20px;
+                            background: #451012;
+                            margin:0 2px;
+                            border-radius: 4px;
+                        }
+                        div:first-child{
+                            margin-left: 12px;
+                        }
+                        div:last-child{
+                            margin-right: 16px;
+                        }
                     }
                 }
                 p.brief{

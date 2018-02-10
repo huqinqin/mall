@@ -1,15 +1,16 @@
 <template>
-    <div class="list">
+    <div class="cartlist">
         <el-table
             ref="multipleTable"
             :data="tableData"
             tooltip-effect="dark"
             style="width: 100%" align="right"
+            :row-class-name="rowClass"
             @selection-change="handleSelectionChange">
              <el-table-column type="selection"  align="right" @change="checkItem"></el-table-column>
              <el-table-column label="商品信息"   align="center" width="600">
                 <template slot-scope="scope">
-                    <a :href="'/detail#/?id=' + scope.row.id">
+                    <a :href="'/detail#/?id=' + scope.row.id"  :ref="{'yyyyyyy':scope.row.discount_type != 0}">
                         <div class="item-img" :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+scope.row.url+')'}"></div>
                         <div class="content">
                             <p :title="scope.row.item_name">{{scope.row.item_name}}</p>
@@ -67,18 +68,40 @@
                 <el-button @click="check" :disabled="multipleSelection.length <= 0 && tooManyItems">立即结算</el-button>
             </div>
         </div>
-        <div class="history">
-            <h5>购买记录</h5>
-            <ul class="items">
-                <li v-for="item in historyData">
-                    <img :src="item.img" :alt=item.disc>
-                    <p>{{item.name}}</p>
-                    <p><span>{{item.info}}</span></p>
-                    <p><span>{{item.model}}</span></p>
-                    <div class="price"><lts-money :money="item.price"></lts-money></div>
-                </li>
-            </ul>
-        </div>
+        <!--<table border="1" class="newTable" width="100%">-->
+            <!--<tr>-->
+                <!--<th width="48"></th>-->
+                <!--<th width="600" colspan="3">商品信息</th>-->
+                <!--<th>单价</th>-->
+                <!--<th>库存</th>-->
+                <!--<th width="200">数量</th>-->
+                <!--<th width="100">小计</th>-->
+                <!--<th>操作</th>-->
+            <!--</tr>-->
+            <!--<tr v-for="item in tableData" :key="item.url">-->
+                <!--<td width="48"><el-checkbox v-model="checked"></el-checkbox></td>-->
+                <!--<td width="600" >2</td>-->
+                <!--<td>3</td>-->
+                <!--<td>4</td>-->
+                <!--<td width="200">7</td>-->
+                <!--<td width="100">8</td>-->
+                <!--<td>9</td>-->
+            <!--</tr>-->
+        <!--</table>-->
+
+
+        <!--<div class="history">-->
+            <!--<h5>购买记录</h5>-->
+            <!--<ul class="items">-->
+                <!--<li v-for="item in historyData">-->
+                    <!--<img :src="item.img" :alt=item.disc>-->
+                    <!--<p>{{item.name}}</p>-->
+                    <!--<p><span>{{item.info}}</span></p>-->
+                    <!--<p><span>{{item.model}}</span></p>-->
+                    <!--<div class="price"><lts-money :money="item.price"></lts-money></div>-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</div>-->
     </div>
 </template>
 
@@ -88,6 +111,8 @@
         name: "list",
         data() {
             return {
+                checked:false,
+
                 tooManyItems:true,
                 chooseAll: false,
                 historyData: [],
@@ -128,8 +153,15 @@
                 this.queryCartList();
                /* this.putCartPlus();*/
             },20)
+
         },
         methods:{
+            // row的样式
+           rowClass(row,index){
+
+               console.log(row,index)
+               return 'activeRow'
+           },
            queryCartList(){
                cartService.queryCartList().then((data)=>{
                    console.log(data);
@@ -141,6 +173,7 @@
                            item.item_props[0].prop_value = JSON.parse(item.item_props[0].prop_value);
                        }
                    })
+                   console.log(this.$refs)
                },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.errorMessage})
                });
@@ -241,7 +274,19 @@
 </script>
 
 <style lang="less">
-    .list{
+
+    /*.newTable{*/
+        /*border-collapse: collapse;*/
+        /*tr{*/
+            /*display: flex;*/
+            /*th,td{*/
+                /*flex-grow: 1;*/
+            /*}*/
+        /*}*/
+
+    /*}*/
+
+    .cartlist{
         .el-table__header-wrapper{
             height: 40px;
         }
@@ -414,6 +459,20 @@
             }
             padding-bottom: 96px;
             border-bottom:1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        /*加上活动标签*/
+        .el-table__body-wrapper{
+            table{
+                border-spacing: 0 20px;
+                tr{
+                    border:1px solid red;
+                    td{
+                        border:none;
+                    }
+                }
+
+            }
         }
     }
     @keyframes floats {

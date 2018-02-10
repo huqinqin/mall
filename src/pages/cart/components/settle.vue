@@ -70,17 +70,37 @@
         </div>
         <div class="inPrice">
             <h5>送货单是否包含价格 </h5>
-            <el-radio-group v-model="inPriceType">
+            <el-radio-group v-model="inPriceType" class="selectButtons">
                 <el-radio-button label="true">是</el-radio-button>
                 <el-radio-button label="false">否</el-radio-button>
             </el-radio-group>
         </div>
         <div class="delivery">
             <h5>配送方式： </h5>
-            <el-radio-group v-model="deliveryType">
-                <el-radio-button label="SHSM" value="">快递</el-radio-button>
-                <el-radio-button label="ZITI" value="">自提</el-radio-button>
-            </el-radio-group>
+            <div>
+                <el-radio-group v-model="deliveryType" class="selectButtons">
+                    <el-radio-button label="ZITI" value="">自提</el-radio-button>
+                    <el-radio-button label="SHSM" value="">快递</el-radio-button>
+                </el-radio-group>
+                <div class="selectExpress" v-if="deliveryType == 'SHSM'">
+                    <div><span class="bold">EXPRESS COMPANY:</span></div>
+                    <el-radio-group v-model="expressForm.express">
+                        <el-radio label="UPS">UPS</el-radio>
+                        <el-radio label="FEDEX">FEDEX</el-radio>
+                    </el-radio-group>
+                    <div><span class="bold">SERVICE:</span></div>
+                    <el-select v-model="expressForm.service" placeholder="请选择">
+                        <el-option
+                            v-for="item in expressOptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                        </el-option>
+                    </el-select>
+                    <div><el-checkbox v-model="expressForm.self">本人签收</el-checkbox></div>
+                </div>
+            </div>
+
         </div>
         <div class="order">
             <h5>订单信息</h5>
@@ -154,10 +174,23 @@
         props: ['items'],
         data(){
             return{
+                expressForm:{
+                    express:'UPS',
+                    service:'Ground',
+                    self:false
+                },
+                expressOptions:[
+                    {value:'Ground',label:'Ground'},
+                    {value:'3',label:'3 Day Select'},
+                    {value:'2',label:'2nd Day Air'},
+                    {value:'Next1',label:'Next Day Air Server'},
+                    {value:'Next2',label:'Next Day Air'},
+                    {value:'Next3',label:'Next Day Air Early'},
+                ],
                 info:JSON.parse(store.getItem('SESSION_DATA')),
                 totalPrice:'',
                 inPriceType:'false', // 送货单是否包含价格，配送方式
-                deliveryType:'SHSM', // 送货上门or快递
+                deliveryType:'ZITI', // 送货上门or快递
                 useBalance: false,   // 是否使用余额
                 showAddAddress: false, // 地址框
                 showEditAddress: false,
@@ -744,13 +777,13 @@
 
         .delivery,.inPrice{
             margin: 0 24px;
-            .el-radio-group{
+            .el-radio-group.selectButtons{
                 margin-bottom: 24px;
                 label{
                     span{
                         width:120px;
-                        height: 35px;
-                        line-height: 12px;
+                        height: 40px;
+                        line-height: 18px;
                         border:none;
                         background: #f6f6f6;
                         box-shadow:none;
@@ -779,6 +812,30 @@
                 background-color: #1fa4f8;
                 border:1px solid #1fa4f8;
                 color:white;
+            }
+        }
+        .delivery{
+            &>div{
+                display: flex;
+            }
+            .selectExpress{
+                flex-grow: 1;
+                font-size: 14px;
+                line-height: 40px;
+                height: 40px;
+                margin-left: 24px;
+                display: flex;
+                span.bold{
+                    font-weight: bold;
+                    color:#737373;
+                }
+                .el-radio-group,.el-select{
+                    margin:0 24px 0 12px;
+                }
+                label{
+                    line-height: 40px;
+                }
+
             }
         }
         .order{

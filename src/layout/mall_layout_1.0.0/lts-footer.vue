@@ -9,23 +9,23 @@
           </ul>
           <div class="footer-menu-box">
                 <ul>
-                  <li>关于LTS</li>
-                  <li>联系我们</li>
-                  <li>帮助我们</li>
+                  <li>{{ $t("comFooter.footerAboutLts") }}</li>
+                  <li>{{ $t("comFooter.footerContactUs") }}</li>
+                  <li>{{ $t("comFooter.footerHelpUs") }}</li>
 
                 </ul>
                 <ul>
-                  <li>诚聘英才</li>
-                  <li>事件新闻</li>
-                  <li>公司地址</li>
+                  <li>{{ $t("comFooter.footerInvitePerson") }}</li>
+                  <li>{{ $t("comFooter.footerEvevtNews") }}</li>
+                  <li>{{ $t("comFooter.footerCompanyAddress") }}</li>
                 </ul>
                 <ul>
-                  <li>使用条款</li>
-                  <li>隐私条款</li>
-                  <li>条款条件</li>
+                  <li>{{ $t("comFooter.footerUseItem") }}</li>
+                  <li>{{ $t("comFooter.footerSecretItem") }}</li>
+                  <li>{{ $t("comFooter.footerItemCondition") }}</li>
                 </ul>
                 <ul>
-                  <li>关注我们:</li>
+                  <li>{{ $t("comFooter.footerFollowUs") }}:</li>
                   <li>
                       <a v-for="link in footerLinkList" :style="{backgroundImage: 'url('+link.img+')'}" :href="link.link" :key="link.value" class="link-img-box"></a>
                   </li>

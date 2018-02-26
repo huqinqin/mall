@@ -3,15 +3,15 @@
         <div class="header-box">
           <ul class="s-span-page">
             <li class="sign">
-              <span class="login" v-login v-if="!userInfo">立即登录</span>
-              <span class="login"  v-if="userInfo">欢迎，{{userInfo.account.user_name}}</span>
+              <span class="login" v-login v-if="!userInfo">{{ $t("comHeader.headerImmediatelyLog") }}</span>
+              <span class="login"  v-if="userInfo">{{ $t("comHeader.headerWelcom") }}，{{userInfo.account.user_name}}</span>
             </li>
             <li class="">
-              <a href="/reverse" class="news top-menu">快报</a>
-              <a href="/order" class="top-menu" v-login>我的订单</a>
-              <a href="" class="top-menu" v-login>收藏夹</a>
-              <a href="javascript:void(0)" ><i class="iconfont icon-shouji"></i>手机下单更便捷</a>
-              <a href="javascript:void(0)" @click="logout" v-if="userInfo">退出</a>
+              <a href="/reverse" class="news top-menu">{{ $t("comHeader.headerNews") }}</a>
+              <a href="/order" class="top-menu" v-login>{{ $t("comHeader.headerMyOrder") }}</a>
+              <a href="" class="top-menu" v-login>{{ $t("comHeader.headerFavorite") }}</a>
+              <a href="javascript:void(0)" ><i class="iconfont icon-shouji"></i>{{ $t("comHeader.headerPhoneOrder") }}</a>
+              <a href="javascript:void(0)" @click="logout" v-if="userInfo">{{ $t("comHeader.headerLogin") }}</a>
             </li>
           </ul>
         </div>
@@ -39,7 +39,7 @@
                 </ul>
               </div>
               <div class="s-span-page search-bar">
-                  <el-input placeholder="搜索商品" v-model="keywords" class="input-with-select" @keyup.native.enter='searchToHref'>
+                  <el-input :placeholder= '$t("comHeader.headerSearchGoods")' v-model="keywords" class="input-with-select" @keyup.native.enter='searchToHref'>
                       <el-cascader
                           slot="prepend"
                           :placeholder="select"
@@ -173,7 +173,7 @@
                  }
                 ],
               keywords: '',
-              select: '全部分类',
+              select: this.$t("comHeader.headerAllclassify"),
               selectId : '',
               options:[],
               selectedOptions:[],
@@ -188,8 +188,8 @@
                   radio: '',
               },
               loginRules:{
-                  acount:[{required: true, message: '请输入用户名或邮箱'}],
-                  password:[{required: true, message: '请输入密码'}]
+                  acount:[{required: true, message: this.$t("comHeader.headerInputUserOrEmail")}],
+                  password:[{required: true, message: this.$t("comHeader.headerInputPwd")}]
               },
               isShowMenu : true,
               cart_num : -1,
@@ -259,7 +259,7 @@
                 categoryList.forEach(function(value,index,array){
                     value.label = value.name
                     value.value = value.id
-                    if(value.name == '全部'){
+                    if(value.id == -1000){
                         count ++ ;
                     }
                     if(value.children){
@@ -291,10 +291,10 @@
                 this.options = categoryList
                 if(count == 0){
                     this.options.unshift({
-                        label:'全部',
+                        label: this.$t("comHeader.headerAll"),
                         value:'',
-                        name : '全部',
-                        id : '',
+                        name : this.$t("comHeader.headerAll"),
+                        id : '-1000',
                         children : ''
                     })
                 }

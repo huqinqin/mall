@@ -1,5 +1,6 @@
 import session from '@/library/Session'
 import $ from 'jquery'
+import Vue from  'vue'
 
 let eventHub = new Vue() // 组件传递事件的Context
 Vue.prototype.selfContext = eventHub

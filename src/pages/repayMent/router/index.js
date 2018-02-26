@@ -1,4 +1,5 @@
 import Router from 'vue-router'
+import Vue from  'vue'
 import RepayList from '../components/repayList'
 import ReadyPay from '../components/readyPay'
 

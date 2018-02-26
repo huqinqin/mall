@@ -1,8 +1,11 @@
 import VueI18n from 'vue-i18n'
+import Vue from  'vue'
 import VueResource from 'vue-resource'
 import {dateUtils} from 'ltsutil'
 
 import Layout from 'layout'
+import Element from 'element-ui'
+
 import '../../../static/css/element-variables.scss'
 import Loading from '../components/lts-loading'
 import Message from '../components/lts-message'
@@ -15,7 +18,7 @@ import './filter'
 import config from 'config'
 
 Vue.use(VueI18n)
-
+Vue.use(Element)
 Vue.prototype.$ltsLoading = Loading
 Vue.prototype.$ltsMessage = Message
 Vue.prototype.$ltsMessageBox = MessageBox

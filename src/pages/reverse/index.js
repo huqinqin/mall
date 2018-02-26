@@ -1,5 +1,6 @@
 import Lib from '@/common/js/'
 import Router from 'vue-router'
+import Vue from  'vue'
 import App from './reverse.vue'
 import list from './components/list'
 import detail from './components/detail'

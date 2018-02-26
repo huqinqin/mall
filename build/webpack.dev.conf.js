@@ -5,8 +5,9 @@ const config = require('../config')
 const merge = require('webpack-merge')
 const path = require('path')
 const baseWebpackConfig = require('./webpack.base.conf')
+const HtmlWebpackPlugin = require('html-webpack-plugin-for-multihtml')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+// const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
 
@@ -71,6 +72,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
 for (let pathname in devWebpackConfig.entry) {
   // 配置生成的html文件，定义路径等
   let conf = {
+    multihtmlCache : true,
     filename: pathname + '.html',
     template:'./index.html', // 模板路径
     chunks: ['vendor', pathname, 'manifest'], // 每个html引用的js模块

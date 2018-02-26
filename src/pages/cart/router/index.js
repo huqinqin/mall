@@ -1,4 +1,5 @@
 import Router from 'vue-router'
+import Vue from  'vue'
 import Settle from '../components/settle'
 import Finish from '../components/finish'
 import Fail from '../components/fail'

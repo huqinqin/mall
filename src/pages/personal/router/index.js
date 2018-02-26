@@ -1,4 +1,5 @@
 import Router from 'vue-router'
+import Vue from  'vue'
 import password from '../components/password.vue'
 import personalMessage from '../components/personalMessage.vue'
 import receiveAddress from '../components/receiveAddress.vue'

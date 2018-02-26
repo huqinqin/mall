@@ -46,26 +46,26 @@
                             </el-table-column>
                             <el-table-column prop="status_title" width="118">
                                 <template slot-scope="subscope">
-                                <span v-if="subscope.row.status == 9">
-                                    {{subscope.row.closed_reason_title}}
-                                </span>
-                                    <span v-else>
-                                    <span v-if="subscope.row.last_refund_status == 1">
-                                        退款申请中
-                                    </span>
-                                    <span v-else-if="subscope.row.last_refund_status == 3">
-                                        退款已驳回
-                                    </span>
-                                    <span v-else-if="subscope.row.last_refund_status == 7">
-                                        已退{{subscope.row.refund_num}}{{subscope.row.wholesale_item_d_o.unit}}<lts-money :moeny="subscope.row.refund_real"></lts-money>元
-                                    </span>
-                                    <span v-else-if="subscope.row.last_refund_status == 9">
-                                        退款已关闭
+                                    <span v-if="subscope.row.status == 9">
+                                        {{subscope.row.closed_reason_title}}
                                     </span>
                                     <span v-else>
-                                        {{subscope.row.status_title}}
+                                        <span v-if="subscope.row.last_refund_status == 1">
+                                            退款申请中
+                                        </span>
+                                        <span v-else-if="subscope.row.last_refund_status == 3">
+                                            退款已驳回
+                                        </span>
+                                        <span v-else-if="subscope.row.last_refund_status == 7">
+                                            已退{{subscope.row.refund_num}}{{subscope.row.wholesale_item_d_o.unit}}<lts-money :moeny="subscope.row.refund_real"></lts-money>元
+                                        </span>
+                                        <span v-else-if="subscope.row.last_refund_status == 9">
+                                            退款已关闭
+                                        </span>
+                                        <span v-else>
+                                            {{subscope.row.status_title}}
+                                        </span>
                                     </span>
-                                </span>
                                 </template>
                             </el-table-column>
                             <el-table-column width="130" align="center">
@@ -80,7 +80,7 @@
                                         <!--&lt;!&ndash;</el-dropdown-menu>&ndash;&gt;-->
                                         <!--<el-button type="text">退款/退货</el-button>-->
                                     <!--</el-dropdown>-->
-                                    <el-button type="text" class="probtn" size="mini" ><router-link :to="'/reverseApply/' + subscope.row.tid">退货退款</router-link></el-button>
+                                    <el-button type="text" class="probtn" size="mini"  v-if="isCanRefund(subscope.row)" ><router-link :to="'/reverseApply/' + subscope.row.tid">退货退款</router-link></el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -107,9 +107,9 @@
             </el-table-column>
             <el-table-column prop="status_title" label="交易状态" align="left" width="118">
                 <template slot-scope="scope">
-                    <el-tag type="success" v-if="scope.row.status == 7 || scope.row.status == 9">
+                    <span type="success" v-if="scope.row.status == 7 || scope.row.status == 9">
                         {{scope.row.status_title}}
-                    </el-tag>
+                    </span>
                     <span v-else>{{scope.row.status_title}}</span>
                 </template>
             </el-table-column>
@@ -120,8 +120,8 @@
                             操作<i class="el-icon-arrow-down el-icon--right"></i>
                         </el-button>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item v-if="scope.row.pay_status == 0">支付</el-dropdown-item>
-                            <el-dropdown-item v-if="scope.row.pay_status == 0" command="close" :data="scope.row">订单取消</el-dropdown-item>
+                            <el-dropdown-item v-if="scope.row.pay_status == 0 &&  scope.row.status == 0">支付</el-dropdown-item>
+                            <el-dropdown-item v-if="scope.row.pay_status == 0 &&  scope.row.status == 0" command="close" :data="scope.row">订单取消</el-dropdown-item>
                             <el-dropdown-item><router-link :to="'/detail/' + scope.row.tid">订单详情</router-link></el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>

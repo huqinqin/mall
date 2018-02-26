@@ -3,6 +3,9 @@ const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
+const ExtractTextPlugin = require("extract-text-webpack-plugin")
+const HappyPack = require('happypack');
+const webpack = require('webpack')
 
 function resolve(dir) {
     return path.join(__dirname, '..', dir)
@@ -32,10 +35,18 @@ module.exports = {
         'ui'     : resolve('src') + '/common'
       }
     },
-    externals: {
-        'Vue' : 'vue',
-        'ElementUi': 'ELEMENT',
-    },
+    plugins: [
+        new ExtractTextPlugin("styles.css"),
+        new HappyPack({
+            id : 'babel',
+            cache: true,
+            loaders: ['babel-loader?cacheDirectory=true'],
+        }),
+        new webpack.DllReferencePlugin({
+            context: __dirname,
+            manifest: require('../common.manifest.json')
+        })
+    ],
     module: {
         rules: [{
                 test: /\.vue$/,

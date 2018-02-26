@@ -1,4 +1,5 @@
 import Router from 'vue-router'
+import Vue from  'vue'
 import Register from '../components/register.vue'
 import Reset from '../components/reset.vue'
 import SignupFinish from '../components/signupFinish.vue'

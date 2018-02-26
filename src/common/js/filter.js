@@ -3,6 +3,7 @@
  * @Author Nation
  * @cdate 2018-01-20
  */
+import Vue from  'vue'
 import {dateUtils} from 'ltsutil'
 /**
  * 时间戳转当前语言的字符串时间格式

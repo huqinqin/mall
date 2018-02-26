@@ -1,3 +1,4 @@
+import Vue from  'vue'
 Vue.component('lts-money',{
     template: '<span>{{activeSymbol}}{{ commoney }}</span>',
     props: ['money'],

@@ -2,37 +2,6 @@
     <div class="reverseList">
         <lts-search-form @get-from="getParameter" :form-fileds="form.formFileds" :form-inlines="form.formInline"></lts-search-form>
         <el-table :data="datalist" v-loading="loading" style="width: 100%">
-            <!--<el-table-column type="expand">-->
-                <!--<template slot-scope="scope">-->
-                    <!--<el-form label-position="left" inline class="detail-table-expand">-->
-                        <!--<el-form-item label="条码">-->
-                            <!--{{scope.row.item_remark.sinr}}-->
-                        <!--</el-form-item>-->
-
-                        <!--<el-form-item label="规格">-->
-                            <!--{{scope.row.item_remark.spec}}-->
-                        <!--</el-form-item>-->
-                        <!--<el-form-item label="原订单数量">-->
-                            <!--{{scope.row.item_remark.num}}-->
-                        <!--</el-form-item>-->
-                        <!--<el-form-item label="原订单单价">-->
-                            <!--<lts-money :money="scope.row.item_remark.price"></lts-money>-->
-                        <!--</el-form-item>-->
-                        <!--<el-form-item label="退款类型">-->
-                            <!--{{scope.row.refund_type_title}}-->
-                        <!--</el-form-item>-->
-                        <!--<el-form-item label="下单时间">-->
-                            <!--{{scope.row.item_remark.order_cdate | strtime2str}}-->
-                        <!--</el-form-item>-->
-                        <!--<el-form-item label="付款时间">-->
-                            <!--{{scope.row.item_remark.pay_time | strtime2str}}-->
-                        <!--</el-form-item>-->
-                        <!--<el-form-item label="出库时间">-->
-                            <!--{{scope.row.item_remark.out_time | strtime2str}}-->
-                        <!--</el-form-item>-->
-                    <!--</el-form>-->
-                <!--</template>-->
-            <!--</el-table-column>-->
             <el-table-column type="selection"/>
             <el-table-column prop="oid" label="订单编号" align="left" header-align="left" width="120"/>
             <el-table-column prop="tid" label="商品信息" align="left" header-align="left">
@@ -99,20 +68,21 @@
                         ref="popover5"
                         placement="bottom"
                         width="220"
-                        v-model="visible2">
+                        v-model="scope.row.visible2">
                         <p>确定撤销申请吗？</p>
                         <div class="popverbtn">
-                            <el-button size="mini" type="text" @click="visible2 = false">取消</el-button>
+                            <el-button size="mini" type="text" @click="scope.row.visible2 = false">取消</el-button>
                             <el-button type="primary" size="mini" @click="closeOrder(scope.row)">确定</el-button>
                         </div>
                     </el-popover>
-                    <el-button type="text" class="probtn" size="mini" v-popover:popover5>撤销申请</el-button>
+                    <el-button type="text" class="probtn" size="mini" v-popover:popover5 v-if="scope.row.status == 1 || scope.row.status == 2">撤销申请</el-button>
                     <el-popover
                         ref="popover4"
                         placement="bottom"
                         title="填写物流信息"
                         width="360"
-                        trigger="click">
+                        trigger="click"
+                        v-model="scope.row.visible3">
                         <el-form ref="form"  label-width="80px">
                             <el-form-item label="物流公司">
                                 <el-select v-model="express" placeholder="请选择活动区域">
@@ -125,25 +95,11 @@
                             </el-form-item>
                             <el-form-item>
                                 <el-button type="primary" size="small" @click="submitExpress(scope.row)">确定</el-button>
-                                <el-button>取消</el-button>
+                                <el-button @click="scope.row.visible3 = false">取消</el-button>
                             </el-form-item>
                         </el-form>
                     </el-popover>
-                    <el-button type="text" class="probtn" size="mini" v-popover:popover4>填写物流</el-button>
-                    <!--<el-dropdown @command="handleMenuItemClick">-->
-                        <!--<span class="el-dropdown-link">-->
-                            <!--操作<i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>-->
-                        <!--</span>-->
-                        <!--<el-dropdown-menu slot="dropdown">-->
-                            <!--<el-dropdown-item command=""><router-link :to="'/detail/' + scope.row.id">详情</router-link></el-dropdown-item>-->
-                            <!--<el-dropdown-item :data="scope.row" command="edit" v-if="scope.row.status == 4">修改</el-dropdown-item>-->
-                            <!--<el-dropdown-item :data="scope.row" command="in_warehouse" v-if="scope.row.real_num > 0 && (scope.row.status == 1 || scope.row.status == 2) && (scope.row.status == 0 || scope.row.hd_status == 2)">退货入库</el-dropdown-item>-->
-                            <!--<el-dropdown-item :data="scope.row" command="out_warehouse" v-if="scope.row.real_num > 0 && (scope.row.status == 1 || scope.row.status == 2 || scope.row.status == 4) && scope.row.hd_status == 3">退货出库</el-dropdown-item>-->
-                            <!--<el-dropdown-item :data="scope.row" command="reject" v-if="scope.row.status == 1 || scope.row.status == 2">驳回</el-dropdown-item>-->
-                            <!--<el-dropdown-item :data="scope.row" command="close" v-if="scope.row.status == 1 || scope.row.status == 2">关闭</el-dropdown-item>-->
-                            <!--<el-dropdown-item :data="scope.row" command="remark">备注</el-dropdown-item>-->
-                        <!--</el-dropdown-menu>-->
-                    <!--</el-dropdown>-->
+                    <el-button type="text" v-if="scope.row.status == 2 && (scope.row.hd_status == 1)" class="probtn" size="mini" v-popover:popover4>填写物流</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -184,6 +140,7 @@
                     }
                 },
                 visible2 : false,
+                visible3 : false,
                 optType: '',
                 express : '',
                 express_number : '',
@@ -270,7 +227,9 @@
                 reverseService.getList(param, this.pagination.page, this.pagination.pageSize, 'cdate desc').then((resp) => {
                     this.loading = false;
                     resp.datalist.forEach((value,index,array)=>{
-                        value.item_remark.propValue = JSON.parse(value.item_remark.props)
+                        value.item_remark.propValue = JSON.parse(value.item_remark.props);
+                        value.visible2 = false;
+                        value.visible3 = false;
                     })
                     this.datalist = resp.datalist;
                     this.pagination.total = resp.total;
@@ -390,6 +349,9 @@
             margin-left: 0;
         }
 
+    }
+    .reverse-menu{
+        position: relative;
     }
     .el-popover{
         padding: 0;

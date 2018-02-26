@@ -33,9 +33,14 @@ export default {
         footerFollowUs: '关注我们'
     },
     main: {
-        accountNew:{
+        accountNew: {
             register: {
-
+                mainAcReSelect: '请选择',
+                mainAcReFileDragHere: '将文件拖到此处，或',
+                mainAcReClickUpload: '点击上传',
+                mainAcReValidateSuccess: '验证成功',
+                mainAcReContentNotNull: '内容不能为空',
+                mainAcReCreateSuccess: '创建成功',
             },
             reset: {},
             signUpFinish: {},

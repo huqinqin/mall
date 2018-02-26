@@ -26,15 +26,16 @@
             </el-table-column>
             <el-table-column label="退货数量" align="left" header-align="left" width="80">
                 <template slot-scope="scope">
-                    <el-tooltip placement="top">
-                        <div slot="content">
-                            <p v-if="scope.row.reverse_remark.stockout_item">
-                                缺货:{{scope.row.reverse_remark.stockout_item.num}}{{scope.row.reverse_remark.stockout_item.unit}}</p>
-                            <p v-if="scope.row.reverse_remark.return_item">
-                                退货:{{scope.row.item_remark.num}}{{scope.row.item_remark.unit}}</p>
-                        </div>
-                        <div>{{scope.row.total_num}}</div>
-                    </el-tooltip>
+                    <!--<el-tooltip placement="top">-->
+                        <!--<div slot="content">-->
+                            <!--<p v-if="scope.row.reverse_remark.stockout_item">-->
+                                <!--缺货:{{scope.row.reverse_remark.stockout_item.num}}{{scope.row.reverse_remark.stockout_item.unit}}</p>-->
+                            <!--<p v-if="scope.row.reverse_remark.return_item">-->
+                                <!--退货:{{scope.row.item_remark.num}}{{scope.row.item_remark.unit}}</p>-->
+                        <!--</div>-->
+                        <!--<div>{{scope.row.total_num}}</div>-->
+                    <!--</el-tooltip>-->
+                    <div>{{scope.row.total_num}}</div>
                 </template>
             </el-table-column>
             <el-table-column label="提交时间" align="left" header-align="left" width="160">

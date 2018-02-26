@@ -3,58 +3,185 @@
         <el-table
             ref="multipleTable"
             :data="tableData"
+            :default-expand-all="true"
+            :stripe="false"
             tooltip-effect="dark"
-            style="width: 100%" align="right"
-            :row-class-name="rowClass"
-            @selection-change="handleSelectionChange">
-             <el-table-column type="selection"  align="right" @change="checkItem"></el-table-column>
-             <el-table-column label="商品信息"   align="center" width="600">
+            style="width: 100%" align="right">
+            <el-table-column type="expand">
                 <template slot-scope="scope">
-                    <a :href="'/detail#/?id=' + scope.row.id"  :ref="{'yyyyyyy':scope.row.discount_type != 0}">
-                        <div class="item-img" :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+scope.row.url+')'}"></div>
-                        <div class="content">
-                            <p :title="scope.row.item_name">{{scope.row.item_name}}</p>
+                    <div v-if="scope.row.discount" class="discountTable subtable">
+                        <div class="popover">
+                            <div class="popTitle">折扣商品</div>
+                            <div class="popDetail">dabazhe</div>
                         </div>
-                        <ul class="other">
-                            <li v-for="(item,index) in scope.row.item_props">
-                                <p v-for="(val,key) in item.prop_value" :title="val">{{key}}:{{val}}</p>
-                            </li>
-                        </ul>
-                    </a>
-                </template>
-             </el-table-column>
-             <el-table-column prop="price" width="" label="单价" align="center">
-                 <template slot-scope="scope">
-                     <lts-money :money="scope.row.item_props[0].price"></lts-money>
-                 </template>
-             </el-table-column>
-             <el-table-column prop="" width="" label="库存" align="center">
-                 <template slot-scope="scope">
-                     <p v-if="scope.row.item_props[0].storage >= scope.row.num">有货</p>
-                     <p v-else>库存不足</p>
-                 </template>
-             </el-table-column>
-             <el-table-column label="数量" width="200" prop="num" align="center">
-                <template slot-scope="scope">
-                    <div class="inputNumber">
-                        <el-input-number :min='1' size="small" v-model="scope.row.num" @change="inputNumeberChange(scope.row)" label="描述文字"></el-input-number>
+                        <el-table :data="scope.row.discount" :show-header="false" style="width: 100%">
+                            <el-table-column type="selection" align="right" @change="checkItem"></el-table-column>
+                            <el-table-column align="center" width="600">
+                                <template slot-scope="subscope">
+                                    <a :href="'/detail#/?id=' + subscope.row.id" >
+                                        <div class="item-img" :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+subscope.row.url+')'}"></div>
+                                        <div class="content">
+                                            <p :title="subscope.row.item_name">{{subscope.row.item_name}}</p>
+                                        </div>
+                                        <ul class="other">
+                                            <li v-for="(item,index) in subscope.row.item_props">
+                                                <p v-for="(val,key) in item.prop_value" :title="val">{{key}}:{{val}}</p>
+                                            </li>
+                                        </ul>
+                                    </a>
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="price" width="" label="单价" align="center">
+                                <template slot-scope="subscope">
+                                    <p style="text-decoration: line-through;"><lts-money :money="subscope.row.item_props[0].price"></lts-money></p>
+                                    <p><lts-money :money="subscope.row.item_props[0].price"></lts-money></p>
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="" width="" label="库存" align="center">
+                                <template slot-scope="subscope">
+                                    <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">有货</p>
+                                    <p v-else>库存不足</p>
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="数量" width="200" prop="num" align="center">
+                                <template slot-scope="subscope">
+                                    <div class="inputNumber">
+                                        <el-input-number :min='1' size="small" v-model="subscope.row.num" @change="inputNumeberChange(subscope.row)" label="描述文字"></el-input-number>
+                                    </div>
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="小计" width="100" align="center">
+                                <template slot-scope="subscope">
+                                    <div class="count" ref="count">
+                                        <lts-money :money="subscope.row.num*subscope.row.item_props[0].price"></lts-money>
+                                    </div>
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="操作" width="" align="center">
+                                <template slot-scope="subscope">
+                                    <div class="cart-delete" @click="deleteHandle(subscope.$index, subscope.row)">
+                                        <i class="iconfont icon-shanchu"></i>
+                                    </div>
+                                </template>
+                            </el-table-column>
+                        </el-table>
                     </div>
-                </template>
-             </el-table-column>
-             <el-table-column label="小计" width="100" align="center">
-                <template slot-scope="scope">
-                    <div class="count" ref="count">
-                        <lts-money :money="scope.row.num*scope.row.item_props[0].price"></lts-money>
+                    <div v-else-if="scope.row.reduce" class="reduceTable subtable">
+                        <div class="popover">
+                            <div class="popTitle">减价商品</div>
+                            <div class="popDetail">dabazhe</div>
+                        </div>
+                        <el-table :data="scope.row.reduce" :show-header="false" style="width: 100%">
+                            <el-table-column type="selection" align="right" @change="checkItem"></el-table-column>
+                            <el-table-column align="center" width="600">
+                                <template slot-scope="subscope">
+                                    <a :href="'/detail#/?id=' + subscope.row.id" >
+                                        <div class="item-img" :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+subscope.row.url+')'}"></div>
+                                        <div class="content">
+                                            <p :title="subscope.row.item_name">{{subscope.row.item_name}}</p>
+                                        </div>
+                                        <ul class="other">
+                                            <li v-for="(item,index) in subscope.row.item_props">
+                                                <p v-for="(val,key) in item.prop_value" :title="val">{{key}}:{{val}}</p>
+                                            </li>
+                                        </ul>
+                                    </a>
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="price" width="" label="单价" align="center">
+                                <template slot-scope="subscope">
+                                    <lts-money :money="subscope.row.item_props[0].price"></lts-money>
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="" width="" label="库存" align="center">
+                                <template slot-scope="subscope">
+                                    <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">有货</p>
+                                    <p v-else>库存不足</p>
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="数量" width="200" prop="num" align="center">
+                                <template slot-scope="subscope">
+                                    <div class="inputNumber">
+                                        <el-input-number :min='1' size="small" v-model="subscope.row.num" @change="inputNumeberChange(subscope.row)" label="描述文字"></el-input-number>
+                                    </div>
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="小计" width="100" align="center">
+                                <template slot-scope="subscope">
+                                    <div class="count" ref="count">
+                                        <lts-money :money="subscope.row.num*subscope.row.item_props[0].price"></lts-money>
+                                    </div>
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="操作" width="" align="center">
+                                <template slot-scope="subscope">
+                                    <div class="cart-delete" @click="deleteHandle(subscope.$index, subscope.row)">
+                                        <i class="iconfont icon-shanchu"></i>
+                                    </div>
+                                </template>
+                            </el-table-column>
+                        </el-table>
                     </div>
-                </template>
-             </el-table-column>
-             <el-table-column label="操作" width="" align="center">
-                <template slot-scope="scope">
-                    <div class="cart-delete" @click="deleteHandle(scope.$index, scope.row)">
-                        <i class="iconfont icon-shanchu"></i>
+                    <div v-else-if="scope.row.others" class="otherTable subtable">
+                        <el-table :data="scope.row.others" :show-header="false" style="width: 100%">
+                            <el-table-column type="selection" align="right" @change="checkItem"></el-table-column>
+                            <el-table-column align="center" width="600">
+                                <template slot-scope="subscope">
+                                    <a :href="'/detail#/?id=' + subscope.row.id" >
+                                        <div class="item-img" :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+subscope.row.url+')'}"></div>
+                                        <div class="content">
+                                            <p :title="subscope.row.item_name">{{subscope.row.item_name}}</p>
+                                        </div>
+                                        <ul class="other">
+                                            <li v-for="(item,index) in subscope.row.item_props">
+                                                <p v-for="(val,key) in item.prop_value" :title="val">{{key}}:{{val}}</p>
+                                            </li>
+                                        </ul>
+                                    </a>
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="price" width="" label="单价" align="center">
+                                <template slot-scope="subscope">
+                                    <lts-money :money="subscope.row.item_props[0].price"></lts-money>
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="" width="" label="库存" align="center">
+                                <template slot-scope="subscope">
+                                    <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">有货</p>
+                                    <p v-else>库存不足</p>
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="数量" width="200" prop="num" align="center">
+                                <template slot-scope="subscope">
+                                    <div class="inputNumber">
+                                        <el-input-number :min='1' size="small" v-model="subscope.row.num" @change="inputNumeberChange(subscope.row)" label="描述文字"></el-input-number>
+                                    </div>
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="小计" width="100" align="center">
+                                <template slot-scope="subscope">
+                                    <div class="count" ref="count">
+                                        <lts-money :money="subscope.row.num*subscope.row.item_props[0].price"></lts-money>
+                                    </div>
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="操作" width="" align="center">
+                                <template slot-scope="subscope">
+                                    <div class="cart-delete" @click="deleteHandle(subscope.$index, subscope.row)">
+                                        <i class="iconfont icon-shanchu"></i>
+                                    </div>
+                                </template>
+                            </el-table-column>
+                        </el-table>
                     </div>
                 </template>
             </el-table-column>
+            <el-table-column label="商品信息" width="600"></el-table-column>
+            <el-table-column width="" label="价格" align="center"></el-table-column>
+            <el-table-column width="" label="库存" align="center"></el-table-column>
+            <el-table-column label="数量" width="200" prop="num" align="center"></el-table-column>
+            <el-table-column label="小计" width="100" align="center"></el-table-column>
+            <el-table-column label="操作" width="" align="center"></el-table-column>
         </el-table>
         <div class="table-footer">
             <div class="choose">
@@ -68,28 +195,6 @@
                 <el-button @click="check" :disabled="multipleSelection.length <= 0 && tooManyItems">立即结算</el-button>
             </div>
         </div>
-        <!--<table border="1" class="newTable" width="100%">-->
-            <!--<tr>-->
-                <!--<th width="48"></th>-->
-                <!--<th width="600" colspan="3">商品信息</th>-->
-                <!--<th>单价</th>-->
-                <!--<th>库存</th>-->
-                <!--<th width="200">数量</th>-->
-                <!--<th width="100">小计</th>-->
-                <!--<th>操作</th>-->
-            <!--</tr>-->
-            <!--<tr v-for="item in tableData" :key="item.url">-->
-                <!--<td width="48"><el-checkbox v-model="checked"></el-checkbox></td>-->
-                <!--<td width="600" >2</td>-->
-                <!--<td>3</td>-->
-                <!--<td>4</td>-->
-                <!--<td width="200">7</td>-->
-                <!--<td width="100">8</td>-->
-                <!--<td>9</td>-->
-            <!--</tr>-->
-        <!--</table>-->
-
-
         <!--<div class="history">-->
             <!--<h5>购买记录</h5>-->
             <!--<ul class="items">-->
@@ -111,12 +216,15 @@
         name: "list",
         data() {
             return {
+                expands:[],//默认展开全部
                 checked:false,
-
                 tooManyItems:true,
                 chooseAll: false,
                 historyData: [],
-                tableData: [],
+                tableData: [
+                    {discount:[]},
+                    {reduce:[]},
+                    {others:[]}],
                 tableDataItem:{},
                 multipleSelection : [],
                 totalPrice:0,
@@ -156,23 +264,29 @@
 
         },
         methods:{
-            // row的样式
-           rowClass(row,index){
-
-               console.log(row,index)
-               return 'activeRow'
-           },
            queryCartList(){
                cartService.queryCartList().then((data)=>{
                    console.log(data);
-                   this.tableData = data.datalist;
-                   this.tableData.forEach((item)=>{
-                       if(item.item_props[0].prop_value == ""||item.item_props[0].prop_value==null||item.item_props[0].prop_value==undefined){
-                           item.item_props[0].prop_value = {};
+                   data.datalist.forEach((value) => {
+                       value.item_props.forEach((item) => {
+                           item.prop_value = JSON.parse(item.prop_value)
+                       })
+                       if(value.discount_type == 1){
+                           this.tableData[0].discount.push(value)
+                       }else if(value.discount_type == 2){
+                           this.tableData[1].reduce.push(value)
                        }else{
-                           item.item_props[0].prop_value = JSON.parse(item.item_props[0].prop_value);
+                           this.tableData[2].others.push(value)
                        }
                    })
+                   console.log(this.tableData)
+                   // this.tableData.forEach((item)=>{
+                   //     if(item.item_props[0].prop_value == ""||item.item_props[0].prop_value==null||item.item_props[0].prop_value==undefined){
+                   //         item.item_props[0].prop_value = {};
+                   //     }else{
+                   //         item.item_props[0].prop_value = JSON.parse(item.item_props[0].prop_value);
+                   //     }
+                   // })
                    console.log(this.$refs)
                },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.errorMessage})
@@ -315,7 +429,54 @@
                     line-height: 30px;
                     text-align: left;
                 }
-                .cell a{
+            }
+            .el-table__row.expanded{
+                display: none;
+            }
+            .el-table__expanded-cell{
+                padding:0;
+                .subtable{
+                    margin-top: 40px;
+                    border:1px solid #a3a3a3;
+                    position: relative;
+                    .popover{
+                        position: absolute;
+                        top:-40px;
+                        height:40px;
+                        left:20px;
+                        font-size: 12px;
+                        display: flex;
+                        align-items: center;
+                        .popTitle{
+                            padding: 4px;
+                            background: #f48719;
+                            color:white;
+                            border-radius: 4px 4px 4px 0;
+                        }
+                        .popTitle::before{
+                            content:'';
+                            position: absolute;
+                            top:80%;
+                            left:0;
+                            width: 0;
+                            height: 0;
+                            border-top: 8px solid #f48719;
+                            border-right: 8px solid transparent;
+                        }
+                        .popDetail{}
+                    }
+                    tbody{
+                        tr:last-child{
+                            td{
+                                border-bottom:none;
+                            }
+                        }
+                    }
+                }
+                .dicount{}
+                .reduce{}
+                .others{}
+                a{
                     width:100%;
                     display: flex;
                     align-items: center;
@@ -323,7 +484,7 @@
                 .item-img{
                     width:80px;
                     height: 80px;
-                    border: 1px solid #dadada;
+                    border: 1px solid #ddd;
                     background-position: center;
                     background-size: cover;
                     flex:0 0 80px;
@@ -462,18 +623,17 @@
         }
 
         /*加上活动标签*/
-        .el-table__body-wrapper{
-            table{
-                border-spacing: 0 20px;
-                tr{
-                    border:1px solid red;
-                    td{
-                        border:none;
-                    }
-                }
+        /*.el-table__body-wrapper{*/
+            /*table{*/
+                /*tr{*/
+                    /*border:1px solid red;*/
+                    /*td{*/
+                        /*border:none;*/
+                    /*}*/
+                /*}*/
 
-            }
-        }
+            /*}*/
+        /*}*/
     }
     @keyframes floats {
         from {

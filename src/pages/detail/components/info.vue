@@ -132,11 +132,13 @@
                 <div class="detail_goods">
                     <el-tabs v-model="activeName" @tab-click="handleClick" type="border-card">
                         <el-tab-pane label="商品详情" name="first">
-                            <ul class="aboutDetail">
-                                <li v-for="(value,key) in aboutDetail">
-                                    {{key}}: {{value}}
+                            <ul class="aboutDetail" :class="[showPropDetail ? 'propOpen' : 'propClose']">
+                                <li v-for="(value,index) in aboutDetail" v-if="value.id > 0">
+                                    <span v-for="(val,key) in value.propValues">
+                                        {{key}}: {{val}}
+                                    </span>
                                 </li>
-                                <li class="more" v-if="aboutDetail.length > 8">详细 <i class="iconfont icon-shangyiye-copy-copy"></i></li>
+                                <li class="more" v-if="aboutDetail.length > 4" @click="showPropDetail = !showPropDetail">详细 <i class="iconfont icon-shangyiye-copy-copy"></i></li>
                             </ul>
                             <div class="item_detail" >
                                 <div v-html="item.description"></div>
@@ -191,16 +193,7 @@
                 buyHistory: [],
                 hotSale: [],
                 activeImg : '',
-                aboutDetail: {
-                    '商品编号': '34598739792',
-                    '外形': '半球形',
-                    '清晰度': '8MP',
-                    '焦距': '2.8nm',
-                    '水平角度': '106度',
-                    '逆光处理': 'ture WDR',
-                    '视频压缩': 'H.265+',
-                    '声频': 'line in/out'
-                },
+                aboutDetail:[],
                 comment: [],
                 nullImg : require('@/assets/img/buynull.png'),
                 showPropsError : false,
@@ -212,6 +205,7 @@
                 finished:true,
                 start:'',
                 end:'',
+                showPropDetail : false,
             }
         },
         methods:{
@@ -272,8 +266,15 @@
             },
             getItemDetail(id){
                 itemService.getItemDetail(id).then((data)=>{
+                    data.data.item.item_struct_props.forEach((value,index,array)=>{
+                        if(value.sku){
+                            array.splice(index,1);
+                        }
+                        array[index].propValues = JSON.parse(value.prop_value);
+                    })
+                    this.aboutDetail = data.data.item.item_struct_props;
+                    console.log(data.data.item.item_struct_props);
                     this.item = data.data.item;
-                    this.aboutDetail = JSON.parse(this.item.item_struct_props[0].prop_value);
                     this.activeImg = this.item.item_images[0];
                     this.hotSale = data.data.hot_recomment.items;
                     this.buyHistory = data.data.user_order_history;
@@ -806,9 +807,10 @@
                             display: flex;
                             flex-wrap: wrap;
                             justify-content: flex-start;
-                            padding-bottom: 24px;
                             border-bottom: 1px solid #E5E5E5;
                             margin-left: 24px;
+                            max-height: 28px;
+                            overflow: hidden;
                             li{
                                 width: 24.8%;
                                 line-height: 28px;
@@ -829,6 +831,12 @@
 
                                 }
                             }
+                        }
+                        .propOpen{
+                            max-height: inherit;
+                        }
+                        .propClose{
+                            max-height: 28px;
                         }
                         .imgDetail{
                             max-height: 2000px;

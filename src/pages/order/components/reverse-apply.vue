@@ -55,7 +55,7 @@
                 <el-form-item label="退货留言" prop="remark">
                     <el-input type="textarea" v-model="form.remark" />
                 </el-form-item>
-                <el-form-item label="上传凭证" prop="remark">
+                <el-form-item label="上传凭证">
                     <el-upload
                         action="/cgi/upload/file/item/image"
                         list-type="picture-card"
@@ -104,13 +104,13 @@
                         {required: true, message: '请选择退货退款原因', trigger: 'change'},
                     ],
                     num: [
-                        {required: true, message: '请输入退货退款数量', trigger: 'blur'},
+                        {min: 5,required: true, message: '请输入退货退款数量', trigger: 'blur'},
                     ],
                     refund: [
                         {required: true, message: '请输入退款金额', trigger: 'blur'},
                     ],
                     remark: [
-                        {min: 5, max: 500, message: '备注长度在 5 到 500 个字符', trigger: 'blur'}
+                        {min: 5, max: 500, required: true, message: '备注长度在 5 到 500 个字符', trigger: 'blur'}
                     ],
                 },
                 reasonList: [
@@ -157,16 +157,22 @@
         },
         methods: {
             onSubmitRefund(){
-                    let imagesUrl = '';
-//                    this.fileList.forEach(function (value, index, array) {
-//                        imagesUrl = (imagesUrl == "") ? value.response.data.value : imagesUrl + "," + value.response.data.value;
-//                    });
-                imagesUrl = 'http://res.500mi.com/item/63f7c57364e975f39f3a35e309d89a15.png';
-                    reverseService.apply(this.tid, this.form.reason, this.form.num, this.form.refund, this.form.remark,imagesUrl).then((resp)=>{
-                        this.$ltsMessage.show({type: 'success', message: "退货退款申请成功"});
-                    },(error)=>{
-                        this.$ltsMessage.show({type: 'error', message: "退货退款申请失败：" + error.error_message});
-                    });
+                this.$refs['form'].validate((valid) => {
+                    if(valid){
+                        let imagesUrl = '';
+                        this.fileList.forEach(function (value, index, array) {
+                            imagesUrl = (imagesUrl == "") ? value.response.data.url : imagesUrl + "," + value.response.data.url;
+                        });
+                        reverseService.apply(this.tid, this.form.reason, this.form.num, this.form.refund, this.form.remark, imagesUrl).then((resp) => {
+                            this.$ltsMessage.show({type: 'success', message: "退货退款申请成功"});
+                        }, (error) => {
+                            this.$ltsMessage.show({type: 'error', message: "退货退款申请失败：" + error.error_message});
+                        });
+                    }else{
+                        console.log('error submit!!');
+                        return false;
+                    }
+                })
             },
             get () {
                 orderService.query_by_order_tid(this.tid).then((resp) => {

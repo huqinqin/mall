@@ -53,7 +53,7 @@
                     </el-upload>
                 </el-form-item>
                 <el-form-item>
-                    <el-checkbox v-model="checked">Sign Up for Newsletter</el-checkbox>
+                    <el-checkbox v-model="checked">Sign-up now for exclusive discounts and news</el-checkbox>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="submit" class="confirm" :class="{canClick:signupForm.agree === true}" @click="submitFrom" ><span>CREATE AN ACCOUNT</span></el-button>

@@ -33,7 +33,7 @@
                 </el-form-item>
                 <el-form-item label="Type of Business" prop="Business">
                     <!--<el-input v-model="signupForm.checkPass" ></el-input>-->
-                    <el-select v-model="signupForm.Business" placeholder="请选择">
+                    <el-select v-model="signupForm.Business" :placeholder= '$t("main.accountNew.register.mainAcReSelect")'>
                         <el-option
                             v-for="item in options"
                             :key="item.value"
@@ -49,11 +49,11 @@
                         drag
                         action="/cgi/upload/file/misc/image">
                         <i class="el-icon-upload"></i>
-                        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                        <div class="el-upload__text">{{ $t("main.accountNew.register.mainAcReFileDragHere") }}<em>{{ $t("main.accountNew.register.mainAcReClickUpload") }}</em></div>
                     </el-upload>
                 </el-form-item>
                 <el-form-item>
-                    <el-checkbox v-model="checked">Sign Up for Newsletter</el-checkbox>
+                    <el-checkbox v-model="checked">Sign-up now for exclusive discounts and news</el-checkbox>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="submit" class="confirm" :class="{canClick:signupForm.agree === true}" @click="submitFrom" ><span>CREATE AN ACCOUNT</span></el-button>
@@ -71,7 +71,7 @@
         data(){
             let checkCode = (rule,value,callback) => {
                 accountService.checkCode(value).then((data) => {
-                    this.$ltsMessage.show({type: 'error', message: '验证成功'})
+                    this.$ltsMessage.show({type: 'error', message: this.$t("main.accountNew.register.mainAcReValidateSuccess")})
                 },(msg) => {
                     this.$ltsMessage.show({type: 'error', message: msg.error_message})
                 })
@@ -96,19 +96,19 @@
                 },
                 rules:{
                     Business: [
-                        { required: true, message: '内容不能为空', trigger: 'blur' },
+                        { required: true, message: this.$t("main.accountNew.register.mainAcReContentNotNull"), trigger: 'blur' },
                     ],
                     companyName: [
-                        { required: true, message: '内容不能为空', trigger: 'blur' },
+                        { required: true, message: this.$t("main.accountNew.register.mainAcReContentNotNull"), trigger: 'blur' },
                     ],
                     FTI: [
-                        { required: true, message: '内容不能为空', trigger: 'blur' },
+                        { required: true, message: this.$t("main.accountNew.register.mainAcReContentNotNull"), trigger: 'blur' },
                     ],
                     fisrtName: [
-                        { required: true, message: '内容不能为空', trigger: 'blur' },
+                        { required: true, message: this.$t("main.accountNew.register.mainAcReContentNotNull"), trigger: 'blur' },
                     ],
                     lastName: [
-                        { required: true, message: '内容不能为空', trigger: 'blur' },
+                        { required: true, message: this.$t("main.accountNew.register.mainAcReContentNotNull"), trigger: 'blur' },
                     ],
                     email:validatorConfig.email,
                     /*pass: [
@@ -168,7 +168,7 @@
                     ext:params
                 }
                 accountService.creatAccount(obj).then((data) => {
-                    this.$ltsMessage.show({type: 'success', message: '创建成功'})
+                    this.$ltsMessage.show({type: 'success', message: this.$t("main.accountNew.register.mainAcReCreateSuccess")})
                     this.$router.push('/signupFinish')
                 },(msg) => {
                     this.$ltsMessage.show({type: 'error', message: msg.error_message})

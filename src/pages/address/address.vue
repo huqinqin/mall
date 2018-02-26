@@ -6,7 +6,7 @@
                 <li v-for="item in info">{{item}}</li>
             </ul>
         </div>
-        <div class="content">内容</div>
+        <div class="content">{{ $t("main.address.mainAddContent") }}</div>
     </div>
 </template>
 
@@ -15,7 +15,10 @@
         name: "address",
         data(){
             return{
-                info:['个人资料','分销资格认证','信用卡绑定','账单地址','密码设置','收货地址','分享好友']
+                info:[this.$t("main.address.mainAddPersonData"),this.$t("main.address.mainAddDistributionAuth"),
+                    this.$t("main.address.mainAddBindCard"),this.$t("main.address.mainAddBillAddress"),
+                    this.$t("main.address.mainAddPwdInstall"),this.$t("main.address.mainAddReceivingAddress"),
+                    this.$t("main.address.mainAddShareFriends")]
             }
         }
     }

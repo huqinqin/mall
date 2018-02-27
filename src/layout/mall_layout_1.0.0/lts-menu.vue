@@ -12,6 +12,7 @@
 </template>
 
 <script>
+    import {store} from 'ltsutil'
     export default {
         name: "lts-menu",
         data(){
@@ -36,14 +37,14 @@
         },
         methods:{
             selectUser(value){
-                sessionStorage.setItem('selected', value.currentTarget.textContent);
+                store.setItem('selected', value.currentTarget.textContent);
             },
             selectSetting(value){
-                sessionStorage.setItem('selected', value.currentTarget.textContent);
+                store.setItem('selected', value.currentTarget.textContent);
             }
         },
         mounted(){
-            this.selected = sessionStorage.getItem("selected") ? sessionStorage.getItem("selected") : '我的订单'
+            this.selected = store.getItem("selected") ? store.getItem("selected") : '我的订单'
         }
     }
 </script>

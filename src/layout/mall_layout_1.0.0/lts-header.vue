@@ -8,7 +8,7 @@
             </li>
             <li class="">
               <a href="/reverse" class="news top-menu">{{ $t("comHeader.headerNews") }}</a>
-              <a href="/order" class="top-menu" v-login>{{ $t("comHeader.headerMyOrder") }}</a>
+              <a href="/order" class="top-menu" v-login @click="toOrder">{{ $t("comHeader.headerMyOrder") }}</a>
               <a href="" class="top-menu" v-login>{{ $t("comHeader.headerFavorite") }}</a>
               <a href="javascript:void(0)" ><i class="iconfont icon-shouji"></i>{{ $t("comHeader.headerPhoneOrder") }}</a>
               <a href="javascript:void(0)" @click="logout" v-if="userInfo">{{ $t("comHeader.headerLogin") }}</a>
@@ -129,6 +129,9 @@
                 location.href = '/search#/?cateId=' + this.selectedOptions + '&keywords=' + this.keywords
                 this.selfContext.$emit('getItemList')
             },
+            toOrder(){
+                store.setItem('selected', '我的订单');
+            }
 
         },
         created(){

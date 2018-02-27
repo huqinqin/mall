@@ -22,16 +22,16 @@
                 <!--<p class="brief">{{item.promotion_title}}</p>-->
                 <!-- 商品属性-->
                 <div class="slogan" v-if="!finished">
-                    <span v-if="item.discount_type == 1" class="bold">折扣商品</span>
-                    <span v-else-if="item.discount_type == 2" class="bold">降价商品</span>
-                    <span v-else-if="item.type == 4" class="bold">限时限量</span>
+                    <span v-if="item.discount_type == 1" class="bold">{{ $t("main.detail.info.mainDetInfoDisGoods") }}</span>
+                    <span v-else-if="item.discount_type == 2" class="bold">{{ $t("main.detail.info.mainDetInfoDepriceGoods") }}</span>
+                    <span v-else-if="item.type == 4" class="bold">{{ $t("main.detail.info.mainDetInfoLimit") }}</span>
                     <div class="count" >
-                        <span v-if="!started" class="bold">开始倒计时</span><span v-if="started" class="bold">距离结束</span><span v-if="day>0">{{day}}天</span><span><div>{{hr}}</div>:<div>{{min}}</div>:<div>{{sec}}</div></span>
+                        <span v-if="!started" class="bold">{{ $t("main.detail.info.mainDetInfoDown") }}</span><span v-if="started" class="bold">{{ $t("main.detail.info.mainDetInfoEnd") }}</span><span v-if="day>0">{{day}}{{ $t("main.detail.info.mainDetInfoDay") }}</span><span><div>{{hr}}</div>:<div>{{min}}</div>:<div>{{sec}}</div></span>
                     </div>
                 </div>
                 <el-form label-position="left" label-width="120px" ref="ruleForm" >
-                    <el-form-item label="价格" class="price">
-                        <div class="tips" v-ltsLoginShow:false>完成登录注册，享受惊爆价</div>
+                    <el-form-item :label=' $t("main.detail.info.mainDetInfoPrice")' class="price">
+                        <div class="tips" v-ltsLoginShow:false>{{ $t("main.detail.info.mainDetInfoComp") }}</div>
                         <div v-ltsLoginShow:true class="detail_price" v-if="!checkedSpu.price">
                             <lts-money :money="item.price"></lts-money>
                         </div>
@@ -49,23 +49,23 @@
                             </el-radio-group>
                         </el-form-item>
                         <i class="el-icon-close"></i>
-                        <div class="el-form-item__error">请选择商品属性。若商品属性不可选。请联系销售</div>
+                        <div class="el-form-item__error">{{ $t("main.detail.info.mainDetInfoContactSale") }}</div>
                     </div>
                     <div :class="[item.num > checkedSpu.storage ? 'error' : '']" @click="closeError">
-                        <el-form-item label="采购量" class="num" >
+                        <el-form-item :label='$t("main.detail.info.mainDetInfoAmount")' class="num" >
                             <el-input-number v-model="item.num" size="mini" @change="inputNumberChange" :min="1"></el-input-number>
-                            <span v-if="checkedSpu.storage > 0" class="storage_spec">有货</span>
-                            <span v-else-if="checkedSpu && checkedSpu.storage <= 0" class="storage_spec">缺货</span>
-                            <div class="el-form-item__error" >您所填写的数量超过库存！</div>
+                            <span v-if="checkedSpu.storage > 0" class="storage_spec">{{ $t("main.detail.info.mainDetInfoStock") }}</span>
+                            <span v-else-if="checkedSpu && checkedSpu.storage <= 0" class="storage_spec">{{ $t("main.detail.info.mainDetInfoNoStock") }}</span>
+                            <div class="el-form-item__error" >{{ $t("main.detail.info.mainDetInfoExceed") }}！</div>
                             <i class="el-icon-close"></i>
                         </el-form-item>
                     </div>
-                    <el-form-item label="温馨提示" class="mark">
-                        <p>支持30天无理由退换(如果商品参加活动，退换货以活动规则为准)</p>
+                    <el-form-item :label='$t("main.detail.info.mainDetInfoCozyTip")' class="mark">
+                        <p>{{ $t("main.detail.info.mainDetInfoNoReason") }}</p>
                     </el-form-item>
                     <el-form-item class="buttons" >
-                        <button @click.stop="buyNow" type="button"><div v-login>立即购买</div></button>
-                        <el-button @click.stop="addCart" type="button"><div v-login>加入购物车</div></el-button>
+                        <button @click.stop="buyNow" type="button"><div v-login>{{ $t("main.detail.info.mainDetInfoImme") }}</div></button>
+                        <el-button @click.stop="addCart" type="button"><div v-login>{{ $t("main.detail.info.mainDetInfoJoinCart") }}</div></el-button>
                     </el-form-item>
                     <addCartSuccess
                         :flag.sync="flag"
@@ -76,7 +76,7 @@
             </div>
             <div class="detail-buy-history">
                 <div class="header">
-                    <div>购买记录</div>
+                    <div>{{ $t("main.detail.info.mainDetInfoBuy") }}</div>
                     <div class="icons">
                         <div class="icon-left"><i class="iconfont  icon-iconfontzuo"></i></div>
                         <div class="icon-right"><i class="iconfont  icon-iconfontzuo"></i></div>
@@ -106,7 +106,7 @@
             <div class="detail_side">
                 <div class="detail_side_img">
                     <div class="header">
-                        <div>热卖推荐</div>
+                        <div>{{ $t("main.detail.info.mainDetInfoHot") }}</div>
                         <div class="icons">
                             <div class="icon-left"><i class="iconfont  icon-iconfontzuo"></i></div>
                             <div class="icon-right"><i class="iconfont  icon-iconfontzuo"></i></div>
@@ -119,7 +119,7 @@
                                 <p class="name" :title="item.item_name">{{item.item_name}}</p>
                                 <p class="line-four" ></p>
                                 <div class="item-price">
-                                    <button v-ltsLoginShow:false v-login>登录之后查看价格</button>
+                                    <button v-ltsLoginShow:false v-login>{{ $t("main.detail.info.mainDetInfoLoginPrice") }}</button>
                                     <p v-ltsLoginShow:true class="price">
                                         <lts-money :money="item.price"></lts-money>
                                     </p>
@@ -131,14 +131,14 @@
                 <!-- detail_goods -->
                 <div class="detail_goods">
                     <el-tabs v-model="activeName" @tab-click="handleClick" type="border-card">
-                        <el-tab-pane label="商品详情" name="first">
+                        <el-tab-pane :label='$t("main.detail.info.mainDetInfoGoodsInfo")' name="first">
                             <ul class="aboutDetail" :class="[showPropDetail ? 'propOpen' : 'propClose']">
                                 <li v-for="(value,index) in aboutDetail" v-if="!value.sku">
                                     <span v-for="(val,key) in value.propValues">
                                         {{key}}: {{val}}
                                     </span>
                                 </li>
-                                <li class="more" v-if="aboutDetail.length > 8" @click="showPropDetail = !showPropDetail">详细 <i class="iconfont icon-shangyiye-copy-copy"></i></li>
+                                <li class="more" v-if="aboutDetail.length > 8" @click="showPropDetail = !showPropDetail">{{ $t("main.detail.info.mainDetInfoDetail") }} <i class="iconfont icon-shangyiye-copy-copy"></i></li>
                             </ul>
                             <div class="item_detail" >
                                 <div v-html="item.description"></div>

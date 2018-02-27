@@ -3,11 +3,11 @@
         <div class="header">
             <a href="/"><img src="../../assets/img/LOGO_html.png" alt="LTS-logo"></a>
             <el-steps :active=active align-center finish-status="success">
-                <el-step title="购物车"></el-step>
-                <el-step title="确认订单信息"></el-step>
-                <el-step title="订单提交"></el-step>
-                <el-step title="支付"></el-step>
-                <el-step title="等待收货"></el-step>
+                <el-step :title='$t("main.cart.other.mainCartOtCart")'></el-step>
+                <el-step :title='$t("main.cart.other.mainCartOtConfimOrderInfo")'></el-step>
+                <el-step :title='$t("main.cart.other.mainCartOtOrderSub")'></el-step>
+                <el-step :title='$t("main.cart.other.mainCartOtPay")'></el-step>
+                <el-step :title='$t("main.cart.other.mainCartOtWait")'></el-step>
             </el-steps>
         </div>
         <router-view @submit="changeActive" />

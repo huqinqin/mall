@@ -1,16 +1,16 @@
 <template>
     <div class="finish">
-        <div class="mark"><p>您在支付的时候好像出现了一些问题</p></div>
+        <div class="mark"><p>{{ $t("main.cart.fail.mainCartFaProblem") }}</p></div>
         <div class="result">
             <div class="content">
-                <h3>支付失败</h3>
-                <p>订单编号：{{tid}}</p>
-                <p>收货人：{{this.detailOrder.user_name}} {{this.detailOrder.receiver_mobile}}</p>
-                <p :title="this.detailOrder.user_addr">收货地址：{{this.detailOrder.user_addr}}</p>
-                <p>物流方式：{{method}}</p>
+                <h3>{{ $t("main.cart.fail.mainCartFaPayFail") }}</h3>
+                <p>{{ $t("main.cart.fail.mainCartFaOrderNum") }}：{{tid}}</p>
+                <p>{{ $t("main.cart.fail.mainCartFaConsignee") }}：{{this.detailOrder.user_name}} {{this.detailOrder.receiver_mobile}}</p>
+                <p :title="this.detailOrder.user_addr">{{ $t("main.cart.fail.mainCartFaReceivingAddress") }}：{{this.detailOrder.user_addr}}</p>
+                <p>{{ $t("main.cart.fail.mainCartFaLogisticsMode") }}：{{method}}</p>
                 <div class="button">
-                    <a href="/order"><button class="go"><span>我的订单</span></button></a>
-                    <a href="/"><button class="back"><span>回到首页</span></button></a>
+                    <a href="/order"><button class="go"><span>{{ $t("main.cart.fail.mainCartFaMyOrder") }}</span></button></a>
+                    <a href="/"><button class="back"><span>{{ $t("main.cart.fail.mainCartFaFirstPage") }}</span></button></a>
                 </div>
             </div>
         </div>
@@ -25,7 +25,7 @@
             return{
                 tid:0,
                 detailOrder:[],
-                method:"快递"
+                method: this.$t("main.cart.beforePay.mainCartBefExpress")
             }
         },
         methods:{
@@ -41,9 +41,9 @@
                 detailOrder.detailOrder(this.tid).then((data) => {
                     this.detailOrder = data.data;
                     if(this.detailOrder.wholesale_order_items[0].s_h_s_m === true){
-                        this.method = "送货上门"
+                        this.method = this.$t("main.cart.fail.mainCartFaSince")
                     }else{
-                        this.method = "快递"
+                        this.method = this.$t("main.cart.beforePay.mainCartBefExpress")
                     }
                     console.log(data);
                 },(msg) => {

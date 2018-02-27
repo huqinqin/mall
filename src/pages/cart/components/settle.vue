@@ -1,7 +1,7 @@
 <template>
     <div class="settle">
         <div class="address">
-            <h5>收货地址</h5>
+            <h5>{{ $t("main.address.mainAddReceivingAddress") }}</h5>
             <ul>
                 <li :class="[{checked:defaultAddress.id === checkedId},{default:defaultAddress.id === defaultId}]" v-show="defaultAddress.user_name" @click="checkAddress(defaultAddress)">
                     <header>
@@ -9,13 +9,13 @@
                     </header>
                     <main>
                         <p>{{defaultAddress.building}}</p>
-                        <p>电话：{{defaultAddress.mobile}}</p>
+                        <p>{{ $t("main.cart.settle.mainCartSePhone") }}：{{defaultAddress.mobile}}</p>
                     </main>
                     <footer>
-                        <button class="default" @click.stop="toggleDefault(defaultAddress)">设为默认</button>
-                        <button v-show="defaultAddress.id === defaultId">默认地址</button>
-                        <button class="delete" @click="deleteAddress(defaultAddress,0)">删除</button>
-                        <button @click="editAddress(defaultAddress)">修改</button>
+                        <button class="default" @click.stop="toggleDefault(defaultAddress)">{{ $t("main.cart.settle.mainCartSeFitDefault") }}</button>
+                        <button v-show="defaultAddress.id === defaultId">{{ $t("main.cart.settle.mainCartSeDefaultAdress") }}</button>
+                        <button class="delete" @click="deleteAddress(defaultAddress,0)">{{ $t("main.cart.settle.mainCartSeDel") }}</button>
+                        <button @click="editAddress(defaultAddress)">{{ $t("main.cart.settle.mainCartSeAlert") }}</button>
                     </footer>
                 </li>
                 <li  v-for="(item,key) in addressData" :class="[{checked:item.id === checkedId},{default:item.id === defaultId}]" @click="checkAddress(item)" v-if="item.status === 0">
@@ -24,63 +24,63 @@
                     </header>
                     <main>
                         <p>{{item.building}}</p>
-                        <p>电话：{{item.mobile}}</p>
+                        <p>{{ $t("main.cart.settle.mainCartSePhone") }}：{{item.mobile}}</p>
                     </main>
                     <footer>
-                        <button class="default" @click.stop="toggleDefault(item)">设为默认</button>
-                        <button v-show="item.id === defaultId">默认地址</button>
-                        <button class="delete" @click="deleteAddress(item,key)">删除</button>
-                        <button @click="editAddress(item)">修改</button>
+                        <button class="default" @click.stop="toggleDefault(item)">{{ $t("main.cart.settle.mainCartSeFitDefault") }}</button>
+                        <button v-show="item.id === defaultId">{{ $t("main.cart.settle.mainCartSeDefaultAdress") }}</button>
+                        <button class="delete" @click="deleteAddress(item,key)">{{ $t("main.cart.settle.mainCartSeDel") }}</button>
+                        <button @click="editAddress(item)">{{ $t("main.cart.settle.mainCartSeAlert") }}</button>
                     </footer>
                 </li>
                 <li class="addAddress" @click="addAddress">
                     <i class="iconfont icon-add"></i>
-                    <div>添加地址</div>
+                    <div>{{ $t("main.cart.settle.mainCartSeAddAdress") }}</div>
                 </li>
             </ul>
-            <el-dialog title="收货地址" :visible.sync="showAddAddress" center>
+            <el-dialog :title='$t("main.address.mainAddReceivingAddress")' :visible.sync="showAddAddress" center>
                 <el-form :model="addForm">
-                    <el-form-item label="地区" :rules="[{required: true, message: '请输入地区', trigger: 'blur' }]">
+                    <el-form-item :label='$t("main.cart.settle.mainCartSeRegion")' :rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterRegion'), trigger: 'blur' }]">
                         <el-cascader
                             :options="cityOptions"
                             @change="selectCity"
                             :placeholder="addForm.address">
                         </el-cascader>
                     </el-form-item>
-                    <el-form-item label="街道" :rules="[{required: true, message: '请输入街道', trigger: 'blur' }]">
+                    <el-form-item :label='$t("main.cart.settle.mainCartSeStreet")' :rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterStreet'), trigger: 'blur' }]">
                         <el-input v-model="addForm.building"></el-input>
                     </el-form-item>
-                    <el-form-item label="邮编" :rules="[{required: true, message: '请输入邮编', trigger: 'blur' }]">
+                    <el-form-item :label='$t("main.cart.settle.mainCartSeZip")' :rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterZip'), trigger: 'blur' }]">
                         <el-input v-model="addForm.lc_code"></el-input>
                     </el-form-item>
-                    <el-form-item label="联系人" :rules="[{required: true, message: '请输入联系人', trigger: 'blur' }]">
+                    <el-form-item :label='$t("main.cart.settle.mainCartSeContact")' :rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterContact'), trigger: 'blur' }]">
                         <el-input v-model="addForm.user_name"></el-input>
                     </el-form-item>
-                    <el-form-item label="联系电话" :rules="[{required: true, message: '请输入联系电话', trigger: 'blur' }]">
+                    <el-form-item :label='$t("main.cart.settle.mainCartSeContactPhone")' :rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterConPhone'), trigger: 'blur' }]">
                         <el-input v-model="addForm.mobile"></el-input>
                     </el-form-item>
                     <el-form-item label="" class="radio">
-                        <el-checkbox v-model="addForm.setDefault">设为默认地址</el-checkbox>
+                        <el-checkbox v-model="addForm.setDefault">{{ $t("main.cart.settle.mainCartSeFitDefaultAddr") }}</el-checkbox>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
-                    <el-button type="primary" @click="submitFrom">确 定</el-button>
+                    <el-button type="primary" @click="submitFrom">{{ $t("main.cart.settle.mainCartSeSure") }}</el-button>
                 </div>
             </el-dialog>
         </div>
         <div class="inPrice">
-            <h5>送货单是否包含价格 </h5>
+            <h5>{{ $t("main.cart.settle.mainCartSeIsContainPrice") }} </h5>
             <el-radio-group v-model="inPriceType" class="selectButtons">
-                <el-radio-button label="true">是</el-radio-button>
-                <el-radio-button label="false">否</el-radio-button>
+                <el-radio-button label="true">{{ $t("main.cart.settle.mainCartSeYes") }}</el-radio-button>
+                <el-radio-button label="false">{{ $t("main.cart.settle.mainCartSeNo") }}</el-radio-button>
             </el-radio-group>
         </div>
         <div class="delivery">
-            <h5>配送方式： </h5>
+            <h5>{{ $t("main.cart.settle.mainCartSeDistraType") }}： </h5>
             <div>
                 <el-radio-group v-model="deliveryType" class="selectButtons">
-                    <el-radio-button label="ZITI" value="">自提</el-radio-button>
-                    <el-radio-button label="SHSM" value="">快递</el-radio-button>
+                    <el-radio-button label="ZITI" value="">{{ $t("main.cart.beforePay.mainCartBefSelfFetch") }}</el-radio-button>
+                    <el-radio-button label="SHSM" value="">{{ $t("main.cart.beforePay.mainCartBefExpress") }}</el-radio-button>
                 </el-radio-group>
                 <div class="selectExpress" v-if="deliveryType == 'SHSM'">
                     <div><span class="bold">EXPRESS COMPANY:</span></div>
@@ -89,7 +89,7 @@
                         <el-radio label="FEDEX">FEDEX</el-radio>
                     </el-radio-group>
                     <div><span class="bold">SERVICE:</span></div>
-                    <el-select v-model="expressForm.service" placeholder="请选择">
+                    <el-select v-model="expressForm.service" :placeholder='$t("main.accountNew.register.mainAcReSelect")'>
                         <el-option
                             v-for="item in expressOptions"
                             :key="item.value"
@@ -97,19 +97,19 @@
                             :value="item.value">
                         </el-option>
                     </el-select>
-                    <div><el-checkbox v-model="expressForm.self">本人签收</el-checkbox></div>
+                    <div><el-checkbox v-model="expressForm.self">{{ $t("main.cart.settle.mainCartSeSelfSign") }}</el-checkbox></div>
                 </div>
             </div>
 
         </div>
         <div class="order">
-            <h5>订单信息</h5>
+            <h5>{{ $t("main.cart.settle.mainCartSeOrderInfo") }}</h5>
             <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%">
-                <el-table-column label="商品信息"   align="left" width="700">
+                <el-table-column :label='$t("main.cart.list.mainCartliGoodsInfo")'   align="left" width="700">
                     <template slot-scope="scope">
                         <a :href="'/detail#/?id=' + scope.row.id">
                             <div class="cart-item-info">
-                                <img class="item-img" :src="'http://res.500mi.com/item/' + scope.row.url" alt="商品">
+                                <img class="item-img" :src="'http://res.500mi.com/item/' + scope.row.url">
                                 <div class="content">
                                     <p :title="scope.row.item_name">{{scope.row.item_name}}</p>
                                 </div>
@@ -123,20 +123,20 @@
                     </template>
                 </el-table-column>
 
-                <el-table-column prop="" width="" label="单价" align="center">
+                <el-table-column prop="" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
                     <template slot-scope="scope">
                         <lts-money :money="scope.row.item_props[0].price"></lts-money>
                     </template>
                 </el-table-column>
-                <el-table-column label="数量" width="" prop="num" align="center">
+                <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="" prop="num" align="center">
                 </el-table-column>
-                <el-table-column label="小计" width="" align="center">
+                <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="" align="center">
                     <template slot-scope="scope">
                         <div class="count" ref="count">${{(scope.row.num*scope.row.item_props[0].price/100).toFixed(2)}}</div>
                     </template>
                 </el-table-column>
             </el-table>
-            <div class="remark"><span>买家留言： </span><el-input v-model="remark"></el-input></div>
+            <div class="remark"><span>{{ $t("main.cart.settle.mainCartSeBuyersTalk") }}： </span><el-input v-model="remark"></el-input></div>
         </div>
         <!--<div class="balance">-->
             <!--<el-checkbox v-model="useBalance">使用余额</el-checkbox>-->
@@ -144,22 +144,22 @@
 
         <div class="someCount">
             <div class="count">
-                <p>商品应付金额： <span class="money">${{(sum.amount/100).toFixed(2)}}</span></p>
-                <p>运费： <span>+{{sum.express.toFixed(2)}}</span></p>
-                <p>税费： <span>+{{sum.tax.toFixed(2)}}</span></p>
-                <p>红包： <span>-{{sum.benefit.toFixed(2)}}</span></p>
-                <p class="result">应付金额： <span>${{totalPrice}}</span></p>
+                <p>{{ $t("main.cart.settle.mainCartSeShouldPay") }}： <span class="money">${{(sum.amount/100).toFixed(2)}}</span></p>
+                <p>{{ $t("main.cart.settle.mainCartSeFright") }}： <span>+{{sum.express.toFixed(2)}}</span></p>
+                <p>{{ $t("main.cart.settle.mainCartSeTax") }}： <span>+{{sum.tax.toFixed(2)}}</span></p>
+                <p>{{ $t("main.cart.settle.mainCartSeRedBag") }}： <span>-{{sum.benefit.toFixed(2)}}</span></p>
+                <p class="result">{{ $t("main.cart.settle.mainCartSeMustPay") }}： <span>${{totalPrice}}</span></p>
             </div>
         </div>
         <div class="allInfo">
-            <p>联系人： {{checkedAddress.user_name}}</p>
-            <p>联系电话： {{checkedAddress.mobile}}</p>
-            <p>收货地址： {{checkedAddress.address}}{{checkedAddress.building}}</p>
-            <p>账单地址： {{checkedAddress.address}}{{checkedAddress.building}}</p>
-            <p>资格证地址： {{checkedAddress.address}}{{checkedAddress.building}}</p>
+            <p>{{$t("main.cart.settle.mainCartSeContact")}}： {{checkedAddress.user_name}}</p>
+            <p>{{$t("main.cart.settle.mainCartSeContactPhone")}}： {{checkedAddress.mobile}}</p>
+            <p>{{ $t("main.address.mainAddReceivingAddress") }}： {{checkedAddress.address}}{{checkedAddress.building}}</p>
+            <p>{{$t("main.cart.settle.mainCartSeAccountAddr")}}： {{checkedAddress.address}}{{checkedAddress.building}}</p>
+            <p>{{$t("main.cart.settle.mainCartSeQuaAddr")}}： {{checkedAddress.address}}{{checkedAddress.building}}</p>
         </div>
         <div class="submit">
-            <el-button @click="settle">提交订单</el-button>
+            <el-button @click="settle">{{$t("main.cart.settle.mainCartSeSubOrder")}}</el-button>
         </div>
     </div>
 </template>
@@ -313,7 +313,7 @@
                 this.defaultId = item.id
                 addressService.toggleDefault(item).then((data) => {
                     this.getAddressList()
-                    this.$ltsMessage.show({type:'success',message:'设为默认地址成功'})
+                    this.$ltsMessage.show({type:'success',message: this.$t("main.cart.settle.mainCartSeSetDefaultSuc")})
                 },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.errorMessage})
                 })
@@ -380,7 +380,7 @@
 
                 service.then((data) => {
                     this.getAddressList()
-                    this.$ltsMessage.show({type:'success',message:'操作成功'})
+                    this.$ltsMessage.show({type:'success',message:this.$t("main.cart.settle.mainCartSeHandleSucc")})
                 },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.errorMessage})
                 })
@@ -390,7 +390,7 @@
             deleteAddress(item,key){
                 this.addressData.splice(key,1)
                 addressService.deleteItem(item).then((data) => {
-                    this.$ltsMessage.show({type:'success',message:'删除成功'})
+                    this.$ltsMessage.show({type:'success',message:this.$t("main.cart.settle.mainCartSeHandleErr")})
                 })
             },
             settle(){

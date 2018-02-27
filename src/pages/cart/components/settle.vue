@@ -107,7 +107,7 @@
         </div>
         <div class="order">
             <h5>订单信息</h5>
-            <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%">
+            <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark">
                 <el-table-column label="商品信息"   align="left" width="700">
                     <template slot-scope="scope">
                         <a :href="'/detail#/?id=' + scope.row.id">
@@ -125,15 +125,14 @@
                         </a>
                     </template>
                 </el-table-column>
-
-                <el-table-column prop="" width="" label="单价" align="center">
+                <el-table-column prop="" width="212" label="单价" align="center">
                     <template slot-scope="scope">
                         <lts-money :money="scope.row.item_props[0].price"></lts-money>
                     </template>
                 </el-table-column>
                 <el-table-column label="数量" width="" prop="num" align="center">
                 </el-table-column>
-                <el-table-column label="小计" width="" align="center">
+                <el-table-column label="小计" width="121" align="center">
                     <template slot-scope="scope">
                         <div class="count" ref="count">${{(scope.row.num*scope.row.item_props[0].price/100).toFixed(2)}}</div>
                     </template>
@@ -141,10 +140,6 @@
             </el-table>
             <div class="remark"><span>买家留言： </span><el-input v-model="remark"></el-input></div>
         </div>
-        <!--<div class="balance">-->
-            <!--<el-checkbox v-model="useBalance">使用余额</el-checkbox>-->
-        <!--</div>-->
-
         <div class="someCount">
             <div class="count">
                 <p>商品应付金额： <span class="money">${{(sum.amount/100).toFixed(2)}}</span></p>
@@ -601,19 +596,14 @@
                     background-color: rgba(0,0,0,0.05);
                     .cell{
                         margin-top: -4px;
-                        /*margin-left: 24px;*/
-                    }
-                }
-                th:nth-child(1){
-                    .cell{
-                        /*margin-left: 24px;*/
                     }
                 }
             }
         }
         .el-table{
             font-size: 14px;
-            margin-left: 24px;
+            /*margin-left: 24px;*/
+            /*加上margin-left表格宽度无限增加*/
             .cell{
                 .cart-item-info{
                     width:100%;
@@ -637,20 +627,11 @@
                     }
                 }
             }
-
-            .cart-delete{
-                line-height: 40px;
-                font-size: 22px;
-                color: #cecece;
-                i{font-size: 22px;}
-            }
             .count{
                 color:red;
                 font-size: 16px;
             }
-            .el-input-number--small{
-                width:128px;
-            }
+
         }
         h5{
             color: rgba(0,0,0,0.7);
@@ -900,6 +881,7 @@
             }
         }
         .order{
+            width:100%;
             h5{
                 margin-top: 18px;
                 margin-left: 24px;

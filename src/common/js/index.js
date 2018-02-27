@@ -11,8 +11,11 @@ import Loading from '../components/lts-loading'
 import Message from '../components/lts-message'
 import MessageBox from '../components/lts-messageBox'
 import ltsHeader from '@/layout/mall_layout_1.0.0/lts-header.vue'
+import ltsHeaderAll from '@/layout/mall_layout_1.0.0/lts-header-all.vue'
+import ltsHeaderSimple from '@/layout/mall_layout_1.0.0/lts-header-simple.vue'
 import ltsFooter from '@/layout/mall_layout_1.0.0/lts-footer.vue'
 import ltsMenu from '@/layout/mall_layout_1.0.0/lts-menu.vue'
+import ltsEmpty from '@/layout/mall_layout_1.0.0/lts-empty.vue'
 import ltsMoney from '../components/lts-money.js'
 import './filter'
 
@@ -40,16 +43,44 @@ const i18n = new VueI18n({
 export default function (App, router = new Router()) {
   let isIndex = true,isCart = true
   App.name && App.name == 'index' ? isIndex = true : isIndex = false;
-  App.name && (App.name == 'cart' || App.name == 'order') ? isCart = true : isCart = false;
+  // App.name && (App.name == 'cart' || App.name == 'order') ? isCart = true : isCart = false;
   config.isWhite = isIndex
   config.isCart = isCart
-  let showMenu = ['cart','order']
-  let showHeadA = []
-  let showHeadB = []
+
+  let showHeadSimple = []
+  let showHeadAll = ['index']
+  let showMenu = ['order']
+  let noHead = ['cart']
+
   if(showMenu.indexOf(App.name) !== -1){
-      Layout.components = {'lts-content': App,'lts-header': ltsHeader,'lts-footer':ltsFooter,'lts-menu':ltsMenu}
-  }else{
-      Layout.components = {'lts-content': App,'lts-header': ltsHeader,'lts-footer':ltsFooter,'lts-menu':''}
+      Layout.components = {
+          'lts-content': App,
+          'lts-header': ltsHeader,
+          'lts-header-all': ltsEmpty,
+          'lts-header-simple':ltsHeaderSimple,
+          'lts-footer':ltsFooter,
+          'lts-menu':ltsMenu
+      }
+  }
+  if(showHeadAll.indexOf(App.name) !== -1){
+      Layout.components = {
+          'lts-content': App,
+          'lts-header': ltsHeader,
+          'lts-header-all': ltsHeaderAll,
+          'lts-header-simple':ltsEmpty,
+          'lts-footer':ltsFooter,
+          'lts-menu':ltsEmpty
+      }
+  }
+  if(noHead.indexOf(App.name) !== -1){
+      Layout.components = {
+          'lts-content': App,
+          'lts-header': ltsHeader,
+          'lts-header-all': ltsEmpty,
+          'lts-header-simple':ltsEmpty,
+          'lts-footer':ltsFooter,
+          'lts-menu':ltsEmpty
+      }
   }
 
   new Vue({

@@ -2,11 +2,13 @@
     <el-container class="main">
         <el-header height="auto">
             <lts-header></lts-header>
+            <lts-header-all />
+            <lts-header-simple />
         </el-header>
         <el-container class="lts-main">
             <el-main class="s-span-page">
                 <lts-menu class="lts-menu"/>
-                <lts-content class="lts-content"/>
+                <lts-content class="lts-content" />
             </el-main>
             <el-footer height="300px">
                 <lts-footer></lts-footer>
@@ -127,9 +129,11 @@
     .lts-main {
         .el-main{
           padding: 0;
-          background-color: white;
+            margin-top: 24px;
+            background-color: white;
             display: flex;
             .lts-menu{
+
             }
             .lts-content{
                 flex-grow: 1;

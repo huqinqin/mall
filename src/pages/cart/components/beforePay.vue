@@ -1,26 +1,26 @@
 <template>
     <div class="beforePay">
-        <h5>支付</h5>
+        <h5>{{ $t("main.cart.beforePay.mainCartBefPay") }}</h5>
         <div class="info" >
-            <p>订单编号：{{tid}}</p>
-            <p>待支付：<span class="red"><lts-money :money="form.moneyPay" /></span></p>
+            <p>{{ $t("main.cart.beforePay.mainCartBefOrderNum") }}：{{tid}}</p>
+            <p>{{ $t("main.cart.beforePay.mainCartBefWaitPay") }}：<span class="red"><lts-money :money="form.moneyPay" /></span></p>
             <div>
-                <el-checkbox v-model="form.useBalance" :disabled="!form.balance">工程商账户余额</el-checkbox><span>（余额</span><lts-money v-if="form.balance !== ''" :money="form.balance"></lts-money><span>）</span>
-                <div style="display: inline-block" v-show="form.useBalance"><span>本次余额支付</span><el-input v-model="form.used" ></el-input><span>美元</span>
-                    <span class="error" v-show="form.used > form.balance">(不可超过余额)</span>
-                    <span class="error" v-show="form.used*100 > form.moneyPay">(不可超过待支付金额)</span>
+                <el-checkbox v-model="form.useBalance" :disabled="!form.balance">{{ $t("main.cart.beforePay.mainCartBefEngineerAccount") }}</el-checkbox><span>（{{ $t("main.cart.beforePay.mainCartBefBalance") }}</span><lts-money v-if="form.balance !== ''" :money="form.balance"></lts-money><span>）</span>
+                <div style="display: inline-block" v-show="form.useBalance"><span>{{ $t("main.cart.beforePay.mainCartBefBalancePay") }}</span><el-input v-model="form.used" ></el-input><span>{{ $t("main.cart.beforePay.mainCartBefDpllar") }}</span>
+                    <span class="error" v-show="form.used > form.balance">({{ $t("main.cart.beforePay.mainCartBefExceedBanalace") }})</span>
+                    <span class="error" v-show="form.used*100 > form.moneyPay">({{ $t("main.cart.beforePay.mainCartBefNoExcWaitPay") }})</span>
                 </div>
             </div>
         </div>
         <div class="payment">
-            <p>应付余额：<lts-money :money="form.moneyPay - form.used*100" /></p>
-            <el-radio v-model="form.payBank" label="CREDIT"  class="first" :disabled="form.moneyPay-form.used*100 > form.credit">使用账期</el-radio>
+            <p>{{ $t("main.cart.beforePay.mainCartBefShouldPay") }}：<lts-money :money="form.moneyPay - form.used*100" /></p>
+            <el-radio v-model="form.payBank" label="CREDIT"  class="first" :disabled="form.moneyPay-form.used*100 > form.credit">{{ $t("main.cart.beforePay.mainCartBefUseAccount") }}</el-radio>
             <!--<el-input placeholder="请输入金额"></el-input>-->
-            <span v-if="form.credit">(余额<lts-money  :money="form.credit"></lts-money>)</span>
-            <el-radio class="second" v-model="form.payBank" label="OFFLINE">信用卡支付</el-radio>
+            <span v-if="form.credit">({{ $t("main.cart.beforePay.mainCartBefBalance") }}<lts-money  :money="form.credit"></lts-money>)</span>
+            <el-radio class="second" v-model="form.payBank" label="OFFLINE">{{ $t("main.cart.beforePay.mainCartBefcartPay") }}</el-radio>
         </div>
         <div class="goPay">
-            <el-button @click="confirmPay" :disabled="form.used > form.moneyPay || form.used > form.balance">去支付</el-button>
+            <el-button @click="confirmPay" :disabled="form.used > form.moneyPay || form.used > form.balance">{{ $t("main.cart.beforePay.mainCartBefgoPay") }}</el-button>
         </div>
     </div>
 </template>
@@ -71,10 +71,10 @@
                 this.tid = this.$route.query.tid;
                 switch(this.$route.query.delivery){
                     case 'SHSM':
-                        this.formData.deliveryType = '快递';
+                        this.formData.deliveryType = this.$t("main.cart.beforePay.mainCartBefExpress");
                         break
                     case 'ZITI':
-                        this.formData.deliveryType = '自提';
+                        this.formData.deliveryType = this.$t("main.cart.beforePay.mainCartBefSelfFetch");
                 }
                 this.simulatePay();
             },

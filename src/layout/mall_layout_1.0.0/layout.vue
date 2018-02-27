@@ -2,14 +2,18 @@
     <el-container class="main">
         <el-header height="auto">
             <lts-header></lts-header>
-            <lts-header-all />
-            <lts-header-simple />
         </el-header>
         <el-container class="lts-main">
-            <el-main class="s-span-page">
+            <lts-header-simple></lts-header-simple>
+            <lts-header-all></lts-header-all>
+            <el-container class="s-span-page" style="margin-top: 24px;">
                 <lts-menu class="lts-menu"/>
-                <lts-content class="lts-content" style="margin-top: 0;"/>
-            </el-main>
+                <el-container>
+                    <el-main class="s-span-page">
+                        <lts-content class="lts-content" style="margin-top: 0;"/>
+                    </el-main>
+                </el-container>
+            </el-container>
             <el-footer height="300px">
                 <lts-footer></lts-footer>
             </el-footer>
@@ -110,7 +114,7 @@
       list-style: none;
     }
     .s-span-page{
-      margin: auto;
+      margin: 0 auto;
       width: 1200px;
     }
     .b1500{
@@ -129,11 +133,9 @@
     .lts-main {
         .el-main{
           padding: 0;
-            margin-top: 24px;
-            background-color: white;
+          background-color: white;
             display: flex;
             .lts-menu{
-
             }
             .lts-content{
                 flex-grow: 1;

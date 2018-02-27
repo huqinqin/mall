@@ -6,7 +6,7 @@
 
 <script>
     export default {
-        name: "account",
+        name: "personal",
         data() {
             return {}
         },
@@ -15,7 +15,7 @@
 </script>
 
 <style lang="less">
-    .account {
+    .personal {
         * {
             margin: 0;
             padding: 0;

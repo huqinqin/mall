@@ -48,9 +48,9 @@ export default function (App, router = new Router()) {
   config.isCart = isCart
 
   let showHeadSimple = []
-  let showHeadAll = ['index']
-  let showMenu = ['order']
-  let noHead = ['cart']
+  let showHeadAll = ['index','search','detail']
+  let showMenu = ['order','address','finance','personal','repayment','reverse']
+  let noHead = ['cart','account']
 
   if(showMenu.indexOf(App.name) !== -1){
       Layout.components = {

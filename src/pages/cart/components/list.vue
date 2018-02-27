@@ -11,8 +11,8 @@
                 <template slot-scope="scope">
                     <div v-if="scope.row.discount" class="discountTable subtable">
                         <div class="popover">
-                            <div class="popTitle">折扣商品</div>
-                            <div class="popDetail">dabazhe</div>
+                            <div class="popTitle">{{ $t("main.cart.list.mainCartliDisGoods") }}</div>
+                            <div class="popDetail"></div>
                         </div>
                         <el-table
                             :data="scope.row.discount"
@@ -35,33 +35,33 @@
                                     </a>
                                 </template>
                             </el-table-column>
-                            <el-table-column prop="price" width="" label="单价" align="center">
+                            <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
                                 <template slot-scope="subscope">
                                     <p class="oldPrice"><lts-money :money="subscope.row.price"></lts-money></p>
                                     <p><lts-money :money="subscope.row.price_real"></lts-money></p>
                                 </template>
                             </el-table-column>
-                            <el-table-column prop="" width="" label="库存" align="center">
+                            <el-table-column prop="" width="" :label='$t("main.cart.list.mainCartliStock")' align="center">
                                 <template slot-scope="subscope">
-                                    <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">有货</p>
-                                    <p v-else>库存不足</p>
+                                    <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">{{ $t("main.cart.list.mainCartliAvailable") }}</p>
+                                    <p v-else>{{ $t("main.cart.list.mainCartliStockInsuff") }}</p>
                                 </template>
                             </el-table-column>
-                            <el-table-column label="数量" width="200" prop="num" align="center">
+                            <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="200" prop="num" align="center">
                                 <template slot-scope="subscope">
                                     <div class="inputNumber">
-                                        <el-input-number :min='1' size="small" v-model="subscope.row.num" @change="inputNumeberChange(subscope.row)" label="描述文字"></el-input-number>
+                                        <el-input-number :min='1' size="small" v-model="subscope.row.num" @change="inputNumeberChange(subscope.row)" :label='$t("main.cart.list.mainCartliDescWord")'></el-input-number>
                                     </div>
                                 </template>
                             </el-table-column>
-                            <el-table-column label="小计" width="100" align="center">
+                            <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center">
                                 <template slot-scope="subscope">
                                     <div class="count" ref="count">
                                         <lts-money :money="subscope.row.num*subscope.row.price_real"></lts-money>
                                     </div>
                                 </template>
                             </el-table-column>
-                            <el-table-column label="操作" width="" align="center">
+                            <el-table-column :label='$t("main.cart.list.mainCartliOpera")' width="" align="center">
                                 <template slot-scope="subscope">
                                     <div class="cart-delete" @click="deleteHandle(subscope.$index, subscope.row)">
                                         <i class="iconfont icon-shanchu"></i>
@@ -72,8 +72,8 @@
                     </div>
                     <div v-else-if="scope.row.reduce" class="reduceTable subtable">
                         <div class="popover">
-                            <div class="popTitle">减价商品</div>
-                            <div class="popDetail">dabazhe</div>
+                            <div class="popTitle">{{ $t("main.cart.list.mainCartliOnsaleGoods") }}</div>
+                            <div class="popDetail"></div>
                         </div>
                         <el-table
                             :data="scope.row.reduce"
@@ -96,33 +96,33 @@
                                     </a>
                                 </template>
                             </el-table-column>
-                            <el-table-column prop="price" width="" label="单价" align="center">
+                            <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
                                 <template slot-scope="subscope">
                                     <p class="oldPrice"><lts-money :money="subscope.row.price"></lts-money></p>
                                     <lts-money :money="subscope.row.price_real"></lts-money>
                                 </template>
                             </el-table-column>
-                            <el-table-column prop="" width="" label="库存" align="center">
+                            <el-table-column prop="" width="" :label='$t("main.cart.list.mainCartliStock")' align="center">
                                 <template slot-scope="subscope">
-                                    <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">有货</p>
-                                    <p v-else>库存不足</p>
+                                    <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">{{ $t("main.cart.list.mainCartliAvailable") }}</p>
+                                    <p v-else>{{ $t("main.cart.list.mainCartliStockInsuff") }}</p>
                                 </template>
                             </el-table-column>
-                            <el-table-column label="数量" width="200" prop="num" align="center">
+                            <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="200" prop="num" align="center">
                                 <template slot-scope="subscope">
                                     <div class="inputNumber">
-                                        <el-input-number :min='1' size="small" v-model="subscope.row.num" @change="inputNumeberChange(subscope.row)" label="描述文字"></el-input-number>
+                                        <el-input-number :min='1' size="small" v-model="subscope.row.num" @change="inputNumeberChange(subscope.row)" :label='$t("main.cart.list.mainCartliDescWord")'></el-input-number>
                                     </div>
                                 </template>
                             </el-table-column>
-                            <el-table-column label="小计" width="100" align="center">
+                            <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center">
                                 <template slot-scope="subscope">
                                     <div class="count" ref="count">
                                         <lts-money :money="subscope.row.num*subscope.row.price_real"></lts-money>
                                     </div>
                                 </template>
                             </el-table-column>
-                            <el-table-column label="操作" width="" align="center">
+                            <el-table-column :label='$t("main.cart.list.mainCartliOpera")' width="" align="center">
                                 <template slot-scope="subscope">
                                     <div class="cart-delete" @click="deleteHandle(subscope.$index, subscope.row)">
                                         <i class="iconfont icon-shanchu"></i>
@@ -189,12 +189,12 @@
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column label="商品信息" width="600"></el-table-column>
-            <el-table-column width="" label="价格" align="center"></el-table-column>
-            <el-table-column width="" label="库存" align="center"></el-table-column>
-            <el-table-column label="数量" width="200" prop="num" align="center"></el-table-column>
-            <el-table-column label="小计" width="100" align="center"></el-table-column>
-            <el-table-column label="操作" width="" align="center"></el-table-column>
+            <el-table-column :label='$t("main.cart.list.mainCartliGoodsInfo")' width="600"></el-table-column>
+            <el-table-column width="" :label='$t("main.cart.list.mainCartliPrice")' align="center"></el-table-column>
+            <el-table-column width="" :label='$t("main.cart.list.mainCartliStock")' align="center"></el-table-column>
+            <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="200" prop="num" align="center"></el-table-column>
+            <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center"></el-table-column>
+            <el-table-column :label='$t("main.cart.list.mainCartliOpera")' width="" align="center"></el-table-column>
         </el-table>
         <div class="table-footer">
             <div class="choose">
@@ -204,8 +204,8 @@
                 </p>
             </div>
             <div class="check">
-                <p><span>应付金额&nbsp;&nbsp;<strong><lts-money :money="totalPrice"></lts-money></strong></span></p>
-                <el-button @click="check" :disabled="multipleSelection.length <= 0 && tooManyItems">立即结算</el-button>
+                <p><span>{{ $t("main.cart.list.mainCartliShouldPay") }}&nbsp;&nbsp;<strong><lts-money :money="totalPrice"></lts-money></strong></span></p>
+                <el-button @click="check" :disabled="multipleSelection.length <= 0 && tooManyItems">{{ $t("main.cart.list.mainCartliImmeSettle") }}</el-button>
             </div>
         </div>
         <!--<div class="history">-->
@@ -245,28 +245,7 @@
                     cartTotal: 0,
                     cartPriceTotal: 0,
                 },
-                checkedItem: [{
-                    info: '海康威视DS-CD0DDDDDDDDDD',
-                    more: {
-                        '像素': '1200W',
-                        '焦距': '4mm',
-                    },
-                    price: '$500.00',
-                    num: 1,
-                    count: '$500.00',
-                    handle: 'iconfont  icon-shanchu',
-                },{
-                    info: '海康威视DS-CD0DDDDDDDDDD',
-                    more: {
-                        '像素': '1200W',
-                        '焦距': '4mm',
-                    },
-                    price: '$500.00',
-                    num: 1,
-                    count: '$500.00',
-                    handle: 'iconfont  icon-shanchu',
-                }],
-
+                checkedItem: [],
             }
         },
         mounted(){
@@ -358,7 +337,7 @@
                             },20)
                         })
                     },(msg)=>{
-                        console.log("加入购物车失败");
+                        console.log("fail");
                     })
                 })
 

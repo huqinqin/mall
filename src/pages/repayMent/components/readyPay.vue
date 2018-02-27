@@ -15,8 +15,7 @@
 
 <style lang="less">
     .wrapperBox{
-        padding: 40px 0;
-        margin: 0 40px;
+        margin-left: 24px;
         font-family: "Microsoft YaHei";
         font-size: 14px;
         color: #777;

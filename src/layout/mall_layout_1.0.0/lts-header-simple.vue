@@ -4,7 +4,6 @@
             <a href="/"><img src="../../assets/img/LOGO_html.png" alt="LTS-logo"></a>
             <el-input suffix-icon="el-icon-search" placeholder="搜索商品" v-model="keywords" @keyup.native.enter='searchToHref'></el-input>
         </main>
-
     </div>
 </template>
 

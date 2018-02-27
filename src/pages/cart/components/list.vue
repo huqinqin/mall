@@ -17,9 +17,12 @@
                         <el-table
                             :data="scope.row.discount"
                             :show-header="false"
-                            @selection-change="handleSelectionChange"
                             style="width: 100%">
-                            <el-table-column type="selection" align="right"></el-table-column>
+                            <el-table-column width="50">
+                                <template slot-scope="subscope">
+                                    <el-checkbox @change="selectedChange(subscope.row)" v-model="checkbox.discount"></el-checkbox>
+                                </template>>
+                            </el-table-column>
                             <el-table-column align="center" width="600">
                                 <template slot-scope="subscope">
                                     <a :href="'/detail#/?id=' + subscope.row.id" >
@@ -78,9 +81,13 @@
                         <el-table
                             :data="scope.row.reduce"
                             :show-header="false"
-                            @selection-change="handleSelectionChange"
                             style="width: 100%">
-                            <el-table-column type="selection" align="right"></el-table-column>
+
+                            <el-table-column width="50">
+                                <template slot-scope="subscope">
+                                    <el-checkbox @change="selectedChange(subscope.row)"  v-model="checkbox.reduce"></el-checkbox>
+                                </template>>
+                            </el-table-column>
                             <el-table-column align="center" width="600">
                                 <template slot-scope="subscope">
                                     <a :href="'/detail#/?id=' + subscope.row.id" >
@@ -135,9 +142,14 @@
                         <el-table
                             :data="scope.row.others"
                             :show-header="false"
-                            @selection-change="handleSelectionChange"
+
                             style="width: 100%">
-                            <el-table-column type="selection" align="right"></el-table-column>
+                            <!--@selection-change="handleSelectionChange"-->
+                            <el-table-column>
+                                <template slot-scope="subscope">
+                                    <el-checkbox @change="selectedChange(subscope.row)" v-model="checkbox.others"></el-checkbox>
+                                </template>>
+                            </el-table-column>
                             <el-table-column align="center" width="600">
                                 <template slot-scope="subscope">
                                     <a :href="'/detail#/?id=' + subscope.row.id" >
@@ -198,17 +210,17 @@
         </el-table>
         <div class="table-footer">
             <div class="choose">
-                <el-checkbox label="全选"></el-checkbox>
+                <el-checkbox label="全选" v-model="selectedAll" @change="selectAll"></el-checkbox>
                 <!--<span>删除选中商品</span>-->
             </div>
             <div class="check">
                 <div class="info">
                     <div class="topline">
-                        <span>{{ $t("main.cart.list.mainCartliShouldPay") }}<lts-money :money="totalPrice"></lts-money></span>
+                        <span>已选商品1件，总价(不含运费、税费)：<lts-money :money="totalPrice"></lts-money></span>
                     </div>
                     <div class="bottomline">
-                        <div><span>活动优惠：</span><lts-money :money="totalPrice"></lts-money></div>
-                        <div><span>应付总额：</span><span class="bold"><lts-money :money="totalPrice"></lts-money></span></div>
+                        <div><span>活动优惠：-</span><lts-money :money="totalPrice - realTotal"></lts-money></div>
+                        <div><span>应付总额：</span><span class="bold"><lts-money :money="realTotal"></lts-money></span></div>
                     </div>
                 </div>
                 <el-button @click="check" :disabled="multipleSelection.length <= 0 && tooManyItems">{{ $t("main.cart.list.mainCartliImmeSettle") }}</el-button>
@@ -247,11 +259,18 @@
                 tableDataItem:{},
                 multipleSelection : [],
                 totalPrice:0,
+                realTotal:0,
+                selectedAll:false,
                 cart: {
                     cartTotal: 0,
                     cartPriceTotal: 0,
                 },
                 checkedItem: [],
+                checkbox:{
+                    discount:false,
+                    reduce:false,
+                    others:false
+                }
             }
         },
         mounted(){
@@ -262,12 +281,48 @@
 
         },
         methods:{
-            selectedChange(e){
-                debugger
-                console.log(e)
+            selectAll(){
+                if(this.selectedAll){
+                    this.checkedItem =  this.tableDataItem
+                    for(let key in this.checkbox){
+                        this.checkbox[key] = true
+                    }
+                }else{
+                    this.checkedItem = []
+                    for(let key in this.checkbox){
+                        this.checkbox[key] = false
+                    }
+                }
+                this.calc(this.checkedItem)
             },
-           queryCartList(){
+            selectedChange(row){
+                if(this.checkedItem.indexOf(row) !== -1){
+                    this.checkedItem.splice(this.checkedItem.indexOf(row),1)
+                }else{
+                    this.checkedItem.push(row)
+                }
+                this.calc(this.checkedItem)
+                if(this.checkedItem.length == this.tableDataItem.length){
+                    this.selectedAll = true;
+                }else{
+                    this.selectedAll = false;
+                }
+            },
+            // 计算价格
+            calc(checked){
+                let total = 0
+                let realTotal = 0
+                checked.forEach((item) => {
+                    total += item.num * item.price;
+                    realTotal += item.num * item.price_real;
+
+                })
+                this.totalPrice = total;
+                this.realTotal = realTotal;
+            },
+            queryCartList(){
                cartService.queryCartList().then((data)=>{
+                   this.tableDataItem = data.datalist
                    data.datalist.forEach((value) => {
                        value.item_props.forEach((item) => {
                            item.prop_value = JSON.parse(item.prop_value)
@@ -305,15 +360,15 @@
                 this.tableData = cartService.queryCartList(158716).datalist;
             },*/
             // 单选框
-            handleSelectionChange(value){
-                    let total = 0;
-                    this.multipleSelection = value;
-                    this.multipleSelection.forEach((item) => {
-                        total += item.num * item.item_props[0].price;
-                    })
-                    this.totalPrice = total;
-                    this.chooseAll = false;
-            },
+            // handleSelectionChange(value){
+            //         let total = 0;
+            //         this.multipleSelection = value;
+            //         this.multipleSelection.forEach((item) => {
+            //             total += item.num * item.item_props[0].price;
+            //         })
+            //         this.totalPrice = total;
+            //         this.chooseAll = false;
+            // },
             // 全选框 -- 选不上啊
             chooseAllSelect(val){
                 if (val) {
@@ -382,11 +437,7 @@
 
 <style lang="less">
     .cartlist{
-        span.bold{
-            color:#ff3b41;
-            font-weight: bold;
-            font-size: 16px;
-        }
+
         .el-table__header-wrapper{
             height: 40px;
         }
@@ -425,6 +476,9 @@
                     margin-top: 40px;
                     border:1px solid #a3a3a3;
                     position: relative;
+                    .el-checkbox{
+                        margin-left: 12px;
+                    }
                     .popover{
                         position: absolute;
                         top:-40px;
@@ -514,9 +568,10 @@
             background: #F6F6F6;
             span{
                 font-size: 14px;
+                color: #999;
             }
             .choose{
-                margin-left: 20px;
+                margin-left: 24px;
                 .el-checkbox{
                     color: #777;
                 }
@@ -528,10 +583,21 @@
             .check{
                 display: flex;
                 .info{
+                    margin-right: 24px;
                     display: flex;
                     flex-direction: column;
+                    justify-content: space-between;
+                    div{
+                        line-height: 20px;
+                    }
                     .bottomline{
                         display: flex;
+                        justify-content: space-between;
+                        span.bold span{
+                            color:#ff3b41;
+                            font-weight: bold;
+                            font-size: 18px;
+                        }
                     }
                 }
                 .el-button{
@@ -543,9 +609,7 @@
                         font-weight: bold;
                     }
                 }
-                span{
-                    color: #999;
-                }
+
             }
         }
         .history{

@@ -133,12 +133,12 @@
                     <el-tabs v-model="activeName" @tab-click="handleClick" type="border-card">
                         <el-tab-pane label="商品详情" name="first">
                             <ul class="aboutDetail" :class="[showPropDetail ? 'propOpen' : 'propClose']">
-                                <li v-for="(value,index) in aboutDetail" v-if="value.id > 0">
+                                <li v-for="(value,index) in aboutDetail" v-if="!value.sku">
                                     <span v-for="(val,key) in value.propValues">
                                         {{key}}: {{val}}
                                     </span>
                                 </li>
-                                <li class="more" v-if="aboutDetail.length > 4" @click="showPropDetail = !showPropDetail">详细 <i class="iconfont icon-shangyiye-copy-copy"></i></li>
+                                <li class="more" v-if="aboutDetail.length > 8" @click="showPropDetail = !showPropDetail">详细 <i class="iconfont icon-shangyiye-copy-copy"></i></li>
                             </ul>
                             <div class="item_detail" >
                                 <div v-html="item.description"></div>
@@ -267,10 +267,7 @@
             getItemDetail(id){
                 itemService.getItemDetail(id).then((data)=>{
                     data.data.item.item_struct_props.forEach((value,index,array)=>{
-                        if(value.sku){
-                            array.splice(index,1);
-                        }
-                        array[index].propValues = JSON.parse(value.prop_value);
+                        value.propValues = JSON.parse(value.prop_value);
                     })
                     this.aboutDetail = data.data.item.item_struct_props;
                     console.log(data.data.item.item_struct_props);
@@ -809,7 +806,7 @@
                             justify-content: flex-start;
                             border-bottom: 1px solid #E5E5E5;
                             margin-left: 24px;
-                            max-height: 28px;
+                            max-height: 56px;
                             overflow: hidden;
                             li{
                                 width: 24.8%;
@@ -836,7 +833,7 @@
                             max-height: inherit;
                         }
                         .propClose{
-                            max-height: 28px;
+                            max-height: 56px;
                         }
                         .imgDetail{
                             max-height: 2000px;

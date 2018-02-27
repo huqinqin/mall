@@ -51,13 +51,11 @@ export default function (App, router = new Router()) {
   let showHeadAll = ['index']
   let showMenu = ['order']
   let noHead = ['cart']
-
   if(showMenu.indexOf(App.name) !== -1){
       Layout.components = {
           'lts-content': App,
           'lts-header': ltsHeader,
-          'lts-header-all': ltsEmpty,
-          'lts-header-simple':ltsHeaderSimple,
+          'lts-header-content':ltsHeaderSimple,
           'lts-footer':ltsFooter,
           'lts-menu':ltsMenu
       }
@@ -66,8 +64,7 @@ export default function (App, router = new Router()) {
       Layout.components = {
           'lts-content': App,
           'lts-header': ltsHeader,
-          'lts-header-all': ltsHeaderAll,
-          'lts-header-simple':ltsEmpty,
+          'lts-header-content': ltsHeaderAll,
           'lts-footer':ltsFooter,
           'lts-menu':ltsEmpty
       }
@@ -76,7 +73,7 @@ export default function (App, router = new Router()) {
       Layout.components = {
           'lts-content': App,
           'lts-header': ltsHeader,
-          'lts-header-all': ltsEmpty,
+          'lts-header-all': "<div></div>",
           'lts-header-simple':ltsEmpty,
           'lts-footer':ltsFooter,
           'lts-menu':ltsEmpty

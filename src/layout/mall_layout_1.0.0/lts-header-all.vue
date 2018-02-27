@@ -1,5 +1,5 @@
 <template>
-    <div class="product allHead">
+    <div class="product allHead" slot="header">
         <div class="menu-list s-span-page">
             <ul>
                 <li v-for="value in menuList">

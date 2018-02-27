@@ -31,19 +31,19 @@
                     {href:'',title:'密码设置'},
                     {href:'',title:'收货地址'},
                 ],
-                selected:'我的订单',
+                selected:'',
             }
         },
         methods:{
             selectUser(value){
-                localStorage.setItem('selected', value.currentTarget.textContent);
+                sessionStorage.setItem('selected', value.currentTarget.textContent);
             },
             selectSetting(value){
-                localStorage.setItem('selected', value.currentTarget.textContent);
+                sessionStorage.setItem('selected', value.currentTarget.textContent);
             }
         },
         mounted(){
-            this.selected = localStorage.getItem("selected")
+            this.selected = sessionStorage.getItem("selected") ? sessionStorage.getItem("selected") : '我的订单'
         }
     }
 </script>

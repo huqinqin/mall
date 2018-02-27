@@ -8,7 +8,7 @@
         <el-container class="lts-main">
             <el-main class="s-span-page">
                 <lts-menu class="lts-menu"/>
-                <lts-content class="lts-content" />
+                <lts-content class="lts-content" style="margin-top: 0;"/>
             </el-main>
             <el-footer height="300px">
                 <lts-footer></lts-footer>
@@ -137,6 +137,7 @@
             }
             .lts-content{
                 flex-grow: 1;
+
             }
 
         }

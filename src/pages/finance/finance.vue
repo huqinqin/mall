@@ -1,62 +1,62 @@
 <template>
     <div class="finance">
         <header>
-            <div><i class="iconfont icon-qian1"></i>账户余额：<span class="red"  v-if="account.balance || account.balance == 0"><lts-money :money="account.balance"></lts-money></span></div>
-            <div><i class="iconfont icon-qian"></i>信用余额：<span v-if="!credit.balance && credit.balance !== 0">无</span><span class="red" v-if="credit.balance"><lts-money :money="1234565"></lts-money></span><small v-if="credit.balance"> (已用信用：<span class="red"><lts-money :money="1234"></lts-money></span>)</small></div>
-            <div><i class="iconfont icon-qian1"></i>账户余额：<span class="red" v-if="bonus.balance || bonus.balance == 0"><lts-money :money="bonus.balance"></lts-money></span><small class="showBonus">(<span class="blue">{{bonus.total}}</span>张)</small></div>
+            <div><i class="iconfont icon-qian1"></i>{{ $t("main.finance.mainfiAccountBal") }}：<span class="red"  v-if="account.balance || account.balance == 0"><lts-money :money="account.balance"></lts-money></span></div>
+            <div><i class="iconfont icon-qian"></i>{{ $t("main.finance.mainficreditBal") }}：<span v-if="!credit.balance && credit.balance !== 0">{{ $t("main.finance.mainfiNo") }}</span><span class="red" v-if="credit.balance"><lts-money :money="1234565"></lts-money></span><small v-if="credit.balance"> ({{ $t("main.finance.mainfiUsedCredit") }}：<span class="red"><lts-money :money="1234"></lts-money></span>)</small></div>
+            <div><i class="iconfont icon-qian1"></i>{{ $t("main.finance.mainfiAccountBal") }}：<span class="red" v-if="bonus.balance || bonus.balance == 0"><lts-money :money="bonus.balance"></lts-money></span><small class="showBonus">(<span class="blue">{{bonus.total}}</span>{{ $t("main.finance.mainfiOneWord") }})</small></div>
         </header>
         <main>
             <el-form :inline="true">
-                <el-form-item label="账户类型">
-                    <el-select v-model="searchForm.type" placeholder="请选择" @change="getDetail">
-                        <el-option label="账户余额" value="2010101"></el-option>
-                        <el-option label="账期余额" value="2010106"></el-option>
-                        <el-option label="购物券" value="2010102"></el-option>
+                <el-form-item :label='$t("main.finance.mainfiAccountType")'>
+                    <el-select v-model="searchForm.type" :placeholder='$t("main.finance.mainfiPleaseSel")' @change="getDetail">
+                        <el-option :label='$t("main.finance.mainfiAccountBal")' value="2010101"></el-option>
+                        <el-option :label='$t("main.finance.mainfiAccBalance")' value="2010106"></el-option>
+                        <el-option :label='$t("main.finance.mainfiCoupon")' value="2010102"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="业务操作">
-                    <el-select clearable v-model="searchForm.handle" placeholder="请选择" @change="getDetail">
+                <el-form-item :label='$t("main.finance.mainfiBussiHandle")'>
+                    <el-select clearable v-model="searchForm.handle" :placeholder='$t("main.finance.mainfiPleaseSel")' @change="getDetail">
                         <el-option v-for="item in handleData" :key="item.value" :label="item.label" :value="item.value" ></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="时间">
+                <el-form-item :label='$t("main.finance.mainfiTime")'>
                     <el-date-picker
                         v-model="daterange"
                         type="daterange"
-                        format="MM 月 dd 日 yyyy 年"
+                        :format= '$t("main.finance.mainfiYear")'
                         @change="getDetail"
                         :picker-options="pickerOptions"
                         range-separator="-"
-                        start-placeholder="开始日期"
-                        end-placeholder="结束日期">
+                        :start-placeholder= '$t("main.finance.mainfiStartTime")'
+                        :end-placeholder='$t("main.finance.mainfiEndTime")'>
                     </el-date-picker>
                 </el-form-item>
 
-                <el-form-item><el-button type="primary" @click="getDetail">查询</el-button></el-form-item>
+                <el-form-item><el-button type="primary" @click="getDetail">{{ $t("main.finance.mainfiSelect") }}</el-button></el-form-item>
             </el-form>
             <el-table :data="detailData" align="center">
-                <el-table-column type="index" width="50" label="序号"></el-table-column>
-                <el-table-column prop="date" label="操作时间" width:160></el-table-column>
-                <el-table-column prop="type" label="账户类型"></el-table-column>
-                <el-table-column prop="" label="收支">
+                <el-table-column type="index" width="50" :label='$t("main.finance.mainfiNum")'></el-table-column>
+                <el-table-column prop="date" :label='$t("main.finance.mainfiHandleTime")' width:160></el-table-column>
+                <el-table-column prop="type" :label='$t("main.finance.mainfiAccountType")'></el-table-column>
+                <el-table-column prop="" :label='$t("main.finance.mainfiBalance")'>
                     <template slot-scope="scope">
-                        <span  class="red" v-if="scope.row.direct == -1">支出</span>
-                        <span  class="green" v-else-if="scope.row.direct == 1">收入</span>
-                        <span  class="blue" v-else-if="scope.row.direct == 2">冻结</span>
-                        <span  class="blue" v-else-if="scope.row.direct == -2">解冻</span>
+                        <span  class="red" v-if="scope.row.direct == -1">{{ $t("main.finance.mainfiOut") }}</span>
+                        <span  class="green" v-else-if="scope.row.direct == 1">{{ $t("main.finance.mainfiIn") }}</span>
+                        <span  class="blue" v-else-if="scope.row.direct == 2">{{ $t("main.finance.mainfiFrozen") }}</span>
+                        <span  class="blue" v-else-if="scope.row.direct == -2">{{ $t("main.finance.mainfiThaw") }}</span>
                     </template>
                 </el-table-column>
-                <el-table-column prop="" label="变动金额">
+                <el-table-column prop="" :label='$t("main.finance.mainfiChangeMoney")'>
                     <template slot-scope="scope">
                         <span  class="red"><lts-money :money="scope.row.total"></lts-money></span>
                     </template>
                 </el-table-column>
-                <el-table-column prop="balance" label="当前余额">
+                <el-table-column prop="balance" :label='$t("main.finance.mainfiCurrent")'>
                     <template slot-scope="scope">
                         <span  class="red bold"><lts-money :money="scope.row.balance"></lts-money></span>
                     </template>
                 </el-table-column>
-                <el-table-column prop="remark" label="备注" width="320"></el-table-column>
+                <el-table-column prop="remark" :label='$t("main.finance.mainfiMark")' width="320"></el-table-column>
             </el-table>
             <el-pagination
                 background
@@ -92,7 +92,7 @@
                     },{label:'暂无',value:'ccc'}],
                 pickerOptions: {
                     shortcuts: [{
-                        text: '最近一周',
+                        text: this.$t("main.finance.mainfiLastWeek"),
                         onClick(picker) {
                             const end = new Date();
                             const start = new Date();
@@ -100,7 +100,7 @@
                             picker.$emit('pick', [start, end]);
                         }
                     }, {
-                        text: '最近一个月',
+                        text: this.$t("main.finance.mainfiLastMouth"),
                         onClick(picker) {
                             const end = new Date();
                             const start = new Date();
@@ -108,7 +108,7 @@
                             picker.$emit('pick', [start, end]);
                         }
                     }, {
-                        text: '最近三个月',
+                        text: this.$t("main.finance.mainfiLastThhreeM"),
                         onClick(picker) {
                             const end = new Date();
                             const start = new Date();
@@ -145,16 +145,16 @@
                     data.datalist.forEach((item) => {
                         switch(item.subject){
                             case 2010101:
-                                item.type = '余额'
+                                item.type = this.$t("main.finance.mainfiBalances")
                                 break
                             case 2010102:
-                                item.type = '购物券'
+                                item.type = this.$t("main.finance.mainfiCoupon")
                                 break
                             case 2010106:
-                                item.type = '账期'
+                                item.type = this.$t("main.finance.mainfiAcc")
                         }
                         item.date = dateUtils.format(new Date(parseInt(item.acc_time)))
-                        item.handle = '暂无'
+                        item.handle = this.$t("main.finance.mainfiAvail")
                         // remark里的时间戳转为时间
                         let handleDate = dateUtils.format(new Date(parseInt(item.remark.match(/\d{13}/)[0])))
                         item.remark = item.remark.replace(/\d{13}/,handleDate)

@@ -450,9 +450,9 @@
                     useBalance:false,
                     payMethod: "online",
                     source: "work.500mi.com.shop.pifa.market",
-                    hdFeeCaculator:1,
+                    hdFeeCalculator:1,
                     hdFee:this.sum.express,
-                    taxesFeeCaculator:1,
+                    taxesFeeCalculator:1,
                     taxesFee:this.sum.tax,
                     ship:{
                         userAddrIdType:0,
@@ -493,8 +493,8 @@
                     useBalance:false,
                     payMethod: "online", //
                     source: "work.500mi.com.shop.pifa.market",
-                    hdFeeCaculator:1,
-                    taxesFeeCaculator:1,
+                    hdFeeCalculator:1,
+                    taxesFeeCalculator:1,
                     ship:{
                         userAddrIdType:0,
                         // 0代表收货地址，1代表分销证地址，1免税费

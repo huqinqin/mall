@@ -9,7 +9,7 @@
             style="width: 100%" align="right">
             <el-table-column type="expand">
                 <template slot-scope="scope">
-                    <div v-if="scope.row.discount" class="discountTable subtable">
+                    <div v-if="scope.row.discount && scope.row.discount.length>0" class="discountTable subtable">
                         <div class="popover">
                             <div class="popTitle">{{ $t("main.cart.list.mainCartliDisGoods") }}</div>
                             <div class="popDetail"></div>
@@ -19,7 +19,7 @@
                             :show-header="false"
                             @selection-change="handleSelectionChange"
                             style="width: 100%">
-                            <el-table-column type="selection" align="right" @change="checkItem"></el-table-column>
+                            <el-table-column type="selection" align="right"></el-table-column>
                             <el-table-column align="center" width="600">
                                 <template slot-scope="subscope">
                                     <a :href="'/detail#/?id=' + subscope.row.id" >
@@ -70,7 +70,7 @@
                             </el-table-column>
                         </el-table>
                     </div>
-                    <div v-else-if="scope.row.reduce" class="reduceTable subtable">
+                    <div v-else-if="scope.row.reduce && scope.row.reduce.length>0" class="reduceTable subtable">
                         <div class="popover">
                             <div class="popTitle">{{ $t("main.cart.list.mainCartliOnsaleGoods") }}</div>
                             <div class="popDetail"></div>
@@ -80,7 +80,7 @@
                             :show-header="false"
                             @selection-change="handleSelectionChange"
                             style="width: 100%">
-                            <el-table-column type="selection" align="right" @change="checkItem"></el-table-column>
+                            <el-table-column type="selection" align="right"></el-table-column>
                             <el-table-column align="center" width="600">
                                 <template slot-scope="subscope">
                                     <a :href="'/detail#/?id=' + subscope.row.id" >
@@ -131,13 +131,13 @@
                             </el-table-column>
                         </el-table>
                     </div>
-                    <div v-else-if="scope.row.others" class="otherTable subtable">
+                    <div v-else-if="scope.row.others && scope.row.others.length>0" class="otherTable subtable">
                         <el-table
                             :data="scope.row.others"
                             :show-header="false"
                             @selection-change="handleSelectionChange"
                             style="width: 100%">
-                            <el-table-column type="selection" align="right" @change="checkItem"></el-table-column>
+                            <el-table-column type="selection" align="right"></el-table-column>
                             <el-table-column align="center" width="600">
                                 <template slot-scope="subscope">
                                     <a :href="'/detail#/?id=' + subscope.row.id" >
@@ -198,13 +198,19 @@
         </el-table>
         <div class="table-footer">
             <div class="choose">
-                <p>
-                    <!--<el-checkbox   v-model="chooseAll" @change="chooseAllSelect(chooseAll)">全选</el-checkbox>-->
-                    <!--<span>删除选中商品</span>-->
-                </p>
+                <el-checkbox label="全选"></el-checkbox>
+                <!--<span>删除选中商品</span>-->
             </div>
             <div class="check">
-                <p><span>{{ $t("main.cart.list.mainCartliShouldPay") }}&nbsp;&nbsp;<strong><lts-money :money="totalPrice"></lts-money></strong></span></p>
+                <div class="info">
+                    <div class="topline">
+                        <span>{{ $t("main.cart.list.mainCartliShouldPay") }}<lts-money :money="totalPrice"></lts-money></span>
+                    </div>
+                    <div class="bottomline">
+                        <div><span>活动优惠：</span><lts-money :money="totalPrice"></lts-money></div>
+                        <div><span>应付总额：</span><span class="bold"><lts-money :money="totalPrice"></lts-money></span></div>
+                    </div>
+                </div>
                 <el-button @click="check" :disabled="multipleSelection.length <= 0 && tooManyItems">{{ $t("main.cart.list.mainCartliImmeSettle") }}</el-button>
             </div>
         </div>
@@ -256,9 +262,12 @@
 
         },
         methods:{
+            selectedChange(e){
+                debugger
+                console.log(e)
+            },
            queryCartList(){
                cartService.queryCartList().then((data)=>{
-                   console.log(data);
                    data.datalist.forEach((value) => {
                        value.item_props.forEach((item) => {
                            item.prop_value = JSON.parse(item.prop_value)
@@ -271,7 +280,6 @@
                            this.tableData[2].others.push(value)
                        }
                    })
-                   console.log(this.tableData)
                    // this.tableData.forEach((item)=>{
                    //     if(item.item_props[0].prop_value == ""||item.item_props[0].prop_value==null||item.item_props[0].prop_value==undefined){
                    //         item.item_props[0].prop_value = {};
@@ -279,7 +287,6 @@
                    //         item.item_props[0].prop_value = JSON.parse(item.item_props[0].prop_value);
                    //     }
                    // })
-                   console.log(this.$refs)
                },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.errorMessage})
                });
@@ -306,7 +313,6 @@
                     })
                     this.totalPrice = total;
                     this.chooseAll = false;
-                    console.log(this.multipleSelection);
             },
             // 全选框 -- 选不上啊
             chooseAllSelect(val){
@@ -354,11 +360,6 @@
                     this.$ltsMessage.show({type:'error',message:msg.errorMessage})
                 })
             },
-            // 购物车里选择条目
-            checkItem(value){
-                this.checkedItem = value
-                console.log(this.checkedItem)
-            }
         },
         watch: {
             tableData: {
@@ -380,19 +381,12 @@
 </script>
 
 <style lang="less">
-
-    /*.newTable{*/
-        /*border-collapse: collapse;*/
-        /*tr{*/
-            /*display: flex;*/
-            /*th,td{*/
-                /*flex-grow: 1;*/
-            /*}*/
-        /*}*/
-
-    /*}*/
-
     .cartlist{
+        span.bold{
+            color:#ff3b41;
+            font-weight: bold;
+            font-size: 16px;
+        }
         .el-table__header-wrapper{
             height: 40px;
         }
@@ -511,30 +505,20 @@
                 width:128px;
             }
         }
-
         .table-footer{
-            margin:40px 24px;
+            margin-top:24px;
             display: flex;
+            border-radius: 0 4px 4px 0;
             justify-content: space-between;
-            p{
-                line-height: 49px;
-                span{
-                    font-size: 14px;
-                }
-                strong{
-                    color:#f81f22;
-                    font-size: 26px;
-                }
+            line-height: 40px;
+            background: #F6F6F6;
+            span{
+                font-size: 14px;
             }
             .choose{
-                margin-left: 12px;
+                margin-left: 20px;
                 .el-checkbox{
                     color: #777;
-                    span.el-checkbox__label{
-                        margin-left: 12px;
-                        font-size: 14px;
-
-                    }
                 }
                 span{
                     color: #b1b1b1;
@@ -542,17 +526,21 @@
                 }
             }
             .check{
-                text-align: right;
+                display: flex;
+                .info{
+                    display: flex;
+                    flex-direction: column;
+                    .bottomline{
+                        display: flex;
+                    }
+                }
                 .el-button{
-                    background-color: #f81f22;
-                    border-radius: 4px;
+                    background-color: #ff3b41;
                     width: 160px;
-                    height: 40px;
-                    line-height: 0px;
-                    font-size: 18px;
-                    font-weight: bold;
                     span{
                         color: #fff;
+                        font-size: 18px;
+                        font-weight: bold;
                     }
                 }
                 span{

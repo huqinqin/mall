@@ -1,5 +1,11 @@
 <template>
     <div class="orderList">
+        <el-tabs v-model="orderStatus" type="card" @tab-click="toggleStatus">
+            <el-tab-pane label="我的订单" name="all"></el-tab-pane>
+            <el-tab-pane label="待付款" name="noPay"></el-tab-pane>
+            <el-tab-pane label="待发货" name="noDeliver"></el-tab-pane>
+            <el-tab-pane label="已发货" name="delivered"></el-tab-pane>
+        </el-tabs>
         <lts-search-form @get-from="getParameter" :form-fileds="form.formFileds" :form-inlines="form.formInline" ref="searchForm"/>
         <el-table :data="datalist" v-loading="loading" default-expand-all style="width: 100%;overflow: hidden;" class="order-table" :span-method="arraySpanMethod">
             <el-table-column type="expand">
@@ -143,6 +149,7 @@
         },
         data() {
             return {
+                orderStatus:'all',
                 loading: true,
                 dialogVisible: false,
                 datalist: [],
@@ -205,6 +212,23 @@
             }
         },
         methods: {
+            // 选项卡切换订单状态
+            toggleStatus(tab){
+                switch (tab.name){
+                    case 'all':
+                        this.params.status = ''
+                        break
+                    case 'noPay':
+                        this.params.status = 0
+                        break
+                    case 'noDeliver':
+                        this.params.status = 1
+                        break
+                    case 'delivered':
+                        this.params.status = 7
+                }
+                this.search()
+            },
             handleMenuItemClick(command, data) {
                 let order;
 

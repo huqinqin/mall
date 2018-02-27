@@ -41,12 +41,12 @@
             let checkPass = (rule,value,callback) => {
                 let reg =  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/;
                 if(!reg.test(value)){
-                    callback(new Error('密码必须同时包括大小写字母和数字!'))
+                    callback(new Error(this.$t("main.accountNew.reset.mainAcResetSyncDigit")))
                 }
             }
             let checkCode = (rule,value,callback) => {
                 accountService.checkCode(value).then((data) => {
-                    this.$ltsMessage.show({type: 'error', message: '验证成功'})
+                    this.$ltsMessage.show({type: 'success', message: this.$t("main.accountNew.register.mainAcReValidateSuccess")})
                 },(msg) => {
                     this.$ltsMessage.show({type: 'error', message: msg.error_message})
                 })
@@ -63,13 +63,13 @@
                 },
                 rules:{
                     email: validatorConfig.email,
-                    pass: [ { required: true, message: '内容不能为空', trigger: 'blur' },
+                    pass: [ { required: true, message:  this.$t("main.accountNew.register.mainAcReContentNotNull"), trigger: 'blur' },
                             {validator:checkPass,trigger: 'blur,change'}],
                     checkPass: validatorConfig.passwordRepeat((rule, value, callback)=>{
                         validatorConfig.validatePasswordRepeat(this.resetForm.pass, value, callback)
                     }),
                     code: [
-                        { required: true, message: '内容不能为空', trigger: 'blur' },
+                        { required: true, message:  this.$t("main.accountNew.register.mainAcReContentNotNull"), trigger: 'blur' },
                         {validator:checkCode,trigger: 'blur'}
                     ],
                 }

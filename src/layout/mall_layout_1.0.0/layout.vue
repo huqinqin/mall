@@ -5,7 +5,8 @@
         </el-header>
         <el-container class="lts-main">
             <el-main class="s-span-page">
-                <lts-content/>
+                <lts-menu class="lts-menu"/>
+                <lts-content class="lts-content"/>
             </el-main>
             <el-footer height="300px">
                 <lts-footer></lts-footer>
@@ -127,6 +128,13 @@
         .el-main{
           padding: 0;
           background-color: white;
+            display: flex;
+            .lts-menu{
+            }
+            .lts-content{
+                flex-grow: 1;
+            }
+
         }
         .el-footer {
             margin-top: 48px;

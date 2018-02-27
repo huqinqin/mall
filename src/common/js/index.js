@@ -12,6 +12,7 @@ import Message from '../components/lts-message'
 import MessageBox from '../components/lts-messageBox'
 import ltsHeader from '@/layout/mall_layout_1.0.0/lts-header.vue'
 import ltsFooter from '@/layout/mall_layout_1.0.0/lts-footer.vue'
+import ltsMenu from '@/layout/mall_layout_1.0.0/lts-menu.vue'
 import ltsMoney from '../components/lts-money.js'
 import './filter'
 
@@ -42,7 +43,15 @@ export default function (App, router = new Router()) {
   App.name && (App.name == 'cart' || App.name == 'order') ? isCart = true : isCart = false;
   config.isWhite = isIndex
   config.isCart = isCart
-  Layout.components = {'lts-content': App,'lts-header': ltsHeader,'lts-footer':ltsFooter}
+  let showMenu = ['cart','order']
+  let showHeadA = []
+  let showHeadB = []
+  if(showMenu.indexOf(App.name) !== -1){
+      Layout.components = {'lts-content': App,'lts-header': ltsHeader,'lts-footer':ltsFooter,'lts-menu':ltsMenu}
+  }else{
+      Layout.components = {'lts-content': App,'lts-header': ltsHeader,'lts-footer':ltsFooter,'lts-menu':''}
+  }
+
   new Vue({
     el        : '#app',
     i18n      : i18n,

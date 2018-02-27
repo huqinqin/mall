@@ -42,11 +42,20 @@ export default {
                 mainAcReContentNotNull: '内容不能为空',
                 mainAcReCreateSuccess: '创建成功',
             },
-            reset: {},
-            signUpFinish: {},
-            waitAuthing: {}
+            reset: {
+                mainAcResetSyncDigit: '密码必须同时包括大小写字母和数字!'
+            }
         },
-        address: {},
+        address: {
+            mainAddContent: '内容',
+            mainAddPersonData: '个人资料',
+            mainAddDistributionAuth: '分销资格认证',
+            mainAddBindCard: '信用卡绑定',
+            mainAddBillAddress: '账单地址',
+            mainAddPwdInstall: '密码设置',
+            mainAddReceivingAddress: '收货地址',
+            mainAddShareFriends: '分享好友'
+        },
         cart: {},
         detail: {},
         finance: {},

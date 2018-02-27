@@ -20,8 +20,8 @@
             </div>
         </div>
         <div class="login">
-             <button v-login>立即登录</button>
-             <button v-login class="sign" @click='signup'>免费注册</button>
+             <button v-login>{{$t("main.index.mainInImmeLogin")}}</button>
+             <button v-login class="sign" @click='signup'>{{$t("main.index.mainInFreeRegis")}}</button>
         </div>
     </div>
     <!-- poster -->
@@ -43,7 +43,7 @@
             <div class="hot-item">
                 <div class="item-list-title">
                     <div class="i">
-                        <span>热卖单品</span>
+                        <span>{{$t("main.index.mainInHotSingle")}}</span>
                     </div>
                 </div>
                 <ul class="item-list-box">
@@ -54,7 +54,7 @@
                                 <p class="line-two" :title="item.item_name">{{item.item_name}}</p>
                                 <p class="line-four" ></p>
                                 <div class="item-price">
-                                    <button v-ltsLoginShow:false v-login>登录之后查看价格</button>
+                                    <button v-ltsLoginShow:false v-login>{{$t("main.detail.info.mainDetInfoLoginPrice")}}</button>
                                     <p v-ltsLoginShow:true class="price">
                                         <lts-money :money="item.price"></lts-money>
                                     </p>
@@ -70,7 +70,7 @@
                       <span>{{itemlist.name}}</span>
                   </div>
                   <div class="more">
-                      <span>更多</span>
+                      <span>{{$t("main.detail.info.mainInMore")}}</span>
                       <i class="iconfont icon-shangyiye-copy-copy rotate"></i>
                   </div>
               </div>
@@ -82,7 +82,7 @@
                               <p class="line-two" :title="item.item_name">{{item.item_name}}</p>
                               <p class="line-four" ></p>
                               <div class="item-price">
-                                  <button v-ltsLoginShow:false v-login>登录之后查看价格</button>
+                                  <button v-ltsLoginShow:false v-login>{{$t("main.detail.info.mainDetInfoLoginPrice")}}</button>
                                   <p v-ltsLoginShow:true class="price">
                                       <lts-money :money="item.price"></lts-money>
                                   </p>
@@ -96,7 +96,7 @@
         <!-- side -->
         <div class="side" v-if="hotList.length > 0">
               <div class="title">
-                 <div class="i"><span>热卖单品</span></div>
+                 <div class="i"><span>{{$t("main.index.mainInHotSingle")}}</span></div>
               </div>
               <ul class="best-sellers">
                   <li v-for="item in hotList" :key="item.id" v-bind:class="{'limit':item.type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1}">
@@ -105,7 +105,7 @@
                           <div class="item-spec">
                               <p class="line-two" :title="item.item_name">{{item.item_name}}</p>
                               <div class="item-price">
-                                  <button v-ltsLoginShow:false v-login>登录之后查看价格</button>
+                                  <button v-ltsLoginShow:false v-login>{{$t("main.detail.info.mainDetInfoLoginPrice")}}</button>
                                   <p v-ltsLoginShow:true class="price">
                                       <lts-money :money="item.price"></lts-money>
                                   </p>
@@ -194,13 +194,13 @@ import homeService from '@/services/HomeService.js'
         transform:rotate(-45deg);
     }
     li.reduce::before{
-        content:'减价';
+        content:'sale';
     }
     li.discount::before{
-        content:'折扣';
+        content:'discount';
     }
     li.limit::before{
-        content:'限时限量';
+        content:'Time limit Quantity limit';
         font-size: 14px;
     }
 

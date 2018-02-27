@@ -1,10 +1,10 @@
 <template>
     <div class="orderList">
         <el-tabs v-model="orderStatus" type="card" @tab-click="toggleStatus">
-            <el-tab-pane label="我的订单" name="all"></el-tab-pane>
-            <el-tab-pane label="待付款" name="noPay"></el-tab-pane>
-            <el-tab-pane label="待发货" name="noDeliver"></el-tab-pane>
-            <el-tab-pane label="已发货" name="delivered"></el-tab-pane>
+            <el-tab-pane :label='$t("comHeader.headerMyOrder")' name="all"></el-tab-pane>
+            <el-tab-pane :label='$t("main.order.list.mainOrLiWaitPay")' name="noPay"></el-tab-pane>
+            <el-tab-pane :label='$t("main.order.list.mainOrLiWaitDeli")' name="noDeliver"></el-tab-pane>
+            <el-tab-pane :label='$t("main.order.list.mainOrLiAlreadyDeli")' name="delivered"></el-tab-pane>
         </el-tabs>
         <lts-search-form @get-from="getParameter" :form-fileds="form.formFileds" :form-inlines="form.formInline" ref="searchForm"/>
         <el-table :data="datalist" v-loading="loading" default-expand-all style="width: 100%;overflow: hidden;" class="order-table" :span-method="arraySpanMethod">
@@ -57,16 +57,16 @@
                                     </span>
                                     <span v-else>
                                         <span v-if="subscope.row.last_refund_status == 1">
-                                            退款申请中
+                                            {{$t("main.order.list.mainOrLiBackApply")}}
                                         </span>
                                         <span v-else-if="subscope.row.last_refund_status == 3">
-                                            退款已驳回
+                                            {{$t("main.order.list.mainOrLiReject")}}
                                         </span>
                                         <span v-else-if="subscope.row.last_refund_status == 7">
-                                            已退{{subscope.row.refund_num}}{{subscope.row.wholesale_item_d_o.unit}}<lts-money :moeny="subscope.row.refund_real"></lts-money>元
+                                            {{$t("main.order.list.mainOrLiAlreadyBack")}}{{subscope.row.refund_num}}{{subscope.row.wholesale_item_d_o.unit}}<lts-money :moeny="subscope.row.refund_real"></lts-money>元
                                         </span>
                                         <span v-else-if="subscope.row.last_refund_status == 9">
-                                            退款已关闭
+                                            {{$t("main.order.list.mainOrLiClose")}}
                                         </span>
                                         <span v-else>
                                             {{subscope.row.status_title}}
@@ -86,7 +86,7 @@
                                         <!--&lt;!&ndash;</el-dropdown-menu>&ndash;&gt;-->
                                         <!--<el-button type="text">退款/退货</el-button>-->
                                     <!--</el-dropdown>-->
-                                    <el-button type="text" class="probtn" size="mini"  v-if="isCanRefund(subscope.row)" ><router-link :to="'/reverseApply/' + subscope.row.tid">退货退款</router-link></el-button>
+                                    <el-button type="text" class="probtn" size="mini"  v-if="isCanRefund(subscope.row)" ><router-link :to="'/reverseApply/' + subscope.row.tid">{{$t("main.order.list.mainOrLiBackGoods")}}</router-link></el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -97,21 +97,21 @@
                 <template slot-scope="scope">
                     <div>
                         <span>{{scope.row.cdate | timestamp2str}}</span>
-                        <span>订单号:{{scope.row.tid}}</span>
-                        <span style="color: #3b98ff;">支付信息</span>
-                        <span style="font-size: 12px">手机下单</span>
+                        <span>{{$t("main.order.list.mainOrLiOrderNum")}}:{{scope.row.tid}}</span>
+                        <span style="color: #3b98ff;">{{$t("main.order.list.mainOrLiPayInfo")}}</span>
+                        <span style="font-size: 12px">{{$t("main.order.list.mainOrLiPhone")}}</span>
                     </div>
                 </template>
             </el-table-column>
             <el-table-column label="单价" header-align="left" align="left" width="100" :show-overflow-tooltip="true" />
             <el-table-column label="数量" header-align="left" align="left" width="100">
             </el-table-column>
-            <el-table-column prop="pay_info.pay_type_title" label="实付款" align="left" width="160">
+            <el-table-column prop="pay_info.pay_type_title" :label='$t("main.order.list.mainOrLiReal")' align="left" width="160">
                 <template slot-scope="scope">
                     <div><lts-money :money="scope.row.pay_real"></lts-money></div>
                 </template>
             </el-table-column>
-            <el-table-column prop="status_title" label="交易状态" align="left" width="118">
+            <el-table-column prop="status_title" :label='$t("main.order.list.mainOrLiTransationSta")' align="left" width="118">
                 <template slot-scope="scope">
                     <span type="success" v-if="scope.row.status == 7 || scope.row.status == 9">
                         {{scope.row.status_title}}
@@ -119,16 +119,16 @@
                     <span v-else>{{scope.row.status_title}}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="交易操作" align="center" width="130">
+            <el-table-column :label='$t("main.order.list.mainOrLiTransationHan")' align="center" width="130">
                 <template slot-scope="scope">
                     <el-dropdown @command="handleMenuItemClick">
                         <el-button size="small" type="primary">
-                            操作<i class="el-icon-arrow-down el-icon--right"></i>
+                           {{$t("main.order.list.mainOrLiHanlde")}}<i class="el-icon-arrow-down el-icon--right"></i>
                         </el-button>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item v-if="scope.row.pay_status == 0 &&  scope.row.status == 0">支付</el-dropdown-item>
-                            <el-dropdown-item v-if="scope.row.pay_status == 0 &&  scope.row.status == 0" command="close" :data="scope.row">订单取消</el-dropdown-item>
-                            <el-dropdown-item><router-link :to="'/detail/' + scope.row.tid">订单详情</router-link></el-dropdown-item>
+                            <el-dropdown-item v-if="scope.row.pay_status == 0 &&  scope.row.status == 0">{{$t("main.order.list.mainOrLiPay")}}</el-dropdown-item>
+                            <el-dropdown-item v-if="scope.row.pay_status == 0 &&  scope.row.status == 0" command="close" :data="scope.row">{{$t("main.order.list.mainOrLiCanleOrder")}}</el-dropdown-item>
+                            <el-dropdown-item><router-link :to="'/detail/' + scope.row.tid">{{$t("main.order.list.mainOrLiOrderDet")}}</router-link></el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
                 </template>
@@ -168,30 +168,30 @@
                         {
                             search: {
                                 tid: {
-                                    label: '订单号',
+                                    label: this.$t("main.order.list.mainOrLiOrderNum"),
                                     type: 'input',
                                     bindValue : 'tid',
-                                    bindPlaceholder: '订单号'
+                                    bindPlaceholder: this.$t("main.order.list.mainOrLiOrderNum")
                                 },
                                 date: {
-                                    label: '创建时间',
+                                    label: this.$t("main.order.detail.mainOrDeCreateTime"),
                                     type: 'datetimerange',
                                     bindValue: 'date'
                                 },
                                 status: {
-                                    label: "状态",
+                                    label: this.$t("main.order.detail.mainOrDeStatus"),
                                     type: "select",
                                     bindValue: "status",
-                                    bindPlaceholder: "请选择",
+                                    bindPlaceholder: this.$t("main.accountNew.register.mainAcReSelect"),
                                     children: [
-                                        {label: "所有状态", bindValue: ""},
-                                        {label: "等待付款", bindValue: "0"},
-                                        {label: "已付款", bindValue: "1"},
-                                        {label: "已完成", bindValue: "7"},
-                                        {label: "已关闭", bindValue: "9"}
+                                        {label: this.$t("main.order.list.mainOrLiAllStatus"), bindValue: ""},
+                                        {label: this.$t("main.order.list.mainOrLiWaitPay"), bindValue: "0"},
+                                        {label: this.$t("main.order.list.mainOrLiRealPay"), bindValue: "1"},
+                                        {label: this.$t("main.order.list.mainOrLiRealComp"), bindValue: "7"},
+                                        {label: this.$t("main.order.list.mainOrLiRealClose"), bindValue: "9"}
                                     ]
                                 },
-                                search: {bindValue: "搜索", type: "submitbutton"}
+                                search: {bindValue: this.$t("main.order.list.mainOrLiSearch"), type: "submitbutton"}
                             }
                         }
                     ],
@@ -236,14 +236,14 @@
                     case "accept":
                         order = data.$vnode.data.attrs.data;
                         orderService.accept(order.tid).then((resp)=>{
-                            this.$ltsMessage.show({type: 'success', message: "受理成功"});
+                            this.$ltsMessage.show({type: 'success', message: this.$t("main.order.list.mainOrLiAcceptSuccess")});
                         }, (err) => {
-                            this.$ltsMessage.show({type: 'success', message: "受理失败：" + err.error_message});
+                            this.$ltsMessage.show({type: 'success', message: this.$t("main.order.list.mainOrLiAccessFail")+':' + err.error_message});
                         });
                         break;
                     case "reject":
                         order = data.$vnode.data.attrs.data;
-                        this.$ltsMessage.show({type: 'success', message: "拒绝" + order.tid});
+                        this.$ltsMessage.show({type: 'success', message: this.$t("main.order.list.mainOrLiNoAccept") + order.tid});
                         break;
                     case "refund":
                         const orderItem = data.$vnode.data.attrs.data;
@@ -256,14 +256,14 @@
                         window.open(config.url.main + '/cart#/beforePay?tid=' + order.tid + '');
                         break;
                     case "close":
-                        this.$confirm('是否删除订单?', '提示', {
-                            confirmButtonText: '确定',
-                            cancelButtonText: '取消',
+                        this.$confirm(this.$t("main.order.list.mainOrLiIsDelOrder"), this.$t("main.order.list.mainOrLiIsDelTip"), {
+                            confirmButtonText: this.$t("main.order.list.mainOrLiConfirm"),
+                            cancelButtonText: this.$t("main.order.list.mainOrLiCanle"),
                             type: 'warning'
                         }).then(() =>{
                             order = data.$vnode.data.attrs.data;
                             orderService.close_by_tid(order.tid).then((data)=>{
-                                this.$ltsMessage.show({type:'success',message:'删除成功'});
+                                this.$ltsMessage.show({type:'success',message:this.$t("main.order.list.mainOrLiDeleteSucc")});
                                 this.search();
                             },(msg)=>{
                                 this.$ltsMessage.show({type:'error',message:msg.error_message})
@@ -284,7 +284,7 @@
                 this.refundItem = orderItem.wholesale_item_d_o;
             },
             onSubmitRefund(){
-                this.$ltsMessage.show({type: 'success', message: "退货退款申请成功"});
+                this.$ltsMessage.show({type: 'success', message: this.$t("main.order.list.mainOrLiReturnMoner")});
             },
             isCanRefund(orderItem){
                 return (orderItem.status == 2 || orderItem.status == 7)
@@ -323,7 +323,7 @@
                     this.loading = false;
                     this.datalist = [];
                     this.pagination.total = 0;
-                    this.$ltsMessage.show({type: 'error', message: '查询失败，请稍后重试:' + err.error_message})
+                    this.$ltsMessage.show({type: 'error', message: this.$t("main.order.list.mainOrLiSearchError")+':' + err.error_message})
                 });
             },
             getParameter (val) {

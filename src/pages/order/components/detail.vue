@@ -1,38 +1,38 @@
 <template>
     <div class="orderDetail">
         <el-alert
-            :title="'订单状态   '+order.tid+'   22小时自动确认收货'"
+            :title='$t("main.order.detail.mainOrDeOrderStatus") + order.tid + $t("main.order.detail.mainOrDeAuto")'
             :closable="false"
             type="info">
         </el-alert>
         <el-card class="box-card base-info">
             <div slot="header" class="clearfix">
-                <span>订单信息</span>
+                <span>{{$t("main.cart.settle.mainCartSeOrderInfo")}}</span>
             </div>
             <el-form label-position="left" inline class="form-row">
-                <el-form-item label="买家信息">
+                <el-form-item :label='$t("main.order.detail.mainOrDeBuyerInfo")'>
                     {{order.user_name}} {{order.receiver_mobile}}
                 </el-form-item>
-                <el-form-item label="收货地址">
+                <el-form-item :label='$t("main.order.detail.mainOrDeMyAddr")'>
                     {{order.user_addr}}
                 </el-form-item>
-                <el-form-item label="买家留言">
+                <el-form-item :label='$t("main.cart.settle.mainCartSeBuyersTalk")'>
                     {{order.user_addr}}
                 </el-form-item>
-                <el-form-item label="订单编号">
+                <el-form-item :label='$t("main.cart.fail.mainCartFaOrderNum")'>
                     {{order.tid}}
                 </el-form-item>
-                <el-form-item label="创建时间">
+                <el-form-item :label='$t("main.order.detail.mainOrDeCreateTime")'>
                     {{order.cdate | timestamp2str}}
                 </el-form-item>
-                <el-form-item label="付款时间">
+                <el-form-item :label='$t("main.order.detail.mainOrDePayTime")'>
                     {{order.cdate | timestamp2str}}
                 </el-form-item>
-                <el-form-item label="支付信息">
-                    <div>信用卡支付$700</div>
-                    <div>账期支付$700</div>
+                <el-form-item :label='$t("main.order.detail.mainOrDePayInfo")'>
+                    <div>{{$t("main.order.detail.mainOrDeCard")}}</div>
+                    <div>{{$t("main.order.detail.mainOrDeAccount")}}</div>
                 </el-form-item>
-                <el-form-item label="支付状态">
+                <el-form-item :label='$t("main.order.detail.mainOrDePayStatus")'>
                     {{order.pay_status_title}}
                 </el-form-item>
             </el-form>
@@ -40,25 +40,25 @@
         <div class="detail-item" v-for="(shop,index) in order.sell_order_list">
             <div class="info-box">
                 <div class="info">
-                    <span>包裹:</span>
+                    <span>{{$t("main.order.detail.mainOrDeBag")}}:</span>
                     <span>{{shop.shop.shop_name}}</span>
                 </div>
                 <div class="info">
-                    <span>物流信息:</span>
+                    <span>{{$t("main.order.detail.mainOrDeLogiInfo")}}:</span>
                     <span>{{order.user_name}}</span>
                 </div>
                 <div class="info">
-                    <span>发货时间:</span>
-                    <span>无</span>
+                    <span>{{$t("main.order.detail.mainOrDeSendTime")}}:</span>
+                    <span>{{$t("main.order.detail.mainOrDeNo")}}</span>
                 </div>
                 <div class="info">
-                    <span>收货时间:</span>
-                    <span>无</span>
+                    <span>{{$t("main.order.detail.mainOrDeFetchTime")}}:</span>
+                    <span>{{$t("main.order.detail.mainOrDeNo")}}</span>
                 </div>
             </div>
             <div class="item-info">
                 <el-table :data="shop.wholesale_order_items" style="width: 100%">
-                    <el-table-column label="商品信息" header-align="left" align="left">
+                    <el-table-column :label='$t("main.cart.list.mainCartliGoodsInfo")' header-align="left" align="left">
                         <template slot-scope="scope">
                             <div class="order-item-detail">
                                 <img :src="scope.row.wholesale_item_d_o.image_value + '@30w_2e'" class="item" />
@@ -66,7 +66,7 @@
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column label="单价" width="100" header-align="left" align="left">
+                    <el-table-column :label='$t("main.cart.list.mainCartliUnitPrice")' width="100" header-align="left" align="left">
                         <template slot-scope="scope">
                             <del class="text-secondary" v-if="scope.row.price > scope.row.price_real">
                                 <lts-money :money="scope.row.price"></lts-money>
@@ -76,12 +76,12 @@
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="num" label="数量" width="200" header-align="left" align="left">
+                    <el-table-column prop="num" :label='$t("main.cart.list.mainCartliNum")' width="200" header-align="left" align="left">
                         <template slot-scope="scope">
                             {{scope.row.num}}{{scope.row.wholesale_item_d_o.unit}}
                         </template>
                     </el-table-column>
-                    <el-table-column label="状态" width="150" header-align="left" align="left">
+                    <el-table-column :label='$t("main.order.detail.mainOrDeStatus")' width="150" header-align="left" align="left">
                         <template slot-scope="scope">
                             <del class="text-secondary" v-if="scope.row.pay > scope.row.pay_real">
                                 <lts-money :money="scope.row.pay"></lts-money>
@@ -96,20 +96,20 @@
         </div>
         <div class="info-bottom">
             <div class="text">
-                <label>应付金额</label>
+                <label>{{$t("main.cart.settle.mainCartSeMustPay")}}</label>
                 <span><lts-money :money="order.pay"></lts-money></span>
             </div>
             <div class="text">
-                <label>活动优惠</label> <span><lts-money :money="order.fee_hd_all"></lts-money></span>
+                <label>{{$t("main.order.detail.mainOrDeActivity")}}</label> <span><lts-money :money="order.fee_hd_all"></lts-money></span>
             </div>
             <div class="text">
-                <label>+运费</label> <span><lts-money :money="order.fee_hd_all"></lts-money></span>
+                <label>+{{$t("main.cart.settle.mainCartSeFright")}}</label> <span><lts-money :money="order.fee_hd_all"></lts-money></span>
             </div>
             <div class="text">
-                <label>+税费</label> <span><lts-money :money="order.fee_hd_all"></lts-money></span>
+                <label>+{{$t("main.cart.settle.mainCartSeTax")}}</label> <span><lts-money :money="order.fee_hd_all"></lts-money></span>
             </div>
             <div class="text">
-                <label>应付总额</label><span class="large"><lts-money :money="order.fee_total"></lts-money></span>
+                <label>{{$t("main.order.detail.mainOrDePayTotal")}}</label><span class="large"><lts-money :money="order.fee_total"></lts-money></span>
             </div>
         </div>
     </div>

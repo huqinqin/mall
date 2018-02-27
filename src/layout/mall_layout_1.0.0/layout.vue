@@ -3,8 +3,10 @@
         <el-header height="auto">
             <lts-header></lts-header>
         </el-header>
-        <el-container class="lts-main s-span-page">
-            <el-container>
+        <el-container class="lts-main">
+            <lts-header-simple></lts-header-simple>
+            <lts-header-all></lts-header-all>
+            <el-container class="s-span-page">
                 <lts-menu class="lts-menu"/>
                 <el-container>
                     <el-main class="s-span-page">

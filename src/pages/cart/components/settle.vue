@@ -51,7 +51,7 @@
                         <el-input v-model="addForm.building"></el-input>
                     </el-form-item>
                     <el-form-item :label='$t("main.cart.settle.mainCartSeZip")' :rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterZip'), trigger: 'blur' }]">
-                        <el-input v-model="addForm.lc_code"></el-input>
+                        <el-input v-model="addForm.zipCode"></el-input>
                     </el-form-item>
                     <el-form-item :label='$t("main.cart.settle.mainCartSeContact")' :rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterContact'), trigger: 'blur' }]">
                         <el-input v-model="addForm.user_name"></el-input>
@@ -83,28 +83,31 @@
                     <el-radio-button label="SHSM" value="">{{ $t("main.cart.beforePay.mainCartBefExpress") }}</el-radio-button>
                 </el-radio-group>
                 <div class="selectExpress" v-if="deliveryType == 'SHSM'">
-                    <div><span class="bold">EXPRESS COMPANY:</span></div>
-                    <el-radio-group v-model="expressForm.express">
-                        <el-radio label="UPS">UPS</el-radio>
-                        <el-radio label="FEDEX">FEDEX</el-radio>
-                    </el-radio-group>
-                    <div><span class="bold">SERVICE:</span></div>
-                    <el-select v-model="expressForm.service" :placeholder='$t("main.accountNew.register.mainAcReSelect")'>
-                        <el-option
-                            v-for="item in expressOptions"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                        </el-option>
-                    </el-select>
-                    <div><el-checkbox v-model="expressForm.self">{{ $t("main.cart.settle.mainCartSeSelfSign") }}</el-checkbox></div>
+                    <el-form label-position="top">
+                        <el-form-item label="LOGISTICS COMPANY:">
+                            <el-radio-group v-model="expressForm.express" @change="selectCompany">
+                                <el-radio label="UPS">UPS</el-radio>
+                                <el-radio label="FEDEX" :disabled="true">FEDEX</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="SERVICE:">
+                            <el-select v-model="expressForm.service" :placeholder='$t("main.accountNew.register.mainAcReSelect")'>
+                                <el-option
+                                v-for="item in expressOptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item><el-checkbox v-model="expressForm.self">{{ $t("main.cart.settle.mainCartSeSelfSign") }}</el-checkbox></el-form-item>
+                    </el-form>
                 </div>
             </div>
-
         </div>
         <div class="order">
             <h5>{{ $t("main.cart.settle.mainCartSeOrderInfo") }}</h5>
-            <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%">
+            <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark">
                 <el-table-column :label='$t("main.cart.list.mainCartliGoodsInfo")'   align="left" width="700">
                     <template slot-scope="scope">
                         <a :href="'/detail#/?id=' + scope.row.id">
@@ -122,7 +125,6 @@
                         </a>
                     </template>
                 </el-table-column>
-
                 <el-table-column prop="" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
                     <template slot-scope="scope">
                         <lts-money :money="scope.row.item_props[0].price"></lts-money>
@@ -138,10 +140,6 @@
             </el-table>
             <div class="remark"><span>{{ $t("main.cart.settle.mainCartSeBuyersTalk") }}： </span><el-input v-model="remark"></el-input></div>
         </div>
-        <!--<div class="balance">-->
-            <!--<el-checkbox v-model="useBalance">使用余额</el-checkbox>-->
-        <!--</div>-->
-
         <div class="someCount">
             <div class="count">
                 <p>{{ $t("main.cart.settle.mainCartSeShouldPay") }}： <span class="money">${{(sum.amount/100).toFixed(2)}}</span></p>
@@ -176,16 +174,33 @@
             return{
                 expressForm:{
                     express:'UPS',
-                    service:'Ground',
+                    service:'01',
                     self:false
                 },
-                expressOptions:[
-                    {value:'Ground',label:'Ground'},
-                    {value:'3',label:'3 Day Select'},
-                    {value:'2',label:'2nd Day Air'},
-                    {value:'Next1',label:'Next Day Air Server'},
-                    {value:'Next2',label:'Next Day Air'},
-                    {value:'Next3',label:'Next Day Air Early'},
+                expressOptions:[],
+                UPSOptions:[
+                    {value:'01',label:'Next Day Air'},
+                    {value:'02',label:'2nd Day Air'},
+                    {value:'03',label:'Ground'},
+                    {value:'12',label:'3 Day Select'},
+                    {value:'13',label:'Next Day Air Saver'},
+                    {value:'14',label:'UPS Next Day Air Early'},
+                    {value:'59',label:'2nd Day Air A.M.Valid international values'},
+                    {value:'07',label:'Worldwide Express'},
+                    {value:'08',label:'Worldwide Expedited'},
+                    {value:'11',label:'Standard'},
+                    {value:'54',label:'Worldwide Express Plus'},
+                    {value:'65',label:'Saver'},
+                    {value:'96',label:'UPS Worldwide Express Freight'},
+                    {value:'71',label:'UPS Worldwide Express Freight Midday'},
+                ],
+                FEDEXOptions:[
+                    {value:'Ground',label:'1Ground'},
+                    {value:'3',label:'13 Day Select'},
+                    {value:'2',label:'12nd Day Air'},
+                    {value:'Next1',label:'1Next Day Air Server'},
+                    {value:'Next2',label:'1Next Day Air'},
+                    {value:'Next3',label:'1Next Day Air Early'},
                 ],
                 info:JSON.parse(store.getItem('SESSION_DATA')),
                 totalPrice:'',
@@ -308,6 +323,15 @@
             }
         },
         methods: {
+            // 选择快递公司
+            selectCompany(value){
+                this.expressForm.service = ''
+                if(value == 'UPS'){
+                    this.expressOptions = this.UPSOptions
+                }else if(value == 'FEDEX'){
+                    this.expressOptions = this.FEDEXOptions
+                }
+            },
             // 设置默认地址
             toggleDefault(item){
                 this.defaultId = item.id
@@ -352,7 +376,10 @@
                 addressService.getList().then((data) => {
                     this.addressData = data.datalist
                     this.addressData.forEach((value,index)=>{
+                        value.zipCode = value.zip_code
+
                         if(value.status === 1){
+                            console.log(111,value)
                             value.setDefault = true
                             this.defaultId = value.id
                             this.checkedId = value.id
@@ -361,12 +388,12 @@
                         }else{
                             value.setDefault = false
                         }
-                        console.log(value)
                         let position = value.address.indexOf(value.building)
                         if(position !== 0){
                             value.address = value.address.slice(0,position)
                         }
                     })
+                    this.simulateCreateTrade()
                 })
             },
             // 提交地址表单
@@ -422,7 +449,20 @@
                     userAddr : this.checkedAddress.address + this.checkedAddress.building,
                     useBalance:false,
                     payMethod: "online",
-                    source: "work.500mi.com.shop.pifa.market"
+                    source: "work.500mi.com.shop.pifa.market",
+                    hdFeeCaculator:1,
+                    hdFee:this.sum.express,
+                    taxesFeeCaculator:1,
+                    taxesFee:this.sum.tax,
+                    ship:{
+                        userAddrIdType:0,
+                        // 0代表收货地址，1代表分销证地址，1免税费
+                        toStates:'California',
+                        // this.checkedAddress.address,
+                        toZipCode:92093,
+                        // this.checkedAddress.zipCode,
+                        serviceCode:this.expressForm.service
+                    }
                 };
                 orderService.createTrade(params,this.remark).then((data)=>{
                     this.$emit('submit',3);
@@ -452,11 +492,26 @@
                     items : JSON.stringify(items),
                     useBalance:false,
                     payMethod: "online", //
-                    source: "work.500mi.com.shop.pifa.market"
+                    source: "work.500mi.com.shop.pifa.market",
+                    hdFeeCaculator:1,
+                    taxesFeeCaculator:1,
+                    ship:{
+                        userAddrIdType:0,
+                        // 0代表收货地址，1代表分销证地址，1免税费
+                        toStates:'California',
+                        // this.checkedAddress.address,
+                        toZipCode:92093,
+                        // this.checkedAddress.zipCode,
+                        serviceCode:this.expressForm.service
+                    }
                 };
                 orderService.simulateCreateTrade(params).then((resp)=>{
+                    let fee = JSON.parse(resp.data.wholesale_order.fee_hd)
+                    console.log(fee)
+                    this.sum.express = fee.HD_ALL
+                    this.sum.tax = fee.TAXES_ALL
                     this.sum.amount = resp.data.wholesale_order.pay_info.money_pay
-                    this.totalPrice = resp.data.wholesale_order.fee_total_value;
+                    this.totalPrice = resp.data.wholesale_order.pay_real_value;
                     this.$emit('submit',2);
                 },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.error_message})
@@ -473,18 +528,17 @@
                 this.tableData.push(item);
             }else{
                 let items = this.$route.params.items
-                items.forEach(function (item,inde,array) {
-                    item.item_props.forEach(function (val,key,array) {
+                items.forEach((item) => {
+                    item.item_props.forEach((val) => {
                         val.propValue = val.prop_value;
                     })
                 })
                 this.tableData = items;
-                this.user_id = this.$route.params.userId;
+                // this.user_id = this.$route.params.userId;
             }
-
-            console.log(this.tableData);
             this.getAddressList()
-            this.simulateCreateTrade();
+
+            this.expressOptions = this.UPSOptions
         },
     }
 </script>
@@ -541,19 +595,14 @@
                     background-color: rgba(0,0,0,0.05);
                     .cell{
                         margin-top: -4px;
-                        /*margin-left: 24px;*/
-                    }
-                }
-                th:nth-child(1){
-                    .cell{
-                        /*margin-left: 24px;*/
                     }
                 }
             }
         }
         .el-table{
             font-size: 14px;
-            margin-left: 24px;
+            /*margin-left: 24px;*/
+            /*加上margin-left表格宽度无限增加*/
             .cell{
                 .cart-item-info{
                     width:100%;
@@ -577,20 +626,11 @@
                     }
                 }
             }
-
-            .cart-delete{
-                line-height: 40px;
-                font-size: 22px;
-                color: #cecece;
-                i{font-size: 22px;}
-            }
             .count{
                 color:red;
                 font-size: 16px;
             }
-            .el-input-number--small{
-                width:128px;
-            }
+
         }
         h5{
             color: rgba(0,0,0,0.7);
@@ -773,8 +813,6 @@
             }
         }
 
-
-
         .delivery,.inPrice{
             margin: 0 24px;
             .el-radio-group.selectButtons{
@@ -815,31 +853,36 @@
             }
         }
         .delivery{
-            &>div{
-                display: flex;
+            .el-radio-group.selectButtons {
+                margin-bottom: 6px;
             }
             .selectExpress{
-                flex-grow: 1;
                 font-size: 14px;
-                line-height: 40px;
-                height: 40px;
-                margin-left: 24px;
-                display: flex;
-                span.bold{
-                    font-weight: bold;
-                    color:#737373;
-                }
-                .el-radio-group,.el-select{
-                    margin:0 24px 0 12px;
-                }
-                label{
-                    line-height: 40px;
+                .el-form-item{
+                    label{
+                        font-weight: bold;
+                        color:#737373;
+                        line-height: 28px;
+                        padding:0;
+                    }
+                    .el-form-item__content{
+                        line-height: 0;
+                        .el-radio-group label{
+                            font-weight: normal;
+                        }
+                        input{
+                            margin: 6px 0;
+                        }
+                    }
+                    margin-bottom: 0;
                 }
 
             }
         }
         .order{
+            width:100%;
             h5{
+                margin-top: 18px;
                 margin-left: 24px;
             }
             padding-bottom:24px;

@@ -1,0 +1,96 @@
+<template>
+    <div class="mall-menu">
+        <ul class="user">
+            <li>用户中心</li>
+            <li v-for="item in user" @click="selectUser" :class="{ active: selected == item.title }"><a :href=item.href>{{item.title}}</a></li>
+        </ul>
+            <ul class="settings">
+            <li>账户设置</li>
+            <li v-for="item in settings" @click="selectSetting" :class="{ active: selected == item.title }"><a :href=item.href>{{item.title}}</a></li>
+        </ul>
+    </div>
+</template>
+
+<script>
+    export default {
+        name: "lts-menu",
+        data(){
+            return{
+                user:[
+                    {href:'/order',title:'我的订单'},
+                    {href:'/cart',title:'购物车'},
+                    {href:'',title:'我的资金'},
+                    {href:'',title:'解决方案'},
+                    {href:'',title:'RMA'},
+                    {href:'',title:'我的LTS'},
+                    {href:'',title:'消息中心'},
+                ],
+                settings:[
+                    {href:'',title:'个人信息'},
+                    {href:'',title:'分销商资格认证'},
+                    {href:'',title:'密码设置'},
+                    {href:'',title:'收货地址'},
+                ],
+                selected:'我的订单',
+            }
+        },
+        methods:{
+            selectUser(value){
+                localStorage.setItem('selected', value.currentTarget.textContent);
+            },
+            selectSetting(value){
+                localStorage.setItem('selected', value.currentTarget.textContent);
+            }
+        },
+        mounted(){
+            this.selected = localStorage.getItem("selected")
+        }
+    }
+</script>
+
+<style lang="less">
+    .mall-menu{
+        margin-right: 24px;
+        min-width:180px;
+        ul{
+            border:1px solid #ddd;
+            li a{
+                color:#737373;
+                display: block;
+                width:100%;
+                line-height: 38px;
+                text-align: center;
+            }
+
+            li:first-child{
+                color:white;
+                font-weight: bold;
+                text-align: center;
+                background: #4E747C;
+                line-height: 40px;
+                font-size: 16px;
+            }
+            li.active{
+                color:#ff3b41;
+                position: relative;
+                a{
+                    color:inherit;
+                }
+            }
+            li.active::after{
+                content:'';
+                height: 0;
+                width: 0;
+                border-left:6px solid #ff3b41;
+                border-top:5px solid transparent;;
+                border-bottom:5px solid transparent;;
+                position: absolute;
+                right:6px;
+                top:14px;
+            }
+        }
+        ul.user{
+            border-bottom:none;
+        }
+    }
+</style>

@@ -14,7 +14,11 @@
                             <div class="popTitle">{{ $t("main.cart.list.mainCartliDisGoods") }}</div>
                             <div class="popDetail"></div>
                         </div>
-                        <el-table :data="scope.row.discount" :show-header="false" style="width: 100%">
+                        <el-table
+                            :data="scope.row.discount"
+                            :show-header="false"
+                            @selection-change="handleSelectionChange"
+                            style="width: 100%">
                             <el-table-column type="selection" align="right" @change="checkItem"></el-table-column>
                             <el-table-column align="center" width="600">
                                 <template slot-scope="subscope">
@@ -33,8 +37,8 @@
                             </el-table-column>
                             <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
                                 <template slot-scope="subscope">
-                                    <p style="text-decoration: line-through;"><lts-money :money="subscope.row.item_props[0].price"></lts-money></p>
-                                    <p><lts-money :money="subscope.row.item_props[0].price"></lts-money></p>
+                                    <p class="oldPrice"><lts-money :money="subscope.row.price"></lts-money></p>
+                                    <p><lts-money :money="subscope.row.price_real"></lts-money></p>
                                 </template>
                             </el-table-column>
                             <el-table-column prop="" width="" :label='$t("main.cart.list.mainCartliStock")' align="center">
@@ -53,7 +57,7 @@
                             <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center">
                                 <template slot-scope="subscope">
                                     <div class="count" ref="count">
-                                        <lts-money :money="subscope.row.num*subscope.row.item_props[0].price"></lts-money>
+                                        <lts-money :money="subscope.row.num*subscope.row.price_real"></lts-money>
                                     </div>
                                 </template>
                             </el-table-column>
@@ -71,7 +75,11 @@
                             <div class="popTitle">{{ $t("main.cart.list.mainCartliOnsaleGoods") }}</div>
                             <div class="popDetail"></div>
                         </div>
-                        <el-table :data="scope.row.reduce" :show-header="false" style="width: 100%">
+                        <el-table
+                            :data="scope.row.reduce"
+                            :show-header="false"
+                            @selection-change="handleSelectionChange"
+                            style="width: 100%">
                             <el-table-column type="selection" align="right" @change="checkItem"></el-table-column>
                             <el-table-column align="center" width="600">
                                 <template slot-scope="subscope">
@@ -90,7 +98,8 @@
                             </el-table-column>
                             <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
                                 <template slot-scope="subscope">
-                                    <lts-money :money="subscope.row.item_props[0].price"></lts-money>
+                                    <p class="oldPrice"><lts-money :money="subscope.row.price"></lts-money></p>
+                                    <lts-money :money="subscope.row.price_real"></lts-money>
                                 </template>
                             </el-table-column>
                             <el-table-column prop="" width="" :label='$t("main.cart.list.mainCartliStock")' align="center">
@@ -109,7 +118,7 @@
                             <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center">
                                 <template slot-scope="subscope">
                                     <div class="count" ref="count">
-                                        <lts-money :money="subscope.row.num*subscope.row.item_props[0].price"></lts-money>
+                                        <lts-money :money="subscope.row.num*subscope.row.price_real"></lts-money>
                                     </div>
                                 </template>
                             </el-table-column>
@@ -123,7 +132,11 @@
                         </el-table>
                     </div>
                     <div v-else-if="scope.row.others" class="otherTable subtable">
-                        <el-table :data="scope.row.others" :show-header="false" style="width: 100%">
+                        <el-table
+                            :data="scope.row.others"
+                            :show-header="false"
+                            @selection-change="handleSelectionChange"
+                            style="width: 100%">
                             <el-table-column type="selection" align="right" @change="checkItem"></el-table-column>
                             <el-table-column align="center" width="600">
                                 <template slot-scope="subscope">
@@ -142,7 +155,7 @@
                             </el-table-column>
                             <el-table-column prop="price" width="" label="单价" align="center">
                                 <template slot-scope="subscope">
-                                    <lts-money :money="subscope.row.item_props[0].price"></lts-money>
+                                    <lts-money :money="subscope.row.price"></lts-money>
                                 </template>
                             </el-table-column>
                             <el-table-column prop="" width="" label="库存" align="center">
@@ -161,7 +174,7 @@
                             <el-table-column label="小计" width="100" align="center">
                                 <template slot-scope="subscope">
                                     <div class="count" ref="count">
-                                        <lts-money :money="subscope.row.num*subscope.row.item_props[0].price"></lts-money>
+                                        <lts-money :money="subscope.row.num*subscope.row.price"></lts-money>
                                     </div>
                                 </template>
                             </el-table-column>
@@ -478,6 +491,9 @@
                     margin-left: 24px;
 
                 }
+                p.oldPrice{
+                    text-decoration: line-through;
+                }
             }
 
             .cart-delete{
@@ -601,18 +617,6 @@
             border-bottom:1px solid rgba(0, 0, 0, 0.05);
         }
 
-        /*加上活动标签*/
-        /*.el-table__body-wrapper{*/
-            /*table{*/
-                /*tr{*/
-                    /*border:1px solid red;*/
-                    /*td{*/
-                        /*border:none;*/
-                    /*}*/
-                /*}*/
-
-            /*}*/
-        /*}*/
     }
     @keyframes floats {
         from {

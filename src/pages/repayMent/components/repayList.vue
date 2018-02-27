@@ -197,7 +197,7 @@
 
 <style lang="less">
     .wrapper{
-        padding:20px;
+        margin-left: 24px;
         font-family: "Microsoft YaHei";
         font-size: 14px;
         color: rgba(0,0,0,0.7);

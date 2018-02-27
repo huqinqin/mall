@@ -48,14 +48,16 @@ export default function (App, router = new Router()) {
   config.isCart = isCart
 
   let showHeadSimple = []
-  let showHeadAll = ['index']
-  let showMenu = ['order']
-  let noHead = ['cart']
+  let showHeadAll = ['index','search','detail']
+  let showMenu = ['order','address','finance','personal','repayment','reverse']
+  let noHead = ['cart','account']
+
   if(showMenu.indexOf(App.name) !== -1){
       Layout.components = {
           'lts-content': App,
           'lts-header': ltsHeader,
-          'lts-header-content':ltsHeaderSimple,
+          'lts-header-all': ltsEmpty,
+          'lts-header-simple':ltsHeaderSimple,
           'lts-footer':ltsFooter,
           'lts-menu':ltsMenu
       }
@@ -64,7 +66,8 @@ export default function (App, router = new Router()) {
       Layout.components = {
           'lts-content': App,
           'lts-header': ltsHeader,
-          'lts-header-content': ltsHeaderAll,
+          'lts-header-all': ltsHeaderAll,
+          'lts-header-simple':ltsEmpty,
           'lts-footer':ltsFooter,
           'lts-menu':ltsEmpty
       }
@@ -73,7 +76,7 @@ export default function (App, router = new Router()) {
       Layout.components = {
           'lts-content': App,
           'lts-header': ltsHeader,
-          'lts-header-all': "<div></div>",
+          'lts-header-all': ltsEmpty,
           'lts-header-simple':ltsEmpty,
           'lts-footer':ltsFooter,
           'lts-menu':ltsEmpty

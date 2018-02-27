@@ -9,7 +9,7 @@
                 <lts-menu class="lts-menu"/>
                 <el-container>
                     <el-main class="s-span-page">
-                        <lts-content class="lts-content"/>
+                        <lts-content class="lts-content" style="margin-top: 0;"/>
                     </el-main>
                 </el-container>
             </el-container>
@@ -113,7 +113,7 @@
       list-style: none;
     }
     .s-span-page{
-      margin: auto;
+      margin: 0 auto;
       width: 1200px;
     }
     .b1500{
@@ -138,6 +138,7 @@
             }
             .lts-content{
                 flex-grow: 1;
+
             }
 
         }

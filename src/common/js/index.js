@@ -23,7 +23,7 @@ Vue.prototype.$ltsLoading = Loading
 Vue.prototype.$ltsMessage = Message
 Vue.prototype.$ltsMessageBox = MessageBox
 
-Vue.config.lang = 'en'
+Vue.config.lang = 'cn'
 Vue.config.productionTip = false
 
 

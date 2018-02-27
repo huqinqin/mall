@@ -1,5 +1,5 @@
 <template>
-    <div class="mall-menu">
+    <el-aside width="180px" class="mall-menu">
         <ul class="user">
             <li>用户中心</li>
             <li v-for="item in user" @click="selectUser" :class="{ active: selected == item.title }"><a :href=item.href>{{item.title}}</a></li>
@@ -8,7 +8,7 @@
             <li>账户设置</li>
             <li v-for="item in settings" @click="selectSetting" :class="{ active: selected == item.title }"><a :href=item.href>{{item.title}}</a></li>
         </ul>
-    </div>
+    </el-aside>
 </template>
 
 <script>

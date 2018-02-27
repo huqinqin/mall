@@ -4,9 +4,8 @@
             <lts-header></lts-header>
         </el-header>
         <el-container class="lts-main">
-            <lts-header-simple></lts-header-simple>
-            <lts-header-all></lts-header-all>
-            <el-container class="s-span-page" style="margin-top: 24px;">
+            <lts-header-content></lts-header-content>
+            <el-container class="s-span-page">
                 <lts-menu class="lts-menu"/>
                 <el-container>
                     <el-main class="s-span-page">

@@ -47,41 +47,159 @@ export default function (App, router = new Router()) {
   config.isWhite = isIndex
   config.isCart = isCart
 
-  let showHeadSimple = []
-  let showHeadAll = ['index','search','detail']
-  let showMenu = ['order','address','finance','personal','repayment','reverse']
-  let noHead = ['cart','account']
+    Layout.components = {
+        'lts-content': App,
+        'lts-header': ltsHeader,
+        'lts-footer':ltsFooter,
+        'lts-header-content':ltsEmpty,
+        'lts-menu':ltsEmpty,
+    }
+    let showHeadAll = ['index','search','detail']
+    let showMenu = ['order','address','finance','personal','repayment','reverse']
+    let noHead = ['cart','account']
+    let pages = [
+        {
+            name:'index',
+            components:[
+                {
+                    name : 'lts-header-content',
+                    template : ltsHeaderAll
+                },
+            ]
+        },
+        {
+            name:'search',
+            components:[
+                {
+                    name : 'lts-header-content',
+                    template : ltsHeaderAll
+                },
+            ]
+        },
+        {
+            name:'detail',
+            components:[
+                {
+                    name : 'lts-header-content',
+                    template : ltsHeaderAll
+                },
+            ]
+        },
+        {
+            name:'order',
+            components:[
+                {
+                    name : 'lts-header-content',
+                    template : ltsHeaderSimple
+                },
+                {
+                    name : 'lts-menu',
+                    template : ltsMenu
+                }
+            ]
+        },
+        {
+            name:'address',
+            components:[
+                {
+                    name : 'lts-header-content',
+                    template : ltsHeaderSimple
+                },
+                {
+                    name : 'lts-menu',
+                    template : ltsMenu
+                }
+            ]
+        },
+        {
+            name:'finance',
+            components:[
+                {
+                    name : 'lts-header-content',
+                    template : ltsHeaderSimple
+                },
+                {
+                    name : 'lts-menu',
+                    template : ltsMenu
+                }
+            ]
+        },
+        {
+            name:'personal',
+            components:[
+                {
+                    name : 'lts-header-content',
+                    template : ltsHeaderSimple
+                },
+                {
+                    name : 'lts-menu',
+                    template : ltsMenu
+                }
+            ]
+        },
+        {
+            name:'repayment',
+            components:[
+                {
+                    name : 'lts-header-content',
+                    template : ltsHeaderSimple
+                },
+                {
+                    name : 'lts-menu',
+                    template : ltsMenu
+                }
+            ]
+        },
+        {
+            name:'reverse',
+            components:[
+                {
+                    name : 'lts-header-content',
+                    template : ltsHeaderSimple
+                },
+                {
+                    name : 'lts-menu',
+                    template : ltsMenu
+                }
+            ]
+        },
+        {
+            name:'cart',
+            components:[]
+        },
+        {
+            name:'account',
+            components:[]
+        }
+    ]
 
-  if(showMenu.indexOf(App.name) !== -1){
-      Layout.components = {
-          'lts-content': App,
-          'lts-header': ltsHeader,
-          'lts-header-all': ltsEmpty,
-          'lts-header-simple':ltsHeaderSimple,
-          'lts-footer':ltsFooter,
-          'lts-menu':ltsMenu
-      }
-  }
-  if(showHeadAll.indexOf(App.name) !== -1){
-      Layout.components = {
-          'lts-content': App,
-          'lts-header': ltsHeader,
-          'lts-header-all': ltsHeaderAll,
-          'lts-header-simple':ltsEmpty,
-          'lts-footer':ltsFooter,
-          'lts-menu':ltsEmpty
-      }
-  }
-  if(noHead.indexOf(App.name) !== -1){
-      Layout.components = {
-          'lts-content': App,
-          'lts-header': ltsHeader,
-          'lts-header-all': ltsEmpty,
-          'lts-header-simple':ltsEmpty,
-          'lts-footer':ltsFooter,
-          'lts-menu':ltsEmpty
-      }
-  }
+    pages.forEach((value,index,array)=>{
+        if(value.name == App.name){
+            if(value.components && value.components.length > 0){
+                value.components.forEach((val,key,array)=>{
+                    Layout.components[val.name] = val.template;
+                })
+            }
+        }
+    })
+  // if(showMenu.indexOf(App.name) !== -1){
+  //     Layout.components = {
+  //         'lts-header-content':ltsHeaderSimple,
+  //         'lts-menu':ltsMenu
+  //     }
+  // }
+  // if(showHeadAll.indexOf(App.name) !== -1){
+  //     Layout.components = {
+  //         'lts-header-content': ltsHeaderAll,
+  //         'lts-menu':ltsEmpty
+  //     }
+  // }
+  // if(noHead.indexOf(App.name) !== -1){
+  //     Layout.components = {
+  //         'lts-header-content':ltsEmpty,
+  //         'lts-menu':ltsEmpty
+  //     }
+  // }
 
   new Vue({
     el        : '#app',

@@ -3,11 +3,15 @@
         <el-header height="auto">
             <lts-header></lts-header>
         </el-header>
-        <el-container class="lts-main">
-            <el-main class="s-span-page">
+        <el-container class="lts-main s-span-page">
+            <el-container>
                 <lts-menu class="lts-menu"/>
-                <lts-content class="lts-content"/>
-            </el-main>
+                <el-container>
+                    <el-main class="s-span-page">
+                        <lts-content class="lts-content"/>
+                    </el-main>
+                </el-container>
+            </el-container>
             <el-footer height="300px">
                 <lts-footer></lts-footer>
             </el-footer>

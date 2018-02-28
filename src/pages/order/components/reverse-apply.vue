@@ -2,7 +2,7 @@
     <div class="reverse">
         <div class="reversebox">
             <el-form  :model="form" :rules="rules" ref="form" label-position="top" size="small" label-width="110px" class="detail-info">
-                <el-form-item label="商品">
+                <el-form-item :label='$t("main.order.reverse.mainOrReGoods")'>
                     <el-table :data="orderItem.wholesale_item_d_o_list" border style="width: 100%">
                         <el-table-column label="商品信息" header-align="left" align="left">
                             <template slot-scope="scope">
@@ -19,7 +19,7 @@
                                 </div>
                             </template>
                         </el-table-column>
-                        <el-table-column label="单价/数量" width="103" header-align="center" align="center">
+                        <el-table-column :label='$t("main.order.reverse.mainOrRePriceAmount")' width="103" header-align="center" align="center">
                             <template slot-scope="scope">
                                 <div>{{orderItem.num}}{{scope.row.unit}}</div>
                                 <!--<del class="text-secondary" v-if="scope.row.price > scope.row.price_real">-->
@@ -32,18 +32,18 @@
                         </el-table-column>
                     </el-table>
                 </el-form-item>
-                <el-form-item label="退货类型">
-                    <el-radio v-model="form.refundType" label="0">退款</el-radio>
-                    <el-radio v-model="form.refundType" label="1">退货退款</el-radio>
+                <el-form-item :label='$t("main.order.reverse.mainOrReCancleType")'>
+                    <el-radio v-model="form.refundType" label="0">{{$t("main.order.reverse.mainOrReRejectPrice")}}</el-radio>
+                    <el-radio v-model="form.refundType" label="1">{{$t("main.order.reverse.mainOrReRejectGoods")}}</el-radio>
                 </el-form-item>
-                <el-form-item label="退货数量" prop="num">
+                <el-form-item :label='$t("main.order.reverse.mainOrReRejectNum")' prop="num">
                     <el-input-number v-model.number="form.num" @change="changeMoney" size="small" controls-position="right" :min="0" :max="form.maxRefund" />
                 </el-form-item>
-                <el-form-item label="退货总金额" prop="refund" v-if="form.refund">
+                <el-form-item :label='$t("main.order.reverse.mainOrReRejectTotalPay")' prop="refund" v-if="form.refund">
                     <lts-money :money="form.refund"></lts-money>
                 </el-form-item>
-                <el-form-item label="退货原因" prop="reason">
-                    <el-select v-model="form.reason" placeholder="请选择退款原因">
+                <el-form-item :label='$t("main.order.reverse.mainOrReRejectReason")' prop="reason">
+                    <el-select v-model="form.reason" :placeholder='$t("main.order.reverse.mainOrReEnterReson")'>
                         <el-option
                             v-for="item in reasonList"
                             :key="item.value"
@@ -52,10 +52,10 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="退货留言" prop="remark">
+                <el-form-item :label='$t("main.order.reverse.mainOrReRejectTalk")' prop="remark">
                     <el-input type="textarea" v-model="form.remark" />
                 </el-form-item>
-                <el-form-item label="上传凭证">
+                <el-form-item :label='$t("main.order.reverse.mainOrReUpload")'>
                     <el-upload
                         action="/cgi/upload/file/item/image"
                         list-type="picture-card"
@@ -69,7 +69,7 @@
                     </el-dialog>
                 </el-form-item>
                 <el-form-item style="text-align: center">
-                    <el-button type="primary" size="small" @click="onSubmitRefund">提交</el-button>
+                    <el-button type="primary" size="small" @click="onSubmitRefund">{{$t("main.order.reverse.mainOrReSubmit")}}</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -101,50 +101,50 @@
                 },
                 rules: {
                     reason: [
-                        {required: true, message: '请选择退货退款原因', trigger: 'change'},
+                        {required: true, message: this.$t("main.order.reverse.mainOrReEnterSomeReason"), trigger: 'change'},
                     ],
                     num: [
-                        {min: 5,required: true, message: '请输入退货退款数量', trigger: 'blur'},
+                        {min: 5,required: true, message: this.$t("main.order.reverse.mainOrReEnterGoodsNum"), trigger: 'blur'},
                     ],
                     refund: [
-                        {required: true, message: '请输入退款金额', trigger: 'blur'},
+                        {required: true, message: this.$t("main.order.reverse.mainOrReEnterMoney"), trigger: 'blur'},
                     ],
                     remark: [
-                        {min: 5, max: 500, required: true, message: '备注长度在 5 到 500 个字符', trigger: 'blur'}
+                        {min: 5, max: 500, required: true, message: this.$t("main.order.reverse.mainOrReRemark"), trigger: 'blur'}
                     ],
                 },
                 reasonList: [
                     {
                         value: 'REFUND_STOCK_OUT',
-                        label: '未收到货 - 要求退'
+                        label: this.$t("main.order.reverse.mainOrReBack")
                     },
                     {
                         value: 'REFUND_ERROR_NUM',
-                        label: '已收到货 - 数量不对'
+                        label: this.$t("main.order.reverse.mainOrReNumNot")
                     },
                     {
                         value: 'REFUND_BAD_PACKING',
-                        label: '已收到货 - 包装缺损'
+                        label: this.$t("main.order.reverse.mainOrRePackDamage")
                     },
                     {
                         value: 'REFUND_BAD_QUALITY',
-                        label: '已收到货 - 商品质量问题'
+                        label: this.$t("main.order.reverse.mainOrReQulity")
                     },
                     {
                         value: 'REFUND_BAD_CDATE',
-                        label: '已收到货 - 生产日期不好'
+                        label: this.$t("main.order.reverse.mainOrReDateNot")
                     },
                     {
                         value: 'REFUND_ERROR_PROPS',
-                        label: '已收到货 - 口味/规格不对'
+                        label: this.$t("main.order.reverse.mainOrReFlovarNot")
                     },
                     {
                         value: 'REFUND_CONSULT',
-                        label: '协商一致退款'
+                        label: this.$t("main.order.reverse.mainOrReAgree")
                     },
                     {
                         value: 'REFUND_OTHER',
-                        label: '其它原因'
+                        label: this.$t("main.order.reverse.mainOrReOtherReason")
                     }
                 ],
                 orderItem : [],
@@ -164,9 +164,9 @@
                             imagesUrl = (imagesUrl == "") ? value.response.data.url : imagesUrl + "," + value.response.data.url;
                         });
                         reverseService.apply(this.tid, this.form.reason, this.form.num, this.form.refund, this.form.remark, imagesUrl).then((resp) => {
-                            this.$ltsMessage.show({type: 'success', message: "退货退款申请成功"});
+                            this.$ltsMessage.show({type: 'success', message: this.$t("main.order.reverse.mainOrReSuccess")});
                         }, (error) => {
-                            this.$ltsMessage.show({type: 'error', message: "退货退款申请失败：" + error.error_message});
+                            this.$ltsMessage.show({type: 'error', message: this.$t("main.order.reverse.mainOrReError") + ":" + error.error_message});
                         });
                     }else{
                         console.log('error submit!!');
@@ -196,10 +196,10 @@
             },
             handleCheckLength(file) {
                 if (this.fileList.length <= 5) {
-                    this.$ltsMessage.show({type: 'success', message: '上传图片成功'});
+                    this.$ltsMessage.show({type: 'success', message: this.$t("main.order.reverse.mainOrReUploadPicSucc")});
                     return true;
                 } else {
-                    this.$ltsMessage.show({type: 'error', message: '您只能上传五张图片'});
+                    this.$ltsMessage.show({type: 'error', message: this.$t("main.order.reverse.mainOrReFive")});
                     return false;
                 }
             },

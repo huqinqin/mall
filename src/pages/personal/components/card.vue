@@ -1,9 +1,9 @@
 <template>
     <div class="receiveAddress">
-        <h3 class="title">新增分销商资格证</h3>
+        <h3 class="title">{{$t("main.personal.card.mainPerCarNewCreate")}}</h3>
         <el-form :model="ruleForm" :rules="rules" :inline="true" ref="ruleForm" label-width="100px" label-position="top"
                  class="demo-ruleForm">
-            <el-form-item label="分销证照片" required style="margin-top: 20px;">
+            <el-form-item :label='$t("main.personal.card.mainPerCarDisPic")' required style="margin-top: 20px;">
                 <div>
                     <el-upload
                         class="avatar-uploader"
@@ -17,46 +17,46 @@
                 </div>
             </el-form-item>
             <br>
-            <el-form-item label="分销证号" prop="number" style="margin-top: 20px;" class="telephone">
+            <el-form-item :label='$t("main.personal.card.mainPerCarDisProveNum")' prop="number" style="margin-top: 20px;" class="telephone">
                 <el-input v-model="ruleForm.number"></el-input>
             </el-form-item>
             <br>
-            <el-form-item label="地址" prop="address" style="margin-top: 20px;">
+            <el-form-item :label='$t("main.personal.card.mainPerCarAddress")' prop="address" style="margin-top: 20px;">
                 <el-input type="textarea" resize="none" v-model="ruleForm.address" class="address"></el-input>
             </el-form-item>
             <br>
-            <el-form-item label="城市" prop="city" style="margin-top: 20px;">
+            <el-form-item :label='$t("main.personal.card.mainPerCarCity")' prop="city" style="margin-top: 20px;">
                 <el-input v-model="ruleForm.city"></el-input>
             </el-form-item>
             <br>
-            <el-form-item label="国家" prop="country" style="margin-top: 20px;">
-                <el-select v-model="country" placeholder="请选择国家">
-                    <el-option label="中国" value="中国"></el-option>
-                    <el-option label="美国" value="美国"></el-option>
+            <el-form-item :label='$t("main.personal.card.mainPerCarCountry")' prop="country" style="margin-top: 20px;">
+                <el-select v-model="country" :placeholder='$t("main.personal.card.mainPerCarEnterCoun")'>
+                    <el-option :label='$t("main.personal.card.mainPerCarChina")' :value='$t("main.personal.card.mainPerCarChina")'></el-option>
+                    <el-option :label='$t("main.personal.card.mainPerCarUsa")' :value='$t("main.personal.card.mainPerCarUsa")'></el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="州" prop="state" style="margin-top: 20px;">
-                <el-select v-model="state" placeholder="请选择州">
-                    <el-option label="得克萨斯州" value="得克萨斯州"></el-option>
-                    <el-option label="华盛顿州" value="华盛顿州"></el-option>
-                    <el-option label="加利福尼亚州" value="加利福尼亚州"></el-option>
+            <el-form-item :label='$t("main.personal.card.mainPerCarState")' prop="state" style="margin-top: 20px;">
+                <el-select v-model="state" :placeholder='$t("main.personal.card.mainPerCarEnterState")'>
+                    <el-option :label='$t("main.personal.card.mainPerCarDeco")' :value='$t("main.personal.card.mainPerCarDeco")'></el-option>
+                    <el-option :label='$t("main.personal.card.mainPerCarWashington")' :value='$t("main.personal.card.mainPerCarWashington")'></el-option>
+                    <el-option :label='$t("main.personal.card.mainPerCarCali")' :value='$t("main.personal.card.mainPerCarCali")'></el-option>
                 </el-select>
             </el-form-item>
             <br>
-            <el-form-item label="邮编" prop="zipcode" style="margin-top: 20px;">
+            <el-form-item :label='$t("main.personal.card.mainPerCarZip")' prop="zipcode" style="margin-top: 20px;">
                 <el-input v-model="ruleForm.zipcode"></el-input>
             </el-form-item>
             <br>
-            <el-form-item label="有效期至" prop="date" style="margin-top: 20px;">
+            <el-form-item :label='$t("main.personal.card.mainPerCarFromDate")' prop="date" style="margin-top: 20px;">
                 <el-date-picker
                     v-model="value1"
                     type="date"
-                    placeholder="选择日期">
+                    :placeholder='$t("main.personal.card.mainPerCarSelDate")'>
                 </el-date-picker>
             </el-form-item>
             <br>
             <el-form-item>
-                <el-button type="primary" @click="submitForm('ruleForm')" class="submitBtn">保存</el-button>
+                <el-button type="primary" @click="submitForm('ruleForm')" class="submitBtn">{{$t("main.personal.card.mainPerCarSave")}}</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -79,22 +79,22 @@
                 },
                 rules: {
                     number: [
-                        {required: true, message: '请输入分销证号', trigger: 'blur'}
+                        {required: true, message: this.$t("main.personal.card.mainPerCarEnterSale"), trigger: 'blur'}
                     ],
                     address: [
-                        {required: true, message: '请输入地址', trigger: 'blur'}
+                        {required: true, message: this.$t("main.personal.card.mainPerCarEnterAddr"), trigger: 'blur'}
                     ],
                     city: [
-                        {required: true, message: '请输入城市', trigger: 'blur'}
+                        {required: true, message: this.$t("main.personal.card.mainPerCarEnterCity"), trigger: 'blur'}
                     ],
                     country: [
-                        {required: true, message: '请选择国家', trigger: 'change'}
+                        {required: true, message: this.$t("main.personal.card.mainPerCarSeleCount"), trigger: 'change'}
                     ],
                     state: [
-                        {required: true, message: '请选择州', trigger: 'change'}
+                        {required: true, message: this.$t("main.personal.card.mainPerCarSeleState"), trigger: 'change'}
                     ],
                     zipcode: [
-                        {required: true, message: '请输入邮编', trigger: 'blur'}
+                        {required: true, message: this.$t("main.personal.card.mainPerCarPutZip"), trigger: 'blur'}
                     ]
                 }
             };

@@ -1,6 +1,6 @@
 <template>
     <div class="password">
-        <h3 class="title">密码设置</h3>
+        <h3 class="title">{{$t("main.personal.password.mainPerPwdsetter")}}</h3>
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" label-position="left"
                  class="demo-ruleForm">
             <el-form-item label="" prop="headerPic">
@@ -8,18 +8,18 @@
                     <img src="" alt="">
                 </div>
             </el-form-item>
-            <el-form-item label="旧密码" prop="oldPassword" style="margin-top: 24px;">
+            <el-form-item :label='$t("main.personal.password.mainPerPwdOldPwd")' prop="oldPassword" style="margin-top: 24px;">
                 <el-input v-model="ruleForm.oldPassword"></el-input>
             </el-form-item>
-            <el-form-item label="新密码" prop="newPassword" style="margin-top: 24px;">
+            <el-form-item :label='$t("main.personal.password.mainPerPwdNewPwd")' prop="newPassword" style="margin-top: 24px;">
                 <el-input v-model="ruleForm.newPassword"></el-input>
             </el-form-item>
-            <el-form-item label="确认密码" prop="confirmPassword" style="margin-top: 24px;">
+            <el-form-item :label='$t("main.personal.password.mainPerPwdConfirmPwd")' prop="confirmPassword" style="margin-top: 24px;">
                 <el-input v-model="ruleForm.confirmPassword"></el-input>
             </el-form-item>
 
             <el-form-item>
-                <el-button type="primary" @click="submitForm('ruleForm')" class="submitBtn">保存</el-button>
+                <el-button type="primary" @click="submitForm('ruleForm')" class="submitBtn">{{$t("main.personal.card.mainPerCarSave")}}</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -37,13 +37,13 @@
                 },
                 rules: {
                     oldPassword: [
-                        {required: true, message: '请输入旧密码', trigger: 'blur'}
+                        {required: true, message: this.$t("main.personal.password.mainPerPwdEnterOldPwd"), trigger: 'blur'}
                     ],
                     newPassword: [
-                        {required: true, message: '请输入新密码', trigger: 'blur'}
+                        {required: true, message: this.$t("main.personal.password.mainPerPwdEnterNew"), trigger: 'blur'}
                     ],
                     confirmPassword: [
-                        {required: true, message: '请确认新密码', trigger: 'blur'}
+                        {required: true, message: this.$t("main.personal.password.mainPerPwdConfirmNew"), trigger: 'blur'}
                     ]
                 }
             };

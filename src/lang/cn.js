@@ -104,6 +104,12 @@ export default {
                 mainCartliImmeSettle: '立即结算',
                 mainCartliGoodsInfo: '商品信息',
                 mainCartliPrice: '价格',
+                mainCartliAllPrice: '总价',
+                mainCartliCheckedItem: '已选商品',
+                mainCartliBenefit: '活动优惠',
+                mainCartliCheckedAll: '全选',
+                mainCartliDeleteChecked: '删除选中商品',
+                mainCartliDeleteInvalid: '清除失效商品',
             },
             settle: {
                 mainCartSePhone: '电话',
@@ -148,7 +154,9 @@ export default {
                 mainCartOtConfimOrderInfo: '确认订单信息',
                 mainCartOtOrderSub: '订单提交',
                 mainCartOtPay: '支付',
-                mainCartOtWait: '等待收货'
+                mainCartOtWait: '等待收货',
+                mainCartNo:'不含',
+                mainCartUnit:'件',
             }
         },
         detail: {

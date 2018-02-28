@@ -11,6 +11,17 @@ function resolve(dir) {
     return path.join(__dirname, '..', dir)
 }
 
+// 是否开启eslint
+const createLintingRule = () => ({
+    test: /\.(js|vue)$/,
+    loader: 'eslint-loader',
+    enforce: 'pre',
+    include: resolve('src/services'),
+    options: {
+        formatter: require('eslint-friendly-formatter'),
+        emitWarning: !config.dev.showEslintErrorsInOverlay
+    }
+})
 
 let entry = utils.getMultiEntry('./src/' + config.moduleName + '/**/*.js');
 module.exports = {
@@ -48,7 +59,9 @@ module.exports = {
         })
     ],
     module: {
-        rules: [{
+        rules: [
+            ...(config.dev.useEslint ? [createLintingRule()] : []),
+            {
                 test: /\.vue$/,
                 loader: 'vue-loader',
                 options: vueLoaderConfig

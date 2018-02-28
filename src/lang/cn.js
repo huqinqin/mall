@@ -182,7 +182,8 @@ export default {
                mainDetInfoHot: '热卖推荐',
                mainDetInfoLoginPrice: '登录之后查看价格',
                mainDetInfoGoodsInfo: '商品详情',
-               mainDetInfoDetail: '详细'
+               mainDetInfoDetail: '详细',
+               mainInMore: '更多'
            }
         },
         finance: {
@@ -370,10 +371,56 @@ export default {
                 mainPerReEnterCont: '请输入内容',
                 mainPerReTeleNum: '电话号码',
                 mainPerReEnterPhone: '请输入手机号'
+            },
+        },
+        repayMent: {
+            readyPay: {
+                mainReReRepayment: '账期还款',
+                mainReReRepayAmount: '还款金额',
+                mainReReUseBala: '使用账户余额',
+                mainReReYourBala: '您的账户余额为',
+                mainReReDollar: '美元',
+                mainReReRepayBala: '还款余额',
+                mainReRePayType: '支付方式',
+                mainReReCard: '信用卡',
+                mainReReOnlinePay: '在线支付',
+                mainReReGoPay: '去支付',
+            },
+            repayList: {
+                mainRePayPayTime: '应还款时间',
+                mainRePayTo: '至',
+                mainRePayStartTime: '开始日期',
+                mainRePayEndTime: '结束日期',
+                mainRePayRepayTime: '还款时间',
+                mainRePayPeState: '还款状态',
+                mainRePayBatch: '批量还款',
+                mainRePayShouldPay: '应还金额',
+                mainRePayRelation: '关联单号',
+                mainRePayNoPay: '未付款',
+                mainRePayNoRepay: '未还款',
+                mainRePayRepayed: '已还款',
             }
         },
-        repayMent: {},
-        reverse: {},
+        reverse: {
+            detail: {
+                mainRevDeWaitLts: '请等待LTS处理',
+                mainRevDeSuccRefund: '您已经成功发起退款处理，请耐心等待lts处理',
+                mainRevDeApplyTime: '申请时间',
+                mainRevDeSaler: '销售员',
+                mainRevDeSaleNum: '销售数量',
+                mainRevDeRefundMoney: '退货金额',
+                mainRevDeAcceptInfo: '收货信息',
+                mainRevDeSomeInfo: '退货/退款信息',
+                mainRevDeRefund: '退货/退款',
+                mainRevDeRefundType: '退款类型',
+                mainRevDeOnlyRefund: '仅退款',
+                mainRevDeFundReason: '退款原因',
+                mainRevDeTalk: '留言/沟通记录',
+                mainRevDeEngineer: '工程商',
+            },
+            list: {},
+            dialog: {}
+        },
         search: {}
     }
 }

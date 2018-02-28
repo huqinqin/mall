@@ -1,27 +1,27 @@
 <template>
     <div class="reverse-detail" v-if="detail">
         <div class="reverse-header">
-            <p class="title">请等待LTS处理</p>
-            <p class="remark">您已经成功发起退款处理，请耐心等待lts处理</p>
+            <p class="title">{{$t("main.reverse.detail.mainRevDeWaitLts")}}</p>
+            <p class="remark">{{$t("main.reverse.detail.mainRevDeSuccRefund")}}</p>
         </div>
         <div class="detail-item">
             <div class="info-box">
                 <div class="info">
-                    <span>订单编号:</span>
+                    <span>{{$t("main.cart.beforePay.mainCartBefOrderNum")}}:</span>
                     <span>{{detail.wholesale_order.wholesale_order_items.tid}}</span>
                 </div>
                 <div class="info">
-                    <span>申请时间:</span>
+                    <span>{{$t("main.reverse.detail.mainRevDeApplyTime")}}:</span>
                     <span>{{detail.reverse.start_time | timestamp2str}}</span>
                 </div>
                 <div class="info">
-                    <span>销售员:</span>
+                    <span>{{$t("main.reverse.detail.mainRevDeSaler")}}:</span>
                     <span>{{detail.wholesale_order.wholesale_order_items.proxy_uid}}</span>
                 </div>
             </div>
             <div class="item-info">
                 <el-table :data="detail.wholesale_order.wholesale_order_items" border style="width: 100%">
-                    <el-table-column label="商品信息" header-align="left" align="left">
+                    <el-table-column :label='$t("main.cart.list.mainCartliGoodsInfo")' header-align="left" align="left">
                         <template slot-scope="scope">
                             <div class="order-item-detail">
                                 <img :src="scope.row.wholesale_item_d_o.image_value + '@30w_2e'" class="item" />
@@ -29,12 +29,12 @@
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="num" label="销售数量" width="80" header-align="center" align="center">
+                    <el-table-column prop="num" :label='$t("main.reverse.detail.mainRevDeSaleNum")' width="80" header-align="center" align="center">
                         <template slot-scope="scope">
                             {{scope.row.num}}{{scope.row.wholesale_item_d_o.unit}}
                         </template>
                     </el-table-column>
-                    <el-table-column label="单价" width="120" header-align="center" align="center">
+                    <el-table-column :label='$t("main.cart.list.mainCartliUnitPrice")' width="120" header-align="center" align="center">
                         <template slot-scope="scope">
                             <del class="text-secondary" v-if="scope.row.price > scope.row.price_real">
                                 <lts-money :money="scope.row.price"></lts-money>
@@ -45,7 +45,7 @@
                         </template>
                     </el-table-column>
 
-                    <el-table-column label="总价" width="150" header-align="center" align="center">
+                    <el-table-column :label='$t("main.cart.list.mainCartliAllPrice")' width="150" header-align="center" align="center">
                         <template slot-scope="scope">
                             <del class="text-secondary" v-if="scope.row.pay > scope.row.pay_real">
                                 <lts-money :money="scope.row.pay"></lts-money>
@@ -55,12 +55,12 @@
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column  label="退货数量" width="200" header-align="center" align="center">
+                    <el-table-column  :label='$t("main.order.reverse.mainOrReRejectNum")' width="200" header-align="center" align="center">
                         <template slot-scope="scope">
                             <div>{{detail.reverse.real_num}}</div>
                         </template>
                     </el-table-column>
-                    <el-table-column  label="退货金额" width="200" header-align="center" align="center">
+                    <el-table-column  :label='$t("main.reverse.detail.mainRevDeRefundMoney")' width="200" header-align="center" align="center">
                         <template slot-scope="scope">
                             <div><lts-money :money="detail.reverse.refund_real"></lts-money></div>
                         </template>
@@ -70,46 +70,46 @@
         </div>
         <el-card class="box-card base-info">
             <div slot="header" class="clearfix">
-                <span>订单信息</span>
+                <span>{{$t("main.cart.settle.mainCartSeOrderInfo")}}</span>
             </div>
             <el-form label-position="left" inline class="form-row">
-                <el-form-item label="收货信息">
+                <el-form-item :label='$t("main.reverse.detail.mainRevDeAcceptInfo")'>
                     <div>{{detail.wholesale_order.user_name}} {{detail.wholesale_order.receiver_mobile}}</div>
                     <div>{{detail.wholesale_order.user_addr}}</div>
                 </el-form-item>
-                <el-form-item label="支付信息">
-                    <div>信用卡支付$700</div>
-                    <div>账期支付$700</div>
+                <el-form-item :label='$t("main.order.detail.mainOrDePayInfo")'>
+                    <div>{{$t("main.order.detail.mainOrDeCard")}}</div>
+                    <div>{{$t("main.order.detail.mainOrDeAccount")}}</div>
                 </el-form-item>
-                <el-form-item label="订单状态">
+                <el-form-item :label='$t("main.order.detail.mainOrDeOrderStatus")'>
                     {{detail.reverse.status_title}}
                 </el-form-item>
-                <el-form-item label="物流信息">
+                <el-form-item :label='$t("main.order.detail.mainOrDeLogiInfo")'>
                     {{detail.reverse.express}}{{detail.reverse.express_num}}
                 </el-form-item>
             </el-form>
         </el-card>
         <el-card class="box-card base-info">
             <div slot="header" class="clearfix">
-                <span>退货/退款信息</span>
+                <span>{{$t("main.reverse.detail.mainRevDeSomeInfo")}}</span>
             </div>
             <el-form label-position="left" inline class="form-row">
-                <el-form-item label="退款类型">
-                    <div v-if="detail.reverse.hd_status > 0">退货退款</div>
-                    <div v-else>仅退款</div>
+                <el-form-item :label='$t("main.reverse.detail.mainRevDeRefundType")'>
+                    <div v-if="detail.reverse.hd_status > 0">{{$t("main.reverse.detail.mainRevDeRefund")}}</div>
+                    <div v-else>{{$t("main.reverse.detail.mainRevDeOnlyRefund")}}</div>
                 </el-form-item>
-                <el-form-item label="退款原因">
+                <el-form-item :label='$t("main.reverse.detail.mainRevDeFundReason")'>
                     <div>{{detail.reverse.reverse_reason_title}}</div>
                 </el-form-item>
             </el-form>
         </el-card>
         <el-card class="box-card base-info">
             <div slot="header" class="clearfix">
-                <span>留言/沟通记录</span>
+                <span>{{$t("main.reverse.detail.mainRevDeTalk")}}</span>
             </div>
             <div class="remark-box">
                 <div class="remark-item" v-for="(value,index) in detail.reverse.remark" :class="[detail.reverse.user_id == value.uid ? 'left' : 'right' ]">
-                    <div class="remark" v-if="detail.reverse.user_id == value.uid"><span>工程商:</span>{{value.remark}}</div>
+                    <div class="remark" v-if="detail.reverse.user_id == value.uid"><span>{{$t("main.reverse.detail.mainRevDeEngineer")}}:</span>{{value.remark}}</div>
                     <div class="remark" v-else>{{value.remark}}<span>:LTS</span></div>
                     <div class="remark-date">{{value.date}}</div>
                 </div>

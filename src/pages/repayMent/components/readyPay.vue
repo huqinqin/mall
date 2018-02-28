@@ -1,15 +1,15 @@
 <template>
    <div class="wrapperBox">
-       <h3 style="font-size: 16px;color: rgba(0,0,0,0.8)">账期还款</h3>
+       <h3 style="font-size: 16px;color: rgba(0,0,0,0.8)">{{$t("main.repayMent.readyPay.mainReReRepayment")}}</h3>
        <hr>
-       <div class="numMony"><span>还款金额:</span><span style="color: #ff3d41">${{shouldPayMoney}}</span></div>
-       <div class="numMony"><el-checkbox v-model="checked">使用账户余额(您的账户余额为：<span style="color: #ff3d41">{{data.balanceMoney}}美元</span>)</el-checkbox></div>
+       <div class="numMony"><span>{{$t("main.repayMent.readyPay.mainReReRepayAmount")}}:</span><span style="color: #ff3d41">${{shouldPayMoney}}</span></div>
+       <div class="numMony"><el-checkbox v-model="checked">{{$t("main.repayMent.readyPay.mainReReUseBala")}}({{$t("main.repayMent.readyPay.mainReReYourBala")}}：<span style="color: #ff3d41">{{data.balanceMoney}}{{$t("main.repayMent.readyPay.mainReReDollar")}}</span>)</el-checkbox></div>
        <hr>
-       <div class="numMony"><span>还款余额:</span><span style="color: #ff3d41">${{payBalanceMoney}}</span></div>
-       <h3 style="font-size: 16px;color: rgba(0,0,0,0.8);margin-top: 20px">支付方式</h3>
-       <div class="payMethod"><el-radio v-model="radio" label="1">信用卡</el-radio></div>
-       <div class="payMethod"><el-radio v-model="radio" label="2">在线支付</el-radio></div>
-       <div class="goPay"><el-button type="danger">去支付</el-button></div>
+       <div class="numMony"><span>{{$t("main.repayMent.readyPay.mainReReRepayBala")}}:</span><span style="color: #ff3d41">${{payBalanceMoney}}</span></div>
+       <h3 style="font-size: 16px;color: rgba(0,0,0,0.8);margin-top: 20px">{{$t("main.repayMent.readyPay.mainReRePayType")}}</h3>
+       <div class="payMethod"><el-radio v-model="radio" label="1">{{$t("main.repayMent.readyPay.mainReReCard")}}</el-radio></div>
+       <div class="payMethod"><el-radio v-model="radio" label="2">{{$t("main.repayMent.readyPay.mainReReOnlinePay")}}</el-radio></div>
+       <div class="goPay"><el-button type="danger">{{$t("main.repayMent.readyPay.mainReReGoPay")}}</el-button></div>
    </div>
 </template>
 

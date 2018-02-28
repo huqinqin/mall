@@ -156,8 +156,10 @@
                         item.date = dateUtils.format(new Date(parseInt(item.acc_time)))
                         item.handle = this.$t("main.finance.mainfiAvail")
                         // remark里的时间戳转为时间
-                        let handleDate = dateUtils.format(new Date(parseInt(item.remark.match(/\d{13}/)[0])))
-                        item.remark = item.remark.replace(/\d{13}/,handleDate)
+                        if(parseInt(item.remark.match(/\d{13}/))){
+                            let handleDate = dateUtils.format(new Date(parseInt(item.remark.match(/\d{13}/)[0])))
+                            item.remark = item.remark.replace(/\d{13}/,handleDate)
+                        }
                         this.detailData.push(item)
                     })
                 },(msg) => {

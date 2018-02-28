@@ -27,13 +27,13 @@
     <!-- poster -->
     <div class="poster">
         <div class="one">
-          <a href="">
-              <img :src="posterBig.content" :alt="posterBig.name">
+          <a :href="posterBig.content.link_url">
+              <img :src="posterBig.content.fix_url" :alt="posterBig.name">
           </a>
         </div>
         <div class="two">
-            <a v-for="item in posterSmall" href="" class="top">
-                <img :src="item.content" :alt="item.name">
+            <a v-for="item in posterSmall" :href="item.content.link_url" class="top">
+                <img :src="item.content.fix_url" :alt="item.name">
             </a>
         </div>
     </div>
@@ -155,7 +155,13 @@ import homeService from '@/services/HomeService.js'
             homeService.getList().then((data) => {
                 this.itemList = data.floor.datalist;
                 this.hotList = data.hot_buys.datalist[0].items;
+                data.fix_pic.datalist.forEach((item) => {
+                    item.content = JSON.parse(item.content)
+                })
                 this.posterBig = data.fix_pic.datalist[0]
+                data.fix_pic_list.datalist.forEach((item) => {
+                    item.content = JSON.parse(item.content)
+                })
                 this.posterSmall = data.fix_pic_list.datalist
                 data.banner.datalist.forEach((val,index) => {
                     this.index_banner.push(JSON.parse(val.content))

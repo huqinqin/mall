@@ -142,11 +142,11 @@
         </div>
         <div class="someCount">
             <div class="count">
-                <p>{{ $t("main.cart.settle.mainCartSeShouldPay") }}： <span class="money">${{(sum.amount/100).toFixed(2)}}</span></p>
-                <p>{{ $t("main.cart.settle.mainCartSeFright") }}： <span>+{{sum.express.toFixed(2)}}</span></p>
-                <p>{{ $t("main.cart.settle.mainCartSeTax") }}： <span>+{{sum.tax.toFixed(2)}}</span></p>
-                <p>{{ $t("main.cart.settle.mainCartSeRedBag") }}： <span>-{{sum.benefit.toFixed(2)}}</span></p>
-                <p class="result">{{ $t("main.cart.settle.mainCartSeMustPay") }}： <span>${{totalPrice}}</span></p>
+                <p>{{ $t("main.cart.settle.mainCartSeShouldPay") }}： <span class="money" ><span v-if="sum.amount == 0 || sum.amount"><lts-money :money="sum.amount"></lts-money></span></span></p>
+                <p>{{ $t("main.cart.settle.mainCartSeFright") }}： <span><span v-if="sum.express == 0 || sum.express">+<lts-money :money="sum.express"></lts-money></span></span></p>
+                <p>{{ $t("main.cart.settle.mainCartSeTax") }}： <span><span v-if="sum.tax == 0 || sum.tax">+<lts-money :money="sum.tax"></lts-money></span></span></p>
+                <p>{{ $t("main.cart.settle.mainCartSeRedBag") }}： <span><span v-if="sum.benefit == 0 || sum.benefit">-<lts-money :money="sum.benefit"></lts-money></span></span></p>
+                <p class="result">{{ $t("main.cart.settle.mainCartSeMustPay") }}： <span><span v-if="totalPrice"><lts-money :money="totalPrice"></lts-money></span></span></p>
             </div>
         </div>
         <div class="allInfo">
@@ -157,7 +157,7 @@
             <p>{{$t("main.cart.settle.mainCartSeQuaAddr")}}： {{checkedAddress.address}}{{checkedAddress.building}}</p>
         </div>
         <div class="submit">
-            <el-button @click="settle">{{$t("main.cart.settle.mainCartSeSubOrder")}}</el-button>
+            <el-button @click="settle" :disabled="canSubmit">{{$t("main.cart.settle.mainCartSeSubOrder")}}</el-button>
         </div>
     </div>
 </template>
@@ -172,6 +172,7 @@
         props: ['items'],
         data(){
             return{
+                canSubmit:true,//刚进入页面等待运费税费计算
                 expressForm:{
                     express:'UPS',
                     service:'01',
@@ -347,6 +348,7 @@
             checkAddress(item){
                 this.checkedAddress = item
                 this.checkedId = item.id
+                this.simulateCreateTrade()
             },
             // 编辑地址
             editAddress(item){
@@ -379,7 +381,6 @@
                         value.zipCode = value.zip_code
 
                         if(value.status === 1){
-                            console.log(111,value)
                             value.setDefault = true
                             this.defaultId = value.id
                             this.checkedId = value.id
@@ -507,11 +508,11 @@
                 };
                 orderService.simulateCreateTrade(params).then((resp)=>{
                     let fee = JSON.parse(resp.data.wholesale_order.fee_hd)
-                    console.log(fee)
+                    this.canSubmit = false
                     this.sum.express = fee.HD_ALL
                     this.sum.tax = fee.TAXES_ALL
-                    this.sum.amount = resp.data.wholesale_order.pay_info.money_pay
-                    this.totalPrice = resp.data.wholesale_order.pay_real_value;
+                    this.sum.amount = resp.data.wholesale_order.pay
+                    this.totalPrice = resp.data.wholesale_order.pay_info.pay_real;
                     this.$emit('submit',2);
                 },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.error_message})
@@ -939,12 +940,13 @@
                     font-size: 14px;
                     color:#737373;
                     line-height: 26px;
-                }
-                span{
-                    display: inline-block;
-                    width:100px;
-                    color:#f13a40;
 
+                    &>span{
+                        display: inline-block;
+                        width:100px;
+                        color:#f13a40;
+
+                    }
                 }
                 p.result{
                     font-size: 14px;

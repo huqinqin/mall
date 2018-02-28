@@ -2,11 +2,15 @@
     <el-aside width="180px" class="mall-menu">
         <ul class="user">
             <li>用户中心</li>
-            <li v-for="item in user" @click="selectUser" :class="{ active: selected == item.title }"><a :href=item.href>{{item.title}}</a></li>
+            <li v-for="item in user" @click="selectChange" :class="{ active: selected == item.title }"><a :href=item.href>{{item.title}}</a></li>
         </ul>
-            <ul class="settings">
+        <ul>
+            <li>我的资金</li>
+            <li v-for="item in finance" @click="selectChange" :class="{ active: selected == item.title }"><a :href=item.href>{{item.title}}</a></li>
+        </ul>
+        <ul class="settings">
             <li>账户设置</li>
-            <li v-for="item in settings" @click="selectSetting" :class="{ active: selected == item.title }"><a :href=item.href>{{item.title}}</a></li>
+            <li v-for="item in settings" @click="selectChange" :class="{ active: selected == item.title }"><a :href=item.href>{{item.title}}</a></li>
         </ul>
     </el-aside>
 </template>
@@ -20,28 +24,28 @@
                 user:[
                     {href:'/order',title:'我的订单'},
                     {href:'/cart',title:'购物车'},
-                    {href:'',title:'我的资金'},
-                    {href:'',title:'解决方案'},
-                    {href:'',title:'RMA'},
-                    {href:'',title:'我的LTS'},
-                    {href:'',title:'消息中心'},
+                    {href:'javascript:void(0)',title:'解决方案'},
+                    {href:'/reverse',title:'RMA'},
+                    {href:'javascript:void(0)',title:'我的LTS'},
+                    {href:'javascript:void(0)',title:'消息中心'},
+                ],
+                finance:[
+                    {href:'/finance',title:'我的余额'},
+                    {href:'/repayMent',title:'待还款列表'},
                 ],
                 settings:[
-                    {href:'',title:'个人信息'},
-                    {href:'',title:'分销商资格认证'},
-                    {href:'',title:'密码设置'},
-                    {href:'',title:'收货地址'},
+                    {href:'javascript:void(0)',title:'个人信息'},
+                    {href:'/personal#/card',title:'分销商资格认证'},
+                    {href:'/personal#/password',title:'密码设置'},
+                    {href:'/personal#/receiveAddress',title:'收货地址'},
                 ],
                 selected:'',
             }
         },
         methods:{
-            selectUser(value){
+            selectChange(value){
                 store.setItem('selected', value.currentTarget.textContent);
             },
-            selectSetting(value){
-                store.setItem('selected', value.currentTarget.textContent);
-            }
         },
         mounted(){
             this.selected = store.getItem("selected") ? store.getItem("selected") : '我的订单'

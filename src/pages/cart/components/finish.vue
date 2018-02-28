@@ -34,7 +34,7 @@
                 console.log(this.tid);
                 detailOrder.detailOrder(this.tid).then((data) => {
                     this.detailOrder = data.data;
-                    if(this.detailOrder.wholesale_order_items[0].s_h_s_m === true){
+                    if(this.detailOrder.wholesale_order_items.length>0 && this.detailOrder.wholesale_order_items[0].s_h_s_m === true){
                         this.method = this.$t("main.cart.fail.mainCartFaSince")
                     }else{
                         this.method = this.$t("main.cart.beforePay.mainCartBefExpress")

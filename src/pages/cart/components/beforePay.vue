@@ -5,19 +5,20 @@
             <p>{{ $t("main.cart.beforePay.mainCartBefOrderNum") }}：{{tid}}</p>
             <p>{{ $t("main.cart.beforePay.mainCartBefWaitPay") }}：<span class="red"><lts-money :money="form.moneyPay" /></span></p>
             <div>
-                <el-checkbox v-model="form.useBalance" :disabled="!form.balance">{{ $t("main.cart.beforePay.mainCartBefEngineerAccount") }}</el-checkbox><span>（{{ $t("main.cart.beforePay.mainCartBefBalance") }}</span><lts-money v-if="form.balance !== ''" :money="form.balance"></lts-money><span>）</span>
-                <div style="display: inline-block" v-show="form.useBalance"><span>{{ $t("main.cart.beforePay.mainCartBefBalancePay") }}</span><el-input v-model="form.used" ></el-input><span>{{ $t("main.cart.beforePay.mainCartBefDpllar") }}</span>
-                    <span class="error" v-show="form.used > form.balance">({{ $t("main.cart.beforePay.mainCartBefExceedBanalace") }})</span>
-                    <span class="error" v-show="form.used*100 > form.moneyPay">({{ $t("main.cart.beforePay.mainCartBefNoExcWaitPay") }})</span>
-                </div>
+                <el-checkbox
+                    v-model="form.useBalance"
+                    :disabled="!form.balance"
+                    @change="selectBalance">
+                    {{ $t("main.cart.beforePay.mainCartBefEngineerAccount") }}</el-checkbox>
+                <span>（{{ $t("main.cart.beforePay.mainCartBefBalance") }}</span>
+                <lts-money v-if="form.balance !== ''" :money="form.balance"></lts-money><span>）</span>
             </div>
         </div>
-        <div class="payment">
+        <div class="payment" v-if="!form.useBalance || form.balance <= form.moneyPay">
             <p>{{ $t("main.cart.beforePay.mainCartBefShouldPay") }}：<lts-money :money="form.moneyPay - form.used*100" /></p>
             <el-radio v-model="form.payBank" label="CREDIT"  class="first" :disabled="form.moneyPay-form.used*100 > form.credit">{{ $t("main.cart.beforePay.mainCartBefUseAccount") }}</el-radio>
-            <!--<el-input placeholder="请输入金额"></el-input>-->
             <span v-if="form.credit">({{ $t("main.cart.beforePay.mainCartBefBalance") }}<lts-money  :money="form.credit"></lts-money>)</span>
-            <el-radio class="second" v-model="form.payBank" label="OFFLINE">{{ $t("main.cart.beforePay.mainCartBefcartPay") }}</el-radio>
+            <el-radio class="second" v-model="form.payBank" label="ANET_CREDIT_CARD">{{ $t("main.cart.beforePay.mainCartBefcartPay") }}</el-radio>
         </div>
         <div class="goPay">
             <el-button @click="confirmPay" :disabled="form.used > form.moneyPay || form.used > form.balance">{{ $t("main.cart.beforePay.mainCartBefgoPay") }}</el-button>
@@ -39,7 +40,7 @@
                     balance:'',
                     moneyPay:'',
                     credit:'',
-                    used:'',
+                    used:0,
                     payBank:'BALANCE',
                 },
                 formData: {
@@ -49,6 +50,19 @@
             }
         },
         methods:{
+            // 勾选账户余额
+            selectBalance(value){
+                console.log(this.form.useBalance,value)
+                if(value){
+                    if(this.form.balance >= this.form.moneyPay){
+                        this.form.used = this.form.moneyPay
+                    }else{
+                        this.form.used = this.form.balance
+                    }
+                }else{
+                    this.form.used = 0
+                }
+            },
             // 模拟支付
             simulatePay(){
                 let param = {
@@ -80,14 +94,16 @@
             },
             // 确认支付
             confirmPay(){
-                if(this.form.payBank == 'OFFLINE'){
-                    alert(123)
+                if(this.form.payBank == 'ANET_CREDIT_CARD'){
+                    // 信用卡支付跳转到别的页面
+                    orderService.pay_confirm(this.tid,this.form).then((data) => {
+                        this.$router.push({name:"creditInfo",query:{pay_no:data.data.statement}});
+                    },(msg) => {
+                        this.$ltsMessage.show({type:'error',message:msg.error_message})
+                        this.$router.push({name:"fail",params:{tid:this.tid}});
+                        // this.$ltsMessage.show({type:'error',message:msg.error_message})
+                    })
                 }else{
-                    if(this.form.used > 0){
-                        this.form.useBalance = true
-                    }else{
-                        this.form.useBalance = false
-                    }
                     orderService.pay_confirm(this.tid,this.form).then((data) => {
                         this.$router.push({name:"finish",params:{tid:this.tid}});
                     },(msg) => {

@@ -210,20 +210,21 @@
         </el-table>
         <div class="table-footer">
             <div class="choose">
-                <el-checkbox label="全选" v-model="selectedAll" @change="selectAll"></el-checkbox>
-                <!--<span>删除选中商品</span>-->
+                <el-checkbox :label='$t("main.cart.list.mainCartliCheckedAll")' v-model="selectedAll" @change="selectAll"></el-checkbox>
+                <span class="span-delete delete-checked" @click="deleteChecked">{{ $t("main.cart.list.mainCartliDeleteChecked") }}</span>
+                <span class="span-delete delete-invalid" @click="deleteInvalid">{{ $t("main.cart.list.mainCartliDeleteInvalid") }}</span>
             </div>
             <div class="check">
                 <div class="info">
                     <div class="topline">
-                        <span>已选商品1件，总价(不含运费、税费)：<lts-money :money="totalPrice"></lts-money></span>
+                        <span>{{ $t("main.cart.list.mainCartliCheckedItem") }}{{checkedItem.length}}{{ $t("main.cart.other.mainCartUnit") }}，{{ $t("main.cart.list.mainCartliAllPrice") }}{{ $t("main.cart.other.mainCartNo") }}({{ $t("main.cart.settle.mainCartSeTax") }}、{{ $t("main.cart.settle.mainCartSeFright") }})：<lts-money :money="totalPrice"></lts-money></span>
                     </div>
                     <div class="bottomline">
-                        <div><span>活动优惠：-</span><lts-money :money="totalPrice - realTotal"></lts-money></div>
-                        <div><span>应付总额：</span><span class="bold"><lts-money :money="realTotal"></lts-money></span></div>
+                        <div><span>{{ $t("main.cart.list.mainCartliBenefit") }}：-</span><lts-money :money="totalPrice - realTotal"></lts-money></div>
+                        <div><span>{{ $t("main.cart.list.mainCartliShouldPay") }}：</span><span class="bold"><lts-money :money="realTotal"></lts-money></span></div>
                     </div>
                 </div>
-                <el-button @click="check" :disabled="multipleSelection.length <= 0 && tooManyItems">{{ $t("main.cart.list.mainCartliImmeSettle") }}</el-button>
+                <el-button @click="check" :disabled="checkedItem.length <= 0 && tooManyItems">{{ $t("main.cart.list.mainCartliImmeSettle") }}</el-button>
             </div>
         </div>
         <!--<div class="history">-->
@@ -256,7 +257,7 @@
                     {discount:[]},
                     {reduce:[]},
                     {others:[]}],
-                tableDataItem:{},
+                tableDataItem:{}, //购物车所有数据
                 multipleSelection : [],
                 totalPrice:0,
                 realTotal:0,
@@ -265,7 +266,7 @@
                     cartTotal: 0,
                     cartPriceTotal: 0,
                 },
-                checkedItem: [],
+                checkedItem: [], //已选商品
                 checkbox:{
                     discount:false,
                     reduce:false,
@@ -281,6 +282,15 @@
 
         },
         methods:{
+            // 删除选中商品
+            deleteChecked(){
+
+            },
+            // 删除失效商品
+            deleteInvalid(){
+
+            },
+            // 全选框
             selectAll(){
                 if(this.selectedAll){
                     this.checkedItem =  this.tableDataItem
@@ -295,6 +305,7 @@
                 }
                 this.calc(this.checkedItem)
             },
+            // 单选框
             selectedChange(row){
                 if(this.checkedItem.indexOf(row) !== -1){
                     this.checkedItem.splice(this.checkedItem.indexOf(row),1)
@@ -574,10 +585,15 @@
                 margin-left: 24px;
                 .el-checkbox{
                     color: #777;
+                    margin-right: 12px;
                 }
-                span{
+                span.span-delete{
+                    margin-left: 12px;
                     color: #b1b1b1;
-                    font-size: 12px;
+                    cursor: pointer;
+                }
+                span.delete-invalid{
+                    color: #ff3b41;
                 }
             }
             .check{

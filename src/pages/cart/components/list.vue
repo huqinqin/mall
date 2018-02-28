@@ -17,12 +17,9 @@
                         <el-table
                             :data="scope.row.discount"
                             :show-header="false"
+                            @select="selectChange"
                             style="width: 100%">
-                            <el-table-column width="50">
-                                <template slot-scope="subscope">
-                                    <el-checkbox @change="selectedChange(subscope.row)" v-model="checkbox.discount"></el-checkbox>
-                                </template>>
-                            </el-table-column>
+                            <el-table-column type="selection" align="left" width="50"></el-table-column>
                             <el-table-column align="center" width="600">
                                 <template slot-scope="subscope">
                                     <a :href="'/detail#/?id=' + subscope.row.id" >
@@ -81,13 +78,9 @@
                         <el-table
                             :data="scope.row.reduce"
                             :show-header="false"
+                            @select="selectChange"
                             style="width: 100%">
-
-                            <el-table-column width="50">
-                                <template slot-scope="subscope">
-                                    <el-checkbox @change="selectedChange(subscope.row)"  v-model="checkbox.reduce"></el-checkbox>
-                                </template>>
-                            </el-table-column>
+                            <el-table-column type="selection"  align="left" width="50"></el-table-column>
                             <el-table-column align="center" width="600">
                                 <template slot-scope="subscope">
                                     <a :href="'/detail#/?id=' + subscope.row.id" >
@@ -142,14 +135,9 @@
                         <el-table
                             :data="scope.row.others"
                             :show-header="false"
-
+                            @select="selectChange"
                             style="width: 100%">
-                            <!--@selection-change="handleSelectionChange"-->
-                            <el-table-column>
-                                <template slot-scope="subscope">
-                                    <el-checkbox @change="selectedChange(subscope.row)" v-model="checkbox.others"></el-checkbox>
-                                </template>>
-                            </el-table-column>
+                            <el-table-column type="selection"  align="left" width="50"></el-table-column>
                             <el-table-column align="center" width="600">
                                 <template slot-scope="subscope">
                                     <a :href="'/detail#/?id=' + subscope.row.id" >
@@ -211,8 +199,8 @@
         <div class="table-footer">
             <div class="choose">
                 <el-checkbox :label='$t("main.cart.list.mainCartliCheckedAll")' v-model="selectedAll" @change="selectAll"></el-checkbox>
-                <span class="span-delete delete-checked" @click="deleteChecked">{{ $t("main.cart.list.mainCartliDeleteChecked") }}</span>
-                <span class="span-delete delete-invalid" @click="deleteInvalid">{{ $t("main.cart.list.mainCartliDeleteInvalid") }}</span>
+                <!--<span class="span-delete delete-checked" @click="deleteChecked">{{ $t("main.cart.list.mainCartliDeleteChecked") }}</span>-->
+                <!--<span class="span-delete delete-invalid" @click="deleteInvalid">{{ $t("main.cart.list.mainCartliDeleteInvalid") }}</span>-->
             </div>
             <div class="check">
                 <div class="info">
@@ -282,9 +270,16 @@
 
         },
         methods:{
+            selectedChange(selection,row){
+                console.log(selection,row)
+            },
             // 删除选中商品
             deleteChecked(){
+                this.checkedItem.forEach((item) => {
+                    this.tableData.forEach((value) => {
 
+                    })
+                })
             },
             // 删除失效商品
             deleteInvalid(){
@@ -306,7 +301,7 @@
                 this.calc(this.checkedItem)
             },
             // 单选框
-            selectedChange(row){
+            selectChange(selection,row){
                 if(this.checkedItem.indexOf(row) !== -1){
                     this.checkedItem.splice(this.checkedItem.indexOf(row),1)
                 }else{
@@ -346,13 +341,7 @@
                            this.tableData[2].others.push(value)
                        }
                    })
-                   // this.tableData.forEach((item)=>{
-                   //     if(item.item_props[0].prop_value == ""||item.item_props[0].prop_value==null||item.item_props[0].prop_value==undefined){
-                   //         item.item_props[0].prop_value = {};
-                   //     }else{
-                   //         item.item_props[0].prop_value = JSON.parse(item.item_props[0].prop_value);
-                   //     }
-                   // })
+                   console.log(this.tableData)
                },(msg)=>{
                     this.$ltsMessage.show({type:'error',message:msg.errorMessage})
                });
@@ -367,47 +356,23 @@
                     })
                 })
            },
-          /*  queryCartList(){
-                this.tableData = cartService.queryCartList(158716).datalist;
-            },*/
-            // 单选框
-            // handleSelectionChange(value){
-            //         let total = 0;
-            //         this.multipleSelection = value;
-            //         this.multipleSelection.forEach((item) => {
-            //             total += item.num * item.item_props[0].price;
-            //         })
-            //         this.totalPrice = total;
-            //         this.chooseAll = false;
-            // },
-            // 全选框 -- 选不上啊
-            chooseAllSelect(val){
-                if (val) {
-                    this.tableData.forEach((val) => {
-                        this.$refs.multipleTable.toggleRowSelection(val,true);
-                    });
-                    this.chooseAll = true;
-                }else {
-                    this.$refs.multipleTable.clearSelection();
-                    this.chooseAll = false;
-                }
-            },
             // 购物车结算
             check() {
                 this.$emit('submit', 1)
-                this.$router.push({name: 'settle', params: { 'items': this.multipleSelection,"cartItems":this.cartItemList,"cartTotal":this.cart}})
+                this.$router.push({name: 'settle', params: { 'items': this.checkedItem,"cartItems":this.cartItemList,"cartTotal":this.cart}})
             },
             // 修改购物车数量
             inputNumeberChange(row){
                 let total = 0;
                 this.$nextTick( ()=> {
                     this.putCartPlus(row).then((data)=>{
-                        this.multipleSelection.forEach((item)=>{
-                            setTimeout(()=>{
-                                total += item.num   *  item.item_props[0].price;
-                                this.totalPrice = total;
-                            },20)
-                        })
+                        this.calc(this.checkedItem)
+                        // this.checkedItem.forEach((item)=>{
+                        //     setTimeout(()=>{
+                        //         total += item.num   *  item.item_props[0].price;
+                        //         this.totalPrice = total;
+                        //     },20)
+                        // })
                     },(msg)=>{
                         console.log("fail");
                     })
@@ -487,9 +452,6 @@
                     margin-top: 40px;
                     border:1px solid #a3a3a3;
                     position: relative;
-                    .el-checkbox{
-                        margin-left: 12px;
-                    }
                     .popover{
                         position: absolute;
                         top:-40px;
@@ -582,7 +544,7 @@
                 color: #999;
             }
             .choose{
-                margin-left: 24px;
+                margin-left: 16px;
                 .el-checkbox{
                     color: #777;
                     margin-right: 12px;

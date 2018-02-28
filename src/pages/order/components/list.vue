@@ -40,40 +40,40 @@
                             <el-table-column prop="num" width="100">
                                 <template slot-scope="subscope">{{subscope.row.num}}{{subscope.row.wholesale_item_d_o.unit}}</template>
                             </el-table-column>
-                            <el-table-column prop="hd_status_title" width="160">
-                                <template slot-scope="subscope">
-                                    <div style="color: #ff3b41;"><lts-money :money="subscope.row.pay_real"></lts-money></div>
-                                    <del class="text-secondary" v-if="subscope.row.pay > subscope.row.pay_real">
-                                        <lts-money :money="subscope.row.pay"></lts-money>
-                                    </del>
-                                    <!--<div>含运费:<lts-money :money="1"></lts-money></div>-->
-                                    <!--<div>含税费:<lts-money :money="2"></lts-money></div>-->
-                                </template>
-                            </el-table-column>
-                            <el-table-column prop="status_title" width="118">
-                                <template slot-scope="subscope">
-                                    <span v-if="subscope.row.status == 9">
-                                        {{subscope.row.closed_reason_title}}
-                                    </span>
-                                    <span v-else>
-                                        <span v-if="subscope.row.last_refund_status == 1">
-                                            {{$t("main.order.list.mainOrLiBackApply")}}
-                                        </span>
-                                        <span v-else-if="subscope.row.last_refund_status == 3">
-                                            {{$t("main.order.list.mainOrLiReject")}}
-                                        </span>
-                                        <span v-else-if="subscope.row.last_refund_status == 7">
-                                            {{$t("main.order.list.mainOrLiAlreadyBack")}}{{subscope.row.refund_num}}{{subscope.row.wholesale_item_d_o.unit}}<lts-money :moeny="subscope.row.refund_real"></lts-money>元
-                                        </span>
-                                        <span v-else-if="subscope.row.last_refund_status == 9">
-                                            {{$t("main.order.list.mainOrLiClose")}}
-                                        </span>
-                                        <span v-else>
-                                            {{subscope.row.status_title}}
-                                        </span>
-                                    </span>
-                                </template>
-                            </el-table-column>
+                            <!--<el-table-column prop="hd_status_title" width="160">-->
+                                <!--<template slot-scope="subscope">-->
+                                    <!--<div style="color: #ff3b41;"><lts-money :money="subscope.row.pay_real"></lts-money></div>-->
+                                    <!--<del class="text-secondary" v-if="subscope.row.pay > subscope.row.pay_real">-->
+                                        <!--<lts-money :money="subscope.row.pay"></lts-money>-->
+                                    <!--</del>-->
+                                    <!--&lt;!&ndash;<div>含运费:<lts-money :money="1"></lts-money></div>&ndash;&gt;-->
+                                    <!--&lt;!&ndash;<div>含税费:<lts-money :money="2"></lts-money></div>&ndash;&gt;-->
+                                <!--</template>-->
+                            <!--</el-table-column>-->
+                            <!--<el-table-column prop="status_title" width="118">-->
+                                <!--<template slot-scope="subscope">-->
+                                    <!--<span v-if="subscope.row.status == 9">-->
+                                        <!--{{subscope.row.closed_reason_title}}-->
+                                    <!--</span>-->
+                                    <!--<span v-else>-->
+                                        <!--<span v-if="subscope.row.last_refund_status == 1">-->
+                                            <!--{{$t("main.order.list.mainOrLiBackApply")}}-->
+                                        <!--</span>-->
+                                        <!--<span v-else-if="subscope.row.last_refund_status == 3">-->
+                                            <!--{{$t("main.order.list.mainOrLiReject")}}-->
+                                        <!--</span>-->
+                                        <!--<span v-else-if="subscope.row.last_refund_status == 7">-->
+                                            <!--{{$t("main.order.list.mainOrLiAlreadyBack")}}{{subscope.row.refund_num}}{{subscope.row.wholesale_item_d_o.unit}}<lts-money :moeny="subscope.row.refund_real"></lts-money>元-->
+                                        <!--</span>-->
+                                        <!--<span v-else-if="subscope.row.last_refund_status == 9">-->
+                                            <!--{{$t("main.order.list.mainOrLiClose")}}-->
+                                        <!--</span>-->
+                                        <!--<span v-else>-->
+                                            <!--{{subscope.row.status_title}}-->
+                                        <!--</span>-->
+                                    <!--</span>-->
+                                <!--</template>-->
+                            <!--</el-table-column>-->
                             <el-table-column width="130" align="center">
                                 <template slot-scope="subscope">
                                     <!--<el-dropdown @command="handleMenuItemClick">-->
@@ -134,6 +134,17 @@
                 </template>
             </el-table-column>
         </el-table>
+        <el-pagination
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            style="text-align: right;margin-top:20px"
+            :current-page="pagination.page"
+            :page-sizes="pagination.pagesizes"
+            :page-size="pagination.pageSize"
+            :layout="pagination.layout"
+            :total="pagination.total">
+        </el-pagination>
         <!--<reverse-apply :visible.sync="dialogVisible" v-bind:order-item="refundOrder" v-bind:installer="refundInstaller" v-bind:item="refundItem" />-->
     </div>
 </template>
@@ -204,7 +215,7 @@
                 },
                 pagination: {
                     page: 1,
-                    pagesize: 10,
+                    pagesize: 30,
                     total: 0,
                     sizes: [10, 20, 30,40],
                     layout: "total, sizes, prev, pager, next, jumper" // total 总条目数  prev 上一页 next 下一页 sizes 支持分组
@@ -219,13 +230,13 @@
                         this.params.status = ''
                         break
                     case 'noPay':
-                        this.params.status = 0
+                        this.params.status = "0"
                         break
                     case 'noDeliver':
-                        this.params.status = 1
+                        this.params.status = "1"
                         break
                     case 'delivered':
-                        this.params.status = 7
+                        this.params.status = "7"
                 }
                 this.search()
             },

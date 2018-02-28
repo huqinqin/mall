@@ -41,7 +41,6 @@
             ref="multipleTable"
             @selection-change="handleSelectionChange"
             :data="tableData"
-            border
             :default-sort = "{prop: 'date', order: 'descending'}"
             style="width: 74%;margin-top: 20px">
             <el-table-column
@@ -229,7 +228,7 @@
                 margin-left: 10px;
                 position: absolute;
                 bottom: 0;
-                right:31%;
+                right:20%;
                 height: 40px;
             }
             .demonstration{

@@ -1,6 +1,6 @@
 <template>
     <div class="personalMessage">
-        <h3 class="title">个人资料</h3>
+        <h3 class="title">{{$t("main.personal.personalMsg.mainPerPerData")}}</h3>
         <el-form :model="ruleForm" :rules="rules" :inline="true" ref="ruleForm" label-width="100px" label-position="top"
                  class="demo-ruleForm" >
             <el-form-item label="" prop="headerPic">
@@ -17,14 +17,14 @@
                 </div>
             </el-form-item>
             <br>
-            <el-form-item label="邮箱" prop="email" style="margin-top: 17px;">
+            <el-form-item :label='$t("main.personal.personalMsg.mainPerPerEmail")' prop="email" style="margin-top: 17px;">
                 <el-input v-model="ruleForm.email"></el-input>
             </el-form-item>
             <br>
-            <el-form-item label="性别" prop="sex" style="margin-top: 20px;">
+            <el-form-item :label='$t("main.personal.personalMsg.mainPerPerSex")' prop="sex" style="margin-top: 20px;">
                 <el-radio-group v-model="ruleForm.sex">
-                    <el-radio label="男"></el-radio>
-                    <el-radio label="女"></el-radio>
+                    <el-radio :label='$t("main.personal.personalMsg.mainPerPermale")'></el-radio>
+                    <el-radio :label='$t("main.personal.personalMsg.mainPerPerFemale")'></el-radio>
                 </el-radio-group>
             </el-form-item>
             <br>
@@ -35,20 +35,20 @@
                 <el-input v-model="ruleForm.name"></el-input>
             </el-form-item>
             <br>
-            <el-form-item label="联系手机" prop="phone" style="margin-top: 20px;">
+            <el-form-item :label='$t("main.personal.personalMsg.mainPerPerContactPhone")' prop="phone" style="margin-top: 20px;">
                 <el-input v-model="ruleForm.phone"></el-input>
             </el-form-item>
             <br>
-            <el-form-item label="公司名" prop="companyName" style="margin-top: 20px;">
+            <el-form-item :label='$t("main.personal.personalMsg.mainPerPerCompany")' prop="companyName" style="margin-top: 20px;">
                 <el-input v-model="ruleForm.companyName"></el-input>
             </el-form-item>
             <br>
-            <el-form-item label="公司联系方式" prop="companyPhone" style="margin-top: 20px;">
+            <el-form-item :label='$t("main.personal.personalMsg.mainPerPerCompanyMode")' prop="companyPhone" style="margin-top: 20px;">
                 <el-input v-model="ruleForm.companyPhone"></el-input>
             </el-form-item>
             <br>
             <el-form-item>
-                <el-button type="primary" @click="submitForm('ruleForm')" class="submitBtn">保存</el-button>
+                <el-button type="primary" @click="submitForm('ruleForm')" class="submitBtn">{{$t("main.personal.card.mainPerCarSave")}}</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -70,16 +70,16 @@
                 },
                 rules: {
                     email: [
-                        {required: true, message: '请输入邮箱', trigger: 'blur'}
+                        {required: true, message:this.$t("main.personal.personalMsg.mainPerPerEnterEmail"), trigger: 'blur'}
                     ],
                     sex: [
-                        {required: true, message: '请选择性别', trigger: 'change'}
+                        {required: true, message: this.$t("main.personal.personalMsg.mainPerPerEnterSex"), trigger: 'change'}
                     ],
                     name: [
-                        {required: true, message: '请输入姓名', trigger: 'blur'}
+                        {required: true, message: this.$t("main.personal.personalMsg.mainPerPerEnterName"), trigger: 'blur'}
                     ],
                     phone: [
-                        {required: true, message: '请输入联系电话', trigger: 'change'}
+                        {required: true, message: this.$t("main.personal.personalMsg.mainPerPerEnterCont"), trigger: 'change'}
                     ]
                 }
             };
@@ -106,10 +106,10 @@
                 const isLt2M = file.size / 1024 / 1024 < 2;
 
                 if (!isJPG) {
-                    this.$message.error('上传头像图片只能是 JPG 格式!');
+                    this.$message.error(this.$t("main.personal.personalMsg.mainPerPerUploadJpg"));
                 }
                 if (!isLt2M) {
-                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                    this.$message.error(this.$t("main.personal.personalMsg.mainPerPer2MB"));
                 }
                 return isJPG && isLt2M;
             }

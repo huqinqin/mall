@@ -166,8 +166,8 @@
           :money="sum.express"></lts-money></span></span></p>
         <p>{{ $t("main.cart.settle.mainCartSeTax") }}： <span><span v-if="sum.tax == 0 || sum.tax">+<lts-money
           :money="sum.tax"></lts-money></span></span></p>
-        <p>{{ $t("main.cart.settle.mainCartSeRedBag") }}： <span><span v-if="sum.benefit == 0 || sum.benefit">-<lts-money
-          :money="sum.benefit"></lts-money></span></span></p>
+        <!--<p>{{ $t("main.cart.settle.mainCartSeRedBag") }}： <span><span v-if="sum.benefit == 0 || sum.benefit">-<lts-money-->
+          <!--:money="sum.benefit"></lts-money></span></span></p>-->
         <p class="result">{{ $t("main.cart.settle.mainCartSeMustPay") }}： <span><span v-if="totalPrice"><lts-money
           :money="totalPrice"></lts-money></span></span></p>
       </div>

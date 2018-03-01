@@ -13,6 +13,7 @@ export default {
         headerIndex: '商城首页',
         headerMyOrder: '我的订单',
         headerFavorite: '收藏夹',
+        headerMyExpert: '我的专家',
         headerPhoneOrder: '手机下单更便捷',
         headerLogin: '退出',
         headerSearchGoods: '搜索商品',

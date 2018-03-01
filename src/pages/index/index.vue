@@ -21,7 +21,7 @@
       </div>
       <div class="login">
         <button v-login>{{$t("main.index.mainInImmeLogin")}}</button>
-        <button v-login class="sign">{{$t("main.index.mainInFreeRegis")}}</button>
+        <a href='/account#/register'><button class="sign">{{$t("main.index.mainInFreeRegis")}}</button></a>
       </div>
     </div>
     <!-- poster -->

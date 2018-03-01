@@ -1,10 +1,11 @@
 import Router from 'vue-router'
-import Vue from  'vue'
+import Vue from 'vue'
 import Settle from '../components/settle'
 import Finish from '../components/finish'
 import Fail from '../components/fail'
 import BeforePay from '../components/beforePay'
 import List from '../components/list'
+import CreditInfo from '../components/creditInfo'
 
 Vue.use(Router)
 
@@ -30,13 +31,18 @@ export default new Router({
     },
     {
       path: '/finish',
-      name:'finish',
+      name: 'finish',
       component: Finish
     },
-      {
-          path: '/fail',
-          name: 'fail',
-          component: Fail
-      }
+    {
+      path: '/fail',
+      name: 'fail',
+      component: Fail
+    },
+    {
+      path: '/creditInfo',
+      name: 'creditInfo',
+      component: CreditInfo
+    }
   ]
 })

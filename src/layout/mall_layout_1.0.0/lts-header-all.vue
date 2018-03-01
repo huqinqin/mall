@@ -1,5 +1,5 @@
 <template>
-    <div class="product allHead" slot="header">
+    <div class="product all-head" slot="header">
         <div class="menu-list s-span-page">
             <ul>
                 <li v-for="value in menuList">
@@ -228,7 +228,7 @@
 </script>
 
 <style lang="less">
-    .product{
+    .all-head{
         background-color: white;
         .search-bar{
             padding-bottom: 24px;
@@ -249,6 +249,7 @@
                 li{
                     flex:1;
                     text-align: center;
+                    overflow: inherit;
                     a{
                         text-decoration: none;
                         .iconfont{

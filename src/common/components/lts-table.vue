@@ -1,5 +1,5 @@
 <template>
-    <div style="position: relative;padding-bottom: 60px">
+    <div style="position: relative;padding-bottom: 60px" class="lts-table">
         <el-table
             :data="table.tableData"
             v-loading="loading"
@@ -58,14 +58,6 @@
         </el-pagination>
     </div>
 </template>
-<style>
-    .el-pagination {
-        position: absolute;
-        bottom: 10px;
-        right: 20px;
-        z-index: 111;
-    }
-</style>
 <script>
     import {request} from 'ltsutil'
 

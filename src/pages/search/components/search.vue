@@ -237,47 +237,6 @@
 </script>
 
 <style lang="less">
-    *{
-        box-sizing: border-box;
-    }
-
-    li{
-        box-sizing: border-box;
-        position: relative;
-        overflow: hidden;
-    }
-    /**/
-    li.reduce::before,li.discount::before,li.limit::before{
-        content:'';
-        color:white;
-        font-weight: bold;
-        font-size: 16px;
-        line-height: 35px;
-        text-align: center;
-        background: rgb(237,39,58);
-        width:110px;
-        height: 35px;
-        position: absolute;
-        top: 8px;
-        left: -29px;
-        transform:rotate(-45deg);
-    }
-    li.reduce::before{
-        content:'减价';
-    }
-    li.discount::before{
-        content:'折扣';
-    }
-    li.limit::before{
-        content:'限时限量';
-        font-size: 14px;
-    }
-    button{
-        cursor:pointer;
-    }
-    button:focus{
-        outline: none;
-    }
     .b1200 .search-result{
         li{
             margin-right: 10px;
@@ -295,6 +254,47 @@
         }
     }
     .search{
+        *{
+            box-sizing: border-box;
+        }
+
+        li{
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+        }
+        /**/
+        li.reduce::before,li.discount::before,li.limit::before{
+            content:'';
+            color:white;
+            font-weight: bold;
+            font-size: 16px;
+            line-height: 35px;
+            text-align: center;
+            background: rgb(237,39,58);
+            width:110px;
+            height: 35px;
+            position: absolute;
+            top: 8px;
+            left: -29px;
+            transform:rotate(-45deg);
+        }
+        li.reduce::before{
+            content:'减价';
+        }
+        li.discount::before{
+            content:'折扣';
+        }
+        li.limit::before{
+            content:'限时限量';
+            font-size: 14px;
+        }
+        button{
+            cursor:pointer;
+        }
+        button:focus{
+            outline: none;
+        }
         overflow: hidden;
         ul{
             display: flex;

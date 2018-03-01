@@ -10,6 +10,7 @@ export default {
         headerImmediatelyLog: '立即登录',
         headerWelcom: '欢迎',
         headerNews: '快报',
+        headerIndex: '商城首页',
         headerMyOrder: '我的订单',
         headerFavorite: '收藏夹',
         headerPhoneOrder: '手机下单更便捷',

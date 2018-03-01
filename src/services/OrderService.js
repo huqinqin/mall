@@ -55,7 +55,12 @@ export default class OrderService extends BaseService {
         };
         return super.postRequest('/installer/trade/simulate_create_trade',params)
     }
-    /*正式下单*/
+    /**
+     * return
+     * params wholesale_trade_request JSON
+     * @auth taohua
+     * @remark 正式下单
+     * */
     static createTrade(param,remark){
         let params = {
             wholesale_trade_request : JSON.stringify(param),
@@ -70,7 +75,12 @@ export default class OrderService extends BaseService {
         };
         return super.getRequest('/store/order/detail',params);
     }
-    /*获取订单的详细信息*/
+    /**
+     * return
+     * params tid 订单号
+     * @auth taohua
+     * @remark 获取订单的详细信息
+     * */
     static detailOrder(param){
         let params = {
             tid: param
@@ -83,7 +93,14 @@ export default class OrderService extends BaseService {
         };
         return super.getRequest('/installer/order/close_by_tid',params);
     }
-    /*模拟支付获取账户余额*/
+    /**
+     * return
+     * params tid 订单号
+     * params pay_bank 支付方式
+     * params pay_source 支付方式
+     * @auth taohua
+     * @remark 模拟支付获取账户余额
+     * */
     static simulatePay(param){
         let params = {
             tid: param.tid,
@@ -92,16 +109,47 @@ export default class OrderService extends BaseService {
         };
         return super.postRequest('/trade_pay/simulate_pay_confirm',params);
     }
-
-    /*使用余额支付*/
+    /**
+     * return
+     * params tid 订单号
+     * params pay_bank 支付方式
+     * params pay_source 支付方式
+     * params use_balance 是否使用余额
+     * params balance_pay 使用多少余额
+     * @auth taohua
+     * @remark 使用余额支付
+     * */
     static pay_confirm(tid,form){
         let params = {
             tid: tid,
             pay_bank: form.payBank,
-            pay_source: 'BALANCE',
+            pay_source: form.payBank,
             use_balance: form.useBalance,
-            balance_pay: form.used * 100,
+            balance_pay: form.used,
         };
         return super.postRequest('/trade_pay/pay_confirm',params);
     }
+    /**
+     * return
+     * params tid 订单号
+     * params pay_bank 支付方式
+     * params pay_source 支付方式
+     * params use_balance 是否使用余额
+     * params balance_pay 使用多少余额
+     * @auth taohua
+     * @remark 使用信用卡支付
+     * */
+    static credit_pay(form){
+        let params = {
+            pay_no:form.pay_no,
+            credit_card_pay_info:JSON.stringify({
+                // cardNumer:form.num,测试卡号
+                cardNumber:4242424242424242,
+                expirationDate:form.date
+
+           })
+        }
+        return super.postRequest('/trade_pay/credit_card_pay',params);
+    }
+
 }

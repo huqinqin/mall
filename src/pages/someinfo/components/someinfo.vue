@@ -22,17 +22,17 @@
                                             <div class="saleTopTop">
                                                 <div class="saleTopLeft">
                                                     <div class="dollar">
-                                                      <span>$</span><span>{{item.price}}</span>
+                                                      <span>$</span><span>{{item.balance}}</span>
                                                     </div>
                                                 </div>
                                                 <div class="saleTopRight">
-                                                    <div>满减劵</div>
-                                                    <div>{{item.desc}}</div>
-                                                    <div>{{item.discount}}</div>
+                                                    <div style="color: #ff3b41">满减劵</div>
+                                                    <div>{{item.remark}}</div>
+                                                    <div>满<span>{{item.startMoney}}</span>美元使用（满<span>{{item.startMoney}}</span> - <span>{{item.value}}</span>）</div>
                                                 </div>
                                             </div>
                                             <div class="saleBottomBottom">
-                                                <span style="margin-right: 10px">使用时间:</span><span>02-12-2018</span><span>至</span><span>03-15-2018</span>
+                                                <span style="margin-right: 10px">使用时间:</span><span>{{item.startTime}}</span><span>至</span><span>{{item.endTime}}</span>
                                             </div>
                                         </div>
                                         <hr class="dosh">
@@ -49,8 +49,8 @@
         <div class="history">
             <h2>历史购买记录</h2>
             <ul>
-                <div style="width:40px;height: 40px">
-                    <span class="el-icon-arrow-left icon" v-show="this.pagination.page > 1" @click="pre"></span>
+                <div>
+                    <el-button class="el-icon-arrow-left icon" :disabled="this.pagination.page === 1" @click="pre"></el-button>
                 </div>
                <li v-for="item in historyData">
                    <a href="#">
@@ -61,7 +61,7 @@
                    </a>
                </li>
                 <div style="width:40px;height: 40px">
-                   <span class="el-icon-arrow-right icon" v-show="this.pagination.page < this.pages" @click="next"></span>
+                   <el-button class="el-icon-arrow-right icon" :disabled="this.pagination.page === this.pages" @click="next"></el-button>
                 </div>
             </ul>
         </div>
@@ -95,15 +95,10 @@
                 historyData: {},
                 historyLen: 0,
                 pages: 0,
-                discountData: [{
-                    price:50,
-                    desc: "全球年货节",
-                    discount: "满499美元使用（满499 - 50）"
-                }, {
-                    price:50,
-                    desc: "新用户专享",
-                    discount: "满499美元使用（满499 - 50）"}],
-                isShow: true
+                discountData: [],
+                isShow: true,
+                value:0,
+                startMoney:0
             }
         },
         created(){},
@@ -112,6 +107,22 @@
             this.history();
         },
         methods: {
+            /*日期补齐前缀*/
+            PrefixInteger(num, n) {
+               return (Array(n).join(0) + num).slice(-n);
+            },
+            gettime(t){
+               var _time=new Date(t);
+               var year=_time.getFullYear();//2017
+               var month=_time.getMonth()+1;//7
+                month = this.PrefixInteger(month,2);
+               var date=_time.getDate();//10
+                date = this.PrefixInteger(date,2);
+               var hour=_time.getHours();//10
+               var minute=_time.getMinutes();//56
+               var second=_time.getSeconds();//15
+                return   date+"-"+month+"-"+year;
+            },
             closeAll(){
                 $('.el-tooltip__popper').css("display",'none');
                 this.isShow = false
@@ -134,6 +145,19 @@
                                 this.len++;
                             })
                         }
+                    });
+                    data.data.acc_books.forEach((item) => {
+                        if(item.subject === 2010102){
+                            this.discountData = item.bonus.datalist;
+                            this.discountData.forEach((item) => {
+                                item.balance = item.balance / 100;
+                                item.rule1 =  JSON.parse(item.rule);
+                                item.value = item.rule1[0].value / 100;
+                                item.startMoney = item.rule1[0].startV / 100;
+                                item.startTime = this.gettime(item.start_time);
+                                item.endTime = this.gettime(item.end_time);
+                            })
+                        }
                     })
                 })
             },
@@ -144,10 +168,11 @@
                 };
                 checkService.history(params).then((data) => {
                     this.pagination.total = data.total;
+                    this.pages = Math.ceil(this.pagination.total / this.pagination.pageSize);
                     this.historyData = data.datalist;
                     this.historyData.forEach((item) => {
                         this.historyLen++;
-                    })
+                    });
                 })
             },
             pre(){
@@ -160,7 +185,7 @@
             },
             next(){
                 this.pages = Math.ceil(this.pagination.total / this.pagination.pageSize);
-                if(this.pagination.page !== pages){
+                if(this.pagination.page !== this.pages){
                     this.pagination.page++;
                     this.history();
                 }else{
@@ -264,6 +289,7 @@
                 img{
                     width: 100%;
                     height: 100%;
+                    border-radius: 50%;
                 }
             }
             .infoRight{
@@ -297,7 +323,7 @@
                 display: flex;
                 align-items: center;
                 .icon{
-                    font-size: 40px;
+                    font-size: 30px;
                     font-weight: bold;
                 }
                 li:nth-child(2){

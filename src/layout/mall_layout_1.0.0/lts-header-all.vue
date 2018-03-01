@@ -249,6 +249,7 @@
                 li{
                     flex:1;
                     text-align: center;
+                    overflow: inherit;
                     a{
                         text-decoration: none;
                         .iconfont{

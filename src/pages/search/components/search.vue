@@ -237,6 +237,22 @@
 </script>
 
 <style lang="less">
+    .b1200 .search-result{
+        li{
+            margin-right: 10px;
+        }
+        li:nth-child(4n){
+            margin-right: 0;
+        }
+    }
+    .b1500 .search-result{
+        li{
+            margin-right: 10px;
+        }
+        li:nth-child(5n){
+            margin-right: 0;
+        }
+    }
     .search{
         *{
             box-sizing: border-box;
@@ -278,22 +294,6 @@
         }
         button:focus{
             outline: none;
-        }
-        .b1200 .search-result{
-            li{
-                margin-right: 10px;
-            }
-            li:nth-child(4n){
-                margin-right: 0;
-            }
-        }
-        .b1500 .search-result{
-            li{
-                margin-right: 10px;
-            }
-            li:nth-child(5n){
-                margin-right: 0;
-            }
         }
         overflow: hidden;
         ul{

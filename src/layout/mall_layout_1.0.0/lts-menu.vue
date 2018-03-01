@@ -22,7 +22,7 @@
         data(){
             return{
                 user:[
-                    {href:'/',title:'个人首页'},
+                    {href:'javascript:void(0)',title:'个人首页'},
                     {href:'/order',title:'我的订单'},
                     {href:'/cart',title:'购物车'},
                     {href:'javascript:void(0)',title:'解决方案'},
@@ -48,7 +48,7 @@
             },
         },
         mounted(){
-            this.selected = store.getItem("selected") ? store.getItem("selected") : '我的订单'
+            this.selected = store.getItem("selected") ? store.getItem("selected") : '个人首页'
         }
     }
 </script>

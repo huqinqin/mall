@@ -22,12 +22,11 @@
         data(){
             return{
                 user:[
+                    {href:'/',title:'个人首页'},
                     {href:'/order',title:'我的订单'},
                     {href:'/cart',title:'购物车'},
                     {href:'javascript:void(0)',title:'解决方案'},
                     {href:'/reverse',title:'RMA'},
-                    {href:'javascript:void(0)',title:'我的LTS'},
-                    {href:'javascript:void(0)',title:'消息中心'},
                 ],
                 finance:[
                     {href:'/finance',title:'我的余额'},
@@ -35,6 +34,7 @@
                 ],
                 settings:[
                     {href:'javascript:void(0)',title:'个人信息'},
+                    {href:'javascript:void(0)',title:'邮箱修改'},
                     {href:'/personal#/card',title:'分销商资格认证'},
                     {href:'/personal#/password',title:'密码设置'},
                     {href:'/personal#/receiveAddress',title:'收货地址'},

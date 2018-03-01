@@ -25,7 +25,7 @@
     name: 'credit-info',
     data () {
       return {
-        tid:'',
+        tid: '',
         form: {
           num: '',
           date: '',

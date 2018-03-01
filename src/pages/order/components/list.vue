@@ -98,7 +98,7 @@
                     <div>
                         <span>{{scope.row.cdate | timestamp2str}}</span>
                         <span>{{$t("main.order.list.mainOrLiOrderNum")}}:{{scope.row.tid}}</span>
-                        <span style="color: #3b98ff;">{{$t("main.order.list.mainOrLiPayInfo")}}</span>
+                        <!--<span style="color: #3b98ff;">{{$t("main.order.list.mainOrLiPayInfo")}}</span>-->
                         <span style="font-size: 12px">{{$t("main.order.list.mainOrLiPhone")}}</span>
                     </div>
                 </template>

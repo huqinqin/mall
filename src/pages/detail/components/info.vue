@@ -562,7 +562,6 @@
                 .slogan{
                     width: 100%;
                     line-height: 40px;
-                    border:1px solid red;
                     font-size: 14px;
                     color:white;
                     background-image: url('../../../assets/img/xqbjt.png');

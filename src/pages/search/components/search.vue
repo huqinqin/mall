@@ -171,7 +171,11 @@
             // 调接口
             submit(){
                 this.search.itemName = this.$route.query.keywords
-                this.search.cateId = this.$route.query.cateId.split(',')
+                if(this.$route.query.cateId == '-1000'){
+                    this.search.cateId = '';
+                }else{
+                    this.search.cateId = this.$route.query.cateId.split(',')
+                }
                 ItemService.searchItem(this.search).then((rtn)=>{
                     this.data = rtn.data.item_d_o_list
                     // TOOD 这里计算页数

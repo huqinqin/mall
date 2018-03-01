@@ -1,24 +1,27 @@
 import Router from 'vue-router'
-import Signup from '../components/signup.vue'
-import Reset from '../components/reset.vue'
 import Vue from  'vue'
-import SignupFinish from '../components/signupFinish.vue'
-
+import Register from '../components/register.vue'
+import Reset from '../components/reset.vue'
+import WaitAuthing from '../components/waitAuthing.vue'
 Vue.use(Router)
 
 export default new Router({
-    routes: [
-        {
-            path: '/signup',
-            component: Signup
-        },
-        {
-            path: '/reset',
-            component: Reset
-        },
-        {
-            path: '/signupFinish',
-            component: SignupFinish
-        },
-    ]
+  routes: [
+      {
+          path: '/',
+          component: Register
+      },
+      {
+          path: '/register',
+          component: Register
+      },
+      {
+          path: '/reset',
+          component: Reset
+      },
+      {
+          path: '/waitAuthing',
+          component: WaitAuthing
+      },
+  ]
 })

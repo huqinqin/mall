@@ -585,7 +585,7 @@
           flex-direction: column;
           justify-content: space-between;
           div {
-            line-height: 20px;
+            line-height: 21px;
           }
           .bottomline {
             display: flex;

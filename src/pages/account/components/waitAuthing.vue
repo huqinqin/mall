@@ -1,16 +1,15 @@
 <template>
-    <div class="signupFinish">
+    <div class="waitAuthing">
         <header>
             <div class="line"></div>
-            <div class="title">REGISTER AN ACCOUNT</div>
+            <div class="title">REGISRATION SUCCESS</div>
             <div class="line"></div>
         </header>
         <main>
-            <div class="info1">CONGRATULATIONS</div>
-            <div class="info2">CREATE AN ACCOUNT SUCCESSFULLY</div>
+            <div class="info1">SUBMITTED SUCCESSFULLY</div>
+            <div class="info2">WAITING FOR THE SYSTEM AUDIT</div>
             <div class="buttons">
                 <el-button class="back" @click="back">BACK TO THE MALL</el-button>
-                <el-button class="myself" @click="myself">DISTRIBUTOR QUALIFICATION</el-button>
             </div>
         </main>
     </div>
@@ -34,7 +33,7 @@
 </script>
 
 <style lang="less">
-    .signupFinish{
+    .waitAuthing{
         main{
             width:700px;
             height: 700px;
@@ -45,7 +44,7 @@
             color:#ff3b41;
             .info1{
                 line-height: 60px;
-                font-size: 60px;
+                font-size: 48px;
                 font-weight: bold;
                 margin-top: 140px;
             }

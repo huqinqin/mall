@@ -117,6 +117,9 @@
                         {{scope.row.status_title}}
                     </span>
                     <span v-else>{{scope.row.status_title}}</span>
+                    <div v-if="scope.row.last_refund_status > 0 && scope.row.last_refund_status < 9" style="color: #ff3b41;">
+                        退款
+                    </div>
                 </template>
             </el-table-column>
             <el-table-column :label='$t("main.order.list.mainOrLiTransationHan")' align="center" width="130">
@@ -236,7 +239,7 @@
                         this.params.status = "1"
                         break
                     case 'delivered':
-                        this.params.status = "7"
+                        this.params.status = "2"
                 }
                 this.search()
             },
@@ -297,6 +300,7 @@
                 this.$ltsMessage.show({type: 'success', message: this.$t("main.order.list.mainOrLiReturnMoner")});
             },
             isCanRefund(orderItem){
+                // return true;
                 return (orderItem.status == 2 || orderItem.status == 7)
                     && (orderItem.hd_status == 5 || orderItem.hd_status == 10)
                     && ((orderItem.refund_status & 4) == 0 && (orderItem.refund_status & 256) == 0);

@@ -45,7 +45,6 @@
       }
     },
     mounted () {
-      debugger
       this.form.pay_no = this.$route.query.pay_no
       this.tid = this.$route.query.tid
     }

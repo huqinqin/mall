@@ -350,6 +350,11 @@
       queryCartList () {
         cartService.queryCartList().then((data) => {
           this.tableDataItem = data.datalist
+          this.tableData = [
+              {discount: []},
+              {reduce: []},
+              {others: []}
+          ]
           data.datalist.forEach((value) => {
             value.item_props.forEach((item) => {
               item.prop_value = JSON.parse(item.prop_value)
@@ -558,6 +563,7 @@
       justify-content: space-between;
       line-height: 40px;
       background: #F6F6F6;
+      border:solid 1px #F6F6F6;
       span {
         font-size: 14px;
         color: #999;
@@ -585,7 +591,7 @@
           flex-direction: column;
           justify-content: space-between;
           div {
-            line-height: 20px;
+            line-height: 21px;
           }
           .bottomline {
             display: flex;

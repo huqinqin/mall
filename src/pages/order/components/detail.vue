@@ -1,7 +1,7 @@
 <template>
     <div class="orderDetail">
         <el-alert
-            :title='$t("main.order.detail.mainOrDeOrderStatus") + order.tid + $t("main.order.detail.mainOrDeAuto")'
+            :title='$t("main.order.detail.mainOrDeOrderStatus") + ":" + order.status_title + " " + $t("main.order.detail.mainOrDeAuto")'
             :closable="false"
             type="info">
         </el-alert>
@@ -17,7 +17,9 @@
                     {{order.user_addr}}
                 </el-form-item>
                 <el-form-item :label='$t("main.cart.settle.mainCartSeBuyersTalk")'>
-                    {{order.user_addr}}
+                    <span v-for="(remark, index) in order.trade_remark_list" :key="index" v-if="remark.uid == order.customer.id">
+                        {{remark.remark}}
+                    </span>
                 </el-form-item>
                 <el-form-item :label='$t("main.cart.fail.mainCartFaOrderNum")'>
                     {{order.tid}}
@@ -33,7 +35,7 @@
                     <div>{{$t("main.order.detail.mainOrDeAccount")}}</div>
                 </el-form-item>
                 <el-form-item :label='$t("main.order.detail.mainOrDePayStatus")'>
-                    {{order.pay_status_title}}
+                    {{order.pay_info.pay_status_title}}
                 </el-form-item>
             </el-form>
         </el-card>
@@ -81,13 +83,21 @@
                             {{scope.row.num}}{{scope.row.wholesale_item_d_o.unit}}
                         </template>
                     </el-table-column>
-                    <el-table-column :label='$t("main.order.detail.mainOrDeStatus")' width="150" header-align="left" align="left">
+                    <el-table-column :label='$t("main.order.detail.mainOrDePayReal")' width="150" header-align="left" align="left">
                         <template slot-scope="scope">
                             <del class="text-secondary" v-if="scope.row.pay > scope.row.pay_real">
                                 <lts-money :money="scope.row.pay"></lts-money>
                             </del>
                             <div>
                                 <lts-money :money="scope.row.pay_real"></lts-money>
+                            </div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column :label='$t("main.order.detail.mainOrDeStatus")' width="150" align="center">
+                        <template slot-scope="scope">
+                            {{scope.row.status_title}}
+                            <div v-if="scope.row.last_refund_status > 0 && scope.row.last_refund_status < 9" style="color: #ff3b41;">
+                                退款
                             </div>
                         </template>
                     </el-table-column>

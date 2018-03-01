@@ -25,8 +25,11 @@
                     <span v-if="item.discount_type == 1" class="bold">{{ $t("main.detail.info.mainDetInfoDisGoods") }}</span>
                     <span v-else-if="item.discount_type == 2" class="bold">{{ $t("main.detail.info.mainDetInfoDepriceGoods") }}</span>
                     <span v-else-if="item.type == 4" class="bold">{{ $t("main.detail.info.mainDetInfoLimit") }}</span>
-                    <div class="count" >
-                        <span v-if="!started" class="bold">{{ $t("main.detail.info.mainDetInfoDown") }}</span><span v-if="started" class="bold">{{ $t("main.detail.info.mainDetInfoEnd") }}</span><span v-if="day>0">{{day}}{{ $t("main.detail.info.mainDetInfoDay") }}</span><span><div>{{hr}}</div>:<div>{{min}}</div>:<div>{{sec}}</div></span>
+                    <div class="count" v-if="started && !finished">
+                        <span v-if="!started" class="bold">{{ $t("main.detail.info.mainDetInfoDown") }}</span>
+                        <span v-if="started" class="bold">{{ $t("main.detail.info.mainDetInfoEnd") }}</span>
+                        <span v-if="day>0">{{day}}{{ $t("main.detail.info.mainDetInfoDay") }}</span>
+                        <span><div>{{hr}}</div>:<div>{{min}}</div>:<div>{{sec}}</div></span>
                     </div>
                 </div>
                 <el-form label-position="left" label-width="120px" ref="ruleForm" >
@@ -202,7 +205,7 @@
                 min:'',
                 sec:'',
                 started:false,
-                finished:true,
+                finished:false,
                 start:'',
                 end:'',
                 showPropDetail : false,
@@ -229,6 +232,9 @@
                     this.started = true
                     this.finished = false
                     date = this.end
+                }else{
+                  this.started = true
+                  this.finished = true
                 }
                 let msec = date - now
 
@@ -368,7 +374,8 @@
                     if(!this.showPropsError) {
                         this.flag = true;
                     }
-                   /* this.$ltsMessage.show({type:"success",message:'加入购物车成功'})*/
+                    this.selfContext.$emit('addCartSuccess')
+                    // this.$ltsMessage.show({type:"success",message:'加入购物车成功'})
                 },(msg) => {
                     this.$ltsMessage.show({type:"error",message:msg.error_message})
                 });
@@ -569,12 +576,15 @@
                         right:0;
                         top:10px;
                         line-height: 20px;
+                        span{
+                          line-height: 20px;
+                        }
                         div{
                             display: inline-block;
                             width:20px;
                             height: 20px;
                             background: #451012;
-                            margin:0 2px;
+                            margin:-4px 2px;
                             border-radius: 4px;
                         }
                         div:first-child{

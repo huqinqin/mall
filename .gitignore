@@ -16,3 +16,5 @@ selenium-debug.log
 *.njsproj
 *.sln
 src/config/index.js
+common.dll.js
+common.manifest.json

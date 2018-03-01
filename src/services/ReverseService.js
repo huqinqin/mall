@@ -21,14 +21,15 @@ export default class ReverseService extends BaseService{
         param.order_by = order_by;
         return super.getRequest('/installer/reverse/list', param);
     }
-    static apply(oid, reverse_reason, num, refund, remark, imageUrls){
+    static apply(oid, reverse_reason, num, refund, is_return, imageUrls, remark){
         let param = {
             oid : oid,
             reverse_reason : reverse_reason,
-            remark : remark,
             num : num,
             refund : refund,
+            is_return : is_return,
             voucher : imageUrls,
+            remark : remark
         };
         return super.postRequest('/installer/reverse/apply', param);
     }

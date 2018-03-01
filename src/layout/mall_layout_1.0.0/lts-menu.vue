@@ -20,17 +20,17 @@
                 user:[
                     {href:'/order',title:'我的订单'},
                     {href:'/cart',title:'购物车'},
-                    {href:'',title:'我的资金'},
+                    {href:'/finance',title:'我的资金'},
                     {href:'',title:'解决方案'},
-                    {href:'',title:'RMA'},
+                    {href:'/reverse',title:'RMA'},
                     {href:'',title:'我的LTS'},
                     {href:'',title:'消息中心'},
                 ],
                 settings:[
-                    {href:'',title:'个人信息'},
+                    {href:'/',title:'个人信息'},
                     {href:'',title:'分销商资格认证'},
                     {href:'',title:'密码设置'},
-                    {href:'',title:'收货地址'},
+                    {href:'/address',title:'收货地址'},
                 ],
                 selected:'',
             }

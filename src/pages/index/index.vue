@@ -21,17 +21,17 @@
       </div>
       <div class="login">
         <button v-login>{{$t("main.index.mainInImmeLogin")}}</button>
-        <button v-login class="sign" @click='signup'>{{$t("main.index.mainInFreeRegis")}}</button>
+        <button v-login class="sign">{{$t("main.index.mainInFreeRegis")}}</button>
       </div>
     </div>
     <!-- poster -->
     <div class="poster">
-      <div class="one">
+      <div class="one" v-if="posterBig.content">
         <a :href="posterBig.content.link_url">
           <img :src="posterBig.content.fix_url" :alt="posterBig.name">
         </a>
       </div>
-      <div class="two">
+      <div class="two" v-if="posterSmall">
         <a v-for="item in posterSmall" :href="item.content.link_url" class="top">
           <img :src="item.content.fix_url" :alt="item.name">
         </a>

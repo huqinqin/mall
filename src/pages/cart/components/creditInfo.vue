@@ -25,6 +25,7 @@
     name: 'credit-info',
     data () {
       return {
+        tid:'',
         form: {
           num: '',
           date: '',
@@ -36,14 +37,17 @@
       submitCredit () {
         this.form.date = this.form.date.getTime()
         orderService.credit_pay(this.form).then((data) => {
-          alert(1234)
+          this.$router.push({name: 'finish', params: {tid: this.tid}})
         }, (msg) => {
           this.$ltsMessage.show({type: 'error', message: msg.error_message})
+          this.$router.push({name: 'fail', params: {tid: this.tid}})
         })
       }
     },
     mounted () {
+      debugger
       this.form.pay_no = this.$route.query.pay_no
+      this.tid = this.$route.query.tid
     }
   }
 </script>

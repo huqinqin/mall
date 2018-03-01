@@ -7,7 +7,7 @@
               <span class="login"  v-if="userInfo">{{ $t("comHeader.headerWelcom") }}，{{userInfo.account.user_name}}</span>
             </li>
             <li class="">
-              <a href="/reverse" class="news top-menu">{{ $t("comHeader.headerNews") }}</a>
+              <a href="/" class="news top-menu" v-if="showToIndex">{{ $t("comHeader.headerIndex") }}</a>
               <a href="/order" class="top-menu" v-login @click="toOrder">{{ $t("comHeader.headerMyOrder") }}</a>
               <a href="" class="top-menu" v-login>{{ $t("comHeader.headerFavorite") }}</a>
               <a href="javascript:void(0)" ><i class="iconfont icon-shouji"></i>{{ $t("comHeader.headerPhoneOrder") }}</a>
@@ -55,12 +55,12 @@
     import config from 'config'
     import session from '@/library/Session'
     import userService from '@/services/UserService.js'
-    // import categoryService from '@/services/CategoryService.js'
-    // import cartService from '@/services/CartService.js'
+
     export default {
         name : "lts-header",
         data(){
           return{
+              showToIndex:true,
               userInfo : {},
               //登录
               loginVisible:false,
@@ -138,6 +138,7 @@
             this.selfContext.$on("showLogin",this.showLogin);
             this.isShowMenu = config.isCart;
             this.getLocalUser()
+            this.showToIndex = !config.isWhite
         },
     }
 </script>

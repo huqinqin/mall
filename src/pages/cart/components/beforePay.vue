@@ -21,9 +21,12 @@
       <p>{{ $t("main.cart.beforePay.mainCartBefShouldPay") }}：
         <lts-money :money="form.moneyPay - form.used*100"/>
       </p>
-      <el-radio v-model="form.payBank" label="CREDIT" class="first"
-                :disabled="form.moneyPay-form.used*100 > form.credit">{{ $t("main.cart.beforePay.mainCartBefUseAccount")
-        }}
+      <el-radio
+        v-model="form.payBank"
+        label="CREDIT"
+        class="first"
+        :disabled="form.moneyPay-form.used*100 > form.credit">
+        {{ $t("main.cart.beforePay.mainCartBefUseAccount") }}
       </el-radio>
       <span v-if="form.credit">({{ $t("main.cart.beforePay.mainCartBefBalance") }}<lts-money
         :money="form.credit"></lts-money>)</span>
@@ -104,14 +107,13 @@
       },
       // 确认支付
       confirmPay () {
-        if (this.form.payBank === 'ANET_CREDIT_CARD') {
+        if (this.form.payBank === 'ANET_CREDIT_CARD' && (this.form.moneyPay - this.form.used*100) > 0) {
           // 信用卡支付跳转到别的页面
           orderService.pay_confirm(this.tid, this.form).then((data) => {
-            this.$router.push({name: 'creditInfo', query: {pay_no: data.data.statement}})
+            this.$router.push({name: 'creditInfo', query: {pay_no: data.data.statement,tid:this.tid}})
           }, (msg) => {
             this.$ltsMessage.show({type: 'error', message: msg.error_message})
             this.$router.push({name: 'fail', params: {tid: this.tid}})
-            // this.$ltsMessage.show({type:'error',message:msg.error_message})
           })
         } else {
           orderService.pay_confirm(this.tid, this.form).then((data) => {
@@ -119,7 +121,6 @@
           }, (msg) => {
             this.$ltsMessage.show({type: 'error', message: msg.error_message})
             this.$router.push({name: 'fail', params: {tid: this.tid}})
-            // this.$ltsMessage.show({type:'error',message:msg.error_message})
           })
         }
       }

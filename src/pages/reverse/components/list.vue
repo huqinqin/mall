@@ -66,7 +66,6 @@
                 <template slot-scope="scope">
                     <el-button type="text" class="probtn" size="mini" ><router-link :to="'/detail/' + scope.row.id">退货详情</router-link></el-button>
                     <el-popover
-                        ref="popover5"
                         placement="bottom"
                         width="220"
                         v-model="scope.row.visible2">
@@ -75,10 +74,9 @@
                             <el-button size="mini" type="text" @click="scope.row.visible2 = false">取消</el-button>
                             <el-button type="primary" size="mini" @click="closeOrder(scope.row)">确定</el-button>
                         </div>
+                        <el-button type="text" class="probtn" size="mini" slot="reference" v-if="scope.row.status == 1 || scope.row.status == 2">撤销申请</el-button>
                     </el-popover>
-                    <el-button type="text" class="probtn" size="mini" v-popover:popover5 v-if="scope.row.status == 1 || scope.row.status == 2">撤销申请</el-button>
                     <el-popover
-                        ref="popover4"
                         placement="bottom"
                         title="填写物流信息"
                         width="360"
@@ -99,8 +97,8 @@
                                 <el-button @click="scope.row.visible3 = false">取消</el-button>
                             </el-form-item>
                         </el-form>
+                        <el-button type="text" v-if="scope.row.status == 2 && (scope.row.hd_status == 1)" class="probtn" size="mini" slot="reference">填写物流</el-button>
                     </el-popover>
-                    <el-button type="text" v-if="scope.row.status == 2 && (scope.row.hd_status == 1)" class="probtn" size="mini" v-popover:popover4>填写物流</el-button>
                 </template>
             </el-table-column>
         </el-table>

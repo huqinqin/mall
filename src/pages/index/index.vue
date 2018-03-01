@@ -32,8 +32,11 @@
         </a>
       </div>
       <div class="two" v-if="posterSmall">
-        <a v-for="item in posterSmall" :href="item.content.link_url" class="top">
-          <img :src="item.content.fix_url" :alt="item.name">
+        <a :href="posterSmall.top.content.link_url" class="top">
+          <img :src="posterSmall.top.content.fix_url" :alt="posterSmall.top.name">
+        </a>
+        <a :href="posterSmall.bottom.content.link_url" class="top">
+          <img :src="posterSmall.bottom.content.fix_url" :alt="posterSmall.bottom.name">
         </a>
       </div>
     </div>
@@ -137,7 +140,7 @@
       return {
         isAuto: false,
         index_banner: [],
-        posterSmall: [],
+        posterSmall: {},
         posterBig: '',
         index_welcome: [
           {
@@ -162,11 +165,15 @@
           data.fix_pic.datalist.forEach((item) => {
             item.content = JSON.parse(item.content)
           })
-          this.posterBig = data.fix_pic.datalist[0]
-          data.fix_pic_list.datalist.forEach((item) => {
+          data.fix_pic_right1.datalist.forEach((item) => {
             item.content = JSON.parse(item.content)
           })
-          this.posterSmall = data.fix_pic_list.datalist
+          data.fix_pic_right2.datalist.forEach((item) => {
+            item.content = JSON.parse(item.content)
+          })
+          this.posterBig = data.fix_pic.datalist[0]
+          this.posterSmall.top = data.fix_pic_right1.datalist[0]
+          this.posterSmall.bottom = data.fix_pic_right2.datalist[0]
           data.banner.datalist.forEach((val, index) => {
             this.index_banner.push(JSON.parse(val.content))
           })

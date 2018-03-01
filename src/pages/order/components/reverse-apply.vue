@@ -104,7 +104,7 @@
                         {required: true, message: this.$t("main.order.reverse.mainOrReEnterSomeReason"), trigger: 'change'},
                     ],
                     num: [
-                        {min: 5,required: true, message: this.$t("main.order.reverse.mainOrReEnterGoodsNum"), trigger: 'blur'},
+                        {required: true, message: this.$t("main.order.reverse.mainOrReEnterGoodsNum"), trigger: 'blur'},
                     ],
                     refund: [
                         {required: true, message: this.$t("main.order.reverse.mainOrReEnterMoney"), trigger: 'blur'},
@@ -163,7 +163,7 @@
                         this.fileList.forEach(function (value, index, array) {
                             imagesUrl = (imagesUrl == "") ? value.response.data.url : imagesUrl + "," + value.response.data.url;
                         });
-                        reverseService.apply(this.tid, this.form.reason, this.form.num, this.form.refund, this.form.remark, imagesUrl).then((resp) => {
+                        reverseService.apply(this.tid, this.form.reason, this.form.num, this.form.refund, this.form.refundType, imagesUrl, this.form.remark).then((resp) => {
                             this.$ltsMessage.show({type: 'success', message: this.$t("main.order.reverse.mainOrReSuccess")});
                         }, (error) => {
                             this.$ltsMessage.show({type: 'error', message: this.$t("main.order.reverse.mainOrReError") + ":" + error.error_message});

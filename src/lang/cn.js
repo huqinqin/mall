@@ -244,6 +244,7 @@ export default {
                 mainOrDeSendTime: '发货时间',
                 mainOrDeNo: '无',
                 mainOrDeFetchTime: '收货时间',
+                mainOrDePayReal: '小计',
                 mainOrDeStatus: '状态',
                 mainOrDeActivity: '活动优惠',
                 mainOrDePayTotal: '应付总额',

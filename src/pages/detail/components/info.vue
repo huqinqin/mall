@@ -368,7 +368,8 @@
                     if(!this.showPropsError) {
                         this.flag = true;
                     }
-                   /* this.$ltsMessage.show({type:"success",message:'加入购物车成功'})*/
+                    this.selfContext.$emit('addCartSuccess')
+                    // this.$ltsMessage.show({type:"success",message:'加入购物车成功'})
                 },(msg) => {
                     this.$ltsMessage.show({type:"error",message:msg.error_message})
                 });

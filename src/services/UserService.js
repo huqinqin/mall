@@ -7,7 +7,7 @@ export default class UserService extends BaseService {
             password: md5(password),
             source : 'PC'
         };
-        return super.getRequest('/user/login', param);
+        return super.getRequest('/user/installer/login', param);
     }
     static logout(){
         return super.getRequest('/user/logout', {});

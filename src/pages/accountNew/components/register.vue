@@ -200,6 +200,7 @@
 
 <style lang="less">
     .register{
+        padding-top: 60px;
         padding-bottom: 60px;
         border-bottom: 1px solid #f6f6f6;
         main{

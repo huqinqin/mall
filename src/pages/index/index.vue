@@ -31,11 +31,11 @@
           <img :src="posterBig.content.fix_url" :alt="posterBig.name">
         </a>
       </div>
-      <div class="two" v-if="posterSmall">
-        <a :href="posterSmall.top.content.link_url" class="top">
+      <div class="two">
+        <a  v-if="posterSmall.top" :href="posterSmall.top.content.link_url" class="top">
           <img :src="posterSmall.top.content.fix_url" :alt="posterSmall.top.name">
         </a>
-        <a :href="posterSmall.bottom.content.link_url" class="top">
+        <a  v-if="posterSmall.bottom" :href="posterSmall.bottom.content.link_url" class="top">
           <img :src="posterSmall.bottom.content.fix_url" :alt="posterSmall.bottom.name">
         </a>
       </div>
@@ -141,7 +141,7 @@
         isAuto: false,
         index_banner: [],
         posterSmall: {},
-        posterBig: '',
+        posterBig: {},
         index_welcome: [
           {
             link: 'static/image/BANNERTU.png',
@@ -162,21 +162,23 @@
         homeService.getList().then((data) => {
           this.itemList = data.floor.datalist
           this.hotList = data.hot_buys.datalist[0].items
-          data.fix_pic.datalist.forEach((item) => {
-            item.content = JSON.parse(item.content)
-          })
-          data.fix_pic_right1.datalist.forEach((item) => {
-            item.content = JSON.parse(item.content)
-          })
-          data.fix_pic_right2.datalist.forEach((item) => {
-            item.content = JSON.parse(item.content)
-          })
-          this.posterBig = data.fix_pic.datalist[0]
-          this.posterSmall.top = data.fix_pic_right1.datalist[0]
-          this.posterSmall.bottom = data.fix_pic_right2.datalist[0]
-          data.banner.datalist.forEach((val, index) => {
-            this.index_banner.push(JSON.parse(val.content))
-          })
+          if(data.fix_pic){
+            data.fix_pic.datalist[0].content = JSON.parse(data.fix_pic.datalist[0].content)
+            this.posterBig = data.fix_pic.datalist[0]
+          }
+          if(data.fix_pic_right2){
+            data.fix_pic_right2.datalist[0].content = JSON.parse(data.fix_pic_right2.datalist[0].content)
+            this.posterSmall.bottom = data.fix_pic_right2.datalist[0]
+          }
+          if(data.fix_pic_right1){
+            data.fix_pic_right1.datalist[0].content = JSON.parse(data.fix_pic_right1.datalist[0].content)
+            this.posterSmall.bottom = data.fix_pic_right1.datalist[0]
+          }
+          if(data.banner){
+            data.banner.datalist.forEach((val, index) => {
+              this.index_banner.push(JSON.parse(val.content))
+            })
+          }
         }, (msg) => {
           this.$ltsMessage.show({type: 'error', message: msg.error_message})
         })

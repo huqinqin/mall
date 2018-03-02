@@ -65,6 +65,11 @@
                             <div><lts-money :money="detail.reverse.refund_real"></lts-money></div>
                         </template>
                     </el-table-column>
+                    <el-table-column  :label='$t("main.order.reverse.detail.mainOrReRejectSureTotalPay")' width="200" header-align="center" align="center">
+                        <template slot-scope="scope">
+                            <div><lts-money :money="detail.reverse.refund_real"></lts-money></div>
+                        </template>
+                    </el-table-column>
                 </el-table>
             </div>
         </div>

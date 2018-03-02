@@ -17,7 +17,7 @@
                                     <div class="item-info">
                                         <div class="order-item-detail">
                                             <img :src="subscope.row.wholesale_item_d_o.image_value + '@100w_2e'" class="item" />
-                                            <div class="info">{{subscope.row.wholesale_item_d_o.item_name}}</div>
+                                            <div>{{subscope.row.wholesale_item_d_o.item_name}}</div>
                                         </div>
                                         <div class="prop-box">
                                             <div v-for="(propObj,index) in subscope.row.propValue">
@@ -40,8 +40,52 @@
                             <el-table-column prop="num" width="100">
                                 <template slot-scope="subscope">{{subscope.row.num}}{{subscope.row.wholesale_item_d_o.unit}}</template>
                             </el-table-column>
+                            <el-table-column prop="hd_status_title" width="160">
+                                <template slot-scope="subscope">
+                                    <!--<div style="color: #ff3b41;"><lts-money :money="subscope.row.pay_real"></lts-money></div>-->
+                                    <!--<del class="text-secondary" v-if="subscope.row.pay > subscope.row.pay_real">-->
+                                        <!--<lts-money :money="subscope.row.pay"></lts-money>-->
+                                    <!--</del>-->
+                                    <!--<div>含运费:<lts-money :money="1"></lts-money></div>-->
+                                    <!--<div>含税费:<lts-money :money="2"></lts-money></div>-->
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="status_title" width="118">
+                                <template slot-scope="subscope">
+                                    <!--<span v-if="subscope.row.status == 9">-->
+                                        <!--{{subscope.row.closed_reason_title}}-->
+                                    <!--</span>-->
+                                    <!--<span v-else>-->
+                                        <!--<span v-if="subscope.row.last_refund_status == 1">-->
+                                            <!--{{$t("main.order.list.mainOrLiBackApply")}}-->
+                                        <!--</span>-->
+                                        <!--<span v-else-if="subscope.row.last_refund_status == 3">-->
+                                            <!--{{$t("main.order.list.mainOrLiReject")}}-->
+                                        <!--</span>-->
+                                        <!--<span v-else-if="subscope.row.last_refund_status == 7">-->
+                                            <!--{{$t("main.order.list.mainOrLiAlreadyBack")}}{{subscope.row.refund_num}}{{subscope.row.wholesale_item_d_o.unit}}<lts-money :moeny="subscope.row.refund_real"></lts-money>元-->
+                                        <!--</span>-->
+                                        <!--<span v-else-if="subscope.row.last_refund_status == 9">-->
+                                            <!--{{$t("main.order.list.mainOrLiClose")}}-->
+                                        <!--</span>-->
+                                        <!--<span v-else>-->
+                                            <!--{{subscope.row.status_title}}-->
+                                        <!--</span>-->
+                                    <!--</span>-->
+                                </template>
+                            </el-table-column>
                             <el-table-column width="130" align="center">
                                 <template slot-scope="subscope">
+                                    <!--<el-dropdown @command="handleMenuItemClick">-->
+                                    <!--<span class="el-dropdown-link">-->
+                                        <!--操作<i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>-->
+                                    <!--</span>-->
+                                        <!--&lt;!&ndash;<el-dropdown-menu slot="dropdown">&ndash;&gt;-->
+                                            <!--&lt;!&ndash;<el-dropdown-item command="refund" :data="subscope.row" v-if="isCanRefund(subscope.row)">退货退款</el-dropdown-item>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;<el-dropdown-item command="refund" :data="subscope.row" v-if="isCanRefund(subscope.row)">退货退款</el-dropdown-item>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;</el-dropdown-menu>&ndash;&gt;-->
+                                        <!--<el-button type="text">退款/退货</el-button>-->
+                                    <!--</el-dropdown>-->
                                     <el-button type="text" class="probtn" size="mini"  v-if="isCanRefund(subscope.row)" ><router-link :to="'/reverseApply/' + subscope.row.tid">{{$t("main.order.list.mainOrLiBackGoods")}}</router-link></el-button>
                                 </template>
                             </el-table-column>
@@ -49,20 +93,20 @@
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column  label="商品信息" align="left" width="370">
+            <el-table-column  label="商品信息" align="left">
                 <template slot-scope="scope">
                     <div>
                         <span>{{scope.row.cdate | timestamp2str}}</span>
                         <span>{{$t("main.order.list.mainOrLiOrderNum")}}:{{scope.row.tid}}</span>
-                        <!--<span style="color: #3b98ff;">{{$t("main.order.list.mainOrLiPayInfo")}}</span>-->
+                        <span style="color: #3b98ff;">{{$t("main.order.list.mainOrLiPayInfo")}}</span>
                         <span style="font-size: 12px">{{$t("main.order.list.mainOrLiPhone")}}</span>
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column label="单价" header-align="left" align="left"  :show-overflow-tooltip="true" />
-            <el-table-column label="数量" header-align="left" align="left" >
+            <el-table-column label="单价" header-align="left" align="left" width="100" :show-overflow-tooltip="true" />
+            <el-table-column label="数量" header-align="left" align="left" width="100">
             </el-table-column>
-            <el-table-column prop="pay_info.pay_type_title" :label='$t("main.order.list.mainOrLiReal")' align="left" width="100">
+            <el-table-column prop="pay_info.pay_type_title" :label='$t("main.order.list.mainOrLiReal")' align="left" width="160">
                 <template slot-scope="scope">
                     <div><lts-money :money="scope.row.pay_real"></lts-money></div>
                 </template>
@@ -351,7 +395,7 @@
         .bizitem{
             margin-right: 24px;
             width: 200px;
-            .el-select, .el-input{
+            .el-select,el-input{
                 width:100%;
             }
             input{
@@ -428,20 +472,18 @@
                             display: flex;
                             align-items: center;
                             justify-content: flex-start;
-                            margin-right: 24px;
                             .item {
                                 width: 80px;
                                 height: 80px;
                                 margin-right: 5px;
                             }
-                            div.info{
+                            div{
                                 width: 250px;
-                                text-overflow: ellipsis;
-                                display: -webkit-box;
-                                -webkit-box-orient: vertical;
-                                -webkit-line-clamp: 3;
-                                word-break: normal;
                                 overflow: hidden;
+                                display: -webkit-box;
+                                -webkit-line-clamp: 2;
+                                -webkit-box-orient: vertical;
+                                word-break: break-all;
                             }
                         }
                         .prop-box{

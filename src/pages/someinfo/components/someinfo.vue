@@ -132,12 +132,12 @@
                     this.engineerInfo = data.data;
                     this.engineerInfo.acc_books.forEach((item) => {
                         if(item.subject === 2010101){
-                            this.engineerInfo.cash = item.use_balance
+                            this.engineerInfo.cash = item.use_balance / 100;
                         }
                         if(item.subject === 2010106){
                             item.rule_blc1 = JSON.parse(item.rule_blc);
-                            this.account = item.rule_blc1.limit ? item.rule_blc1.limit : 0;
-                            this.usedAcc = item.rule_blc1.limit + item.balance;
+                            this.account = (item.rule_blc1.limit ? item.rule_blc1.limit : 0) / 100;
+                            this.usedAcc = (item.rule_blc1.limit + item.balance) / 100;
                             console.log(item.rule_blc1);
                         }
                         if(item.subject === 2010102){

@@ -9,7 +9,10 @@
             <li class="">
               <a href="/" class="news top-menu" v-if="showToIndex">{{ $t("comHeader.headerIndex") }}</a>
               <a href="/order" class="top-menu" v-login @click="toOrder">{{ $t("comHeader.headerMyOrder") }}</a>
-              <a href="" class="top-menu" v-login v-if="showToIndex">{{ $t("comHeader.headerMyExpert") }}</a>
+              <el-tooltip placement="top" effect="light">
+                <div slot="content"><myExperts></myExperts></div>
+                <a href="" class="top-menu" v-login v-if="showToIndex">{{ $t("comHeader.headerMyExpert") }}</a>
+              </el-tooltip>
               <a href="javascript:void(0)" ><i class="iconfont icon-shouji"></i>{{ $t("comHeader.headerPhoneOrder") }}</a>
               <a href="javascript:void(0)" @click="logout" v-if="userInfo">{{ $t("comHeader.headerLogin") }}</a>
             </li>
@@ -55,7 +58,7 @@
     import config from 'config'
     import session from '@/library/Session'
     import userService from '@/services/UserService.js'
-
+    import myExperts from '@/common/components/myExperts'
     export default {
         name : "lts-header",
         data(){
@@ -144,6 +147,9 @@
             this.getLocalUser()
             this.showToIndex = !config.isWhite
         },
+        components: {
+            myExperts
+        }
     }
 </script>
 <style lang="less">

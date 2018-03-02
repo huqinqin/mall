@@ -170,6 +170,13 @@ export default function (App, router = new Router()) {
         {
             name:'account',
             components:[]
+        },
+        {
+            name:'someinfo',
+            components:[{
+                name : 'lts-menu',
+                template : ltsMenu
+            }]
         }
     ]
 

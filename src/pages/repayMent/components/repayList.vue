@@ -42,7 +42,7 @@
             @selection-change="handleSelectionChange"
             :data="tableData"
             :default-sort = "{prop: 'date', order: 'descending'}"
-            style="width: 74%;margin-top: 20px">
+            style="width: 100%;margin-top: 20px">
             <el-table-column
                 v-show="this.status === 1"
                 type="selection">
@@ -185,6 +185,7 @@
             }
         },
         mounted(){
+            this.search();
         }
     }
 </script>

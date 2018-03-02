@@ -331,9 +331,9 @@
                 }
                 li{
                    box-sizing: border-box;
-                   padding:10px;
-                   width: 300px;
-                   margin-right: 20px;
+                   padding:5px;
+                   width: 240px;
+                   margin-right: 10px;
                    border: 1px solid #a3a3a3;
                     a{
                         display: inline-block;
@@ -350,7 +350,7 @@
                             font-weight: bold;
                         }
                         .decs{
-                            height: 65px;
+                            min-height: 75px;
                         }
                         hr{
                             border: none;

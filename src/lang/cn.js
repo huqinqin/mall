@@ -293,6 +293,7 @@ export default {
                 mainOrReRejectGoods: '退货退款',
                 mainOrReRejectNum: '退货数量',
                 mainOrReRejectTotalPay: '退货总金额',
+                mainOrReRejectSureTotalPay: '确认退款金额',
                 mainOrReRejectReason: '退货原因',
                 mainOrReEnterReson: '请选择退款原因',
                 mainOrReRejectTalk: '退货留言',

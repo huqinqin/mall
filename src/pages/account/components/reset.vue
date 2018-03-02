@@ -19,10 +19,10 @@
           </el-button>
         </el-form-item>
         <el-form-item label="NEW PASSWORD" prop="pass">
-          <el-input v-model="resetForm.pass" placeholder="ENTER A NEW PASSWORD"></el-input>
+          <el-input type="password" v-model="resetForm.pass" placeholder="ENTER A NEW PASSWORD"></el-input>
         </el-form-item>
         <el-form-item label="CONFIRM PASSWORD" prop="checkPass">
-          <el-input v-model="resetForm.checkPass" placeholder="ENTER THE NEW PASSWORD AGAIN"></el-input>
+          <el-input type="password" v-model="resetForm.checkPass" placeholder="ENTER THE NEW PASSWORD AGAIN"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button class="confirm" @click="submitFrom">RESET</el-button>

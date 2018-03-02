@@ -63,7 +63,8 @@
       },
       methods:{
           close(){
-              this.$emit('close',this.flag)
+              this.$emit('close',this.flag);
+              $('.el-tooltip__popper').css('display','none');
           }
       }
   };

@@ -22,7 +22,7 @@
         data(){
             return{
                 user:[
-                    {href:'javascript:void(0)',title:'个人首页'},
+                    {href:'/someinfo',title:'个人首页'},
                     {href:'/order',title:'我的订单'},
                     {href:'/cart',title:'购物车'},
                     {href:'javascript:void(0)',title:'解决方案'},

@@ -351,9 +351,9 @@
         cartService.queryCartList().then((data) => {
           this.tableDataItem = data.datalist
           this.tableData = [
-              {discount: []},
-              {reduce: []},
-              {others: []}
+            {discount: []},
+            {reduce: []},
+            {others: []}
           ]
           data.datalist.forEach((value) => {
             value.item_props.forEach((item) => {
@@ -366,7 +366,6 @@
             } else {
               this.tableData[2].others.push(value)
             }
-
           })
         }, (msg) => {
           this.$ltsMessage.show({type: 'error', message: msg.errorMessage})

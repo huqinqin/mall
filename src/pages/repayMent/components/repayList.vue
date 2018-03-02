@@ -45,13 +45,11 @@
             style="width: 74%;margin-top: 20px">
             <el-table-column
                 v-show="this.status === 1"
-                type="selection"
-                width="55">
+                type="selection">
             </el-table-column>
             <el-table-column
                 prop="changeTotal"
-                :label='$t("main.repayMent.repayList.mainRePayShouldPay")'
-                width="120">
+                :label='$t("main.repayMent.repayList.mainRePayShouldPay")'>
             </el-table-column>
             <el-table-column
                 prop="out_id"
@@ -61,7 +59,6 @@
             <el-table-column
                 prop="deadlinePay"
                 :label='$t("main.repayMent.repayList.mainRePayPayTime")'
-                width="300"
                 sortable
             >
             </el-table-column>
@@ -73,12 +70,10 @@
             </el-table-column>
             <el-table-column
                 prop="payStatus"
-                :label='$t("main.order.detail.mainOrDeStatus")'
-                width="120">
+                :label='$t("main.order.detail.mainOrDeStatus")'>
             </el-table-column>
             <el-table-column
-                :label='$t("main.order.list.mainOrLiHanlde")'
-                width="150">
+                :label='$t("main.order.list.mainOrLiHanlde")'>
                 <template slot-scope="scope">
                     <el-button  @click="handleClick(scope.row)" type="primary" size="small" v-if="scope.row.status === 1">还款</el-button>
                 </template>

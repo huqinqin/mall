@@ -40,18 +40,18 @@
                             <el-table-column prop="num" width="100">
                                 <template slot-scope="subscope">{{subscope.row.num}}{{subscope.row.wholesale_item_d_o.unit}}</template>
                             </el-table-column>
-                            <!--<el-table-column prop="hd_status_title" width="160">-->
-                                <!--<template slot-scope="subscope">-->
+                            <el-table-column prop="hd_status_title" width="160">
+                                <template slot-scope="subscope">
                                     <!--<div style="color: #ff3b41;"><lts-money :money="subscope.row.pay_real"></lts-money></div>-->
                                     <!--<del class="text-secondary" v-if="subscope.row.pay > subscope.row.pay_real">-->
                                         <!--<lts-money :money="subscope.row.pay"></lts-money>-->
                                     <!--</del>-->
-                                    <!--&lt;!&ndash;<div>含运费:<lts-money :money="1"></lts-money></div>&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<div>含税费:<lts-money :money="2"></lts-money></div>&ndash;&gt;-->
-                                <!--</template>-->
-                            <!--</el-table-column>-->
-                            <!--<el-table-column prop="status_title" width="118">-->
-                                <!--<template slot-scope="subscope">-->
+                                    <!--<div>含运费:<lts-money :money="1"></lts-money></div>-->
+                                    <!--<div>含税费:<lts-money :money="2"></lts-money></div>-->
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="status_title" width="118">
+                                <template slot-scope="subscope">
                                     <!--<span v-if="subscope.row.status == 9">-->
                                         <!--{{subscope.row.closed_reason_title}}-->
                                     <!--</span>-->
@@ -72,8 +72,8 @@
                                             <!--{{subscope.row.status_title}}-->
                                         <!--</span>-->
                                     <!--</span>-->
-                                <!--</template>-->
-                            <!--</el-table-column>-->
+                                </template>
+                            </el-table-column>
                             <el-table-column width="130" align="center">
                                 <template slot-scope="subscope">
                                     <!--<el-dropdown @command="handleMenuItemClick">-->

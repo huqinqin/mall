@@ -176,6 +176,9 @@ export default function (App, router = new Router()) {
             components:[{
                 name : 'lts-menu',
                 template : ltsMenu
+            },{
+                name : 'lts-header-content',
+                template : ltsHeaderSimple
             }]
         }
     ]

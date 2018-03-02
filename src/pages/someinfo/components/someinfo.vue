@@ -132,13 +132,12 @@
                     this.engineerInfo = data.data;
                     this.engineerInfo.acc_books.forEach((item) => {
                         if(item.subject === 2010101){
-                            this.engineerInfo.cash = item.use_balance / 100;
+                            this.engineerInfo.cash = (item.use_balance / 100).toFixed(2);
                         }
                         if(item.subject === 2010106){
                             item.rule_blc1 = JSON.parse(item.rule_blc);
-                            this.account = (item.rule_blc1.limit ? item.rule_blc1.limit : 0) / 100;
-                            this.usedAcc = (item.rule_blc1.limit + item.balance) / 100;
-                            console.log(item.rule_blc1);
+                            this.account = ((item.rule_blc1.limit ? item.rule_blc1.limit : 0) / 100).toFixed(2);
+                            this.usedAcc = ((item.rule_blc1.limit + item.balance) / 100).toFixed(2);
                         }
                         if(item.subject === 2010102){
                             item.bonus.datalist.forEach((item) => {
@@ -150,10 +149,10 @@
                         if(item.subject === 2010102){
                             this.discountData = item.bonus.datalist;
                             this.discountData.forEach((item) => {
-                                item.balance = item.balance / 100;
+                                item.balance = (item.balance / 100).toFixed(2);
                                 item.rule1 =  JSON.parse(item.rule);
-                                item.value = item.rule1[0].value / 100;
-                                item.startMoney = item.rule1[0].startV / 100;
+                                item.value = (item.rule1[0].value / 100).toFixed(2);
+                                item.startMoney = (item.rule1[0].startV / 100).toFixed(2);
                                 item.startTime = this.gettime(item.start_time);
                                 item.endTime = this.gettime(item.end_time);
                             })
@@ -171,6 +170,7 @@
                     this.pages = Math.ceil(this.pagination.total / this.pagination.pageSize);
                     this.historyData = data.datalist;
                     this.historyData.forEach((item) => {
+                        item.price = item.price.toFixed(2);
                         this.historyLen++;
                     });
                 })

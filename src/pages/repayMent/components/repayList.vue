@@ -224,7 +224,7 @@
                 margin-left: 10px;
                 position: absolute;
                 bottom: 0;
-                right:20%;
+                right:10%;
                 height: 40px;
             }
             .demonstration{

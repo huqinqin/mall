@@ -27,7 +27,7 @@ export default class ReverseService extends BaseService{
             reverse_reason : reverse_reason,
             num : num,
             refund : refund,
-            is_return : is_return,
+            is_return : is_return == 1 ? true : false,
             voucher : imageUrls,
             remark : remark
         };

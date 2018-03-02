@@ -33,14 +33,16 @@
                     </el-table>
                 </el-form-item>
                 <el-form-item :label='$t("main.order.reverse.mainOrReCancleType")'>
-                    <el-radio v-model="form.refundType" label="0">{{$t("main.order.reverse.mainOrReRejectPrice")}}</el-radio>
-                    <el-radio v-model="form.refundType" label="1">{{$t("main.order.reverse.mainOrReRejectGoods")}}</el-radio>
+                    <el-radio-group v-model="form.refundType" @change="changeRadio">
+                        <el-radio label="0">{{$t("main.order.reverse.mainOrReRejectPrice")}}</el-radio>
+                        <el-radio label="1">{{$t("main.order.reverse.mainOrReRejectGoods")}}</el-radio>
+                    </el-radio-group>
                 </el-form-item>
-                <el-form-item :label='$t("main.order.reverse.mainOrReRejectNum")' prop="num">
+                <el-form-item :label='$t("main.order.reverse.mainOrReRejectNum")' prop="num" v-if="form.refundType == 1">
                     <el-input-number v-model.number="form.num" @change="changeMoney" size="small" controls-position="right" :min="0" :max="form.maxRefund" />
                 </el-form-item>
-                <el-form-item :label='$t("main.order.reverse.mainOrReRejectTotalPay")' prop="refund" v-if="form.refund">
-                    <el-input-number v-model.number="form.refund" @change="changeMoney" size="small" controls-position="right" :min="0" :max="form.maxRefund" />
+                <el-form-item :label='$t("main.order.reverse.mainOrReRejectTotalPay")' prop="refund" >
+                    <el-input-number v-model="form.refund"  size="small" controls-position="right" :min="0" :max="orderItem.price_real/100" />
                     <!--<lts-money :money="form.refund"></lts-money>-->
                 </el-form-item>
                 <el-form-item :label='$t("main.order.reverse.mainOrReRejectReason")' prop="reason">
@@ -98,7 +100,7 @@
                     refundMoney : 0,
                     refund: 0,
                     remark: '',
-                    refundType : '0'
+                    refundType : '1'
                 },
                 rules: {
                     reason: [
@@ -164,8 +166,10 @@
                         this.fileList.forEach(function (value, index, array) {
                             imagesUrl = (imagesUrl == "") ? value.response.data.url : imagesUrl + "," + value.response.data.url;
                         });
+                        this.form.refund = this.form.refund * 100;
                         reverseService.apply(this.tid, this.form.reason, this.form.num, this.form.refund, this.form.refundType, imagesUrl, this.form.remark).then((resp) => {
                             this.$ltsMessage.show({type: 'success', message: this.$t("main.order.reverse.mainOrReSuccess")});
+                            this.$router.back(-1);
                         }, (error) => {
                             this.$ltsMessage.show({type: 'error', message: this.$t("main.order.reverse.mainOrReError") + ":" + error.error_message});
                         });
@@ -205,17 +209,22 @@
                 }
             },
             getRefund(){
-                this.form.refund = this.form.num * this.form.refundMoney;
+                this.form.refund = (this.form.num * this.form.refundMoney/100).toFixed(2);
             },
             changeMoney(){
                 this.$nextTick(()=>{
                     this.getRefund();
                 })
             },
+            changeRadio(){
+              if(this.form.refundType == 0){
+                  this.form.num = this.form.maxRefund
+                  this.getRefund();
+              }
+            },
         },
         mounted(){
             this.tid = this.$route.params.tid;
-            console.log(this.orderItem);
             this.get();
         },
         watch: {
@@ -234,7 +243,8 @@
                 }
             },
             orderItem() {
-                this.form.refund = this.orderItem.price_real_value * this.form.num;
+                this.form.refund = this.orderItem.price_real_value * this.form.num
+                console.log(this.form.refund);
             }
         }
     }

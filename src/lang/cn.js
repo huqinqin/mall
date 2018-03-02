@@ -230,14 +230,14 @@ export default {
         order: {
             detail: {
                 mainOrDeOrderStatus: '订单状态',
-                mainOrDeAuto: '22小时自动确认收货',
+                mainOrDeAuto: '10天后自动确认收货',
                 mainOrDeBuyerInfo: '买家信息',
                 mainOrDeMyAddr: '收货地址',
                 mainOrDeCreateTime: '创建时间',
                 mainOrDePayTime: '付款时间',
                 mainOrDePayInfo: '支付信息',
-                mainOrDeCard: '信用卡支付$700',
-                mainOrDeAccount: '账期支付$700',
+                mainOrDeCard: '信用卡支付',
+                mainOrDeAccount: '账期支付',
                 mainOrDePayStatus: '支付状态',
                 mainOrDeBag: '包裹',
                 mainOrDeLogiInfo: '物流信息',

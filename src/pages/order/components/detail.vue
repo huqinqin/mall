@@ -1,9 +1,13 @@
 <template>
     <div class="orderDetail">
         <el-alert
-            :title='$t("main.order.detail.mainOrDeOrderStatus") + ":" + order.status_title + " " + $t("main.order.detail.mainOrDeAuto")'
+            title=""
             :closable="false"
             type="info">
+            <div>
+                {{$t("main.order.detail.mainOrDeOrderStatus")}}:{{order.status_title}}
+                <span v-if="order.status == 2">{{$t("main.order.detail.mainOrDeAuto")}}</span>
+            </div>
         </el-alert>
         <el-card class="box-card base-info">
             <div slot="header" class="clearfix">
@@ -31,8 +35,16 @@
                     {{order.cdate | timestamp2str}}
                 </el-form-item>
                 <el-form-item :label='$t("main.order.detail.mainOrDePayInfo")'>
-                    <div>{{$t("main.order.detail.mainOrDeCard")}}</div>
-                    <div>{{$t("main.order.detail.mainOrDeAccount")}}</div>
+                    <div>
+                        {{$t("main.order.detail.mainOrDeCard")}}
+                        <lts-money v-if="order.pay_info.pay_remark && order.pay_info.pay_remark.ANET_CREDIT_CARD > 0" :money="order.pay_info.pay_remark.ANET_CREDIT_CARD" ></lts-money>
+                        <span v-else>$0</span>
+                    </div>
+                    <div>
+                        {{$t("main.order.detail.mainOrDeAccount")}}
+                        <lts-money v-if="order.pay_info.pay_remark && order.pay_info.pay_remark.CREDIT > 0" :money="order.pay_info.pay_remark.CREDIT" ></lts-money>
+                        <span v-else>$0</span>
+                    </div>
                 </el-form-item>
                 <el-form-item :label='$t("main.order.detail.mainOrDePayStatus")'>
                     {{order.pay_info.pay_status_title}}
@@ -47,15 +59,22 @@
                 </div>
                 <div class="info">
                     <span>{{$t("main.order.detail.mainOrDeLogiInfo")}}:</span>
-                    <span>{{order.user_name}}</span>
+                    <!--<span>{{order.user_name}}</span>-->
+                    <span v-for="(dispatch, index) in shop.dispatchs" :key="index">
+                        {{dispatch.express}}:{{dispatch.out_id}}
+                    </span>
                 </div>
                 <div class="info">
                     <span>{{$t("main.order.detail.mainOrDeSendTime")}}:</span>
-                    <span>{{$t("main.order.detail.mainOrDeNo")}}</span>
+                    <span v-for="(dispatch, index) in shop.dispatchs" :key="index">
+                        {{dispatch.cdate | timestamp2str}}
+                    </span>
                 </div>
                 <div class="info">
                     <span>{{$t("main.order.detail.mainOrDeFetchTime")}}:</span>
-                    <span>{{$t("main.order.detail.mainOrDeNo")}}</span>
+                    <span v-for="(dispatch, index) in shop.dispatchs" :key="index">
+                        {{dispatch.signTime | timestamp2str}}
+                    </span>
                 </div>
             </div>
             <div class="item-info">
@@ -104,19 +123,19 @@
                 </el-table>
             </div>
         </div>
-        <div class="info-bottom">
+        <div class="info-bottom" v-if="order.fee_hd_value">
             <div class="text">
                 <label>{{$t("main.cart.settle.mainCartSeMustPay")}}</label>
                 <span><lts-money :money="order.pay"></lts-money></span>
             </div>
             <div class="text">
-                <label>{{$t("main.order.detail.mainOrDeActivity")}}</label> <span><lts-money :money="order.fee_hd_all"></lts-money></span>
+                <label>{{$t("main.order.detail.mainOrDeActivity")}}</label> <span><lts-money :money="order.discount"></lts-money></span>
             </div>
             <div class="text">
-                <label>+{{$t("main.cart.settle.mainCartSeFright")}}</label> <span><lts-money :money="order.fee_hd_all"></lts-money></span>
+                <label>+{{$t("main.cart.settle.mainCartSeFright")}}</label> <span><lts-money :money="order.fee_hd_value.HD_ALL"></lts-money></span>
             </div>
             <div class="text">
-                <label>+{{$t("main.cart.settle.mainCartSeTax")}}</label> <span><lts-money :money="order.fee_hd_all"></lts-money></span>
+                <label>+{{$t("main.cart.settle.mainCartSeTax")}}</label> <span><lts-money :money="order.fee_hd_value.TAXES_ALL"></lts-money></span>
             </div>
             <div class="text">
                 <label>{{$t("main.order.detail.mainOrDePayTotal")}}</label><span class="large"><lts-money :money="order.fee_total"></lts-money></span>
@@ -145,6 +164,8 @@
         methods: {
             get () {
                 orderService.get(this.order.tid).then((resp) => {
+                    resp.data.pay_info.pay_remark = JSON.parse(resp.data.pay_info.pay_remark_string);
+                    resp.data.fee_hd_value = JSON.parse(resp.data.fee_hd);
                     this.order = resp.data;
                 },(err) => {
 

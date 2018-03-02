@@ -52,24 +52,12 @@
                             </el-table-column>
                             <el-table-column prop="status_title" width="118">
                                 <template slot-scope="subscope">
-                                    <span v-if="subscope.row.status == 9">
-                                        {{subscope.row.closed_reason_title}}
-                                    </span>
-                                    <span v-else>
+                                    <span v-if="subscope.row.status != 9">
                                         <span v-if="subscope.row.last_refund_status == 1">
                                             {{$t("main.order.list.mainOrLiBackApply")}}
                                         </span>
-                                        <span v-else-if="subscope.row.last_refund_status == 3">
-                                            {{$t("main.order.list.mainOrLiReject")}}
-                                        </span>
-                                        <span v-else-if="subscope.row.last_refund_status == 7">
-                                            {{$t("main.order.list.mainOrLiAlreadyBack")}}{{subscope.row.refund_num}}{{subscope.row.wholesale_item_d_o.unit}}<lts-money :moeny="subscope.row.refund_real"></lts-money>元
-                                        </span>
                                         <span v-else-if="subscope.row.last_refund_status == 9">
                                             {{$t("main.order.list.mainOrLiClose")}}
-                                        </span>
-                                        <span v-else>
-                                            {{subscope.row.status_title}}
                                         </span>
                                     </span>
                                 </template>
@@ -98,8 +86,8 @@
                     <div>
                         <span>{{scope.row.cdate | timestamp2str}}</span>
                         <span>{{$t("main.order.list.mainOrLiOrderNum")}}:{{scope.row.tid}}</span>
-                        <span style="color: #3b98ff;">{{$t("main.order.list.mainOrLiPayInfo")}}</span>
-                        <span style="font-size: 12px">{{$t("main.order.list.mainOrLiPhone")}}</span>
+                        <!--<span style="color: #3b98ff;">{{$t("main.order.list.mainOrLiPayInfo")}}</span>-->
+                        <!--<span style="font-size: 12px">{{$t("main.order.list.mainOrLiPhone")}}</span>-->
                     </div>
                 </template>
             </el-table-column>
@@ -266,7 +254,7 @@
                         let return_url = '/customerorder#/finish';
                         let fail_url = '/customerorder#/fail';
                         order = data.$vnode.data.attrs.data;
-                        window.open(config.url.main + '/cart#/beforePay?tid=' + order.tid + '');
+                        window.open('/cart#/beforePay?tid=' + order.tid + '');
                         break;
                     case "close":
                         this.$confirm(this.$t("main.order.list.mainOrLiIsDelOrder"), this.$t("main.order.list.mainOrLiIsDelTip"), {

@@ -5,7 +5,7 @@
                      width="551px"
                      center
                      :visible.sync="show"
-                     class="wrapper">
+                     class="addCartWrapper">
             <div class="box">
                 <div class="iconfont icon-iconset0127 delete" @click="fade"></div>
                 <div class="innerWrapper">
@@ -46,7 +46,7 @@
     .fade-enter, .fade-leave-to{
         opacity: 0;
     }
-    .wrapper{
+    .addCartWrapper{
         position: fixed;
         z-index: 100;
         left:0;

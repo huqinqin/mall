@@ -1,5 +1,5 @@
 <template>
-   <div class="wrapper">
+   <div class="wrapperExperts">
        <div class="el-icon-close" @click="close"></div>
        <h3>联系我的专家</h3>
        <div class="box">
@@ -14,7 +14,7 @@
 </template>
 
 <style lang="less">
-   .wrapper{
+   .wrapperExperts{
        padding: 40px;
        width: 425px;
        height: 200px;

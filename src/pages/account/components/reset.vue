@@ -45,13 +45,6 @@
           callback(new Error(this.$t('main.accountNew.reset.mainAcResetSyncDigit')))
         }
       }
-      let checkCode = (rule, value, callback) => {
-        accountService.checkCode(value).then((data) => {
-          this.$ltsMessage.show({type: 'success', message: this.$t('main.accountNew.register.mainAcReValidateSuccess')})
-        }, (msg) => {
-          this.$ltsMessage.show({type: 'error', message: msg.error_message})
-        })
-      }
       return {
         send: true,
         sendAgain: false,
@@ -70,8 +63,7 @@
             validatorConfig.validatePasswordRepeat(this.resetForm.pass, value, callback)
           }),
           code: [
-            {required: true, message: this.$t('main.accountNew.register.mainAcReContentNotNull'), trigger: 'blur'},
-            {validator: checkCode, trigger: 'blur'}
+            {required: true, message: this.$t('main.accountNew.register.mainAcReContentNotNull'), trigger: 'blur'}
           ]
         }
       }

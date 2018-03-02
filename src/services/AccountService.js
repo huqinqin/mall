@@ -30,7 +30,7 @@ export default class AccountService extends BaseService {
     static getResetCode(email) {
         let params = {
             account: email,
-            content: '<div  style=\"line-height:3;\">尊敬的' + email + '， 您好:<\/div><div><blockquote style=\"margin: 0 0 0 40px; border: none; padding: 0px;\"><div style=\"line-height:3;\">您在LTS商城' + '<a href="http://mall.lts.com">mall.lts.com</a>' + '点击了忘记密码。<\/div><div>您的邮箱验证码为：<font color=\"#ff0000\" size=\"6\">$(captcha).<\/font><\/div><div style=\"line-height:3;\">注：请于30分钟内输入，工作人员不会向您索取，请勿告诉他人。如果您不需要修改密码，或者您从未点击过“忘记密码”按钮，请忽略本邮件。<\/div><div style=\"line-height:3;\">欢迎回到LTS，祝您购物愉快！<\/div><\/blockquote><\/div><div><includetail><!--<![endif]--><\/includetail><\/div>'
+            content: '<div  style=\"line-height:3;\">尊敬的' + email + '， 您好:<\/div><div><blockquote style=\"margin: 0 0 0 40px; border: none; padding: 0px;\"><div style=\"line-height:3;\">您在LTS商城' + '<a href="http://mall.lts.com">mall.lts.com</a>' + '点击了忘记密码。<\/div><div>您的邮箱验证码为：<font color=\"#ff0000\" size=\"6\">$(captcha)<\/font>。<\/div><div style=\"line-height:3;\">注：请于30分钟内输入，工作人员不会向您索取，请勿告诉他人。如果您不需要修改密码，或者您从未点击过“忘记密码”按钮，请忽略本邮件。<\/div><div style=\"line-height:3;\">欢迎回到LTS，祝您购物愉快！<\/div><\/blockquote><\/div><div><includetail><!--<![endif]--><\/includetail><\/div>'
 
     }
         return super.getRequest('/user/send_email', params)
@@ -63,25 +63,4 @@ export default class AccountService extends BaseService {
         }
         return super.getRequest('/user/register', params)
     }
-
-    /**
-     * return
-     * param code 验证码
-     * param account 邮箱
-     * param password 新密码
-     * @autor taohua
-     * remark 重置密码
-     */
-    /**
-     * return
-     * param xxx 验证码
-     * @autor taohua
-     * remark 校验验证码
-     */
-    // static checkCode(code) {
-    //     let params = {
-    //
-    //     }
-    //     return super.getRequest('', params)
-    // }
 }

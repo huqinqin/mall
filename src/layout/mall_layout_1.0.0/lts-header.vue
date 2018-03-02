@@ -9,7 +9,7 @@
             <li class="">
               <a href="/" class="news top-menu" v-if="showToIndex">{{ $t("comHeader.headerIndex") }}</a>
               <a href="/order" class="top-menu" v-login @click="toOrder">{{ $t("comHeader.headerMyOrder") }}</a>
-              <a href="" class="top-menu" v-login v-if="showToIndex">{{ $t("comHeader.headerMyExpert") }}</a>
+              <a href="javascript:void(0)" class="top-menu" v-login v-if="showToIndex">{{ $t("comHeader.headerMyExpert") }}</a>
               <a href="javascript:void(0)" ><i class="iconfont icon-shouji"></i>{{ $t("comHeader.headerPhoneOrder") }}</a>
               <a href="javascript:void(0)" @click="logout" v-if="userInfo">{{ $t("comHeader.headerLogin") }}</a>
             </li>

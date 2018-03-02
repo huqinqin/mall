@@ -45,13 +45,10 @@
             </div>
           </el-form-item>
           <div :class="[showPropsError ? 'error' : '']" @click="closeError">
-            <el-form-item v-for="prop in item.item_prop_value_maps" :key="prop.prop_name" :label="prop.prop_name"
-                          class="radio sku_prop">
+            <el-form-item v-for="prop in item.item_prop_value_maps" :key="prop.prop_name" :label="prop.prop_name" class="radio sku_prop">
               <el-radio-group v-model="prop.checked_prop" @change="checkedProp(prop,item)">
-                <el-radio v-for="propValue in prop.prop_values" :disabled="!propValue.can_checked"
-                          :label="propValue.value" :key="propValue.value">
-                  {{propValue.value}}
-                  <i class="iconfont icon-duihao"></i>
+                <el-radio v-for="propValue in prop.prop_values" :disabled="!propValue.can_checked" :label="propValue.value" :key="propValue.value">
+                  {{propValue.value}}<i class="iconfont icon-duihao"></i>
                 </el-radio>
               </el-radio-group>
             </el-form-item>
@@ -60,7 +57,7 @@
           </div>
           <div :class="[item.num > checkedSpu.storage ? 'error' : '']" @click="closeError">
             <el-form-item :label='$t("main.detail.info.mainDetInfoAmount")' class="num">
-              <el-input-number v-model="item.num" size="mini" @change="inputNumberChange" :min="1"></el-input-number>
+              <el-input-number v-model="item.num" size="mini" :min="1"></el-input-number>
               <span v-if="checkedSpu.storage > 0"
                     class="storage_spec">{{ $t("main.detail.info.mainDetInfoStock") }}</span>
               <span v-else-if="checkedSpu && checkedSpu.storage <= 0" class="storage_spec">{{ $t("main.detail.info.mainDetInfoNoStock") }}</span>
@@ -113,6 +110,64 @@
           <div :style="{backgroundImage:'url(' + nullImg + ')'}"></div>
         </div>
       </div>
+    </div>
+    <!--configure-->
+    <div class="detail-configure" v-if="otherGoods.length > 0" v-ltsLoginShow:true>
+        <div class="h5">推荐套餐</div>
+        <div class="content">
+          <div class="briefInfo">
+            <div class="img" :style="'background-image: url(' + item.image_value + ')'"></div>
+            <div class="name">{{item.item_name}}</div>
+            <div class="price" v-if="!checkedSpu.price"><lts-money :money="item.price"></lts-money></div>
+            <div class="price" v-else><lts-money :money="checkedSpu.price"></lts-money></div>
+          </div>
+          <div class="icon-handle"><i class="iconfont icon-jiahaocu"></i></div>
+          <button class="handlePage" @click="pre"><i class="el-icon-caret-left"></i></button>
+          <ul class="others">
+            <li v-for="value in otherGoods" :key="value.id" class="othersItem">
+              <div class="img" :style="'background-image: url(' + value.image_value + ')'"></div>
+              <div class="name">{{value.item_name}}</div>
+              <el-popover placement="bottom" popper-class="othersPopover">
+                <el-form>
+                  <el-form-item v-for="prop in otherGoodsItem.item_prop_value_maps" :key="prop.prop_name" :label="prop.prop_name" class="radio sku_prop">
+                    <el-radio-group v-model="prop.checked_prop" @change="checkedProp(prop,value)">
+                      <el-radio v-for="propValue in prop.prop_values" :disabled="!propValue.can_checked" :label="propValue.value" :key="propValue.value">
+                        {{propValue.value}}<i class="iconfont icon-duihao"></i>
+                      </el-radio>
+                    </el-radio-group>
+                  </el-form-item>
+                  <el-form-item :label=' $t("main.detail.info.mainDetInfoPrice")' class="price">
+                    <div class="tips" v-ltsLoginShow:false>{{ $t("main.detail.info.mainDetInfoComp") }}</div>
+                    <div v-ltsLoginShow:true class="detail_price" v-if="!checkedSpu.price">
+                      <lts-money :money="value.price"></lts-money>
+                    </div>
+                    <div v-ltsLoginShow:true class="detail_price" v-else>
+                      <lts-money :money="checkedSpu.price"></lts-money>
+                    </div>
+                  </el-form-item>
+                  <el-form-item :label='$t("main.detail.info.mainDetInfoAmount")' class="num">
+                    <el-input-number v-model="value.num" size="mini" :min="1"></el-input-number>
+                    <span v-if="otherGoodsItem.storage > 0" class="storage_spec">{{ $t("main.detail.info.mainDetInfoStock") }}</span>
+                    <span v-else-if="otherGoodsItem && otherGoodsItem.storage <= 0" class="storage_spec">{{ $t("main.detail.info.mainDetInfoNoStock") }}</span>
+                    <div class="el-form-item__error">{{ $t("main.detail.info.mainDetInfoExceed") }}！</div>
+                  </el-form-item>
+                  <el-form-item>
+                    <!--:disabled="otherGoodsItem.storage <= 0"-->
+                    <el-button @click="addOthers(value)">确定</el-button>
+                  </el-form-item>
+                </el-form>
+                <el-button slot="reference" @click="selectModel(value.id)">选择型号</el-button>
+              </el-popover>
+            </li>
+          </ul>
+          <button class="handlePage"  @click="next"><i class="el-icon-caret-right"></i></button>
+          <div class="icon-handle"><i class="iconfont icon-dengyu"></i></div>
+          <div class="package">
+            <p>已选择配件x件 <i class="el-icon-warning"></i></p>
+            <p>组合价：<lts-money :money="1234" /></p>
+            <el-button>加入购物车</el-button>
+          </div>
+        </div>
     </div>
     <!-- bottom -->
     <div class="detail-bottom">
@@ -220,7 +275,13 @@
         finished: false,
         start: '',
         end: '',
-        showPropDetail: false
+        showPropDetail: false,
+        // 推荐搭配
+        otherGoods:[],
+        otherGoodsItem:{},
+        showSelectModel:true,
+        checkedOthers:[]
+
       }
     },
     methods: {
@@ -268,26 +329,13 @@
       handleClick (tab, event) {
         console.log(tab, event)
       },
-      inputNumberChange (value) {
-        console.log(this.item.num)
-        // this.item.item_struct_props.forEach((item)=>{
-        //     console.log(item.storage,this.item.num)
-        //     if(this.item.num > item.storage){
-        //         this.dis = true
-        //         console.log(this.dis)
-        //     }else{
-        //         this.dis = false
-        //         console.log(this.dis)
-        //     }
-        // })
-      },
       getItemDetail (id) {
         itemService.getItemDetail(id).then((data) => {
           data.data.item.item_struct_props.forEach((value, index, array) => {
             value.propValues = JSON.parse(value.prop_value)
           })
           this.aboutDetail = data.data.item.item_struct_props
-          console.log(data.data.item.item_struct_props)
+          this.otherGoods = data.data.item.package_item_list
           this.item = data.data.item
           this.activeImg = this.item.item_images[0]
           this.hotSale = data.data.hot_recomment.items
@@ -438,6 +486,46 @@
       },
       closeError () {
         this.showPropsError = false
+      },
+      // 套餐搭配
+      pre (){
+        console.log('pre')
+      },
+      next (){
+        console.log('next')
+      },
+      selectModel(id){
+        itemService.getItemProps(id).then((data) => {
+          this.otherGoodsItem = data.data
+          if(this.otherGoods){
+            this.otherGoods.forEach((item) => {
+             if(item.id === data.data.id){
+               item.item_prop_value_maps = data.data.item_prop_value_maps
+               item.item_struct_props = data.data.item_struct_props
+             }
+            })
+          }
+          console.log(data)
+        },(msg) => {
+          this.$ltsMessage({type:'error',message:msg.error_message})
+        })
+      },
+      addOthers (value){
+        if(this.checkedOthers.length > 0){
+          for(let i = 0;i < this.checkedOthers.length;i++){
+            if(this.checkedOthers[i].id === value.id){
+              this.checkedOthers[i].num = value.num
+            }else{
+              this.checkedOthers.push(value)
+            }
+          }
+        }else{
+          this.checkedOthers.push(value)
+        }
+        console.log(this.checkedOthers)
+      },
+      otherItemNum(row,value){
+        console.log(row,value)
       }
     },
     created () {
@@ -448,6 +536,134 @@
 </script>
 
 <style lang="less">
+  .othersPopover{
+    width:280px;
+    padding:12px;
+    .el-form-item {
+      margin-bottom: 0;
+    }
+    .price {
+      margin-top: 7px;
+    }
+    .tips {
+      border: 1px solid #ff3b41;
+      line-height: 21px;
+      width: 155px;
+      margin-top: 10px;
+      font-size: 12px;
+      padding-left: 6px;
+      color: #ff3b41;
+    }
+    .detail_price {
+      color: #ff3b41;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .radio {
+      .el-radio {
+        height: 28px;
+        padding: 0;
+        border-radius: 0;
+        line-height: 28px;
+        font-size: 14px;
+        width: auto !important;
+        border: 1px solid #b8b7bd;
+        color: red;
+        .el-radio__input {
+          display: none;
+        }
+        .el-radio__label {
+          text-align: center;
+          font-size: 14px;
+          color: #606266;
+          line-height: 19px;
+          padding: 0 9px;
+        }
+      }
+      .iconfont {
+
+      }
+      .el-radio:hover {
+        border: 1px solid #FF0036
+      }
+      .el-radio.is-checked {
+        border: 1px solid #ff3b41;
+        position: relative;
+        span {
+          color: rgba(0, 0, 0, 0.5);
+        }
+      }
+      .el-radio.is-disabled {
+        border: 1px dashed #a3a3a3;
+      }
+      .el-radio.is-disabled .el-radio__label {
+        color: #a3a3a3;
+      }
+      .el-radio.is-checked::after {
+        content: '';
+        width: 0;
+        height: 0;
+        border-right: 4px solid red;
+        border-bottom: 4px solid red;
+        border-top: 4px solid transparent;
+        border-left: 4px solid transparent;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+      }
+      .el-radio.is-bordered + .el-radio.is-bordered {
+        margin-left: 0px;
+      }
+    }
+
+    .num {
+      margin-bottom: -2px;
+      .el-input-number--mini {
+        line-height: 24px;
+      }
+      .el-input-number {
+        width: 84px;
+        margin-left: 0px;
+        margin-bottom: 12px;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        border-radius: 0;
+        .el-input__inner {
+          border-radius: 0px;
+          border: none;
+          height: 20px;
+          padding: 0 15px;
+        }
+        span {
+          width: 22px;
+          line-height: 18px;
+          background: rgb(238, 238, 238);
+          border: 1px solid #dcdfe6;
+          margin-left: -2px;
+          margin-top: -2px;
+          i {
+            font-size: 18px;
+            color: rgba(0, 0, 0, 0.7);
+            font-weight: bolder;
+            margin-top: 3px;
+          }
+        }
+        span.el-input-number__increase {
+          margin-right: -2px;
+        }
+        span.el-input-number__decrease {
+          i {
+            color: rgba(0, 0, 0, 0.7);
+          }
+
+        }
+      }
+      .storage_spec {
+        font-size: 12px;
+        margin-left: 20px;
+      }
+    }
+  }
+
   .detail {
     li {
       box-sizing: border-box;
@@ -772,8 +988,90 @@
       }
 
     }
+    .detail-configure{
+      color:#737373;
+      margin-top: 12px;
+      font-size: 14px;
+      .h5{
+        line-height: 38px;
+        border-bottom: 1px solid #ddd;
+        font-weight: bold;
+      }
+      .content{
+        padding:12px 0;
+        width:100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        .img{
+          width:100px;
+          height: 100px;
+          border:1px solid #ddd;
+          background-size: cover;
+        }
+        .name{
+          width:100px;
+          line-height: 26px;
+          overflow : hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+        }
+        ul.others{
+          padding:0 24px;
+          width:925px;
+          display: flex;
+          li.othersItem{
+            margin-left: 24px;
+            .el-button{
+              width:80px;
+              height: 24px;
+              padding:0;
+              color:#ff3b41;
+            }
+
+          }
+
+        }
+        .icon-handle{
+
+        }
+        button.handlePage{
+          padding:0;
+          border:0;
+          width:20px;
+          height: 80px;
+          background: #f2f2f2;
+          cursor: pointer;
+          i{
+            color:#fff;
+            font-size: 18px;
+          }
+        }
+        button.handlePage:focus{
+          outline: none;
+        }
+        button.handlePage:hover{
+          background: #828282;
+        }
+        .package{
+          p{
+            line-height: 28px;
+          }
+          .el-button{
+            background: #ff3b41;
+            color:#fff;
+            width:120px;
+            height: 30px;
+            padding:0;
+          }
+        }
+      }
+
+    }
     .detail-bottom {
-      margin-top: 48px;
+      margin-top: 12px;
       .detail_side {
         display: flex;
         justify-content: space-between;

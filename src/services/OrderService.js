@@ -145,7 +145,8 @@ export default class OrderService extends BaseService {
             credit_card_pay_info:JSON.stringify({
                 // cardNumer:form.num,测试卡号
                 cardNumber:4242424242424242,
-                expirationDate:form.date
+                // expirationDate:form.date 测试到期时间
+                expirationDate:1553097600000
 
            })
         }

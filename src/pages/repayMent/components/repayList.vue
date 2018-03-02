@@ -1,5 +1,5 @@
 <template>
-    <div class="wrapper">
+    <div class="wrapperRepayList">
         <div class="box1">
             <div class="block">
                 <div class="demonstration">{{$t("main.repayMent.repayList.mainRePayPayTime")}}</div>
@@ -190,7 +190,7 @@
 </script>
 
 <style lang="less">
-    .wrapper{
+    .wrapperRepayList{
         margin-left: 24px;
         font-family: "Microsoft YaHei";
         font-size: 14px;

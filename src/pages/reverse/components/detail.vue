@@ -62,10 +62,10 @@
                     </el-table-column>
                     <el-table-column  :label='$t("main.reverse.detail.mainRevDeRefundMoney")' width="200" header-align="center" align="center">
                         <template slot-scope="scope">
-                            <div><lts-money :money="detail.reverse.refund_real"></lts-money></div>
+                            <div><lts-money :money="detail.reverse.refund"></lts-money></div>
                         </template>
                     </el-table-column>
-                    <el-table-column  :label='$t("main.order.reverse.detail.mainOrReRejectSureTotalPay")' width="200" header-align="center" align="center">
+                    <el-table-column v-if="detail.reverse.status == 1 || detail.reverse.status == 2"  :label='$t("main.order.reverse.mainOrReRejectSureTotalPay")' width="200" header-align="center" align="center">
                         <template slot-scope="scope">
                             <div><lts-money :money="detail.reverse.refund_real"></lts-money></div>
                         </template>

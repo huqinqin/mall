@@ -49,7 +49,6 @@
     name: 'beforePay',
     data () {
       return {
-        tid: '',
         form: {
           useBalance: false,
           balance: '',
@@ -61,7 +60,8 @@
         formData: {
           number: '',
           amount: ''
-        }
+        },
+        tid: ''
       }
     },
     methods: {
@@ -107,10 +107,10 @@
       },
       // 确认支付
       confirmPay () {
-        if (this.form.payBank === 'ANET_CREDIT_CARD' && (this.form.moneyPay - this.form.used*100) > 0) {
+        if (this.form.payBank === 'ANET_CREDIT_CARD' && (this.form.moneyPay - this.form.used * 100) > 0) {
           // 信用卡支付跳转到别的页面
           orderService.pay_confirm(this.tid, this.form).then((data) => {
-            this.$router.push({name: 'creditInfo', query: {pay_no: data.data.statement,tid:this.tid}})
+            this.$router.push({name: 'creditInfo', query: {pay_no: data.data.statement, tid: this.tid}})
           }, (msg) => {
             this.$ltsMessage.show({type: 'error', message: msg.error_message})
             this.$router.push({name: 'fail', params: {tid: this.tid}})

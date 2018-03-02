@@ -2,23 +2,36 @@
     <div class="product all-head" slot="header">
         <div class="menu-list s-span-page">
             <ul>
-                <li v-for="value in menuList">
-                    <a :href="value.link" v-if="value.type == 'logo'" class="header-logo" :style="{backgroundImage : 'url('+value.icon+')'}"></a>
-                    <a :href="value.link" v-else-if="!value.needLogin">
-                        <span class="iconfont" :class="value.icon"></span>
-                        <p>{{value.first}}</p>
-                        <p>{{value.last}}</p>
-                    </a>
-                    <a :href="value.link" v-else v-login>
-                        <el-badge :value="cart_num" :max="99" class="item" v-if="value.name == 'suopping cart'" :hidden="cart_num <= 0">
+               <li v-for="value in menuList" >
+                     <div>
+                        <a :href="value.link" v-if="value.type == 'logo'" class="header-logo" :style="{backgroundImage : 'url('+value.icon+')'}"></a>
+                        <a :href="value.link" v-else-if="value.name === 'call experts'">
+                             <el-tooltip placement="top" effect="ligth">
+                                 <div>
+                                     <span class="iconfont" :class="value.icon"></span>
+                                     <p>{{value.first}}</p>
+                                     <p>{{value.last}}</p>
+                                 </div>
+                                 <div slot="content"><myExperts></myExperts></div>
+                             </el-tooltip>
+                         </a>
+                        <a :href="value.link" v-else-if="!value.needLogin" @click="menuHandle">
+                             <span class="iconfont" :class="value.icon"></span>
+                             <p>{{value.first}}</p>
+                             <p>{{value.last}}</p>
+                        </a>
+                        <a :href="value.link" v-else v-login @click="menuHandle">
+                                    <el-badge :value="cart_num" :max="99" class="item" v-if="value.name == 'suopping cart'" :hidden="cart_num <= 0">
+
                                 <span class="iconfont" :class="[value.icon,value.name == 'suopping cart' ? 'cart' : '']">
                                 </span>
-                        </el-badge>
-                        <span class="iconfont" :class="[value.icon]" v-else>
+                                    </el-badge>
+                                    <span class="iconfont" :class="[value.icon]" v-else>
                             </span>
-                        <p>{{value.first}}</p>
-                        <p>{{value.last}}</p>
-                    </a>
+                                    <p>{{value.first}}</p>
+                                    <p>{{value.last}}</p>
+                                </a>
+                     </div>
                 </li>
             </ul>
         </div>
@@ -42,6 +55,7 @@
 <script>
     import categoryService from '@/services/CategoryService.js'
     import cartService from '@/services/CartService.js'
+    import myExperts from '@/common/components/myExperts'
     export default {
         name: "lts-header-all",
         data(){
@@ -52,7 +66,7 @@
                         icon : 'icon-IPjiejuefangan',
                         first : 'IP',
                         last : 'SOLUTION',
-                        link : 'javascript:void(0)',
+                        link : '/search#/?cateId=9487608',
                         needLogin : false
                     },
                     {
@@ -60,7 +74,7 @@
                         icon : 'icon-jiankong',
                         first : 'HD-TVI',
                         last : 'SOLUTION',
-                        link : 'javascript:void(0)',
+                        link : '/search#/?cateId=9487675',
                         needLogin : false
                     },
                     {
@@ -127,6 +141,12 @@
             }
         },
         methods:{
+            // 头部菜单选择
+            menuHandle(){
+              setTimeout(() => {
+                this.selfContext.$emit('getItemList')
+              },100)
+            },
             // 获取类目数据
             getLocalStorage(){
                 let data = JSON.parse(localStorage.getItem('categoryList'));
@@ -154,6 +174,7 @@
                     value.label = value.name
                     value.value = value.id
                     if(value.id == -1000){
+                      value.value = ''
                         count ++ ;
                     }
                     if(value.children){
@@ -220,9 +241,14 @@
             },
         },
         created(){
+            this.selfContext.$on('addCartSuccess',this.getCartNum)
             this.getParamas()
             this.getLocalStorage()
             this.getCartNum();
+        },
+        components: {
+            myExperts
+
         }
     }
 </script>

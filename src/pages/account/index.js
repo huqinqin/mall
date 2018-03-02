@@ -4,5 +4,5 @@ import App from './account.vue'
 import routerView from './router'
 Vue.config.productionTip = false
 
-const RouterView = routerView ? routerView : ''
+const RouterView = routerView
 Lib(App, RouterView)

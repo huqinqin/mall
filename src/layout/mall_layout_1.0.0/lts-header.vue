@@ -17,8 +17,8 @@
         </div>
         <!--登录弹框-->
         <div class="login-dialog">
-            <el-dialog :visible.sync="loginVisible">
-                <el-form :model="form" :rules="loginRules">
+            <el-dialog :visible.sync="loginVisible" @close="closeDialog">
+                <el-form :model="form" :rules="loginRules" ref="loginForm">
                     <el-form-item class="head">
                         <i class="iconfont icon-turnoff" @click="loginVisible = false"></i>
                         <img src="@/assets/img/denglu.tou.png" alt="顶部图片">
@@ -80,6 +80,10 @@
           }
         },
         methods:{
+            closeDialog(){
+              this.$refs.loginForm.resetFields()
+              console.log(this.$refs.loginForm)
+            },
             signup(){
                 location.href = '/account#/register';
                 this.loginVisible = false;

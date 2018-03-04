@@ -1,22 +1,18 @@
 <template>
   <div class="finance">
     <header>
-      <div><i class="iconfont icon-qian1"></i>{{ $t("main.finance.mainfiAccountBal") }}：<span class="red"
-                                                                                              v-if="account.balance || account.balance == 0"><lts-money
-        :money="account.balance"></lts-money></span></div>
-      <div><i class="iconfont icon-qian"></i>{{ $t("main.finance.mainficreditBal") }}：<span
-        v-if="!credit.balance && credit.balance !== 0">{{ $t("main.finance.mainfiNo") }}</span><span class="red"
-                                                                                                     v-if="credit.balance"><lts-money
-        :money="1234565"></lts-money></span>
-        <small v-if="credit.balance"> ({{ $t("main.finance.mainfiUsedCredit") }}：<span class="red"><lts-money
-          :money="1234"></lts-money></span>)
+      <div><i class="iconfont icon-qian1"></i>{{ $t("main.finance.mainfiAccountBal") }}：
+        <span class="red" v-if="account.balance || account.balance == 0"><lts-money :money="account.balance"></lts-money></span>
+      </div>
+      <div><i class="iconfont icon-qian"></i>{{ $t("main.finance.mainficreditBal") }}：
+        <span v-if="!credit.balance && credit.balance !== 0">{{ $t("main.finance.mainfiNo") }}</span>
+        <span class="red" v-if="credit.balance"><lts-money :money="credit.balance"></lts-money></span>
+        <small v-if="credit.used"> ({{ $t("main.finance.mainfiUsedCredit") }}：
+          <span class="red"><lts-money :money="credit.used"></lts-money></span>)
         </small>
       </div>
-      <div><i class="iconfont icon-qian1"></i>{{ $t("main.finance.mainfiAccountBal") }}：<span class="red"
-                                                                                              v-if="bonus.balance || bonus.balance == 0"><lts-money
-        :money="bonus.balance"></lts-money></span>
-        <small class="showBonus">(<span class="blue">{{bonus.total}}</span>{{ $t("main.finance.mainfiOneWord") }})
-        </small>
+      <div><i class="iconfont icon-qian1"></i>{{ $t("main.finance.mainfiCoupon") }}：
+        <span class="red" v-if="bonus.balance || bonus.balance == 0"><lts-money :money="bonus.balance"></lts-money></span>
       </div>
     </header>
     <main>
@@ -83,11 +79,6 @@
         :page-size="pagination.pageSize"
         :total="pagination.total">
       </el-pagination>
-      <!--<div style="margin:100px;padding:30px;">-->
-      <!--<div class="card" style="border:1px solid red;">-->
-
-      <!--</div>-->
-      <!--</div>-->
     </main>
   </div>
 </template>
@@ -101,7 +92,7 @@
       return {
         daterange: [],
         account: {balance: ''},
-        credit: {balance: ''},
+        credit: {balance: '', used:''},
         bonus: {balance: '', total: ''},
         searchForm: {type: '2010101', handle: '', cdate: '', edate: '', orderBy: ''},
         pagination: {page: 1, pageSize: 20, total: 0},
@@ -137,15 +128,7 @@
             }
           }]
         },
-        tableData: [{
-          time: '123456', type: '账期额度', sum: '13212', balance: '123456', remark: '备注-假装备注-假装是备注'
-        }, {
-          time: '123456', type: '账期额度', sum: '13212', balance: '123456', remark: '备注-假装备注-假装是备注'
-        }, {
-          time: '123456', type: '账户余额', sum: '13212', balance: '123456', remark: '备注-假装备注-假装是备注'
-        }, {
-          time: '123456', type: '账期额度', sum: '13212', balance: '123456', remark: '备注-假装备注-假装是备注'
-        }],
+        tableData: [],
         detailData: []
       }
     },
@@ -192,6 +175,7 @@
       },
       getFinance () {
         financeService.getFinance().then((data) => {
+          console.log(data)
           for (let i = 0; i < data.data.acc_books.length; i++) {
             if (data.data.acc_books[i].subject === 2010101) {
               this.account.balance = data.data.acc_books[i].balance
@@ -199,26 +183,10 @@
               this.bonus.balance = data.data.acc_books[i].balance
               this.bonus.total = data.data.acc_books[i].bonus.total
             } else if (data.data.acc_books[i].subject === 2010106) {
-              this.credit.balance = data.data.acc_books[i].balance
+              this.credit.balance = data.data.acc_books[i].rule_blc_object.limit + data.data.acc_books[i].use_balance
+              this.credit.used = - data.data.acc_books[i].use_balance
             }
           }
-          // data.data.acc_books.forEach((val) => {
-          //     console.log(val.subject)
-          //     switch (val.subject){
-          //         case  2010101:
-          //             this.account.balance = val.balance
-          //             break
-          //         case  2010102:
-          //             this.bonus.balance = val.balance
-          //             this.bonus.total = val.bonus.total
-          //             break
-          //         case  2010106:
-          //             this.credit.balance = val.balance
-          //             break
-          //         default:
-          //             alert('error')
-          //     }
-          // })
         }, (msg) => {
           this.$ltsMessage({type: 'error', message: msg.error_message})
         })
@@ -246,9 +214,6 @@
     }
     span.bold {
       font-weight: bold;
-    }
-    span.showBonus {
-      cursor: pointer;
     }
     header {
       border-bottom: 1px solid #ddd;

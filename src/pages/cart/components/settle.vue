@@ -92,16 +92,16 @@
     <div class="delivery">
       <h5>{{ $t("main.cart.settle.mainCartSeDistraType") }}： </h5>
       <div>
-        <el-radio-group v-model="deliveryType" class="selectButtons">
+        <el-radio-group v-model="deliveryType" class="selectButtons"  @change="simulateCreateTrade">
           <el-radio-button label="ZITI" value="">{{ $t("main.cart.beforePay.mainCartBefSelfFetch") }}</el-radio-button>
           <el-radio-button label="SHSM" value="">{{ $t("main.cart.beforePay.mainCartBefExpress") }}</el-radio-button>
         </el-radio-group>
         <div class="selectExpress" v-if="deliveryType == 'SHSM'">
           <el-form label-position="top">
             <el-form-item label="LOGISTICS COMPANY:">
-              <el-radio-group v-model="expressForm.express" @change="selectCompany">
+              <el-radio-group v-model="expressForm.express" >
                 <el-radio label="UPS">UPS</el-radio>
-                <el-radio label="FEDEX" :disabled="true">FEDEX</el-radio>
+                <el-radio label="FEDEX">FEDEX</el-radio>
               </el-radio-group>
             </el-form-item>
             <el-form-item label="SERVICE:">
@@ -166,8 +166,6 @@
           :money="sum.express"></lts-money></span></span></p>
         <p>{{ $t("main.cart.settle.mainCartSeTax") }}： <span><span v-if="sum.tax == 0 || sum.tax">+<lts-money
           :money="sum.tax"></lts-money></span></span></p>
-        <!--<p>{{ $t("main.cart.settle.mainCartSeRedBag") }}： <span><span v-if="sum.benefit == 0 || sum.benefit">-<lts-money-->
-          <!--:money="sum.benefit"></lts-money></span></span></p>-->
         <p class="result">{{ $t("main.cart.settle.mainCartSeMustPay") }}： <span><span v-if="totalPrice"><lts-money
           :money="totalPrice"></lts-money></span></span></p>
       </div>
@@ -201,8 +199,7 @@
           service: '01',
           self: false
         },
-        expressOptions: [],
-        UPSOptions: [
+        expressOptions: [
           {value: '01', label: 'Next Day Air'},
           {value: '02', label: '2nd Day Air'},
           {value: '03', label: 'Ground'},
@@ -217,14 +214,6 @@
           {value: '65', label: 'Saver'},
           {value: '96', label: 'UPS Worldwide Express Freight'},
           {value: '71', label: 'UPS Worldwide Express Freight Midday'}
-        ],
-        FEDEXOptions: [
-          {value: 'Ground', label: '1Ground'},
-          {value: '3', label: '13 Day Select'},
-          {value: '2', label: '12nd Day Air'},
-          {value: 'Next1', label: '1Next Day Air Server'},
-          {value: 'Next2', label: '1Next Day Air'},
-          {value: 'Next3', label: '1Next Day Air Early'}
         ],
         info: JSON.parse(store.getItem('SESSION_DATA')),
         totalPrice: '',
@@ -347,15 +336,6 @@
       }
     },
     methods: {
-      // 选择快递公司
-      selectCompany (value) {
-        this.expressForm.service = ''
-        if (value === 'UPS') {
-          this.expressOptions = this.UPSOptions
-        } else if (value === 'FEDEX') {
-          this.expressOptions = this.FEDEXOptions
-        }
-      },
       // 设置默认地址
       toggleDefault (item) {
         this.defaultId = item.id
@@ -400,7 +380,6 @@
         this.showAddAddress = true
       },
       // 查询地址列表
-
       getAddressList () {
         addressService.getList().then((data) => {
           this.addressData = data.datalist
@@ -522,6 +501,7 @@
           useBalance: false,
           payMethod: 'online', //
           source: 'work.500mi.com.shop.pifa.market',
+          hdMethod : this.deliveryType,
           hdFeeCalculator: 1,
           taxesFeeCalculator: 1,
           ship: {
@@ -535,6 +515,7 @@
             serviceCode: this.expressForm.service
           }
         }
+        this.canSubmit = true
         orderService.simulateCreateTrade(params).then((resp) => {
           let fee = JSON.parse(resp.data.wholesale_order.fee_hd)
           this.canSubmit = false
@@ -1010,10 +991,9 @@
         background-color: #f13a40;
         border-radius: 4px;
         color: #fff;
-        font-size: 18px;
+        font-size: 14px;
         line-height: 0;
         font-weight: bold;
-
       }
     }
   }

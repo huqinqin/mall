@@ -102,6 +102,7 @@ export default {
                 mainCartliSubtotal: '小计',
                 mainCartliOpera: '操作',
                 mainCartliOnsaleGoods: '减价商品',
+                mainCartliOnsaleLimits: '限时限量',
                 mainCartliShouldPay: '应付金额',
                 mainCartliImmeSettle: '立即结算',
                 mainCartliGoodsInfo: '商品信息',

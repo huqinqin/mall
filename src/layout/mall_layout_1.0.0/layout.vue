@@ -9,7 +9,7 @@
                 <lts-menu class="lts-menu"/>
                 <el-container>
                     <el-main class="s-span-page">
-                        <lts-content class="lts-content" style="margin-top: 0;width: 100%"/>
+                        <lts-content class="lts-content" />
                     </el-main>
                 </el-container>
             </el-container>

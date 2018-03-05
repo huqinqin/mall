@@ -145,6 +145,75 @@
               </el-table-column>
             </el-table>
           </div>
+          <div v-else-if="scope.row.limit && scope.row.limit.length>0" >
+            <div v-for="limitItem in scope.row.limit" :key="limitItem.id" class="reduceTable subtable">
+              <div class="popover">
+                <div class="popTitle">{{ $t("main.cart.list.mainCartliOnsaleLimits") }}</div>
+                <div class="popDetail"></div>
+              </div>
+              <el-table
+                :data="limitItem"
+                :show-header="false"
+                @select="selectChange"
+                style="width: 100%">
+                <el-table-column type="selection" align="left" width="50"></el-table-column>
+                <el-table-column align="center" width="600">
+                  <template slot-scope="subscope">
+                    <a :href="'/detail#/?id=' + subscope.row.id">
+                      <div class="item-img"
+                           :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+subscope.row.url+')'}"></div>
+                      <div class="content">
+                        <p :title="subscope.row.item_name">{{subscope.row.item_name}}</p>
+                      </div>
+                      <ul class="other">
+                        <li v-for="(item,index) in subscope.row.item_props">
+                          <p v-for="(val,key) in item.prop_value" :title="val">{{key}}:{{val}}</p>
+                        </li>
+                      </ul>
+                    </a>
+                  </template>
+                </el-table-column>
+                <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
+                  <template slot-scope="subscope">
+                    <p class="oldPrice">
+                      <lts-money :money="subscope.row.price"></lts-money>
+                    </p>
+                    <lts-money :money="subscope.row.price_real"></lts-money>
+                  </template>
+                </el-table-column>
+                <el-table-column prop="" width="" :label='$t("main.cart.list.mainCartliStock")' align="center">
+                  <template slot-scope="subscope">
+                    <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">{{
+                      $t("main.cart.list.mainCartliAvailable") }}</p>
+                    <p v-else>{{ $t("main.cart.list.mainCartliStockInsuff") }}</p>
+                  </template>
+                </el-table-column>
+                <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="200" prop="num" align="center">
+                  <template slot-scope="subscope">
+                    <div class="inputNumber">
+                      <el-input-number :min='1' size="small" v-model="subscope.row.num"
+                                       @change="inputNumeberChange(subscope.row)"
+                                       :label='$t("main.cart.list.mainCartliDescWord")'></el-input-number>
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center">
+                  <template slot-scope="subscope">
+                    <div class="count" ref="count">
+                      <lts-money :money="subscope.row.num*subscope.row.price_real"></lts-money>
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column :label='$t("main.cart.list.mainCartliOpera")' width="" align="center">
+                  <template slot-scope="subscope">
+                    <div class="cart-delete" @click="deleteHandle(subscope.$index, subscope.row)">
+                      <i class="iconfont icon-shanchu"></i>
+                    </div>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </div>
+          </div>
           <div v-else-if="scope.row.others && scope.row.others.length>0" class="otherTable subtable">
             <el-table
               :data="scope.row.others"
@@ -267,6 +336,7 @@
         tableData: [
           {discount: []},
           {reduce: []},
+          {limit: []},
           {others: []}
         ],
         tableDataItem: {}, // 购物车所有数据
@@ -353,8 +423,11 @@
           this.tableData = [
             {discount: []},
             {reduce: []},
+            {limit: []},
             {others: []}
           ]
+          data.datalist = [{"activity_id":null,"attribute":4194305,"brand":"LTS","category_id":9487633,"discount_type":4,"id":2101489,"item_name":"LTN8708T-HT","item_props":[{"attribute":1792,"cdate":null,"edate":null,"id":789,"img_url":"","item_id":null,"multi_select":false,"price":200,"price_action":1,"prop_value":"{\"IP Video Inputs\":\"8\"}","rank":null,"required":false,"search":true,"selectable":false,"show":true,"sin":"2010000438727","sku":true,"spec":false,"spu_id":180511,"status":null,"storage":100,"system":false,"value_type":0}],"maxinum":45,"mininum":12,"num":1,"price":200,"price_real":200,"proxy_distribute_num":null,"puser_id":158667,"spec_unit":"æ— æè¿°/PIECE","spu_id":180511,"status":1,"storage":0,"tag":"","url":"03e9b4c9ccb834126518e34593b85a8e.jpg"},{"activity_id":null,"attribute":4194305,"brand":"LTS","category_id":9487632,"discount_type":1,"id":2101487,"item_name":"LTN8916-P16, Platinum Enterprise Level 16 Channel 4K NVR, 1.5U, 16 Port POE , 12MP IP Recording","item_props":[{"attribute":1792,"cdate":null,"edate":null,"id":787,"img_url":"","item_id":null,"multi_select":false,"price":1,"price_action":1,"prop_value":"{\"IP Video Inputs\":\"16\"}","rank":null,"required":false,"search":true,"selectable":false,"show":true,"sin":"LTN8916-P16","sku":true,"spec":false,"spu_id":180531,"status":null,"storage":100,"system":false,"value_type":0}],"maxinum":null,"mininum":0,"num":1,"price":1,"price_real":1,"proxy_distribute_num":null,"puser_id":158667,"spec_unit":"æ— æè¿°/PIECE","spu_id":180531,"status":1,"storage":100,"tag":"æ ‡ç­¾ä¸€12,æ ‡ç­¾,æ ‡ç­¾ä¸‰asdaa,æ ‡ç­¾å››,æ ‡ç­¾äº”","url":"ef365d1574615ddb35c4f19bb3000b4b.PNG"},{"activity_id":null,"attribute":4194304,"brand":"LTS","category_id":9487695,"discount_type":2,"id":2101392,"item_name":"NA-SLECDMA-CB-TFï¼ŒStarLinkâ„¢ NAPCO Alarm Communicator for Universal Cell or IP","item_props":[{"attribute":1792,"cdate":null,"edate":null,"id":653,"img_url":"","item_id":null,"multi_select":false,"price":1,"price_action":1,"prop_value":"{\"Brand\":\"Starlink\"}","rank":null,"required":false,"search":true,"selectable":false,"show":true,"sin":"NA-SLECDMA-CB-TF","sku":true,"spec":false,"spu_id":180517,"status":null,"storage":100,"system":false,"value_type":0}],"maxinum":null,"mininum":0,"num":1,"price":1,"price_real":1,"proxy_distribute_num":null,"puser_id":158667,"spec_unit":"æ— æè¿°/Piece","spu_id":180517,"status":1,"storage":100,"tag":"çƒ­å–å•†å“","url":"49554e0023fbd95efb7956f46b127ff5.png"},{"activity_id":null,"attribute":4194305,"brand":"LTS","category_id":9487633,"discount_type":4,"id":2101489,"item_name":"LTN8708T-HT","item_props":[{"attribute":1792,"cdate":null,"edate":null,"id":789,"img_url":"","item_id":null,"multi_select":false,"price":200,"price_action":1,"prop_value":"{\"IP Video Inputs\":\"8\"}","rank":null,"required":false,"search":true,"selectable":false,"show":true,"sin":"2010000438727","sku":true,"spec":false,"spu_id":180511,"status":null,"storage":100,"system":false,"value_type":0}],"maxinum":45,"mininum":12,"num":1,"price":200,"price_real":200,"proxy_distribute_num":null,"puser_id":158667,"spec_unit":"æ— æè¿°/PIECE","spu_id":180511,"status":1,"storage":0,"tag":"","url":"03e9b4c9ccb834126518e34593b85a8e.jpg"}]
+          console.log(data.datalist)
           data.datalist.forEach((value) => {
             value.item_props.forEach((item) => {
               item.prop_value = JSON.parse(item.prop_value)
@@ -363,8 +436,10 @@
               this.tableData[0].discount.push(value)
             } else if (value.discount_type === 2) {
               this.tableData[1].reduce.push(value)
+            } else if (value.discount_type === 4) {
+              this.tableData[2].limit.push([value])
             } else {
-              this.tableData[2].others.push(value)
+              this.tableData[3].others.push(value)
             }
           })
         }, (msg) => {

@@ -68,12 +68,16 @@
             <p>{{ $t("main.detail.info.mainDetInfoNoReason") }}</p>
           </el-form-item>
           <el-form-item class="buttons">
-            <button @click.stop="buyNow" type="button">
-              <div v-login>{{ $t("main.detail.info.mainDetInfoImme") }}</div>
-            </button>
-            <el-button @click.stop="addCart(item, checkedSpu)" type="button">
-              <div v-login>{{ $t("main.detail.info.mainDetInfoJoinCart") }}</div>
-            </el-button>
+            <lts-login display="inline-block">
+               <button @click.stop="buyNow"  type="button">
+                  {{ $t("main.detail.info.mainDetInfoImme") }}
+               </button>
+            </lts-login>
+            <lts-login display="inline-block">
+                <el-button @click.stop="addCart(item, checkedSpu)" type="button" class="addcart">
+                  {{ $t("main.detail.info.mainDetInfoJoinCart") }}
+                </el-button>
+            </lts-login>
           </el-form-item>
           <addCartSuccess
             :flag.sync="flag"
@@ -1087,7 +1091,7 @@
             border-radius: 4px;
             cursor: pointer;
           }
-          button:nth-child(2) {
+          .addcart {
             margin-left: 16px;
             border: 1px solid #ff3b41;
             background: #fff;

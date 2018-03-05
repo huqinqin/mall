@@ -58,6 +58,9 @@
                                             <span v-if="subscope.row.last_refund_status == 1" style="color: #ff3b41;">
                                                  {{$t("main.order.list.mainOrLiBackApply")}}
                                             </span>
+                                            <span v-else-if="subscope.row.last_refund_status == 2">
+                                                 {{$t("main.order.list.mainOrLiSure")}}
+                                            </span>
                                             <span v-else-if="subscope.row.last_refund_status == 3">
                                                  {{$t("main.order.list.mainOrLiReject")}}
                                             </span>

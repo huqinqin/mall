@@ -3,8 +3,8 @@
         <lts-search-form @get-from="getParameter" :form-fileds="form.formFileds" :form-inlines="form.formInline"></lts-search-form>
         <el-table :data="datalist" v-loading="loading" style="width: 100%">
             <el-table-column type="selection"/>
-            <el-table-column prop="tid" label="订单编号" align="left" header-align="left" width="120"/>
-            <el-table-column prop="tid" label="商品信息" align="left" header-align="left">
+            <el-table-column prop="tid" :label='$t("main.reverse.list.mainRevLiOrder")' align="left" header-align="left" width="120"/>
+            <el-table-column prop="tid" :label='$t("main.reverse.list.mainRevLiInfo")' align="left" header-align="left">
                 <template slot-scope="scope">
                     <div class="item-info">
                         <div class="order-item-detail">
@@ -21,10 +21,10 @@
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column label="退货金额" align="left" header-align="left" width="80">
+            <el-table-column :label='$t("main.reverse.list.mainRevLiMoneyNum")' align="left" header-align="left" width="80">
                 <template slot-scope="scope"><lts-money :money="scope.row.refund_real"></lts-money></template>
             </el-table-column>
-            <el-table-column label="退货数量" align="left" header-align="left" width="80">
+            <el-table-column :label='$t("main.reverse.list.mainRevLiReturnGoods")' align="left" header-align="left" width="80">
                 <template slot-scope="scope">
                     <!--<el-tooltip placement="top">-->
                         <!--<div slot="content">-->
@@ -38,23 +38,23 @@
                     <div>{{scope.row.total_num}}</div>
                 </template>
             </el-table-column>
-            <el-table-column label="提交时间" align="left" header-align="left" width="105">
+            <el-table-column :label='$t("main.reverse.list.mainRevLiSubmitTime")' align="left" header-align="left" width="105">
                 <template slot-scope="scope">{{scope.row.start_time | timestamp2str}}</template>
             </el-table-column>
-            <el-table-column prop="reverse_reason_title" label="退货类型" header-align="left" align="left" width="100">
+            <el-table-column prop="reverse_reason_title" :label='$t("main.reverse.list.mainRevLiGooodsType")' header-align="left" align="left" width="100">
                 <template slot-scope="scope">
                     <div v-if="scope.row.hd_status > 0">
-                        退货退款
+                        {{$t("main.reverse.list.mainRevLiReturnGoodPay")}}
                     </div>
-                    <div v-else>仅退款</div>
+                    <div v-else>{{$t("main.reverse.list.mainRevLiOnlyNotGood")}}</div>
                 </template>
             </el-table-column>
-            <el-table-column prop="reverse_reason_title" label="退货原因" header-align="left" align="left" width="150">
+            <el-table-column prop="reverse_reason_title" :label='$t("main.reverse.list.mainRevLiReason")' header-align="left" align="left" width="150">
                 <template slot-scope="scope">
                     <div>{{scope.row.reverse_reason_title}}</div>
                 </template>
             </el-table-column>
-            <el-table-column prop="status_title" label="退款状态" align="left" header-align="left" width="100">
+            <el-table-column prop="status_title" :label='$t("main.reverse.list.mainRevLiStatus")' align="left" header-align="left" width="100">
                 <template slot-scope="scope">
                     <span v-if="scope.row.status == 7 || scope.row.status == 9">
                         {{scope.row.status_title}}
@@ -62,44 +62,44 @@
                     <span v-else>{{scope.row.status_title}}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="操作" align="center" header-align="center" width="120">
+            <el-table-column :label='$t("main.reverse.list.mainRevLiHandle")' align="center" header-align="center" width="120">
                 <template slot-scope="scope">
-                    <el-button type="text" class="probtn" size="mini" ><router-link :to="'/detail/' + scope.row.id">退货详情</router-link></el-button>
+                    <el-button type="text" class="probtn" size="mini" ><router-link :to="'/detail/' + scope.row.id">{{$t("main.reverse.list.mainRevLiGoodsInfo")}}</router-link></el-button>
                     <el-popover
                         placement="bottom"
                         width="220"
                         v-model="scope.row.visible2">
-                        <p>确定撤销申请吗？</p>
+                        <p>{{$t("main.reverse.list.mainRevLiIsSure")}}</p>
                         <div class="popverbtn">
-                            <el-button size="mini" type="text" @click="scope.row.visible2 = false">取消</el-button>
-                            <el-button type="primary" size="mini" @click="closeOrder(scope.row)">确定</el-button>
+                            <el-button size="mini" type="text" @click="scope.row.visible2 = false">{{$t("main.reverse.list.mainRevLiCanle")}}</el-button>
+                            <el-button type="primary" size="mini" @click="closeOrder(scope.row)">{{$t("main.reverse.list.mainRevLiConfirm")}}</el-button>
                         </div>
-                        <el-button type="text" class="probtn" size="mini" slot="reference" v-if="scope.row.status == 1 || scope.row.status == 2">撤销申请</el-button>
+                        <el-button type="text" class="probtn" size="mini" slot="reference" v-if="scope.row.status == 1 || scope.row.status == 2">{{$t("main.reverse.list.mainRevLiApply")}}</el-button>
                     </el-popover>
                     <el-popover
                         placement="bottom"
-                        title="填写物流信息"
+                        :title='$t("main.reverse.list.mainRevLiLogis")'
                         width="360"
                         trigger="click"
                         v-model="scope.row.visible3">
                         <el-form ref="form"  label-width="80px">
-                            <el-form-item label="物流公司">
-                                <el-select v-model="express" placeholder="请选择物流公司">
+                            <el-form-item :label='mainRevLiLogisCompany'>
+                                <el-select v-model="express" :placeholder='$t("main.reverse.list.mainRevLiSelect")'>
                                     <el-option label="UPS" value="ups"></el-option>
                                     <el-option label="FEDEX" value="fedex"></el-option>
                                     <el-option label="自送" value="self"></el-option>
                                     <el-option label="其他" value="other"></el-option>
                                 </el-select>
                             </el-form-item>
-                            <el-form-item label="物流单号">
+                            <el-form-item :label='$t("main.reverse.list.mainRevLiLogisNum")'>
                                 <el-input v-model="express_number"></el-input>
                             </el-form-item>
                             <el-form-item>
-                                <el-button type="primary" size="small" @click="submitExpress(scope.row)">确定</el-button>
-                                <el-button @click="scope.row.visible3 = false">取消</el-button>
+                                <el-button type="primary" size="small" @click="submitExpress(scope.row)">{{$t("main.reverse.list.mainRevLiConfirm")}}</el-button>
+                                <el-button @click="scope.row.visible3 = false">{{$t("main.reverse.list.mainRevLiCanle")}}</el-button>
                             </el-form-item>
                         </el-form>
-                        <el-button type="text" v-if="scope.row.status == 2 && (scope.row.hd_status == 1)" class="probtn" size="mini" slot="reference">填写物流</el-button>
+                        <el-button type="text" v-if="scope.row.status == 2 && (scope.row.hd_status == 1)" class="probtn" size="mini" slot="reference">{{$t("main.reverse.list.mainRevLiLogising")}}</el-button>
                     </el-popover>
                 </template>
             </el-table-column>
@@ -157,37 +157,37 @@
                         {
                             search: {
                                 tid: {
-                                    label: '订单号',
+                                    label: this.$t("main.reverse.list.mainRevLiOrderNum"),
                                     type: 'input',
                                     bindValue: 'tid',
-                                    bindPlaceholder: '订单号'
+                                    bindPlaceholder: this.$t("main.reverse.list.mainRevLiOrderNum"),
                                 },
                                 item_name: {
-                                    label: '商品名称',
+                                    label: this.$t("main.reverse.list.mainRevLiGoodName"),
                                     type: 'input',
                                     bindValue: 'item_name',
-                                    bindPlaceholder: '商品名称'
+                                    bindPlaceholder: this.$t("main.reverse.list.mainRevLiGoodName")
                                 },
                                 date: {
-                                    label: '创建时间',
+                                    label: this.$t("main.reverse.list.mainRevLiCreateTime"),
                                     type: 'datetimerange',
                                     bindValue: 'date'
                                 },
                                 status: {
-                                    label: "状态",
+                                    label: this.$t("main.reverse.list.mainRevLiStats"),
                                     type: "select",
                                     bindValue: "status",
                                     children: [
-                                        {label: "所有状态", bindValue: ''},
-                                        {label: "退款申请中", bindValue: 1},
-                                        {label: "退款接受", bindValue: 2},
-                                        {label: "退款驳回", bindValue: 3},
-                                        {label: "卖家已赔", bindValue: 5},
-                                        {label: "退款成功", bindValue: 7},
-                                        {label: "退款关闭", bindValue: 9}
+                                        {label: this.$t("main.reverse.list.mainRevLiAllStats"), bindValue: ''},
+                                        {label: this.$t("main.reverse.list.mainRevLiAppling"), bindValue: 1},
+                                        {label: this.$t("main.reverse.list.mainRevLiAccept"), bindValue: 2},
+                                        {label: this.$t("main.reverse.list.mainRevLiReject"), bindValue: 3},
+                                        {label: this.$t("main.reverse.list.mainRevLiSeller"), bindValue: 5},
+                                        {label: this.$t("main.reverse.list.mainRevLiSuccess"), bindValue: 7},
+                                        {label: this.$t("main.reverse.list.mainRevLiClose"), bindValue: 9}
                                     ]
                                 },
-                                search: {bindValue: "搜索", type: "submitbutton"}
+                                search: {bindValue: this.$t("main.reverse.list.mainRevLiSearch"), type: "submitbutton"}
                             }
                         }
                     ],
@@ -237,7 +237,7 @@
                     this.loading = false;
                     this.datalist = [];
                     this.pagination.total = 0;
-                    this.$ltsMessage.show({type: 'error', message: '查询失败，请稍后重试:' + err.error_message})
+                    this.$ltsMessage.show({type: 'error', message: this.$t("main.reverse.list.mainRevLiErr") + ":" + err.error_message})
                 });
             },
             getParameter(val) {
@@ -245,7 +245,7 @@
             },
             closeOrder(order){
                 reverseService.cancel(order.id).then((resp) => {
-                    this.$ltsMessage.show({type: 'success', message: '撤销成功'});
+                    this.$ltsMessage.show({type: 'success', message: this.$t("main.reverse.list.mainRevLiCtrlZ")});
                     this.search();
                 },(msg)=>{
                     this.$ltsMessage.show({type: 'error', message:msg.error_message})
@@ -253,7 +253,7 @@
             },
             submitExpress(order){
                 reverseService.set_express_number(order.id,this.express,this.express_number).then((resp) => {
-                    this.$ltsMessage.show({type: 'success', message: '提交成功'})
+                    this.$ltsMessage.show({type: 'success', message: this.$t("main.reverse.list.mainRevLiSubmitS")})
                     this.search();
                 },(msg)=>{
                     this.$ltsMessage.show({type: 'error', message:msg.error_message})

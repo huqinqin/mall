@@ -57,13 +57,16 @@
             </div>
             <div class="search-result">
                 <ul class="result">
-                    <li v-for="item in data" :key="item.id" v-bind:class="{'limit':item.type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1}">
+                    <li v-for="item in data" :key="item.id" v-bind:class="{'limit':item.discount_type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1}">
                         <a :href="'/detail#/?id=' + item.id" target="_blank">
                             <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
                             <p class="name" :title="item.item_name">{{item.item_name}}</p>
                             <div class="item-price">
                                 <button v-ltsLoginShow:false v-login>登录之后查看价格</button>
-                                <p class="price" v-ltsLoginShow:true>
+                                <p class="price" v-ltsLoginShow:true v-if="item.activity_price">
+                                    <lts-money :money="item.activity_price"></lts-money>
+                                </p>
+                                <p class="price" v-ltsLoginShow:true v-else>
                                     <lts-money :money="item.price"></lts-money>
                                 </p>
                             </div>

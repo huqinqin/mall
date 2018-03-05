@@ -241,6 +241,8 @@
                 });
             },
             getParameter(val) {
+                this.form.formInline = val;
+                this.syncFormParam();
                 this.search()
             },
             closeOrder(order){
@@ -264,9 +266,7 @@
                     this.params.start_time = this.form.formInline.date[0];
                     this.params.end_time = this.form.formInline.date[1];
                 }
-                if(this.form.formInline.tid){
-                    this.params.tid = this.form.formInline.tid;
-                }
+                this.params.tid = this.form.formInline.tid;
                 if(this.form.formInline.item_name){
                     this.params.item_name = this.form.formInline.item_name;
                 }

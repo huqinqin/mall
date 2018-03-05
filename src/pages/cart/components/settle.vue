@@ -483,6 +483,7 @@
           taxesFeeCalculator: 1,
           taxesFee: this.sum.tax,
           ship: {
+            logisticsCompany:this.expressForm.express,
             userAddrIdType: 0,
             // 0代表收货地址，1代表分销证地址，1免税费
             toStates: 'California',
@@ -524,6 +525,7 @@
           hdFeeCalculator: 1,
           taxesFeeCalculator: 1,
           ship: {
+            logisticsCompany:this.expressForm.express,
             userAddrIdType: 0,
             // 0代表收货地址，1代表分销证地址，1免税费
             toStates: 'California',

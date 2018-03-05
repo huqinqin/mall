@@ -42,7 +42,7 @@
                     <lts-money :money="subscope.row.price"></lts-money>
                   </p>
                   <p>
-                    <lts-money :money="subscope.row.price_real"></lts-money>
+                    <lts-money :money="subscope.row.item_props[0].price"></lts-money>
                   </p>
                 </template>
               </el-table-column>
@@ -504,11 +504,15 @@
             }
           }
         }
+        .otherTable.subtable{
+          margin-top: 20px;
+        }
         .dicount {
         }
         .reduce {
         }
         .others {
+
         }
         a {
           width: 100%;

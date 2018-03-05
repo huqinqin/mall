@@ -29,29 +29,8 @@
                                     </div>
                                 </template>
                             </el-table-column>
-                            <el-table-column width="100">
-                                <template slot-scope="subscope">
-                                    <!--<del class="text-secondary" v-if="subscope.row.pay > subscope.row.pay_real">-->
-                                        <!--<lts-money :money="subscope.row.pay"></lts-money>-->
-                                    <!--</del>-->
-                                    <div style="color: #ff3b41;"><lts-money :money="subscope.row.price"></lts-money></div>
-                                </template>
-                            </el-table-column>
-                            <el-table-column prop="num" width="100">
-                                <template slot-scope="subscope">{{subscope.row.num}}{{subscope.row.wholesale_item_d_o.unit}}</template>
-                            </el-table-column>
-                            <el-table-column prop="hd_status_title" width="160">
-                                <template slot-scope="subscope">
-                                    <!--<div style="color: #ff3b41;"><lts-money :money="subscope.row.pay_real"></lts-money></div>-->
-                                    <!--<del class="text-secondary" v-if="subscope.row.pay > subscope.row.pay_real">-->
-                                        <!--<lts-money :money="subscope.row.pay"></lts-money>-->
-                                    <!--</del>-->
-                                    <!--<div>含运费:<lts-money :money="1"></lts-money></div>-->
-                                    <!--<div>含税费:<lts-money :money="2"></lts-money></div>-->
-                                </template>
-                            </el-table-column>
-                            <el-table-column prop="status_title" width="118">
-                                <template slot-scope="subscope">
+                          <el-table-column prop="status_title" width="10">
+                            <template slot-scope="subscope">
                                     <span v-if="subscope.row.status != 9">
                                         <span v-if="subscope.row.last_refund_status == 1">
                                             {{$t("main.order.list.mainOrLiBackApply")}}
@@ -60,8 +39,32 @@
                                             {{$t("main.order.list.mainOrLiClose")}}
                                         </span>
                                     </span>
-                                </template>
+                            </template>
+                          </el-table-column>
+                            <el-table-column prop="hd_status_title" width="10">
+                            <template slot-scope="subscope">
+                              <!--<div style="color: #ff3b41;"><lts-money :money="subscope.row.pay_real"></lts-money></div>-->
+                              <!--<del class="text-secondary" v-if="subscope.row.pay > subscope.row.pay_real">-->
+                              <!--<lts-money :money="subscope.row.pay"></lts-money>-->
+                              <!--</del>-->
+                              <!--<div>含运费:<lts-money :money="1"></lts-money></div>-->
+                              <!--<div>含税费:<lts-money :money="2"></lts-money></div>-->
+                            </template>
+                          </el-table-column>
+
+                          <el-table-column width="160">
+                            <template slot-scope="subscope">
+                              <!--<del class="text-secondary" v-if="subscope.row.pay > subscope.row.pay_real">-->
+                              <!--<lts-money :money="subscope.row.pay"></lts-money>-->
+                              <!--</del>-->
+                              <div style="color: #ff3b41;"><lts-money :money="subscope.row.price"></lts-money></div>
+                            </template>
+                          </el-table-column>
+
+                            <el-table-column prop="num" width="118">
+                                <template slot-scope="subscope">{{subscope.row.num}}{{subscope.row.wholesale_item_d_o.unit}}</template>
                             </el-table-column>
+
                             <el-table-column width="130" align="center">
                                 <template slot-scope="subscope">
                                     <!--<el-dropdown @command="handleMenuItemClick">-->
@@ -254,7 +257,7 @@
                         let return_url = '/customerorder#/finish';
                         let fail_url = '/customerorder#/fail';
                         order = data.$vnode.data.attrs.data;
-                        window.open('/cart#/beforePay?tid=' + order.tid + '');
+                        window.open('/cart#/beforePay?tid=' + order.tid + 'orderpay=3' + '');
                         break;
                     case "close":
                         this.$confirm(this.$t("main.order.list.mainOrLiIsDelOrder"), this.$t("main.order.list.mainOrLiIsDelTip"), {

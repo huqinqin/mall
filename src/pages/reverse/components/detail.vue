@@ -8,7 +8,7 @@
             <div class="info-box">
                 <div class="info">
                     <span>{{$t("main.cart.beforePay.mainCartBefOrderNum")}}:</span>
-                    <span>{{detail.wholesale_order.wholesale_order_items[0].tid}}</span>
+                    <span>{{detail.wholesale_order.tid}}</span>
                 </div>
                 <div class="info">
                     <span>{{$t("main.reverse.detail.mainRevDeApplyTime")}}:</span>
@@ -16,7 +16,7 @@
                 </div>
                 <div class="info">
                     <span>{{$t("main.reverse.detail.mainRevDeSaler")}}:</span>
-                    <span>{{detail.wholesale_order.wholesale_order_items[0].proxy_uid}}</span>
+                    <span>{{detail.wholesale_order.proxy_uid}}</span>
                 </div>
             </div>
             <div class="item-info">

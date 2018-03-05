@@ -46,13 +46,27 @@
                             </el-table-column>
                             <el-table-column prop="status_title" width="130" align="center">
                                 <template slot-scope="subscope">
-                                        <span v-if="subscope.row.status != 9">
-                                            <span v-if="subscope.row.last_refund_status == 1">
-                                                {{$t("main.order.list.mainOrLiBackApply")}}
+                                        <!--<span v-if="subscope.row.status != 9">-->
+                                            <!--<span v-if="subscope.row.last_refund_status == 1">-->
+                                                <!--{{$t("main.order.list.mainOrLiBackApply")}}-->
+                                            <!--</span>-->
+                                            <!--<span v-else-if="subscope.row.last_refund_status == 9">-->
+                                                <!--{{$t("main.order.list.mainOrLiClose")}}-->
+                                            <!--</span>-->
+                                        <!--</span>-->
+                                        <span  v-if="subscope.row.status != 9">
+                                            <span v-if="subscope.row.last_refund_status == 1" style="color: #ff3b41;">
+                                                 {{$t("main.order.list.mainOrLiBackApply")}}
+                                            </span>
+                                            <span v-else-if="subscope.row.last_refund_status == 3">
+                                                 {{$t("main.order.list.mainOrLiReject")}}
+                                            </span>
+                                            <span v-else-if="subscope.row.last_refund_status == 7">
+                                                 {{$t("main.order.list.mainOrLiAlreadyBack")}}{{subscope.row.refund_num}}{{subscope.row.wholesale_item_d_o.unit}}{{subscope.row.refund_real | money2str}}元
                                             </span>
                                             <span v-else-if="subscope.row.last_refund_status == 9">
-                                                {{$t("main.order.list.mainOrLiClose")}}
-                                            </span>
+                                                 {{$t("main.order.list.mainOrLiClose")}}
+                                             </span>
                                         </span>
                                 </template>
                             </el-table-column>

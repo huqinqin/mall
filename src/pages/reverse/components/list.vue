@@ -87,6 +87,8 @@
                                 <el-select v-model="express" :placeholder='$t("main.reverse.list.mainRevLiSelect")'>
                                     <el-option label="UPS" value="ups"></el-option>
                                     <el-option label="FEDEX" value="fedex"></el-option>
+                                    <el-option label="自送" value="self"></el-option>
+                                    <el-option label="其他" value="other"></el-option>
                                 </el-select>
                             </el-form-item>
                             <el-form-item :label='$t("main.reverse.list.mainRevLiLogisNum")'>
@@ -214,7 +216,6 @@
                 this.dialogVisible = true;
             },
             search() {
-                /*debugger;*/
                 let param = {};
                 for(let key in this.params){
                     if(this.params[key] == ''||this.params[key] == undefined || this.params[key] == null){

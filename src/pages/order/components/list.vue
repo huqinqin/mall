@@ -29,42 +29,33 @@
                                     </div>
                                 </template>
                             </el-table-column>
-                          <el-table-column prop="status_title" width="10">
-                            <template slot-scope="subscope">
-                                    <span v-if="subscope.row.status != 9">
-                                        <span v-if="subscope.row.last_refund_status == 1">
-                                            {{$t("main.order.list.mainOrLiBackApply")}}
-                                        </span>
-                                        <span v-else-if="subscope.row.last_refund_status == 9">
-                                            {{$t("main.order.list.mainOrLiClose")}}
-                                        </span>
-                                    </span>
-                            </template>
-                          </el-table-column>
-                            <el-table-column prop="hd_status_title" width="10">
-                            <template slot-scope="subscope">
-                              <!--<div style="color: #ff3b41;"><lts-money :money="subscope.row.pay_real"></lts-money></div>-->
-                              <!--<del class="text-secondary" v-if="subscope.row.pay > subscope.row.pay_real">-->
-                              <!--<lts-money :money="subscope.row.pay"></lts-money>-->
-                              <!--</del>-->
-                              <!--<div>含运费:<lts-money :money="1"></lts-money></div>-->
-                              <!--<div>含税费:<lts-money :money="2"></lts-money></div>-->
-                            </template>
-                          </el-table-column>
-
-                          <el-table-column width="160">
-                            <template slot-scope="subscope">
-                              <!--<del class="text-secondary" v-if="subscope.row.pay > subscope.row.pay_real">-->
-                              <!--<lts-money :money="subscope.row.pay"></lts-money>-->
-                              <!--</del>-->
-                              <div style="color: #ff3b41;"><lts-money :money="subscope.row.price"></lts-money></div>
-                            </template>
-                          </el-table-column>
-
-                            <el-table-column prop="num" width="118">
+                            <el-table-column width="100" align="center">
+                                <template slot-scope="subscope">
+                                    <!--<del class="text-secondary" v-if="subscope.row.pay > subscope.row.pay_real">-->
+                                    <!--<lts-money :money="subscope.row.pay"></lts-money>-->
+                                    <!--</del>-->
+                                    <div style="color: #ff3b41;"><lts-money :money="subscope.row.price"></lts-money></div>
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="num" width="100" align="center">
                                 <template slot-scope="subscope">{{subscope.row.num}}{{subscope.row.wholesale_item_d_o.unit}}</template>
                             </el-table-column>
-
+                            <el-table-column  width="160" align="center">
+                                <template>
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="status_title" width="130" align="center">
+                                <template slot-scope="subscope">
+                                        <span v-if="subscope.row.status != 9">
+                                            <span v-if="subscope.row.last_refund_status == 1">
+                                                {{$t("main.order.list.mainOrLiBackApply")}}
+                                            </span>
+                                            <span v-else-if="subscope.row.last_refund_status == 9">
+                                                {{$t("main.order.list.mainOrLiClose")}}
+                                            </span>
+                                        </span>
+                                </template>
+                            </el-table-column>
                             <el-table-column width="130" align="center">
                                 <template slot-scope="subscope">
                                     <!--<el-dropdown @command="handleMenuItemClick">-->
@@ -99,7 +90,7 @@
             </el-table-column>
             <el-table-column prop="pay_info.pay_type_title" :label='$t("main.order.list.mainOrLiReal")' align="left" width="160">
                 <template slot-scope="scope">
-                    <div><lts-money :money="scope.row.pay_real"></lts-money></div>
+                    <div><lts-money :money="scope.row.fee_total"></lts-money></div>
                 </template>
             </el-table-column>
             <el-table-column prop="status_title" :label='$t("main.order.list.mainOrLiTransationSta")' align="left" width="118">

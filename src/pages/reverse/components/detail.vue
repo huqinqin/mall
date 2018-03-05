@@ -8,7 +8,7 @@
             <div class="info-box">
                 <div class="info">
                     <span>{{$t("main.cart.beforePay.mainCartBefOrderNum")}}:</span>
-                    <span>{{detail.wholesale_order.wholesale_order_items.tid}}</span>
+                    <span>{{detail.wholesale_order.wholesale_order_items[0].tid}}</span>
                 </div>
                 <div class="info">
                     <span>{{$t("main.reverse.detail.mainRevDeApplyTime")}}:</span>
@@ -16,7 +16,7 @@
                 </div>
                 <div class="info">
                     <span>{{$t("main.reverse.detail.mainRevDeSaler")}}:</span>
-                    <span>{{detail.wholesale_order.wholesale_order_items.proxy_uid}}</span>
+                    <span>{{detail.wholesale_order.wholesale_order_items[0].proxy_uid}}</span>
                 </div>
             </div>
             <div class="item-info">
@@ -153,11 +153,11 @@
             get () {
                 revereService.get(this.detail.id).then((resp) => {
                     resp.data.wholesale_order.sell_order_list[0].wholesale_order_items.forEach((value,index,array)=>{
-                        if(value.tid != resp.data.reverse.oid){
-                            array.splice(index,1);
+                        if(value.tid == resp.data.reverse.oid){
+                            resp.data.wholesale_order.wholesale_order_items.push(value);
+                            return false;
                         }
                     })
-                    resp.data.wholesale_order.wholesale_order_items = resp.data.wholesale_order.sell_order_list[0].wholesale_order_items;
                     this.detail = resp.data;
                 }, (err) => {
 

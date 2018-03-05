@@ -12,8 +12,16 @@ export default {
         headerSearchGoods: '搜索商品',
         headerAllclassify: '全部分类',
         headerInputUserOrEmail: '请输入用户名或邮箱',
+        headerPwd: '密码',
         headerInputPwd: '请输入密码',
         headerAll: '全部',
+        headerTopPic: '顶部图片',
+        headerUserOrEmail: '用户名/邮箱：',
+        headerEnterPsw: '请输入您的密码',
+        headerRemerberPsw: '记住密码',
+        headerForgetPsw: '忘记密码?',
+        headerLog: '登录',
+        headerRegis: '注册',
     },
     comFooter: {
         footerAboutLts: '关于LTS',
@@ -521,6 +529,42 @@ export default {
             mainSomeRange: '至',
             mainSomeEvery: '个',
             mainSomeHistory: '历史购买记录',
+        }
+    },
+    common: {
+        addCart: {
+            comAddCartSucc: '已成功加入购物车!',
+            comAddCartSettle: '去购物车结算',
+            comAddCartRecommon: '为您推荐',
+        },
+        searchFrom: {
+            comSearRange: '至',
+            comSearStartTime: '开始日期',
+            comSearEndTime: '结束日期',
+            comSearSelectTime: '选择日期时间',
+            comSearSelectDate: '选择日期'
+        },
+        myExpert: {
+            commMyExpert: '联系我的专家',
+            commMyName: '姓名',
+            commMyContact: '联系方式',
+            commMyEmail: '邮箱'
+        },
+        ltsMenu: {
+            commLtsUserConter: '用户中心',
+            commLtsMyMoney: '我的资金',
+            commLtsAccountSet: '账户设置',
+            commLtsPersonlPage: '个人首页',
+            commLtsMyOrder: '我的订单',
+            commLtsCart: '购物车',
+            commLtsResolve: '解决方案',
+            commLtsMyBalance: '我的余额',
+            commLtsWaitting: '待还款列表',
+            commLtsPersonInfo: '个人信息',
+            commLtsEmailAlert: '邮箱修改',
+            commLtsAnth: '分销商资格认证',
+            commLtsPwdSet: '密码设置',
+            commLtsAddress: '收货地址'
         }
     }
 }

@@ -1,12 +1,12 @@
 <template>
    <div class="wrapperExperts">
        <div class="el-icon-close" @click="close"></div>
-       <h3>联系我的专家</h3>
+       <h3>{{$t("common.myExpert.commMyExpert")}}</h3>
        <div class="box">
            <ul>
-               <li><span>姓名：</span><span>抹茶</span></li>
-               <li><span>联系方式：</span><span>13069874561</span></li>
-               <li><span>邮箱：</span><span>89652541@qq.com</span></li>
+               <li><span>{{$t("common.myExpert.commMyName")}}：</span><span>抹茶</span></li>
+               <li><span>{{$t("common.myExpert.commMyContact")}}：</span><span>13069874561</span></li>
+               <li><span>{{$t("common.myExpert.commMyEmail")}}：</span><span>89652541@qq.com</span></li>
            </ul>
            <ul class="iconfont icon-jiankangzhuanjia"></ul>
        </div>

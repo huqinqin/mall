@@ -3,7 +3,7 @@
         <lts-search-form @get-from="getParameter" :form-fileds="form.formFileds" :form-inlines="form.formInline"></lts-search-form>
         <el-table :data="datalist" v-loading="loading" style="width: 100%">
             <el-table-column type="selection"/>
-            <el-table-column prop="oid" label="订单编号" align="left" header-align="left" width="120"/>
+            <el-table-column prop="tid" label="订单编号" align="left" header-align="left" width="120"/>
             <el-table-column prop="tid" label="商品信息" align="left" header-align="left">
                 <template slot-scope="scope">
                     <div class="item-info">
@@ -38,10 +38,10 @@
                     <div>{{scope.row.total_num}}</div>
                 </template>
             </el-table-column>
-            <el-table-column label="提交时间" align="left" header-align="left" width="160">
+            <el-table-column label="提交时间" align="left" header-align="left" width="105">
                 <template slot-scope="scope">{{scope.row.start_time | timestamp2str}}</template>
             </el-table-column>
-            <el-table-column prop="reverse_reason_title" label="退货类型" header-align="left" align="left" width="150">
+            <el-table-column prop="reverse_reason_title" label="退货类型" header-align="left" align="left" width="100">
                 <template slot-scope="scope">
                     <div v-if="scope.row.hd_status > 0">
                         退货退款
@@ -56,9 +56,9 @@
             </el-table-column>
             <el-table-column prop="status_title" label="退款状态" align="left" header-align="left" width="100">
                 <template slot-scope="scope">
-                    <el-tag type="success" v-if="scope.row.status == 7 || scope.row.status == 9">
+                    <span v-if="scope.row.status == 7 || scope.row.status == 9">
                         {{scope.row.status_title}}
-                    </el-tag>
+                    </span>
                     <span v-else>{{scope.row.status_title}}</span>
                 </template>
             </el-table-column>
@@ -84,9 +84,9 @@
                         v-model="scope.row.visible3">
                         <el-form ref="form"  label-width="80px">
                             <el-form-item label="物流公司">
-                                <el-select v-model="express" placeholder="请选择活动区域">
-                                    <el-option label="圆通" value="yuantong"></el-option>
-                                    <el-option label="顺丰" value="shunfeng"></el-option>
+                                <el-select v-model="express" placeholder="请选择物流公司">
+                                    <el-option label="UPS" value="ups"></el-option>
+                                    <el-option label="FEDEX" value="fedex"></el-option>
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="物流单号">
@@ -253,6 +253,7 @@
             submitExpress(order){
                 reverseService.set_express_number(order.id,this.express,this.express_number).then((resp) => {
                     this.$ltsMessage.show({type: 'success', message: '提交成功'})
+                    this.search();
                 },(msg)=>{
                     this.$ltsMessage.show({type: 'error', message:msg.error_message})
                 })

@@ -264,7 +264,7 @@ export default {
                 mainOrLiWaitPay: '待付款',
                 mainOrLiWaitDeli: '待发货',
                 mainOrLiAlreadyDeli: '已发货',
-                mainOrLiBackApply: '退款申请中',
+                mainOrLiBackApply: '申请中',
                 mainOrLiReject: '退款已驳回',
                 mainOrLiAlreadyBack: '已退',
                 mainOrLiClose: '退款已关闭',
@@ -325,7 +325,9 @@ export default {
                 mainOrReSuccess: '退货退款申请成功',
                 mainOrReError: '退货退款申请失败',
                 mainOrReUploadPicSucc: '上传图片成功',
-                mainOrReFive: '您只能上传五张图片'
+                mainOrReFive: '您只能上传五张图片',
+                mainOrSelf: '自送',
+                mainOrOther: '其他',
             }
         },
         personal: {

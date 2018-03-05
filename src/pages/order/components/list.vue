@@ -58,6 +58,9 @@
                                             <span v-if="subscope.row.last_refund_status == 1" style="color: #ff3b41;">
                                                  {{$t("main.order.list.mainOrLiBackApply")}}
                                             </span>
+                                            <span v-else-if="subscope.row.last_refund_status == 2">
+                                                 {{$t("main.order.list.mainOrLiSure")}}
+                                            </span>
                                             <span v-else-if="subscope.row.last_refund_status == 3">
                                                  {{$t("main.order.list.mainOrLiReject")}}
                                             </span>
@@ -259,10 +262,10 @@
                         this.showRefundOrderItem(orderItem);
                         break;
                     case "pay":
-                        let return_url = '/customerorder#/finish';
-                        let fail_url = '/customerorder#/fail';
+                        // let return_url = '/customerorder#/finish';
+                        // let fail_url = '/customerorder#/fail';
                         order = data.$vnode.data.attrs.data;
-                        window.open('/cart#/beforePay?tid=' + order.tid + 'orderpay=3' + '');
+                        window.open('/cart#/beforePay?tid=' + order.tid + '&orderpay=3' + '');
                         break;
                     case "close":
                         this.$confirm(this.$t("main.order.list.mainOrLiIsDelOrder"), this.$t("main.order.list.mainOrLiIsDelTip"), {

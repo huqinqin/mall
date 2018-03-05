@@ -5,6 +5,7 @@
             <li class="sign">
               <span class="login" v-login v-if="!userInfo">{{ $t("comHeader.headerImmediatelyLog") }}</span>
               <span class="login"  v-if="userInfo">{{ $t("comHeader.headerWelcom") }}，{{userInfo.account.user_name}}</span>
+              <a href="/account#/register" v-if="!userInfo"><span class="register">{{ $t("comHeader.headerImmediatelySign") }}</span></a>
             </li>
             <li class="">
               <a href="/" class="news top-menu" v-if="showToIndex">{{ $t("comHeader.headerIndex") }}</a>
@@ -188,7 +189,6 @@
             a{
                 color:white;
                 font-size: 12px;
-
             }
             span{
                 color: white;
@@ -204,7 +204,7 @@
                 font-weight:bold;
             }
             span.register{
-
+              font-weight:bold;
             }
 
             .news{

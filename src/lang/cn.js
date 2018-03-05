@@ -1,6 +1,7 @@
 export default {
     comHeader: {
         headerImmediatelyLog: '立即登录',
+        headerImmediatelySign: '立即注册',
         headerWelcom: '欢迎',
         headerNews: '快报',
         headerIndex: '商城首页',
@@ -452,10 +453,10 @@ export default {
                 mainRevLiLogisCompany: '物流公司',
                 mainRevLiSelect: '请选择物流公司',
                 mainRevLiLogisNum: '物流单号',
-                mainRevLiOrderNum: '订单号',
+                mainRevLiOrderNum: '订单编号',
                 mainRevLiGoodName: '商品名称',
                 mainRevLiCreateTime: '创建时间',
-                mainRevLiStats: '状态',
+                mainRevLiStats: '订单状态',
                 mainRevLiAllStats: '所有状态',
                 mainRevLiAppling: '退款申请中',
                 mainRevLiAccept: '退款接受',

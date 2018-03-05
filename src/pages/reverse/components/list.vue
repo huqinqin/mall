@@ -104,7 +104,6 @@
                 </template>
             </el-table-column>
         </el-table>
-
         <el-pagination
             background
             @size-change="handleSizeChange"
@@ -169,23 +168,23 @@
                                     bindPlaceholder: this.$t("main.reverse.list.mainRevLiGoodName")
                                 },
                                 date: {
-                                    label: this.$t("main.reverse.list.mainRevLiCreateTime"),
-                                    type: 'datetimerange',
-                                    bindValue: 'date'
+                                  label: this.$t("main.reverse.list.mainRevLiCreateTime"),
+                                  type: 'datetimerange',
+                                  bindValue: 'date'
                                 },
                                 status: {
-                                    label: this.$t("main.reverse.list.mainRevLiStats"),
-                                    type: "select",
-                                    bindValue: "status",
-                                    children: [
-                                        {label: this.$t("main.reverse.list.mainRevLiAllStats"), bindValue: ''},
-                                        {label: this.$t("main.reverse.list.mainRevLiAppling"), bindValue: 1},
-                                        {label: this.$t("main.reverse.list.mainRevLiAccept"), bindValue: 2},
-                                        {label: this.$t("main.reverse.list.mainRevLiReject"), bindValue: 3},
-                                        {label: this.$t("main.reverse.list.mainRevLiSeller"), bindValue: 5},
-                                        {label: this.$t("main.reverse.list.mainRevLiSuccess"), bindValue: 7},
-                                        {label: this.$t("main.reverse.list.mainRevLiClose"), bindValue: 9}
-                                    ]
+                                  label: this.$t("main.reverse.list.mainRevLiStats"),
+                                  type: "select",
+                                  bindValue: "status",
+                                  children: [
+                                    {label: this.$t("main.reverse.list.mainRevLiAllStats"), bindValue: ''},
+                                    {label: this.$t("main.reverse.list.mainRevLiAppling"), bindValue: 1},
+                                    {label: this.$t("main.reverse.list.mainRevLiAccept"), bindValue: 2},
+                                    {label: this.$t("main.reverse.list.mainRevLiReject"), bindValue: 3},
+                                    {label: this.$t("main.reverse.list.mainRevLiSeller"), bindValue: 5},
+                                    {label: this.$t("main.reverse.list.mainRevLiSuccess"), bindValue: 7},
+                                    {label: this.$t("main.reverse.list.mainRevLiClose"), bindValue: 9}
+                                  ]
                                 },
                                 search: {bindValue: this.$t("main.reverse.list.mainRevLiSearch"), type: "submitbutton"}
                             }

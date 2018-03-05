@@ -1,11 +1,4 @@
 export default {
-    name : '123',
-    title: '工作台',
-    menu: {
-      product : '商品管理',
-      goods: '商品管理',
-      order: '订单管理'
-    },
     comHeader: {
         headerImmediatelyLog: '立即登录',
         headerWelcom: '欢迎',
@@ -265,11 +258,12 @@ export default {
                 mainOrLiWaitPay: '待付款',
                 mainOrLiWaitDeli: '待发货',
                 mainOrLiAlreadyDeli: '已发货',
-                mainOrLiBackApply: '申请中',
-                mainOrLiReject: '退款已驳回',
+                mainOrLiBackApply: '退款申请',
+                mainOrLiReject: '退款驳回',
                 mainOrLiAlreadyBack: '已退',
-                mainOrLiClose: '退款已关闭',
+                mainOrLiClose: '退款关闭',
                 mainOrLiBackGoods: '退货退款',
+                mainOrLiSure: '同意退款',
                 mainOrLiOrderNum: '订单号',
                 mainOrLiPayInfo: '支付信息',
                 mainOrLiPhone: '手机下单',

@@ -6,7 +6,7 @@
             </div>
             <div class="infoRight">
                 <h2>尊敬的<span class="name">{{engineerInfo.user.name}}</span>,您好！</h2>
-                <p>会员等级:<span>银牌会员</span></p>
+                <p>会员等级:<span>level{{engineerInfo.level}}</span></p>
                 <hr class="flagLine">
                 <div>
                     <span>账户余额:<span class="name">${{engineerInfo.cash}}</span></span>
@@ -136,8 +136,11 @@
                         }
                         if(item.subject === 2010106){
                             item.rule_blc1 = JSON.parse(item.rule_blc);
-                            this.account = ((item.rule_blc1.limit ? item.rule_blc1.limit : 0) / 100).toFixed(2);
-                            this.usedAcc = ((item.rule_blc1.limit + item.balance) / 100).toFixed(2);
+                            /*this.usedAcc = ((item.rule_blc1.limit + item.balance) / 100).toFixed(2);*/
+                            this.usedAcc = ((item.use_balance) / 100).toFixed(2);
+                            let sum = item.rule_blc1.limit + item.use_balance;
+                            this.account = ( sum / 100).toFixed(2);
+                            console.log(item.rule_blc1.limit + item.use_balance,this.account);
                         }
                         if(item.subject === 2010102){
                             item.bonus.datalist.forEach((item) => {
@@ -350,7 +353,7 @@
                             font-weight: bold;
                         }
                         .decs{
-                            min-height: 75px;
+                            min-height: 100px;
                         }
                         hr{
                             border: none;

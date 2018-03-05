@@ -1,5 +1,5 @@
 <template>
-    <transition name="fade">
+    <transition name="cartFade">
         <el-dialog
                      top="10hv"
                      width="551px"
@@ -40,10 +40,10 @@
 </template>
 
 <style  lang="less">
-    .fade-enter-active, .fade-leave-active{
+    .cartFade-enter-active, .cartFade-leave-active{
         transition: all .5s;
     }
-    .fade-enter, .fade-leave-to{
+    .cartFade-enter, .cartFade-leave-to{
         opacity: 0;
     }
     .addCartWrapper{

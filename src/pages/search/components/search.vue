@@ -2,7 +2,7 @@
     <div class="search">
         <div class="nav">
             <el-breadcrumb separator-class="el-icon-arrow-right" v-if="data.length > 0">
-                <el-breadcrumb-item :to="{ path: '/' }">商品</el-breadcrumb-item>
+                <el-breadcrumb-item :to="{ path: '/' }">{{$t("main.search.mainSeaGoods")}}</el-breadcrumb-item>
             </el-breadcrumb>
             <div class="tags" v-if="search.condition.length > 0">
                 <el-tag  v-for="(tag,index) in search.condition" :key="tag" type="danger" closable @close="delCondition(index)">{{tag}}</el-tag>
@@ -30,8 +30,8 @@
             </el-form>
             <div class="loadMore" @click="showMore" v-if="condition.length > 3">
                 <button>
-                    <span v-if="!closeProps">更多选项</span>
-                    <span v-else="closeProps">收起</span>
+                    <span v-if="!closeProps">{{$t("main.search.mainSeaMoreSelect")}}</span>
+                    <span v-else="closeProps">{{$t("main.search.mainSeaUp")}}</span>
                     <i class="iconfont icon-xianshigengduo" :class="[closeProps ? 'show' : '']"></i>
                 </button>
             </div>
@@ -39,9 +39,9 @@
         <div class="content" v-if="data.length > 0">
             <div class="header">
                 <div class="left">
-                    <div class="synth" @click="selectOrderBy" :class="{active:activeItem == '综合'}">综合</div>
-                    <div class="price" @click="selectOrderBy" :class="{active:activeItem == '价格',isDesc:priceDesc}">价格<i class="iconfont icon-shang1"></i></div>
-                    <div class="time" @click="selectOrderBy" :class="{active:activeItem == '上架时间',isDesc:cdateDesc}">上架时间<i class="iconfont icon-shang1"></i></div>
+                    <div class="synth" @click="selectOrderBy" data-value='A' :class='{active:activeItem == $t("main.search.mainSeaCompre")}'>{{$t("main.search.mainSeaCompre")}}</div>
+                    <div class="price" @click="selectOrderBy" data-value='B' :class='{active:activeItem == $t("main.search.mainSeaPrice"),isDesc:priceDesc}'>{{$t("main.search.mainSeaPrice")}}<i class="iconfont icon-shang1"></i></div>
+                    <div class="time" @click="selectOrderBy"  data-value='C' :class='{active:activeItem == $t("main.search.mainSeaShelf"),isDesc:cdateDesc}'>{{$t("main.search.mainSeaShelf")}}<i class="iconfont icon-shang1"></i></div>
                     <!--<div class="input"><i class="iconfont icon-dingdanjine"></i><input type="text" class="lowest" @input="showRangeButton"></div>-->
                     <!--<div class="hr"></div>-->
                     <!--<div class="input"><i  class="iconfont icon-dingdanjine"></i><input type="text" class="highest" @input="showRangeButton"></div>-->
@@ -62,7 +62,7 @@
                             <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
                             <p class="name" :title="item.item_name">{{item.item_name}}</p>
                             <div class="item-price">
-                                <button v-ltsLoginShow:false v-login>登录之后查看价格</button>
+                                <button v-ltsLoginShow:false v-login>{{$t("main.search.mainSeaLogin")}}</button>
                                 <p class="price" v-ltsLoginShow:true v-if="item.activity_price">
                                     <lts-money :money="item.activity_price"></lts-money>
                                 </p>
@@ -78,8 +78,8 @@
                     layout="prev, pager, next"
                     :total= "search.totalPage"
                     :page-size= "search.pageSize"
-                    prev-text="上一页"
-                    next-text="下一页"
+                    :prev-text='$t("main.search.mainSeaPre")'
+                    :next-text='$t("main.search.mainSeaNext")'
                     :current-page="search.page"
                     @current-change="changePage"></el-pagination>
             </div>
@@ -105,7 +105,7 @@
                 tag:[],
                 showRange: false,
                 condition: [],
-                activeItem: '综合',
+                activeItem: this.$t("main.search.mainSeaCompre"),
                 priceDesc: false,
                 cdateDesc: false,
                 search:{
@@ -204,18 +204,19 @@
                 this.activeLi = selected
             },
             selectOrderBy(e){
-                switch (e.target.innerText){
-                    case '综合':
+                console.log(e.currentTarget.getAttribute("data-value"));
+                switch (e.currentTarget.getAttribute("data-value")){
+                    case 'A':
                         this.search.orderBy = ''
-                        this.activeItem = '综合'
+                        this.activeItem = this.$t("main.search.mainSeaCompre");
                         break
-                    case '价格':
+                    case 'B':
                         this.search.orderBy = this.search.orderBy === 'price' ? 'price desc' : 'price'
-                        this.activeItem = '价格'
+                        this.activeItem = this.$t("main.search.mainSeaPrice");
                         break
-                    case '上架时间':
+                    case 'C':
                         this.search.orderBy = this.search.orderBy === 'cdate' ? 'cdate desc' : 'cdate'
-                        this.activeItem = '上架时间'
+                        this.activeItem = this.$t("main.search.mainSeaShelf");
                         break
                 }
 

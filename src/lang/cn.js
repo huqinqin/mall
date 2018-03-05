@@ -498,7 +498,17 @@ export default {
                 mainRevDiaHandleErr: '操作失败',
             }
         },
-        search: {}
+        search: {
+            mainSeaGoods: '商品',
+            mainSeaMoreSelect: '更多选项',
+            mainSeaUp: '收起',
+            mainSeaCompre: '综合',
+            mainSeaPrice: '价格',
+            mainSeaShelf: '上架时间',
+            mainSeaLogin: '登录之后查看价格',
+            mainSeaPre: '上一页',
+            mainSeaNext: '下一页',
+        }
     }
 }
 

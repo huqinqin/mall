@@ -8,9 +8,9 @@
                             <el-date-picker
                                 v-model="formInline[val.bindValue]"
                                 type="datetimerange"
-                                range-separator="至"
-                                start-placeholder="开始日期"
-                                end-placeholder="结束日期"
+                                :range-separator='$t("common.searchFrom.comSearRange")'
+                                :start-placeholder='$t("common.searchFrom.comSearStartTime")'
+                                :end-placeholder='$t("common.searchFrom.comSearEndTime")'
                                 value-format="yyyy-MM-dd HH:mm:ss"
                                 :picker-options="datePickerOptions"
                                 align="right">
@@ -21,7 +21,7 @@
                             v-model="formInline[val.bindValue]"
                             type="datetime"
                             value-format="yyyy-MM-dd HH:mm:ss"
-                            placeholder="选择日期时间">
+                            :placeholder='$t("common.searchFrom.comSearSelectTime")'>
                           </el-date-picker>
                         </div>
                         <div v-if="val.type == 'date'">
@@ -29,7 +29,7 @@
                             v-model="formInline[val.bindValue]"
                             type="date"
                             value-format="yyyy-MM-dd"
-                            placeholder="选择日期"
+                            :placeholder='$t("common.searchFrom.comSearSelectDate")'
                             style="width: 150px">
                           </el-date-picker>
                         </div>

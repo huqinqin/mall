@@ -510,6 +510,23 @@ export default {
             mainSeaLogin: '登录之后查看价格',
             mainSeaPre: '上一页',
             mainSeaNext: '下一页',
+        },
+        someinfo: {
+            mainSomeDear: '尊敬的',
+            mainSomeHello: '您好',
+            mainSomeLever: '会员等级',
+            mainSomeAccountBala: '账户余额',
+            mainSomePayBalance: '账期余额',
+            mainSomeUsed: '已使用',
+            mainSomeShopCoupon: '购物券',
+            mainSomeCoupon: '优惠券',
+            mainSomeFullCoupon: '满减劵',
+            mainSomeFull: '满',
+            mainSomeDollar: '美元使用',
+            mainSomeUsedTime: '使用时间',
+            mainSomeRange: '至',
+            mainSomeEvery: '个',
+            mainSomeHistory: '历史购买记录',
         }
     }
 }

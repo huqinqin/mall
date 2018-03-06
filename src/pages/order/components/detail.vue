@@ -34,7 +34,7 @@
                 <el-form-item :label='$t("main.order.detail.mainOrDePayTime")'>
                     {{order.cdate | timestamp2str}}
                 </el-form-item>
-                <el-form-item :label='$t("main.order.detail.mainOrDePayInfo")'>
+                <el-form-item :label='$t("main.order.detail.mainOrDePayInfo")' v-if="order.status == 1">
                     <div>
                         {{$t("main.order.detail.mainOrDeCard")}}
                         <lts-money v-if="order.pay_info.pay_remark && order.pay_info.pay_remark.ANET_CREDIT_CARD > 0" :money="order.pay_info.pay_remark.ANET_CREDIT_CARD" ></lts-money>
@@ -43,6 +43,16 @@
                     <div>
                         {{$t("main.order.detail.mainOrDeAccount")}}
                         <lts-money v-if="order.pay_info.pay_remark && order.pay_info.pay_remark.CREDIT > 0" :money="order.pay_info.pay_remark.CREDIT" ></lts-money>
+                        <span v-else>$0</span>
+                    </div>
+                    <div>
+                        {{$t("main.order.detail.mainOrDeYue")}}
+                        <lts-money v-if="order.pay_info.balance_pay && order.pay_info.balance_pay > 0" :money="order.pay_info.balance_pay" ></lts-money>
+                        <span v-else>$0</span>
+                    </div>
+                    <div>
+                        {{$t("main.order.detail.mainOrDeGouwu")}}
+                        <lts-money v-if="order.pay_info.acc_bonus_pay && order.pay_info.acc_bonus_pay" :money="order.pay_info.acc_bonus_pay" ></lts-money>
                         <span v-else>$0</span>
                     </div>
                 </el-form-item>
@@ -265,8 +275,10 @@
                     align-items: center;
                     justify-content: flex-start;
                     .item {
-                        width: 30px;
-                        height: 30px;
+                        width: 80px;
+                        height: 80px;
+                        flex-basis: 80px;
+                        min-width: 80px;
                     }
                     div{
                         overflow: hidden;

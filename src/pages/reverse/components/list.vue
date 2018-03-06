@@ -60,6 +60,20 @@
                         {{scope.row.status_title}}
                     </span>
                     <span v-else>{{scope.row.status_title}}</span>
+                    <div>
+                        <span v-if="scope.row.hd_status == 1">
+                             (待退回)
+                        </span>
+                        <span v-if="scope.row.hd_status == 2">
+                             (待签收)
+                        </span>
+                        <span v-if="scope.row.hd_status == 3">
+                              (已签收)
+                        </span>
+                        <span v-if="scope.row.hd_status == 5">
+                              (已签收)
+                        </span>
+                    </div>
                 </template>
             </el-table-column>
             <el-table-column :label='$t("main.reverse.list.mainRevLiHandle")' align="center" header-align="center" width="120">

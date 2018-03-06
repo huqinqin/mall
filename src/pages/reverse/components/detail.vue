@@ -2,7 +2,12 @@
     <div class="reverse-detail" v-if="detail">
         <div class="reverse-header">
             <p class="title">{{$t("main.reverse.detail.mainRevDeWaitLts")}}</p>
-            <p class="remark">{{$t("main.reverse.detail.mainRevDeSuccRefund")}}</p>
+            <p class="remark" v-if="">{{$t("main.reverse.detail.mainRevDeSuccRefund")}}</p>
+            <p class="remark" v-if="">{{$t("main.reverse.detail.mainRevDeAgree")}}</p>
+            <p class="remark" v-if="">{{$t("main.reverse.detail.mainRevDeWaitLts")}}</p>
+            <p class="remark" v-if="">{{$t("main.reverse.detail.mainRevDeReceipt")}}</p>
+            <p class="remark" v-if="">{{$t("main.reverse.detail.mainRevDeRefundSucc")}}</p>
+            <p class="remark" v-if="">{{$t("main.reverse.detail.mainRevDeReject")}}</p>
         </div>
         <div class="detail-item">
             <div class="info-box">

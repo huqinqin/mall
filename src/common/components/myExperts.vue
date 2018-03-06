@@ -8,7 +8,7 @@
                <li><span>联系方式：</span><span>{{someInfo.mobile}}</span></li>
                <li><span>邮箱：</span><span>{{someInfo.email}}</span></li>
            </ul>
-           <ul class="iconfont icon-jiankangzhuanjia"></ul>
+           <ul><img src="../../assets/img/expert.png" alt=""></ul>
        </div>
    </div>
 </template>
@@ -21,7 +21,11 @@
       data(){
           return{
               flag:false,
-              someInfo:{}
+              someInfo:{
+                  name: '抹茶',
+                  mobile: '626-435-2838',
+                  email: '92839382@qq.com'
+              }
           }
       },
       methods:{
@@ -42,12 +46,16 @@
 </script>
 
 <style lang="less">
+    .el-tooltip__popper.is-light{
+        border: none;
+    }
     .wrapperExperts{
         padding: 40px;
-        width: 425px;
-        height: 200px;
-        background-color: #3b98ff;
+        width: 257px;
+        /*background-color: #3b98ff;*/
+        background:linear-gradient(#0e75ea, #2473EA, #3d97fc);
         color: #fff;
+        border-radius: 4px;
         .el-icon-close{
             font-size: 20px;
             color: white;
@@ -67,10 +75,14 @@
                 }
             }
             ul:first-child{
-                flex:0 0 250px;
+                flex:1;
             }
             ul:nth-child(2){
-                flex:1;
+                flex:0 0 75px;
+                img{
+                    width: 75px;
+                    height: 69px;
+                }
             }
             .icon-jiankangzhuanjia{
                 color: #fff;

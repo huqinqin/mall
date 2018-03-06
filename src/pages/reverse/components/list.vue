@@ -60,6 +60,20 @@
                         {{scope.row.status_title}}
                     </span>
                     <span v-else>{{scope.row.status_title}}</span>
+                    <div>
+                        <span v-if="scope.row.hd_status == 1">
+                             {{$t("main.reverse.detail.mainRevDeWaitingBack")}}
+                        </span>
+                        <span v-if="scope.row.hd_status == 2">
+                             {{$t("main.reverse.detail.mainRevDeWaitWrite")}}
+                        </span>
+                        <span v-if="scope.row.hd_status == 3">
+                              {{$t("main.reverse.detail.mainRevDeWrited")}}
+                        </span>
+                        <span v-if="scope.row.hd_status == 5">
+                              {{$t("main.reverse.detail.mainRevDeWrited")}}
+                        </span>
+                    </div>
                 </template>
             </el-table-column>
             <el-table-column :label='$t("main.reverse.list.mainRevLiHandle")' align="center" header-align="center" width="120">

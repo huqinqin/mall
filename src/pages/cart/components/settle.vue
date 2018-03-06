@@ -196,7 +196,7 @@
         canSubmit: true, // 刚进入页面等待运费税费计算
         expressForm: {
           express: 'UPS',
-          service: '01',
+          service: '03',
           self: false
         },
         expressOptions: [
@@ -868,6 +868,7 @@
         margin-bottom: 6px;
       }
       .selectExpress {
+        display: none;
         font-size: 14px;
         .el-form-item {
           label {

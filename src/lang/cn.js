@@ -1,13 +1,7 @@
 export default {
-    name : '123',
-    title: '工作台',
-    menu: {
-      product : '商品管理',
-      goods: '商品管理',
-      order: '订单管理'
-    },
     comHeader: {
         headerImmediatelyLog: '立即登录',
+        headerImmediatelySign: '立即注册',
         headerWelcom: '欢迎',
         headerNews: '快报',
         headerIndex: '商城首页',
@@ -19,8 +13,16 @@ export default {
         headerSearchGoods: '搜索商品',
         headerAllclassify: '全部分类',
         headerInputUserOrEmail: '请输入用户名或邮箱',
+        headerPwd: '密码',
         headerInputPwd: '请输入密码',
         headerAll: '全部',
+        headerTopPic: '顶部图片',
+        headerUserOrEmail: '用户名/邮箱：',
+        headerEnterPsw: '请输入您的密码',
+        headerRemerberPsw: '记住密码',
+        headerForgetPsw: '忘记密码?',
+        headerLog: '登录',
+        headerRegis: '注册',
     },
     comFooter: {
         footerAboutLts: '关于LTS',
@@ -265,11 +267,12 @@ export default {
                 mainOrLiWaitPay: '待付款',
                 mainOrLiWaitDeli: '待发货',
                 mainOrLiAlreadyDeli: '已发货',
-                mainOrLiBackApply: '申请中',
-                mainOrLiReject: '退款已驳回',
+                mainOrLiBackApply: '退款申请',
+                mainOrLiReject: '退款驳回',
                 mainOrLiAlreadyBack: '已退',
-                mainOrLiClose: '退款已关闭',
+                mainOrLiClose: '退款关闭',
                 mainOrLiBackGoods: '退货退款',
+                mainOrLiSure: '同意退款',
                 mainOrLiOrderNum: '订单号',
                 mainOrLiPayInfo: '支付信息',
                 mainOrLiPhone: '手机下单',
@@ -467,10 +470,10 @@ export default {
                 mainRevLiLogisCompany: '物流公司',
                 mainRevLiSelect: '请选择物流公司',
                 mainRevLiLogisNum: '物流单号',
-                mainRevLiOrderNum: '订单号',
+                mainRevLiOrderNum: '订单编号',
                 mainRevLiGoodName: '商品名称',
                 mainRevLiCreateTime: '创建时间',
-                mainRevLiStats: '状态',
+                mainRevLiStats: '订单状态',
                 mainRevLiAllStats: '所有状态',
                 mainRevLiAppling: '退款申请中',
                 mainRevLiAccept: '退款接受',
@@ -536,6 +539,42 @@ export default {
             mainSomeRange: '至',
             mainSomeEvery: '个',
             mainSomeHistory: '历史购买记录',
+        }
+    },
+    common: {
+        addCart: {
+            comAddCartSucc: '已成功加入购物车!',
+            comAddCartSettle: '去购物车结算',
+            comAddCartRecommon: '为您推荐',
+        },
+        searchFrom: {
+            comSearRange: '至',
+            comSearStartTime: '开始日期',
+            comSearEndTime: '结束日期',
+            comSearSelectTime: '选择日期时间',
+            comSearSelectDate: '选择日期'
+        },
+        myExpert: {
+            commMyExpert: '联系我的专家',
+            commMyName: '姓名',
+            commMyContact: '联系方式',
+            commMyEmail: '邮箱'
+        },
+        ltsMenu: {
+            commLtsUserConter: '用户中心',
+            commLtsMyMoney: '我的资金',
+            commLtsAccountSet: '账户设置',
+            commLtsPersonlPage: '个人首页',
+            commLtsMyOrder: '我的订单',
+            commLtsCart: '购物车',
+            commLtsResolve: '解决方案',
+            commLtsMyBalance: '我的余额',
+            commLtsWaitting: '待还款列表',
+            commLtsPersonInfo: '个人信息',
+            commLtsEmailAlert: '邮箱修改',
+            commLtsAnth: '分销商资格认证',
+            commLtsPwdSet: '密码设置',
+            commLtsAddress: '收货地址'
         }
     }
 }

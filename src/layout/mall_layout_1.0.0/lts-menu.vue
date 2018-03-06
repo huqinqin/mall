@@ -1,15 +1,15 @@
 <template>
     <el-aside width="180px" class="mall-menu">
         <ul class="user">
-            <li>用户中心</li>
+            <li>{{$t("common.ltsMenu.commLtsUserConter")}}</li>
             <li v-for="item in user" @click="selectChange" :class="{ active: selected == item.title }"><a :href=item.href>{{item.title}}</a></li>
         </ul>
         <ul>
-            <li>我的资金</li>
+            <li>{{$t("common.ltsMenu.commLtsMyMoney")}}</li>
             <li v-for="item in finance" @click="selectChange" :class="{ active: selected == item.title }"><a :href=item.href>{{item.title}}</a></li>
         </ul>
         <ul class="settings">
-            <li>账户设置</li>
+            <li>{{$t("common.ltsMenu.commLtsAccountSet")}}</li>
             <li v-for="item in settings" @click="selectChange" :class="{ active: selected == item.title }"><a :href=item.href>{{item.title}}</a></li>
         </ul>
     </el-aside>
@@ -22,22 +22,30 @@
         data(){
             return{
                 user:[
-                    {href:'/someinfo',title:'个人首页'},
-                    {href:'/order',title:'我的订单'},
-                    {href:'/cart',title:'购物车'},
-                    {href:'javascript:void(0)',title:'解决方案'},
+                    {href:'/someinfo',title: this.$t("common.ltsMenu.commLtsPersonlPage")},
+                    {href:'/order',title:this.$t("common.ltsMenu.commLtsMyOrder")},
+                    {href:'/cart',title:this.$t("common.ltsMenu.commLtsCart")},
+                    {href:'javascript:void(0)',title:this.$t("common.ltsMenu.commLtsResolve")},
                     {href:'/reverse',title:'RMA'},
                 ],
                 finance:[
-                    {href:'/finance',title:'我的余额'},
-                    {href:'/repayMent',title:'待还款列表'},
+                    {href:'/finance',title:this.$t("common.ltsMenu.commLtsMyBalance")},
+                    {href:'/repayMent',title:this.$t("common.ltsMenu.commLtsWaitting")},
                 ],
                 settings:[
+<<<<<<< HEAD
                     {href:'/personal#/personalMessage',title:'个人信息'},
                     {href:'/personal#/email',title:'邮箱修改'},
                     {href:'/personal#/card',title:'分销商资格认证'},
                     {href:'/personal#/password',title:'密码设置'},
                     {href:'/personal#/receiveAddress',title:'收货地址'},
+=======
+                    {href:'javascript:void(0)',title:this.$t("common.ltsMenu.commLtsPersonInfo")},
+                    {href:'javascript:void(0)',title:this.$t("common.ltsMenu.commLtsEmailAlert")},
+                    {href:'/personal#/card',title:this.$t("common.ltsMenu.commLtsAnth")},
+                    {href:'/personal#/password',title:this.$t("common.ltsMenu.commLtsPwdSet")},
+                    {href:'/personal#/receiveAddress',title:this.$t("common.ltsMenu.commLtsAddress")},
+>>>>>>> e38e8267575d7fdd041ce15a9b30299ae45a21ef
                 ],
                 selected:'',
             }
@@ -48,7 +56,7 @@
             },
         },
         mounted(){
-            this.selected = store.getItem("selected") ? store.getItem("selected") : '个人首页'
+            this.selected = store.getItem("selected") ? store.getItem("selected") : this.$t("common.ltsMenu.commLtsPersonlPage")
         }
     }
 </script>

@@ -5,13 +5,14 @@
             <li class="sign">
               <span class="login" v-login v-if="!userInfo">{{ $t("comHeader.headerImmediatelyLog") }}</span>
               <span class="login"  v-if="userInfo">{{ $t("comHeader.headerWelcom") }}，{{userInfo.account.user_name}}</span>
+              <a href="/account#/register" v-if="!userInfo"><span class="register">{{ $t("comHeader.headerImmediatelySign") }}</span></a>
             </li>
             <li class="">
               <a href="/" class="news top-menu" v-if="showToIndex">{{ $t("comHeader.headerIndex") }}</a>
-              <a href="/order" class="top-menu" v-login @click="toOrder">{{ $t("comHeader.headerMyOrder") }}</a>
+              <a v-login href="/order" class="top-menu"  @click="toOrder">{{ $t("comHeader.headerMyOrder") }}</a>
               <el-tooltip placement="top" effect="light">
                 <div slot="content"><myExperts></myExperts></div>
-                <a href="" class="top-menu" v-login v-if="showToIndex">{{ $t("comHeader.headerMyExpert") }}</a>
+                <a href="javascript:void(0)" class="top-menu" v-login v-if="showToIndex">{{ $t("comHeader.headerMyExpert") }}</a>
               </el-tooltip>
               <a href="javascript:void(0)" ><i class="iconfont icon-shouji"></i>{{ $t("comHeader.headerPhoneOrder") }}</a>
               <a href="javascript:void(0)" @click="logout" v-if="userInfo">{{ $t("comHeader.headerLogin") }}</a>
@@ -24,27 +25,27 @@
                 <el-form :model="form" :rules="loginRules" ref="loginForm">
                     <el-form-item class="head">
                         <i class="iconfont icon-turnoff" @click="loginVisible = false"></i>
-                        <img src="@/assets/img/denglu.tou.png" alt="顶部图片">
+                        <img src="@/assets/img/denglu.tou.png" :alt='$t("comHeader.headerTopPic")'>
                     </el-form-item>
-                    <el-form-item label="用户名/邮箱：" prop="acount">
-                        <el-input name="test"  v-model="form.acount" placeholder="请输入您的用户名或邮箱"></el-input>
+                    <el-form-item :label='$t("comHeader.headerUserOrEmail")' prop="acount">
+                        <el-input name="test"  v-model="form.acount" :placeholder='$t("comHeader.headerInputUserOrEmail")'></el-input>
                     </el-form-item>
-                    <el-form-item label="密码：" prop="password" class="password">
-                        <el-input type="password" ref="password" v-model="form.password" placeholder="请输入您的密码" @keyup.enter.native="login">
+                    <el-form-item :label='$t("comHeader.headerPwd")' prop="password" class="password">
+                        <el-input type="password" ref="password" v-model="form.password" :placeholder='$t("comHeader.headerInputPwd")' @keyup.enter.native="login">
                         </el-input>
                         <i class="iconfont icon-yanjing" @click="showPassword" ref="eye"></i>
                     </el-form-item>
                     <el-form-item>
                         <div class="aboutPassword">
-                            <el-checkbox v-model="form.checked">记住密码</el-checkbox>
-                            <div @click="forgetPass" style="cursor: pointer">忘记密码?</div>
+                            <el-checkbox v-model="form.checked">{{$t("comHeader.headerRemerberPsw")}}</el-checkbox>
+                            <div @click="forgetPass" style="cursor: pointer">{{$t("comHeader.headerForgetPsw")}}</div>
                         </div>
                     </el-form-item>
                     <el-form-item>
-                        <button type="button" @click="login">登录</button>
+                        <button type="button" @click="login">{{$t("comHeader.headerLog")}}</button>
                     </el-form-item>
                     <el-form-item>
-                        <button type="button" class="signup" @click="signup">注册</button>
+                        <button type="button" class="signup" @click="signup">{{$t("comHeader.headerRegis")}}</button>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
@@ -188,7 +189,6 @@
             a{
                 color:white;
                 font-size: 12px;
-
             }
             span{
                 color: white;
@@ -204,7 +204,7 @@
                 font-weight:bold;
             }
             span.register{
-
+              font-weight:bold;
             }
 
             .news{

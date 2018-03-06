@@ -28,7 +28,7 @@ export default class FinanceService extends BaseService{
             page: pagination.page,
             page_size: pagination.pageSize,
             subject:form.type,
-            order_by:form.orderBy,
+            order_by:'acc_time desc',
             biz_code:form.handle,
             start_acc_time:form.cdate,
             end_acc_time:form.edate,

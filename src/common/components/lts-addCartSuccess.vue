@@ -169,11 +169,11 @@
 
           title:{
               type:String,
-              default:"已成功加入购物车!"
+              default: this.$t("common.addCart.comAddCartSucc"),
           },
           btnTitle:{
               type:String,
-              default:"去购物车结算"
+              default: this.$t("common.addCart.comAddCartSettle"),
           },
           type:{
               type:Number,
@@ -181,7 +181,7 @@
           },
           recommoned:{
               type:String,
-              default:"为您推荐"
+              default: this.$t("common.addCart.comAddCartRecommon"),
           },
           info:{
               type: Array,

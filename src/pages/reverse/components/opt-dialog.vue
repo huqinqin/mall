@@ -57,14 +57,14 @@
 
 <script>
     import reverseService from '@/services/ReverseService';
-    let optTypeConstant = {
+   /* let optTypeConstant = {
         EDIT : {name:'edit', btn: this.$t("main.reverse.dialog.mainRevDiaAlert"), value: null},
         IN_WAREHOUSE : {name:'in_warehouse', btn: this.$t("main.reverse.dialog.mainRevDiaReturnStore"), value: 2},
         OUT_WAREHOUSE : {name:'out_warehouse', btn: this.$t("main.reverse.dialog.mainRevDiaReturnStroge"), value: 4},
         REJECT : {name:'reject', btn: this.$t("main.reverse.dialog.mainRevDiaReject"), value: 3},
         CLOSE : {name:'close', btn: this.$t("main.reverse.dialog.mainRevDiaCloseAll"), value: 9},
         REMARK : {name:'remark', btn: this.$t("main.reverse.dialog.mainRevDiaReturnTalk"), value: 0},
-    };
+    };*/
     export default {
         name: "opt-dialog",
         props: {
@@ -85,6 +85,14 @@
         },
         computed:{
             optBtnName(){
+                let optTypeConstant = {
+                    EDIT : {name:'edit', btn: this.$t("main.reverse.dialog.mainRevDiaAlert"), value: null},
+                    IN_WAREHOUSE : {name:'in_warehouse', btn: this.$t("main.reverse.dialog.mainRevDiaReturnStore"), value: 2},
+                    OUT_WAREHOUSE : {name:'out_warehouse', btn: this.$t("main.reverse.dialog.mainRevDiaReturnStroge"), value: 4},
+                    REJECT : {name:'reject', btn: this.$t("main.reverse.dialog.mainRevDiaReject"), value: 3},
+                    CLOSE : {name:'close', btn: this.$t("main.reverse.dialog.mainRevDiaCloseAll"), value: 9},
+                    REMARK : {name:'remark', btn: this.$t("main.reverse.dialog.mainRevDiaReturnTalk"), value: 0},
+                };
                 for (let i in optTypeConstant) {
                     if (optTypeConstant[i].name === this.optType) {
                         return optTypeConstant[i].btn;
@@ -104,6 +112,14 @@
         },
         methods: {
             getOptValue(){
+                let optTypeConstant = {
+                    EDIT : {name:'edit', btn: this.$t("main.reverse.dialog.mainRevDiaAlert"), value: null},
+                    IN_WAREHOUSE : {name:'in_warehouse', btn: this.$t("main.reverse.dialog.mainRevDiaReturnStore"), value: 2},
+                    OUT_WAREHOUSE : {name:'out_warehouse', btn: this.$t("main.reverse.dialog.mainRevDiaReturnStroge"), value: 4},
+                    REJECT : {name:'reject', btn: this.$t("main.reverse.dialog.mainRevDiaReject"), value: 3},
+                    CLOSE : {name:'close', btn: this.$t("main.reverse.dialog.mainRevDiaCloseAll"), value: 9},
+                    REMARK : {name:'remark', btn: this.$t("main.reverse.dialog.mainRevDiaReturnTalk"), value: 0},
+                };
                 for (let i in optTypeConstant) {
                     if (optTypeConstant[i].name === this.optType) {
                         return optTypeConstant[i].value;

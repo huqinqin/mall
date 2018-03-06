@@ -60,7 +60,7 @@
                         {{scope.row.status_title}}
                     </span>
                     <span v-else>{{scope.row.status_title}}</span>
-                    <div>
+                    <div v-if="scope.row.status == 2">
                         <span v-if="scope.row.hd_status == 1">
                              {{$t("main.reverse.detail.mainRevDeWaitingBack")}}
                         </span>

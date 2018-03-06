@@ -33,8 +33,8 @@
                     {href:'/repayMent',title:'待还款列表'},
                 ],
                 settings:[
-                    {href:'javascript:void(0)',title:'个人信息'},
-                    {href:'javascript:void(0)',title:'邮箱修改'},
+                    {href:'/personal#/personalMessage',title:'个人信息'},
+                    {href:'/personal#/email',title:'邮箱修改'},
                     {href:'/personal#/card',title:'分销商资格认证'},
                     {href:'/personal#/password',title:'密码设置'},
                     {href:'/personal#/receiveAddress',title:'收货地址'},

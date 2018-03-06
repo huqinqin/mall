@@ -2,12 +2,12 @@
     <div class="personalMessage">
         <h3 class="title">{{$t("main.personal.personalMsg.mainPerPerData")}}</h3>
         <el-form :model="ruleForm" :rules="rules" :inline="true" ref="ruleForm" label-width="100px" label-position="top"
-                 class="demo-ruleForm" >
+                 class="demo-ruleForm">
             <el-form-item label="" prop="headerPic">
                 <div>
                     <el-upload
                         class="avatar-uploader"
-                        action="https://jsonplaceholder.typicode.com/posts/"
+                        action="/cgi/upload/file/misc/image"
                         :show-file-list="false"
                         :on-success="handleAvatarSuccess"
                         :before-upload="beforeAvatarUpload">
@@ -17,44 +17,42 @@
                 </div>
             </el-form-item>
             <br>
-            <el-form-item :label='$t("main.personal.personalMsg.mainPerPerEmail")' prop="email" style="margin-top: 17px;">
-                <el-input v-model="ruleForm.email"></el-input>
+            <el-form-item :label='$t("main.personal.personalMsg.mainPerPerEmail")' prop="email"
+                          style="margin-top: 10px;">
+                <el-input v-model="ruleForm.email" :disabled="true"></el-input>
             </el-form-item>
             <br>
-            <el-form-item :label='$t("main.personal.personalMsg.mainPerPerSex")' prop="sex" style="margin-top: 20px;">
-                <el-radio-group v-model="ruleForm.sex">
-                    <el-radio :label='$t("main.personal.personalMsg.mainPerPermale")'></el-radio>
-                    <el-radio :label='$t("main.personal.personalMsg.mainPerPerFemale")'></el-radio>
-                </el-radio-group>
-            </el-form-item>
-            <br>
-            <el-form-item label="last name" required style="margin-top: 17px;">
-                <el-input v-model="ruleForm.name"></el-input>
-            </el-form-item>
-            <el-form-item label="first name" required style="margin-top: 17px;">
+            <el-form-item label="name" required style="margin-top: 10px;">
                 <el-input v-model="ruleForm.name"></el-input>
             </el-form-item>
             <br>
-            <el-form-item :label='$t("main.personal.personalMsg.mainPerPerContactPhone")' prop="phone" style="margin-top: 20px;">
-                <el-input v-model="ruleForm.phone"></el-input>
+            <el-form-item :label='$t("main.personal.personalMsg.mainPerPerContactPhone")' prop="mobile"
+                          style="margin-top: 10px;">
+                <el-input v-model="ruleForm.mobile"></el-input>
             </el-form-item>
             <br>
-            <el-form-item :label='$t("main.personal.personalMsg.mainPerPerCompany")' prop="companyName" style="margin-top: 20px;">
+            <el-form-item :label='$t("main.personal.personalMsg.mainPerPerCompany")' prop="companyName"
+                          style="margin-top: 10px;">
                 <el-input v-model="ruleForm.companyName"></el-input>
             </el-form-item>
             <br>
-            <el-form-item :label='$t("main.personal.personalMsg.mainPerPerCompanyMode")' prop="companyPhone" style="margin-top: 20px;">
+            <el-form-item :label='$t("main.personal.personalMsg.mainPerPerCompanyMode")' prop="companyPhone"
+                          style="margin-top: 10px;">
                 <el-input v-model="ruleForm.companyPhone"></el-input>
             </el-form-item>
             <br>
             <el-form-item>
-                <el-button type="primary" @click="submitForm('ruleForm')" class="submitBtn">{{$t("main.personal.card.mainPerCarSave")}}</el-button>
+                <el-button type="primary" @click="updateUserMessage" class="submitBtn">
+                    {{$t("main.personal.card.mainPerCarSave")}}
+                </el-button>
             </el-form-item>
         </el-form>
     </div>
 </template>
 
 <script>
+    import personalService from '@/services/PersonalService'
+
     export default {
         name: "personalMessage",
         data() {
@@ -62,56 +60,70 @@
                 ruleForm: {
                     imageUrl: '',
                     email: '',
-                    sex: '',
                     name: '',
-                    phone: '',
+                    mobile: '',
                     companyName: '',
                     companyPhone: ''
                 },
                 rules: {
                     email: [
-                        {required: true, message:this.$t("main.personal.personalMsg.mainPerPerEnterEmail"), trigger: 'blur'}
-                    ],
-                    sex: [
-                        {required: true, message: this.$t("main.personal.personalMsg.mainPerPerEnterSex"), trigger: 'change'}
+                        {
+                            required: true,
+                            message: this.$t("main.personal.personalMsg.mainPerPerEnterEmail"),
+                            trigger: 'blur'
+                        }
                     ],
                     name: [
-                        {required: true, message: this.$t("main.personal.personalMsg.mainPerPerEnterName"), trigger: 'blur'}
+                        {
+                            required: true,
+                            message: this.$t("main.personal.personalMsg.mainPerPerEnterName"),
+                            trigger: 'blur'
+                        }
                     ],
-                    phone: [
-                        {required: true, message: this.$t("main.personal.personalMsg.mainPerPerEnterCont"), trigger: 'change'}
+                    mobile: [
+                        {
+                            required: true,
+                            message: this.$t("main.personal.personalMsg.mainPerPerEnterCont"),
+                            trigger: 'change'
+                        }
                     ]
                 }
             };
         },
+        mounted() {
+            this.getUserMessage();
+        },
         methods: {
-            submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                        alert('submit!');
-                    } else {
-                        console.log('error submit!!');
-                        return false;
-                    }
-                });
+            getUserMessage() {
+                personalService.getUserMessage().then((resp) => {
+                    this.ruleForm = {
+                        imageUrl: resp.data.user_d_o.ext,
+                        email: resp.data.user_d_o.email,
+                        name: resp.data.user_d_o.name,
+                        mobile: resp.data.user_d_o.mobile,
+                        companyName: resp.data.shop_d_o.shop_name,
+                        companyPhone: resp.data.shop_d_o.contact_phone
+                    };
+                }, (msg) => {
+                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                })
+            },
+            updateUserMessage() {
+                personalService.updateUserMessage(this.ruleForm).then((resp) => {
+                    this.$ltsMessage.show({type: 'success', message: 'success'});
+                    this.getUserMessage();
+                }, (msg) => {
+                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                })
             },
             resetForm(formName) {
                 this.$refs[formName].resetFields();
             },
             handleAvatarSuccess(res, file) {
-                this.imageUrl = URL.createObjectURL(file.raw);
+                this.ruleForm.imageUrl = res.data.url;
             },
             beforeAvatarUpload(file) {
-                const isJPG = file.type === 'image/jpeg';
-                const isLt2M = file.size / 1024 / 1024 < 2;
 
-                if (!isJPG) {
-                    this.$message.error(this.$t("main.personal.personalMsg.mainPerPerUploadJpg"));
-                }
-                if (!isLt2M) {
-                    this.$message.error(this.$t("main.personal.personalMsg.mainPerPer2MB"));
-                }
-                return isJPG && isLt2M;
             }
         }
     }
@@ -138,10 +150,9 @@
             width: 400px;
             height: 40px;
         }
-        .submitBtn{
+        .submitBtn {
             width: 100px;
             height: 40px;
-            margin-top: 36px;
         }
     }
 

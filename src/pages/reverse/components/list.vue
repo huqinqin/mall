@@ -104,7 +104,6 @@
                 </template>
             </el-table-column>
         </el-table>
-
         <el-pagination
             background
             @size-change="handleSizeChange"
@@ -169,23 +168,23 @@
                                     bindPlaceholder: this.$t("main.reverse.list.mainRevLiGoodName")
                                 },
                                 date: {
-                                    label: this.$t("main.reverse.list.mainRevLiCreateTime"),
-                                    type: 'datetimerange',
-                                    bindValue: 'date'
+                                  label: this.$t("main.reverse.list.mainRevLiCreateTime"),
+                                  type: 'datetimerange',
+                                  bindValue: 'date'
                                 },
                                 status: {
-                                    label: this.$t("main.reverse.list.mainRevLiStats"),
-                                    type: "select",
-                                    bindValue: "status",
-                                    children: [
-                                        {label: this.$t("main.reverse.list.mainRevLiAllStats"), bindValue: ''},
-                                        {label: this.$t("main.reverse.list.mainRevLiAppling"), bindValue: 1},
-                                        {label: this.$t("main.reverse.list.mainRevLiAccept"), bindValue: 2},
-                                        {label: this.$t("main.reverse.list.mainRevLiReject"), bindValue: 3},
-                                        {label: this.$t("main.reverse.list.mainRevLiSeller"), bindValue: 5},
-                                        {label: this.$t("main.reverse.list.mainRevLiSuccess"), bindValue: 7},
-                                        {label: this.$t("main.reverse.list.mainRevLiClose"), bindValue: 9}
-                                    ]
+                                  label: this.$t("main.reverse.list.mainRevLiStats"),
+                                  type: "select",
+                                  bindValue: "status",
+                                  children: [
+                                    {label: this.$t("main.reverse.list.mainRevLiAllStats"), bindValue: ''},
+                                    {label: this.$t("main.reverse.list.mainRevLiAppling"), bindValue: 1},
+                                    {label: this.$t("main.reverse.list.mainRevLiAccept"), bindValue: 2},
+                                    {label: this.$t("main.reverse.list.mainRevLiReject"), bindValue: 3},
+                                    {label: this.$t("main.reverse.list.mainRevLiSeller"), bindValue: 5},
+                                    {label: this.$t("main.reverse.list.mainRevLiSuccess"), bindValue: 7},
+                                    {label: this.$t("main.reverse.list.mainRevLiClose"), bindValue: 9}
+                                  ]
                                 },
                                 search: {bindValue: this.$t("main.reverse.list.mainRevLiSearch"), type: "submitbutton"}
                             }
@@ -241,6 +240,8 @@
                 });
             },
             getParameter(val) {
+                this.form.formInline = val;
+                this.syncFormParam();
                 this.search()
             },
             closeOrder(order){
@@ -264,9 +265,7 @@
                     this.params.start_time = this.form.formInline.date[0];
                     this.params.end_time = this.form.formInline.date[1];
                 }
-                if(this.form.formInline.tid){
-                    this.params.tid = this.form.formInline.tid;
-                }
+                this.params.tid = this.form.formInline.tid;
                 if(this.form.formInline.item_name){
                     this.params.item_name = this.form.formInline.item_name;
                 }

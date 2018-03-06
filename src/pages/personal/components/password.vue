@@ -3,13 +3,8 @@
         <h3 class="title">{{$t("main.personal.password.mainPerPwdsetter")}}</h3>
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" label-position="left"
                  class="demo-ruleForm">
-            <el-form-item label="" prop="headerPic">
-                <div>
-                    <img src="" alt="">
-                </div>
-            </el-form-item>
             <el-form-item :label='$t("main.personal.password.mainPerPwdOldPwd")' prop="oldPassword" style="margin-top: 24px;">
-                <el-input v-model="ruleForm.oldPassword"></el-input>
+                <el-input v-model="ruleForm.oldPassword" type="password"></el-input>
             </el-form-item>
             <el-form-item :label='$t("main.personal.password.mainPerPwdNewPwd")' prop="newPassword" style="margin-top: 24px;">
                 <el-input v-model="ruleForm.newPassword"></el-input>
@@ -19,13 +14,15 @@
             </el-form-item>
 
             <el-form-item>
-                <el-button type="primary" @click="submitForm('ruleForm')" class="submitBtn">{{$t("main.personal.card.mainPerCarSave")}}</el-button>
+                <el-button type="primary" @click="changePassword" class="submitBtn">{{$t("main.personal.card.mainPerCarSave")}}</el-button>
             </el-form-item>
         </el-form>
     </div>
 </template>
 
 <script>
+    import personalService from '@/services/PersonalService'
+
     export default {
         name: "password",
         data() {
@@ -49,15 +46,20 @@
             };
         },
         methods: {
-            submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                        alert('submit!');
-                    } else {
-                        console.log('error submit!!');
-                        return false;
-                    }
-                });
+            changePassword() {
+                let params = {
+                    oldPassword: this.ruleForm.oldPassword,
+                    newPassword: this.ruleForm.newPassword
+                };
+                if(this.ruleForm.newPassword == this.ruleForm.confirmPassword){
+                    personalService.changePassword(params).then((resp) => {
+                        this.$ltsMessage.show({type: 'success', message: 'Revise the password successfully'})
+                    }, (msg) => {
+                        this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                    })
+                }else{
+                    this.$ltsMessage.show({type: 'error', message: 'Confirm that the password is not consistent with the new password'})
+                }
             }
         }
     }
@@ -87,7 +89,6 @@
         .submitBtn {
             width: 100px;
             height: 40px;
-            margin-top: 36px;
         }
     }
 </style>

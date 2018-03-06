@@ -11,6 +11,10 @@
           <span class="red"><lts-money :money="credit.used"></lts-money></span>)
         </small>
       </div>
+      <div><i class="iconfont icon-gouwuquan-copy"></i>{{ $t("main.finance.mainfiCoupon") }}：
+        <span class="red" v-if="bonus.balance || bonus.balance == 0"><lts-money :money="bonus.balance"></lts-money></span>
+        <small class="showBonus">(<span class="blue">{{bonus.total}}</span>{{ $t("main.finance.mainfiOneWord") }})</small>
+      </div>
     </header>
     <main>
       <el-form :inline="true">
@@ -46,7 +50,7 @@
       </el-form>
       <el-table :data="detailData" align="center">
         <el-table-column type="index" width="50" :label='$t("main.finance.mainfiNum")'></el-table-column>
-        <el-table-column prop="date" :label='$t("main.finance.mainfiHandleTime")' width:160></el-table-column>
+        <el-table-column prop="date" :label='$t("main.finance.mainfiHandleTime")' width="160"></el-table-column>
         <el-table-column prop="type" :label='$t("main.finance.mainfiAccountType")'></el-table-column>
         <el-table-column prop="" :label='$t("main.finance.mainfiBalance")'>
           <template slot-scope="scope">
@@ -226,7 +230,7 @@
           vertical-align: middle;
           margin-right: 12px;
         }
-        i.icon-qian1, i.icon-qian {
+        i.icon-qian1, i.icon-qian, i.icon-gouwuquan-copy {
           color: #ff6c00;
         }
 

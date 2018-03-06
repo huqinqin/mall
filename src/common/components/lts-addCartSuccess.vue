@@ -49,7 +49,7 @@
             btnTitle:{
                 type:String,
                 /*default: this.$t("common.addCart.comAddCartSettle"),*/
-                default: "222"
+                /*default: this.num*/
             },
             type:{
                 type:Number,
@@ -58,7 +58,7 @@
             recommoned:{
                 type:String,
                 /*  default: this.$t("common.addCart.comAddCartRecommon"),*/
-                default: "333"
+                /*default: "333"*/
             },
             info:{
                 type: Array,
@@ -77,7 +77,7 @@
         },
         data(){
             return{
-                show:false
+                show:false,
             }
         },
         watch:{

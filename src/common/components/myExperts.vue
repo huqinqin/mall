@@ -21,7 +21,11 @@
       data(){
           return{
               flag:false,
-              someInfo:{}
+              someInfo:{
+                  name: '抹茶',
+                  mobile: '626-435-2838',
+                  email: '92839382@qq.com'
+              }
           }
       },
       methods:{

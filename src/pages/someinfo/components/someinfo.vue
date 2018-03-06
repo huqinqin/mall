@@ -28,7 +28,7 @@
                                                 <div class="saleTopRight">
                                                     <div style="color: #ff3b41">{{$t("main.someinfo.mainSomeFullCoupon")}}</div>
                                                     <div>{{item.remark}}</div>
-                                                    <div>{{$t("main.someinfo.mainSomeFull")}}<span>{{item.startMoney}}</span>{{$t("main.someinfo.mainSomeDollar")}}（{{$t("main.someinfo.mainSomeFull")<span>{{item.startMoney}}</span> - <span>{{item.value}}</span>）</div>
+                                                    <div>{{$t("main.someinfo.mainSomeFull")}}<span>{{item.startMoney}}</span>{{$t("main.someinfo.mainSomeDollar")}}（{{$t("main.someinfo.mainSomeFull")}}<span>{{item.startMoney}}</span> - <span>{{item.value}}</span>）</div>
                                                 </div>
                                             </div>
                                             <div class="saleBottomBottom">
@@ -47,13 +47,13 @@
             </div>
         </div>
         <div class="history">
-            <h2>{{len}}{{$t("main.someinfo.mainSomeHistory")}}</h2>
+            <h2>{{$t("main.someinfo.mainSomeHistory")}}</h2>
             <ul>
                 <div>
                     <el-button class="el-icon-arrow-left icon" :disabled="this.pagination.page === 1" @click="pre"></el-button>
                 </div>
                <li v-for="item in historyData">
-                   <a href="#">
+                   <a :href=" '/detail#/?id=' + item.id">
                        <div class="pic"><img :src="item.image_value" alt=""></div>
                        <div class="decs">{{item.item_name}}</div>
                        <hr>

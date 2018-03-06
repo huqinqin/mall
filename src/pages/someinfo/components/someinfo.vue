@@ -60,7 +60,7 @@
                        <div class="price">${{item.price}}</div>
                    </a>
                </li>
-                <div style="width:40px;height: 40px">
+                <div>
                    <el-button class="el-icon-arrow-right icon" :disabled="this.pagination.page === this.pages" @click="next"></el-button>
                 </div>
             </ul>
@@ -70,6 +70,7 @@
 
 <script>
     import checkService from '@/services/CheckService'
+    import $ from 'jquery'
     export default {
         name: "someinfo",
         data(){
@@ -83,9 +84,10 @@
                 engineerInfo:{
                     user: {},
                     acc_books: {},
+
                 },
-                account: 0,
-                usedAcc: 0,
+                account: 0.00,
+                usedAcc: 0.00,
                 len: 0,
                 pagination: {
                     page: 1,
@@ -209,6 +211,8 @@
         font-size: 14px;
         position: relative;
         color: #777;
+        height: 300px;
+        overflow-y: scroll;
         .iconClose{
             position: absolute;
             right:10px;

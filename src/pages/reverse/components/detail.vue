@@ -3,11 +3,11 @@
         <div class="reverse-header">
             <p class="title">{{$t("main.reverse.detail.mainRevDeWaitLts")}}</p>
             <p class="remark" v-if="">{{$t("main.reverse.detail.mainRevDeSuccRefund")}}</p>
-            <p class="remark" v-if="">{{$t("main.reverse.detail.mainRevDeAgree")}}</p>
-            <p class="remark" v-if="">{{$t("main.reverse.detail.mainRevDeWaitLts")}}</p>
+            <p class="remark" v-if="detail.reverse.hd_status === 1">{{$t("main.reverse.detail.mainRevDeAgree")}}</p>
+            <p class="remark" v-if="detail.reverse.hd_status === 2">{{$t("main.reverse.detail.mainRevDeWaitLts")}}</p>
             <p class="remark" v-if="">{{$t("main.reverse.detail.mainRevDeReceipt")}}</p>
-            <p class="remark" v-if="">{{$t("main.reverse.detail.mainRevDeRefundSucc")}}</p>
-            <p class="remark" v-if="">{{$t("main.reverse.detail.mainRevDeReject")}}</p>
+            <p class="remark" v-if="detail.reverse.hd_status === 3">{{$t("main.reverse.detail.mainRevDeRefundSucc")}}</p>
+            <p class="remark" v-if="detail.reverse.hd_status === 0">{{$t("main.reverse.detail.mainRevDeReject")}}</p>
         </div>
         <div class="detail-item">
             <div class="info-box">
@@ -165,7 +165,7 @@
                     })
                     this.detail = resp.data;
                 }, (err) => {
-
+                    this.$ltsMessage.show({type:'error',message:err.error_message})
                 });
             }
         },

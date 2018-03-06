@@ -370,6 +370,15 @@ export default {
                 mainPerPwdEnterNew: '请输入新密码',
                 mainPerPwdConfirmNew: '请确认新密码'
             },
+            email: {
+                mainPerEmaTitle: '邮箱更改',
+                mainPerEmaCurrent: '当前邮箱',
+                mainPerEmaCode: '验证码',
+                mainPerEmaChange: '更换邮箱',
+                mainPerEmaNew: '新邮箱',
+                mainPerEmaPostCode: '发送验证码',
+                mainPerEmaSave: '保存'
+            },
             personalMsg: {
                 mainPerPerData: '个人资料',
                 mainPerPerEmail: '邮箱',

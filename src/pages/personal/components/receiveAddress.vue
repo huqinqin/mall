@@ -21,7 +21,7 @@
                 </div>
             </el-form-item>
             <br>
-            <el-form-item :label='$t("main.personal.card.mainPerReTeleNum")' prop="phone" style="margin-top: 20px;">
+            <el-form-item :label='$t("main.personal.receiveAdd.mainPerReTeleNum")' prop="phone" style="margin-top: 20px;">
                 <el-input v-model="ruleForm.phone"></el-input>
             </el-form-item>
             <br>

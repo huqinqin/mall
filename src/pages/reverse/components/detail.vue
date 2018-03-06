@@ -1,13 +1,33 @@
 <template>
     <div class="reverse-detail" v-if="detail">
         <div class="reverse-header">
-            <p class="title">{{$t("main.reverse.detail.mainRevDeWaitLts")}}</p>
-            <p class="remark" v-if="">{{$t("main.reverse.detail.mainRevDeSuccRefund")}}</p>
-            <p class="remark" v-if="detail.reverse.hd_status === 1">{{$t("main.reverse.detail.mainRevDeAgree")}}</p>
-            <p class="remark" v-if="detail.reverse.hd_status === 2">{{$t("main.reverse.detail.mainRevDeWaitLts")}}</p>
-            <p class="remark" v-if="">{{$t("main.reverse.detail.mainRevDeReceipt")}}</p>
-            <p class="remark" v-if="detail.reverse.hd_status === 3">{{$t("main.reverse.detail.mainRevDeRefundSucc")}}</p>
-            <p class="remark" v-if="detail.reverse.hd_status === 0">{{$t("main.reverse.detail.mainRevDeReject")}}</p>
+            <p class="title" v-if="detail.reverse.status == 9">{{$t("main.order.list.mainOrLiClose")}}</p>
+            <div class="remark" v-if="detail.reverse.status == 9">
+                <div>完结时间:{{detail.reverse.end_time | timestamp2str}}</div>
+                <div>注:因你撤销退款申请，退款已关闭，交易将正常进行。请关注交易超时</div>
+            </div>
+            <p class="title" v-if="detail.reverse.status == 2">{{$t("main.reverse.detail.mainRevDeRefundSucc")}}</p>
+            <div class="remark" v-if="detail.reverse.status == 2 ">
+                <div v-if="detail.reverse.hd_status == 1">待退货</div>
+                <div v-if="detail.reverse.hd_status == 2">待签收</div>
+                <div v-if="detail.reverse.hd_status == 3">已签收</div>
+            </div>
+            <p class="title" v-if="detail.reverse.status == 3">{{$t("main.reverse.detail.mainRevDeReject")}}</p>
+            <div class="remark" v-if="detail.reverse.status == 3 ">
+                <div>拒绝退款时间:{{detail.reverse.edate | timestamp2str}}</div>
+            </div>
+            <p class="title" v-if="detail.reverse.status == 4">{{$t("main.reverse.detail.mainRevDeRefundSucc")}}</p>
+            <div class="remark" v-if="detail.reverse.status == 4 ">
+                <div>退款成功时间:{{detail.reverse.tobuy_time | timestamp2str}}</div>
+                <div>退款总金额<lts-money :money="detail.reverse.refund_real"></lts-money></div>
+            </div>
+
+            <!--<p class="remark" v-if="">{{$t("main.reverse.detail.mainRevDeSuccRefund")}}</p>-->
+            <!--<p class="remark" v-if="detail.reverse.hd_status === 1">{{$t("main.reverse.detail.mainRevDeAgree")}}</p>-->
+            <!--<p class="remark" v-if="detail.reverse.hd_status === 2">{{$t("main.reverse.detail.mainRevDeWaitLts")}}</p>-->
+            <!--<p class="remark" v-if="">{{$t("main.reverse.detail.mainRevDeReceipt")}}</p>-->
+            <!--<p class="remark" v-if="detail.reverse.hd_status === 3">{{$t("main.reverse.detail.mainRevDeRefundSucc")}}</p>-->
+            <!--<p class="remark" v-if="detail.reverse.hd_status === 0">{{$t("main.reverse.detail.mainRevDeReject")}}</p>-->
         </div>
         <div class="detail-item">
             <div class="info-box">
@@ -39,7 +59,7 @@
                             {{scope.row.num}}{{scope.row.wholesale_item_d_o.unit}}
                         </template>
                     </el-table-column>
-                    <el-table-column :label='$t("main.cart.list.mainCartliUnitPrice")' width="120" header-align="center" align="center">
+                    <el-table-column :label='$t("main.cart.list.mainCartliUnitPrice")' width="100" header-align="center" align="center">
                         <template slot-scope="scope">
                             <del class="text-secondary" v-if="scope.row.price > scope.row.price_real">
                                 <lts-money :money="scope.row.price"></lts-money>
@@ -50,7 +70,7 @@
                         </template>
                     </el-table-column>
 
-                    <el-table-column :label='$t("main.cart.list.mainCartliAllPrice")' width="150" header-align="center" align="center">
+                    <el-table-column :label='$t("main.cart.list.mainCartliAllPrice")' width="100" header-align="center" align="center">
                         <template slot-scope="scope">
                             <del class="text-secondary" v-if="scope.row.pay > scope.row.pay_real">
                                 <lts-money :money="scope.row.pay"></lts-money>
@@ -60,12 +80,12 @@
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column  :label='$t("main.order.reverse.mainOrReRejectNum")' width="200" header-align="center" align="center">
+                    <el-table-column  :label='$t("main.order.reverse.mainOrReRejectNum")' width="100" header-align="center" align="center">
                         <template slot-scope="scope">
                             <div>{{detail.reverse.real_num}}</div>
                         </template>
                     </el-table-column>
-                    <el-table-column  :label='$t("main.reverse.detail.mainRevDeRefundMoney")' width="200" header-align="center" align="center">
+                    <el-table-column  :label='$t("main.reverse.detail.mainRevDeRefundMoney")' width="100" header-align="center" align="center">
                         <template slot-scope="scope">
                             <div><lts-money :money="detail.reverse.refund"></lts-money></div>
                         </template>

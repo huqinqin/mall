@@ -18,7 +18,7 @@
               style="width: 100%">
               <el-table-column align="center" width="50">
                 <template slot-scope="subscope">
-                  <el-checkbox v-model="subscope.row.checked" @change="selectChange(subscope.row)"></el-checkbox>
+                  <el-checkbox v-model="subscope.row.checked" :key="subscope.row.id" @change="selectChange(subscope.row)"></el-checkbox>
                 </template>
               </el-table-column>
               <el-table-column align="center" width="600">
@@ -89,7 +89,7 @@
               style="width: 100%">
               <el-table-column align="center" width="50">
                 <template slot-scope="subscope">
-                  <el-checkbox v-model="subscope.row.checked" @change="selectChange(subscope.row)"></el-checkbox>
+                  <el-checkbox v-model="subscope.row.checked" :key="subscope.row.id" @change="selectChange(subscope.row)"></el-checkbox>
                 </template>
               </el-table-column>
               <el-table-column align="center" width="600">
@@ -168,7 +168,7 @@
                 style="width: 100%">
                 <el-table-column align="center" width="50">
                   <template slot-scope="subscope">
-                    <el-checkbox v-model="subscope.row.checked" @change="selectChange(subscope.row)"></el-checkbox>
+                    <el-checkbox v-model="subscope.row.checked" :key="subscope.row.id" @change="selectChange(subscope.row)"></el-checkbox>
                   </template>
                 </el-table-column>
                 <el-table-column align="center" width="600">
@@ -236,7 +236,7 @@
               style="width: 100%">
               <el-table-column align="center" width="50">
                 <template slot-scope="subscope">
-                  <el-checkbox v-model="subscope.row.checked" @change="selectChange(subscope.row)"></el-checkbox>
+                  <el-checkbox v-model="subscope.row.checked" :key="subscope.row.id" @change="selectChange(subscope.row)"></el-checkbox>
                 </template>
               </el-table-column>
               <el-table-column align="center" width="600">
@@ -342,7 +342,7 @@
 
 <script>
   import cartService from '@/services/CartService.js'
-
+  import Vue from 'vue'
   export default {
     name: 'list',
     data () {
@@ -397,25 +397,29 @@
             for(let key in table){
               this.tableData[index][key].forEach((item,count) => {
                  if(item.length > 0){
-                   this.tableData[index][key][count][0].checked = true
-                   item.num = 100;
+                   item[0].checked = true;
+                   let cloneItem = item[0];
+                   Vue.set(item,0,cloneItem);
                  }else{
                    this.tableData[index][key][count].checked = true
-                   item.num = 100;
                  }
+                 console.log(item);
               })
             }
           })
-          console.log(this.tableData);
         }else {
           this.checkedItem = []
           this.tableData.forEach((table) => {
             for(let key in table){
               table[key].forEach((item) => {
                 if(item.length > 0){
-                  item[0].checked = false
+                    if(item.length > 0) {
+                        item[0].checked = false;
+                        let cloneItem = item[0];
+                        Vue.set(item, 0, cloneItem);
+                    }
                 }else{
-                  item.checked = false
+                    item.checked = false
                 }
               })
             }

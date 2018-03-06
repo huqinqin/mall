@@ -18,7 +18,7 @@
               style="width: 100%">
               <el-table-column align="center" width="50">
                 <template slot-scope="subscope">
-                  <el-checkbox v-model="subscope.row.checked" :key="subscope.row.id" @change="selectChange(subscope.row)"></el-checkbox>
+                  <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)"></el-checkbox>
                 </template>
               </el-table-column>
               <el-table-column align="center" width="600">
@@ -34,6 +34,7 @@
                         <p v-for="(val,key) in item.prop_value" :title="val">{{key}}:{{val}}</p>
                       </li>
                     </ul>
+                     {{subscope.row.checked}}
                   </a>
                 </template>
               </el-table-column>
@@ -89,7 +90,7 @@
               style="width: 100%">
               <el-table-column align="center" width="50">
                 <template slot-scope="subscope">
-                  <el-checkbox v-model="subscope.row.checked" :key="subscope.row.id" @change="selectChange(subscope.row)"></el-checkbox>
+                  <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)"></el-checkbox>
                 </template>
               </el-table-column>
               <el-table-column align="center" width="600">
@@ -105,6 +106,7 @@
                         <p v-for="(val,key) in item.prop_value" :title="val">{{key}}:{{val}}</p>
                       </li>
                     </ul>
+                      {{subscope.row.checked}}
                   </a>
                 </template>
               </el-table-column>
@@ -168,7 +170,7 @@
                 style="width: 100%">
                 <el-table-column align="center" width="50">
                   <template slot-scope="subscope">
-                    <el-checkbox v-model="subscope.row.checked" :key="subscope.row.id" @change="selectChange(subscope.row)"></el-checkbox>
+                    <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)"></el-checkbox>
                   </template>
                 </el-table-column>
                 <el-table-column align="center" width="600">
@@ -236,7 +238,7 @@
               style="width: 100%">
               <el-table-column align="center" width="50">
                 <template slot-scope="subscope">
-                  <el-checkbox v-model="subscope.row.checked" :key="subscope.row.id" @change="selectChange(subscope.row)"></el-checkbox>
+                  <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)"></el-checkbox>
                 </template>
               </el-table-column>
               <el-table-column align="center" width="600">
@@ -400,42 +402,62 @@
                    item[0].checked = true;
                    let cloneItem = item[0];
                    Vue.set(item,0,cloneItem);
+                   item[0].checked = true;
                  }else{
-                   this.tableData[index][key][count].checked = true
+                    item.checked = true;
                  }
-                 console.log(item);
+                 Vue.set(this.tableData[index][key],count,item)
               })
             }
+            Vue.set(this.tableData,index,this.tableData[index])
           })
         }else {
           this.checkedItem = []
-          this.tableData.forEach((table) => {
+          this.tableData.forEach((table,index) => {
             for(let key in table){
-              table[key].forEach((item) => {
+              table[key].forEach((item,count) => {
                 if(item.length > 0){
                     if(item.length > 0) {
                         item[0].checked = false;
                         let cloneItem = item[0];
-                        Vue.set(item, 0, cloneItem);
+                        Vue.set(item,0,cloneItem);
                     }
                 }else{
-                    item.checked = false
+                    item.checked = false;
                 }
+                Vue.set(this.tableData[index][key],count,item)
               })
             }
+            Vue.set(this.tableData,index,this.tableData[index])
           })
         }
+
         this.calc(this.checkedItem)
       },
       // 单选框
       selectChange (row) {
         if (this.checkedItem.indexOf(row) !== -1) {
           this.checkedItem.splice(this.checkedItem.indexOf(row), 1)
-          row.checked  = false
+            row.checked = false;
         } else {
           this.checkedItem.push(row)
           row.checked  = true
         }
+        this.tableData.forEach((table,index,array) => {
+              for(let key in table){
+                  this.tableData[index][key].forEach((item,count) => {
+                      if(item.length > 0 && item[0].id == row.id){
+                          Vue.set(item,0,row);
+                          Vue.set(this.tableData[index][key],count,item)
+                      }else if(item.id == row.id){
+                          Vue.set(this.tableData[index][key],count,row)
+                      }
+                      Vue.set(this.tableData[index][key],count,item)
+                  })
+              }
+              Vue.set(this.tableData,index,this.tableData[index])
+         })
+        Vue.set(this.tableData)
         this.calc(this.checkedItem)
         if (this.checkedItem.length === this.tableDataItem.length) {
           this.selectedAll = true
@@ -486,7 +508,7 @@
               }
               this.tableData[2].limit.push([value])
             } else {
-              this.tableData[3].others.push(value)
+                this.tableData[3].others.push(value)
             }
             this.tableDataItem = data.datalist
 

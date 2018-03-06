@@ -7,10 +7,10 @@
                 <el-input v-model="ruleForm.oldPassword" type="password"></el-input>
             </el-form-item>
             <el-form-item :label='$t("main.personal.password.mainPerPwdNewPwd")' prop="newPassword" style="margin-top: 24px;">
-                <el-input v-model="ruleForm.newPassword"></el-input>
+                <el-input v-model="ruleForm.newPassword" type="password"></el-input>
             </el-form-item>
             <el-form-item :label='$t("main.personal.password.mainPerPwdConfirmPwd")' prop="confirmPassword" style="margin-top: 24px;">
-                <el-input v-model="ruleForm.confirmPassword"></el-input>
+                <el-input v-model="ruleForm.confirmPassword" type="password"></el-input>
             </el-form-item>
 
             <el-form-item>

@@ -33,19 +33,11 @@
                     {href:'/repayMent',title:this.$t("common.ltsMenu.commLtsWaitting")},
                 ],
                 settings:[
-<<<<<<< HEAD
-                    {href:'/personal#/personalMessage',title:'个人信息'},
-                    {href:'/personal#/email',title:'邮箱修改'},
-                    {href:'/personal#/card',title:'分销商资格认证'},
-                    {href:'/personal#/password',title:'密码设置'},
-                    {href:'/personal#/receiveAddress',title:'收货地址'},
-=======
-                    {href:'javascript:void(0)',title:this.$t("common.ltsMenu.commLtsPersonInfo")},
-                    {href:'javascript:void(0)',title:this.$t("common.ltsMenu.commLtsEmailAlert")},
+                    {href:'/personal#/personalMessage',title:this.$t("common.ltsMenu.commLtsPersonInfo")},
+                    {href:'/personal#/email',title:this.$t("common.ltsMenu.commLtsEmailAlert")},
                     {href:'/personal#/card',title:this.$t("common.ltsMenu.commLtsAnth")},
                     {href:'/personal#/password',title:this.$t("common.ltsMenu.commLtsPwdSet")},
                     {href:'/personal#/receiveAddress',title:this.$t("common.ltsMenu.commLtsAddress")},
->>>>>>> e38e8267575d7fdd041ce15a9b30299ae45a21ef
                 ],
                 selected:'',
             }

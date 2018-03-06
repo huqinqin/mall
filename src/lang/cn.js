@@ -252,6 +252,8 @@ export default {
                 mainOrDePayInfo: '支付信息',
                 mainOrDeCard: '信用卡支付',
                 mainOrDeAccount: '账期支付',
+                mainOrDeGouwu: '购物券',
+                mainOrDeYue: '余额支付',
                 mainOrDePayStatus: '支付状态',
                 mainOrDeBag: '包裹',
                 mainOrDeLogiInfo: '物流信息',

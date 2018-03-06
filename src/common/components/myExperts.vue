@@ -1,18 +1,3 @@
-<template>
-   <div class="wrapperExperts">
-       <div class="el-icon-close" @click="close"></div>
-       <h3>{{$t("common.myExpert.commMyExpert")}}</h3>
-       <div class="box">
-           <ul>
-               <li><span>{{$t("common.myExpert.commMyName")}}：</span><span>抹茶</span></li>
-               <li><span>{{$t("common.myExpert.commMyContact")}}：</span><span>13069874561</span></li>
-               <li><span>{{$t("common.myExpert.commMyEmail")}}：</span><span>89652541@qq.com</span></li>
-           </ul>
-           <ul class="iconfont icon-jiankangzhuanjia"></ul>
-       </div>
-   </div>
-</template>
-
 <style lang="less">
    .wrapperExperts{
        padding: 40px;
@@ -56,6 +41,18 @@
 
 <script>
   export default {
+      template : '<div class="wrapperExperts">\n' +
+      '       <div class="el-icon-close" @click="close"></div>\n' +
+      '       <h3>{{$t("common.myExpert.commMyExpert")}}</h3>\n' +
+      '       <div class="box">\n' +
+      '           <ul>\n' +
+      '               <li><span>{{$t("common.myExpert.commMyName")}}：</span><span>抹茶</span></li>\n' +
+      '               <li><span>{{$t("common.myExpert.commMyContact")}}：</span><span>13069874561</span></li>\n' +
+      '               <li><span>{{$t("common.myExpert.commMyEmail")}}：</span><span>89652541@qq.com</span></li>\n' +
+      '           </ul>\n' +
+      '           <ul class="iconfont icon-jiankangzhuanjia"></ul>\n' +
+      '       </div>\n' +
+      '   </div>',
       data(){
           return{
               flag:false

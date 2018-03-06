@@ -87,7 +87,7 @@
                     <div>{{$t("main.order.detail.mainOrDeAccount")}}</div>
                 </el-form-item>
                 <el-form-item :label='$t("main.order.detail.mainOrDeOrderStatus")'>
-                    {{detail.reverse.status_title}}
+                    {{detail.wholesale_order.status_title}}
                 </el-form-item>
                 <el-form-item :label='$t("main.order.detail.mainOrDeLogiInfo")'>
                     {{detail.reverse.express}}{{detail.reverse.express_num}}

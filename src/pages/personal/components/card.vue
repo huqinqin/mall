@@ -7,7 +7,7 @@
                 <div>
                     <el-upload
                         class="avatar-uploader"
-                        action="https://jsonplaceholder.typicode.com/posts/"
+                        action="/cgi/upload/file/misc/image"
                         :show-file-list="false"
                         :on-success="handleAvatarSuccess"
                         :before-upload="beforeAvatarUpload">
@@ -30,17 +30,13 @@
             </el-form-item>
             <br>
             <el-form-item :label='$t("main.personal.card.mainPerCarCountry")' prop="country" style="margin-top: 20px;">
-                <el-select v-model="country" :placeholder='$t("main.personal.card.mainPerCarEnterCoun")'>
+                <el-select v-model="ruleForm.country" :placeholder='$t("main.personal.card.mainPerCarEnterCoun")'>
                     <el-option :label='$t("main.personal.card.mainPerCarChina")' :value='$t("main.personal.card.mainPerCarChina")'></el-option>
                     <el-option :label='$t("main.personal.card.mainPerCarUsa")' :value='$t("main.personal.card.mainPerCarUsa")'></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item :label='$t("main.personal.card.mainPerCarState")' prop="state" style="margin-top: 20px;">
-                <el-select v-model="state" :placeholder='$t("main.personal.card.mainPerCarEnterState")'>
-                    <el-option :label='$t("main.personal.card.mainPerCarDeco")' :value='$t("main.personal.card.mainPerCarDeco")'></el-option>
-                    <el-option :label='$t("main.personal.card.mainPerCarWashington")' :value='$t("main.personal.card.mainPerCarWashington")'></el-option>
-                    <el-option :label='$t("main.personal.card.mainPerCarCali")' :value='$t("main.personal.card.mainPerCarCali")'></el-option>
-                </el-select>
+                <lts-location v-model="ruleForm.location" :labels.sync="locationLabel" style="width: 400px"/>
             </el-form-item>
             <br>
             <el-form-item :label='$t("main.personal.card.mainPerCarZip")' prop="zipcode" style="margin-top: 20px;">
@@ -49,14 +45,18 @@
             <br>
             <el-form-item :label='$t("main.personal.card.mainPerCarFromDate")' prop="date" style="margin-top: 20px;">
                 <el-date-picker
-                    v-model="value1"
-                    type="date"
-                    :placeholder='$t("main.personal.card.mainPerCarSelDate")'>
+                    v-model="ruleForm.invalid_time"
+                    type="daterange"
+                    value-format="timestamp"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期"
+                    :default-time="['00:00:00', '23:59:59']"
+                    class="common-width">
                 </el-date-picker>
             </el-form-item>
             <br>
             <el-form-item>
-                <el-button type="primary" @click="submitForm('ruleForm')" class="submitBtn">{{$t("main.personal.card.mainPerCarSave")}}</el-button>
+                <el-button type="primary" @click="addCard" class="submitBtn">{{$t("main.personal.card.mainPerCarSave")}}</el-button>
             </el-form-item>
         </el-form>
 
@@ -64,7 +64,6 @@
         <el-table
             :data="tableData"
             style="width: 100%"
-            v-loading="loading"
             ref="itemTable">
             <el-table-column
                 prop="picture"
@@ -144,20 +143,28 @@
 </template>
 
 <script>
+    import personalService from '@/services/PersonalService'
+    import {request, commonUtils} from 'ltsutil'
+    import {ltsLocation} from 'ui'
+
     export default {
         name: "receiveAddress",
         data() {
             return {
                 ruleForm: {
+                    uid: '',
                     cardPicUrl: '',
                     number: '',
                     address: '',
+                    location: [],
                     city: '',
                     country: '',
                     state: '',
                     zipcode: '',
-                    date: ''
+                    date: '',
+                    invalid_time: []
                 },
+                locationLabel: [],
                 tableData: [],
                 rules: {
                     number: [
@@ -182,22 +189,82 @@
             };
         },
         mounted(){
-
+            this.getUserMessage();
         },
         methods: {
-            getCardList() {
-                installerService.getSaleCard(this.uid).then((resp) => {
-                    this.form = {
-                        number: resp.data.shop.user.account,
-                        grade: resp.data.shop.level,
-                        shop: resp.data.shop.biz_shop.shop_name,
-                        projectName: resp.data.shop.user.name,
-                        companyName: resp.data.shop.shop_name
-                    };
+            getUserMessage() {
+                personalService.getUserMessage().then((resp) => {
+                    this.ruleForm.uid = resp.data.shop_d_o.uid;
+                    this.getCardList(this.ruleForm.uid);
+                }, (msg) => {
+                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                })
+            },
+            getCardList(uid) {
+                personalService.getSaleCard(uid).then((resp) => {
                     this.tableData = resp.data.distribute_certificate_d_o_list;
                 }, (error) => {
                     this.$ltsMessage.show({type: 'error', message: error.error_message});
                 });
+            },
+            addCard() {
+                let params = {
+                    address: this.locationLabel[0] + ' ' + this.locationLabel[1] + '' + this.form.address,
+                    city: this.ruleForm.city,
+                    country: this.ruleForm.country,
+                    distributeNum: this.ruleForm.number,
+                    validTime: this.ruleForm.invalid_time[0],//start
+                    invalidTime: this.ruleForm.invalid_time[1],//end
+                    picture: this.ruleForm.cardPicUrl,
+                    postcode: this.ruleForm.zipcode,
+                    remark: "",
+                    shopUid: this.uid,
+                    state: "",
+                    status: 0,
+                    type: 1//设为默认，0，有效
+                };
+                installerService.addSaleCard(params).then((resp) => {
+
+                }, (error) => {
+                    this.$ltsMessage.show({type: 'error', message: error.error_message});
+                });
+            },
+            updateCard() {
+                let params = {
+                    id: 2,
+                    address: "bianji",
+                    city: "dd",
+                    company: "bianji",
+                    country: "china",
+                    distributeNum: "0002",
+                    invalidTime: 1519904223000,
+                    picture: "http://www.baidu.com",
+                    postcode: '00002365',
+                    remark: "",
+                    shopUid: this.uid,
+                    state: "ff",
+                    status: 0,
+                    validTime: 1522496223000
+                };
+                installerService.updateSaleCard(params).then((resp) => {
+
+                }, (error) => {
+                    this.$ltsMessage.show({type: 'error', message: error.error_message});
+                });
+            },
+            getDialog(item) {
+                switch (item.type) {
+                    case 'edit':
+                        break;
+                    case 'delete':
+                        break;
+                }
+            },
+            handleAvatarSuccess(res, file) {
+                this.ruleForm.cardPicUrl = res.data.url;
+            },
+            beforeAvatarUpload(file) {
+
             },
             resetForm(formName) {
                 this.$refs[formName].resetFields();

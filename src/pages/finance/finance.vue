@@ -11,7 +11,7 @@
           <span class="red"><lts-money :money="credit.used"></lts-money></span>)
         </small>
       </div>
-      <div><i class="iconfont icon-qian1"></i>{{ $t("main.finance.mainfiAccountBal") }}：
+      <div><i class="iconfont icon-gouwuquan-copy"></i>{{ $t("main.finance.mainfiCoupon") }}：
         <span class="red" v-if="bonus.balance || bonus.balance == 0"><lts-money :money="bonus.balance"></lts-money></span>
         <small class="showBonus">(<span class="blue">{{bonus.total}}</span>{{ $t("main.finance.mainfiOneWord") }})</small>
       </div>
@@ -230,7 +230,7 @@
           vertical-align: middle;
           margin-right: 12px;
         }
-        i.icon-qian1, i.icon-qian {
+        i.icon-qian1, i.icon-qian, i.icon-gouwuquan-copy {
           color: #ff6c00;
         }
 

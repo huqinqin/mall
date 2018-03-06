@@ -12,7 +12,6 @@
           <div v-if="scope.row.discount && scope.row.discount.length>0" class="discountTable subtable">
             <div class="popover">
               <div class="popTitle">{{ $t("main.cart.list.mainCartliDisGoods") }}</div>
-              <div class="popDetail"></div>
             </div>
             <el-table
               :data="scope.row.discount"
@@ -42,7 +41,7 @@
                     <lts-money :money="subscope.row.price"></lts-money>
                   </p>
                   <p>
-                    <lts-money :money="subscope.row.item_props[0].price"></lts-money>
+                    <lts-money :money="subscope.row.price * subscope.row.discount / 100"></lts-money>
                   </p>
                 </template>
               </el-table-column>
@@ -81,7 +80,6 @@
           <div v-else-if="scope.row.reduce && scope.row.reduce.length>0" class="reduceTable subtable">
             <div class="popover">
               <div class="popTitle">{{ $t("main.cart.list.mainCartliOnsaleGoods") }}</div>
-              <div class="popDetail"></div>
             </div>
             <el-table
               :data="scope.row.reduce"
@@ -110,7 +108,7 @@
                   <p class="oldPrice">
                     <lts-money :money="subscope.row.price"></lts-money>
                   </p>
-                  <lts-money :money="subscope.row.price_real"></lts-money>
+                  <p><lts-money :money="subscope.row.price - subscope.row.discount"></lts-money></p>
                 </template>
               </el-table-column>
               <el-table-column prop="" width="" :label='$t("main.cart.list.mainCartliStock")' align="center">
@@ -146,10 +144,17 @@
             </el-table>
           </div>
           <div v-else-if="scope.row.limit && scope.row.limit.length>0" >
-            <div v-for="limitItem in scope.row.limit" :key="limitItem.id" class="reduceTable subtable">
+            <div v-for="limitItem in scope.row.limit" :key="limitItem.id" class="limitTable subtable">
               <div class="popover">
                 <div class="popTitle">{{ $t("main.cart.list.mainCartliOnsaleLimits") }}</div>
-                <div class="popDetail"></div>
+                <div class="popDetail" :class="[{ 'noStart': !limitItem[0].rule.started }, {'started': limitItem[0].rule.started}]">
+                  <div><span v-if="limitItem[0].rule.started">距离结束</span><span v-if="!limitItem[0].rule.started">活动倒计时</span>：<span v-if="limitItem[0].rule.day">{{limitItem[0].rule.day}}天</span></div>
+                  <div class="timeDown">
+                    <div>{{limitItem[0].rule.hr}}</div>:
+                    <div>{{limitItem[0].rule.min}}</div>:
+                    <div>{{limitItem[0].rule.sec}}</div>
+                  </div>
+                </div>
               </div>
               <el-table
                 :data="limitItem"
@@ -178,7 +183,7 @@
                     <p class="oldPrice">
                       <lts-money :money="subscope.row.price"></lts-money>
                     </p>
-                    <lts-money :money="subscope.row.price_real"></lts-money>
+                    <p><lts-money :money="subscope.row.rule.price"></lts-money></p>
                   </template>
                 </el-table-column>
                 <el-table-column prop="" width="" :label='$t("main.cart.list.mainCartliStock")' align="center">
@@ -426,8 +431,6 @@
             {limit: []},
             {others: []}
           ]
-          data.datalist = [{"activity_id":null,"attribute":4194305,"brand":"LTS","category_id":9487633,"discount_type":4,"id":2101489,"item_name":"LTN8708T-HT","item_props":[{"attribute":1792,"cdate":null,"edate":null,"id":789,"img_url":"","item_id":null,"multi_select":false,"price":200,"price_action":1,"prop_value":"{\"IP Video Inputs\":\"8\"}","rank":null,"required":false,"search":true,"selectable":false,"show":true,"sin":"2010000438727","sku":true,"spec":false,"spu_id":180511,"status":null,"storage":100,"system":false,"value_type":0}],"maxinum":45,"mininum":12,"num":1,"price":200,"price_real":200,"proxy_distribute_num":null,"puser_id":158667,"spec_unit":"æ— æè¿°/PIECE","spu_id":180511,"status":1,"storage":0,"tag":"","url":"03e9b4c9ccb834126518e34593b85a8e.jpg"},{"activity_id":null,"attribute":4194305,"brand":"LTS","category_id":9487632,"discount_type":1,"id":2101487,"item_name":"LTN8916-P16, Platinum Enterprise Level 16 Channel 4K NVR, 1.5U, 16 Port POE , 12MP IP Recording","item_props":[{"attribute":1792,"cdate":null,"edate":null,"id":787,"img_url":"","item_id":null,"multi_select":false,"price":1,"price_action":1,"prop_value":"{\"IP Video Inputs\":\"16\"}","rank":null,"required":false,"search":true,"selectable":false,"show":true,"sin":"LTN8916-P16","sku":true,"spec":false,"spu_id":180531,"status":null,"storage":100,"system":false,"value_type":0}],"maxinum":null,"mininum":0,"num":1,"price":1,"price_real":1,"proxy_distribute_num":null,"puser_id":158667,"spec_unit":"æ— æè¿°/PIECE","spu_id":180531,"status":1,"storage":100,"tag":"æ ‡ç­¾ä¸€12,æ ‡ç­¾,æ ‡ç­¾ä¸‰asdaa,æ ‡ç­¾å››,æ ‡ç­¾äº”","url":"ef365d1574615ddb35c4f19bb3000b4b.PNG"},{"activity_id":null,"attribute":4194304,"brand":"LTS","category_id":9487695,"discount_type":2,"id":2101392,"item_name":"NA-SLECDMA-CB-TFï¼ŒStarLinkâ„¢ NAPCO Alarm Communicator for Universal Cell or IP","item_props":[{"attribute":1792,"cdate":null,"edate":null,"id":653,"img_url":"","item_id":null,"multi_select":false,"price":1,"price_action":1,"prop_value":"{\"Brand\":\"Starlink\"}","rank":null,"required":false,"search":true,"selectable":false,"show":true,"sin":"NA-SLECDMA-CB-TF","sku":true,"spec":false,"spu_id":180517,"status":null,"storage":100,"system":false,"value_type":0}],"maxinum":null,"mininum":0,"num":1,"price":1,"price_real":1,"proxy_distribute_num":null,"puser_id":158667,"spec_unit":"æ— æè¿°/Piece","spu_id":180517,"status":1,"storage":100,"tag":"çƒ­å–å•†å“","url":"49554e0023fbd95efb7956f46b127ff5.png"},{"activity_id":null,"attribute":4194305,"brand":"LTS","category_id":9487633,"discount_type":4,"id":2101489,"item_name":"LTN8708T-HT","item_props":[{"attribute":1792,"cdate":null,"edate":null,"id":789,"img_url":"","item_id":null,"multi_select":false,"price":200,"price_action":1,"prop_value":"{\"IP Video Inputs\":\"8\"}","rank":null,"required":false,"search":true,"selectable":false,"show":true,"sin":"2010000438727","sku":true,"spec":false,"spu_id":180511,"status":null,"storage":100,"system":false,"value_type":0}],"maxinum":45,"mininum":12,"num":1,"price":200,"price_real":200,"proxy_distribute_num":null,"puser_id":158667,"spec_unit":"æ— æè¿°/PIECE","spu_id":180511,"status":1,"storage":0,"tag":"","url":"03e9b4c9ccb834126518e34593b85a8e.jpg"}]
-          console.log(data.datalist)
           data.datalist.forEach((value) => {
             value.item_props.forEach((item) => {
               item.prop_value = JSON.parse(item.prop_value)
@@ -437,11 +440,24 @@
             } else if (value.discount_type === 2) {
               this.tableData[1].reduce.push(value)
             } else if (value.discount_type === 4) {
+              value.rule = JSON.parse(value.sale_rule)
+              value.item_props[0].storage = value.rule.maxinum
+              value.rule.end = Date.parse(value.rule.endTime)
+              value.rule.start = Date.parse(value.rule.startTime)
+              let now = Date.parse(new Date())
+              if (value.rule.end > now) {
+                this.countdown(value.rule)
+              } else {
+                // 活动结束，不显示了
+                value.rule.finished = true
+              }
               this.tableData[2].limit.push([value])
+              console.log(value.rule)
             } else {
               this.tableData[3].others.push(value)
             }
           })
+          console.log(this.tableData[2].limit)
         }, (msg) => {
           this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
         })
@@ -451,7 +467,7 @@
           cartService.putCartPlus(item, item.item_props[0]).then((data) => {
             resolve(data)
           }, (msg) => {
-            this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
+            this.$ltsMessage.show({type: 'error', message: msg.error_message})
             reject(msg)
           })
         })
@@ -482,6 +498,45 @@
         }, (msg) => {
           this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
         })
+      },
+      // 倒计时计算
+      countdown(item){
+        let start = item.start
+        let end = item.end
+        let now = Date.parse(new Date())
+        let date
+        // 判断活动是否开始
+        if (now < start) {
+          // 还没开始
+          item.started = false
+          item.finished = false
+          date = item.start
+        } else if (start <= now <= end) {
+          // 开始了还没结束
+          item.started = true
+          item.finished = false
+          date = item.end
+        } else {
+          item.started = true
+          item.finished = true
+        }
+        let msec = date - now
+
+        // 计算时分秒数
+        item.day = parseInt(msec / 1000 / 60 / 60 / 24)
+        item.hr = parseInt(msec / 1000 / 60 / 60 % 24)
+        item.min = parseInt(msec / 1000 / 60 % 60)
+        item.sec = parseInt(msec / 1000 % 60)
+        // 个位数前补零
+        item.hr = item.hr > 9 ? item.hr : '0' + item.hr
+        item.min = item.min > 9 ? item.min : '0' + item.min
+        item.sec = item.sec > 9 ? item.sec : '0' + item.sec
+        // 倒计时开始
+        if (msec >= 0) {
+          setTimeout(() => {
+            this.countdown(item)
+          }, 1000)
+        }
       }
     },
     watch: {
@@ -569,6 +624,32 @@
               border-right: 8px solid transparent;
             }
             .popDetail {
+              margin-left: 10px;
+              display: flex;
+              padding: 4px;
+              color: white;
+              border-radius: 4px 4px 4px 0;
+              .timeDown{
+                margin-left: 4px;
+                display: flex;
+                div{
+                  padding: 0 2px;
+                  margin:0 2px;
+                  border-radius: 4px;
+                }
+              }
+            }
+            .popDetail.noStart{
+              background: #a7a7a7;
+              .timeDown div{
+                background: #6d6d6d;
+              }
+            }
+            .popDetail.started{
+              background: #f48719;
+              .timeDown div{
+                background: #E94740;
+              }
             }
           }
           tbody {

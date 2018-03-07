@@ -17,7 +17,7 @@
                 keywords:'',
             }
         },
-      
+
         methods:{
             searchToHref(){
                 location.href = '/search#/?cateId=' + '&keywords=' + this.keywords

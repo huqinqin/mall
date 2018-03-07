@@ -77,8 +77,10 @@
               <span>{{itemlist.name}}</span>
             </div>
             <div class="more">
-              <span>{{$t("main.detail.info.mainInMore")}}</span>
-              <i class="iconfont icon-shangyiye-copy-copy rotate"></i>
+                <a :href="itemlist.url">
+                    <span>{{$t("main.detail.info.mainInMore")}}</span>
+                    <i class="iconfont icon-shangyiye-copy-copy rotate"></i>
+                </a>
             </div>
           </div>
           <ul class="item-list-box">

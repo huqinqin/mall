@@ -619,7 +619,7 @@
     .tips {
       border: 1px solid #ff3b41;
       line-height: 21px;
-      width: 155px;
+      width: 210px;
       margin-top: 10px;
       font-size: 12px;
       padding-left: 6px;

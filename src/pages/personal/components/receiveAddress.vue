@@ -6,8 +6,6 @@
             <el-form-item label="name" required style="margin-top: 20px;">
                 <el-input v-model="ruleForm.name"></el-input>
             </el-form-item>
-<<<<<<< HEAD
-=======
             <el-form-item label="first name" required style="margin-top: 20px;">
                 <el-input v-model="ruleForm.name"></el-input>
             </el-form-item>
@@ -22,7 +20,6 @@
                     </el-input>
                 </div>
             </el-form-item>
->>>>>>> 83c5639b7fe98cc7f1b5f050e259dfb81c274fff
             <br>
             <el-form-item :label='$t("main.personal.receiveAdd.mainPerReTeleNum")' prop="phone"
                           style="margin-top: 20px;">
@@ -37,34 +34,8 @@
                 <el-input v-model="ruleForm.city"></el-input>
             </el-form-item>
             <br>
-<<<<<<< HEAD
-            <!--<el-form-item :label='$t("main.personal.card.mainPerCarCountry")' prop="country" style="margin-top: 20px;">
-                <el-select v-model="ruleForm.country" :placeholder='$t("main.personal.card.mainPerCarEnterCoun")'>
-                    <el-option :label='$t("main.personal.card.mainPerCarUsa")'
-                               :value='$t("main.personal.card.mainPerCarUsa")'></el-option>
-=======
-            <el-form-item :label='$t("main.personal.card.mainPerCarCountry")' prop="country" style="margin-top: 20px;">
-                <el-select v-model="ruleForm.country" :placeholder='$t("main.personal.card.mainPerCarEnterCoun")'>
-                    <el-option :label='$t("main.personal.card.mainPerCarChina")' :value='$t("main.personal.card.mainPerCarChina")'></el-option>
-                    <el-option :label='$t("main.personal.card.mainPerCarUsa")' :value='$t("main.personal.card.mainPerCarUsa")'></el-option>
->>>>>>> 83c5639b7fe98cc7f1b5f050e259dfb81c274fff
-                </el-select>
-            </el-form-item>-->
             <el-form-item :label='$t("main.personal.card.mainPerCarState")' prop="state" style="margin-top: 20px;">
-                <el-select v-model="ruleForm.state" :placeholder='$t("main.personal.card.mainPerCarEnterState")'>
-<<<<<<< HEAD
-                    <el-option :label='$t("main.personal.card.mainPerCarDeco")'
-                               :value='$t("main.personal.card.mainPerCarDeco")'></el-option>
-                    <el-option :label='$t("main.personal.card.mainPerCarWashington")'
-                               :value='$t("main.personal.card.mainPerCarWashington")'></el-option>
-                    <el-option :label='$t("main.personal.card.mainPerCarCali")'
-                               :value='$t("main.personal.card.mainPerCarCali")'></el-option>
-=======
-                    <el-option :label='$t("main.personal.card.mainPerCarDeco")' :value='$t("main.personal.card.mainPerCarDeco")'></el-option>
-                    <el-option :label='$t("main.personal.card.mainPerCarWashington")' :value='$t("main.personal.card.mainPerCarWashington")'></el-option>
-                    <el-option :label='$t("main.personal.card.mainPerCarCali")' :value='$t("main.personal.card.mainPerCarCali")'></el-option>
->>>>>>> 83c5639b7fe98cc7f1b5f050e259dfb81c274fff
-                </el-select>
+
             </el-form-item>
             <br>
             <el-form-item :label='$t("main.personal.card.mainPerCarZip")' prop="zipcode" style="margin-top: 20px;">
@@ -85,37 +56,37 @@
             ref="itemTable">
             <el-table-column
                 prop="user_name"
-                label="收货人"
+                label="receiver"
                 width="100">
             </el-table-column>
             <el-table-column
                 prop="address"
-                label="详细地址"
+                label="address"
                 width="150">
             </el-table-column>
             <el-table-column
                 prop="city"
-                width="80"
-                label="城市">
+                label="city"
+                width="80">
             </el-table-column>
             <el-table-column
                 prop="state"
-                label="州"
+                label="state"
                 width="80">
             </el-table-column>
             <el-table-column
                 prop="country"
-                label="国家"
+                label="country"
                 width="80">
             </el-table-column>
             <el-table-column
                 prop="zip_code"
-                label="邮编"
+                label="zip code"
                 width="100">
             </el-table-column>
             <el-table-column
                 prop="mobile"
-                label="电话"
+                label="mobile"
                 width="120">
             </el-table-column>
             <el-table-column
@@ -125,10 +96,11 @@
                 <template slot-scope="scope">
                     <el-dropdown @command="getDialog">
                         <el-button class="el-dropdown-link">
-                            操作<i class="el-icon-arrow-down el-icon--right"></i>
+                            {{$t("main.order.list.mainOrLiHanlde")}}<i class="el-icon-arrow-down el-icon--right"></i>
                         </el-button>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item :command="{'type': 'edit','params':{'uid': scope.row.uid}}">编辑
+                            <el-dropdown-item :command="{'type': 'edit','params':{'uid': scope.row.uid}}">
+                                {{$t("main.reverse.dialog.mainRevDiaAlert ")}}
                             </el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>

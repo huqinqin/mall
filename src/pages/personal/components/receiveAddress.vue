@@ -6,6 +6,23 @@
             <el-form-item label="name" required style="margin-top: 20px;">
                 <el-input v-model="ruleForm.name"></el-input>
             </el-form-item>
+<<<<<<< HEAD
+=======
+            <el-form-item label="first name" required style="margin-top: 20px;">
+                <el-input v-model="ruleForm.name"></el-input>
+            </el-form-item>
+            <br>
+            <el-form-item :label='$t("main.personal.receiveAdd.mainPerRePhone")' prop="telephone" style="margin-top: 20px;" class="telephone">
+                <div style="margin-top: 15px;">
+                    <el-input :placeholder='$t("main.personal.receiveAdd.mainPerReEnterCont")' v-model="telephone" class="input-with-select">
+                        <el-select v-model="ruleForm.selectTelephone" slot="prepend" :placeholder='$t("main.accountNew.register.mainAcReSelect")'>
+                            <el-option :label='$t("main.personal.card.mainPerCarChina")' :value='$t("main.personal.card.mainPerCarChina")'></el-option>
+                            <el-option :label='$t("main.personal.card.mainPerCarUsa")' :value='$t("main.personal.card.mainPerCarUsa")'></el-option>
+                        </el-select>
+                    </el-input>
+                </div>
+            </el-form-item>
+>>>>>>> 83c5639b7fe98cc7f1b5f050e259dfb81c274fff
             <br>
             <el-form-item :label='$t("main.personal.receiveAdd.mainPerReTeleNum")' prop="phone"
                           style="margin-top: 20px;">
@@ -20,20 +37,33 @@
                 <el-input v-model="ruleForm.city"></el-input>
             </el-form-item>
             <br>
+<<<<<<< HEAD
             <!--<el-form-item :label='$t("main.personal.card.mainPerCarCountry")' prop="country" style="margin-top: 20px;">
                 <el-select v-model="ruleForm.country" :placeholder='$t("main.personal.card.mainPerCarEnterCoun")'>
                     <el-option :label='$t("main.personal.card.mainPerCarUsa")'
                                :value='$t("main.personal.card.mainPerCarUsa")'></el-option>
+=======
+            <el-form-item :label='$t("main.personal.card.mainPerCarCountry")' prop="country" style="margin-top: 20px;">
+                <el-select v-model="ruleForm.country" :placeholder='$t("main.personal.card.mainPerCarEnterCoun")'>
+                    <el-option :label='$t("main.personal.card.mainPerCarChina")' :value='$t("main.personal.card.mainPerCarChina")'></el-option>
+                    <el-option :label='$t("main.personal.card.mainPerCarUsa")' :value='$t("main.personal.card.mainPerCarUsa")'></el-option>
+>>>>>>> 83c5639b7fe98cc7f1b5f050e259dfb81c274fff
                 </el-select>
             </el-form-item>-->
             <el-form-item :label='$t("main.personal.card.mainPerCarState")' prop="state" style="margin-top: 20px;">
                 <el-select v-model="ruleForm.state" :placeholder='$t("main.personal.card.mainPerCarEnterState")'>
+<<<<<<< HEAD
                     <el-option :label='$t("main.personal.card.mainPerCarDeco")'
                                :value='$t("main.personal.card.mainPerCarDeco")'></el-option>
                     <el-option :label='$t("main.personal.card.mainPerCarWashington")'
                                :value='$t("main.personal.card.mainPerCarWashington")'></el-option>
                     <el-option :label='$t("main.personal.card.mainPerCarCali")'
                                :value='$t("main.personal.card.mainPerCarCali")'></el-option>
+=======
+                    <el-option :label='$t("main.personal.card.mainPerCarDeco")' :value='$t("main.personal.card.mainPerCarDeco")'></el-option>
+                    <el-option :label='$t("main.personal.card.mainPerCarWashington")' :value='$t("main.personal.card.mainPerCarWashington")'></el-option>
+                    <el-option :label='$t("main.personal.card.mainPerCarCali")' :value='$t("main.personal.card.mainPerCarCali")'></el-option>
+>>>>>>> 83c5639b7fe98cc7f1b5f050e259dfb81c274fff
                 </el-select>
             </el-form-item>
             <br>

@@ -26,7 +26,7 @@
           <span v-if="item.discount_type == 1" class="bold">{{ $t("main.detail.info.mainDetInfoDisGoods") }}</span>
           <span v-else-if="item.discount_type == 2"
                 class="bold">{{ $t("main.detail.info.mainDetInfoDepriceGoods") }}</span>
-          <span v-else-if="item.type == 4" class="bold">{{ $t("main.detail.info.mainDetInfoLimit") }}</span>
+          <span v-else-if="item.discount_type == 4" class="bold">{{ $t("main.detail.info.mainDetInfoLimit") }}</span>
           <div class="count" v-if="started && !finished">
             <span v-if="!started" class="bold">{{ $t("main.detail.info.mainDetInfoDown") }}</span>
             <span v-if="started" class="bold">{{ $t("main.detail.info.mainDetInfoEnd") }}</span>
@@ -96,7 +96,7 @@
         </div>
         <ul v-if="buyHistory">
           <li v-for="item in buyHistory"
-              :class="{ limit: item.type == 4, reduce:item.discount_type == 2, discount:item.discount_type == 1}">
+              :class="{ limit: item.discount_type == 4, reduce:item.discount_type == 2, discount:item.discount_type == 1}">
             <a :href="'/detail#/?id=' + item.id" target="_blank">
               <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
               <p class="name" :title="item.item_name">{{item.item_name}}</p>
@@ -203,7 +203,7 @@
           </div>
           <ul class="item-list-box">
             <li v-for="item in hotSale" :key="item.id"
-                :class="{ limit: item.type == 4, reduce:item.discount_type == 2, discount:item.discount_type == 1}">
+                :class="{ limit: item.discount_type == 4, reduce:item.discount_type == 2, discount:item.discount_type == 1}">
               <a :href="'/detail#/?id=' + item.id" target="_blank">
                 <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
                 <p class="name" :title="item.item_name">{{item.item_name}}</p>
@@ -360,11 +360,9 @@
           this.activeImg = this.item.item_images[0]
           this.hotSale = data.data.hot_recomment.items
           this.buyHistory = data.data.user_order_history
-          if (this.item.type === 4) {
-            this.end = this.item.sale_rule_do.end_time
-            this.start = this.item.sale_rule_do.start_time
-            // this.start = Date.parse(new Date('2018-03-01'))
-            // this.end = Date.parse(new Date('2018-04-01'))
+          if (this.item.discount_type === 4) {
+            this.end = Date.parse(new Date(this.item.sale_rule_do.end_time))
+            this.start = Date.parse(new Date(this.item.sale_rule_do.start_time))
             let now = Date.parse(new Date())
             if (this.end > now) {
               this.countdown()

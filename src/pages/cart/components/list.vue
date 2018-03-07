@@ -1,7 +1,6 @@
 <template>
   <div class="cartlist">
     <el-table
-      ref="multipleTable"
       :data="tableData"
       :default-expand-all="true"
       :stripe="false"
@@ -16,9 +15,12 @@
             <el-table
               :data="scope.row.discount"
               :show-header="false"
-              @select="selectChange"
               style="width: 100%">
-              <el-table-column type="selection" align="left" width="50"></el-table-column>
+              <el-table-column align="center" width="50">
+                <template slot-scope="subscope">
+                  <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)"></el-checkbox>
+                </template>
+              </el-table-column>
               <el-table-column align="center" width="600">
                 <template slot-scope="subscope">
                   <a :href="'/detail#/?id=' + subscope.row.id">
@@ -63,7 +65,7 @@
               </el-table-column>
               <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center">
                 <template slot-scope="subscope">
-                  <div class="count" ref="count">
+                  <div class="count" >
                     <lts-money :money="subscope.row.num*subscope.row.price_real"></lts-money>
                   </div>
                 </template>
@@ -84,9 +86,12 @@
             <el-table
               :data="scope.row.reduce"
               :show-header="false"
-              @select="selectChange"
               style="width: 100%">
-              <el-table-column type="selection" align="left" width="50"></el-table-column>
+              <el-table-column align="center" width="50">
+                <template slot-scope="subscope">
+                  <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)"></el-checkbox>
+                </template>
+              </el-table-column>
               <el-table-column align="center" width="600">
                 <template slot-scope="subscope">
                   <a :href="'/detail#/?id=' + subscope.row.id">
@@ -129,7 +134,7 @@
               </el-table-column>
               <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center">
                 <template slot-scope="subscope">
-                  <div class="count" ref="count">
+                  <div class="count">
                     <lts-money :money="subscope.row.num*subscope.row.price_real"></lts-money>
                   </div>
                 </template>
@@ -150,6 +155,7 @@
                 <div class="popDetail" :class="[{ 'noStart': !limitItem[0].rule.started }, {'started': limitItem[0].rule.started}]">
                   <div><span v-if="limitItem[0].rule.started">距离结束</span><span v-if="!limitItem[0].rule.started">活动倒计时</span>：<span v-if="limitItem[0].rule.day">{{limitItem[0].rule.day}}天</span></div>
                   <div class="timeDown">
+                    <span v-show="false">{{t}}</span>
                     <div>{{limitItem[0].rule.hr}}</div>:
                     <div>{{limitItem[0].rule.min}}</div>:
                     <div>{{limitItem[0].rule.sec}}</div>
@@ -159,9 +165,12 @@
               <el-table
                 :data="limitItem"
                 :show-header="false"
-                @select="selectChange"
                 style="width: 100%">
-                <el-table-column type="selection" align="left" width="50"></el-table-column>
+                <el-table-column align="center" width="50">
+                  <template slot-scope="subscope">
+                    <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)"></el-checkbox>
+                  </template>
+                </el-table-column>
                 <el-table-column align="center" width="600">
                   <template slot-scope="subscope">
                     <a :href="'/detail#/?id=' + subscope.row.id">
@@ -204,7 +213,7 @@
                 </el-table-column>
                 <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center">
                   <template slot-scope="subscope">
-                    <div class="count" ref="count">
+                    <div class="count">
                       <lts-money :money="subscope.row.num*subscope.row.price_real"></lts-money>
                     </div>
                   </template>
@@ -223,9 +232,12 @@
             <el-table
               :data="scope.row.others"
               :show-header="false"
-              @select="selectChange"
               style="width: 100%">
-              <el-table-column type="selection" align="left" width="50"></el-table-column>
+              <el-table-column align="center" width="50">
+                <template slot-scope="subscope">
+                  <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)"></el-checkbox>
+                </template>
+              </el-table-column>
               <el-table-column align="center" width="600">
                 <template slot-scope="subscope">
                   <a :href="'/detail#/?id=' + subscope.row.id">
@@ -244,7 +256,7 @@
               </el-table-column>
               <el-table-column prop="price" width="" label="单价" align="center">
                 <template slot-scope="subscope">
-                  <lts-money :money="subscope.row.price"></lts-money>
+                  <p><lts-money :money="subscope.row.price"></lts-money></p>
                 </template>
               </el-table-column>
               <el-table-column prop="" width="" label="库存" align="center">
@@ -263,7 +275,7 @@
               </el-table-column>
               <el-table-column label="小计" width="100" align="center">
                 <template slot-scope="subscope">
-                  <div class="count" ref="count">
+                  <div class="count">
                     <lts-money :money="subscope.row.num*subscope.row.price"></lts-money>
                   </div>
                 </template>
@@ -328,11 +340,12 @@
 
 <script>
   import cartService from '@/services/CartService.js'
-
+  import Vue from 'vue'
   export default {
     name: 'list',
     data () {
       return {
+        t:1000,
         expands: [], // 默认展开全部
         checked: false,
         tooManyItems: true,
@@ -354,11 +367,6 @@
           cartPriceTotal: 0
         },
         checkedItem: [], // 已选商品
-        checkbox: {
-          discount: false,
-          reduce: false,
-          others: false
-        }
       }
     },
     mounted () {
@@ -368,9 +376,6 @@
       }, 20)
     },
     methods: {
-      selectedChange (selection, row) {
-        console.log(selection, row)
-      },
       // 删除选中商品
       deleteChecked () {
         this.checkedItem.forEach((item) => {
@@ -382,28 +387,73 @@
       deleteInvalid () {
 
       },
-      // 全选框
+      // 全选框-改变每行数据的checked
       selectAll () {
         if (this.selectedAll) {
           this.checkedItem = this.tableDataItem
-          for (let key in this.checkbox) {
-            this.checkbox[key] = true
-          }
-        } else {
+          this.tableData.forEach((table,index,array) => {
+            for(let key in table){
+              this.tableData[index][key].forEach((item,count) => {
+                 if(item.length > 0){
+                   item[0].checked = true;
+                   let cloneItem = item[0];
+                   Vue.set(item,0,cloneItem);
+                   item[0].checked = true;
+                 }else{
+                    item.checked = true;
+                 }
+                 Vue.set(this.tableData[index][key],count,item)
+              })
+            }
+            Vue.set(this.tableData,index,this.tableData[index])
+          })
+        }else {
           this.checkedItem = []
-          for (let key in this.checkbox) {
-            this.checkbox[key] = false
-          }
+          this.tableData.forEach((table,index) => {
+            for(let key in table){
+              table[key].forEach((item,count) => {
+                if(item.length > 0){
+                    if(item.length > 0) {
+                        item[0].checked = false;
+                        let cloneItem = item[0];
+                        Vue.set(item,0,cloneItem);
+                    }
+                }else{
+                    item.checked = false;
+                }
+                Vue.set(this.tableData[index][key],count,item)
+              })
+            }
+            Vue.set(this.tableData,index,this.tableData[index])
+          })
         }
+
         this.calc(this.checkedItem)
       },
       // 单选框
-      selectChange (selection, row) {
+      selectChange (row) {
         if (this.checkedItem.indexOf(row) !== -1) {
           this.checkedItem.splice(this.checkedItem.indexOf(row), 1)
+            row.checked = false;
         } else {
           this.checkedItem.push(row)
+          row.checked  = true
         }
+        this.tableData.forEach((table,index,array) => {
+              for(let key in table){
+                  this.tableData[index][key].forEach((item,count) => {
+                      if(item.length > 0 && item[0].id == row.id){
+                          Vue.set(item,0,row);
+                          Vue.set(this.tableData[index][key],count,item)
+                      }else if(item.id == row.id){
+                          Vue.set(this.tableData[index][key],count,row)
+                      }
+                      Vue.set(this.tableData[index][key],count,item)
+                  })
+              }
+              Vue.set(this.tableData,index,this.tableData[index])
+         })
+        Vue.set(this.tableData)
         this.calc(this.checkedItem)
         if (this.checkedItem.length === this.tableDataItem.length) {
           this.selectedAll = true
@@ -424,7 +474,7 @@
       },
       queryCartList () {
         cartService.queryCartList().then((data) => {
-          this.tableDataItem = data.datalist
+
           this.tableData = [
             {discount: []},
             {reduce: []},
@@ -432,6 +482,7 @@
             {others: []}
           ]
           data.datalist.forEach((value) => {
+            value.checked = false
             value.item_props.forEach((item) => {
               item.prop_value = JSON.parse(item.prop_value)
             })
@@ -452,12 +503,12 @@
                 value.rule.finished = true
               }
               this.tableData[2].limit.push([value])
-              console.log(value.rule)
             } else {
-              this.tableData[3].others.push(value)
+                this.tableData[3].others.push(value)
             }
+            this.tableDataItem = data.datalist
+
           })
-          console.log(this.tableData[2].limit)
         }, (msg) => {
           this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
         })
@@ -521,6 +572,7 @@
           item.finished = true
         }
         let msec = date - now
+        this.t--
 
         // 计算时分秒数
         item.day = parseInt(msec / 1000 / 60 / 60 / 24)
@@ -595,9 +647,10 @@
       }
       .el-table__expanded-cell {
         padding: 0;
+        border-bottom:none;
         .subtable {
           margin-top: 40px;
-          border: 1px solid #a3a3a3;
+          border: 1px solid #ddd;
           position: relative;
           .popover {
             position: absolute;
@@ -661,7 +714,7 @@
           }
         }
         .otherTable.subtable{
-          margin-top: 20px;
+          margin-top: 12px;
         }
         .dicount {
         }

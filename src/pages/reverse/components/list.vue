@@ -60,18 +60,18 @@
                         {{scope.row.status_title}}
                     </span>
                     <span v-else>{{scope.row.status_title}}</span>
-                    <div>
+                    <div v-if="scope.row.status == 2">
                         <span v-if="scope.row.hd_status == 1">
-                             (待退回)
+                             {{$t("main.reverse.detail.mainRevDeWaitingBack")}}
                         </span>
                         <span v-if="scope.row.hd_status == 2">
-                             (待签收)
+                             {{$t("main.reverse.detail.mainRevDeWaitWrite")}}
                         </span>
                         <span v-if="scope.row.hd_status == 3">
-                              (已签收)
+                              {{$t("main.reverse.detail.mainRevDeWrited")}}
                         </span>
                         <span v-if="scope.row.hd_status == 5">
-                              (已签收)
+                              {{$t("main.reverse.detail.mainRevDeWrited")}}
                         </span>
                     </div>
                 </template>

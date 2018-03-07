@@ -199,7 +199,6 @@ export default {
                 mainDetSinglePrice:'单价',
                 mainDetNoAnyPackage:'您没有选择任何配件',
                 mainDetPackagePrice:'组合价',
-
            }
         },
         finance: {
@@ -449,6 +448,14 @@ export default {
                 mainRevDeFundReason: '退款原因',
                 mainRevDeTalk: '留言/沟通记录',
                 mainRevDeEngineer: '工程商',
+                mainRevDeWaitingBack: '(待退回)',
+                mainRevDeWaitWrite: '(待签收)',
+                mainRevDeWrited: '(已签收)',
+                mainRevDeAgree: 'LTS已同意退款，请退货',
+                mainRevDeWaitLts: '请等待LTS收货',
+                mainRevDeReceipt: 'LTS已收货，请等待退款',
+                mainRevDeRefundSucc: '退款成功',
+                mainRevDeReject: '退款已拒绝',
             },
             list: {
                 mainRevLiOrder: '订单编号',

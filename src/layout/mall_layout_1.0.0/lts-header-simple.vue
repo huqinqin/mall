@@ -10,6 +10,7 @@
 </template>
 
 <script>
+    import  $ from 'jquery'
     export default {
         name: "lts-head-simple",
         data(){

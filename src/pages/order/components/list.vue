@@ -347,9 +347,7 @@
                     this.params.start_time = this.form.formInline.date[0];
                     this.params.end_time = this.form.formInline.date[1];
                 }
-                if(this.form.formInline.tid){
-                    this.params.tid = this.form.formInline.tid;
-                }
+                this.params.tid = this.form.formInline.tid;
                 this.params.status = this.form.formInline.status;
                 /*this.params.item_name = this.form.formInline.item_name;*/
             },

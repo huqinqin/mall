@@ -22,7 +22,7 @@ export default {
         headerRemerberPsw: '记住密码',
         headerForgetPsw: '忘记密码?',
         headerLog: '登录',
-        headerRegis: '注册',
+        headerRegis: '注册'
     },
     comFooter: {
         footerAboutLts: '关于LTS',
@@ -116,6 +116,8 @@ export default {
                 mainCartliCheckedAll: '全选',
                 mainCartliDeleteChecked: '删除选中商品',
                 mainCartliDeleteInvalid: '清除失效商品',
+                mainCartliStartCountdown: '开始倒计时',
+                mainCartliEndCountdown: '距离结束',
             },
             settle: {
                 mainCartSePhone: '电话',
@@ -476,6 +478,7 @@ export default {
                 mainRevLiGooodsType: '退货类型',
                 mainRevLiReturnGoodPay: '退货退款',
                 mainRevLiOnlyNotGood: '仅退款',
+                mainRevLiRefund: '退款',
                 mainRevLiReason: '退货原因',
                 mainRevLiStatus: '退款状态',
                 mainRevLiHandle: '操作',

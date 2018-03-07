@@ -65,7 +65,7 @@
                                                  {{$t("main.order.list.mainOrLiReject")}}
                                             </span>
                                             <span v-else-if="subscope.row.last_refund_status == 7">
-                                                 {{$t("main.order.list.mainOrLiAlreadyBack")}}{{subscope.row.refund_num}}{{subscope.row.wholesale_item_d_o.unit}}{{subscope.row.refund_real | money2str}}元
+                                                 {{$t("main.order.list.mainOrLiAlreadyBack")}}{{subscope.row.refund_num}}{{subscope.row.wholesale_item_d_o.unit}}{{subscope.row.refund_real | money2str}}{{$t("main.repayMent.readyPay.mainReReDollar")}}
                                             </span>
                                             <span v-else-if="subscope.row.last_refund_status == 9">
                                                  {{$t("main.order.list.mainOrLiClose")}}
@@ -92,7 +92,7 @@
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column  label="商品信息" align="left">
+            <el-table-column  :label='$t("main.cart.list.mainCartliGoodsInfo")' align="left">
                 <template slot-scope="scope">
                     <div>
                         <span>{{scope.row.cdate | timestamp2str}}</span>
@@ -102,8 +102,8 @@
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column label="单价" header-align="left" align="left" width="100" :show-overflow-tooltip="true" />
-            <el-table-column label="数量" header-align="left" align="left" width="100">
+            <el-table-column :label='$t("main.cart.list.mainCartliUnitPrice")' header-align="left" align="left" width="100" :show-overflow-tooltip="true" />
+            <el-table-column :label='$t("main.reverse.detail.mainRevDeSaleNum")' header-align="left" align="left" width="100">
             </el-table-column>
             <el-table-column prop="pay_info.pay_type_title" :label='$t("main.order.list.mainOrLiReal")' align="left" width="80">
                 <template slot-scope="scope">
@@ -117,7 +117,7 @@
                     </span>
                     <span v-else>{{scope.row.status_title}}</span>
                     <div v-if="scope.row.last_refund_status > 0 && scope.row.last_refund_status < 9" style="color: #ff3b41;">
-                        退款
+                      {{$t("main.order.list.mainOrLiRefund")}}
                     </div>
                 </template>
             </el-table-column>

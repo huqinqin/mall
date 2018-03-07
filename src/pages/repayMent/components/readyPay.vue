@@ -3,12 +3,16 @@
        <h3 style="font-size: 16px;color: rgba(0,0,0,0.8)">{{$t("main.repayMent.readyPay.mainReReRepayment")}}</h3>
        <hr>
        <div class="numMony"><span>{{$t("main.repayMent.readyPay.mainReReRepayAmount")}}:</span><span style="color: #ff3d41">${{shouldPayMoney}}</span></div>
-       <div class="numMony"><el-checkbox v-model="checked">{{$t("main.repayMent.readyPay.mainReReUseBala")}}({{$t("main.repayMent.readyPay.mainReReYourBala")}}：<span style="color: #ff3d41">{{data.balanceMoney}}{{$t("main.repayMent.readyPay.mainReReDollar")}}</span>)</el-checkbox></div>
+       <div class="numMony">
+           <el-checkbox v-model="checked" :disabled="flag"></el-checkbox>
+           <span>{{$t("main.repayMent.readyPay.mainReReUseBala")}}({{$t("main.repayMent.readyPay.mainReReYourBala")}}：<span style="color: #ff3d41">{{data.balanceMoney}}{{$t("main.repayMent.readyPay.mainReReDollar")}}</span>)
+           </span>
+       </div>
        <hr>
        <div class="numMony"><span>{{$t("main.repayMent.readyPay.mainReReRepayBala")}}:</span><span style="color: #ff3d41">${{payBalanceMoney}}</span></div>
        <h3 style="font-size: 16px;color: rgba(0,0,0,0.8);margin-top: 20px">{{$t("main.repayMent.readyPay.mainReRePayType")}}</h3>
-       <div class="payMethod"><el-radio v-model="radio" label="1">{{$t("main.repayMent.readyPay.mainReReCard")}}</el-radio></div>
-       <div class="payMethod"><el-radio v-model="radio" label="2">{{$t("main.repayMent.readyPay.mainReReOnlinePay")}}</el-radio></div>
+       <div class="payMethod"><el-radio v-model="radio" label="1" :disabled="checked">{{$t("main.repayMent.readyPay.mainReReCard")}}</el-radio></div>
+       <div class="payMethod"><el-radio v-model="radio" label="2" :disabled="checked">{{$t("main.repayMent.readyPay.mainReReOnlinePay")}}</el-radio></div>
        <div class="goPay"><el-button type="danger">{{$t("main.repayMent.readyPay.mainReReGoPay")}}</el-button></div>
    </div>
 </template>
@@ -46,6 +50,7 @@
 
 <script>
     import MonyManageService from '@/services/MonyManageService.js'
+    import orderService from '@/services/OrderService.js'
   export default {
       data(){
           return{
@@ -55,6 +60,7 @@
               info:[],
               payBalanceMoney:0,
               shouldPayMoney:0,
+              flag: false
           }
       },
       methods:{
@@ -74,6 +80,14 @@
                   this.data.balanceMoney = this.data.balance / 100;
               });
               this.payBalanceMoney = this.shouldPayMoney / 1;
+              if(this.shouldPayMoney > this.data.balanceMoney){
+                  this.flag = true;
+              }else{
+                  this.flag = false;
+              }
+          },
+          balance() {
+
           }
       },
       mounted(){
@@ -89,7 +103,7 @@
               }else{
                   this.payBalanceMoney = this.shouldPayMoney / 1;
               }
-              console.log(this.payBalanceMoney);
+              console.log(this.payBalanceMoney,this.checked);
           }
       }
   };

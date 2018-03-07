@@ -34,7 +34,7 @@
             </div>
             <el-button type="primary" size="small" class="btn1" @click="search" >{{$t("main.order.list.mainOrLiSearch")}}</el-button>
         </div>
-        <el-button type="primary" @click="batchPay" style="margin-top: 10px" v-if="tableData.length !== 0">{{$t("main.repayMent.repayList.mainRePayBatch")}}</el-button>
+        <el-button type="primary" @click="batchPay" style="margin-top: 10px" v-if="tableData.length !== 0" :disabled="multipleSelection.length > 1 ? false : true">{{$t("main.repayMent.repayList.mainRePayBatch")}}</el-button>
         <el-table
             v-if="tableData.length !== 0"
             tooltip-effect="dark"

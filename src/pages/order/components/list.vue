@@ -17,7 +17,7 @@
                                     <div class="item-info">
                                         <div class="order-item-detail">
                                             <img :src="subscope.row.wholesale_item_d_o.image_value + '@100w_2e'" class="item" />
-                                            <div>{{subscope.row.wholesale_item_d_o.item_name}}</div>
+                                            <div :title="subscope.row.wholesale_item_d_o.item_name">{{subscope.row.wholesale_item_d_o.item_name}}</div>
                                         </div>
                                         <div class="prop-box">
                                             <div v-for="(propObj,index) in subscope.row.propValue">

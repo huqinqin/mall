@@ -992,9 +992,11 @@
         background-color: #f13a40;
         border-radius: 4px;
         color: #fff;
-        font-size: 14px;
-        line-height: 0;
-        font-weight: bold;
+        span{
+          font-size: 16px;
+          line-height: 0;
+          font-weight: bold;
+        }
       }
     }
   }

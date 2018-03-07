@@ -199,7 +199,6 @@ export default {
                 mainDetSinglePrice:'单价',
                 mainDetNoAnyPackage:'您没有选择任何配件',
                 mainDetPackagePrice:'组合价',
-
            }
         },
         finance: {

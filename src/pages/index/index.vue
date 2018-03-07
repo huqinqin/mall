@@ -440,7 +440,7 @@
             .img {
               height: 242px;
               background-position: center;
-              background-size: contain;
+              background-size: cover;
             }
           }
 

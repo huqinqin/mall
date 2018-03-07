@@ -35,7 +35,7 @@
     },
     methods: {
       submitCredit () {
-        this.form.date = this.form.date.getTime()
+        // this.form.date = this.form.date.getTime()
         orderService.credit_pay(this.form).then((data) => {
           this.$router.push({name: 'finish', params: {tid: this.tid}})
         }, (msg) => {

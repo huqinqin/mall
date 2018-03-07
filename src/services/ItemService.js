@@ -61,7 +61,18 @@ export default class ItemService extends BaseService {
             page_size:search.pageSize,
             order_by: search.orderBy
         };
-        console.log(params)
         return super.getRequest('/installer/item/get_item_with_aggregate',params)
+    }
+    /**
+     * return
+     * @param item_id 商品id
+     * @author taohua
+     * @remark 搜索搭配商品的属性及价格
+     */
+    static getItemProps(id){
+        let params = {
+          item_id:id
+        };
+        return super.getRequest('/installer/item/get_item_with_props',params)
     }
 }

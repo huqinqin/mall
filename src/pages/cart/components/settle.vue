@@ -52,6 +52,66 @@
                         :rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterRegion'), trigger: 'blur' }]">
             <el-cascader
               :options="cityOptions"
+              popper-class="addressPopover"
+              @change="selectCity"
+              :placeholder="addForm.address">
+            </el-cascader>
+          </el-form-item>
+          <el-form-item :label='$t("main.cart.settle.mainCartSeStreet")'
+                        :rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterStreet'), trigger: 'blur' }]">
+            <el-input v-model="addForm.building"></el-input>
+          </el-form-item>
+          <el-form-item :label='$t("main.cart.settle.mainCartSeZip")'
+                        :rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterZip'), trigger: 'blur' }]">
+            <el-input v-model="addForm.zipCode"></el-input>
+          </el-form-item>
+          <el-form-item :label='$t("main.cart.settle.mainCartSeContact")'
+                        :rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterContact'), trigger: 'blur' }]">
+            <el-input v-model="addForm.user_name"></el-input>
+          </el-form-item>
+          <el-form-item :label='$t("main.cart.settle.mainCartSeContactPhone")'
+                        :rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterConPhone'), trigger: 'blur' }]">
+            <el-input v-model="addForm.mobile"></el-input>
+          </el-form-item>
+          <el-form-item label="" class="radio">
+            <el-checkbox v-model="addForm.setDefault">{{ $t("main.cart.settle.mainCartSeFitDefaultAddr") }}
+            </el-checkbox>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="submitFrom">{{ $t("main.cart.settle.mainCartSeSure") }}</el-button>
+        </div>
+      </el-dialog>
+    </div>
+    <div class="address">
+      <h5>{{ $t("main.address.mainAddReceivingAddress") }}</h5>
+      <ul>
+        <li v-for="(item,key) in certificateData" :class="[{checked:item.id === checkedId}]"
+            @click="checkAddress(item)" v-if="item.status === 0">
+          <header>
+            <div><p>{{item.user_name}}({{item.address}}) </p></div>
+          </header>
+          <main>
+            <p>{{item.building}}</p>
+            <p>{{ $t("main.cart.settle.mainCartSePhone") }}：{{item.mobile}}</p>
+          </main>
+          <footer>
+            <button class="default" @click.stop="toggleDefault(item)">{{ $t("main.cart.settle.mainCartSeFitDefault")
+              }}
+            </button>
+            <button v-show="item.id === defaultId">{{ $t("main.cart.settle.mainCartSeDefaultAdress") }}</button>
+            <button class="delete" @click="deleteAddress(item,key)">{{ $t("main.cart.settle.mainCartSeDel") }}</button>
+            <button @click="editAddress(item)">{{ $t("main.cart.settle.mainCartSeAlert") }}</button>
+          </footer>
+        </li>
+      </ul>
+      <el-dialog :title='$t("main.address.mainAddReceivingAddress")' :visible.sync="showAddAddress" center>
+        <el-form :model="addForm">
+          <el-form-item :label='$t("main.cart.settle.mainCartSeRegion")'
+                        :rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterRegion'), trigger: 'blur' }]">
+            <el-cascader
+              :options="cityOptions"
+              popper-class="addressPopover"
               @change="selectCity"
               :placeholder="addForm.address">
             </el-cascader>
@@ -92,16 +152,16 @@
     <div class="delivery">
       <h5>{{ $t("main.cart.settle.mainCartSeDistraType") }}： </h5>
       <div>
-        <el-radio-group v-model="deliveryType" class="selectButtons">
+        <el-radio-group v-model="deliveryType" class="selectButtons"  @change="simulateCreateTrade">
           <el-radio-button label="ZITI" value="">{{ $t("main.cart.beforePay.mainCartBefSelfFetch") }}</el-radio-button>
           <el-radio-button label="SHSM" value="">{{ $t("main.cart.beforePay.mainCartBefExpress") }}</el-radio-button>
         </el-radio-group>
         <div class="selectExpress" v-if="deliveryType == 'SHSM'">
           <el-form label-position="top">
             <el-form-item label="LOGISTICS COMPANY:">
-              <el-radio-group v-model="expressForm.express" @change="selectCompany">
+              <el-radio-group v-model="expressForm.express" >
                 <el-radio label="UPS">UPS</el-radio>
-                <el-radio label="FEDEX" :disabled="true">FEDEX</el-radio>
+                <el-radio label="FEDEX">FEDEX</el-radio>
               </el-radio-group>
             </el-form-item>
             <el-form-item label="SERVICE:">
@@ -166,8 +226,6 @@
           :money="sum.express"></lts-money></span></span></p>
         <p>{{ $t("main.cart.settle.mainCartSeTax") }}： <span><span v-if="sum.tax == 0 || sum.tax">+<lts-money
           :money="sum.tax"></lts-money></span></span></p>
-        <!--<p>{{ $t("main.cart.settle.mainCartSeRedBag") }}： <span><span v-if="sum.benefit == 0 || sum.benefit">-<lts-money-->
-          <!--:money="sum.benefit"></lts-money></span></span></p>-->
         <p class="result">{{ $t("main.cart.settle.mainCartSeMustPay") }}： <span><span v-if="totalPrice"><lts-money
           :money="totalPrice"></lts-money></span></span></p>
       </div>
@@ -198,11 +256,10 @@
         canSubmit: true, // 刚进入页面等待运费税费计算
         expressForm: {
           express: 'UPS',
-          service: '01',
+          service: '03',
           self: false
         },
-        expressOptions: [],
-        UPSOptions: [
+        expressOptions: [
           {value: '01', label: 'Next Day Air'},
           {value: '02', label: '2nd Day Air'},
           {value: '03', label: 'Ground'},
@@ -218,14 +275,6 @@
           {value: '96', label: 'UPS Worldwide Express Freight'},
           {value: '71', label: 'UPS Worldwide Express Freight Midday'}
         ],
-        FEDEXOptions: [
-          {value: 'Ground', label: '1Ground'},
-          {value: '3', label: '13 Day Select'},
-          {value: '2', label: '12nd Day Air'},
-          {value: 'Next1', label: '1Next Day Air Server'},
-          {value: 'Next2', label: '1Next Day Air'},
-          {value: 'Next3', label: '1Next Day Air Early'}
-        ],
         info: JSON.parse(store.getItem('SESSION_DATA')),
         totalPrice: '',
         inPriceType: 'false', // 送货单是否包含价格，配送方式
@@ -234,86 +283,56 @@
         showAddAddress: false, // 地址框
         showEditAddress: false,
         cityOptions: [
-          {
-            value: '浙江省',
-            label: '浙江省',
-            children: [
-              {
-                value: '杭州市',
-                label: '杭州市',
-                children: [
-                  {
-                    value: '西湖区',
-                    label: '西湖区'
-                  },
-                  {
-                    value: '余杭区',
-                    label: '余杭区'
-                  },
-                  {
-                    value: '滨江区',
-                    label: '滨江区'
-                  }
-                ]
-              },
-              {
-                value: '宁波市',
-                label: '宁波市',
-                children: [
-                  {
-                    value: '江北区',
-                    label: '江北区'
-                  },
-                  {
-                    value: '北仑区',
-                    label: '北仑区'
-                  },
-                  {
-                    value: '奉化区',
-                    label: '奉化区'
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            value: '江苏省',
-            label: '江苏省',
-            children: [
-              {
-                value: '南京市',
-                label: '南京市',
-                children: [
-                  {
-                    value: '玄武区',
-                    label: '玄武区'
-                  },
-                  {
-                    value: '雨花台区',
-                    label: '雨花台区'
-                  },
-                  {
-                    value: '江宁区',
-                    label: '江宁区'
-                  }
-                ]
-              },
-              {
-                value: '苏州市',
-                label: '苏州市',
-                children: [
-                  {
-                    value: '姑苏区',
-                    label: '姑苏区'
-                  },
-                  {
-                    value: '吴江区',
-                    label: '吴江区'
-                  }
-                ]
-              }
-            ]
-          }
+          {value: 'Alabama-010101000000',label: 'Alabama',},
+          {value: 'Alaska-020101000000',label: 'Alaska',},
+          {value: 'Arizona-030101000000',label: 'Arizona',},
+          {value: 'Arkansas-040101000000',label: 'Arkansas',},
+          {value: 'California-050101000000',label: 'California',},
+          {value: 'Colorado-060101000000',label: 'Colorado',},
+          {value: 'Connecticut-070101000000',label: 'Connecticut',},
+          {value: 'Delaware-080101000000',label: 'Delaware',},
+          {value: 'Florida-090101000000',label: 'Florida',},
+          {value: 'Georgia-100101000000',label: 'Georgia',},
+          {value: 'Hawaii-110101000000',label: 'Hawaii',},
+          {value: 'Idaho-120101000000',label: 'Idaho',},
+          {value: 'Illinois-130101000000',label: 'Illinois',},
+          {value: 'Indiana-140101000000',label: 'Indiana',},
+          {value: 'Iowa-150101000000',label: 'Iowa',},
+          {value: 'Kansas-160101000000',label: 'Kansas',},
+          {value: 'Kentucky-170101000000',label: 'Kentucky',},
+          {value: 'Louisiana-180101000000',label: 'Louisiana',},
+          {value: 'Maine-190101000000',label: 'Maine',},
+          {value: 'Maryland-200101000000',label: 'Maryland',},
+          {value: 'Massachusetts-210101000000',label: 'Massachusetts',},
+          {value: 'Michigan-220101000000',label: 'Michigan',},
+          {value: 'Minnesota-230101000000',label: 'Minnesota',},
+          {value: 'Mississippi-240101000000',label: 'Mississippi',},
+          {value: 'Missouri-250101000000',label: 'Missouri',},
+          {value: 'Montana-260101000000',label: 'Montana',},
+          {value: 'Nebraska-270101000000',label: 'Nebraska',},
+          {value: 'Nevada-280101000000',label: 'Nevada',},
+          {value: 'New Hampshire-290101000000',label: 'New Hampshire',},
+          {value: 'New Jersey-300101000000',label: 'New Jersey',},
+          {value: 'New Mexico-310101000000',label: 'New Mexico',},
+          {value: 'New York-320101000000',label: 'New York',},
+          {value: 'North Carolina-330101000000',label: 'North Carolina',},
+          {value: 'North Dakota-340101000000',label: 'North Dakota',},
+          {value: 'Ohio-350101000000',label: 'Ohio',},
+          {value: 'Oklahoma-360101000000',label: 'Oklahoma',},
+          {value: 'Oregon-370101000000',label: 'Oregon',},
+          {value: 'Pennsylvania-380101000000',label: 'Pennsylvania',},
+          {value: 'Rhode Island-390101000000',label: 'Rhode Island',},
+          {value: 'South Carolina-400101000000',label: 'South Carolina',},
+          {value: 'South Dakota-410101000000',label: 'South Dakota',},
+          {value: 'Tennessee-420101000000',label: 'Tennessee',},
+          {value: 'Texas-430101000000',label: 'Texas',},
+          {value: 'Utah-440101000000',label: 'Utah',},
+          {value: 'Vermont-450101000000',label: 'Vermont',},
+          {value: 'Virginia-460101000000',label: 'Virginia',},
+          {value: 'Washington-470101000000',label: 'Washington',},
+          {value: 'West Virginia-480101000000',label: 'West Virginia',},
+          {value: 'Wisconsin-490101000000',label: 'Wisconsin',},
+          {value: 'Wyoming-500101000000',label: 'Wyoming',}
         ],
         defaultId: '',
         checkedId: '',
@@ -325,6 +344,7 @@
         checkedAddress: {},
         defaultAddress: {},
         addressData: [],
+        certificateData:[],
         tableData: [],
         multipleTable: [],
         num: 10,
@@ -347,15 +367,6 @@
       }
     },
     methods: {
-      // 选择快递公司
-      selectCompany (value) {
-        this.expressForm.service = ''
-        if (value === 'UPS') {
-          this.expressOptions = this.UPSOptions
-        } else if (value === 'FEDEX') {
-          this.expressOptions = this.FEDEXOptions
-        }
-      },
       // 设置默认地址
       toggleDefault (item) {
         this.defaultId = item.id
@@ -384,12 +395,16 @@
           this.addForm.setDefault = false
         }
       },
-      // 选择城市
+      // 选择城市he lc_code
       selectCity (value) {
-        this.addForm.address = ''
-        value.forEach((value) => {
-          this.addForm.address += value
-        })
+        let arr = value[0].split('-')
+        console.log(arr)
+        this.addForm.address = arr[0]
+        this.addForm.lcCode = arr[1]
+        // this.addForm.address = ''
+        // value.forEach((value) => {
+        //   this.addForm.address += value
+        // })
       },
       // 添加地址
       addAddress () {
@@ -400,13 +415,14 @@
         this.showAddAddress = true
       },
       // 查询地址列表
-
       getAddressList () {
         addressService.getList().then((data) => {
-          this.addressData = data.datalist
+          this.addressData = data.data.consumer_address_d_o
+          this.certificateData = data.data.distribute_certificate_d_o
+
           this.addressData.forEach((value, index) => {
             value.zipCode = value.zip_code
-
+            value.state = value.location_d_o.province
             if (value.status === 1) {
               value.setDefault = true
               this.defaultId = value.id
@@ -421,13 +437,24 @@
               value.address = value.address.slice(0, position)
             }
           })
+
+
+          this.certificateData.forEach((value, index) => {
+            value.zipCode = value.postcode
+            value.state = value.state
+            value.user_name = value.company
+            let position = value.address.indexOf(value.building)
+            if (position !== 0) {
+              value.address = value.address.slice(0, position)
+            }
+          })
           this.simulateCreateTrade()
         })
       },
       // 提交地址表单
       submitFrom () {
         this.addForm.setDefault = this.setDefault
-        this.addForm.rank = this.addressData.length + 1
+        // this.addForm.rank = this.addressData.length + 1
         if (!this.editOrAdd) {
           this.addressData.push(this.addForm)
         }
@@ -483,12 +510,11 @@
           taxesFeeCalculator: 1,
           taxesFee: this.sum.tax,
           ship: {
-            userAddrIdType: 0,
+            logisticsCompany:this.expressForm.express,
+            userAddrIdType: this.checkedAddress.valid_time ? 1 : 0,
             // 0代表收货地址，1代表分销证地址，1免税费
-            toStates: 'California',
-            // this.checkedAddress.address,
-            toZipCode: 92093,
-            // this.checkedAddress.zipCode,
+            toStates: this.checkedAddress.state,
+            toZipCode: this.checkedAddress.zipCode,
             serviceCode: this.expressForm.service
           }
         }
@@ -521,18 +547,19 @@
           useBalance: false,
           payMethod: 'online', //
           source: 'work.500mi.com.shop.pifa.market',
+          hdMethod : this.deliveryType,
           hdFeeCalculator: 1,
           taxesFeeCalculator: 1,
           ship: {
-            userAddrIdType: 0,
+            logisticsCompany:this.expressForm.express,
+            userAddrIdType: this.checkedAddress.valid_time ? 1 : 0,
             // 0代表收货地址，1代表分销证地址，1免税费
-            toStates: 'California',
-            // this.checkedAddress.address,
-            toZipCode: 92093,
-            // this.checkedAddress.zipCode,
+            toStates: this.checkedAddress.state,
+            toZipCode: this.checkedAddress.zipCode,
             serviceCode: this.expressForm.service
           }
         }
+        this.canSubmit = true
         orderService.simulateCreateTrade(params).then((resp) => {
           let fee = JSON.parse(resp.data.wholesale_order.fee_hd)
           this.canSubmit = false
@@ -571,6 +598,14 @@
 </script>
 
 <style lang="less">
+  .addressPopover{
+    height: 320px;
+    overflow: auto;
+    width: 408px;
+    ul{
+      width:100%;
+    }
+  }
 
   tbody tr td:first-child {
     p {
@@ -608,6 +643,7 @@
   }
 
   .settle {
+
     overflow: hidden;
 
     button {
@@ -885,6 +921,7 @@
         margin-bottom: 6px;
       }
       .selectExpress {
+        display: none;
         font-size: 14px;
         .el-form-item {
           label {
@@ -1008,10 +1045,11 @@
         background-color: #f13a40;
         border-radius: 4px;
         color: #fff;
-        font-size: 18px;
-        line-height: 0;
-        font-weight: bold;
-
+        span{
+          font-size: 16px;
+          line-height: 0;
+          font-weight: bold;
+        }
       }
     }
   }

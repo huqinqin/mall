@@ -1,11 +1,11 @@
 <template>
-    <transition name="fade">
+    <transition name="cartFade">
         <el-dialog
                      top="10hv"
                      width="551px"
                      center
                      :visible.sync="show"
-                     class="wrapper">
+                     class="addCartWrapper">
             <div class="box">
                 <div class="iconfont icon-iconset0127 delete" @click="fade"></div>
                 <div class="innerWrapper">
@@ -13,13 +13,13 @@
                     <i  v-if="type === 1" class="iconfont icon-turnoff icon"></i>
                     <i  v-if="type === 2" class="iconfont icon-chenggong icon"></i>
                     <i  v-if="type === 3" class="iconfont icon-chenggong icon"></i>
-                    <div class="title">{{title}}</div>
+                    <div class="title">{{$t("common.addCart.comAddCartSucc")}}</div>
                     <a :href="'/cart#/'">
-                       <el-button  class="addCart">{{btnTitle}}</el-button>
+                       <el-button  class="addCart">{{$t("common.addCart.comAddCartSettle")}}</el-button>
                     </a>
                 </div>
                 <hr style="height:1px;border:none;width: 100%;border-top: 1px solid #cecece;margin-top: 32px"/>
-                <h3 class="recommoned">{{recommoned}}</h3>
+                <h3 class="recommoned">{{$t("common.addCart.comAddCartRecommon")}}</h3>
                 <ul class="list">
                       <li v-for = "(item,index) in info">
                           <el-tooltip placement="top">
@@ -36,17 +36,85 @@
             </div>
         </el-dialog>
     </transition>
-
 </template>
 
+<script>
+    export default {
+        props:{
+            title:{
+                type:String,
+                /*default: this.$t("common.addCart.comAddCartSucc"),*/
+                /*default: "1111"*/
+            },
+            btnTitle:{
+                type:String,
+                /*default: this.$t("common.addCart.comAddCartSettle"),*/
+                /*default: this.num*/
+            },
+            type:{
+                type:Number,
+                default:0
+            },
+            recommoned:{
+                type:String,
+                /*  default: this.$t("common.addCart.comAddCartRecommon"),*/
+                /*default: "333"*/
+            },
+            info:{
+                type: Array,
+                default:[
+                    {img:"../../assets/icon/shangpin.png",desc:"hahah",price:"100"},
+                    {img:"../../assets/icon/shangpin.png",desc:"hahah",price:"1010"},
+                    {img:"../../assets/icon/shangpin.png",desc:"hahah",price:"1020"},
+                    {img:"../../assets/icon/shangpin.png",desc:"hahah",price:"1030"},
+                    {img:"../../assets/icon/shangpin.png",desc:"hahah",price:"1030"}
+                ]
+            },
+            flag:{
+                type:Boolean,
+                default:false
+            }
+        },
+        data(){
+            return{
+                show:false,
+            }
+        },
+        watch:{
+            flag(){
+                this.show = this.flag;
+            },
+            show(){
+                if(!this.show){
+                    this.close();
+                }
+            }
+        },
+        methods:{
+            close(){
+                this.$emit('update:flag',false);
+            },
+            fade(){
+                this.$emit("fade");
+            },
+            jump(){
+                this.$emit("jump");
+            },
+            refresh(){
+                location.reload();
+            }
+        }
+    };
+</script>
+
 <style  lang="less">
-    .fade-enter-active, .fade-leave-active{
+    .cartFade-enter-active, .cartFade-leave-active{
         transition: all .5s;
     }
-    .fade-enter, .fade-leave-to{
+    .cartFade-enter, .cartFade-leave-to{
         opacity: 0;
     }
-    .wrapper{
+    .addCartWrapper{
         position: fixed;
         z-index: 100;
         left:0;
@@ -158,75 +226,4 @@
     }
 </style>
 
-<script>
-  import ElButton from "../../../node_modules/element-ui/packages/button/src/button.vue";
-  import ElDialog from "../../../node_modules/element-ui/packages/dialog/src/component.vue";
-  export default {
-      components: {
-          ElDialog,
-          ElButton},
-      props:{
-
-          title:{
-              type:String,
-              default:"已成功加入购物车!"
-          },
-          btnTitle:{
-              type:String,
-              default:"去购物车结算"
-          },
-          type:{
-              type:Number,
-              default:0
-          },
-          recommoned:{
-              type:String,
-              default:"为您推荐"
-          },
-          info:{
-              type: Array,
-              default:[
-                  {img:"../../assets/icon/shangpin.png",desc:"hahah",price:"100"},
-                  {img:"../../assets/icon/shangpin.png",desc:"hahah",price:"1010"},
-                  {img:"../../assets/icon/shangpin.png",desc:"hahah",price:"1020"},
-                  {img:"../../assets/icon/shangpin.png",desc:"hahah",price:"1030"},
-                  {img:"../../assets/icon/shangpin.png",desc:"hahah",price:"1030"}
-              ]
-          },
-          flag:{
-              type:Boolean,
-              default:false
-          }
-      },
-      data(){
-          return{
-            show:false
-          }
-      },
-      watch:{
-          flag(){
-              this.show = this.flag;
-          },
-          show(){
-              if(!this.show){
-                  this.close();
-              }
-          }
-      },
-      methods:{
-          close(){
-              this.$emit('update:flag',false);
-          },
-          fade(){
-              this.$emit("fade");
-          },
-          jump(){
-              this.$emit("jump");
-          },
-          refresh(){
-              location.reload();
-          }
-      }
-  };
-</script>
 

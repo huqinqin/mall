@@ -5,18 +5,18 @@
                 <img src="" alt="">
             </div>
             <div class="infoRight">
-                <h2>尊敬的<span class="name">{{engineerInfo.user.name}}</span>,您好！</h2>
-                <p>会员等级:<span>银牌会员</span></p>
+                <h2>{{$t("main.someinfo.mainSomeDear")}}<span class="name">{{engineerInfo.user.name}}</span>,{{$t("main.someinfo.mainSomeHello")}}！</h2>
+                <p>{{$t("main.someinfo.mainSomeLever")}}:<span>level{{engineerInfo.level}}</span></p>
                 <hr class="flagLine">
                 <div>
-                    <span>账户余额:<span class="name">${{engineerInfo.cash}}</span></span>
-                    <span style="margin-left: 23px">账期余额:<span class="name">${{account}}</span><span>(已使用<span>{{usedAcc}}</span>)</span></span>
-                    <span style="margin-left: 23px">购物券:
+                    <span>{{$t("main.someinfo.mainSomeAccountBala")}}:<span class="name">${{engineerInfo.cash}}</span></span>
+                    <span style="margin-left: 23px">{{$t("main.someinfo.mainSomePayBalance")}}:<span class="name">${{account}}</span><span>({{$t("main.someinfo.mainSomeUsed")}}<span>${{usedAcc}}</span>)</span></span>
+                    <span style="margin-left: 23px">{{$t("main.someinfo.mainSomeShopCoupon")}}:
                         <el-tooltip placement="top" effect="light">
                             <div slot="content">
                                 <div class="bgDiscount">
                                     <div class="el-icon-close iconClose" @click="closeAll"></div>
-                                    <h2>优惠券</h2>
+                                    <h2>{{$t("main.someinfo.mainSomeCoupon")}}</h2>
                                     <div class="sale" v-for="item in discountData">
                                         <div class="saleTop">
                                             <div class="saleTopTop">
@@ -26,13 +26,13 @@
                                                     </div>
                                                 </div>
                                                 <div class="saleTopRight">
-                                                    <div style="color: #ff3b41">满减劵</div>
+                                                    <div style="color: #ff3b41">{{$t("main.someinfo.mainSomeFullCoupon")}}</div>
                                                     <div>{{item.remark}}</div>
-                                                    <div>满<span>{{item.startMoney}}</span>美元使用（满<span>{{item.startMoney}}</span> - <span>{{item.value}}</span>）</div>
+                                                    <div>{{$t("main.someinfo.mainSomeFull")}}<span>{{item.startMoney}}</span>{{$t("main.someinfo.mainSomeDollar")}}（{{$t("main.someinfo.mainSomeFull")}}<span>{{item.startMoney}}</span> - <span>{{item.value}}</span>）</div>
                                                 </div>
                                             </div>
                                             <div class="saleBottomBottom">
-                                                <span style="margin-right: 10px">使用时间:</span><span>{{item.startTime}}</span><span>至</span><span>{{item.endTime}}</span>
+                                                <span style="margin-right: 10px">{{$t("main.someinfo.mainSomeUsedTime")}}:</span><span>{{item.startTime}}</span><span>{{$t("main.someinfo.mainSomeRange")}}</span><span>{{item.endTime}}</span>
                                             </div>
                                         </div>
                                         <hr class="dosh">
@@ -40,27 +40,27 @@
                                     </div>
                                 </div>
                             </div>
-                            <span class="name">{{len}}个</span>
+                            <span class="name">{{len}}{{$t("main.someinfo.mainSomeEvery")}}</span>
                         </el-tooltip>
                     </span>
                 </div>
             </div>
         </div>
         <div class="history">
-            <h2>历史购买记录</h2>
+            <h2>{{$t("main.someinfo.mainSomeHistory")}}</h2>
             <ul>
                 <div>
                     <el-button class="el-icon-arrow-left icon" :disabled="this.pagination.page === 1" @click="pre"></el-button>
                 </div>
                <li v-for="item in historyData">
-                   <a href="#">
+                   <a :href=" '/detail#/?id=' + item.id">
                        <div class="pic"><img :src="item.image_value" alt=""></div>
                        <div class="decs">{{item.item_name}}</div>
                        <hr>
                        <div class="price">${{item.price}}</div>
                    </a>
                </li>
-                <div style="width:40px;height: 40px">
+                <div>
                    <el-button class="el-icon-arrow-right icon" :disabled="this.pagination.page === this.pages" @click="next"></el-button>
                 </div>
             </ul>
@@ -70,6 +70,7 @@
 
 <script>
     import checkService from '@/services/CheckService'
+    import $ from 'jquery'
     export default {
         name: "someinfo",
         data(){
@@ -83,9 +84,10 @@
                 engineerInfo:{
                     user: {},
                     acc_books: {},
+
                 },
-                account: 0,
-                usedAcc: 0,
+                account: 0.00,
+                usedAcc: 0.00,
                 len: 0,
                 pagination: {
                     page: 1,
@@ -132,13 +134,15 @@
                     this.engineerInfo = data.data;
                     this.engineerInfo.acc_books.forEach((item) => {
                         if(item.subject === 2010101){
-                            this.engineerInfo.cash = item.use_balance / 100;
+                            this.engineerInfo.cash = (item.use_balance / 100).toFixed(2);
                         }
                         if(item.subject === 2010106){
                             item.rule_blc1 = JSON.parse(item.rule_blc);
-                            this.account = (item.rule_blc1.limit ? item.rule_blc1.limit : 0) / 100;
-                            this.usedAcc = (item.rule_blc1.limit + item.balance) / 100;
-                            console.log(item.rule_blc1);
+                            /*this.usedAcc = ((item.rule_blc1.limit + item.balance) / 100).toFixed(2);*/
+                            this.usedAcc = (((item.use_balance) / 100).toFixed(2)).slice(1);
+                            let sum = item.rule_blc1.limit + item.use_balance;
+                            this.account = ( sum / 100).toFixed(2);
+                            console.log(item.rule_blc1.limit + item.use_balance,this.account);
                         }
                         if(item.subject === 2010102){
                             item.bonus.datalist.forEach((item) => {
@@ -150,10 +154,10 @@
                         if(item.subject === 2010102){
                             this.discountData = item.bonus.datalist;
                             this.discountData.forEach((item) => {
-                                item.balance = item.balance / 100;
+                                item.balance = (item.balance / 100).toFixed(2);
                                 item.rule1 =  JSON.parse(item.rule);
-                                item.value = item.rule1[0].value / 100;
-                                item.startMoney = item.rule1[0].startV / 100;
+                                item.value = (item.rule1[0].value / 100).toFixed(2);
+                                item.startMoney = (item.rule1[0].startV / 100).toFixed(2);
                                 item.startTime = this.gettime(item.start_time);
                                 item.endTime = this.gettime(item.end_time);
                             })
@@ -171,6 +175,7 @@
                     this.pages = Math.ceil(this.pagination.total / this.pagination.pageSize);
                     this.historyData = data.datalist;
                     this.historyData.forEach((item) => {
+                        item.price = item.price.toFixed(2);
                         this.historyLen++;
                     });
                 })
@@ -206,6 +211,8 @@
         font-size: 14px;
         position: relative;
         color: #777;
+        height: 300px;
+        overflow-y: scroll;
         .iconClose{
             position: absolute;
             right:10px;
@@ -331,9 +338,9 @@
                 }
                 li{
                    box-sizing: border-box;
-                   padding:10px;
-                   width: 300px;
-                   margin-right: 20px;
+                   padding:5px;
+                   width: 240px;
+                   margin-right: 10px;
                    border: 1px solid #a3a3a3;
                     a{
                         display: inline-block;
@@ -350,7 +357,7 @@
                             font-weight: bold;
                         }
                         .decs{
-                            height: 65px;
+                            min-height: 100px;
                         }
                         hr{
                             border: none;

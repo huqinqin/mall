@@ -26,6 +26,9 @@
       changeActive (value) {
         this.active = value
       }
+    },
+    mounted (){
+      this.active = parseInt(this.$route.query.orderpay ? this.$route.query.orderpay : 0)
     }
   }
 </script>
@@ -36,6 +39,7 @@
   }
 
   .cart {
+    width: 100%;
     .header {
       height: 140px;
       margin: 0 24px;

@@ -3,29 +3,28 @@
         <h3 class="title">{{$t("main.personal.password.mainPerPwdsetter")}}</h3>
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" label-position="left"
                  class="demo-ruleForm">
-            <el-form-item label="" prop="headerPic">
-                <div>
-                    <img src="" alt="">
-                </div>
-            </el-form-item>
             <el-form-item :label='$t("main.personal.password.mainPerPwdOldPwd")' prop="oldPassword" style="margin-top: 24px;">
-                <el-input v-model="ruleForm.oldPassword"></el-input>
+                <el-input v-model="ruleForm.oldPassword" type="password" ref="password"></el-input>
+                <i class="iconfont icon-yanjing" @click="showPassword" ref="eye"></i>
             </el-form-item>
             <el-form-item :label='$t("main.personal.password.mainPerPwdNewPwd")' prop="newPassword" style="margin-top: 24px;">
-                <el-input v-model="ruleForm.newPassword"></el-input>
+                <el-input v-model="ruleForm.newPassword" type="password"></el-input>
             </el-form-item>
             <el-form-item :label='$t("main.personal.password.mainPerPwdConfirmPwd")' prop="confirmPassword" style="margin-top: 24px;">
-                <el-input v-model="ruleForm.confirmPassword"></el-input>
+                <el-input v-model="ruleForm.confirmPassword" type="password"></el-input>
             </el-form-item>
 
             <el-form-item>
-                <el-button type="primary" @click="submitForm('ruleForm')" class="submitBtn">{{$t("main.personal.card.mainPerCarSave")}}</el-button>
+                <el-button type="primary" @click="changePassword" class="submitBtn">{{$t("main.personal.card.mainPerCarSave")}}</el-button>
             </el-form-item>
         </el-form>
     </div>
 </template>
 
 <script>
+    import personalService from '@/services/PersonalService'
+    import ValidatorConfig from 'config/ValidatorConfig'
+
     export default {
         name: "password",
         data() {
@@ -36,28 +35,30 @@
                     confirmPassword: ''
                 },
                 rules: {
-                    oldPassword: [
-                        {required: true, message: this.$t("main.personal.password.mainPerPwdEnterOldPwd"), trigger: 'blur'}
-                    ],
-                    newPassword: [
-                        {required: true, message: this.$t("main.personal.password.mainPerPwdEnterNew"), trigger: 'blur'}
-                    ],
-                    confirmPassword: [
-                        {required: true, message: this.$t("main.personal.password.mainPerPwdConfirmNew"), trigger: 'blur'}
-                    ]
+                    oldPassword: ValidatorConfig.password,
+                    newPassword: ValidatorConfig.password,
+                    confirmPassword: ValidatorConfig.password
                 }
             };
         },
         methods: {
-            submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                        alert('submit!');
-                    } else {
-                        console.log('error submit!!');
-                        return false;
-                    }
-                });
+            changePassword() {
+                let params = {
+                    oldPassword: this.ruleForm.oldPassword,
+                    newPassword: this.ruleForm.newPassword
+                };
+                if(this.ruleForm.newPassword == this.ruleForm.confirmPassword){
+                    personalService.changePassword(params).then((resp) => {
+                        this.$ltsMessage.show({type: 'success', message: 'Revise the password successfully'})
+                    }, (msg) => {
+                        this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                    })
+                }else{
+                    this.$ltsMessage.show({type: 'error', message: 'Confirm that the password is not consistent with the new password'})
+                }
+            },
+            showPassword(){
+                this.$refs.password.type = this.$refs.password.type == "text" ? 'password' : 'text';
             }
         }
     }
@@ -87,7 +88,6 @@
         .submitBtn {
             width: 100px;
             height: 40px;
-            margin-top: 36px;
         }
     }
 </style>

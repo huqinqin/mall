@@ -1,14 +1,39 @@
 <template>
     <div class="reverse-detail" v-if="detail">
         <div class="reverse-header">
-            <p class="title">{{$t("main.reverse.detail.mainRevDeWaitLts")}}</p>
-            <p class="remark">{{$t("main.reverse.detail.mainRevDeSuccRefund")}}</p>
+            <p class="title" v-if="detail.reverse.status == 9">{{$t("main.order.list.mainOrLiClose")}}</p>
+            <div class="remark" v-if="detail.reverse.status == 9">
+                <div>{{$t("main.reverse.detail.mainRevDeOverTime")}}:{{detail.reverse.end_time | timestamp2str}}</div>
+                <div>{{$t("main.reverse.detail.mainRevDeNotes")}}</div>
+            </div>
+            <p class="title" v-if="detail.reverse.status == 2">{{$t("main.reverse.detail.mainRevDeRefundSucc")}}</p>
+            <div class="remark" v-if="detail.reverse.status == 2 ">
+                <div v-if="detail.reverse.hd_status == 1">{{$t("main.reverse.detail.mainRevDeWaitGoods")}}</div>
+                <div v-if="detail.reverse.hd_status == 2">{{$t("main.reverse.detail.mainRevDeWaitWrite")}}</div>
+                <div v-if="detail.reverse.hd_status == 3">{{$t("main.reverse.detail.mainRevDeWrited")}}</div>
+            </div>
+            <p class="title" v-if="detail.reverse.status == 3">{{$t("main.reverse.detail.mainRevDeReject")}}</p>
+            <div class="remark" v-if="detail.reverse.status == 3 ">
+                <div>{{$t("main.reverse.detail.mainRevDeFuse")}}:{{detail.reverse.edate | timestamp2str}}</div>
+            </div>
+            <p class="title" v-if="detail.reverse.status == 4">{{$t("main.reverse.detail.mainRevDeRefundSucc")}}</p>
+            <div class="remark" v-if="detail.reverse.status == 4 ">
+                <div>{{$t("main.reverse.detail.mainRevDeReturnSucc")}}:{{detail.reverse.tobuy_time | timestamp2str}}</div>
+                <div>{{$t("main.reverse.detail.mainRevDeReturnTotal")}}<lts-money :money="detail.reverse.refund_real"></lts-money></div>
+            </div>
+
+            <!--<p class="remark" v-if="">{{$t("main.reverse.detail.mainRevDeSuccRefund")}}</p>-->
+            <!--<p class="remark" v-if="detail.reverse.hd_status === 1">{{$t("main.reverse.detail.mainRevDeAgree")}}</p>-->
+            <!--<p class="remark" v-if="detail.reverse.hd_status === 2">{{$t("main.reverse.detail.mainRevDeWaitLts")}}</p>-->
+            <!--<p class="remark" v-if="">{{$t("main.reverse.detail.mainRevDeReceipt")}}</p>-->
+            <!--<p class="remark" v-if="detail.reverse.hd_status === 3">{{$t("main.reverse.detail.mainRevDeRefundSucc")}}</p>-->
+            <!--<p class="remark" v-if="detail.reverse.hd_status === 0">{{$t("main.reverse.detail.mainRevDeReject")}}</p>-->
         </div>
         <div class="detail-item">
             <div class="info-box">
                 <div class="info">
                     <span>{{$t("main.cart.beforePay.mainCartBefOrderNum")}}:</span>
-                    <span>{{detail.wholesale_order.wholesale_order_items.tid}}</span>
+                    <span>{{detail.wholesale_order.tid}}</span>
                 </div>
                 <div class="info">
                     <span>{{$t("main.reverse.detail.mainRevDeApplyTime")}}:</span>
@@ -16,7 +41,7 @@
                 </div>
                 <div class="info">
                     <span>{{$t("main.reverse.detail.mainRevDeSaler")}}:</span>
-                    <span>{{detail.wholesale_order.wholesale_order_items.proxy_uid}}</span>
+                    <span>{{detail.wholesale_order.proxy_uid}}</span>
                 </div>
             </div>
             <div class="item-info">
@@ -34,7 +59,7 @@
                             {{scope.row.num}}{{scope.row.wholesale_item_d_o.unit}}
                         </template>
                     </el-table-column>
-                    <el-table-column :label='$t("main.cart.list.mainCartliUnitPrice")' width="120" header-align="center" align="center">
+                    <el-table-column :label='$t("main.cart.list.mainCartliUnitPrice")' width="100" header-align="center" align="center">
                         <template slot-scope="scope">
                             <del class="text-secondary" v-if="scope.row.price > scope.row.price_real">
                                 <lts-money :money="scope.row.price"></lts-money>
@@ -45,7 +70,7 @@
                         </template>
                     </el-table-column>
 
-                    <el-table-column :label='$t("main.cart.list.mainCartliAllPrice")' width="150" header-align="center" align="center">
+                    <el-table-column :label='$t("main.cart.list.mainCartliAllPrice")' width="100" header-align="center" align="center">
                         <template slot-scope="scope">
                             <del class="text-secondary" v-if="scope.row.pay > scope.row.pay_real">
                                 <lts-money :money="scope.row.pay"></lts-money>
@@ -55,17 +80,17 @@
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column  :label='$t("main.order.reverse.mainOrReRejectNum")' width="200" header-align="center" align="center">
+                    <el-table-column  :label='$t("main.order.reverse.mainOrReRejectNum")' width="100" header-align="center" align="center">
                         <template slot-scope="scope">
                             <div>{{detail.reverse.real_num}}</div>
                         </template>
                     </el-table-column>
-                    <el-table-column  :label='$t("main.reverse.detail.mainRevDeRefundMoney")' width="200" header-align="center" align="center">
+                    <el-table-column  :label='$t("main.reverse.detail.mainRevDeRefundMoney")' width="100" header-align="center" align="center">
                         <template slot-scope="scope">
-                            <div><lts-money :money="detail.reverse.refund_real"></lts-money></div>
+                            <div><lts-money :money="detail.reverse.refund"></lts-money></div>
                         </template>
                     </el-table-column>
-                    <el-table-column  :label='$t("main.order.reverse.detail.mainOrReRejectSureTotalPay")' width="200" header-align="center" align="center">
+                    <el-table-column v-if="detail.reverse.status == 1 || detail.reverse.status == 2"  :label='$t("main.order.reverse.mainOrReRejectSureTotalPay")' width="200" header-align="center" align="center">
                         <template slot-scope="scope">
                             <div><lts-money :money="detail.reverse.refund_real"></lts-money></div>
                         </template>
@@ -87,7 +112,7 @@
                     <div>{{$t("main.order.detail.mainOrDeAccount")}}</div>
                 </el-form-item>
                 <el-form-item :label='$t("main.order.detail.mainOrDeOrderStatus")'>
-                    {{detail.reverse.status_title}}
+                    {{detail.wholesale_order.status_title}}
                 </el-form-item>
                 <el-form-item :label='$t("main.order.detail.mainOrDeLogiInfo")'>
                     {{detail.reverse.express}}{{detail.reverse.express_num}}
@@ -153,14 +178,14 @@
             get () {
                 revereService.get(this.detail.id).then((resp) => {
                     resp.data.wholesale_order.sell_order_list[0].wholesale_order_items.forEach((value,index,array)=>{
-                        if(value.tid != resp.data.reverse.oid){
-                            array.splice(index,1);
+                        if(value.tid == resp.data.reverse.oid){
+                            resp.data.wholesale_order.wholesale_order_items.push(value);
+                            return false;
                         }
                     })
-                    resp.data.wholesale_order.wholesale_order_items = resp.data.wholesale_order.sell_order_list[0].wholesale_order_items;
                     this.detail = resp.data;
                 }, (err) => {
-
+                    this.$ltsMessage.show({type:'error',message:err.error_message})
                 });
             }
         },

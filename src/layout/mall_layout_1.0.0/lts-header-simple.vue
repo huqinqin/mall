@@ -1,13 +1,16 @@
 <template>
     <div slot="header" class="simpleHead">
-        <main>
+        <main class="s-span-page">
             <a href="/"><img src="../../assets/img/LOGO_html.png" alt="LTS-logo"></a>
-            <el-input suffix-icon="el-icon-search" placeholder="搜索商品" v-model="keywords" @keyup.native.enter='searchToHref'></el-input>
+            <el-input placeholder="搜索商品" v-model="keywords" @keyup.native.enter='searchToHref'>
+              <el-button slot="append" type="primary" icon="el-icon-search" @click="searchToHref"></el-button>
+            </el-input>
         </main>
     </div>
 </template>
 
 <script>
+    import  $ from 'jquery'
     export default {
         name: "lts-head-simple",
         data(){
@@ -15,27 +18,12 @@
                 keywords:'',
             }
         },
+
         methods:{
             searchToHref(){
                 location.href = '/search#/?cateId=' + '&keywords=' + this.keywords
             },
-        },
-        created(){
-            $(document).ready(function(){
-                resize();
-            })
-            $(window).resize(function(){
-                resize();
-            });
-            function resize(){
-                let width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-                if(width <= 1500){
-                    $('.simpleHead').attr('class','simpleHead b1200');
-                }else{
-                    $('.simpleHead').attr('class','simpleHead b1500');
-                }
-            }
-        },
+        }
     }
 </script>
 
@@ -43,7 +31,6 @@
     .simpleHead{
         box-shadow: 0 6px 10px #f3f3f3;;
         main{
-            margin:0 auto;
             height: 140px;
             display: flex;
             justify-content: space-between;
@@ -57,11 +44,5 @@
                 width:550px;
             }
         }
-    }
-    .simpleHead.b1200 main{
-        width:1200px;
-    }
-    .simpleHead.b1500 main{
-        width:1500px;
     }
 </style>

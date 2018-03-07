@@ -1,5 +1,5 @@
 <template>
-    <div class="wrapper">
+    <div class="wrapperRepayList">
         <div class="box1">
             <div class="block">
                 <div class="demonstration">{{$t("main.repayMent.repayList.mainRePayPayTime")}}</div>
@@ -42,7 +42,7 @@
             @selection-change="handleSelectionChange"
             :data="tableData"
             :default-sort = "{prop: 'date', order: 'descending'}"
-            style="width: 74%;margin-top: 20px">
+            style="width: 100%;margin-top: 20px">
             <el-table-column
                 v-show="this.status === 1"
                 type="selection">
@@ -185,12 +185,13 @@
             }
         },
         mounted(){
+            this.search();
         }
     }
 </script>
 
 <style lang="less">
-    .wrapper{
+    .wrapperRepayList{
         margin-left: 24px;
         font-family: "Microsoft YaHei";
         font-size: 14px;
@@ -223,7 +224,7 @@
                 margin-left: 10px;
                 position: absolute;
                 bottom: 0;
-                right:20%;
+                right:10%;
                 height: 40px;
             }
             .demonstration{

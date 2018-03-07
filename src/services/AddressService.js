@@ -1,5 +1,21 @@
 import BaseService from "./abstract/BaseService";
 export default class AddressService extends BaseService {
+    // /**
+    //  * return data 地址数组
+    //  * param address JSON
+    //  * param orderby 排序
+    //  * @autor taohua
+    //  * remark 查询地址列表
+    //  */
+    // static getList(){
+    //     let params = {
+    //         address:'',
+    //         page:1,
+    //         pagesize:20,
+    //         orderby:'status desc'
+    //     }
+    //     return super.getRequest('/installer/consumer_address/get_list',params)
+    // }
     /**
      * return data 地址数组
      * param address JSON
@@ -14,7 +30,7 @@ export default class AddressService extends BaseService {
             pagesize:20,
             orderby:'status desc'
         }
-        return super.getRequest('/installer/consumer_address/get_list',params)
+        return super.getRequest('/installer/consumer_address/get_installer_address',params)
     }
 
     /**
@@ -46,8 +62,10 @@ export default class AddressService extends BaseService {
             building:form.building,
             status: form.setDefault ? 1 : 0,
             rank: form.rank,
-            zip_code: form.zipCode
+            zip_code: form.zipCode,
+            lc_code: form.lcCode
         }
+        debugger
         let params = {
             address:JSON.stringify(address)
         }
@@ -91,8 +109,10 @@ export default class AddressService extends BaseService {
             status: form.setDefault ? 1 : 0,
             rank: form.rank,
             zip_code: form.zipCode,
-            id: form.id
+            id: form.id,
+            lc_code: form.lcCode
         }
+        debugger
         let params = {
             address:JSON.stringify(address)
         }
@@ -117,5 +137,18 @@ export default class AddressService extends BaseService {
         return super.getRequest('/installer/consumer_address/change_default_address',params)
     }
 
-
+    /**
+     * return
+     * param uid
+     * param
+     * @autor maisi
+     * remark 根据UID获取消费者地址基本信息列表
+     */
+    static getAddressListByUserId(form){
+        let params = {
+            page: 1,
+            page_size: 10
+        };
+        return super.getRequest('/installer/consumer_address/get_list_by_user_id',params)
+    }
 }

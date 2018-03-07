@@ -1,7 +1,6 @@
 <template>
   <div class="cartlist">
     <el-table
-      ref="multipleTable"
       :data="tableData"
       :default-expand-all="true"
       :stripe="false"
@@ -12,14 +11,16 @@
           <div v-if="scope.row.discount && scope.row.discount.length>0" class="discountTable subtable">
             <div class="popover">
               <div class="popTitle">{{ $t("main.cart.list.mainCartliDisGoods") }}</div>
-              <div class="popDetail"></div>
             </div>
             <el-table
               :data="scope.row.discount"
               :show-header="false"
-              @select="selectChange"
               style="width: 100%">
-              <el-table-column type="selection" align="left" width="50"></el-table-column>
+              <el-table-column align="center" width="50">
+                <template slot-scope="subscope">
+                  <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)"></el-checkbox>
+                </template>
+              </el-table-column>
               <el-table-column align="center" width="600">
                 <template slot-scope="subscope">
                   <a :href="'/detail#/?id=' + subscope.row.id">
@@ -42,7 +43,7 @@
                     <lts-money :money="subscope.row.price"></lts-money>
                   </p>
                   <p>
-                    <lts-money :money="subscope.row.price_real"></lts-money>
+                    <lts-money :money="subscope.row.price * subscope.row.discount / 100"></lts-money>
                   </p>
                 </template>
               </el-table-column>
@@ -64,7 +65,7 @@
               </el-table-column>
               <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center">
                 <template slot-scope="subscope">
-                  <div class="count" ref="count">
+                  <div class="count" >
                     <lts-money :money="subscope.row.num*subscope.row.price_real"></lts-money>
                   </div>
                 </template>
@@ -81,14 +82,16 @@
           <div v-else-if="scope.row.reduce && scope.row.reduce.length>0" class="reduceTable subtable">
             <div class="popover">
               <div class="popTitle">{{ $t("main.cart.list.mainCartliOnsaleGoods") }}</div>
-              <div class="popDetail"></div>
             </div>
             <el-table
               :data="scope.row.reduce"
               :show-header="false"
-              @select="selectChange"
               style="width: 100%">
-              <el-table-column type="selection" align="left" width="50"></el-table-column>
+              <el-table-column align="center" width="50">
+                <template slot-scope="subscope">
+                  <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)"></el-checkbox>
+                </template>
+              </el-table-column>
               <el-table-column align="center" width="600">
                 <template slot-scope="subscope">
                   <a :href="'/detail#/?id=' + subscope.row.id">
@@ -110,7 +113,7 @@
                   <p class="oldPrice">
                     <lts-money :money="subscope.row.price"></lts-money>
                   </p>
-                  <lts-money :money="subscope.row.price_real"></lts-money>
+                  <p><lts-money :money="subscope.row.price - subscope.row.discount"></lts-money></p>
                 </template>
               </el-table-column>
               <el-table-column prop="" width="" :label='$t("main.cart.list.mainCartliStock")' align="center">
@@ -131,7 +134,7 @@
               </el-table-column>
               <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center">
                 <template slot-scope="subscope">
-                  <div class="count" ref="count">
+                  <div class="count">
                     <lts-money :money="subscope.row.num*subscope.row.price_real"></lts-money>
                   </div>
                 </template>
@@ -145,13 +148,96 @@
               </el-table-column>
             </el-table>
           </div>
+          <div v-else-if="scope.row.limit && scope.row.limit.length>0" >
+            <div v-for="limitItem in scope.row.limit" :key="limitItem.id" class="limitTable subtable">
+              <div class="popover">
+                <div class="popTitle">{{ $t("main.cart.list.mainCartliOnsaleLimits") }}</div>
+                <div class="popDetail" :class="[{ 'noStart': !limitItem[0].rule.started }, {'started': limitItem[0].rule.started}]">
+                  <div><span v-if="limitItem[0].rule.started">距离结束</span><span v-if="!limitItem[0].rule.started">活动倒计时</span>：<span v-if="limitItem[0].rule.day">{{limitItem[0].rule.day}}天</span></div>
+                  <div class="timeDown">
+                    <span v-show="false">{{t}}</span>
+                    <div>{{limitItem[0].rule.hr}}</div>:
+                    <div>{{limitItem[0].rule.min}}</div>:
+                    <div>{{limitItem[0].rule.sec}}</div>
+                  </div>
+                </div>
+              </div>
+              <el-table
+                :data="limitItem"
+                :show-header="false"
+                style="width: 100%">
+                <el-table-column align="center" width="50">
+                  <template slot-scope="subscope">
+                    <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)"></el-checkbox>
+                  </template>
+                </el-table-column>
+                <el-table-column align="center" width="600">
+                  <template slot-scope="subscope">
+                    <a :href="'/detail#/?id=' + subscope.row.id">
+                      <div class="item-img"
+                           :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+subscope.row.url+')'}"></div>
+                      <div class="content">
+                        <p :title="subscope.row.item_name">{{subscope.row.item_name}}</p>
+                      </div>
+                      <ul class="other">
+                        <li v-for="(item,index) in subscope.row.item_props">
+                          <p v-for="(val,key) in item.prop_value" :title="val">{{key}}:{{val}}</p>
+                        </li>
+                      </ul>
+                    </a>
+                  </template>
+                </el-table-column>
+                <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
+                  <template slot-scope="subscope">
+                    <p class="oldPrice">
+                      <lts-money :money="subscope.row.price"></lts-money>
+                    </p>
+                    <p><lts-money :money="subscope.row.rule.price"></lts-money></p>
+                  </template>
+                </el-table-column>
+                <el-table-column prop="" width="" :label='$t("main.cart.list.mainCartliStock")' align="center">
+                  <template slot-scope="subscope">
+                    <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">{{
+                      $t("main.cart.list.mainCartliAvailable") }}</p>
+                    <p v-else>{{ $t("main.cart.list.mainCartliStockInsuff") }}</p>
+                  </template>
+                </el-table-column>
+                <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="200" prop="num" align="center">
+                  <template slot-scope="subscope">
+                    <div class="inputNumber">
+                      <el-input-number :min='1' size="small" v-model="subscope.row.num"
+                                       @change="inputNumeberChange(subscope.row)"
+                                       :label='$t("main.cart.list.mainCartliDescWord")'></el-input-number>
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center">
+                  <template slot-scope="subscope">
+                    <div class="count">
+                      <lts-money :money="subscope.row.num*subscope.row.price_real"></lts-money>
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column :label='$t("main.cart.list.mainCartliOpera")' width="" align="center">
+                  <template slot-scope="subscope">
+                    <div class="cart-delete" @click="deleteHandle(subscope.$index, subscope.row)">
+                      <i class="iconfont icon-shanchu"></i>
+                    </div>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </div>
+          </div>
           <div v-else-if="scope.row.others && scope.row.others.length>0" class="otherTable subtable">
             <el-table
               :data="scope.row.others"
               :show-header="false"
-              @select="selectChange"
               style="width: 100%">
-              <el-table-column type="selection" align="left" width="50"></el-table-column>
+              <el-table-column align="center" width="50">
+                <template slot-scope="subscope">
+                  <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)"></el-checkbox>
+                </template>
+              </el-table-column>
               <el-table-column align="center" width="600">
                 <template slot-scope="subscope">
                   <a :href="'/detail#/?id=' + subscope.row.id">
@@ -170,7 +256,7 @@
               </el-table-column>
               <el-table-column prop="price" width="" label="单价" align="center">
                 <template slot-scope="subscope">
-                  <lts-money :money="subscope.row.price"></lts-money>
+                  <p><lts-money :money="subscope.row.price"></lts-money></p>
                 </template>
               </el-table-column>
               <el-table-column prop="" width="" label="库存" align="center">
@@ -189,7 +275,7 @@
               </el-table-column>
               <el-table-column label="小计" width="100" align="center">
                 <template slot-scope="subscope">
-                  <div class="count" ref="count">
+                  <div class="count">
                     <lts-money :money="subscope.row.num*subscope.row.price"></lts-money>
                   </div>
                 </template>
@@ -254,11 +340,12 @@
 
 <script>
   import cartService from '@/services/CartService.js'
-
+  import Vue from 'vue'
   export default {
     name: 'list',
     data () {
       return {
+        t:1000,
         expands: [], // 默认展开全部
         checked: false,
         tooManyItems: true,
@@ -267,6 +354,7 @@
         tableData: [
           {discount: []},
           {reduce: []},
+          {limit: []},
           {others: []}
         ],
         tableDataItem: {}, // 购物车所有数据
@@ -279,11 +367,6 @@
           cartPriceTotal: 0
         },
         checkedItem: [], // 已选商品
-        checkbox: {
-          discount: false,
-          reduce: false,
-          others: false
-        }
       }
     },
     mounted () {
@@ -293,9 +376,6 @@
       }, 20)
     },
     methods: {
-      selectedChange (selection, row) {
-        console.log(selection, row)
-      },
       // 删除选中商品
       deleteChecked () {
         this.checkedItem.forEach((item) => {
@@ -307,28 +387,73 @@
       deleteInvalid () {
 
       },
-      // 全选框
+      // 全选框-改变每行数据的checked
       selectAll () {
         if (this.selectedAll) {
           this.checkedItem = this.tableDataItem
-          for (let key in this.checkbox) {
-            this.checkbox[key] = true
-          }
-        } else {
+          this.tableData.forEach((table,index,array) => {
+            for(let key in table){
+              this.tableData[index][key].forEach((item,count) => {
+                 if(item.length > 0){
+                   item[0].checked = true;
+                   let cloneItem = item[0];
+                   Vue.set(item,0,cloneItem);
+                   item[0].checked = true;
+                 }else{
+                    item.checked = true;
+                 }
+                 Vue.set(this.tableData[index][key],count,item)
+              })
+            }
+            Vue.set(this.tableData,index,this.tableData[index])
+          })
+        }else {
           this.checkedItem = []
-          for (let key in this.checkbox) {
-            this.checkbox[key] = false
-          }
+          this.tableData.forEach((table,index) => {
+            for(let key in table){
+              table[key].forEach((item,count) => {
+                if(item.length > 0){
+                    if(item.length > 0) {
+                        item[0].checked = false;
+                        let cloneItem = item[0];
+                        Vue.set(item,0,cloneItem);
+                    }
+                }else{
+                    item.checked = false;
+                }
+                Vue.set(this.tableData[index][key],count,item)
+              })
+            }
+            Vue.set(this.tableData,index,this.tableData[index])
+          })
         }
+
         this.calc(this.checkedItem)
       },
       // 单选框
-      selectChange (selection, row) {
+      selectChange (row) {
         if (this.checkedItem.indexOf(row) !== -1) {
           this.checkedItem.splice(this.checkedItem.indexOf(row), 1)
+            row.checked = false;
         } else {
           this.checkedItem.push(row)
+          row.checked  = true
         }
+        this.tableData.forEach((table,index,array) => {
+              for(let key in table){
+                  this.tableData[index][key].forEach((item,count) => {
+                      if(item.length > 0 && item[0].id == row.id){
+                          Vue.set(item,0,row);
+                          Vue.set(this.tableData[index][key],count,item)
+                      }else if(item.id == row.id){
+                          Vue.set(this.tableData[index][key],count,row)
+                      }
+                      Vue.set(this.tableData[index][key],count,item)
+                  })
+              }
+              Vue.set(this.tableData,index,this.tableData[index])
+         })
+        Vue.set(this.tableData)
         this.calc(this.checkedItem)
         if (this.checkedItem.length === this.tableDataItem.length) {
           this.selectedAll = true
@@ -349,13 +474,15 @@
       },
       queryCartList () {
         cartService.queryCartList().then((data) => {
-          this.tableDataItem = data.datalist
+
           this.tableData = [
             {discount: []},
             {reduce: []},
+            {limit: []},
             {others: []}
           ]
           data.datalist.forEach((value) => {
+            value.checked = false
             value.item_props.forEach((item) => {
               item.prop_value = JSON.parse(item.prop_value)
             })
@@ -363,9 +490,24 @@
               this.tableData[0].discount.push(value)
             } else if (value.discount_type === 2) {
               this.tableData[1].reduce.push(value)
+            } else if (value.discount_type === 4) {
+              value.rule = JSON.parse(value.sale_rule)
+              value.item_props[0].storage = value.rule.maxinum
+              value.rule.end = Date.parse(value.rule.endTime)
+              value.rule.start = Date.parse(value.rule.startTime)
+              let now = Date.parse(new Date())
+              if (value.rule.end > now) {
+                this.countdown(value.rule)
+              } else {
+                // 活动结束，不显示了
+                value.rule.finished = true
+              }
+              this.tableData[2].limit.push([value])
             } else {
-              this.tableData[2].others.push(value)
+                this.tableData[3].others.push(value)
             }
+            this.tableDataItem = data.datalist
+
           })
         }, (msg) => {
           this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
@@ -376,7 +518,7 @@
           cartService.putCartPlus(item, item.item_props[0]).then((data) => {
             resolve(data)
           }, (msg) => {
-            this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
+            this.$ltsMessage.show({type: 'error', message: msg.error_message})
             reject(msg)
           })
         })
@@ -407,6 +549,46 @@
         }, (msg) => {
           this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
         })
+      },
+      // 倒计时计算
+      countdown(item){
+        let start = item.start
+        let end = item.end
+        let now = Date.parse(new Date())
+        let date
+        // 判断活动是否开始
+        if (now < start) {
+          // 还没开始
+          item.started = false
+          item.finished = false
+          date = item.start
+        } else if (start <= now <= end) {
+          // 开始了还没结束
+          item.started = true
+          item.finished = false
+          date = item.end
+        } else {
+          item.started = true
+          item.finished = true
+        }
+        let msec = date - now
+        this.t--
+
+        // 计算时分秒数
+        item.day = parseInt(msec / 1000 / 60 / 60 / 24)
+        item.hr = parseInt(msec / 1000 / 60 / 60 % 24)
+        item.min = parseInt(msec / 1000 / 60 % 60)
+        item.sec = parseInt(msec / 1000 % 60)
+        // 个位数前补零
+        item.hr = item.hr > 9 ? item.hr : '0' + item.hr
+        item.min = item.min > 9 ? item.min : '0' + item.min
+        item.sec = item.sec > 9 ? item.sec : '0' + item.sec
+        // 倒计时开始
+        if (msec >= 0) {
+          setTimeout(() => {
+            this.countdown(item)
+          }, 1000)
+        }
       }
     },
     watch: {
@@ -465,9 +647,10 @@
       }
       .el-table__expanded-cell {
         padding: 0;
+        border-bottom:none;
         .subtable {
           margin-top: 40px;
-          border: 1px solid #a3a3a3;
+          border: 1px solid #ddd;
           position: relative;
           .popover {
             position: absolute;
@@ -494,6 +677,32 @@
               border-right: 8px solid transparent;
             }
             .popDetail {
+              margin-left: 10px;
+              display: flex;
+              padding: 4px;
+              color: white;
+              border-radius: 4px 4px 4px 0;
+              .timeDown{
+                margin-left: 4px;
+                display: flex;
+                div{
+                  padding: 0 2px;
+                  margin:0 2px;
+                  border-radius: 4px;
+                }
+              }
+            }
+            .popDetail.noStart{
+              background: #a7a7a7;
+              .timeDown div{
+                background: #6d6d6d;
+              }
+            }
+            .popDetail.started{
+              background: #f48719;
+              .timeDown div{
+                background: #E94740;
+              }
             }
           }
           tbody {
@@ -504,11 +713,15 @@
             }
           }
         }
+        .otherTable.subtable{
+          margin-top: 12px;
+        }
         .dicount {
         }
         .reduce {
         }
         .others {
+
         }
         a {
           width: 100%;

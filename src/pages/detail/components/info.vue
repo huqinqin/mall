@@ -26,7 +26,7 @@
           <span v-if="item.discount_type == 1" class="bold">{{ $t("main.detail.info.mainDetInfoDisGoods") }}</span>
           <span v-else-if="item.discount_type == 2"
                 class="bold">{{ $t("main.detail.info.mainDetInfoDepriceGoods") }}</span>
-          <span v-else-if="item.type == 4" class="bold">{{ $t("main.detail.info.mainDetInfoLimit") }}</span>
+          <span v-else-if="item.discount_type == 4" class="bold">{{ $t("main.detail.info.mainDetInfoLimit") }}</span>
           <div class="count" v-if="started && !finished">
             <span v-if="!started" class="bold">{{ $t("main.detail.info.mainDetInfoDown") }}</span>
             <span v-if="started" class="bold">{{ $t("main.detail.info.mainDetInfoEnd") }}</span>
@@ -45,13 +45,10 @@
             </div>
           </el-form-item>
           <div :class="[showPropsError ? 'error' : '']" @click="closeError">
-            <el-form-item v-for="prop in item.item_prop_value_maps" :key="prop.prop_name" :label="prop.prop_name"
-                          class="radio sku_prop">
-              <el-radio-group v-model="prop.checked_prop" @change="checkedProp(prop,item)">
-                <el-radio v-for="propValue in prop.prop_values" :disabled="!propValue.can_checked"
-                          :label="propValue.value" :key="propValue.value">
-                  {{propValue.value}}
-                  <i class="iconfont icon-duihao"></i>
+            <el-form-item v-for="prop in item.item_prop_value_maps" :key="prop.prop_name" :label="prop.prop_name" class="radio sku_prop">
+              <el-radio-group v-model="prop.checked_prop" @change="checkedProp(prop,item,'checkedSku')">
+                <el-radio v-for="propValue in prop.prop_values" :disabled="!propValue.can_checked" :label="propValue.value" :key="propValue.value">
+                  {{propValue.value}}<i class="iconfont icon-duihao"></i>
                 </el-radio>
               </el-radio-group>
             </el-form-item>
@@ -60,9 +57,8 @@
           </div>
           <div :class="[item.num > checkedSpu.storage ? 'error' : '']" @click="closeError">
             <el-form-item :label='$t("main.detail.info.mainDetInfoAmount")' class="num">
-              <el-input-number v-model="item.num" size="mini" @change="inputNumberChange" :min="1"></el-input-number>
-              <span v-if="checkedSpu.storage > 0"
-                    class="storage_spec">{{ $t("main.detail.info.mainDetInfoStock") }}</span>
+              <el-input-number v-model="item.num" size="mini" :min="1" ></el-input-number>
+              <span v-if="checkedSpu.storage > 0" class="storage_spec">{{ $t("main.detail.info.mainDetInfoStock") }}</span>
               <span v-else-if="checkedSpu && checkedSpu.storage <= 0" class="storage_spec">{{ $t("main.detail.info.mainDetInfoNoStock") }}</span>
               <div class="el-form-item__error">{{ $t("main.detail.info.mainDetInfoExceed") }}！</div>
               <i class="el-icon-close"></i>
@@ -72,12 +68,16 @@
             <p>{{ $t("main.detail.info.mainDetInfoNoReason") }}</p>
           </el-form-item>
           <el-form-item class="buttons">
-            <button @click.stop="buyNow" type="button">
-              <div v-login>{{ $t("main.detail.info.mainDetInfoImme") }}</div>
-            </button>
-            <el-button @click.stop="addCart" type="button">
-              <div v-login>{{ $t("main.detail.info.mainDetInfoJoinCart") }}</div>
-            </el-button>
+            <lts-login display="inline-block">
+               <button @click.stop="buyNow"  type="button">
+                  {{ $t("main.detail.info.mainDetInfoImme") }}
+               </button>
+            </lts-login>
+            <lts-login display="inline-block">
+                <el-button @click.stop="addCart(item, checkedSpu)" type="button" class="addcart">
+                  {{ $t("main.detail.info.mainDetInfoJoinCart") }}
+                </el-button>
+            </lts-login>
           </el-form-item>
           <addCartSuccess
             :flag.sync="flag"
@@ -96,7 +96,7 @@
         </div>
         <ul v-if="buyHistory">
           <li v-for="item in buyHistory"
-              :class="{ limit: item.type == 4, reduce:item.discount_type == 2, discount:item.discount_type == 1}">
+              :class="{ limit: item.discount_type == 4, reduce:item.discount_type == 2, discount:item.discount_type == 1}">
             <a :href="'/detail#/?id=' + item.id" target="_blank">
               <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
               <p class="name" :title="item.item_name">{{item.item_name}}</p>
@@ -114,6 +114,82 @@
         </div>
       </div>
     </div>
+    <!--configure-->
+    <div class="detail-configure" v-if="otherGoods.length > 0" v-ltsLoginShow:true>
+        <div class="h5">{{ $t("main.detail.info.mainDetConfigure") }}</div>
+        <div class="content">
+          <div class="briefInfo">
+            <div class="img" :style="'background-image: url(' + item.image_value + ')'"></div>
+            <div class="name">{{item.item_name}}</div>
+            <div class="price" v-if="!checkedSpu.price"><span class="red"><lts-money :money="item.price"></lts-money></span></div>
+            <div class="price" v-else><span class="red"><lts-money :money="checkedSpu.price"></lts-money></span></div>
+          </div>
+          <div class="icon-handle"><i class="iconfont icon-jiahaocu"></i></div>
+          <el-button class="handlePage" @click="pre" disabled><i class="el-icon-caret-left"></i></el-button>
+          <ul class="others">
+            <li v-for="value in otherGoods" :key="value.id" class="othersItem">
+              <a :href="'/detail#/?id=' + value.id" target="_blank"><div class="img" :style="'background-image: url(' + value.image_value + ')'"></div></a>
+              <div class="name">{{value.item_name}}</div>
+              <el-popover placement="bottom" popper-class="othersPopover">
+                <el-form label-width="120px" label-position="left">
+                  <el-form-item v-for="prop in otherGoodsItem.item_prop_value_maps" :key="prop.prop_name" :label="prop.prop_name" class="radio sku_prop">
+                    <el-radio-group v-model="prop.checked_prop" @change="checkedProp(prop,value,'otherSku')">
+                      <el-radio v-for="propValue in prop.prop_values" :disabled="!propValue.can_checked" :label="propValue.value" :key="propValue.value">
+                        {{propValue.value}}<i class="iconfont icon-duihao"></i>
+                      </el-radio>
+                    </el-radio-group>
+                  </el-form-item>
+                  <el-form-item :label=' $t("main.detail.info.mainDetInfoPrice")' class="price">
+                    <div class="tips" v-ltsLoginShow:false>{{ $t("main.detail.info.mainDetInfoComp") }}</div>
+                    <div v-ltsLoginShow:true class="detail_price" v-if="!checkedSpu.price">
+                      <lts-money :money="value.price"></lts-money>
+                    </div>
+                    <div v-ltsLoginShow:true class="detail_price" v-else>
+                      <lts-money :money="checkedSpu.price"></lts-money>
+                    </div>
+                  </el-form-item>
+                  <el-form-item :label='$t("main.detail.info.mainDetInfoAmount")' class="num">
+                    <el-input-number v-model="value.num" size="mini" :min="1" :max="otherSpu.storage"></el-input-number>
+                    <span v-if="otherSpu.storage > 0" class="storage_spec">{{ $t("main.detail.info.mainDetInfoStock") }}</span>
+                    <span v-else-if="otherSpu && otherSpu.storage <= 0" class="storage_spec">{{ $t("main.detail.info.mainDetInfoNoStock") }}</span>
+                    <!--<div v-if="value.num > otherSpu.storage"  class="el-form-item__error">{{ $t("main.detail.info.mainDetInfoExceed") }}！</div>-->
+                  </el-form-item>
+                  <el-form-item>
+                    <!--:disabled="otherGoodsItem.storage <= 0"-->
+                    <el-button @click="addOthers(value)" type="primary">{{ $t("main.detail.info.mainDetSure") }}</el-button>
+                  </el-form-item>
+                </el-form>
+                <el-button class="model" slot="reference" @click="selectModel(value.id)">{{ $t("main.detail.info.mainDetSelectModel") }}</el-button>
+              </el-popover>
+            </li>
+          </ul>
+          <el-button class="handlePage" disabled @click="next"><i class="el-icon-caret-right"></i></el-button>
+          <div class="icon-handle"><i class="iconfont icon-dengyu"></i></div>
+          <div class="package">
+            <p>
+              {{ $t("main.detail.info.mainDetCheckedPackage") }}<span class="red bold">{{checkedOthers.length}}</span>{{ $t("main.detail.info.mainDetPiece") }}
+              <el-popover placement="left-start" popper-class="checkedOthersList" trigger="hover" >
+                <ul v-if="checkedOthers.length > 0">
+                  <li v-for="item in checkedOthers">
+                    <div class="img" :style="'background-image:url(' + item.item.img + ');'"></div>
+                    <div class="content">
+                      <div class="name">{{item.item.name}}</div>
+                      <div class="props">{{ $t("main.detail.info.mainDetCkeckedProp") }}：{{item.otherProp.newProps}}</div>
+                      <div class="about">
+                        <div class="num">{{ $t("main.detail.info.mainDetNum") }}：{{item.item.num}}个</div><div class="price">{{ $t("main.detail.info.mainDetSinglePrice") }}：<span class="bold red" v-if="item.otherProp.price"><lts-money :money="item.otherProp.price"></lts-money></span></div>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+                <p v-else>{{ $t("main.detail.info.mainDetNoAnyPackage") }}</p>
+                <i class="el-icon-warning" slot="reference"></i>
+              </el-popover>
+            </p>
+            <p>{{ $t("main.detail.info.mainDetPackagePrice") }}：<span class="red bold"><lts-money :money="packagePrice" /></span></p>
+            <el-button @click="addPackage">{{ $t("main.detail.info.mainDetInfoJoinCart") }}</el-button>
+          </div>
+        </div>
+    </div>
     <!-- bottom -->
     <div class="detail-bottom">
       <div class="detail_side">
@@ -127,7 +203,7 @@
           </div>
           <ul class="item-list-box">
             <li v-for="item in hotSale" :key="item.id"
-                :class="{ limit: item.type == 4, reduce:item.discount_type == 2, discount:item.discount_type == 1}">
+                :class="{ limit: item.discount_type == 4, reduce:item.discount_type == 2, discount:item.discount_type == 1}">
               <a :href="'/detail#/?id=' + item.id" target="_blank">
                 <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
                 <p class="name" :title="item.item_name">{{item.item_name}}</p>
@@ -220,7 +296,13 @@
         finished: false,
         start: '',
         end: '',
-        showPropDetail: false
+        showPropDetail: false,
+        // 推荐搭配
+        otherGoods:[],
+        otherGoodsItem:{},
+        showSelectModel:true,
+        checkedOthers:[],
+        otherSpu:{}
       }
     },
     methods: {
@@ -231,7 +313,6 @@
         let end = this.end
         let now = Date.parse(new Date())
         let date
-        debugger
         // 判断活动是否开始
         if (now < start) {
           // 还没开始
@@ -268,35 +349,20 @@
       handleClick (tab, event) {
         console.log(tab, event)
       },
-      inputNumberChange (value) {
-        console.log(this.item.num)
-        // this.item.item_struct_props.forEach((item)=>{
-        //     console.log(item.storage,this.item.num)
-        //     if(this.item.num > item.storage){
-        //         this.dis = true
-        //         console.log(this.dis)
-        //     }else{
-        //         this.dis = false
-        //         console.log(this.dis)
-        //     }
-        // })
-      },
       getItemDetail (id) {
         itemService.getItemDetail(id).then((data) => {
           data.data.item.item_struct_props.forEach((value, index, array) => {
             value.propValues = JSON.parse(value.prop_value)
           })
           this.aboutDetail = data.data.item.item_struct_props
-          console.log(data.data.item.item_struct_props)
+          this.otherGoods = data.data.item.package_item_list
           this.item = data.data.item
           this.activeImg = this.item.item_images[0]
           this.hotSale = data.data.hot_recomment.items
           this.buyHistory = data.data.user_order_history
-          if (this.item.type === 4) {
-            this.end = this.item.sale_rule_do.end_time
-            this.start = this.item.sale_rule_do.start_time
-            // this.start = Date.parse(new Date('2018-03-01'))
-            // this.end = Date.parse(new Date('2018-04-01'))
+          if (this.item.discount_type === 4) {
+            this.end = Date.parse(new Date(this.item.sale_rule_do.end_time))
+            this.start = Date.parse(new Date(this.item.sale_rule_do.start_time))
             let now = Date.parse(new Date())
             if (this.end > now) {
               this.countdown()
@@ -309,12 +375,12 @@
           this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
         })
       },
-      checkedProp (prop, data, checkedValue) {
+      checkedProp (prop, data, type) {
         if (prop.checked_prop !== '') {
-          this.skuMapEach(prop, data)
+          this.skuMapEach(prop, data, type)
         }
       },
-      skuMapEach (prop, data) {
+      skuMapEach (prop, data, type) {
         let key = prop.prop_name
         let propValue = {}
         let checkedSkuProp = {}
@@ -326,7 +392,7 @@
           data.item_prop_value_maps.forEach((value, index, array) => {
             if (value.prop_name !== prop.prop_name) {
               checkedSkuProp[value.prop_name] = value.checked_prop
-              this.equalsProp(checkedSkuProp, data.item_struct_props, 'checkedSku', data.item_prop_value_maps.length)
+              this.equalsProp(checkedSkuProp, data.item_struct_props, type, data.item_prop_value_maps.length)
               value.prop_values.forEach((val, key, array) => {
                 propValue[value.prop_name] = val.value
                 val.can_checked = this.equalsProp(propValue, data.item_struct_props, '', data.item_prop_value_maps.length)
@@ -334,7 +400,7 @@
             }
           })
         } else {
-          this.equalsProp(checkedSkuProp, data.item_struct_props, 'checkedSku', data.item_prop_value_maps.length)
+          this.equalsProp(checkedSkuProp, data.item_struct_props, type, data.item_prop_value_maps.length)
         }
       },
       equalsProp (propObj, skuList, type, skuLength) {
@@ -359,6 +425,8 @@
             if (count >= skuLength && sku.storage > 0) {
               if (type === 'checkedSku') {
                 self.checkedSpu = sku
+              }else if(type === 'otherSku'){
+                self.otherSpu = sku
               }
               Boolean = 1
               // 跳出循环抛出的异常 别删
@@ -377,11 +445,11 @@
           return false
         }
       },
-      addCart () {
+      addCart (item, spu) {
         if (!this.validate()) {
           return false
         }
-        cartService.putCartPlus(this.item, this.checkedSpu).then((data) => {
+        cartService.putCartPlus(item, spu).then((data) => {
           if (!this.showPropsError) {
             this.flag = true
           }
@@ -438,17 +506,279 @@
       },
       closeError () {
         this.showPropsError = false
+      },
+      // 套餐搭配
+      pre (){
+        console.log('pre')
+      },
+      next (){
+        console.log('next')
+      },
+      selectModel(id){
+        itemService.getItemProps(id).then((data) => {
+          // let qwe = JSON.stringify({"data":{"activity_price":0,"advance":false,"app_show":false,"attr_activity":true,"attribute":4194305,"best_box":false,"beyond_num":0,"biz_type":101,"brand":"LTS","cart":[],"category_name":"","category_id":9487695,"cdate":1517809106000,"commission_s":0,"commission_t":0,"cost_price_value":"0.01","cost_price":1,"count":null,"cut":false,"description":"","discount":50,"discount_type_cname":"æ‰“æŠ˜","discount_type":1,"distribution":false,"diy_price":false,"edate":1517822273000,"end_time":null,"fixed":false,"follow_num":0,"group":false,"hd_method":2304,"id":2101472,"image_value":"http://res.500mi.com/item/240c01b643302fdc25cbd7b2e084f212.png","item_images":[{"url":"http://ltsres-us.oss-us-west-1.aliyuncs.com/item/240c01b643302fdc25cbd7b2e084f212.png","value":"240c01b643302fdc25cbd7b2e084f212.png"}],"item_prop_value_maps":[{"checked_prop":"","prop_name":"Brand","prop_values":[{"can_checked":true,"value":"Starlink"}]}],"item_name":"NA-SLE3/4G-CB-TF, StarLinkâ„¢ NAPCO Alarm Communicator for Universal Cell or IP","item_struct_props":[{"attribute":1792,"id":747,"img_url":"","multi_select":false,"price":23,"price_real":null,"price_action":1,"prop_value":"{\"Brand\":\"Starlink\"}","props":"Starlink","required":false,"search":true,"selectable":false,"show":true,"sin":"NA-SLE3/4G-CB-TF","sku":true,"spec":false,"spu_id":180515,"storage":100.000,"system":false,"value_type":0}],"manager_cate_name":"","manager_cate_id":0,"member_price":1,"member_price_value":"0.01","min_num":0.000,"module_id":null,"module_sku_id":null,"no_rebate":false,"num":null,"open_code":"lts2open","open_codes":"","order_promotion":true,"order_num":0.000,"orign":"Shenzhen","package_item_list":[],"parent_id":0,"partner":null,"partner_id":79376,"partner_name":"","percent":true,"prepay":false,"presale":false,"price":1,"price_real":null,"price_real_value":"","price_value":"0.01","price_define":"","price_define_do":null,"promotion_title":"NA-SLE3/4G-CB-TF","props":"{}","props_ext":"","puser_id":158667,"rank":0,"retail":false,"safe_num":0.000,"sale_rule":"","sale_rule_do":{"commission_rate":null,"end_time":"","maxinum":null,"minimum":null,"price":null,"start_time":"","total":null,"virtual_start":null},"send_rule":"","share_num":0,"shop_name":"","shop_id":28616,"short_code":"","sin":"2010000438745","sinr":"2010000438745","size":"{\"h\":1,\"l\":1,\"w\":1}","size_d_o":{"h":1,"l":1,"volume":1,"w":1},"sku_cost_price_value":"","sku_cost_price":null,"sku_id":819252,"sku_total":0,"soldout":false,"spec":"æ— æè¿°","special":"","spot_price_value":"0","spot_rule_d_o":null,"spot_price":0,"spot_rule":"","spu_d_o":null,"spu_id":180514,"start_time":null,"status":1,"status_cname":"å·²ä¸Šæž¶","stock_out":0.000,"storage":0.000,"storage_num":null,"tag":"çƒ­å–å•†å“","type":41,"type_ch":false,"type_fa":false,"unit":"Piece","upshelf":true,"url":"240c01b643302fdc25cbd7b2e084f212.png","urls":"240c01b643302fdc25cbd7b2e084f212.png","warehousing":true,"weight":1.000,"wholesale":true},"error_code":999,"error_message":"","error_name":"SERVICE_ERROR","fail":false,"success":true,"success_message":""})
+          // this.otherGoodsItem = JSON.parse(qwe).data
+          this.otherGoodsItem = data.data
+          if(this.otherGoods){
+            this.otherGoods.forEach((item) => {
+             if(item.id === data.data.id){
+               item.item_prop_value_maps = data.data.item_prop_value_maps
+               item.item_struct_props = data.data.item_struct_props
+             }
+            })
+          }
+          console.log(data)
+        },(msg) => {
+          this.$ltsMessage({type:'error',message:msg.error_message})
+        })
+      },
+      addOthers (value){
+        this.otherSpu.newProps = this.otherSpu.props.split(',').join('/')
+        if(this.checkedOthers.length > 0){
+          for(let i = 0;i < this.checkedOthers.length;i++){
+            if(this.checkedOthers[i].item.id === value.id){
+              this.checkedOthers[i].item.num = value.num
+            }else{
+              this.checkedOthers.push({
+                item:{
+                  id:value.id,
+                  num:value.num,
+                  img:value.image_value,
+                  name:value.item_name
+                },
+                otherProp:this.otherSpu
+              })
+            }
+          }
+        }else{
+          this.checkedOthers.push({
+            item:{
+              id:value.id,
+              num:value.num,
+              img:value.image_value,
+              name:value.item_name
+            },
+            otherProp:this.otherSpu
+          })
+        }
+      },
+      otherItemNum(row,value){
+        console.log(row,value)
+      },
+      // 添加套餐到购物车
+      addPackage(){
+        this.addCart (this.item, this.checkedSpu)
+        if(this.checkedOthers.length > 0){
+          this.checkedOthers.forEach((item) => {
+            this.addCart (item.item, item.otherProp)
+          })
+        }
       }
     },
     created () {
       let id = this.$route.query.id
       this.getItemDetail(id)
+    },
+    computed: {
+      packagePrice: function(){
+        let price = this.item.price
+        if(this.checkedSpu.price){
+          price = this.checkedSpu.price
+        }
+        if(this.checkedOthers.length > 0){
+          this.checkedOthers.forEach((item) => {
+            price += item.otherProp.price * item.item.num
+          })
+        }
+
+        return price
+      }
     }
   }
 </script>
 
 <style lang="less">
+  .othersPopover{
+    width:280px;
+    padding:12px;
+    .el-form-item {
+      margin-bottom: 0;
+      .detail_price{
+        font-size: 14px;
+      }
+      .el-button{
+        width:80px;
+        height: 24px;
+        padding:0;
+        line-height: 22px;
+      }
+    }
+    .price {
+      margin-top: 7px;
+    }
+    .tips {
+      border: 1px solid #ff3b41;
+      line-height: 21px;
+      width: 155px;
+      margin-top: 10px;
+      font-size: 12px;
+      padding-left: 6px;
+      color: #ff3b41;
+    }
+    .detail_price {
+      color: #ff3b41;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .radio {
+      .el-radio {
+        height: 28px;
+        padding: 0;
+        border-radius: 0;
+        line-height: 28px;
+        font-size: 14px;
+        width: auto !important;
+        border: 1px solid #b8b7bd;
+        color: red;
+        .el-radio__input {
+          display: none;
+        }
+        .el-radio__label {
+          text-align: center;
+          font-size: 14px;
+          color: #606266;
+          line-height: 19px;
+          padding: 0 9px;
+        }
+      }
+      .iconfont {
+
+      }
+      .el-radio:hover {
+        border: 1px solid #FF0036
+      }
+      .el-radio.is-checked {
+        border: 1px solid #ff3b41;
+        position: relative;
+        span {
+          color: rgba(0, 0, 0, 0.5);
+        }
+      }
+      .el-radio.is-disabled {
+        border: 1px dashed #a3a3a3;
+      }
+      .el-radio.is-disabled .el-radio__label {
+        color: #a3a3a3;
+      }
+      .el-radio.is-checked::after {
+        content: '';
+        width: 0;
+        height: 0;
+        border-right: 4px solid red;
+        border-bottom: 4px solid red;
+        border-top: 4px solid transparent;
+        border-left: 4px solid transparent;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+      }
+      .el-radio.is-bordered + .el-radio.is-bordered {
+        margin-left: 0px;
+      }
+    }
+    .num {
+      margin-bottom: -2px;
+      .el-input-number--mini {
+        line-height: 24px;
+      }
+      .el-input-number {
+        width: 84px;
+        margin-left: 0px;
+        margin-bottom: 12px;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        border-radius: 0;
+        .el-input__inner {
+          border-radius: 0px;
+          border: none;
+          height: 20px;
+          padding: 0 15px;
+        }
+        span {
+          width: 22px;
+          line-height: 18px;
+          background: rgb(238, 238, 238);
+          border: 1px solid #dcdfe6;
+          margin-left: -2px;
+          margin-top: -2px;
+          i {
+            font-size: 18px;
+            color: rgba(0, 0, 0, 0.7);
+            font-weight: bolder;
+            margin-top: 3px;
+          }
+        }
+        span.el-input-number__increase {
+          margin-right: -2px;
+        }
+        span.el-input-number__decrease {
+          i {
+            color: rgba(0, 0, 0, 0.7);
+          }
+
+        }
+      }
+      .storage_spec {
+        font-size: 12px;
+        margin-left: 20px;
+      }
+    }
+  }
+  .checkedOthersList{
+    ul{
+      span.red{
+        color:#ff3b41;
+      }
+      span.bold{
+        font-weight: bold;
+      }
+      li{
+        border-bottom: 1px solid #ddd;
+        display: flex;
+        padding: 6px 0;
+        .img{
+          width:80px;
+          height: 80px;
+          background-size: cover;
+          border:1px solid #ddd;
+        }
+        .content{
+          margin-left: 12px;
+          &>div{
+            line-height: 22px;
+          }
+          .name{
+            width:320px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+          }
+          .about{
+            display: flex;
+            .num{
+              width:100px;
+            }
+          }
+        }
+      }
+      li:last-child{
+        border-bottom: none;
+      }
+    }
+  }
   .detail {
+
     li {
       box-sizing: border-box;
       position: relative;
@@ -759,7 +1089,7 @@
             border-radius: 4px;
             cursor: pointer;
           }
-          button:nth-child(2) {
+          .addcart {
             margin-left: 16px;
             border: 1px solid #ff3b41;
             background: #fff;
@@ -772,8 +1102,105 @@
       }
 
     }
+    .detail-configure{
+      color:#737373;
+      margin-top: 12px;
+      font-size: 14px;
+      .h5{
+        line-height: 38px;
+        border-bottom: 1px solid #ddd;
+        font-weight: bold;
+      }
+      .content{
+        padding:12px 0;
+        width:100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        .briefInfo{
+          .price{
+            span{
+              font-size: 16px;
+              font-weight: bold;
+              line-height: 28px;
+            }
+          }
+        }
+        span.red{
+          color:#ff3b41;
+        }
+        span.bold{
+          font-weight: bold;
+        }
+        .img{
+          width:100px;
+          height: 100px;
+          border:1px solid #ddd;
+          background-size: cover;
+        }
+        .name{
+          width:100px;
+          line-height: 26px;
+          overflow : hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+        }
+        ul.others{
+          padding:0 24px;
+          width:925px;
+          display: flex;
+          li.othersItem{
+            margin-left: 24px;
+            .el-button{
+              width:80px;
+              height: 24px;
+              padding:0;
+              color:#ff3b41;
+            }
+            .el-button.model{
+              margin-top: 6px;
+            }
+          }
+        }
+        .icon-handle{
+
+        }
+        .el-button.handlePage{
+          padding:0;
+          border:0;
+          width:20px;
+          height: 80px;
+          background: #f2f2f2;
+          i{
+            color:#fff;
+            font-size: 18px;
+          }
+        }
+        .el-button.handlePage:hover{
+          background: #828282;
+        }
+        .package{
+          p{
+            line-height: 28px;
+          }
+          .el-button{
+            background: #ff3b41;
+            color:#fff;
+            width:120px;
+            height: 30px;
+            padding:0;
+          }
+          .el-icon-warning{
+            display:inline-block;
+          }
+        }
+      }
+
+    }
     .detail-bottom {
-      margin-top: 48px;
+      margin-top: 12px;
       .detail_side {
         display: flex;
         justify-content: space-between;

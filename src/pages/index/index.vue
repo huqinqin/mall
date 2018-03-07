@@ -31,11 +31,11 @@
           <img :src="posterBig.content.fix_url" :alt="posterBig.name">
         </a>
       </div>
-      <div class="two" v-if="posterSmall">
-        <a :href="posterSmall.top.content.link_url" class="top">
+      <div class="two">
+        <a  v-if="posterSmall.top" :href="posterSmall.top.content.link_url" class="top">
           <img :src="posterSmall.top.content.fix_url" :alt="posterSmall.top.name">
         </a>
-        <a :href="posterSmall.bottom.content.link_url" class="top">
+        <a  v-if="posterSmall.bottom" :href="posterSmall.bottom.content.link_url" class="top">
           <img :src="posterSmall.bottom.content.fix_url" :alt="posterSmall.bottom.name">
         </a>
       </div>
@@ -77,8 +77,10 @@
               <span>{{itemlist.name}}</span>
             </div>
             <div class="more">
-              <span>{{$t("main.detail.info.mainInMore")}}</span>
-              <i class="iconfont icon-shangyiye-copy-copy rotate"></i>
+                <a :href="itemlist.url">
+                    <span>{{$t("main.detail.info.mainInMore")}}</span>
+                    <i class="iconfont icon-shangyiye-copy-copy rotate"></i>
+                </a>
             </div>
           </div>
           <ul class="item-list-box">
@@ -141,7 +143,7 @@
         isAuto: false,
         index_banner: [],
         posterSmall: {},
-        posterBig: '',
+        posterBig: {},
         index_welcome: [
           {
             link: 'static/image/BANNERTU.png',
@@ -162,21 +164,51 @@
         homeService.getList().then((data) => {
           this.itemList = data.floor.datalist
           this.hotList = data.hot_buys.datalist[0].items
-          data.fix_pic.datalist.forEach((item) => {
-            item.content = JSON.parse(item.content)
-          })
-          data.fix_pic_right1.datalist.forEach((item) => {
-            item.content = JSON.parse(item.content)
-          })
-          data.fix_pic_right2.datalist.forEach((item) => {
-            item.content = JSON.parse(item.content)
-          })
-          this.posterBig = data.fix_pic.datalist[0]
-          this.posterSmall.top = data.fix_pic_right1.datalist[0]
-          this.posterSmall.bottom = data.fix_pic_right2.datalist[0]
-          data.banner.datalist.forEach((val, index) => {
-            this.index_banner.push(JSON.parse(val.content))
-          })
+
+          if(data.fix_pic && data.fix_pic.datalist && data.fix_pic.datalist[0] && data.fix_pic.datalist[0].content){
+            data.fix_pic.datalist[0].content = JSON.parse(data.fix_pic.datalist[0].content)
+            this.posterBig = data.fix_pic.datalist[0]
+          }else{
+            this.posterBig = {
+              name:'error_picture',
+              content: {
+                link_url:'javascript:void(0)',
+                fix_url:'http://specimen.oss-cn-hangzhou.aliyuncs.com/tmp/Retail%20Solution1.png'
+              }
+            }
+          }
+
+          if(data.fix_pic_right2 && data.fix_pic_right2.datalist && data.fix_pic_right2.datalist[0] && data.fix_pic_right2.datalist[0].content){
+            data.fix_pic_right2.datalist[0].content = JSON.parse(data.fix_pic_right2.datalist[0].content)
+            this.posterSmall.bottom = data.fix_pic_right2.datalist[0]
+          }else{
+            this.posterSmall.bottom = {
+              name:'error_picture',
+              content: {
+                link_url:'javascript:void(0)',
+                fix_url:'http://specimen.oss-cn-hangzhou.aliyuncs.com/tmp/Retail%20Solution1.png'
+              }
+            }
+          }
+
+          if(data.fix_pic_right1 && data.fix_pic_right1.datalist && data.fix_pic_right1.datalist[0] && data.fix_pic_right1.datalist[0].content){
+            data.fix_pic_right1.datalist[0].content = JSON.parse(data.fix_pic_right1.datalist[0].content)
+            this.posterSmall.top = data.fix_pic_right1.datalist[0]
+          }else{
+            this.posterSmall.top = {
+              name:'error_picture',
+              content: {
+                link_url:'javascript:void(0)',
+                fix_url:'http://specimen.oss-cn-hangzhou.aliyuncs.com/tmp/Retail%20Solution1.png'
+              }
+            }
+          }
+
+          if(data.banner){
+            data.banner.datalist.forEach((val, index) => {
+              this.index_banner.push(JSON.parse(val.content))
+            })
+          }
         }, (msg) => {
           this.$ltsMessage.show({type: 'error', message: msg.error_message})
         })
@@ -436,7 +468,7 @@
             .img {
               height: 242px;
               background-position: center;
-              background-size: contain;
+              background-size: cover;
             }
           }
 

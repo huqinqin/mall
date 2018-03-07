@@ -457,6 +457,12 @@ export default {
                 mainRevDeReceipt: 'LTS已收货，请等待退款',
                 mainRevDeRefundSucc: '退款成功',
                 mainRevDeReject: '退款已拒绝',
+                mainRevDeWaitGoods: '(待退货)',
+                mainRevDeOverTime: '完结时间',
+                mainRevDeNotes: '注:因你撤销退款申请，退款已关闭，交易将正常进行。请关注交易超时',
+                mainRevDeFuse: '拒绝退款时间',
+                mainRevDeReturnSucc: '退款成功时间',
+                mainRevDeReturnTotal: '退款总金额',
             },
             list: {
                 mainRevLiOrder: '订单编号',

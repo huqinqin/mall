@@ -337,6 +337,7 @@ export default {
         },
         personal: {
             card: {
+                mainPerCarTitle: '分销证信息',
                 mainPerCarNewCreate: '新增分销商资格证',
                 mainPerCarDisPic: '分销证照片',
                 mainPerCarDisProveNum: '分销证号',

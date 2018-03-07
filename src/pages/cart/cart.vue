@@ -53,7 +53,6 @@
       }
       .el-steps {
         width: 800px;
-        margin-right: -45px;
         .el-step {
           color: #777777;
         }

@@ -78,8 +78,7 @@
         methods: {
             submitFrom(){
                 accountService.resetPass(this.resetForm).then((data) => {
-                    // console.log(data)
-                    // history.back()
+                    location.href = '/'
                 },(msg) => {
                     this.$ltsMessage.show({type: 'error', message: msg.error_message})
                 })

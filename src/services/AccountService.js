@@ -1,5 +1,5 @@
 import BaseService from "./abstract/BaseService";
-
+import md5 from 'md5';
 export default class AccountService extends BaseService {
 
 

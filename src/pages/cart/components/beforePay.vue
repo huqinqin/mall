@@ -183,7 +183,6 @@
       }
       .el-radio {
         margin-top: 12px;
-        width: 90px;
         margin-left: 0;
       }
       .el-radio.first.is-disabled::after {

@@ -58,6 +58,8 @@ export default {
             mainAddBillAddress: '账单地址',
             mainAddPwdInstall: '密码设置',
             mainAddReceivingAddress: '收货地址',
+            mainAddCertiValidDate: '有效期',
+            mainAddCertiAddress: '分销证地址',
             mainAddShareFriends: '分享好友'
         },
         cart: {
@@ -182,6 +184,7 @@ export default {
                 mainDetInfoNoReason: '支持30天无理由退换(如果商品参加活动，退换货以活动规则为准)',
                 mainDetInfoImme: '立即购买',
                 mainDetInfoJoinCart: '加入购物车',
+                mainDetInfoOffShelf: '该商品已下架',
                 mainDetInfoBuy: '购买记录',
                 mainDetInfoHot: '热卖推荐',
                 mainDetInfoLoginPrice: '登录之后查看价格',

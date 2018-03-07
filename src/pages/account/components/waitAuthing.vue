@@ -2,7 +2,7 @@
     <div class="waitAuthing">
         <header>
             <div class="line"></div>
-            <div class="title">REGISRATION SUCCESS</div>
+            <div class="title">SUBMIT SUCCESS</div>
             <div class="line"></div>
         </header>
         <main>

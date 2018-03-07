@@ -434,7 +434,7 @@ export default {
         reverse: {
             detail: {
                 mainRevDeWaitLts: 'Please wait for LTS to proceed',
-                mainRevDeSuccRefund: 'You have successfully submitted a refund application, please wait for LTS' review',
+                mainRevDeSuccRefund: "You have successfully submitted a refund application, please wait for LTS' review",
                 mainRevDeApplyTime: 'Application Submission Time',
                 mainRevDeSaler: 'Sales',
                 mainRevDeSaleNum: 'Quantity',

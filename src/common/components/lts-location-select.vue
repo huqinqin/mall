@@ -2,9 +2,7 @@
     <el-select v-model="location" class="lts-location" expand-trigger="hover" @change="changeHandler">
         <el-option v-for="(option, index) in locationOptions" :key="index" :value="option.value" :label="option.label"/>
     </el-select>
-<!--
-    <el-cascader :options="locationOptions" v-model="location" class="lts-location" expand-trigger="hover" @change="changeHandler"/>
--->
+    <!--<el-cascader :options="locationOptions" v-model="location" class="lts-location" expand-trigger="hover" @change="changeHandler"/>-->
 </template>
 
 <script>
@@ -13,7 +11,7 @@
      * @Author Nation
      * @cdate 2018-01-17 16:08
      */
-    import {CommonUtils} from 'ltsutil'
+    import {commonUtils} from 'ltsutil'
     import LocationConfig from 'config/LocationConfig'
     export default {
         name: 'lts-location',
@@ -37,7 +35,6 @@
         watch:{
             value(newVal){
                 this.location = newVal;
-                debugger;
                 this.changeHandler(newVal);
             },
         },

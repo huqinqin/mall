@@ -5,7 +5,6 @@
                  class="demo-ruleForm">
             <el-form-item :label='$t("main.personal.password.mainPerPwdOldPwd")' prop="oldPassword" style="margin-top: 24px;">
                 <el-input v-model="ruleForm.oldPassword" type="password" ref="password"></el-input>
-                <i class="iconfont icon-yanjing" @click="showPassword" ref="eye"></i>
             </el-form-item>
             <el-form-item :label='$t("main.personal.password.mainPerPwdNewPwd")' prop="newPassword" style="margin-top: 24px;">
                 <el-input v-model="ruleForm.newPassword" type="password"></el-input>

@@ -1,5 +1,5 @@
 <template>
-    <div class="receiveAddress">
+    <div class="card">
         <el-button type="text" @click="dialogShow = true;editFlag = false;">
             <el-button type="primary">新增</el-button>
         </el-button>
@@ -85,7 +85,8 @@
             </el-form>
         </el-dialog>
 
-        <h3 class="title">{{$t("main.personal.card.mainPerCarTitle")}}</h3>
+        <!--<h3 class="title">{{$t("main.personal.card.mainPerCarTitle")}}</h3>-->
+        <h3 class="title">分销证信息</h3>
         <el-table
             :data="tableData"
             style="width: 100%"
@@ -185,7 +186,7 @@
 
     export default {
         components: {ltsLocationSelect},
-        name: "receiveAddress",
+        name: "card",
         data() {
             return {
                 dialogShow: false,
@@ -265,7 +266,6 @@
                     status: 0,//状态
                     type: ''//设为默认，0，有效
                 };
-                debugger;
 
                 if (this.tableData == '' || this.ruleForm.setDefaultFlag) {
                     params.type = 1;
@@ -352,13 +352,14 @@
             },
             emptyData() {
                 this.$refs['ruleForm'].resetFields();
+                this.ruleForm.cardPicUrl = '';
             }
         }
     }
 </script>
 
 <style lang="less">
-    .receiveAddress {
+    .card {
         margin-left: 60px;
         .title {
             font-weight: bold;

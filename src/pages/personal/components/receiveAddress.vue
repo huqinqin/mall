@@ -1,43 +1,62 @@
 <template>
     <div class="receiveAddress">
-        <h3 class="title">{{$t("main.personal.receiveAdd.mainPerReNewCreate")}}</h3>
-        <el-form :model="ruleForm" :rules="rules" :inline="true" ref="ruleForm" label-width="100px" label-position="top"
-                 class="demo-ruleForm">
-            <el-form-item label="name" required style="margin-top: 20px;">
-                <el-input v-model="ruleForm.name"></el-input>
-            </el-form-item>
-            <el-form-item label="first name" required style="margin-top: 20px;">
-                <el-input v-model="ruleForm.name"></el-input>
-            </el-form-item>
-            <br>
-            <el-form-item :label='$t("main.personal.receiveAdd.mainPerReTeleNum")' prop="phone"
-                          style="margin-top: 20px;">
-                <el-input v-model="ruleForm.mobile"></el-input>
-            </el-form-item>
-            <br>
-            <el-form-item :label='$t("main.personal.card.mainPerCarAddress")' prop="address" style="margin-top: 20px;">
-                <el-input type="textarea" resize="none" v-model="ruleForm.address" class="address"></el-input>
-            </el-form-item>
-            <br>
-            <el-form-item :label='$t("main.personal.card.mainPerCarCity")' prop="city" style="margin-top: 20px;">
-                <el-input v-model="ruleForm.city"></el-input>
-            </el-form-item>
-            <br>
-            <el-form-item :label='$t("main.personal.card.mainPerCarState")' prop="state" style="margin-top: 20px;">
-
-            </el-form-item>
-            <br>
-            <el-form-item :label='$t("main.personal.card.mainPerCarZip")' prop="zipcode" style="margin-top: 20px;">
-                <el-input v-model="ruleForm.zipCode"></el-input>
-            </el-form-item>
-            <br>
-            <el-form-item>
-                <el-button type="primary" @click="submitForm('ruleForm')" class="submitBtn">
-                    {{$t("main.personal.card.mainPerCarSave")}}
-                </el-button>
-            </el-form-item>
-        </el-form>
-
+        <el-button type="text" @click="dialogShow = true;editFlag = false;">
+            <el-button type="primary">新增</el-button>
+        </el-button>
+        <el-dialog title="地址信息" :visible.sync="dialogShow" :close-on-click-modal="false" @close="emptyData">
+            <el-form :model="ruleForm" :rules="rules" :inline="true" ref="ruleForm" label-width="100px"
+                     label-position="top"
+                     class="demo-ruleForm">
+                <el-form-item label="name" required style="margin-top: 5px;">
+                    <el-input v-model="ruleForm.name"></el-input>
+                </el-form-item>
+                <br>
+                <el-form-item :label='$t("main.personal.receiveAdd.mainPerReTeleNum")' prop="telephone"
+                              style="margin-top: 5;">
+                    <el-input v-model="ruleForm.mobile"></el-input>
+                </el-form-item>
+                <br>
+                <el-form-item :label='$t("main.personal.card.mainPerCarAddress")' prop="address"
+                              style="margin-top: 5px;">
+                    <el-input type="textarea" resize="none" v-model="ruleForm.address" class="address"></el-input>
+                </el-form-item>
+                <br>
+                <el-form-item :label='$t("main.personal.card.mainPerCarCity")' prop="city" style="margin-top: 5px;">
+                    <el-input v-model="ruleForm.city"></el-input>
+                </el-form-item>
+                <br>
+                <el-form-item :label='$t("main.personal.card.mainPerCarCountry")' prop="country"
+                              style="margin-top: 5px;">
+                    <el-select v-model="ruleForm.country" :placeholder='$t("main.personal.card.mainPerCarEnterCoun")'>
+                        <el-option :label='$t("main.personal.card.mainPerCarUsa")'
+                                   :value='$t("main.personal.card.mainPerCarUsa")'></el-option>
+                    </el-select>
+                </el-form-item>
+                <br>
+                <el-form-item :label='$t("main.personal.card.mainPerCarState")' prop="state" style="margin-top: 5px;">
+                    <lts-location-select v-model="ruleForm.location" :labels.sync="locationLabel" style="width: 400px"/>
+                </el-form-item>
+                <br>
+                <el-form-item :label='$t("main.personal.card.mainPerCarZip")' prop="zipcode" style="margin-top: 5px;">
+                    <el-input v-model="ruleForm.zipCode"></el-input>
+                </el-form-item>
+                <br>
+                <el-form-item>
+                    <el-checkbox v-model="ruleForm.setDefaultFlag">设为默认</el-checkbox>
+                </el-form-item>
+                <br>
+                <el-form-item v-show="!editFlag">
+                    <el-button type="primary" @click="addAdress" class="submitBtn">
+                        {{$t("main.personal.card.mainPerCarSave")}}
+                    </el-button>
+                </el-form-item>
+                <el-form-item v-show="editFlag">
+                    <el-button type="primary" @click="" class="submitBtn">
+                        {{$t("main.personal.card.mainPerCarSave")}}
+                    </el-button>
+                </el-form-item>
+            </el-form>
+        </el-dialog>
         <h3 class="title">地址信息</h3>
         <el-table
             :data="tableData"
@@ -45,37 +64,37 @@
             ref="itemTable">
             <el-table-column
                 prop="user_name"
-                label="receiver"
+                label="收货人"
                 width="100">
             </el-table-column>
             <el-table-column
                 prop="address"
-                label="address"
+                label="详细地址"
                 width="150">
             </el-table-column>
             <el-table-column
                 prop="city"
-                label="city"
+                label="城市"
                 width="80">
             </el-table-column>
             <el-table-column
                 prop="state"
-                label="state"
+                label="州"
                 width="80">
             </el-table-column>
             <el-table-column
                 prop="country"
-                label="country"
+                label="国家"
                 width="80">
             </el-table-column>
             <el-table-column
                 prop="zip_code"
-                label="zip code"
+                label="邮编"
                 width="100">
             </el-table-column>
             <el-table-column
                 prop="mobile"
-                label="mobile"
+                label="联系电话"
                 width="120">
             </el-table-column>
             <el-table-column
@@ -93,13 +112,6 @@
                             </el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
-                    <!--<el-dialog
-                        :title="dialog.title"
-                        :visible.sync="dialog.dialogVisible"
-                        :show-close="false"
-                        width="400px"
-                        center>
-                    </el-dialog>-->
                 </template>
             </el-table-column>
         </el-table>
@@ -108,37 +120,35 @@
 
 <script>
     import addressService from '@/services/AddressService'
+    import {request, commonUtils} from 'ltsutil'
+    import {ltsLocationSelect} from 'ui'
 
     export default {
+        components: {ltsLocationSelect},
         name: "receiveAddress",
         data() {
             return {
+                dialogShow: false,
+                editFlag: false,
                 ruleForm: {
                     name: '',
                     mobile: '',
-                    rank: '',
-                    phone: '',
                     address: '',
+                    location: [],
                     city: '',
-                    country: '',
+                    country: this.$t("main.personal.card.mainPerCarUsa"),
                     state: '',
-                    zipCode: ''
+                    zipcode: '',
+                    setDefaultFlag: false
                 },
+                locationLabel: [],
                 tableData: [],
                 rules: {
                     name: [
-                        {
-                            required: true,
-                            message: this.$t("main.personal.personalMsg.mainPerPerEnterName"),
-                            trigger: 'blur'
-                        }
+                        {required: true, message: this.$t("main.personal.personalMsg.mainPerPerEnterName"), trigger: 'blur'}
                     ],
                     telephone: [
-                        {
-                            required: true,
-                            message: this.$t("main.personal.receiveAdd.mainPerReEnterPhone"),
-                            trigger: 'blur'
-                        }
+                        {required: true, message: this.$t("main.personal.receiveAdd.mainPerReEnterPhone"), trigger: 'blur'}
                     ],
                     address: [
                         {required: true, message: this.$t("main.personal.card.mainPerCarEnterAddr"), trigger: 'blur'}
@@ -171,16 +181,27 @@
             },
             addAdress() {
                 let address = {
-                    mobile: ruleForm.mobile,
-                    userName: ruleForm.name,
-                    address: ruleForm.address + form.building,
-                    building: ruleForm.building,
-                    status: ruleForm.setDefault ? 1 : 0,//默认1，有效0
-                    rank: ruleForm.rank,
-                    zip_code: ruleForm.zipCode
+                    mobile: this.ruleForm.mobile,
+                    userName: this.ruleForm.name,
+                    address: this.locationLabel + ' ' + this.ruleForm.city + '' + this.ruleForm.address,
+                    //building: this.ruleForm.building,
+                    //rank: this.ruleForm.rank,
+                    status: '',//1设为默认，0有效
+                    zip_code: this.ruleForm.zipcode
                 };
+
+                if (this.tableData == '' || this.ruleForm.setDefaultFlag) {
+                    address.status = 1;
+                } else {
+                    address.status = 0;
+                }
+
                 addressService.addItem(address).then((resp) => {
-                    this.getAddressList();
+                    if (resp.success) {
+                        this.dialogShow = false;
+                        this.emptyData();
+                        this.getAddressList();
+                    }
                 }, (msg) => {
                     this.$ltsMessage.show({type: 'error', message: msg.error_message})
                 })
@@ -193,8 +214,8 @@
                         break;
                 }
             },
-            resetForm(formName) {
-                this.$refs[formName].resetFields();
+            emptyData() {
+                this.$refs['ruleForm'].resetFields();
             }
         }
     }
@@ -207,11 +228,13 @@
             font-weight: bold;
             font-size: 16px;
             color: #777;
-            margin-bottom: 36px;
         }
         .el-form--label-top .el-form-item__label {
             padding: 0;
             line-height: 0;
+            margin-bottom: 10px;
+        }
+        .el-form-item {
             margin-bottom: 10px;
         }
         .el-radio__input {
@@ -224,7 +247,6 @@
         .submitBtn {
             width: 100px;
             height: 40px;
-            margin-top: 36px;
         }
         .address textarea {
             width: 400px;
@@ -232,9 +254,6 @@
         }
         .input-with-select .el-input-group__prepend {
             background-color: #fff;
-        }
-        .telephone .el-input__inner {
-            width: 200px;
         }
     }
 </style>

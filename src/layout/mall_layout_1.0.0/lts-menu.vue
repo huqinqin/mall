@@ -33,8 +33,8 @@
                     {href:'/repayMent',title:this.$t("common.ltsMenu.commLtsWaitting")},
                 ],
                 settings:[
-                    {href:'javascript:void(0)',title:this.$t("common.ltsMenu.commLtsPersonInfo")},
-                    {href:'javascript:void(0)',title:this.$t("common.ltsMenu.commLtsEmailAlert")},
+                    {href:'/personal#/personalMessage',title:this.$t("common.ltsMenu.commLtsPersonInfo")},
+                    {href:'/personal#/email',title:this.$t("common.ltsMenu.commLtsEmailAlert")},
                     {href:'/personal#/card',title:this.$t("common.ltsMenu.commLtsAnth")},
                     {href:'/personal#/password',title:this.$t("common.ltsMenu.commLtsPwdSet")},
                     {href:'/personal#/receiveAddress',title:this.$t("common.ltsMenu.commLtsAddress")},

@@ -1,73 +1,91 @@
 <template>
-    <div class="receiveAddress">
-        <h3 class="title">{{$t("main.personal.card.mainPerCarNewCreate")}}</h3>
-        <el-form :model="ruleForm" :rules="rules" :inline="true" ref="ruleForm" label-width="100px" label-position="top"
-                 class="demo-ruleForm">
-            <el-form-item :label='$t("main.personal.card.mainPerCarDisPic")' required style="margin-top: 20px;">
-                <div>
-                    <el-upload
-                        class="avatar-uploader"
-                        action="/cgi/upload/file/misc/image"
-                        :show-file-list="false"
-                        :on-success="handleAvatarSuccess"
-                        :before-upload="beforeAvatarUpload">
-                        <img v-if="ruleForm.cardPicUrl" :src="ruleForm.cardPicUrl" class="avatar">
-                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    </el-upload>
-                </div>
-            </el-form-item>
-            <br>
-            <el-form-item :label='$t("main.personal.card.mainPerCarCompany")' prop="company"
-                          style="margin-top: 5px;">
-                <el-input v-model="ruleForm.company"></el-input>
-            </el-form-item>
-            <br>
-            <el-form-item :label='$t("main.personal.card.mainPerCarDisProveNum")' prop="number"
-                          style="margin-top: 5px;">
-                <el-input v-model="ruleForm.number"></el-input>
-            </el-form-item>
-            <br>
-            <el-form-item :label='$t("main.personal.card.mainPerCarAddress")' prop="address" style="margin-top: 5px;">
-                <el-input type="textarea" resize="none" v-model="ruleForm.address" class="address"></el-input>
-            </el-form-item>
-            <br>
-            <el-form-item :label='$t("main.personal.card.mainPerCarCity")' prop="city" style="margin-top: 5px;">
-                <el-input v-model="ruleForm.city"></el-input>
-            </el-form-item>
-            <br>
-            <el-form-item :label='$t("main.personal.card.mainPerCarCountry")' prop="country" style="margin-top: 5px;">
-                <el-select v-model="ruleForm.country" :placeholder='$t("main.personal.card.mainPerCarEnterCoun")'>
-                    <el-option :label='$t("main.personal.card.mainPerCarUsa")'
-                               :value='$t("main.personal.card.mainPerCarUsa")'></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item :label='$t("main.personal.card.mainPerCarState")' prop="state" style="margin-top: 5px;">
-                <lts-location v-model="ruleForm.location" :labels.sync="locationLabel" style="width: 400px"/>
-            </el-form-item>
-            <br>
-            <el-form-item :label='$t("main.personal.card.mainPerCarZip")' prop="zipcode" style="margin-top: 5px;">
-                <el-input v-model="ruleForm.zipcode"></el-input>
-            </el-form-item>
-            <br>
-            <el-form-item :label='$t("main.personal.card.mainPerCarFromDate")' prop="date" style="margin-top: 5px;">
-                <el-date-picker
-                    v-model="ruleForm.invalid_time"
-                    type="daterange"
-                    value-format="timestamp"
-                    start-placeholder="start date"
-                    end-placeholder="end date"
-                    :default-time="['00:00:00', '23:59:59']"
-                    class="common-width">
-                </el-date-picker>
-            </el-form-item>
-            <br>
-            <el-form-item>
-                <el-button type="primary" @click="addCard" class="submitBtn">
-                    {{$t("main.personal.card.mainPerCarSave")}}
-                </el-button>
-            </el-form-item>
-        </el-form>
+    <div class="card">
+        <el-button type="text" @click="dialogShow = true;editFlag = false;">
+            <el-button type="primary">{{$t("main.personal.card.mainPerCarNewCreate")}}</el-button>
+        </el-button>
 
+        <el-dialog title="分销资格证信息" :visible.sync="dialogShow" :close-on-click-modal="false" @close="emptyData">
+            <el-form :model="ruleForm" :rules="rules" :inline="true" ref="ruleForm" label-width="100px"
+                     label-position="top"
+                     class="demo-ruleForm">
+                <el-form-item :label='$t("main.personal.card.mainPerCarDisPic")' required>
+                    <div>
+                        <el-upload
+                            class="avatar-uploader"
+                            action="/cgi/upload/file/misc/image"
+                            :show-file-list="false"
+                            :on-success="handleAvatarSuccess"
+                            :before-upload="beforeAvatarUpload">
+                            <img v-if="ruleForm.cardPicUrl" :src="ruleForm.cardPicUrl" class="avatar">
+                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                        </el-upload>
+                    </div>
+                </el-form-item>
+                <br>
+                <el-form-item :label='$t("main.personal.card.mainPerCarCompany")' prop="company"
+                              style="margin-top: 5px;">
+                    <el-input v-model="ruleForm.company"></el-input>
+                </el-form-item>
+                <br>
+                <el-form-item :label='$t("main.personal.card.mainPerCarDisProveNum")' prop="number"
+                              style="margin-top: 5px;">
+                    <el-input v-model="ruleForm.number"></el-input>
+                </el-form-item>
+                <br>
+                <el-form-item :label='$t("main.personal.card.mainPerCarAddress")' prop="address"
+                              style="margin-top: 5px;">
+                    <el-input type="textarea" resize="none" v-model="ruleForm.address" class="address"></el-input>
+                </el-form-item>
+                <br>
+                <el-form-item :label='$t("main.personal.card.mainPerCarCity")' prop="city" style="margin-top: 5px;">
+                    <el-input v-model="ruleForm.city"></el-input>
+                </el-form-item>
+                <br>
+                <el-form-item :label='$t("main.personal.card.mainPerCarCountry")' prop="country"
+                              style="margin-top: 5px;">
+                    <el-select v-model="ruleForm.country" :placeholder='$t("main.personal.card.mainPerCarEnterCoun")'>
+                        <el-option :label='$t("main.personal.card.mainPerCarUsa")'
+                                   :value='$t("main.personal.card.mainPerCarUsa")'></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item :label='$t("main.personal.card.mainPerCarState")' prop="state" style="margin-top: 5px;">
+                    <lts-location-select v-model="ruleForm.location" :labels.sync="locationLabel" style="width: 400px"/>
+                </el-form-item>
+                <br>
+                <el-form-item :label='$t("main.personal.card.mainPerCarZip")' prop="zipcode" style="margin-top: 5px;">
+                    <el-input v-model="ruleForm.zipcode"></el-input>
+                </el-form-item>
+                <br>
+                <el-form-item :label='$t("main.personal.card.mainPerCarFromDate")' prop="" style="margin-top: 5px;">
+                    <el-date-picker
+                        v-model="ruleForm.invalid_time"
+                        type="daterange"
+                        value-format="timestamp"
+                        start-placeholder="start date"
+                        end-placeholder="end date"
+                        :default-time="['00:00:00', '23:59:59']"
+                        class="common-width">
+                    </el-date-picker>
+                </el-form-item>
+                <br>
+                <el-form-item>
+                    <el-checkbox v-model="ruleForm.setDefaultFlag">设为默认</el-checkbox>
+                </el-form-item>
+                <br>
+                <el-form-item v-show="!editFlag">
+                    <el-button type="primary" @click="addCard" class="submitBtn">
+                        {{$t("main.personal.card.mainPerCarSave")}}
+                    </el-button>
+                </el-form-item>
+                <el-form-item v-show="editFlag">
+                    <el-button type="primary" @click="updateCard" class="submitBtn">
+                        {{$t("main.personal.card.mainPerCarSave")}}
+                    </el-button>
+                </el-form-item>
+            </el-form>
+        </el-dialog>
+
+        <!--<h3 class="title">{{$t("main.personal.card.mainPerCarTitle")}}</h3>-->
         <h3 class="title">分销证信息</h3>
         <el-table
             :data="tableData"
@@ -139,10 +157,14 @@
                 <template slot-scope="scope">
                     <el-dropdown @command="getDialog">
                         <el-button class="el-dropdown-link">
-                            操作<i class="el-icon-arrow-down el-icon--right"></i>
+                            {{$t("main.order.list.mainOrLiHanlde")}}<i class="el-icon-arrow-down el-icon--right"></i>
                         </el-button>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item :command="{'type': 'edit','params':{'uid': scope.row.uid}}">编辑
+                            <el-dropdown-item :command="{type: 'edit',row: scope.row}">
+                                {{$t("main.cart.settle.mainCartSeAlert")}}
+                            </el-dropdown-item>
+                            <el-dropdown-item :command="{type: 'delete',row: scope.row}">
+                                {{$t("main.cart.settle.mainCartSeDel")}}
                             </el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
@@ -162,15 +184,17 @@
 <script>
     import personalService from '@/services/PersonalService'
     import {request, commonUtils} from 'ltsutil'
-    import {ltsLocation} from 'ui'
+    import {ltsLocationSelect} from 'ui'
 
     export default {
-        components: {ltsLocation},
-        name: "receiveAddress",
+        components: {ltsLocationSelect},
+        name: "card",
         data() {
             return {
+                dialogShow: false,
+                editFlag: false,
                 ruleForm: {
-                    uid: '',
+                    id: '',
                     cardPicUrl: '',
                     number: '',
                     address: '',
@@ -180,8 +204,8 @@
                     country: this.$t("main.personal.card.mainPerCarUsa"),
                     state: '',
                     zipcode: '',
-                    date: '',
-                    invalid_time: []
+                    invalid_time: [],
+                    setDefaultFlag: false
                 },
                 locationLabel: [],
                 tableData: [],
@@ -199,7 +223,7 @@
                         {required: true, message: this.$t("main.personal.card.mainPerCarSeleCount"), trigger: 'change'}
                     ],
                     state: [
-                        {required: true, message: this.$t("main.personal.card.mainPerCarSeleState"), trigger: 'change'}
+                        {required: true, message: this.$t("main.personal.card.mainPerCarSeleState"), trigger: 'blur'}
                     ],
                     zipcode: [
                         {required: true, message: this.$t("main.personal.card.mainPerCarPutZip"), trigger: 'blur'}
@@ -222,13 +246,49 @@
             getCardList(uid) {
                 personalService.getSaleCard(uid).then((resp) => {
                     this.tableData = resp.data.distribute_certificate_d_o_list;
+                    this.tableData ? this.ruleForm.setDefaultFlag = false : this.ruleForm.setDefaultFlag = true;
                 }, (error) => {
                     this.$ltsMessage.show({type: 'error', message: error.error_message});
                 });
             },
             addCard() {
                 let params = {
-                    address: this.locationLabel[0] + ' ' + this.locationLabel[1] + '' + this.ruleForm.address,
+                    address: this.locationLabel + ' ' + this.ruleForm.city + '' + this.ruleForm.address,
+                    lc_code: this.ruleForm.location,
+                    city: this.ruleForm.city,
+                    country: this.ruleForm.country,
+                    distributeNum: this.ruleForm.number,
+                    validTime: this.ruleForm.invalid_time[0],//start
+                    invalidTime: this.ruleForm.invalid_time[1],//end
+                    picture: this.ruleForm.cardPicUrl,
+                    postcode: this.ruleForm.zipcode,
+                    remark: "",
+                    shopUid: this.ruleForm.uid,
+                    state: this.locationLabel,//州
+                    status: 0,//状态
+                    type: ''//设为默认，0，有效
+                };
+
+                if (this.tableData == '' || this.ruleForm.setDefaultFlag) {
+                    params.type = 1;
+                } else {
+                    params.type = 0;
+                }
+
+                personalService.addSaleCard(params).then((resp) => {
+                    if (resp.success) {
+                        this.dialogShow = false;
+                        this.emptyData();
+                        this.getUserMessage();
+                    }
+                }, (error) => {
+                    this.$ltsMessage.show({type: 'error', message: error.error_message});
+                });
+            },
+            updateCard() {
+                let params = {
+                    id: this.ruleForm.id,
+                    address: this.locationLabel[0] + ' ' + this.ruleForm.city + '' + this.ruleForm.address,
                     lc_code: this.ruleForm.location[1],
                     city: this.ruleForm.city,
                     country: this.ruleForm.country,
@@ -239,42 +299,16 @@
                     postcode: this.ruleForm.zipcode,
                     remark: "",
                     shopUid: this.ruleForm.uid,
-                    state: "",
-                    status: 0,
-                    type: ''//设为默认，0，有效
+                    state: this.locationLabel[0],//州
+                    status: 0,//状态
+                    type: this.ruleForm.setDefaultFlag ? 1 : 0//设为默认，0，有效
                 };
-
-                if (this.tableData == '') {
-                    params.type = 1;
-                } else {
-                    params.type = 0;
-                }
-
-                personalService.addSaleCard(params).then((resp) => {
-
-                }, (error) => {
-                    this.$ltsMessage.show({type: 'error', message: error.error_message});
-                });
-            },
-            updateCard() {
-                let params = {
-                    id: 2,
-                    address: "bianji",
-                    city: "dd",
-                    company: "bianji",
-                    country: "china",
-                    distributeNum: "0002",
-                    invalidTime: 1519904223000,
-                    picture: "http://www.baidu.com",
-                    postcode: '00002365',
-                    remark: "",
-                    shopUid: this.uid,
-                    state: "ff",
-                    status: 0,
-                    validTime: 1522496223000
-                };
-                installerService.updateSaleCard(params).then((resp) => {
-
+                personalService.updateSaleCard(params).then((resp) => {
+                    if (resp.success) {
+                        this.dialogShow = false;
+                        this.emptyData();
+                        this.getUserMessage();
+                    }
                 }, (error) => {
                     this.$ltsMessage.show({type: 'error', message: error.error_message});
                 });
@@ -291,10 +325,26 @@
             getDialog(item) {
                 switch (item.type) {
                     case 'edit':
+                        this.editFlag = true;
+                        this.ruleForm = {
+                            id: item.row.id,
+                            cardPicUrl: item.row.picture,
+                            number: item.row.distribute_num,
+                            address: item.row.address,
+                            location: [],
+                            company: item.row.company,
+                            city: item.row.city,
+                            country: this.$t("main.personal.card.mainPerCarUsa"),
+                            state: item.row.state,
+                            zipcode: item.row.postcode,
+                            invalid_time: [item.row.valid_time,item.row.invalid_time],
+                            setDefaultFlag: false
+                        };
                         break;
                     case 'delete':
                         break;
                 }
+                this.dialogShow = true;
             },
             handleAvatarSuccess(res, file) {
                 this.ruleForm.cardPicUrl = res.data.url;
@@ -302,25 +352,28 @@
             beforeAvatarUpload(file) {
 
             },
-            resetForm(formName) {
-                this.$refs[formName].resetFields();
+            emptyData() {
+                this.$refs['ruleForm'].resetFields();
+                this.ruleForm.cardPicUrl = '';
             }
         }
     }
 </script>
 
 <style lang="less">
-    .receiveAddress {
+    .card {
         margin-left: 60px;
         .title {
             font-weight: bold;
             font-size: 16px;
             color: #777;
-            margin-bottom: 36px;
         }
         .el-form--label-top .el-form-item__label {
             padding: 0;
             line-height: 0;
+            margin-bottom: 10px;
+        }
+        .el-form-item {
             margin-bottom: 10px;
         }
         .el-radio__input {
@@ -333,7 +386,6 @@
         .submitBtn {
             width: 100px;
             height: 40px;
-            margin-top: 36px;
         }
         .address textarea {
             width: 400px;

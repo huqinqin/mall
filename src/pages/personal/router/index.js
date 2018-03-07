@@ -12,27 +12,27 @@ export default new Router({
     routes: [
         {
             path: '/password',
-            name: password,
+            name: 'password',
             component: password
         },
         {
             path: '/personalMessage',
-            name: personalMessage,
+            name: 'personalMessage',
             component: personalMessage
         },
         {
             path: '/receiveAddress',
-            name: receiveAddress,
+            name: 'receiveAddress',
             component: receiveAddress
         },
         {
             path: '/card',
-            name: card,
+            name: 'card',
             component: card
         },
         {
             path: '/email',
-            name: email,
+            name: 'email',
             component: email
         }
     ]

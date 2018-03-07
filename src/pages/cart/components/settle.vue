@@ -84,7 +84,7 @@
       </el-dialog>
     </div>
     <div class="address">
-      <h5>分销证地址</h5>
+      <h5>{{$t("main.address.mainAddCertiAddress")}}</h5>
       <ul>
         <li v-for="(item,key) in certificateData" :class="[{checked:item.id === checkedId}]"
             @click="checkAddress(item)" v-if="item.status === 0">
@@ -93,16 +93,11 @@
           </header>
           <main>
             <p>{{item.building}}</p>
-            <p>有效期：{{item.valid}}</p>
+            <p>{{$t("main.address.mainAddCertiValidDate")}}：{{item.valid}}</p>
           </main>
-          <!--<footer>-->
-            <!--<button class="default" @click.stop="toggleDefault(item)">{{ $t("main.cart.settle.mainCartSeFitDefault")-->
-              <!--}}-->
-            <!--</button>-->
-            <!--<button v-show="item.id === defaultId">{{ $t("main.cart.settle.mainCartSeDefaultAdress") }}</button>-->
-            <!--<button class="delete" @click="deleteAddress(item,key)">{{ $t("main.cart.settle.mainCartSeDel") }}</button>-->
-            <!--<button @click="editAddress(item)">{{ $t("main.cart.settle.mainCartSeAlert") }}</button>-->
-          <!--</footer>-->
+          <footer>
+            <button >{{$t("main.address.mainAddCertiAddress")}}</button>
+          </footer>
         </li>
       </ul>
       <el-dialog :title='$t("main.address.mainAddReceivingAddress")' :visible.sync="showAddAddress" center>
@@ -203,14 +198,14 @@
         </el-table-column>
         <el-table-column prop="" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
           <template slot-scope="scope">
-            <lts-money :money="scope.row.item_props[0].price"></lts-money>
+            <lts-money :money="scope.row.item_props[0].price - scope.row.discount"></lts-money>
           </template>
         </el-table-column>
         <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="" prop="num" align="center">
         </el-table-column>
         <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="" align="center">
           <template slot-scope="scope">
-            <div class="count" ref="count">${{(scope.row.num*scope.row.item_props[0].price/100).toFixed(2)}}</div>
+            <div class="count" ref="count"><lts-money :money="(scope.row.item_props[0].price - scope.row.discount) * scope.row.num"></lts-money></div>
           </template>
         </el-table-column>
       </el-table>
@@ -226,6 +221,8 @@
           :money="sum.express"></lts-money></span></span></p>
         <p>{{ $t("main.cart.settle.mainCartSeTax") }}： <span><span v-if="sum.tax == 0 || sum.tax">+<lts-money
           :money="sum.tax"></lts-money></span></span></p>
+        <p>{{ $t("main.cart.list.mainCartliBenefit") }}： <span><span v-if="sum.promotion == 0 || sum.promotion">-<lts-money
+          :money="sum.promotion"></lts-money></span></span></p>
         <p class="result">{{ $t("main.cart.settle.mainCartSeMustPay") }}： <span><span v-if="totalPrice"><lts-money
           :money="totalPrice"></lts-money></span></span></p>
       </div>
@@ -563,6 +560,7 @@
           this.sum.express = fee.HD_ALL
           this.sum.tax = fee.TAXES_ALL
           this.sum.amount = resp.data.wholesale_order.pay
+          this.sum.promotion = resp.data.wholesale_order.discount
           this.totalPrice = resp.data.wholesale_order.pay_info.pay_real
           this.$emit('submit', 2)
         }, (msg) => {
@@ -585,6 +583,7 @@
           })
         })
         this.tableData = items
+        console.log(items)
         // this.user_id = this.$route.params.userId
       }
       this.getAddressList()
@@ -724,6 +723,9 @@
             p {
               line-height: 40px;
               font-size: 14px;
+              overflow: hidden;
+              text-overflow:ellipsis;
+              white-space: nowrap;
             }
             span {
               font-size: 12px;

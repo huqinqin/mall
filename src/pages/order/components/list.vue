@@ -29,7 +29,7 @@
                                     </div>
                                 </template>
                             </el-table-column>
-                            <el-table-column width="100" align="center">
+                            <el-table-column width="100" align="left">
                                 <template slot-scope="subscope">
                                     <!--<del class="text-secondary" v-if="subscope.row.pay > subscope.row.pay_real">-->
                                     <!--<lts-money :money="subscope.row.pay"></lts-money>-->
@@ -37,14 +37,14 @@
                                     <div style="color: #ff3b41;"><lts-money :money="subscope.row.price"></lts-money></div>
                                 </template>
                             </el-table-column>
-                            <el-table-column prop="num" width="100" align="center">
+                            <el-table-column prop="num" width="100" align="left">
                                 <template slot-scope="subscope">{{subscope.row.num}}{{subscope.row.wholesale_item_d_o.unit}}</template>
                             </el-table-column>
-                            <el-table-column  width="160" align="center">
+                            <el-table-column  width="80" align="center">
                                 <template>
                                 </template>
                             </el-table-column>
-                            <el-table-column prop="status_title" width="130" align="center">
+                            <el-table-column prop="status_title" width="80" align="center">
                                 <template slot-scope="subscope">
                                         <!--<span v-if="subscope.row.status != 9">-->
                                             <!--<span v-if="subscope.row.last_refund_status == 1">-->
@@ -105,12 +105,12 @@
             <el-table-column label="单价" header-align="left" align="left" width="100" :show-overflow-tooltip="true" />
             <el-table-column label="数量" header-align="left" align="left" width="100">
             </el-table-column>
-            <el-table-column prop="pay_info.pay_type_title" :label='$t("main.order.list.mainOrLiReal")' align="left" width="160">
+            <el-table-column prop="pay_info.pay_type_title" :label='$t("main.order.list.mainOrLiReal")' align="left" width="80">
                 <template slot-scope="scope">
                     <div><lts-money :money="scope.row.fee_total"></lts-money></div>
                 </template>
             </el-table-column>
-            <el-table-column prop="status_title" :label='$t("main.order.list.mainOrLiTransationSta")' align="left" width="118">
+            <el-table-column prop="status_title" :label='$t("main.order.list.mainOrLiTransationSta")' align="left" width="80">
                 <template slot-scope="scope">
                     <span type="success" v-if="scope.row.status == 7 || scope.row.status == 9">
                         {{scope.row.status_title}}

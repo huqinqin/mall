@@ -9,11 +9,11 @@
                                 <div class="order-item-detail">
                                     <img :src="scope.row.image_value + '@30w_2e'" class="item" />
                                     <div>{{scope.row.item_name}}</div>
-                                </div>
-                                <div class="prop-box">
-                                    <div v-for="(propObj,index) in scope.row.propValue">
-                                        <div v-for="(prop,key) in propObj">
-                                            <i>{{prop}}/</i>
+                                    <div class="prop-box">
+                                        <div v-for="(propObj,index) in scope.row.propValue">
+                                            <div v-for="(prop,key) in propObj">
+                                                <div>{{key}}:{{prop}}</div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -183,6 +183,7 @@
                 orderService.query_by_order_tid(this.tid).then((resp) => {
                     this.form.refundMoney = resp.data.price_real;
                     this.form.maxRefund = resp.data.num;
+                    resp.data.wholesale_item_d_o.propValue = JSON.parse(resp.data.wholesale_item_d_o.props);
                     resp.data.wholesale_item_d_o_list = [resp.data.wholesale_item_d_o];
                     this.orderItem = resp.data;
                 },(err) => {
@@ -251,7 +252,6 @@
 </script>
 <style lang="less">
     .reverse{
-        width: 587px;
         margin: auto;
         .el-form-item__label{
             font-size: 14px;

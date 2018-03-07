@@ -86,27 +86,7 @@
     <div class="address">
       <h5>{{ $t("main.address.mainAddReceivingAddress") }}</h5>
       <ul>
-        <li :class="[{checked:defaultAddress.id === checkedId},{default:defaultAddress.id === defaultId}]"
-            v-show="defaultAddress.user_name" @click="checkAddress(defaultAddress)">
-          <header>
-            <div><p>{{defaultAddress.user_name}}({{defaultAddress.address}}) </p></div>
-          </header>
-          <main>
-            <p>{{defaultAddress.building}}</p>
-            <p>{{ $t("main.cart.settle.mainCartSePhone") }}：{{defaultAddress.mobile}}</p>
-          </main>
-          <footer>
-            <button class="default" @click.stop="toggleDefault(defaultAddress)">{{
-              $t("main.cart.settle.mainCartSeFitDefault") }}
-            </button>
-            <button v-show="defaultAddress.id === defaultId">{{ $t("main.cart.settle.mainCartSeDefaultAdress") }}
-            </button>
-            <button class="delete" @click="deleteAddress(defaultAddress,0)">{{ $t("main.cart.settle.mainCartSeDel") }}
-            </button>
-            <button @click="editAddress(defaultAddress)">{{ $t("main.cart.settle.mainCartSeAlert") }}</button>
-          </footer>
-        </li>
-        <li v-for="(item,key) in addressData" :class="[{checked:item.id === checkedId},{default:item.id === defaultId}]"
+        <li v-for="(item,key) in certificateData" :class="[{checked:item.id === checkedId}]"
             @click="checkAddress(item)" v-if="item.status === 0">
           <header>
             <div><p>{{item.user_name}}({{item.address}}) </p></div>
@@ -123,10 +103,6 @@
             <button class="delete" @click="deleteAddress(item,key)">{{ $t("main.cart.settle.mainCartSeDel") }}</button>
             <button @click="editAddress(item)">{{ $t("main.cart.settle.mainCartSeAlert") }}</button>
           </footer>
-        </li>
-        <li class="addAddress" @click="addAddress">
-          <i class="iconfont icon-add"></i>
-          <div>{{ $t("main.cart.settle.mainCartSeAddAdress") }}</div>
         </li>
       </ul>
       <el-dialog :title='$t("main.address.mainAddReceivingAddress")' :visible.sync="showAddAddress" center>
@@ -368,6 +344,7 @@
         checkedAddress: {},
         defaultAddress: {},
         addressData: [],
+        certificateData:[],
         tableData: [],
         multipleTable: [],
         num: 10,
@@ -441,9 +418,11 @@
       getAddressList () {
         addressService.getList().then((data) => {
           this.addressData = data.data.consumer_address_d_o
+          this.certificateData = data.data.distribute_certificate_d_o
+
           this.addressData.forEach((value, index) => {
             value.zipCode = value.zip_code
-
+            value.state = value.location_d_o.province
             if (value.status === 1) {
               value.setDefault = true
               this.defaultId = value.id
@@ -453,6 +432,17 @@
             } else {
               value.setDefault = false
             }
+            let position = value.address.indexOf(value.building)
+            if (position !== 0) {
+              value.address = value.address.slice(0, position)
+            }
+          })
+
+
+          this.certificateData.forEach((value, index) => {
+            value.zipCode = value.postcode
+            value.state = value.state
+            value.user_name = value.company
             let position = value.address.indexOf(value.building)
             if (position !== 0) {
               value.address = value.address.slice(0, position)
@@ -521,12 +511,10 @@
           taxesFee: this.sum.tax,
           ship: {
             logisticsCompany:this.expressForm.express,
-            userAddrIdType: 0,
+            userAddrIdType: this.checkedAddress.valid_time ? 1 : 0,
             // 0代表收货地址，1代表分销证地址，1免税费
-            toLcCode: '050101000000',
-            // this.checkedAddress.address,
-            toZipCode: 92093,
-            // this.checkedAddress.zipCode,
+            toStates: this.checkedAddress.state,
+            toZipCode: this.checkedAddress.zipCode,
             serviceCode: this.expressForm.service
           }
         }
@@ -564,12 +552,10 @@
           taxesFeeCalculator: 1,
           ship: {
             logisticsCompany:this.expressForm.express,
-            userAddrIdType: 0,
+            userAddrIdType: this.checkedAddress.valid_time ? 1 : 0,
             // 0代表收货地址，1代表分销证地址，1免税费
-            toStates: 'California',
-            // this.checkedAddress.address,
-            toZipCode: 92093,
-            // this.checkedAddress.zipCode,
+            toStates: this.checkedAddress.state,
+            toZipCode: this.checkedAddress.zipCode,
             serviceCode: this.expressForm.service
           }
         }

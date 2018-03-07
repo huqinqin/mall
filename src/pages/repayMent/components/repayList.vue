@@ -75,7 +75,7 @@
             <el-table-column
                 :label='$t("main.order.list.mainOrLiHanlde")'>
                 <template slot-scope="scope">
-                    <el-button  @click="handleClick(scope.row)" type="primary" size="small" v-if="scope.row.status === 1">还款</el-button>
+                    <el-button  @click="handleClick(scope.row)" type="primary" size="small" v-if="scope.row.status === 1">{{$t('main.cart.beforePay.mainCartBefPay')}}</el-button>
                 </template>
             </el-table-column>
         </el-table>

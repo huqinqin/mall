@@ -495,7 +495,7 @@ export default {
                 mainRevLiAccept: '退款接受',
                 mainRevLiReject: '退款驳回',
                 mainRevLiSeller: '卖家已赔',
-                mainRevLiSuccess: '退款接受',
+                mainRevLiSuccess: '退款成功',
                 mainRevLiClose: '退款关闭',
                 mainRevLiSearch: '搜索',
                 mainRevLiErr: '查询失败，请稍后重试:',

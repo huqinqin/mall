@@ -17,26 +17,11 @@
                 keywords:'',
             }
         },
+
         methods:{
             searchToHref(){
                 location.href = '/search#/?cateId=' + '&keywords=' + this.keywords
             },
-        },
-        created(){
-            $(document).ready(function(){
-                resize();
-            });
-            $(window).resize(function(){
-                resize();
-            });
-            function resize(){
-                let width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-                if(width <= 1500){
-                    $('.simpleHead').attr('class','simpleHead b1200');
-                }else{
-                    $('.simpleHead').attr('class','simpleHead b1500');
-                }
-            }
         }
     }
 </script>

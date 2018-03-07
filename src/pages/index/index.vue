@@ -164,18 +164,46 @@
         homeService.getList().then((data) => {
           this.itemList = data.floor.datalist
           this.hotList = data.hot_buys.datalist[0].items
-          if(data.fix_pic){
+
+          if(data.fix_pic && data.fix_pic.datalist && data.fix_pic.datalist[0] && data.fix_pic.datalist[0].content){
             data.fix_pic.datalist[0].content = JSON.parse(data.fix_pic.datalist[0].content)
             this.posterBig = data.fix_pic.datalist[0]
+          }else{
+            this.posterBig = {
+              name:'error_picture',
+              content: {
+                link_url:'javascript:void(0)',
+                fix_url:'http://specimen.oss-cn-hangzhou.aliyuncs.com/tmp/Retail%20Solution1.png'
+              }
+            }
           }
-          if(data.fix_pic_right2){
+
+          if(data.fix_pic_right2 && data.fix_pic_right2.datalist && data.fix_pic_right2.datalist[0] && data.fix_pic_right2.datalist[0].content){
             data.fix_pic_right2.datalist[0].content = JSON.parse(data.fix_pic_right2.datalist[0].content)
             this.posterSmall.bottom = data.fix_pic_right2.datalist[0]
+          }else{
+            this.posterSmall.bottom = {
+              name:'error_picture',
+              content: {
+                link_url:'javascript:void(0)',
+                fix_url:'http://specimen.oss-cn-hangzhou.aliyuncs.com/tmp/Retail%20Solution1.png'
+              }
+            }
           }
-          if(data.fix_pic_right1){
+
+          if(data.fix_pic_right1 && data.fix_pic_right1.datalist && data.fix_pic_right1.datalist[0] && data.fix_pic_right1.datalist[0].content){
             data.fix_pic_right1.datalist[0].content = JSON.parse(data.fix_pic_right1.datalist[0].content)
-            this.posterSmall.bottom = data.fix_pic_right1.datalist[0]
+            this.posterSmall.top = data.fix_pic_right1.datalist[0]
+          }else{
+            this.posterSmall.top = {
+              name:'error_picture',
+              content: {
+                link_url:'javascript:void(0)',
+                fix_url:'http://specimen.oss-cn-hangzhou.aliyuncs.com/tmp/Retail%20Solution1.png'
+              }
+            }
           }
+
           if(data.banner){
             data.banner.datalist.forEach((val, index) => {
               this.index_banner.push(JSON.parse(val.content))

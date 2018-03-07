@@ -100,7 +100,7 @@
                         </el-button>
                         <el-dropdown-menu slot="dropdown">
                             <el-dropdown-item :command="{'type': 'edit','params':{'uid': scope.row.uid}}">
-                                {{$t("main.reverse.dialog.mainRevDiaAlert ")}}
+                                {{$t("main.order.list.mainOrLiHanlde")}}
                             </el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>

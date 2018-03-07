@@ -10,17 +10,6 @@
                 <el-input v-model="ruleForm.name"></el-input>
             </el-form-item>
             <br>
-            <el-form-item :label='$t("main.personal.receiveAdd.mainPerRePhone")' prop="telephone" style="margin-top: 20px;" class="telephone">
-                <div style="margin-top: 15px;">
-                    <el-input :placeholder='$t("main.personal.receiveAdd.mainPerReEnterCont")' v-model="telephone" class="input-with-select">
-                        <el-select v-model="ruleForm.selectTelephone" slot="prepend" :placeholder='$t("main.accountNew.register.mainAcReSelect")'>
-                            <el-option :label='$t("main.personal.card.mainPerCarChina")' :value='$t("main.personal.card.mainPerCarChina")'></el-option>
-                            <el-option :label='$t("main.personal.card.mainPerCarUsa")' :value='$t("main.personal.card.mainPerCarUsa")'></el-option>
-                        </el-select>
-                    </el-input>
-                </div>
-            </el-form-item>
-            <br>
             <el-form-item :label='$t("main.personal.receiveAdd.mainPerReTeleNum")' prop="phone"
                           style="margin-top: 20px;">
                 <el-input v-model="ruleForm.mobile"></el-input>

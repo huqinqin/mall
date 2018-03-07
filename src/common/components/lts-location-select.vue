@@ -13,7 +13,7 @@
      * @Author Nation
      * @cdate 2018-01-17 16:08
      */
-    import {commonUtils} from 'ltsutil'
+    import {CommonUtils} from 'ltsutil'
     import LocationConfig from 'config/LocationConfig'
     export default {
         name: 'lts-location',

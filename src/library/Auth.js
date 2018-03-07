@@ -28,10 +28,18 @@ function checkLogin(e){
 
 Vue.directive('ltsLoginShow',{
     bind(el,binding){
-        if(binding.arg == session.checkLogin().toString()){
+        if(session.checkLogin() != true){
+            if(binding.value == true){
 
+            }else{
+                el.style.display = 'none'
+            }
         }else{
-            el.style.display = 'none'
+            if(binding.arg == session.checkLogin().toString()){
+
+            }else{
+                el.style.display = 'none'
+            }
         }
     }
 })

@@ -1,18 +1,18 @@
 <template>
     <div class="receiveAddress">
         <el-button type="text" @click="dialogShow = true;editFlag = false;">
-            <el-button type="primary">新增</el-button>
+            <el-button type="primary">{{$t("main.personal.receiveAdd.mainPerReNewCreate")}}</el-button>
         </el-button>
         <el-dialog title="地址信息" :visible.sync="dialogShow" :close-on-click-modal="false" @close="emptyData">
             <el-form :model="ruleForm" :rules="rules" :inline="true" ref="ruleForm" label-width="100px"
                      label-position="top"
                      class="demo-ruleForm">
-                <el-form-item label="name" required style="margin-top: 5px;">
+                <el-form-item :label='$t("main.cart.settle.mainCartSeContact")' required style="margin-top: 5px;">
                     <el-input v-model="ruleForm.name"></el-input>
                 </el-form-item>
                 <br>
                 <el-form-item :label='$t("main.personal.receiveAdd.mainPerReTeleNum")' prop="telephone"
-                              style="margin-top: 5;">
+                              style="margin-top: 5px;">
                     <el-input v-model="ruleForm.mobile"></el-input>
                 </el-form-item>
                 <br>
@@ -42,7 +42,7 @@
                 </el-form-item>
                 <br>
                 <el-form-item>
-                    <el-checkbox v-model="ruleForm.setDefaultFlag">设为默认</el-checkbox>
+                    <el-checkbox v-model="ruleForm.setDefaultFlag">{{$t("main.cart.settle.mainCartSeFitDefaultAddr")}}</el-checkbox>
                 </el-form-item>
                 <br>
                 <el-form-item v-show="!editFlag">
@@ -51,7 +51,7 @@
                     </el-button>
                 </el-form-item>
                 <el-form-item v-show="editFlag">
-                    <el-button type="primary" @click="" class="submitBtn">
+                    <el-button type="primary" @click="updateAdress" class="submitBtn">
                         {{$t("main.personal.card.mainPerCarSave")}}
                     </el-button>
                 </el-form-item>
@@ -107,8 +107,11 @@
                             {{$t("main.order.list.mainOrLiHanlde")}}<i class="el-icon-arrow-down el-icon--right"></i>
                         </el-button>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item :command="{'type': 'edit','params':{'uid': scope.row.uid}}">
-                                {{$t("main.order.list.mainOrLiHanlde")}}
+                            <el-dropdown-item :command="{type: 'edit',row: scope.row}">
+                                {{$t("main.cart.settle.mainCartSeAlert")}}
+                            </el-dropdown-item>
+                            <el-dropdown-item :command="{type: 'delete',row: scope.row}">
+                                {{$t("main.cart.settle.mainCartSeDel")}}
                             </el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
@@ -182,18 +185,18 @@
             addAdress() {
                 let address = {
                     mobile: this.ruleForm.mobile,
-                    userName: this.ruleForm.name,
+                    user_name: this.ruleForm.name,
                     address: this.locationLabel + ' ' + this.ruleForm.city + '' + this.ruleForm.address,
-                    //building: this.ruleForm.building,
-                    //rank: this.ruleForm.rank,
+                    building: this.ruleForm.building,
+                    rank: this.ruleForm.rank,
+                    setDefault: this.setDefaultFlag,
                     status: '',//1设为默认，0有效
-                    zip_code: this.ruleForm.zipcode
+                    zip_code: this.ruleForm.zipcode,
+                    lcCode: ''
                 };
 
-                if (this.tableData == '' || this.ruleForm.setDefaultFlag) {
-                    address.status = 1;
-                } else {
-                    address.status = 0;
+                if (this.tableData == '') {
+                    this.ruleForm.setDefaultFlag = true;
                 }
 
                 addressService.addItem(address).then((resp) => {
@@ -206,11 +209,47 @@
                     this.$ltsMessage.show({type: 'error', message: msg.error_message})
                 })
             },
+            updateAdress() {
+                addressService.updateItem(address).then((resp) => {
+                    if (resp.success) {
+                        this.dialogShow = false;
+                        this.emptyData();
+                        this.getAddressList();
+                    }
+                }, (msg) => {
+                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                })
+            },
+            deleteAdress(id) {
+                let params = {
+                    id: id
+                };
+                addressService.deleteItem(params).then((resp) => {
+                    if (resp.success) {
+                        this.getAddressList();
+                    }
+                }, (msg) => {
+                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                })
+            },
+            makeSure(id) {
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.deleteAdress(id);
+                    this.$message({type: 'success', message: '删除成功!'});
+                }).catch(() => {
+                    this.$message({type: 'info', message: '已取消删除'});
+                });
+            },
             getDialog(item) {
                 switch (item.type) {
                     case 'edit':
                         break;
                     case 'delete':
+                        this.makeSure(item.row.id);
                         break;
                 }
             },

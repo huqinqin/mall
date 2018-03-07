@@ -1,7 +1,7 @@
 <template>
     <div class="card">
         <el-button type="text" @click="dialogShow = true;editFlag = false;">
-            <el-button type="primary">新增</el-button>
+            <el-button type="primary">{{$t("main.personal.card.mainPerCarNewCreate")}}</el-button>
         </el-button>
 
         <el-dialog title="分销资格证信息" :visible.sync="dialogShow" :close-on-click-modal="false" @close="emptyData">
@@ -157,12 +157,14 @@
                 <template slot-scope="scope">
                     <el-dropdown @command="getDialog">
                         <el-button class="el-dropdown-link">
-                            操作<i class="el-icon-arrow-down el-icon--right"></i>
+                            {{$t("main.order.list.mainOrLiHanlde")}}<i class="el-icon-arrow-down el-icon--right"></i>
                         </el-button>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item :command="{type: 'edit',row: scope.row}">编辑
+                            <el-dropdown-item :command="{type: 'edit',row: scope.row}">
+                                {{$t("main.cart.settle.mainCartSeAlert")}}
                             </el-dropdown-item>
-                            <el-dropdown-item :command="{type: 'delete',row: scope.row}">删除
+                            <el-dropdown-item :command="{type: 'delete',row: scope.row}">
+                                {{$t("main.cart.settle.mainCartSeDel")}}
                             </el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>

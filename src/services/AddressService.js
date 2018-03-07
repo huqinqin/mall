@@ -65,7 +65,6 @@ export default class AddressService extends BaseService {
             zip_code: form.zipCode,
             lc_code: form.lcCode
         }
-        debugger
         let params = {
             address:JSON.stringify(address)
         }
@@ -85,7 +84,6 @@ export default class AddressService extends BaseService {
             id: form.id,
             status: -1
         }
-
         return super.getRequest('/installer/consumer_address/update_status_plus',params)
     }
 
@@ -112,7 +110,6 @@ export default class AddressService extends BaseService {
             id: form.id,
             lc_code: form.lcCode
         }
-        debugger
         let params = {
             address:JSON.stringify(address)
         }

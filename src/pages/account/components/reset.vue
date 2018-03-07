@@ -54,7 +54,7 @@
             return{
                 send:true,
                 sendAgain:false,
-                countdown:3,
+                countdown:60,
                 resetForm:{
                     email:'',
                     code:'',
@@ -87,7 +87,7 @@
             },
             getCode(){
                 let self = this;
-                self.countdown = 5;
+                self.countdown = 60;
                 this.send = false;
                 self.sendAgain = false;
                 let clock = setInterval(() => {

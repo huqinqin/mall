@@ -17,42 +17,45 @@
                 </div>
             </el-form-item>
             <br>
+            <el-form-item :label='$t("main.personal.card.mainPerCarCompany")' prop="company"
+                          style="margin-top: 5px;">
+                <el-input v-model="ruleForm.company"></el-input>
+            </el-form-item>
+            <br>
             <el-form-item :label='$t("main.personal.card.mainPerCarDisProveNum")' prop="number"
-                          style="margin-top: 20px;" class="telephone">
+                          style="margin-top: 5px;">
                 <el-input v-model="ruleForm.number"></el-input>
             </el-form-item>
             <br>
-            <el-form-item :label='$t("main.personal.card.mainPerCarAddress")' prop="address" style="margin-top: 20px;">
+            <el-form-item :label='$t("main.personal.card.mainPerCarAddress")' prop="address" style="margin-top: 5px;">
                 <el-input type="textarea" resize="none" v-model="ruleForm.address" class="address"></el-input>
             </el-form-item>
             <br>
-            <el-form-item :label='$t("main.personal.card.mainPerCarCity")' prop="city" style="margin-top: 20px;">
+            <el-form-item :label='$t("main.personal.card.mainPerCarCity")' prop="city" style="margin-top: 5px;">
                 <el-input v-model="ruleForm.city"></el-input>
             </el-form-item>
             <br>
-            <el-form-item :label='$t("main.personal.card.mainPerCarCountry")' prop="country" style="margin-top: 20px;">
+            <el-form-item :label='$t("main.personal.card.mainPerCarCountry")' prop="country" style="margin-top: 5px;">
                 <el-select v-model="ruleForm.country" :placeholder='$t("main.personal.card.mainPerCarEnterCoun")'>
-                    <el-option :label='$t("main.personal.card.mainPerCarChina")'
-                               :value='$t("main.personal.card.mainPerCarChina")'></el-option>
                     <el-option :label='$t("main.personal.card.mainPerCarUsa")'
                                :value='$t("main.personal.card.mainPerCarUsa")'></el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item :label='$t("main.personal.card.mainPerCarState")' prop="state" style="margin-top: 20px;">
-                <!--<lts-location v-model="ruleForm.location" :labels.sync="locationLabel" style="width: 400px"/>-->
+            <el-form-item :label='$t("main.personal.card.mainPerCarState")' prop="state" style="margin-top: 5px;">
+                <lts-location v-model="ruleForm.location" :labels.sync="locationLabel" style="width: 400px"/>
             </el-form-item>
             <br>
-            <el-form-item :label='$t("main.personal.card.mainPerCarZip")' prop="zipcode" style="margin-top: 20px;">
+            <el-form-item :label='$t("main.personal.card.mainPerCarZip")' prop="zipcode" style="margin-top: 5px;">
                 <el-input v-model="ruleForm.zipcode"></el-input>
             </el-form-item>
             <br>
-            <el-form-item :label='$t("main.personal.card.mainPerCarFromDate")' prop="date" style="margin-top: 20px;">
+            <el-form-item :label='$t("main.personal.card.mainPerCarFromDate")' prop="date" style="margin-top: 5px;">
                 <el-date-picker
                     v-model="ruleForm.invalid_time"
                     type="daterange"
                     value-format="timestamp"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期"
+                    start-placeholder="start date"
+                    end-placeholder="end date"
                     :default-time="['00:00:00', '23:59:59']"
                     class="common-width">
                 </el-date-picker>
@@ -162,6 +165,7 @@
     import {ltsLocation} from 'ui'
 
     export default {
+        components: {ltsLocation},
         name: "receiveAddress",
         data() {
             return {
@@ -171,8 +175,9 @@
                     number: '',
                     address: '',
                     location: [],
+                    company: '',
                     city: '',
-                    country: '',
+                    country: this.$t("main.personal.card.mainPerCarUsa"),
                     state: '',
                     zipcode: '',
                     date: '',
@@ -223,8 +228,8 @@
             },
             addCard() {
                 let params = {
-                    address: '',
-                    //address: this.locationLabel[0] + ' ' + this.locationLabel[1] + '' + this.form.address,
+                    address: this.locationLabel[0] + ' ' + this.locationLabel[1] + '' + this.ruleForm.address,
+                    lc_code: this.ruleForm.location[1],
                     city: this.ruleForm.city,
                     country: this.ruleForm.country,
                     distributeNum: this.ruleForm.number,

@@ -340,6 +340,7 @@ export default {
                 mainPerCarNewCreate: '新增分销商资格证',
                 mainPerCarDisPic: '分销证照片',
                 mainPerCarDisProveNum: '分销证号',
+                mainPerCarCompany: '公司名',
                 mainPerCarAddress: '地址',
                 mainPerCarCity: '城市',
                 mainPerCarCountry: '国家',

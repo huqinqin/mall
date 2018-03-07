@@ -84,7 +84,7 @@
       </el-dialog>
     </div>
     <div class="address">
-      <h5>{{ $t("main.address.mainAddReceivingAddress") }}</h5>
+      <h5>分销证地址</h5>
       <ul>
         <li v-for="(item,key) in certificateData" :class="[{checked:item.id === checkedId}]"
             @click="checkAddress(item)" v-if="item.status === 0">
@@ -93,16 +93,16 @@
           </header>
           <main>
             <p>{{item.building}}</p>
-            <p>{{ $t("main.cart.settle.mainCartSePhone") }}：{{item.mobile}}</p>
+            <p>有效期：{{item.valid}}</p>
           </main>
-          <footer>
-            <button class="default" @click.stop="toggleDefault(item)">{{ $t("main.cart.settle.mainCartSeFitDefault")
-              }}
-            </button>
-            <button v-show="item.id === defaultId">{{ $t("main.cart.settle.mainCartSeDefaultAdress") }}</button>
-            <button class="delete" @click="deleteAddress(item,key)">{{ $t("main.cart.settle.mainCartSeDel") }}</button>
-            <button @click="editAddress(item)">{{ $t("main.cart.settle.mainCartSeAlert") }}</button>
-          </footer>
+          <!--<footer>-->
+            <!--<button class="default" @click.stop="toggleDefault(item)">{{ $t("main.cart.settle.mainCartSeFitDefault")-->
+              <!--}}-->
+            <!--</button>-->
+            <!--<button v-show="item.id === defaultId">{{ $t("main.cart.settle.mainCartSeDefaultAdress") }}</button>-->
+            <!--<button class="delete" @click="deleteAddress(item,key)">{{ $t("main.cart.settle.mainCartSeDel") }}</button>-->
+            <!--<button @click="editAddress(item)">{{ $t("main.cart.settle.mainCartSeAlert") }}</button>-->
+          <!--</footer>-->
         </li>
       </ul>
       <el-dialog :title='$t("main.address.mainAddReceivingAddress")' :visible.sync="showAddAddress" center>
@@ -246,7 +246,7 @@
 <script>
   import addressService from '@/services/AddressService.js'
   import orderService from '@/services/OrderService.js'
-  import {store} from 'ltsutil'
+  import {store,dateUtils} from 'ltsutil'
 
   export default {
     name: 'settle',
@@ -441,12 +441,9 @@
 
           this.certificateData.forEach((value, index) => {
             value.zipCode = value.postcode
-            value.state = value.state
             value.user_name = value.company
-            let position = value.address.indexOf(value.building)
-            if (position !== 0) {
-              value.address = value.address.slice(0, position)
-            }
+            value.building = value.city
+            value.valid = dateUtils.timeToStr(value.valid_time)
           })
           this.simulateCreateTrade()
         })

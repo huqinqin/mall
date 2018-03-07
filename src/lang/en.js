@@ -180,7 +180,7 @@ export default {
                 mainDetInfoExceed: 'Not Enough Inventory',
                 mainDetInfoCozyTip: 'Please Note',
                 mainDetInfoNoReason: '30-Day Money-Back Guarantee(The company reserves all rights for final explanation)',
-                mainDetInfoImme: 'One-Click Order',
+                mainDetInfoImme: 'Order Now',
                 mainDetInfoJoinCart: 'Add to Cart',
                 mainDetInfoBuy: 'Purchase History',
                 mainDetInfoHot: 'Best Sellers',

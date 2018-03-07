@@ -15,7 +15,7 @@
 
 <script>
  import expertService from '@/services/MyexpertService.js'
-
+ import $ from 'jquery'
   export default {
      name:'expert',
       data(){

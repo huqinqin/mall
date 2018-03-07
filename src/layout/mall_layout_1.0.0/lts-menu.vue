@@ -45,6 +45,7 @@
         methods:{
             selectChange(value){
                 store.setItem('selected', value.currentTarget.textContent);
+                this.selected = value.currentTarget.textContent;
             },
         },
         mounted(){

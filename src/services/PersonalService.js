@@ -1,12 +1,13 @@
 import BaseService from "./abstract/BaseService";
-export default class AccountService extends BaseService {
+import md5 from 'md5'
+export default class PersonalService extends BaseService {
     /**
      * return
      * @autor maisi
      * remark 获取用户信息
      */
     static getUserMessage() {
-        return super.getRequest('/user/get_user_by_id', )
+        return super.getRequest('/user/get_user_by_id',)
     }
 
     /**
@@ -49,7 +50,6 @@ export default class AccountService extends BaseService {
         let newparams = {
             captcha: params.captcha,
             email: params.email
-            // email: 'maisi@huntlee.cn'
         };
         return super.getRequest('/user/to_change_email', newparams)
     }
@@ -74,9 +74,45 @@ export default class AccountService extends BaseService {
      */
     static changePassword(params) {
         let newparams = {
-            old_pwd: params.oldPassword,
-            new_pwd: params.newPassword
+            old_pwd: md5(params.oldPassword),
+            new_pwd: md5(params.newPassword)
         };
-        return super.getRequest('/user/modify_password', newparams)
+        return super.postRequest('/user/modify_password', newparams)
+    }
+
+    /**
+     * 通过工程商uid查询工程商下的所有分销证
+     * @param uid
+     * @auth maisi
+     * @returns {*}
+     */
+    static getSaleCard(uid) {
+        return super.getRequest('/installer/distribute/get_distribute_cerificate_by_shop_uid', {shop_uid: uid})
+    }
+
+    /**
+     * 增加工程商的分销证
+     * @param json
+     * @auth maisi
+     * @returns {*}
+     */
+    static addSaleCard(params) {
+        let newparams = {
+            distribute_certificate: JSON.stringify(params)
+        };
+        return super.getRequest('/installer/distribute/add', newparams);
+    }
+
+    /**
+     * 编辑工程商的分销证
+     * @param json
+     * @auth maisi
+     * @returns {*}
+     */
+    static updateSaleCard(params) {
+        let newparams = {
+            distribute_certificate: JSON.stringify(params)
+        };
+        return super.getRequest('/installer/distribute/update', newparams);
     }
 }

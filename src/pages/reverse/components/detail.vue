@@ -3,23 +3,23 @@
         <div class="reverse-header">
             <p class="title" v-if="detail.reverse.status == 9">{{$t("main.order.list.mainOrLiClose")}}</p>
             <div class="remark" v-if="detail.reverse.status == 9">
-                <div>完结时间:{{detail.reverse.end_time | timestamp2str}}</div>
-                <div>注:因你撤销退款申请，退款已关闭，交易将正常进行。请关注交易超时</div>
+                <div>{{$t("main.reverse.detail.mainRevDeOverTime")}}:{{detail.reverse.end_time | timestamp2str}}</div>
+                <div>{{$t("main.reverse.detail.mainRevDeNotes")}}</div>
             </div>
             <p class="title" v-if="detail.reverse.status == 2">{{$t("main.reverse.detail.mainRevDeRefundSucc")}}</p>
             <div class="remark" v-if="detail.reverse.status == 2 ">
-                <div v-if="detail.reverse.hd_status == 1">待退货</div>
-                <div v-if="detail.reverse.hd_status == 2">待签收</div>
-                <div v-if="detail.reverse.hd_status == 3">已签收</div>
+                <div v-if="detail.reverse.hd_status == 1">{{$t("main.reverse.detail.mainRevDeWaitGoods")}}</div>
+                <div v-if="detail.reverse.hd_status == 2">{{$t("main.reverse.detail.mainRevDeWaitWrite")}}</div>
+                <div v-if="detail.reverse.hd_status == 3">{{$t("main.reverse.detail.mainRevDeWrited")}}</div>
             </div>
             <p class="title" v-if="detail.reverse.status == 3">{{$t("main.reverse.detail.mainRevDeReject")}}</p>
             <div class="remark" v-if="detail.reverse.status == 3 ">
-                <div>拒绝退款时间:{{detail.reverse.edate | timestamp2str}}</div>
+                <div>{{$t("main.reverse.detail.mainRevDeFuse")}}:{{detail.reverse.edate | timestamp2str}}</div>
             </div>
             <p class="title" v-if="detail.reverse.status == 4">{{$t("main.reverse.detail.mainRevDeRefundSucc")}}</p>
             <div class="remark" v-if="detail.reverse.status == 4 ">
-                <div>退款成功时间:{{detail.reverse.tobuy_time | timestamp2str}}</div>
-                <div>退款总金额<lts-money :money="detail.reverse.refund_real"></lts-money></div>
+                <div>{{$t("main.reverse.detail.mainRevDeReturnSucc")}}:{{detail.reverse.tobuy_time | timestamp2str}}</div>
+                <div>{{$t("main.reverse.detail.mainRevDeReturnTotal")}}<lts-money :money="detail.reverse.refund_real"></lts-money></div>
             </div>
 
             <!--<p class="remark" v-if="">{{$t("main.reverse.detail.mainRevDeSuccRefund")}}</p>-->

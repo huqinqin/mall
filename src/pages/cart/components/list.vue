@@ -34,7 +34,6 @@
                         <p v-for="(val,key) in item.prop_value" :title="val">{{key}}:{{val}}</p>
                       </li>
                     </ul>
-                     {{subscope.row.checked}}
                   </a>
                 </template>
               </el-table-column>
@@ -106,7 +105,6 @@
                         <p v-for="(val,key) in item.prop_value" :title="val">{{key}}:{{val}}</p>
                       </li>
                     </ul>
-                      {{subscope.row.checked}}
                   </a>
                 </template>
               </el-table-column>
@@ -186,7 +184,6 @@
                           <p v-for="(val,key) in item.prop_value" :title="val">{{key}}:{{val}}</p>
                         </li>
                       </ul>
-                      {{subscope.row.checked}}
                     </a>
                   </template>
                 </el-table-column>
@@ -254,13 +251,12 @@
                         <p v-for="(val,key) in item.prop_value" :title="val">{{key}}:{{val}}</p>
                       </li>
                     </ul>
-                    {{subscope.row.checked}}
                   </a>
                 </template>
               </el-table-column>
               <el-table-column prop="price" width="" label="单价" align="center">
                 <template slot-scope="subscope">
-                  <lts-money :money="subscope.row.price"></lts-money>
+                  <p><lts-money :money="subscope.row.price"></lts-money></p>
                 </template>
               </el-table-column>
               <el-table-column prop="" width="" label="库存" align="center">
@@ -651,9 +647,10 @@
       }
       .el-table__expanded-cell {
         padding: 0;
+        border-bottom:none;
         .subtable {
           margin-top: 40px;
-          border: 1px solid #a3a3a3;
+          border: 1px solid #ddd;
           position: relative;
           .popover {
             position: absolute;
@@ -717,7 +714,7 @@
           }
         }
         .otherTable.subtable{
-          margin-top: 20px;
+          margin-top: 12px;
         }
         .dicount {
         }

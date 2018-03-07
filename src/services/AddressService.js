@@ -47,7 +47,7 @@ export default class AddressService extends BaseService {
             status: form.setDefault ? 1 : 0,
             rank: form.rank,
             zip_code: form.zipCode
-        }
+        };
         let params = {
             address:JSON.stringify(address)
         }
@@ -117,5 +117,18 @@ export default class AddressService extends BaseService {
         return super.getRequest('/installer/consumer_address/change_default_address',params)
     }
 
-
+    /**
+     * return
+     * param uid
+     * param
+     * @autor maisi
+     * remark 根据UID获取消费者地址基本信息列表
+     */
+    static getAddressListByUserId(form){
+        let params = {
+            page: 1,
+            page_size: 10
+        };
+        return super.getRequest('/installer/consumer_address/get_list_by_user_id',params)
+    }
 }

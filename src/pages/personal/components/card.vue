@@ -17,7 +17,8 @@
                 </div>
             </el-form-item>
             <br>
-            <el-form-item :label='$t("main.personal.card.mainPerCarDisProveNum")' prop="number" style="margin-top: 20px;" class="telephone">
+            <el-form-item :label='$t("main.personal.card.mainPerCarDisProveNum")' prop="number"
+                          style="margin-top: 20px;" class="telephone">
                 <el-input v-model="ruleForm.number"></el-input>
             </el-form-item>
             <br>
@@ -31,12 +32,14 @@
             <br>
             <el-form-item :label='$t("main.personal.card.mainPerCarCountry")' prop="country" style="margin-top: 20px;">
                 <el-select v-model="ruleForm.country" :placeholder='$t("main.personal.card.mainPerCarEnterCoun")'>
-                    <el-option :label='$t("main.personal.card.mainPerCarChina")' :value='$t("main.personal.card.mainPerCarChina")'></el-option>
-                    <el-option :label='$t("main.personal.card.mainPerCarUsa")' :value='$t("main.personal.card.mainPerCarUsa")'></el-option>
+                    <el-option :label='$t("main.personal.card.mainPerCarChina")'
+                               :value='$t("main.personal.card.mainPerCarChina")'></el-option>
+                    <el-option :label='$t("main.personal.card.mainPerCarUsa")'
+                               :value='$t("main.personal.card.mainPerCarUsa")'></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item :label='$t("main.personal.card.mainPerCarState")' prop="state" style="margin-top: 20px;">
-                <lts-location v-model="ruleForm.location" :labels.sync="locationLabel" style="width: 400px"/>
+                <!--<lts-location v-model="ruleForm.location" :labels.sync="locationLabel" style="width: 400px"/>-->
             </el-form-item>
             <br>
             <el-form-item :label='$t("main.personal.card.mainPerCarZip")' prop="zipcode" style="margin-top: 20px;">
@@ -56,11 +59,13 @@
             </el-form-item>
             <br>
             <el-form-item>
-                <el-button type="primary" @click="addCard" class="submitBtn">{{$t("main.personal.card.mainPerCarSave")}}</el-button>
+                <el-button type="primary" @click="addCard" class="submitBtn">
+                    {{$t("main.personal.card.mainPerCarSave")}}
+                </el-button>
             </el-form-item>
         </el-form>
 
-        <h3>分销证信息</h3>
+        <h3 class="title">分销证信息</h3>
         <el-table
             :data="tableData"
             style="width: 100%"
@@ -105,15 +110,24 @@
             <el-table-column
                 prop="invalid_time"
                 label="有效期至">
+                <template slot-scope="scope">
+                    {{scope.row.invalid_time | timestamp2str}}
+                </template>
             </el-table-column>
             <el-table-column
                 prop="valid_time"
                 label="上传时间">
+                <template slot-scope="scope">
+                    {{scope.row.valid_time | timestamp2str}}
+                </template>
             </el-table-column>
             <el-table-column
                 prop="status"
                 label="分销证状态"
                 align="center">
+                <template slot-scope="scope">
+                    {{checkStatus(scope.row.status)}}
+                </template>
             </el-table-column>
             <el-table-column
                 prop=""
@@ -188,7 +202,7 @@
                 }
             };
         },
-        mounted(){
+        mounted() {
             this.getUserMessage();
         },
         methods: {
@@ -209,7 +223,8 @@
             },
             addCard() {
                 let params = {
-                    address: this.locationLabel[0] + ' ' + this.locationLabel[1] + '' + this.form.address,
+                    address: '',
+                    //address: this.locationLabel[0] + ' ' + this.locationLabel[1] + '' + this.form.address,
                     city: this.ruleForm.city,
                     country: this.ruleForm.country,
                     distributeNum: this.ruleForm.number,
@@ -218,12 +233,19 @@
                     picture: this.ruleForm.cardPicUrl,
                     postcode: this.ruleForm.zipcode,
                     remark: "",
-                    shopUid: this.uid,
+                    shopUid: this.ruleForm.uid,
                     state: "",
                     status: 0,
-                    type: 1//设为默认，0，有效
+                    type: ''//设为默认，0，有效
                 };
-                installerService.addSaleCard(params).then((resp) => {
+
+                if (this.tableData == '') {
+                    params.type = 1;
+                } else {
+                    params.type = 0;
+                }
+
+                personalService.addSaleCard(params).then((resp) => {
 
                 }, (error) => {
                     this.$ltsMessage.show({type: 'error', message: error.error_message});
@@ -251,6 +273,15 @@
                 }, (error) => {
                     this.$ltsMessage.show({type: 'error', message: error.error_message});
                 });
+            },
+            checkStatus(item) {
+                if (item == '0') {
+                    return '待审核'
+                } else if (item == '1') {
+                    return '未通过'
+                } else if (item == '2') {
+                    return '通过'
+                }
             },
             getDialog(item) {
                 switch (item.type) {
@@ -299,7 +330,7 @@
             height: 40px;
             margin-top: 36px;
         }
-        .address textarea{
+        .address textarea {
             width: 400px;
             height: 150px;
         }

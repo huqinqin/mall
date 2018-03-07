@@ -4,7 +4,8 @@
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" label-position="left"
                  class="demo-ruleForm">
             <el-form-item :label='$t("main.personal.password.mainPerPwdOldPwd")' prop="oldPassword" style="margin-top: 24px;">
-                <el-input v-model="ruleForm.oldPassword" type="password"></el-input>
+                <el-input v-model="ruleForm.oldPassword" type="password" ref="password"></el-input>
+                <i class="iconfont icon-yanjing" @click="showPassword" ref="eye"></i>
             </el-form-item>
             <el-form-item :label='$t("main.personal.password.mainPerPwdNewPwd")' prop="newPassword" style="margin-top: 24px;">
                 <el-input v-model="ruleForm.newPassword" type="password"></el-input>
@@ -22,6 +23,7 @@
 
 <script>
     import personalService from '@/services/PersonalService'
+    import ValidatorConfig from 'config/ValidatorConfig'
 
     export default {
         name: "password",
@@ -33,15 +35,9 @@
                     confirmPassword: ''
                 },
                 rules: {
-                    oldPassword: [
-                        {required: true, message: this.$t("main.personal.password.mainPerPwdEnterOldPwd"), trigger: 'blur'}
-                    ],
-                    newPassword: [
-                        {required: true, message: this.$t("main.personal.password.mainPerPwdEnterNew"), trigger: 'blur'}
-                    ],
-                    confirmPassword: [
-                        {required: true, message: this.$t("main.personal.password.mainPerPwdConfirmNew"), trigger: 'blur'}
-                    ]
+                    oldPassword: ValidatorConfig.password,
+                    newPassword: ValidatorConfig.password,
+                    confirmPassword: ValidatorConfig.password
                 }
             };
         },
@@ -60,6 +56,9 @@
                 }else{
                     this.$ltsMessage.show({type: 'error', message: 'Confirm that the password is not consistent with the new password'})
                 }
+            },
+            showPassword(){
+                this.$refs.password.type = this.$refs.password.type == "text" ? 'password' : 'text';
             }
         }
     }

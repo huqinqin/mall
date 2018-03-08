@@ -168,13 +168,6 @@
                             </el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
-                    <!--<el-dialog
-                        :title="dialog.title"
-                        :visible.sync="dialog.dialogVisible"
-                        :show-close="false"
-                        width="400px"
-                        center>
-                    </el-dialog>-->
                 </template>
             </el-table-column>
         </el-table>

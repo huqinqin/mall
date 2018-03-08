@@ -125,6 +125,7 @@
                     propValues:'',
                     orderBy:''
                 },
+                tags: [],
                 data:[],
                 rightTotal : 0,
                 closeProps : false,
@@ -139,11 +140,12 @@
             this.selfContext.$on("getItemList",this.submit)
         },
         mounted(){
-            this.submit()
+            this.tags = this.$route.query.tags ? this.$route.query.tags.split(',') : [];
+            this.submit();
         },
         methods: {
             changePage(currentPage){
-                this.search.page = currentPage
+                this.search.page = currentPage;
                 this.searchWithText()
             },
             // 上下一页
@@ -173,13 +175,13 @@
             },
             // 调接口
             submit(){
-                this.search.itemName = this.$route.query.keywords
+                this.search.itemName = this.$route.query.keywords;
                 if(this.$route.query.cateId == '-1000'){
                     this.search.cateId = '';
                 }else{
                     this.search.cateId = this.$route.query.cateId.split(',')
                 }
-                ItemService.searchItem(this.search).then((rtn)=>{
+                ItemService.searchItem(this.search,this.tags).then((rtn)=>{
                     this.data = rtn.data.item_d_o_list
                     // TOOD 这里计算页数
                     this.search.totalPage = rtn.data.total;
@@ -197,7 +199,7 @@
 
             // 关闭条件
             delCondition(index) {
-                this.search.condition.splice(index, 1)
+                this.search.condition.splice(index, 1);
                 this.searchWithText(this.text);
             },
             selected(selected){
@@ -219,8 +221,6 @@
                         this.activeItem = this.$t("main.search.mainSeaShelf");
                         break
                 }
-
-
                 this.submit()
             },
 

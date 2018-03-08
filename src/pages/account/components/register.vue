@@ -118,7 +118,7 @@
                    /* checkPass: validatorConfig.passwordRepeat((rule, value, callback)=>{
                         validatorConfig.validatePasswordRepeat(this.resetForm.pass, value, callback)
                     }),*/
-                    mobile:validatorConfig.mobile,
+                    mobile:validatorConfig.phone,
                     address:validatorConfig.address,
                 },
                 options: [{

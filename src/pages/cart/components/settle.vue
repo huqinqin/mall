@@ -155,8 +155,24 @@
           </template>
         </el-table-column>
       </el-table>
-      <div class="remark"><span>{{ $t("main.cart.settle.mainCartSeBuyersTalk") }}： </span>
-        <el-input v-model="remark"></el-input>
+      <div class="remark">
+        <el-form label-position="left">
+          <el-form-item label-width="80px" :label='$t("main.cart.settle.mainCartSeBuyersTalk")+ "："'>
+            <el-input v-model="remark"></el-input>
+          </el-form-item>
+        </el-form>
+        <el-form>
+          <el-form-item label-width="80px" :label='$t("main.someinfo.mainSomeCoupon")+ "："'>
+            <el-select v-model="bonus" @change="selectBonus">
+              <el-option
+                v-for="item in bonusOption"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-form>
       </div>
     </div>
     <div class="someCount">
@@ -169,6 +185,7 @@
           :money="sum.tax"></lts-money></span></span></p>
         <p>{{ $t("main.cart.list.mainCartliBenefit") }}： <span><span v-if="sum.promotion == 0 || sum.promotion">-<lts-money
           :money="sum.promotion"></lts-money></span></span></p>
+        <p v-if="bonusId">{{$t("main.someinfo.mainSomeCoupon")}}：<span>-<lts-money :money="bonus" /></span></p>
         <p class="result">{{ $t("main.cart.settle.mainCartSeMustPay") }}： <span><span v-if="totalPrice"><lts-money
           :money="totalPrice"></lts-money></span></span></p>
       </div>
@@ -307,7 +324,10 @@
             {},
             {}
           ]
-        }
+        },
+        bonusId:'',
+        bonus:'',
+        bonusOption:[{label:this.$t("main.someinfo.mainSomeNoBonus"),value:'',bonus:''}]
       }
     },
     methods: {
@@ -324,7 +344,6 @@
 
       // 选择地址
       checkAddress (item) {
-        console.log(this.addressData)
         this.checkedAddress = item
         this.checkedId = item.id
         this.simulateCreateTrade()
@@ -344,7 +363,6 @@
       // 选择城市he lc_code
       selectCity (value) {
         let arr = value[0].split('-')
-        console.log(arr)
         this.addForm.address = arr[0]
         this.addForm.lcCode = arr[1]
         // this.addForm.address = ''
@@ -389,7 +407,6 @@
             value.building = value.city
             value.valid = dateUtils.timeToStr(value.valid_time)
             this.addressData.push(value)
-            console.log(this.addressData)
           })
           if(!this.defaultId){
             this.checkedId = this.addressData[0].id
@@ -428,6 +445,14 @@
       settle () {
         this.submitOrder()
       },
+      selectBonus(value){
+        this.bonusId = value
+        this.bonusOption.forEach((item) => {
+          if(item.id == value){
+            this.bonus = item.bonus
+          }
+        })
+      },
       // 正式下单
       submitOrder () {
         let items = []
@@ -459,6 +484,7 @@
           hdFee: this.sum.express,
           taxesFeeCalculator: 1,
           taxesFee: this.sum.tax,
+          accBonusId:this.bonusId,
           ship: {
             logisticsCompany:this.expressForm.express,
             userAddrIdType: this.checkedAddress.valid_time ? 1 : 0,
@@ -480,7 +506,6 @@
         let items = []
         this.tableData.forEach(function (value, index, array) {
           let itemPropIds = []
-
           itemPropIds.push(value.item_props[0].id)
           let Obj = {
             'id': value.id,
@@ -518,6 +543,17 @@
           this.sum.amount = resp.data.wholesale_order.pay
           this.sum.promotion = resp.data.wholesale_order.discount
           this.totalPrice = resp.data.wholesale_order.pay_info.pay_real
+          if(resp.data.wholesale_order.pay_info.acc_bonus_list.length > 0){
+            let bonusArr = resp.data.wholesale_order.pay_info.acc_bonus_list
+            bonusArr.forEach((item) => {
+              let rule = JSON.parse(item.rule)[0]
+              this.bonusOption.push({
+                label: this.$t("main.someinfo.mainSomeCoupon") + '：' + this.$t("main.someinfo.mainSomeFull") + ' ' + (rule.startV/100).toFixed(2) + this.$t("main.someinfo.mainSomeMinus") + ' ' + (rule.value/100).toFixed(2),
+                value: item.id,
+                bonus: rule.value
+              })
+            })
+          }
           this.$emit('submit', 2)
         }, (msg) => {
           this.$ltsMessage.show({type: 'error', message: msg.error_message})
@@ -541,10 +577,7 @@
         this.tableData = items
         // this.user_id = this.$route.params.userId
       }
-
-      console.log(this.tableData)
       this.getAddressList()
-
       this.expressOptions = this.UPSOptions
     }
   }
@@ -917,21 +950,14 @@
       h5 {
         margin-top: 18px;
       }
-      padding-bottom: 24px;
       border-bottom: 1px solid #f2f2f2;
       .remark {
         margin-top: 24px;
-        margin-left: 24px;
-        span {
-          font-size: 14px;
-          color: rgba(0, 0, 0, 0.5);
-          line-height: 30px;
-        }
         .el-input {
           width: 350px;
-          height: 30px;
+          height: 40px;
           input {
-            height: 30px;
+            height: 40px;
           }
         }
       }

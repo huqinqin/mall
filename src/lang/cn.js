@@ -561,6 +561,8 @@ export default {
             mainSomeCoupon: '优惠券',
             mainSomeFullCoupon: '满减劵',
             mainSomeFull: '满',
+            mainSomeMinus: '减',
+            mainSomeNoBonus: '不使用优惠券',
             mainSomeDollar: '美元使用',
             mainSomeUsedTime: '使用时间',
             mainSomeRange: '至',

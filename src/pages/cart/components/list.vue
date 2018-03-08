@@ -175,7 +175,7 @@
                 style="width: 100%">
                 <el-table-column align="center" width="48">
                   <template slot-scope="subscope">
-                    <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)" :disabled="subscope.row.finished || (!subscope.row.started)"></el-checkbox>
+                    <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)" :disabled="subscope.row.rule.finished || (!subscope.row.rule.started)"></el-checkbox>
                   </template>
                 </el-table-column>
                 <el-table-column align="center" width="600">

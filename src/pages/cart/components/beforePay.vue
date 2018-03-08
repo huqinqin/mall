@@ -35,9 +35,27 @@
       </el-radio>
     </div>
     <div class="goPay">
-      <el-button @click="confirmPay" :disabled="form.used > form.moneyPay || form.used > form.balance">{{
+      <el-button @click="confirmPay" :disabled="(form.used > form.moneyPay || form.used > form.balance)  || (!form.useBalance && (form.payBank == 'BALANCE'))">{{
         $t("main.cart.beforePay.mainCartBefgoPay") }}
       </el-button>
+      <el-dialog :title="$t('main.cart.beforePay.mainCartBefCreditInfo')"   :visible.sync="creditFormVisible" class="creditDialog" @close="closeCreditForm">
+        <el-form :model="creditFrom" label-position="left">
+          <el-form-item :label="$t('main.cart.beforePay.mainCartBefCreditNum')" >
+            <el-input v-model="creditFrom.num" :placeholder="$t('main.cart.beforePay.mainCartBefInputNum')" :clearable="true"></el-input>
+          </el-form-item>
+          <el-form-item :label="$t('main.cart.beforePay.mainCartBefCreditValid')">
+            <el-date-picker
+              v-model="creditFrom.date"
+              type="date"
+              :placeholder="$t('main.personal.card.mainPerCarSelDate')">
+            </el-date-picker>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="creditFormVisible = false">{{$t("main.order.list.mainOrLiCanle")}}</el-button>
+          <el-button type="primary" @click="submitCreditForm">{{$t("main.order.list.mainOrLiConfirm")}}</el-button>
+        </div>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -61,7 +79,14 @@
           number: '',
           amount: ''
         },
-        tid: ''
+        tid: '',
+        statement:'',
+        creditFormVisible:false,
+        creditFrom:{
+          num: '',
+          date: '',
+          pay_no: ''
+        }
       }
     },
     methods: {
@@ -108,9 +133,10 @@
       // 确认支付
       confirmPay () {
         if (this.form.payBank === 'ANET_CREDIT_CARD' && (this.form.moneyPay - this.form.used * 100) > 0) {
-          // 信用卡支付跳转到别的页面
+          // 信用卡支付弹框
           orderService.pay_confirm(this.tid, this.form).then((data) => {
-            this.$router.push({name: 'creditInfo', query: {pay_no: data.data.statement, tid: this.tid}})
+            this.statement = data.data.statement
+            this.creditFormVisible = true
           }, (msg) => {
             this.$ltsMessage.show({type: 'error', message: msg.error_message})
             this.$router.push({name: 'fail', params: {tid: this.tid}})
@@ -123,6 +149,20 @@
             this.$router.push({name: 'fail', params: {tid: this.tid}})
           })
         }
+      },
+      closeCreditForm(){
+        this.creditFrom.num = ''
+        this.creditFrom.date = ''
+        this.creditFrom.pay_no = ''
+      },
+      submitCreditForm(){
+        this.creditFrom.pay_no = this.statement
+        orderService.credit_pay(this.creditFrom).then((data) => {
+          this.$router.push({name: 'finish', params: {tid: this.tid}})
+        }, (msg) => {
+          this.$ltsMessage.show({type: 'error', message: msg.error_message})
+          this.$router.push({name: 'fail', params: {tid: this.tid}})
+        })
       }
     },
     mounted () {
@@ -183,7 +223,6 @@
       }
       .el-radio {
         margin-top: 12px;
-        width: 90px;
         margin-left: 0;
       }
       .el-radio.first.is-disabled::after {
@@ -232,7 +271,7 @@
     .goPay {
       margin: 60px 24px;
       text-align: right;
-      .el-button {
+      &>.el-button {
         width: 160px;
         height: 40px;
         line-height: 40px;
@@ -244,6 +283,32 @@
           color: #fff;
           letter-spacing: 1px;
           font-weight: bold;
+        }
+      }
+      .creditDialog{
+        .el-dialog{
+          width:366px;
+          margin-top: 20px;
+        }
+        .el-dialog__header{
+          text-align: left;
+        }
+        .el-form{
+          .el-input{
+            width:250px;
+          }
+        }
+        .dialog-footer{
+          .el-button{
+            width:160px;
+            height: 40px;
+            padding:0;
+            span{
+              line-height: 30px;
+              font-weight: bold;
+              font-size: 16px;
+            }
+          }
         }
       }
     }

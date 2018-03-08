@@ -153,7 +153,7 @@
               <div class="popover">
                 <div class="popTitle">{{ $t("main.cart.list.mainCartliOnsaleLimits") }}</div>
                 <div class="popDetail" :class="[{ 'noStart': !limitItem[0].rule.started }, {'started': limitItem[0].rule.started}]">
-                  <div><span v-if="limitItem[0].rule.started">距离结束</span><span v-if="!limitItem[0].rule.started">活动倒计时</span>：<span v-if="limitItem[0].rule.day">{{limitItem[0].rule.day}}天</span></div>
+                  <div><span v-if="limitItem[0].rule.started">{{$t("main.cart.list.mainCartliEndCountdown")}}</span><span v-if="!limitItem[0].rule.started">{{$t("main.cart.list.mainCartliStartCountdown")}}</span>：<span v-if="limitItem[0].rule.day">{{limitItem[0].rule.day}}{{$t("main.detail.info.mainDetInfoDay")}}</span></div>
                   <div class="timeDown">
                     <span v-show="false">{{t}}</span>
                     <div>{{limitItem[0].rule.hr}}</div>:
@@ -254,33 +254,35 @@
                   </a>
                 </template>
               </el-table-column>
-              <el-table-column prop="price" width="" label="单价" align="center">
+              <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
                 <template slot-scope="subscope">
                   <p><lts-money :money="subscope.row.price"></lts-money></p>
                 </template>
               </el-table-column>
-              <el-table-column prop="" width="" label="库存" align="center">
+              <el-table-column prop="" width="" :label='$t("main.cart.list.mainCartliStock")' align="center">
                 <template slot-scope="subscope">
-                  <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">有货</p>
-                  <p v-else>库存不足</p>
+                  <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">{{
+                    $t("main.cart.list.mainCartliAvailable") }}</p>
+                  <p v-else>{{ $t("main.cart.list.mainCartliStockInsuff") }}</p>
                 </template>
               </el-table-column>
-              <el-table-column label="数量" width="200" prop="num" align="center">
+              <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="200" prop="num" align="center">
                 <template slot-scope="subscope">
                   <div class="inputNumber">
                     <el-input-number :min='1' size="small" v-model="subscope.row.num"
-                                     @change="inputNumeberChange(subscope.row)" label="描述文字"></el-input-number>
+                                     @change="inputNumeberChange(subscope.row)"
+                                     :label='$t("main.cart.list.mainCartliDescWord")'></el-input-number>
                   </div>
                 </template>
               </el-table-column>
-              <el-table-column label="小计" width="100" align="center">
+              <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center">
                 <template slot-scope="subscope">
                   <div class="count">
                     <lts-money :money="subscope.row.num*subscope.row.price"></lts-money>
                   </div>
                 </template>
               </el-table-column>
-              <el-table-column label="操作" width="" align="center">
+              <el-table-column :label='$t("main.cart.list.mainCartliOpera")' width="" align="center">
                 <template slot-scope="subscope">
                   <div class="cart-delete" @click="deleteHandle(subscope.$index, subscope.row)">
                     <i class="iconfont icon-shanchu"></i>

@@ -67,17 +67,22 @@
           <el-form-item :label='$t("main.detail.info.mainDetInfoCozyTip")' class="mark">
             <p>{{ $t("main.detail.info.mainDetInfoNoReason") }}</p>
           </el-form-item>
-          <el-form-item class="buttons">
+          <el-form-item class="buttons" v-if="item.status == 1">
             <lts-login display="inline-block">
-               <button @click.stop="buyNow"  type="button">
+               <el-button @click.stop="buyNow"  type="button">
                   {{ $t("main.detail.info.mainDetInfoImme") }}
-               </button>
+               </el-button>
             </lts-login>
             <lts-login display="inline-block">
                 <el-button @click.stop="addCart(item, checkedSpu)" type="button" class="addcart">
                   {{ $t("main.detail.info.mainDetInfoJoinCart") }}
                 </el-button>
             </lts-login>
+          </el-form-item>
+          <el-form-item class="buttons-disabled" v-else>
+            <el-button type="info" plain disabled>
+              {{ $t("main.detail.info.mainDetInfoOffShelf") }}
+            </el-button>
           </el-form-item>
           <addCartSuccess
             :flag.sync="flag"
@@ -1080,10 +1085,9 @@
           button {
             width: 160px;
             height: 40px;
-
+            border: 1px solid #ff3b41;
             background: #ff3b41;
             color: white;
-            border: none;
             font-weight: bold;
             font-size: 18px;
             border-radius: 4px;
@@ -1091,13 +1095,21 @@
           }
           .addcart {
             margin-left: 16px;
-            border: 1px solid #ff3b41;
             background: #fff;
             color: #ff3b41;
           }
           button:focus {
             outline: none;
           }
+        }
+        .buttons-disabled button{
+          width: 160px;
+          height: 40px;
+          background: #f3f3f3;
+          color: #bbb;
+          font-weight: bold;
+          font-size: 18px;
+          border-radius: 4px;
         }
       }
 

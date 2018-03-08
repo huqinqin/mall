@@ -10,7 +10,7 @@ export default {
         headerMyExpert: 'My Expert',
         headerPhoneOrder: 'APP',
         headerLogin: 'Log Out',
-        headerSearchGoods: 'Search',
+        headerSearchGoods: 'Search for Goods',
         headerAllclassify: 'All Categories',
         headerInputUserOrEmail: 'Username/E-mail',
         headerPwd: 'Password',
@@ -22,7 +22,8 @@ export default {
         headerRemerberPsw: 'Remember Password',
         headerForgetPsw: 'Forget Password?',
         headerLog: 'Log In',
-        headerRegis: 'Register',
+        headerRegis: 'Register'
+
     },
     comFooter: {
         footerAboutLts: 'About LTS',
@@ -57,6 +58,8 @@ export default {
             mainAddBindCard: 'Add Credit Card',
             mainAddBillAddress: 'Billing Address',
             mainAddPwdInstall: 'Password Settings',
+            mainAddCertiValidDate: 'Period of Validity',
+            mainAddCertiAddress: 'Certificate Address',
             mainAddReceivingAddress: 'Shipping Address',
             mainAddShareFriends: 'Share With Friends'
         },
@@ -114,6 +117,8 @@ export default {
                 mainCartliCheckedAll: 'Select All',
                 mainCartliDeleteChecked: 'Delete Selected Items',
                 mainCartliDeleteInvalid: 'Delete Invalid Items',
+                mainCartliStartCountdown: 'Before Countdown',
+                mainCartliEndCountdown: 'Counting Down',
             },
             settle: {
                 mainCartSePhone: 'Phone',
@@ -182,6 +187,7 @@ export default {
                 mainDetInfoNoReason: '30-Day Money-Back Guarantee(The company reserves all rights for final explanation)',
                 mainDetInfoImme: 'Order Now',
                 mainDetInfoJoinCart: 'Add to Cart',
+                mainDetInfoOffShelf: 'Off the Shelf',
                 mainDetInfoBuy: 'Purchase History',
                 mainDetInfoHot: 'Best Sellers',
                 mainDetInfoLoginPrice: 'Log In To See Price',
@@ -277,7 +283,7 @@ export default {
                 mainOrLiPayInfo: 'Payment Info',
                 mainOrLiPhone: 'Ordered By APP',
                 mainOrLiReal: 'Total',
-                mainOrLiTransationSta: 'Order Status',
+                mainOrLiTransationSta: 'Status',
                 mainOrLiTransationHan: 'Transaction',
                 mainOrLiHanlde: 'Operate',
                 mainOrLiPay: 'Pay',
@@ -471,6 +477,7 @@ export default {
                 mainRevLiGooodsType: 'Return Type',
                 mainRevLiReturnGoodPay: 'RMA',
                 mainRevLiOnlyNotGood: 'Refund Only',
+                mainRevLiRefund: 'Refund',
                 mainRevLiReason: 'Reason for Refund',
                 mainRevLiStatus: 'Refund Status',
                 mainRevLiHandle: 'More',

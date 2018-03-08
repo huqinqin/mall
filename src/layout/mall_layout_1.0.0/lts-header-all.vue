@@ -36,7 +36,7 @@
             </ul>
         </div>
         <div class="s-span-page search-bar">
-            <el-input placeholder="搜索商品" v-model="keywords" class="input-with-select" @keyup.native.enter='searchToHref'>
+            <el-input :placeholder="$t('comHeader.headerSearchGoods')" v-model="keywords" class="input-with-select" @keyup.native.enter='searchToHref'>
                 <el-cascader
                     slot="prepend"
                     :placeholder="select"

@@ -12,92 +12,36 @@
             <p>{{defaultAddress.building}}</p>
             <p>{{ $t("main.cart.settle.mainCartSePhone") }}：{{defaultAddress.mobile}}</p>
           </main>
-          <footer>
-            <button class="default" @click.stop="toggleDefault(defaultAddress)">{{
-              $t("main.cart.settle.mainCartSeFitDefault") }}
-            </button>
-            <button v-show="defaultAddress.id === defaultId">{{ $t("main.cart.settle.mainCartSeDefaultAdress") }}
-            </button>
-            <button class="delete" @click="deleteAddress(defaultAddress,0)">{{ $t("main.cart.settle.mainCartSeDel") }}
-            </button>
+          <footer class="ship-footer">
+            <button class="default" @click.stop="toggleDefault(defaultAddress)">{{ $t("main.cart.settle.mainCartSeFitDefault") }}</button>
+            <button v-show="defaultAddress.id === defaultId" class="defaultAdd">{{ $t("main.cart.settle.mainCartSeDefaultAdress") }}</button>
+            <button class="delete" @click="deleteAddress(defaultAddress,0)">{{ $t("main.cart.settle.mainCartSeDel") }}</button>
             <button @click="editAddress(defaultAddress)">{{ $t("main.cart.settle.mainCartSeAlert") }}</button>
           </footer>
         </li>
         <li v-for="(item,key) in addressData" :class="[{checked:item.id === checkedId},{default:item.id === defaultId}]"
-            @click="checkAddress(item)" v-if="item.status === 0">
+            @click="checkAddress(item)" v-if="item.status !== 1">
           <header>
             <div><p>{{item.user_name}}({{item.address}}) </p></div>
           </header>
           <main>
             <p>{{item.building}}</p>
-            <p>{{ $t("main.cart.settle.mainCartSePhone") }}：{{item.mobile}}</p>
+            <p v-if="item.ship == 1">{{ $t("main.cart.settle.mainCartSePhone") }}：{{item.mobile}}</p>
+            <p v-else-if="item.ship == 0">{{$t("main.cart.settle.mainAddCertiValidDate")}}：{{item.valid}}</p>
           </main>
-          <footer>
-            <button class="default" @click.stop="toggleDefault(item)">{{ $t("main.cart.settle.mainCartSeFitDefault")
-              }}
-            </button>
+          <footer v-if="item.ship == 1" class="ship-footer">
+            <button class="default" @click.stop="toggleDefault(item)">{{ $t("main.cart.settle.mainCartSeFitDefault") }}</button>
             <button v-show="item.id === defaultId">{{ $t("main.cart.settle.mainCartSeDefaultAdress") }}</button>
             <button class="delete" @click="deleteAddress(item,key)">{{ $t("main.cart.settle.mainCartSeDel") }}</button>
             <button @click="editAddress(item)">{{ $t("main.cart.settle.mainCartSeAlert") }}</button>
+          </footer>
+          <footer v-else-if="item.ship == 0" class="certi-footer">
+            <button >{{$t("main.cart.settle.mainAddCertiAddress")}}</button>
           </footer>
         </li>
         <li class="addAddress" @click="addAddress">
           <i class="iconfont icon-add"></i>
           <div>{{ $t("main.cart.settle.mainCartSeAddAdress") }}</div>
-        </li>
-      </ul>
-      <el-dialog :title='$t("main.address.mainAddReceivingAddress")' :visible.sync="showAddAddress" center>
-        <el-form :model="addForm">
-          <el-form-item :label='$t("main.cart.settle.mainCartSeRegion")'
-                        :rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterRegion'), trigger: 'blur' }]">
-            <el-cascader
-              :options="cityOptions"
-              popper-class="addressPopover"
-              @change="selectCity"
-              :placeholder="addForm.address">
-            </el-cascader>
-          </el-form-item>
-          <el-form-item :label='$t("main.cart.settle.mainCartSeStreet")'
-                        :rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterStreet'), trigger: 'blur' }]">
-            <el-input v-model="addForm.building"></el-input>
-          </el-form-item>
-          <el-form-item :label='$t("main.cart.settle.mainCartSeZip")'
-                        :rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterZip'), trigger: 'blur' }]">
-            <el-input v-model="addForm.zipCode"></el-input>
-          </el-form-item>
-          <el-form-item :label='$t("main.cart.settle.mainCartSeContact")'
-                        :rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterContact'), trigger: 'blur' }]">
-            <el-input v-model="addForm.user_name"></el-input>
-          </el-form-item>
-          <el-form-item :label='$t("main.cart.settle.mainCartSeContactPhone")'
-                        :rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterConPhone'), trigger: 'blur' }]">
-            <el-input v-model="addForm.mobile"></el-input>
-          </el-form-item>
-          <el-form-item label="" class="radio">
-            <el-checkbox v-model="addForm.setDefault">{{ $t("main.cart.settle.mainCartSeFitDefaultAddr") }}
-            </el-checkbox>
-          </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="submitFrom">{{ $t("main.cart.settle.mainCartSeSure") }}</el-button>
-        </div>
-      </el-dialog>
-    </div>
-    <div class="address">
-      <h5>{{$t("main.address.mainAddCertiAddress")}}</h5>
-      <ul>
-        <li v-for="(item,key) in certificateData" :class="[{checked:item.id === checkedId}]"
-            @click="checkAddress(item)" v-if="item.status === 0">
-          <header>
-            <div><p>{{item.user_name}}({{item.address}}) </p></div>
-          </header>
-          <main>
-            <p>{{item.building}}</p>
-            <p>{{$t("main.address.mainAddCertiValidDate")}}：{{item.valid}}</p>
-          </main>
-          <footer>
-            <button >{{$t("main.address.mainAddCertiAddress")}}</button>
-          </footer>
         </li>
       </ul>
       <el-dialog :title='$t("main.address.mainAddReceivingAddress")' :visible.sync="showAddAddress" center>
@@ -198,14 +142,16 @@
         </el-table-column>
         <el-table-column prop="" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
           <template slot-scope="scope">
-            <lts-money :money="scope.row.item_props[0].price - scope.row.discount"></lts-money>
+            <span><lts-money :money="scope.row.item_props[0].price"></lts-money></span>
           </template>
         </el-table-column>
         <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="" prop="num" align="center">
         </el-table-column>
         <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="" align="center">
           <template slot-scope="scope">
-            <div class="count" ref="count"><lts-money :money="(scope.row.item_props[0].price - scope.row.discount) * scope.row.num"></lts-money></div>
+            <div class="count" ref="count">
+              <span><lts-money :money="(scope.row.item_props[0].price) * scope.row.num"></lts-money></span>
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -340,6 +286,7 @@
         chooseAll: true,
         checkedAddress: {},
         defaultAddress: {},
+        editForm:{},
         addressData: [],
         certificateData:[],
         tableData: [],
@@ -377,15 +324,17 @@
 
       // 选择地址
       checkAddress (item) {
+        console.log(this.addressData)
         this.checkedAddress = item
         this.checkedId = item.id
         this.simulateCreateTrade()
       },
       // 编辑地址
       editAddress (item) {
+        let string = JSON.stringify(item)
         this.editOrAdd = true
         this.showAddAddress = true
-        this.addForm = item
+        this.addForm = JSON.parse(string)
         if (item.status === 1) {
           this.addForm.setDefault = true
         } else {
@@ -415,9 +364,8 @@
       getAddressList () {
         addressService.getList().then((data) => {
           this.addressData = data.data.consumer_address_d_o
-          this.certificateData = data.data.distribute_certificate_d_o
-
           this.addressData.forEach((value, index) => {
+            value.ship = 1
             value.zipCode = value.zip_code
             value.state = value.location_d_o.province
             if (value.status === 1) {
@@ -434,32 +382,40 @@
               value.address = value.address.slice(0, position)
             }
           })
-
-
-          this.certificateData.forEach((value, index) => {
+          data.data.distribute_certificate_d_o.forEach((value, index) => {
+            value.ship = 0
             value.zipCode = value.postcode
             value.user_name = value.company
             value.building = value.city
             value.valid = dateUtils.timeToStr(value.valid_time)
+            this.addressData.push(value)
+            console.log(this.addressData)
           })
+          if(!this.defaultId){
+            this.checkedId = this.addressData[0].id
+            this.checkedAddress = this.addressData[0]
+          }
           this.simulateCreateTrade()
         })
       },
       // 提交地址表单
       submitFrom () {
-        this.addForm.setDefault = this.setDefault
-        // this.addForm.rank = this.addressData.length + 1
-        if (!this.editOrAdd) {
+        if (this.editOrAdd) {
+          addressService.updateItem(this.addForm).then((data) => {
+            this.getAddressList()
+            this.$ltsMessage.show({type: 'success', message: this.$t('main.cart.settle.mainCartSeHandleSucc')})
+          }, (msg) => {
+            this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
+          })
+        }else{
           this.addressData.push(this.addForm)
+          addressService.addItem(this.addForm).then((data) => {
+            this.getAddressList()
+            this.$ltsMessage.show({type: 'success', message: this.$t('main.cart.settle.mainCartSeHandleSucc')})
+          }, (msg) => {
+            this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
+          })
         }
-        let service = this.editOrAdd ? addressService.updateItem(this.addForm) : addressService.addItem(this.addForm)
-
-        service.then((data) => {
-          this.getAddressList()
-          this.$ltsMessage.show({type: 'success', message: this.$t('main.cart.settle.mainCartSeHandleSucc')})
-        }, (msg) => {
-          this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
-        })
         this.showAddAddress = false
       },
       // 删除地址
@@ -583,9 +539,10 @@
           })
         })
         this.tableData = items
-        console.log(items)
         // this.user_id = this.$route.params.userId
       }
+
+      console.log(this.tableData)
       this.getAddressList()
 
       this.expressOptions = this.UPSOptions
@@ -720,6 +677,11 @@
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
             color: rgba(0, 0, 0, 0.7);
             padding: 0 12px;
+            div{
+              overflow: hidden;
+              text-overflow:ellipsis;
+              white-space: nowrap;
+            }
             p {
               line-height: 40px;
               font-size: 14px;
@@ -745,12 +707,10 @@
             }
           }
           footer {
-            display: flex;
-            justify-content: flex-end;
+            text-align: right;
             button {
               font-size: 12px;
               color: #3d98ff;
-              width: 50px;
               height: 12px;
               margin: 0;
               padding: 0;
@@ -758,6 +718,14 @@
               border: none;
               visibility: hidden;
               outline: none;
+            }
+          }
+          footer.ship-footer{
+            button:hover{
+              color:#f81f22;
+            }
+            button.defaultAdd:hover{
+              color: #3d98ff;
             }
           }
         }
@@ -945,9 +913,9 @@
     }
     .order {
       width: 100%;
+      margin-left: 24px;
       h5 {
         margin-top: 18px;
-        margin-left: 24px;
       }
       padding-bottom: 24px;
       border-bottom: 1px solid #f2f2f2;

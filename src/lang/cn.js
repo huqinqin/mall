@@ -199,6 +199,7 @@ export default {
                 mainDetInfoDetail: '详细',
                 mainInMore: '更多',
                 mainDetConfigure:'推荐套餐',
+                mainDetInfoOffShelf:'商品已下架',
                 mainDetPiece:'件',
                 mainDetCheckedPackage:'已选择配件',
                 mainDetSure:'确定',

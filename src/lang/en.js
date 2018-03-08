@@ -200,6 +200,7 @@ export default {
                 mainDetInfoDetail: 'Details',
                 mainInMore: 'More',
                 mainDetConfigure:'Frequently Bought Together',
+                mainDetInfoOffShelf:'Off the Shelf',
                 mainDetPiece:'Piece',
                 mainDetCheckedPackage:'Selected Items',
                 mainDetSure:'Confirm',

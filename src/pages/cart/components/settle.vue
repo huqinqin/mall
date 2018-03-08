@@ -960,6 +960,7 @@
     }
     .someCount {
       margin-right: 24px;
+      padding-top: 12px;
       display: flex;
       flex-direction: column;
       align-items: flex-end;

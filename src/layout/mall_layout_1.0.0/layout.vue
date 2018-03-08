@@ -4,8 +4,8 @@
             <lts-header></lts-header>
         </el-header>
         <el-container class="lts-main">
-            <lts-header-content></lts-header-content>
-            <el-container class="s-span-page">
+            <lts-header-content class="lts-head-bottom"></lts-header-content>
+            <el-container class="s-span-page lts-content">
                 <lts-menu class="lts-menu"/>
                 <el-container>
                     <el-main class="s-span-page">
@@ -150,6 +150,11 @@
             background-color: white;
             color: #999;
         }
+        .lts-content{
+        }
+    }
+    .lts-head-bottom{
+        margin-bottom: 24px;
     }
 
 </style>

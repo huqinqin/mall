@@ -179,6 +179,7 @@ export default {
                 mainDetInfoDown: '开始倒计时',
                 mainDetInfoEnd: '距离结束',
                 mainDetInfoDay: '天',
+                mainDetInLimitOver: '活动结束',
                 mainDetInfoPrice: '价格',
                 mainDetInfoComp: '完成登录注册，享受惊爆价',
                 mainDetInfoContactSale: '请选择商品属性。若商品属性不可选。请联系销售',

@@ -79,6 +79,10 @@ export default {
                 mainCartBefgoPay:'Pay',
                 mainCartBefExpress:'Express',
                 mainCartBefSelfFetch:'Pick Up',
+                mainCartBefCreditInfo:'Credit Card Info',
+                mainCartBefInputNum:'Input Num',
+                mainCartBefCreditNum:'Number',
+                mainCartBefCreditValid:'Validity'
             },
             fail: {
                 mainCartFaProblem: 'Something is Wrong',

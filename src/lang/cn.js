@@ -78,6 +78,10 @@ export default {
                 mainCartBefgoPay:'去支付',
                 mainCartBefExpress:'快递',
                 mainCartBefSelfFetch:'自提',
+                mainCartBefCreditInfo:'请输入信用卡信息',
+                mainCartBefInputNum:'请输入信用卡号',
+                mainCartBefCreditNum:'信用卡号',
+                mainCartBefCreditValid:'有效期'
             },
             fail: {
                 mainCartFaProblem: '您在支付的时候好像出现了一些问题',

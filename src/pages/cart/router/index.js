@@ -5,7 +5,6 @@ import Finish from '../components/finish'
 import Fail from '../components/fail'
 import BeforePay from '../components/beforePay'
 import List from '../components/list'
-import CreditInfo from '../components/creditInfo'
 
 Vue.use(Router)
 
@@ -38,11 +37,6 @@ export default new Router({
       path: '/fail',
       name: 'fail',
       component: Fail
-    },
-    {
-      path: '/creditInfo',
-      name: 'creditInfo',
-      component: CreditInfo
     }
   ]
 })

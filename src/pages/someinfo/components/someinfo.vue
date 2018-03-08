@@ -50,7 +50,7 @@
             <h2>{{$t("main.someinfo.mainSomeHistory")}}</h2>
             <ul>
                 <div>
-                    <el-button class="el-icon-arrow-left icon" :disabled="this.pagination.page === 1" @click="pre"></el-button>
+                    <el-button class="el-icon-arrow-left icon" :disabled="this.pagination.page === 1" @click="pre" v-if="historyData.length > 0"></el-button>
                 </div>
                <li v-for="item in historyData">
                    <a :href=" '/detail#/?id=' + item.id">
@@ -61,7 +61,7 @@
                    </a>
                </li>
                 <div>
-                   <el-button class="el-icon-arrow-right icon" :disabled="this.pagination.page === this.pages" @click="next"></el-button>
+                   <el-button class="el-icon-arrow-right icon" :disabled="this.pagination.page === this.pages" @click="next" v-if="historyData.length > 0"></el-button>
                 </div>
             </ul>
         </div>
@@ -84,10 +84,9 @@
                 engineerInfo:{
                     user: {},
                     acc_books: {},
-
                 },
-                account: 0.00,
-                usedAcc: 0.00,
+                account: 0,
+                usedAcc: 0,
                 len: 0,
                 pagination: {
                     page: 1,
@@ -130,6 +129,8 @@
                 this.isShow = false
             },
             checkInfo(){
+                this.account = this.account.toFixed(2);
+                this.usedAcc = this.usedAcc.toFixed(2);
                 checkService.checkInfo().then((data) => {
                     this.engineerInfo = data.data;
                     this.engineerInfo.acc_books.forEach((item) => {
@@ -142,7 +143,7 @@
                             this.usedAcc = (((item.use_balance) / 100).toFixed(2)).slice(1);
                             let sum = item.rule_blc1.limit + item.use_balance;
                             this.account = ( sum / 100).toFixed(2);
-                            console.log(item.rule_blc1.limit + item.use_balance,this.account);
+                            console.log(this.account,item.rule_blc1.limit + item.use_balance,this.account);
                         }
                         if(item.subject === 2010102){
                             item.bonus.datalist.forEach((item) => {

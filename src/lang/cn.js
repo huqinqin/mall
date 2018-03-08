@@ -1,3 +1,4 @@
+import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
 export default {
     comHeader: {
         headerImmediatelyLog: '立即登录',
@@ -22,7 +23,7 @@ export default {
         headerRemerberPsw: '记住密码',
         headerForgetPsw: '忘记密码?',
         headerLog: '登录',
-        headerRegis: '注册'
+        headerRegis: '注册',
     },
     comFooter: {
         footerAboutLts: '关于LTS',
@@ -58,8 +59,6 @@ export default {
             mainAddBillAddress: '账单地址',
             mainAddPwdInstall: '密码设置',
             mainAddReceivingAddress: '收货地址',
-            mainAddCertiValidDate: '有效期',
-            mainAddCertiAddress: '分销证地址',
             mainAddShareFriends: '分享好友'
         },
         cart: {
@@ -116,8 +115,6 @@ export default {
                 mainCartliCheckedAll: '全选',
                 mainCartliDeleteChecked: '删除选中商品',
                 mainCartliDeleteInvalid: '清除失效商品',
-                mainCartliStartCountdown: '开始倒计时',
-                mainCartliEndCountdown: '距离结束',
             },
             settle: {
                 mainCartSePhone: '电话',
@@ -186,7 +183,6 @@ export default {
                 mainDetInfoNoReason: '支持30天无理由退换(如果商品参加活动，退换货以活动规则为准)',
                 mainDetInfoImme: '立即购买',
                 mainDetInfoJoinCart: '加入购物车',
-                mainDetInfoOffShelf: '该商品已下架',
                 mainDetInfoBuy: '购买记录',
                 mainDetInfoHot: '热卖推荐',
                 mainDetInfoLoginPrice: '登录之后查看价格',
@@ -478,7 +474,6 @@ export default {
                 mainRevLiGooodsType: '退货类型',
                 mainRevLiReturnGoodPay: '退货退款',
                 mainRevLiOnlyNotGood: '仅退款',
-                mainRevLiRefund: '退款',
                 mainRevLiReason: '退货原因',
                 mainRevLiStatus: '退款状态',
                 mainRevLiHandle: '操作',
@@ -598,6 +593,7 @@ export default {
             commLtsPwdSet: '密码设置',
             commLtsAddress: '收货地址'
         }
-    }
+    },
+    ...zhLocale
 }
 

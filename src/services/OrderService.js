@@ -150,6 +150,7 @@ export default class OrderService extends BaseService {
 
            })
         }
+        debugger
         return super.postRequest('/trade_pay/credit_card_pay',params);
     }
 

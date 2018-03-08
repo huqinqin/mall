@@ -2,10 +2,9 @@ import VueI18n from 'vue-i18n'
 import Vue from  'vue'
 import VueResource from 'vue-resource'
 import {dateUtils} from 'ltsutil'
-
 import Layout from 'layout'
 import Element from 'element-ui'
-
+import locale from 'element-ui/lib/locale';
 import '../../../static/css/element-variables.scss'
 import Loading from '../components/lts-loading'
 import Message from '../components/lts-message'
@@ -18,19 +17,13 @@ import ltsMenu from '@/layout/mall_layout_1.0.0/lts-menu.vue'
 import ltsEmpty from '@/layout/mall_layout_1.0.0/lts-empty.vue'
 import ltsMoney from '../components/lts-money.js'
 import './filter'
-
 import config from 'config'
-
 Vue.use(VueI18n)
-Vue.use(Element)
 Vue.prototype.$ltsLoading = Loading
 Vue.prototype.$ltsMessage = Message
 Vue.prototype.$ltsMessageBox = MessageBox
-
-Vue.config.lang = 'en'
 Vue.config.productionTip = false
-
-
+Vue.config.lang = 'en'
 const i18n = new VueI18n({
   locale  : Vue.config.lang,    // 语言标识
   messages: {
@@ -38,6 +31,9 @@ const i18n = new VueI18n({
     cn: require('@/lang/cn').default,
     en: require('@/lang/en').default
   }
+})
+Vue.use(Element, {
+    i18n: (key, value) => i18n.t(key, value)
 })
 
 export default function (App, router = new Router()) {

@@ -88,7 +88,7 @@
                             <el-button size="mini" type="text" @click="scope.row.visible2 = false">{{$t("main.reverse.list.mainRevLiCanle")}}</el-button>
                             <el-button type="primary" size="mini" @click="closeOrder(scope.row)">{{$t("main.reverse.list.mainRevLiConfirm")}}</el-button>
                         </div>
-                        <el-button type="text" class="probtn" size="mini" slot="reference" v-if="scope.row.status == 1 || scope.row.status == 2">{{$t("main.reverse.list.mainRevLiApply")}}</el-button>
+                        <el-button type="text" class="probtn" size="mini" slot="reference" v-if="scope.row.status == 1">{{$t("main.reverse.list.mainRevLiApply")}}</el-button>
                     </el-popover>
                     <el-popover
                         placement="bottom"

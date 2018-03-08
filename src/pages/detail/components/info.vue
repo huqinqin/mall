@@ -41,7 +41,9 @@
               <lts-money :money="item.price"></lts-money>
             </div>
             <div v-ltsLoginShow:true class="detail_price" v-else>
-              <lts-money :money="checkedSpu.price"></lts-money>
+              <span v-if="item.discount_type === 1"><lts-money :money="checkedSpu.price * item.discount / 100"></lts-money></span>
+              <span v-else-if="item.discount_type === 2"><lts-money :money="checkedSpu.price - item.discount"></lts-money></span>
+              <span v-else-if="item.discount_type === 4"><lts-money :money="item.sale_rule_do.price"></lts-money></span>
             </div>
           </el-form-item>
           <div :class="[showPropsError ? 'error' : '']" @click="closeError">
@@ -126,8 +128,12 @@
           <div class="briefInfo">
             <div class="img" :style="'background-image: url(' + item.image_value + ')'"></div>
             <div class="name">{{item.item_name}}</div>
-            <div class="price" v-if="!checkedSpu.price"><span class="red"><lts-money :money="item.price"></lts-money></span></div>
-            <div class="price" v-else><span class="red"><lts-money :money="checkedSpu.price"></lts-money></span></div>
+            <div class="price" v-if="!checkedSpu.price"><span class="red" style="font-size: 14px;">{{ $t("main.detail.info.mainDetInfoNoChoose") }}</span></div>
+            <div class="price" v-if="checkedSpu.price"><span class="red">
+              <span v-if="item.discount_type === 1"><lts-money :money="checkedSpu.price * item.discount / 100"></lts-money></span>
+              <span v-else-if="item.discount_type === 2"><lts-money :money="checkedSpu.price - item.discount"></lts-money></span>
+              <span v-else-if="item.discount_type === 4"><lts-money :money="item.sale_rule_do.price"></lts-money></span>
+            </span></div>
           </div>
           <div class="icon-handle"><i class="iconfont icon-jiahaocu"></i></div>
           <el-button class="handlePage" @click="pre" disabled><i class="el-icon-caret-left"></i></el-button>
@@ -146,11 +152,11 @@
                   </el-form-item>
                   <el-form-item :label=' $t("main.detail.info.mainDetInfoPrice")' class="price">
                     <div class="tips" v-ltsLoginShow:false>{{ $t("main.detail.info.mainDetInfoComp") }}</div>
-                    <div v-ltsLoginShow:true class="detail_price" v-if="!checkedSpu.price">
+                    <div v-ltsLoginShow:true class="detail_price" v-if="!otherSpu.price">
                       <lts-money :money="value.price"></lts-money>
                     </div>
                     <div v-ltsLoginShow:true class="detail_price" v-else>
-                      <lts-money :money="checkedSpu.price"></lts-money>
+                      <lts-money :money="otherSpu.price"></lts-money>
                     </div>
                   </el-form-item>
                   <el-form-item :label='$t("main.detail.info.mainDetInfoAmount")' class="num">
@@ -181,12 +187,12 @@
                       <div class="name">{{item.item.name}}</div>
                       <div class="props">{{ $t("main.detail.info.mainDetCkeckedProp") }}：{{item.otherProp.newProps}}</div>
                       <div class="about">
-                        <div class="num">{{ $t("main.detail.info.mainDetNum") }}：{{item.item.num}}个</div><div class="price">{{ $t("main.detail.info.mainDetSinglePrice") }}：<span class="bold red" v-if="item.otherProp.price"><lts-money :money="item.otherProp.price"></lts-money></span></div>
+                        <div class="num">{{ $t("main.detail.info.mainDetNum") }}：{{item.item.num}}</div><div class="price">{{ $t("main.detail.info.mainDetSinglePrice") }}：<span class="bold red" v-if="item.otherProp.price"><lts-money :money="item.otherProp.price"></lts-money></span></div>
                       </div>
                     </div>
                   </li>
                 </ul>
-                <p v-else>{{ $t("main.detail.info.mainDetNoAnyPackage") }}</p>
+                <span v-else>{{ $t("main.detail.info.mainDetNoAnyPackage") }}</span>
                 <i class="el-icon-warning" slot="reference"></i>
               </el-popover>
             </p>
@@ -430,6 +436,7 @@
             if (count >= skuLength && sku.storage > 0) {
               if (type === 'checkedSku') {
                 self.checkedSpu = sku
+
               }else if(type === 'otherSku'){
                 self.otherSpu = sku
               }
@@ -539,32 +546,27 @@
       },
       addOthers (value){
         this.otherSpu.newProps = this.otherSpu.props.split(',').join('/')
+        let obj = {
+          item:{
+            id:value.id,
+            num:value.num,
+            img:value.image_value,
+            name:value.item_name
+          },
+          otherProp:this.otherSpu
+        }
         if(this.checkedOthers.length > 0){
-          for(let i = 0;i < this.checkedOthers.length;i++){
-            if(this.checkedOthers[i].item.id === value.id){
-              this.checkedOthers[i].item.num = value.num
-            }else{
-              this.checkedOthers.push({
-                item:{
-                  id:value.id,
-                  num:value.num,
-                  img:value.image_value,
-                  name:value.item_name
-                },
-                otherProp:this.otherSpu
-              })
-            }
+          if(JSON.stringify(this.checkedOthers).indexOf(value.id) !== -1){
+            this.checkedOthers.forEach((val) => {
+              if(val.item.id == value.id){
+                val.item.num = value.num
+              }
+            })
+          }else{
+            this.checkedOthers.push(obj)
           }
         }else{
-          this.checkedOthers.push({
-            item:{
-              id:value.id,
-              num:value.num,
-              img:value.image_value,
-              name:value.item_name
-            },
-            otherProp:this.otherSpu
-          })
+          this.checkedOthers.push(obj)
         }
       },
       otherItemNum(row,value){
@@ -572,10 +574,20 @@
       },
       // 添加套餐到购物车
       addPackage(){
-        this.addCart (this.item, this.checkedSpu)
+        if(this.checkedSpu){
+          this.addCart (this.item, this.checkedSpu)
+        }
         if(this.checkedOthers.length > 0){
           this.checkedOthers.forEach((item) => {
-            this.addCart (item.item, item.otherProp)
+            // this.addCart (item.item, item.otherProp)
+            cartService.putCartPlus(item.item, item.otherProp).then((data) => {
+              if (!this.showPropsError) {
+                this.flag = true
+              }
+              this.selfContext.$emit('addCartSuccess')
+            }, (msg) => {
+              this.$ltsMessage.show({type: 'error', message: msg.error_message})
+            })
           })
         }
       }
@@ -586,26 +598,31 @@
     },
     computed: {
       packagePrice: function(){
-        let price = this.item.price
+        let price = 0
         if(this.checkedSpu.price){
-          price = this.checkedSpu.price
+          if(this.item.discount_type === 1){
+            price = this.checkedSpu.price * item.discount / 100
+          }else  if(this.item.discount_type === 2){
+            price = this.checkedSpu.price - item.discount
+          }else  if(this.item.discount_type === 4){
+            price = this.item.sale_rule_do.price
+          }
         }
         if(this.checkedOthers.length > 0){
           this.checkedOthers.forEach((item) => {
             price += item.otherProp.price * item.item.num
           })
         }
-
         return price
-      }
+      },
     }
   }
 </script>
 
 <style lang="less">
   .othersPopover{
-    width:280px;
     padding:12px;
+    padding-right: 24px;
     .el-form-item {
       margin-bottom: 0;
       .detail_price{
@@ -1161,12 +1178,12 @@
         }
         ul.others{
           padding:0 24px;
-          width:925px;
+          width:640px;
           display: flex;
           li.othersItem{
             margin-left: 24px;
             .el-button{
-              width:80px;
+              width:100px;
               height: 24px;
               padding:0;
               color:#ff3b41;

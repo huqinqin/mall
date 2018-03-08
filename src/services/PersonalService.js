@@ -115,4 +115,17 @@ export default class PersonalService extends BaseService {
         };
         return super.getRequest('/installer/distribute/update', newparams);
     }
+
+    /**
+     * 删除工程商的分销证
+     * @param id
+     * @auth maisi
+     * @returns {*}
+     */
+    static deleteSaleCard(params) {
+        let newparams = {
+            id: params.id
+        };
+        return super.getRequest('/installer/distribute/delete', newparams);
+    }
 }

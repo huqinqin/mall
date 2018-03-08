@@ -134,6 +134,7 @@
                     }
                 ],
                 keywords: '',
+                tags: '',
                 select: this.$t("comHeader.headerAllclassify"),
                 options:[],
                 selectedOptions:[],
@@ -157,7 +158,7 @@
                 }
             },
             searchToHref(){
-                location.href = '/search#/?cateId=' + this.selectedOptions + '&keywords=' + this.keywords
+                location.href = '/search#/?cateId=' + this.selectedOptions + '&keywords=' + this.keywords + '&tags=' + this.tags;
                 this.selfContext.$emit('getItemList')
             },
             getCategoryList(){

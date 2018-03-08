@@ -1,25 +1,26 @@
 import BaseService from "./abstract/BaseService";
+
 export default class ItemService extends BaseService {
     /**
      * 获取商城首页商品列表
      * @author 小猪
      */
-    getList(){
+    getList() {
         let params = {
-            user_id : userId
+            user_id: userId
         };
-        return super.getRequest('/wholesale/item/getList',params);
+        return super.getRequest('/wholesale/item/getList', params);
     }
 
     /**
      * 获取商品详情
      * @author 小猪
      */
-    static getItemDetail(id){
+    static getItemDetail(id) {
         let params = {
-            item_id : id
+            item_id: id
         };
-        return super.getRequest('/installer/item/get_item_detail_full',params);
+        return super.getRequest('/installer/item/get_item_detail_full', params);
     }
 
     /**
@@ -28,12 +29,12 @@ export default class ItemService extends BaseService {
      * @param condition
      * @returns {*}
      */
-    static searchItemList(text,condition){
+    static searchItemList(text, condition) {
         let params = {
-            text ,
+            text,
             condition
         };
-        return super.getRequest('/static/test/json/search.item.json',params);
+        return super.getRequest('/static/test/json/search.item.json', params);
     }
 
     /**
@@ -44,35 +45,37 @@ export default class ItemService extends BaseService {
      * @param order_by
      * @returns {*}
      */
-    static searchItem(search){
+    static searchItem(search,tags) {
         let params = {
-            item_search : JSON.stringify({
-                puserIds:search.puserIds,
-                itemName:search.itemName,
-                brand:search.brand,
-                cateId:search.cateId[search.cateId.length-1],
-                attribute_1:search.attribute_1,
-                discountType:search.discountType,
-                allStatus:search.allStatus,
-                sin:search.sin,
-                propValues:search.condition
+            item_search: JSON.stringify({
+                puserIds: search.puserIds,
+                itemName: search.itemName,
+                brand: search.brand,
+                cateId: search.cateId[search.cateId.length - 1],
+                attribute_1: search.attribute_1,
+                discountType: search.discountType,
+                allStatus: search.allStatus,
+                sin: search.sin,
+                propValues: search.condition,
+                tags: tags ? tags : [],
             }),
-            page:search.page,
-            page_size:search.pageSize,
+            page: search.page,
+            page_size: search.pageSize,
             order_by: search.orderBy
         };
-        return super.getRequest('/installer/item/get_item_with_aggregate',params)
+        return super.getRequest('/installer/item/get_item_with_aggregate', params)
     }
+
     /**
      * return
      * @param item_id 商品id
      * @author taohua
      * @remark 搜索搭配商品的属性及价格
      */
-    static getItemProps(id){
+    static getItemProps(id) {
         let params = {
-          item_id:id
+            item_id: id
         };
-        return super.getRequest('/installer/item/get_item_with_props',params)
+        return super.getRequest('/installer/item/get_item_with_props', params)
     }
 }

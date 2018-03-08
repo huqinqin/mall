@@ -63,7 +63,8 @@ export default class AddressService extends BaseService {
             status: form.setDefault ? 1 : 0,
             rank: form.rank,
             zip_code: form.zipCode,
-            lc_code: form.lcCode
+            lc_code: form.lcCode,
+            ship:1
         }
         let params = {
             address:JSON.stringify(address)
@@ -108,7 +109,8 @@ export default class AddressService extends BaseService {
             rank: form.rank,
             zip_code: form.zipCode,
             id: form.id,
-            lc_code: form.lcCode
+            lc_code: form.lcCode,
+            ship:1
         }
         let params = {
             address:JSON.stringify(address)

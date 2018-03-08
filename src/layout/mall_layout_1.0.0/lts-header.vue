@@ -12,7 +12,7 @@
               <a v-login href="/order" class="top-menu"  @click="toOrder">{{ $t("comHeader.headerMyOrder") }}</a>
               <el-tooltip placement="top" effect="light">
                 <div slot="content"><myExperts></myExperts></div>
-                <a href="javascript:void(0)" class="top-menu" v-login v-if="showToIndex">{{ $t("comHeader.headerMyExpert") }}</a>
+                <a href="javascript:void(0)" class="top-menu" v-login v-if="showToIndex && !userInfo">{{ $t("comHeader.headerMyExpert") }}</a>
               </el-tooltip>
               <a href="javascript:void(0)" ><i class="iconfont icon-shouji"></i>{{ $t("comHeader.headerPhoneOrder") }}</a>
               <a href="javascript:void(0)" @click="logout" v-if="userInfo">{{ $t("comHeader.headerLogin") }}</a>
@@ -109,7 +109,6 @@
                     this.loginVisible = false;
                     this.getUserInfo();
                 },(msg)=>{
-
                     this.$ltsMessage.show({type:'error',message:msg.error_message})
                 })
             },

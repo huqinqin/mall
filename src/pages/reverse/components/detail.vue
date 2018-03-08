@@ -22,8 +22,8 @@
                 <div>{{$t("main.reverse.detail.mainRevDeReturnTotal")}}<lts-money :money="detail.reverse.refund_real"></lts-money></div>
             </div>
 
-            <!--<p class="remark" v-if="">{{$t("main.reverse.detail.mainRevDeSuccRefund")}}</p>-->
-            <!--<p class="remark" v-if="detail.reverse.hd_status === 1">{{$t("main.reverse.detail.mainRevDeAgree")}}</p>-->
+            <p class="title" v-if="detail.reverse.status == 1">{{$t("main.reverse.detail.mainRevDeSuccRefund")}}</p>
+            <p class="remark" v-if="detail.reverse.status == 1">{{$t("main.reverse.detail.mainRevDeSuccRefund")}}</p>
             <!--<p class="remark" v-if="detail.reverse.hd_status === 2">{{$t("main.reverse.detail.mainRevDeWaitLts")}}</p>-->
             <!--<p class="remark" v-if="">{{$t("main.reverse.detail.mainRevDeReceipt")}}</p>-->
             <!--<p class="remark" v-if="detail.reverse.hd_status === 3">{{$t("main.reverse.detail.mainRevDeRefundSucc")}}</p>-->

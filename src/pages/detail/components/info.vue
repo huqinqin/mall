@@ -126,8 +126,8 @@
           <div class="briefInfo">
             <div class="img" :style="'background-image: url(' + item.image_value + ')'"></div>
             <div class="name">{{item.item_name}}</div>
-            <div class="price" v-if="!checkedSpu.price"><span class="red"><lts-money :money="item.price"></lts-money></span></div>
-            <div class="price" v-else><span class="red"><lts-money :money="checkedSpu.price"></lts-money></span></div>
+            <div class="price" v-if="!checkedSpu.price"><span class="red" style="font-size: 14px;">{{ $t("main.detail.info.mainDetInfoNoChoose") }}</span></div>
+            <div class="price" v-if="checkedSpu.price"><span class="red"><lts-money :money="checkedSpu.price"></lts-money></span></div>
           </div>
           <div class="icon-handle"><i class="iconfont icon-jiahaocu"></i></div>
           <el-button class="handlePage" @click="pre" disabled><i class="el-icon-caret-left"></i></el-button>
@@ -146,11 +146,11 @@
                   </el-form-item>
                   <el-form-item :label=' $t("main.detail.info.mainDetInfoPrice")' class="price">
                     <div class="tips" v-ltsLoginShow:false>{{ $t("main.detail.info.mainDetInfoComp") }}</div>
-                    <div v-ltsLoginShow:true class="detail_price" v-if="!checkedSpu.price">
+                    <div v-ltsLoginShow:true class="detail_price" v-if="!otherSpu.price">
                       <lts-money :money="value.price"></lts-money>
                     </div>
                     <div v-ltsLoginShow:true class="detail_price" v-else>
-                      <lts-money :money="checkedSpu.price"></lts-money>
+                      <lts-money :money="otherSpu.price"></lts-money>
                     </div>
                   </el-form-item>
                   <el-form-item :label='$t("main.detail.info.mainDetInfoAmount")' class="num">
@@ -604,8 +604,8 @@
 
 <style lang="less">
   .othersPopover{
-    width:280px;
     padding:12px;
+    padding-right: 24px;
     .el-form-item {
       margin-bottom: 0;
       .detail_price{
@@ -1161,7 +1161,7 @@
         }
         ul.others{
           padding:0 24px;
-          width:925px;
+          width:640px;
           display: flex;
           li.othersItem{
             margin-left: 24px;

@@ -182,6 +182,7 @@ export default {
                 mainDetInfoDay: 'Day',
                 mainDetInLimitOver: 'Activity Over',
                 mainDetInfoPrice: 'Price',
+                mainDetInfoNoChoose: 'Not Selected',
                 mainDetInfoComp: 'Sign up and Enjoy the Best Deal',
                 mainDetInfoContactSale: 'Select Product Attribute. If Product Attribute Is Not Available, Please Call Your Sales',
                 mainDetInfoAmount: 'Quantity',

@@ -181,6 +181,7 @@ export default {
                 mainDetInfoDay: '天',
                 mainDetInLimitOver: '活动结束',
                 mainDetInfoPrice: '价格',
+                mainDetInfoNoChoose: '未选择该商品',
                 mainDetInfoComp: '完成登录注册，享受惊爆价',
                 mainDetInfoContactSale: '请选择商品属性。若商品属性不可选。请联系销售',
                 mainDetInfoAmount: '采购量',

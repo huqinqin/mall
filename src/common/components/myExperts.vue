@@ -1,6 +1,6 @@
 <template>
    <div class="wrapperExperts">
-       <div class="el-icon-close" @click="close"></div>
+       <div class="el-icon-close" @click="close" style="color: #bcbcbc;"></div>
        <h3>联系我的专家</h3>
        <div class="box">
            <ul>
@@ -8,7 +8,7 @@
                <li><span>联系方式：</span><span>{{someInfo.mobile}}</span></li>
                <li><span>邮箱：</span><span>{{someInfo.email}}</span></li>
            </ul>
-           <ul><img src="../../assets/img/expert.png" alt=""></ul>
+           <!--<ul><img src="../../assets/img/expert.png" alt=""></ul>-->
        </div>
    </div>
 </template>
@@ -51,17 +51,19 @@
     }
     .wrapperExperts{
         padding: 40px;
-        width: 257px;
+        width: 204px;
         /*background-color: #3b98ff;*/
-        background:linear-gradient(#0e75ea, #2473EA, #3d97fc);
-        color: #fff;
+        background:#fafafa;
+        color: rgba(102,102,102,0.8);
         border-radius: 4px;
+        font-family: "Microsoft YaHei";
+
         .el-icon-close{
             font-size: 20px;
-            color: white;
             position: absolute;
             right:30px;
             top:20px;
+            color: #bcbcbc;
         }
         .box{
             display: flex;
@@ -77,20 +79,7 @@
             ul:first-child{
                 flex:1;
             }
-            ul:nth-child(2){
-                flex:0 0 75px;
-                img{
-                    width: 75px;
-                    height: 69px;
-                }
-            }
-            .icon-jiankangzhuanjia{
-                color: #fff;
-                font-size: 100px;
-                height: 102px;
-            }
         }
-
     }
 </style>
 

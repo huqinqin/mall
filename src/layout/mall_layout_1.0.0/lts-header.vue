@@ -14,8 +14,8 @@
                 <div slot="content"><myExperts></myExperts></div>
                 <a href="javascript:void(0)" class="top-menu" v-login v-if="showToIndex && !userInfo">{{ $t("comHeader.headerMyExpert") }}</a>
               </el-tooltip>
-              <a href="javascript:void(0)" ><i class="iconfont icon-shouji"></i>{{ $t("comHeader.headerPhoneOrder") }}</a>
-              <a href="javascript:void(0)" @click="logout" v-if="userInfo">{{ $t("comHeader.headerLogin") }}</a>
+              <a href="javascript:void(0)" class="top-menu"><i class="iconfont icon-shouji"></i>{{ $t("comHeader.headerPhoneOrder") }}</a>
+              <a href="javascript:void(0)" class="top-menu" @click="logout" v-if="userInfo">{{ $t("comHeader.headerLogin") }}</a>
               <el-dropdown @command="handleCommand">
                   <span class="el-dropdown-link">
                      <span v-if="language == 'cn'">中文</span>
@@ -155,9 +155,8 @@
                 store.setItem('selected', '我的订单');
             },
             handleCommand(command){
-                this.$i18n.locale = command;
-                this.language = command;
                 store.setItem('language', command);
+                location.reload();
             },
 
         },

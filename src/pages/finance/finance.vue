@@ -4,7 +4,7 @@
       <div><i class="iconfont icon-qian1"></i>{{ $t("main.finance.mainfiAccountBal") }}：
         <span class="red" v-if="account.balance || account.balance == 0"><lts-money :money="account.balance"></lts-money></span>
       </div>
-      <div><i class="iconfont icon-qian"></i>{{ $t("main.finance.mainficreditBal") }}：
+      <div v-show="credit.content"><i class="iconfont icon-qian"></i>{{ $t("main.finance.mainficreditBal") }}：
         <span v-if="!credit.balance && credit.balance !== 0">{{ $t("main.finance.mainfiNo") }}</span>
         <span class="red" v-if="credit.balance"><lts-money :money="credit.balance"></lts-money></span>
         <small v-if="credit.used"> ({{ $t("main.finance.mainfiUsedCredit") }}：
@@ -93,15 +93,11 @@
       return {
         daterange: [],
         account: {balance: ''},
-        credit: {balance: '', used:''},
+        credit: {balance: '', used:'', content:false},
         bonus: {balance: '', total: ''},
         searchForm: {type: '2010101', handle: '', cdate: '', edate: '', orderBy: ''},
         pagination: {page: 1, pageSize: 20, total: 0},
-        handleData: [{
-          label: '暂无', value: 'aaa'
-        }, {
-          label: '暂无', value: 'bbb'
-        }, {label: '暂无', value: 'ccc'}],
+        handleData: [],
         pickerOptions: {
           shortcuts: [{
             text: this.$t('main.finance.mainfiLastWeek'),
@@ -177,6 +173,7 @@
       getFinance () {
         financeService.getFinance().then((data) => {
           console.log(data)
+
           for (let i = 0; i < data.data.acc_books.length; i++) {
             if (data.data.acc_books[i].subject === 2010101) {
               this.account.balance = data.data.acc_books[i].balance
@@ -184,6 +181,7 @@
               this.bonus.balance = data.data.acc_books[i].balance
               this.bonus.total = data.data.acc_books[i].bonus.total
             } else if (data.data.acc_books[i].subject === 2010106) {
+              this.credit.content = true
               this.credit.balance = data.data.acc_books[i].rule_blc_object.limit + data.data.acc_books[i].use_balance
               this.credit.used = Math.abs(data.data.acc_books[i].use_balance)
             }

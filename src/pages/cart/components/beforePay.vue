@@ -19,7 +19,7 @@
     </div>
     <div class="payment" v-if="!form.useBalance || form.balance <= form.moneyPay">
       <p>{{ $t("main.cart.beforePay.mainCartBefShouldPay") }}：
-        <lts-money :money="form.moneyPay - form.used*100"/>
+        <lts-money :money="form.moneyPay - form.used" />
       </p>
       <el-radio
         v-model="form.payBank"
@@ -35,7 +35,7 @@
       </el-radio>
     </div>
     <div class="goPay">
-      <el-button @click="confirmPay" :disabled="(form.used > form.moneyPay || form.used > form.balance)  || (!form.useBalance && (form.payBank == 'BALANCE'))">{{
+      <el-button @click="confirmPay" :disabled="((form.moneyPay - form.used > 0)&& (form.payBank == 'BALANCE'))">{{
         $t("main.cart.beforePay.mainCartBefgoPay") }}
       </el-button>
       <el-dialog :title="$t('main.cart.beforePay.mainCartBefCreditInfo')"   :visible.sync="creditFormVisible" class="creditDialog" @close="closeCreditForm">
@@ -132,7 +132,7 @@
       },
       // 确认支付
       confirmPay () {
-        if (this.form.payBank === 'ANET_CREDIT_CARD' && (this.form.moneyPay - this.form.used * 100) > 0) {
+        if (this.form.payBank === 'ANET_CREDIT_CARD' && (this.form.moneyPay - this.form.used) > 0) {
           // 信用卡支付弹框
           orderService.pay_confirm(this.tid, this.form).then((data) => {
             this.statement = data.data.statement

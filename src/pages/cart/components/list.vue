@@ -153,8 +153,15 @@
               <div class="popover">
                 <div class="popTitle">{{ $t("main.cart.list.mainCartliOnsaleLimits") }}</div>
                 <div class="popDetail" :class="[{ 'noStart': !limitItem[0].rule.started }, {'started': limitItem[0].rule.started}]">
-                  <div><span v-if="limitItem[0].rule.started">{{$t("main.cart.list.mainCartliEndCountdown")}}</span><span v-if="!limitItem[0].rule.started">{{$t("main.cart.list.mainCartliStartCountdown")}}</span>：<span v-if="limitItem[0].rule.day">{{limitItem[0].rule.day}}{{$t("main.detail.info.mainDetInfoDay")}}</span></div>
-                  <div class="timeDown">
+                  <div v-if="!limitItem[0].rule.finished">
+                    <span v-if="limitItem[0].rule.started">{{$t("main.cart.list.mainCartliEndCountdown")}}</span>
+                    <span v-if="!limitItem[0].rule.started">{{$t("main.cart.list.mainCartliStartCountdown")}}</span>：
+                    <span v-if="limitItem[0].rule.day">{{limitItem[0].rule.day}}{{$t("main.detail.info.mainDetInfoDay")}}</span>
+                  </div>
+                  <div v-else-if="limitItem[0].rule.finished">
+                    <span>{{$t("main.detail.info.mainDetInLimitOver")}}</span>
+                  </div>
+                  <div class="timeDown" v-if="limitItem[0].rule.started && (!limitItem[0].rule.finished)">
                     <span v-show="false">{{t}}</span>
                     <div>{{limitItem[0].rule.hr}}</div>:
                     <div>{{limitItem[0].rule.min}}</div>:
@@ -168,7 +175,7 @@
                 style="width: 100%">
                 <el-table-column align="center" width="48">
                   <template slot-scope="subscope">
-                    <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)"></el-checkbox>
+                    <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)" :disabled="subscope.row.rule.finished || (!subscope.row.rule.started)"></el-checkbox>
                   </template>
                 </el-table-column>
                 <el-table-column align="center" width="600">
@@ -347,7 +354,7 @@
     name: 'list',
     data () {
       return {
-        t:1000,
+        t:1,
         expands: [], // 默认展开全部
         checked: false,
         tooManyItems: true,
@@ -434,6 +441,7 @@
       },
       // 单选框
       selectChange (row) {
+        console.log(row)
         if (this.checkedItem.indexOf(row) !== -1) {
           this.checkedItem.splice(this.checkedItem.indexOf(row), 1)
             row.checked = false;
@@ -442,18 +450,18 @@
           row.checked  = true
         }
         this.tableData.forEach((table,index,array) => {
-              for(let key in table){
-                  this.tableData[index][key].forEach((item,count) => {
-                      if(item.length > 0 && item[0].id == row.id){
-                          Vue.set(item,0,row);
-                          Vue.set(this.tableData[index][key],count,item)
-                      }else if(item.id == row.id){
-                          Vue.set(this.tableData[index][key],count,row)
-                      }
+          for(let key in table){
+              this.tableData[index][key].forEach((item,count) => {
+                  if(item.length > 0 && item[0].id == row.id && JSON.stringify(item[0].item_props[0].prop_value) == JSON.stringify(row.item_props[0].prop_value)){
+                      Vue.set(item,0,row);
                       Vue.set(this.tableData[index][key],count,item)
-                  })
-              }
-              Vue.set(this.tableData,index,this.tableData[index])
+                  }else if(item.id == row.id && JSON.stringify(item.item_props[0].prop_value) == JSON.stringify(row.item_props[0].prop_value)){
+                      Vue.set(this.tableData[index][key],count,row)
+                  }
+                  Vue.set(this.tableData[index][key],count,item)
+              })
+          }
+          Vue.set(this.tableData,index,this.tableData[index])
          })
         Vue.set(this.tableData)
         this.calc(this.checkedItem)
@@ -499,7 +507,8 @@
               value.rule.start = Date.parse(value.rule.startTime)
               let now = Date.parse(new Date())
               if (value.rule.end > now) {
-                this.countdown(value.rule)
+                this.countdown(value)
+
               } else {
                 // 活动结束，不显示了
                 value.rule.finished = true
@@ -553,7 +562,8 @@
         })
       },
       // 倒计时计算
-      countdown(item){
+      countdown(value){
+        let item  = value.rule
         let start = item.start
         let end = item.end
         let now = Date.parse(new Date())
@@ -564,6 +574,11 @@
           item.started = false
           item.finished = false
           date = item.start
+          this.tableDataItem.forEach((val,index) => {
+            if(val.id === value.id){
+              this.tableDataItem.splice(index, 1)
+            }
+          })
         } else if (start <= now <= end) {
           // 开始了还没结束
           item.started = true
@@ -572,9 +587,15 @@
         } else {
           item.started = true
           item.finished = true
+          this.tableDataItem.forEach((val,index) => {
+            if(val.id === value.id){
+              this.tableDataItem.splice(index, 1)
+            }
+          })
+          return false
         }
         let msec = date - now
-        this.t--
+        this.t++
 
         // 计算时分秒数
         item.day = parseInt(msec / 1000 / 60 / 60 / 24)
@@ -588,7 +609,7 @@
         // 倒计时开始
         if (msec >= 0) {
           setTimeout(() => {
-            this.countdown(item)
+            this.countdown(value)
           }, 1000)
         }
       }
@@ -621,7 +642,7 @@
     .has-gutter {
       tr {
         th {
-          background-color: rgba(0, 0, 0, 0.05);
+          background-color: #f2f2f2;
           .el-checkbox {
             margin-left: -16px;
           }

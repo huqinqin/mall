@@ -118,10 +118,10 @@
                     },
                     {
                         name : 'my favorite',
-                        icon : 'icon-wodezuiai',
-                        first : 'MY',
-                        last : 'FAVOURITE',
-                        link : 'javascript:void(0)',
+                        icon : 'icon-yewushouce',
+                        first : 'PRODUCT',
+                        last : 'CATALOG',
+                        link : '/catelog',
                         needLogin : true
                     },
                     {

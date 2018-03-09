@@ -16,6 +16,17 @@
               </el-tooltip>
               <a href="javascript:void(0)" ><i class="iconfont icon-shouji"></i>{{ $t("comHeader.headerPhoneOrder") }}</a>
               <a href="javascript:void(0)" @click="logout" v-if="userInfo">{{ $t("comHeader.headerLogin") }}</a>
+              <el-dropdown @command="handleCommand">
+                  <span class="el-dropdown-link">
+                     <span v-if="language == 'cn'">中文</span>
+                     <span v-else>English</span>
+                     <i class="el-icon-arrow-down el-icon--right"></i>
+                  </span>
+                  <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item command="cn">中文</el-dropdown-item>
+                        <el-dropdown-item command="en">English</el-dropdown-item>
+                  </el-dropdown-menu>
+              </el-dropdown>
             </li>
           </ul>
         </div>
@@ -81,7 +92,11 @@
               },
               isShowMenu : true,
               cart_num : -1,
+              language : 'en'
           }
+        },
+        mounted(){
+           this.language = store.getItem('language') ?  store.getItem('language') : this.language
         },
         methods:{
             closeDialog(){
@@ -138,7 +153,12 @@
             },
             toOrder(){
                 store.setItem('selected', '我的订单');
-            }
+            },
+            handleCommand(command){
+                this.$i18n.locale = command;
+                this.language = command;
+                store.setItem('language', command);
+            },
 
         },
         created(){

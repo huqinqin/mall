@@ -122,7 +122,7 @@
                         first : 'PRODUCT',
                         last : 'CATALOG',
                         link : '/catelog',
-                        needLogin : true
+                        needLogin : false
                     },
                     {
                         name : 'suopping cart',

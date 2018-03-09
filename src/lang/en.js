@@ -542,7 +542,7 @@ export default {
             mainSeaGoods: 'Product',
             mainSeaMoreSelect: 'More Options',
             mainSeaUp: 'Show Less',
-            mainSeaCompre: 'ReLevance',
+            mainSeaCompre: 'Relevance',
             mainSeaPrice: 'Price',
             mainSeaShelf: 'Added Time',
             mainSeaLogin: 'Log In To See Price',

@@ -62,7 +62,7 @@
                     <button v-ltsLoginShow:false v-login>
                       {{$t("main.detail.info.mainDetInfoLoginPrice")}}
                     </button>
-                    <p v-ltsLoginShow:true="(hotList.attribute | 4) != hotList.attribute" class="price">
+                    <p v-ltsLoginShow:true class="price">
                       <lts-money :money="item.price"></lts-money>
                     </p>
                   </div>
@@ -342,7 +342,7 @@
       .login {
         margin-top: 12px;
         button {
-          width: 120px;
+          min-width: 120px;
           height: 36px;
           border-radius: 4px;
           font-size: 16px;

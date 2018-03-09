@@ -501,7 +501,8 @@
                         cursor: pointer;
                     }
                     .synth{
-                        width:58px;
+                        min-width:58px;
+                        padding: 0 10px;
                     }
                     .price{
                         width:92px;

@@ -4,7 +4,7 @@
           <ul class="s-span-page">
             <li class="sign">
               <span class="login" v-login v-if="!userInfo">{{ $t("comHeader.headerImmediatelyLog") }}</span>
-              <span class="login"  v-if="userInfo">{{ $t("comHeader.headerWelcom") }}，{{userInfo.account.user_name}}</span>
+              <a href="/someinfo" @click="toInfo"><span class="login"  v-if="userInfo">{{ $t("comHeader.headerWelcom") }}，{{userInfo.account.user_name}}</span></a>
               <a href="/account#/register" v-if="!userInfo"><span class="register">{{ $t("comHeader.headerImmediatelySign") }}</span></a>
             </li>
             <li class="">
@@ -92,7 +92,8 @@
               },
               isShowMenu : true,
               cart_num : -1,
-              language : 'en'
+              language : 'en',
+              test:0
           }
         },
         mounted(){
@@ -152,7 +153,10 @@
                 this.selfContext.$emit('getItemList')
             },
             toOrder(){
-                store.setItem('selected', '我的订单');
+                store.setItem('selected', this.$t("common.ltsMenu.commLtsMyOrder"));
+            },
+            toInfo(){
+                store.setItem('selected', this.$t("common.ltsMenu.commLtsPersonlPage"));
             },
             handleCommand(command){
                 this.$i18n.locale = command;
@@ -367,6 +371,7 @@
                                 border-radius: 4px;
                                 margin-bottom: 12px;
                                 cursor: pointer;
+                                line-height: 24px;
                             }
                             button.signup{
                                 background: #fff;

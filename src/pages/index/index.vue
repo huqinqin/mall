@@ -374,7 +374,7 @@
       .one {
         width: 895px;
         height: 350px;
-
+        margin-right: 12px;
       }
       .two {
         width: 592px;

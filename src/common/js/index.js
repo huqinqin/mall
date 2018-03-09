@@ -17,13 +17,14 @@ import ltsMenu from '@/layout/mall_layout_1.0.0/lts-menu.vue'
 import ltsEmpty from '@/layout/mall_layout_1.0.0/lts-empty.vue'
 import ltsMoney from '../components/lts-money.js'
 import './filter'
+import {store} from 'ltsutil'
 import config from 'config'
 Vue.use(VueI18n)
 Vue.prototype.$ltsLoading = Loading
 Vue.prototype.$ltsMessage = Message
 Vue.prototype.$ltsMessageBox = MessageBox
 Vue.config.productionTip = false
-Vue.config.lang = 'en'
+Vue.config.lang = store.getItem('language') ? store.getItem('language') : 'en'
 const i18n = new VueI18n({
   locale  : Vue.config.lang,    // 语言标识
   messages: {

@@ -4,7 +4,7 @@
             <ul>
                <li v-for="value in menuList" >
                      <div>
-                        <a :href="value.link" v-if="value.type == 'logo'" class="header-logo" :style="{backgroundImage : 'url('+value.icon+')'}"></a>
+                        <a :href="value.link" v-if="value.type == 'logo'" class="header-logo" :style="{backgroundImage : 'url('+value.icon+')'}"> <span class="iconfont" :class="value.icon"></span></a>
                         <a :href="value.link" v-else-if="value.name === 'call experts'">
                              <el-tooltip placement="top" effect="ligth">
                                  <div>
@@ -21,8 +21,7 @@
                              <p>{{value.last}}</p>
                         </a>
                         <a :href="value.link" v-else v-login @click="menuHandle">
-                                    <el-badge :value="cart_num" :max="99" class="item" v-if="value.name == 'suopping cart'" :hidden="cart_num <= 0">
-
+                                <el-badge :value="cart_num" :max="99" class="item" v-if="value.name == 'suopping cart'" :hidden="cart_num <= 0">
                                 <span class="iconfont" :class="[value.icon,value.name == 'suopping cart' ? 'cart' : '']">
                                 </span>
                                     </el-badge>
@@ -95,7 +94,7 @@
                     },
                     {
                         name : 'logo',
-                        icon :  require('../../assets/img/header-logo.png'),
+                        icon :  'icon-LTS-LOGO-',
                         type : 'logo',
                         link : '/',
                         needLogin : false
@@ -118,11 +117,11 @@
                     },
                     {
                         name : 'my favorite',
-                        icon : 'icon-yewushouce',
+                        icon : 'icon-wodezuiai',
                         first : 'PRODUCT',
                         last : 'CATALOG',
                         link : '/catelog',
-                        needLogin : false
+                        needLogin : true
                     },
                     {
                         name : 'suopping cart',
@@ -260,13 +259,6 @@
         .search-bar{
             padding-bottom: 24px;
         }
-        .header-logo{
-            width: 300px;
-            height:74px;
-            background-position: center;
-            background-size: cover;
-            display: flex;
-        }
         .menu-list{
             padding: 24px 0;
             ul{
@@ -300,6 +292,20 @@
 
                     }
                 }
+            }
+        }
+        .header-logo{
+            width: 300px;
+            height:74px;
+            background-position: center;
+            background-size: cover;
+            display: flex;
+            text-align: center;
+            align-items: center;
+            overflow: hidden;
+            span{
+                font-size: 70px !important;
+                color: #cc242e !important;
             }
         }
         .input-with-select{

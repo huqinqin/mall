@@ -80,7 +80,8 @@ export default {
                 mainCartBefCreditInfo:'请输入信用卡信息',
                 mainCartBefInputNum:'请输入信用卡号',
                 mainCartBefCreditNum:'信用卡号',
-                mainCartBefCreditValid:'有效期'
+                mainCartBefCreditValid:'有效期',
+                mainCartBefTermInfo:'若余额不足则不能使用账期支付',
             },
             fail: {
                 mainCartFaProblem: '您在支付的时候好像出现了一些问题',
@@ -160,6 +161,7 @@ export default {
                 mainCartSeSetDefaultSuc: '设置默认地址成功',
                 mainCartSeHandleSucc: '操作成功',
                 mainCartSeHandleErr: '删除失败',
+                mainCartSeNoBonus: '没有可用的优惠券',
             },
             other: {
                 mainCartOtCart: '购物车',

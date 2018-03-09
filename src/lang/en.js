@@ -80,7 +80,8 @@ export default {
                 mainCartBefCreditInfo:'Credit Card Info',
                 mainCartBefInputNum:'Input Num',
                 mainCartBefCreditNum:'Number',
-                mainCartBefCreditValid:'Validity'
+                mainCartBefCreditValid:'Validity',
+                mainCartBefTermInfo:'Only Applies When Balance Is Sufficient',
             },
             fail: {
                 mainCartFaProblem: 'Something is Wrong',
@@ -89,7 +90,7 @@ export default {
                 mainCartFaConsignee: 'Attention',
                 mainCartFaReceivingAddress: 'Shipping Address',
                 mainCartFaLogisticsMode: 'Shipping Method',
-                mainCartFaMyOrder: 'My Orders',
+                mainCartFaMyOrder: 'My Order',
                 mainCartFaFirstPage: 'Main Page',
                 mainCartFaSince: 'Express'
             },
@@ -98,7 +99,7 @@ export default {
                 mainCartFiPaySuccess: 'Payment Has Been Received',
             },
             list: {
-                mainCartliDisGoods: 'On Sale Items',
+                mainCartliDisGoods: 'Discounted Items',
                 mainCartliUnitPrice: 'Unit Price',
                 mainCartliStock: 'Inventory',
                 mainCartliAvailable: 'In Stock',
@@ -161,6 +162,7 @@ export default {
                 mainCartSeSetDefaultSuc: 'Default Address Has Been Set',
                 mainCartSeHandleSucc: 'Changes Have Been Made',
                 mainCartSeHandleErr: 'Failed to Delete',
+                mainCartSeNoBonus: 'Not Available',
             },
             other: {
                 mainCartOtCart: 'Shopping Cart',
@@ -542,7 +544,7 @@ export default {
             mainSeaGoods: 'Product',
             mainSeaMoreSelect: 'More Options',
             mainSeaUp: 'Show Less',
-            mainSeaCompre: 'ReLevance',
+            mainSeaCompre: 'Relevance',
             mainSeaPrice: 'Price',
             mainSeaShelf: 'Added Time',
             mainSeaLogin: 'Log In To See Price',
@@ -593,7 +595,7 @@ export default {
             commLtsMyMoney: 'My Wellet',
             commLtsAccountSet: 'Account Settings',
             commLtsPersonlPage: 'Account Home Page',
-            commLtsMyOrder: 'My Orders',
+            commLtsMyOrder: 'My Order',
             commLtsCart: 'Shopping Cart',
             commLtsResolve: 'Shop By Scenario',
             commLtsMyBalance: 'Account Balance',

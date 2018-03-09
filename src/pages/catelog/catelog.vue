@@ -1,6 +1,6 @@
 <template>
     <div class="catelog">
-        <div v-for="(value,index) in list" :style="{backgroundImage : 'url(' + value +')'}" class="item">
+        <div v-for="(value,index) in list" class="item">
              <img :src="value" />
         </div>
     </div>

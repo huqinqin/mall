@@ -175,7 +175,7 @@
                 style="width: 100%">
                 <el-table-column align="center" width="48">
                   <template slot-scope="subscope">
-                    <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)" :disabled="subscope.row.finished || (!subscope.row.started)"></el-checkbox>
+                    <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)" :disabled="subscope.row.rule.finished || (!subscope.row.rule.started)"></el-checkbox>
                   </template>
                 </el-table-column>
                 <el-table-column align="center" width="600">
@@ -441,6 +441,7 @@
       },
       // 单选框
       selectChange (row) {
+        console.log(row)
         if (this.checkedItem.indexOf(row) !== -1) {
           this.checkedItem.splice(this.checkedItem.indexOf(row), 1)
             row.checked = false;
@@ -449,18 +450,18 @@
           row.checked  = true
         }
         this.tableData.forEach((table,index,array) => {
-              for(let key in table){
-                  this.tableData[index][key].forEach((item,count) => {
-                      if(item.length > 0 && item[0].id == row.id){
-                          Vue.set(item,0,row);
-                          Vue.set(this.tableData[index][key],count,item)
-                      }else if(item.id == row.id){
-                          Vue.set(this.tableData[index][key],count,row)
-                      }
+          for(let key in table){
+              this.tableData[index][key].forEach((item,count) => {
+                  if(item.length > 0 && item[0].id == row.id && JSON.stringify(item[0].item_props[0].prop_value) == JSON.stringify(row.item_props[0].prop_value)){
+                      Vue.set(item,0,row);
                       Vue.set(this.tableData[index][key],count,item)
-                  })
-              }
-              Vue.set(this.tableData,index,this.tableData[index])
+                  }else if(item.id == row.id && JSON.stringify(item.item_props[0].prop_value) == JSON.stringify(row.item_props[0].prop_value)){
+                      Vue.set(this.tableData[index][key],count,row)
+                  }
+                  Vue.set(this.tableData[index][key],count,item)
+              })
+          }
+          Vue.set(this.tableData,index,this.tableData[index])
          })
         Vue.set(this.tableData)
         this.calc(this.checkedItem)

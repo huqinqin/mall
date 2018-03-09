@@ -560,6 +560,8 @@ export default {
             mainSomeCoupon: 'Coupon',
             mainSomeFullCoupon: 'Coupon',
             mainSomeFull: 'Purchase Up To',
+            mainSomeMinus: 'Minus',
+            mainSomeNoBonus: 'Do Not Use Coupons',
             mainSomeDollar: '美元使用',
             mainSomeUsedTime: 'Applied Time',
             mainSomeRange: 'To',

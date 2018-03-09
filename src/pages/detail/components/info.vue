@@ -27,11 +27,11 @@
           <span v-else-if="item.discount_type == 2"
                 class="bold">{{ $t("main.detail.info.mainDetInfoDepriceGoods") }}</span>
           <span v-else-if="item.discount_type == 4" class="bold">{{ $t("main.detail.info.mainDetInfoLimit") }}</span>
-          <div class="count" v-if="started && !finished">
+          <div class="count" v-if="(item.discount_type == 4) && (!finished)">
             <span v-if="!started" class="bold">{{ $t("main.detail.info.mainDetInfoDown") }}</span>
             <span v-if="started" class="bold">{{ $t("main.detail.info.mainDetInfoEnd") }}</span>
             <span v-if="day>0">{{day}}{{ $t("main.detail.info.mainDetInfoDay") }}</span>
-            <span><div>{{hr}}</div>:<div>{{min}}</div>:<div>{{sec}}</div></span>
+            <span v-if="finished"><div>{{hr}}</div>:<div>{{min}}</div>:<div>{{sec}}</div></span>
           </div>
         </div>
         <el-form label-position="left" label-width="120px" ref="ruleForm">
@@ -41,9 +41,19 @@
               <lts-money :money="item.price"></lts-money>
             </div>
             <div v-ltsLoginShow:true class="detail_price" v-else>
-              <span v-if="item.discount_type === 1"><lts-money :money="checkedSpu.price * item.discount / 100"></lts-money></span>
-              <span v-else-if="item.discount_type === 2"><lts-money :money="checkedSpu.price - item.discount"></lts-money></span>
-              <span v-else-if="item.discount_type === 4"><lts-money :money="item.sale_rule_do.price"></lts-money></span>
+              <span v-if="item.discount_type === 1">
+                <lts-money :money="checkedSpu.price * item.discount / 100" />
+                <span class="oldPrice"><lts-money :money="checkedSpu.price" /></span>
+              </span>
+              <span v-else-if="item.discount_type === 2">
+                <lts-money :money="checkedSpu.price - item.discount" />
+                <span class="oldPrice"><lts-money :money="checkedSpu.price" /></span>
+              </span>
+              <span v-else-if="item.discount_type === 4">
+                <lts-money :money="item.sale_rule_do.price" />
+                <span class="oldPrice"><lts-money :money="checkedSpu.price" /></span>
+              </span>
+              <span v-else><lts-money :money="checkedSpu.price"></lts-money></span>
             </div>
           </el-form-item>
           <div :class="[showPropsError ? 'error' : '']" @click="closeError">
@@ -651,6 +661,7 @@
       color: #ff3b41;
       font-size: 18px;
       font-weight: bold;
+
     }
     .radio {
       .el-radio {
@@ -980,6 +991,11 @@
           color: #ff3b41;
           font-size: 18px;
           font-weight: bold;
+          span.oldPrice{
+            color: #9a9a9a;
+            text-decoration:line-through;
+            font-size: 14px;
+          }
         }
         .radio {
           .el-radio {

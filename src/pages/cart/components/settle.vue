@@ -157,14 +157,14 @@
         </el-table-column>
       </el-table>
       <div class="remark">
-        <el-form label-position="left">
-          <el-form-item label-width="80px" :label='$t("main.cart.settle.mainCartSeBuyersTalk")+ "："'>
+        <el-form >
+          <el-form-item label-width="90px" :label='$t("main.cart.settle.mainCartSeBuyersTalk")+ "："'>
             <el-input v-model="remark"></el-input>
           </el-form-item>
         </el-form>
         <el-form>
-          <el-form-item label-width="80px" :label='$t("main.someinfo.mainSomeCoupon")+ "："'>
-            <el-select v-model="bonus" @change="selectBonus">
+          <el-form-item label-width="90px" :label='$t("main.someinfo.mainSomeCoupon")+ "："'>
+            <el-select v-model="selectedBonus" @change="selectBonus">
               <el-option
                 v-for="item in bonusOption"
                 :key="item.value"
@@ -187,16 +187,18 @@
         <p>{{ $t("main.cart.list.mainCartliBenefit") }}： <span><span v-if="sum.promotion == 0 || sum.promotion">-<lts-money
           :money="sum.promotion"></lts-money></span></span></p>
         <p v-if="bonusId">{{$t("main.someinfo.mainSomeCoupon")}}：<span>-<lts-money :money="bonus" /></span></p>
-        <p class="result">{{ $t("main.cart.settle.mainCartSeMustPay") }}： <span><span v-if="totalPrice"><lts-money
-          :money="totalPrice"></lts-money></span></span></p>
+        <p class="result">{{ $t("main.cart.settle.mainCartSeMustPay") }}： <span>
+            <span v-if="totalPrice && !bonus"><lts-money :money="totalPrice"></lts-money></span>
+            <span v-if="totalPrice && bonus"><lts-money :money="totalPrice - bonus"></lts-money></span>
+        </span></p>
       </div>
     </div>
     <div class="allInfo">
       <p>{{$t("main.cart.settle.mainCartSeContact")}}： {{checkedAddress.user_name}}</p>
       <p>{{$t("main.cart.settle.mainCartSeContactPhone")}}： {{checkedAddress.mobile}}</p>
-      <p>{{ $t("main.address.mainAddReceivingAddress") }}： {{checkedAddress.address}}{{checkedAddress.building}}</p>
-      <p>{{$t("main.cart.settle.mainCartSeAccountAddr")}}： {{checkedAddress.address}}{{checkedAddress.building}}</p>
-      <p>{{$t("main.cart.settle.mainCartSeQuaAddr")}}： {{checkedAddress.address}}{{checkedAddress.building}}</p>
+      <p>{{ $t("main.address.mainAddReceivingAddress") }}： {{checkedAddress.address}}&nbsp;{{checkedAddress.building}}</p>
+      <!--<p>{{$t("main.cart.settle.mainCartSeAccountAddr")}}： {{checkedAddress.address}}{{checkedAddress.building}}</p>-->
+      <p>{{$t("main.cart.settle.mainCartSeQuaAddr")}}： {{checkedAddress.address}}&nbsp;{{checkedAddress.building}}</p>
     </div>
     <div class="submit">
       <el-button @click="settle" :disabled="canSubmit">{{$t("main.cart.settle.mainCartSeSubOrder")}}</el-button>
@@ -330,7 +332,9 @@
         },
         bonusId:'',
         bonus:'',
-        bonusOption:[{label:this.$t("main.someinfo.mainSomeNoBonus"),value:'',bonus:0}]
+        selectedBonus:'',
+        bonusOption:[],
+        bonusArr:[]
       }
     },
     methods: {
@@ -387,6 +391,8 @@
       },
       // 查询地址列表
       getAddressList () {
+          this.defaultId = ''
+          this.defaultAddress = []
         addressService.getList().then((data) => {
           this.addressData = data.data.consumer_address_d_o
           this.addressData.forEach((value, index) => {
@@ -415,9 +421,10 @@
             value.valid = dateUtils.timeToStr(value.valid_time)
             this.addressData.push(value)
           })
-          if(!this.defaultId){
+            if(!this.defaultId){
             this.checkedId = this.addressData[0].id
             this.checkedAddress = this.addressData[0]
+            // this.addressData.splice(0,1)
           }
           this.simulateCreateTrade()
         })
@@ -455,9 +462,9 @@
       // 选择红包
       selectBonus(value){
           this.bonusId = value
-          this.bonusOption.forEach((val) => {
-          if(val.value == value){
-            this.bonus = val.bonus
+          this.bonusArr.forEach((val) => {
+            if(val.id == value){
+                this.bonus = val.realRule.value
           }
         })
       },
@@ -504,7 +511,7 @@
         }
         orderService.createTrade(params, this.remark).then((data) => {
           this.$emit('submit', 3)
-          this.$router.push({name: 'beforePay', query: {tid: data.data, delivery: this.deliveryType}})
+          this.$router.push({name: 'beforePay', query: {tid: data.data, delivery: this.deliveryType, orderpay: 3}})
         }, (msg) => {
           this.$ltsMessage.show({type: 'error', message: msg.error_message})
         })
@@ -552,15 +559,17 @@
           this.sum.promotion = resp.data.wholesale_order.discount
           this.totalPrice = resp.data.wholesale_order.pay_info.pay_real
           if(resp.data.wholesale_order.pay_info.acc_bonus_list.length > 0){
-            let bonusArr = resp.data.wholesale_order.pay_info.acc_bonus_list
-            bonusArr.forEach((item) => {
-              let rule = JSON.parse(item.rule)[0]
+            this.bonusOption = [{label:this.$t("main.someinfo.mainSomeNoBonus"),value:''}]
+            this.bonusArr = resp.data.wholesale_order.pay_info.acc_bonus_list
+              this.bonusArr.forEach((item) => {
+              item.realRule = JSON.parse(item.rule)[0]
               this.bonusOption.push({
-                label: this.$t("main.someinfo.mainSomeCoupon") + '：' + this.$t("main.someinfo.mainSomeFull") + ' ' + (rule.startV/100).toFixed(2) + ' ' +this.$t("main.someinfo.mainSomeMinus") + ' ' + (rule.value/100).toFixed(2),
-                value: item.id,
-                bonus: rule.value,
+                label: this.$t("main.someinfo.mainSomeCoupon") + '：' + this.$t("main.someinfo.mainSomeFull") + ' ' + (item.realRule.startV/100).toFixed(2) + ' ' +this.$t("main.someinfo.mainSomeMinus") + ' ' + (item.realRule.value/100).toFixed(2),
+                value: item.id
               })
             })
+          }else{
+              this.selectedBonus = this.$t('main.cart.settle.mainCartSeHandleErr')
           }
           this.$emit('submit', 2)
         }, (msg) => {

@@ -43,7 +43,7 @@
                     <lts-money :money="subscope.row.price"></lts-money>
                   </p>
                   <p>
-                    <lts-money :money="subscope.row.price * subscope.row.discount / 100"></lts-money>
+                    <lts-money :money="subscope.row.item_props[0].price * subscope.row.discount / 100"></lts-money>
                   </p>
                 </template>
               </el-table-column>
@@ -66,7 +66,7 @@
               <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center">
                 <template slot-scope="subscope">
                   <div class="count" >
-                    <lts-money :money="subscope.row.num*subscope.row.price_real"></lts-money>
+                    <lts-money :money="subscope.row.num * (subscope.row.item_props[0].price * subscope.row.discount / 100)"></lts-money>
                   </div>
                 </template>
               </el-table-column>
@@ -263,7 +263,7 @@
               </el-table-column>
               <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
                 <template slot-scope="subscope">
-                  <p><lts-money :money="subscope.row.price"></lts-money></p>
+                  <p><lts-money :money="subscope.row.item_props[0].price"></lts-money></p>
                 </template>
               </el-table-column>
               <el-table-column prop="" width="90" :label='$t("main.cart.list.mainCartliStock")' align="center">
@@ -285,7 +285,7 @@
               <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center">
                 <template slot-scope="subscope">
                   <div class="count">
-                    <lts-money :money="subscope.row.num*subscope.row.price"></lts-money>
+                    <lts-money :money="subscope.row.num * subscope.row.item_props[0].price"></lts-money>
                   </div>
                 </template>
               </el-table-column>
@@ -316,7 +316,7 @@
       <div class="check">
         <div class="info">
           <div class="topline">
-            <span>{{ $t("main.cart.list.mainCartliCheckedItem") }}{{checkedItem.length}}{{ $t("main.cart.other.mainCartUnit") }}，{{ $t("main.cart.list.mainCartliAllPrice") }}{{ $t("main.cart.other.mainCartNo") }}({{ $t("main.cart.settle.mainCartSeTax") }}、{{ $t("main.cart.settle.mainCartSeFright") }})：<lts-money
+            <span>{{ $t("main.cart.list.mainCartliCheckedItem") }} {{checkedItem.length}} {{ $t("main.cart.other.mainCartUnit") }}，{{ $t("main.cart.list.mainCartliAllPrice") }}({{ $t("main.cart.other.mainCartNo") }} {{ $t("main.cart.settle.mainCartSeTax") }}、{{ $t("main.cart.settle.mainCartSeFright") }})：<lts-money
               :money="totalPrice"></lts-money></span>
           </div>
           <div class="bottomline">

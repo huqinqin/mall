@@ -538,8 +538,6 @@
       },
       selectModel(id){
         itemService.getItemProps(id).then((data) => {
-          // let qwe = JSON.stringify({"data":{"activity_price":0,"advance":false,"app_show":false,"attr_activity":true,"attribute":4194305,"best_box":false,"beyond_num":0,"biz_type":101,"brand":"LTS","cart":[],"category_name":"","category_id":9487695,"cdate":1517809106000,"commission_s":0,"commission_t":0,"cost_price_value":"0.01","cost_price":1,"count":null,"cut":false,"description":"","discount":50,"discount_type_cname":"æ‰“æŠ˜","discount_type":1,"distribution":false,"diy_price":false,"edate":1517822273000,"end_time":null,"fixed":false,"follow_num":0,"group":false,"hd_method":2304,"id":2101472,"image_value":"http://res.500mi.com/item/240c01b643302fdc25cbd7b2e084f212.png","item_images":[{"url":"http://ltsres-us.oss-us-west-1.aliyuncs.com/item/240c01b643302fdc25cbd7b2e084f212.png","value":"240c01b643302fdc25cbd7b2e084f212.png"}],"item_prop_value_maps":[{"checked_prop":"","prop_name":"Brand","prop_values":[{"can_checked":true,"value":"Starlink"}]}],"item_name":"NA-SLE3/4G-CB-TF, StarLinkâ„¢ NAPCO Alarm Communicator for Universal Cell or IP","item_struct_props":[{"attribute":1792,"id":747,"img_url":"","multi_select":false,"price":23,"price_real":null,"price_action":1,"prop_value":"{\"Brand\":\"Starlink\"}","props":"Starlink","required":false,"search":true,"selectable":false,"show":true,"sin":"NA-SLE3/4G-CB-TF","sku":true,"spec":false,"spu_id":180515,"storage":100.000,"system":false,"value_type":0}],"manager_cate_name":"","manager_cate_id":0,"member_price":1,"member_price_value":"0.01","min_num":0.000,"module_id":null,"module_sku_id":null,"no_rebate":false,"num":null,"open_code":"lts2open","open_codes":"","order_promotion":true,"order_num":0.000,"orign":"Shenzhen","package_item_list":[],"parent_id":0,"partner":null,"partner_id":79376,"partner_name":"","percent":true,"prepay":false,"presale":false,"price":1,"price_real":null,"price_real_value":"","price_value":"0.01","price_define":"","price_define_do":null,"promotion_title":"NA-SLE3/4G-CB-TF","props":"{}","props_ext":"","puser_id":158667,"rank":0,"retail":false,"safe_num":0.000,"sale_rule":"","sale_rule_do":{"commission_rate":null,"end_time":"","maxinum":null,"minimum":null,"price":null,"start_time":"","total":null,"virtual_start":null},"send_rule":"","share_num":0,"shop_name":"","shop_id":28616,"short_code":"","sin":"2010000438745","sinr":"2010000438745","size":"{\"h\":1,\"l\":1,\"w\":1}","size_d_o":{"h":1,"l":1,"volume":1,"w":1},"sku_cost_price_value":"","sku_cost_price":null,"sku_id":819252,"sku_total":0,"soldout":false,"spec":"æ— æè¿°","special":"","spot_price_value":"0","spot_rule_d_o":null,"spot_price":0,"spot_rule":"","spu_d_o":null,"spu_id":180514,"start_time":null,"status":1,"status_cname":"å·²ä¸Šæž¶","stock_out":0.000,"storage":0.000,"storage_num":null,"tag":"çƒ­å–å•†å“","type":41,"type_ch":false,"type_fa":false,"unit":"Piece","upshelf":true,"url":"240c01b643302fdc25cbd7b2e084f212.png","urls":"240c01b643302fdc25cbd7b2e084f212.png","warehousing":true,"weight":1.000,"wholesale":true},"error_code":999,"error_message":"","error_name":"SERVICE_ERROR","fail":false,"success":true,"success_message":""})
-          // this.otherGoodsItem = JSON.parse(qwe).data
           this.otherGoodsItem = data.data
           if(this.otherGoods){
             this.otherGoods.forEach((item) => {
@@ -549,7 +547,6 @@
              }
             })
           }
-          console.log(data)
         },(msg) => {
           this.$ltsMessage({type:'error',message:msg.error_message})
         })
@@ -1116,6 +1113,7 @@
         .buttons {
           display: inline-block;
           button {
+            padding: 0;
             width: 160px;
             height: 40px;
             border: 1px solid #ff3b41;

@@ -30,6 +30,7 @@
       </el-radio>
       <span v-if="form.credit">({{ $t("main.cart.beforePay.mainCartBefBalance") }}<lts-money
         :money="form.credit"></lts-money>)</span>
+      <div class="termInfo">{{$t('main.cart.beforePay.mainCartBefTermInfo')}}</div>
       <el-radio class="second" v-model="form.payBank" label="ANET_CREDIT_CARD">{{
         $t("main.cart.beforePay.mainCartBefcartPay") }}
       </el-radio>
@@ -225,16 +226,16 @@
         margin-top: 12px;
         margin-left: 0;
       }
-      .el-radio.first.is-disabled::after {
-        content: '若余额不足则不能使用账期支付';
-        position: relative;
-        top: 16px;
-        font-size: 12px;
-        left: -55px;
-        color: #f13a40;
-      }
+        .termInfo{
+            position: relative;
+            color: #f13a40;
+            font-size: 12px;
+            top:-8px;
+            left: 28px;
+            width: 400px;
+        }
       .el-radio.second {
-        margin-top: 12px;
+        margin-top: 0px;
         display: block;
       }
       .el-form {

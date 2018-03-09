@@ -40,10 +40,10 @@
               <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
                 <template slot-scope="subscope">
                   <p class="oldPrice">
-                    <lts-money :money="subscope.row.price"></lts-money>
+                    <lts-money :money="subscope.row.oldPrice"></lts-money>
                   </p>
                   <p>
-                    <lts-money :money="subscope.row.item_props[0].price * subscope.row.discount / 100"></lts-money>
+                    <lts-money :money="subscope.row.realPrice"></lts-money>
                   </p>
                 </template>
               </el-table-column>
@@ -66,7 +66,7 @@
               <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center">
                 <template slot-scope="subscope">
                   <div class="count" >
-                    <lts-money :money="subscope.row.num * (subscope.row.item_props[0].price * subscope.row.discount / 100)"></lts-money>
+                    <lts-money :money="subscope.row.num * subscope.row.realPrice"></lts-money>
                   </div>
                 </template>
               </el-table-column>
@@ -110,10 +110,12 @@
               </el-table-column>
               <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
                 <template slot-scope="subscope">
-                  <p class="oldPrice">
-                    <lts-money :money="subscope.row.price"></lts-money>
-                  </p>
-                  <p><lts-money :money="subscope.row.price - subscope.row.discount"></lts-money></p>
+                    <p class="oldPrice">
+                        <lts-money :money="subscope.row.oldPrice"></lts-money>
+                    </p>
+                    <p>
+                        <lts-money :money="subscope.row.realPrice"></lts-money>
+                    </p>
                 </template>
               </el-table-column>
               <el-table-column prop="" width="90" :label='$t("main.cart.list.mainCartliStock")' align="center">
@@ -135,7 +137,7 @@
               <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center">
                 <template slot-scope="subscope">
                   <div class="count">
-                    <lts-money :money="subscope.row.num*subscope.row.price_real"></lts-money>
+                    <lts-money :money="subscope.row.num * subscope.row.realPrice"></lts-money>
                   </div>
                 </template>
               </el-table-column>
@@ -196,10 +198,12 @@
                 </el-table-column>
                 <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
                   <template slot-scope="subscope">
-                    <p class="oldPrice">
-                      <lts-money :money="subscope.row.price"></lts-money>
-                    </p>
-                    <p><lts-money :money="subscope.row.rule.price"></lts-money></p>
+                      <p class="oldPrice">
+                          <lts-money :money="subscope.row.oldPrice"></lts-money>
+                      </p>
+                      <p>
+                          <lts-money :money="subscope.row.realPrice"></lts-money>
+                      </p>
                   </template>
                 </el-table-column>
                 <el-table-column prop="" width="90" :label='$t("main.cart.list.mainCartliStock")' align="center">
@@ -221,7 +225,7 @@
                 <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center">
                   <template slot-scope="subscope">
                     <div class="count">
-                      <lts-money :money="subscope.row.num*subscope.row.price_real"></lts-money>
+                      <lts-money :money="subscope.row.num * subscope.row.realPrice"></lts-money>
                     </div>
                   </template>
                 </el-table-column>
@@ -263,7 +267,7 @@
               </el-table-column>
               <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
                 <template slot-scope="subscope">
-                  <p><lts-money :money="subscope.row.item_props[0].price"></lts-money></p>
+                    <p><lts-money :money="subscope.row.realPrice"></lts-money></p>
                 </template>
               </el-table-column>
               <el-table-column prop="" width="90" :label='$t("main.cart.list.mainCartliStock")' align="center">
@@ -285,7 +289,7 @@
               <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center">
                 <template slot-scope="subscope">
                   <div class="count">
-                    <lts-money :money="subscope.row.num * subscope.row.item_props[0].price"></lts-money>
+                    <p><lts-money :money="subscope.row.num * subscope.row.realPrice"></lts-money></p>
                   </div>
                 </template>
               </el-table-column>
@@ -476,15 +480,14 @@
         let total = 0
         let realTotal = 0
         checked.forEach((item) => {
-          total += item.num * item.price
-          realTotal += item.num * item.price_real
+          total += item.num * item.oldPrice
+          realTotal += item.num * item.realPrice
         })
         this.totalPrice = total
         this.realTotal = realTotal
       },
       queryCartList () {
         cartService.queryCartList().then((data) => {
-
           this.tableData = [
             {discount: []},
             {reduce: []},
@@ -496,25 +499,29 @@
             value.item_props.forEach((item) => {
               item.prop_value = JSON.parse(item.prop_value)
             })
+            value.oldPrice = value.item_props[0].price
             if (value.discount_type === 1) {
+                value.realPrice = value.item_props[0].price * value.discount / 100
               this.tableData[0].discount.push(value)
             } else if (value.discount_type === 2) {
+                value.realPrice = value.item_props[0].price - value.discount
               this.tableData[1].reduce.push(value)
             } else if (value.discount_type === 4) {
               value.rule = JSON.parse(value.sale_rule)
               value.item_props[0].storage = value.rule.maxinum
               value.rule.end = Date.parse(value.rule.endTime)
               value.rule.start = Date.parse(value.rule.startTime)
+                value.realPrice = value.rule.price
               let now = Date.parse(new Date())
               if (value.rule.end > now) {
                 this.countdown(value)
-
               } else {
                 // 活动结束，不显示了
                 value.rule.finished = true
               }
               this.tableData[2].limit.push([value])
             } else {
+                value.realPrice = value.item_props[0].price
                 this.tableData[3].others.push(value)
             }
             this.tableDataItem = data.datalist

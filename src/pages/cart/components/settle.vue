@@ -143,7 +143,8 @@
         </el-table-column>
         <el-table-column prop="" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
           <template slot-scope="scope">
-            <span><lts-money :money="scope.row.item_props[0].price"></lts-money></span>
+            <p class="oldPrice" v-if="scope.row.discount_type == 1 || scope.row.discount_type == 2 || scope.row.discount_type == 4"><span><span><lts-money :money="scope.row.oldPrice"></lts-money></span></span></p>
+            <p><span><span><lts-money :money="scope.row.realPrice"></lts-money></span></span></p>
           </template>
         </el-table-column>
         <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="" prop="num" align="center">
@@ -151,7 +152,8 @@
         <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="" align="center">
           <template slot-scope="scope">
             <div class="count" ref="count">
-              <span><lts-money :money="(scope.row.item_props[0].price) * scope.row.num"></lts-money></span>
+              <!--<p  class="oldPrice"  v-if="scope.row.discount_type == 1 || scope.row.discount_type == 2 || scope.row.discount_type == 4"><span><span><lts-money :money="(scope.row.oldPrice) * scope.row.num"></lts-money></span></span></p>-->
+              <p><span><span><lts-money :money="(scope.row.realPrice) * scope.row.num"></lts-money></span></span></p>
             </div>
           </template>
         </el-table-column>
@@ -594,6 +596,21 @@
         this.tableData = items
         // this.user_id = this.$route.params.userId
       }
+      this.tableData.forEach((item) => {
+          if(item.discount_type == 1){
+              item.realPrice = item.item_props[0].price * item.discount / 100
+              item.oldPrice = item.item_props[0].price
+          }else if(item.discount_type == 1){
+              item.realPrice = item.item_props[0].price - item.discount
+              item.oldPrice = item.item_props[0].price
+          }else if(item.discount_type == 4){
+              item.realPrice = item.rule.price
+              item.oldPrice = item.item_props[0].price
+          }else{
+              item.realPrice = item.item_props[0].price
+          }
+      })
+      console.log(this.tableData)
       this.getAddressList()
       this.expressOptions = this.UPSOptions
     }
@@ -648,7 +665,9 @@
   .settle {
 
     overflow: hidden;
-
+      p.oldPrice{
+          text-decoration: line-through;
+      }
     button {
       cursor: pointer;
     }
@@ -1051,6 +1070,7 @@
       margin-right: 24px;
       margin-top: 24px;
       .el-button {
+          padding:0;
         width: 160px;
         height: 40px;
         background-color: #f13a40;

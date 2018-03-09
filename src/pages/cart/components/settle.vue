@@ -44,13 +44,14 @@
           <div>{{ $t("main.cart.settle.mainCartSeAddAdress") }}</div>
         </li>
       </ul>
-      <el-dialog :title='$t("main.address.mainAddReceivingAddress")' :visible.sync="showAddAddress" center>
-        <el-form :model="addForm">
+      <el-dialog :title='$t("main.address.mainAddReceivingAddress")' :visible.sync="showAddAddress" center @close="clearForm">
+        <el-form :model="addForm" ref="addForm">
           <el-form-item :label='$t("main.cart.settle.mainCartSeRegion")'
                         :rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterRegion'), trigger: 'blur' }]">
             <el-cascader
               :options="cityOptions"
               popper-class="addressPopover"
+              v-model="addForm.StateSelection"
               @change="selectCity"
               :placeholder="addForm.address">
             </el-cascader>
@@ -297,7 +298,9 @@
         defaultId: '',
         checkedId: '',
         addForm: {
-          setDefault: false
+          setDefault: false,
+          StateSelection:[]
+
         },
         editOrAdd: true, // 点击的是修改还是新增
         chooseAll: true,
@@ -327,10 +330,15 @@
         },
         bonusId:'',
         bonus:'',
-        bonusOption:[{label:this.$t("main.someinfo.mainSomeNoBonus"),value:'',bonus:''}]
+        bonusOption:[{label:this.$t("main.someinfo.mainSomeNoBonus"),value:'',bonus:0}]
       }
     },
     methods: {
+      // 重置表单
+      clearForm(){
+        this.addForm.StateSelection = []
+        this.$refs['addForm'].resetFields()
+      },
       // 设置默认地址
       toggleDefault (item) {
         this.defaultId = item.id
@@ -350,6 +358,7 @@
       },
       // 编辑地址
       editAddress (item) {
+        this.addForm.address = item.address
         let string = JSON.stringify(item)
         this.editOrAdd = true
         this.showAddAddress = true
@@ -362,19 +371,17 @@
       },
       // 选择城市he lc_code
       selectCity (value) {
+        this.addForm.StateSelection = value
         let arr = value[0].split('-')
         this.addForm.address = arr[0]
         this.addForm.lcCode = arr[1]
-        // this.addForm.address = ''
-        // value.forEach((value) => {
-        //   this.addForm.address += value
-        // })
       },
       // 添加地址
       addAddress () {
         for (let val in this.addForm) {
-          this.addForm[val] = ''
+          this.addForm[val] = this.addForm[val] instanceof Array ? [] : ''
         }
+        this.addForm.address = 'Select'
         this.editOrAdd = false
         this.showAddAddress = true
       },
@@ -425,8 +432,8 @@
             this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
           })
         }else{
-          this.addressData.push(this.addForm)
           addressService.addItem(this.addForm).then((data) => {
+            this.addressData.push(this.addForm)
             this.getAddressList()
             this.$ltsMessage.show({type: 'success', message: this.$t('main.cart.settle.mainCartSeHandleSucc')})
           }, (msg) => {
@@ -445,11 +452,12 @@
       settle () {
         this.submitOrder()
       },
+      // 选择红包
       selectBonus(value){
-        this.bonusId = value
-        this.bonusOption.forEach((item) => {
-          if(item.id == value){
-            this.bonus = item.bonus
+          this.bonusId = value
+          this.bonusOption.forEach((val) => {
+          if(val.value == value){
+            this.bonus = val.bonus
           }
         })
       },
@@ -548,9 +556,9 @@
             bonusArr.forEach((item) => {
               let rule = JSON.parse(item.rule)[0]
               this.bonusOption.push({
-                label: this.$t("main.someinfo.mainSomeCoupon") + '：' + this.$t("main.someinfo.mainSomeFull") + ' ' + (rule.startV/100).toFixed(2) + this.$t("main.someinfo.mainSomeMinus") + ' ' + (rule.value/100).toFixed(2),
+                label: this.$t("main.someinfo.mainSomeCoupon") + '：' + this.$t("main.someinfo.mainSomeFull") + ' ' + (rule.startV/100).toFixed(2) + ' ' +this.$t("main.someinfo.mainSomeMinus") + ' ' + (rule.value/100).toFixed(2),
                 value: item.id,
-                bonus: rule.value
+                bonus: rule.value,
               })
             })
           }

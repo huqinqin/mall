@@ -157,18 +157,24 @@
             },
             searchWithText(spceList = [],item = ''){
                 // 排除同一组规格的条件
-                for (var n=0;n<spceList.length ;n++){
-                    let condition = this.search.condition;
-                    if(Array.isArray(condition)){
-                        condition.forEach((cond,i)=>{
-                            if(spceList[n] === cond){
-                                this.search.condition.splice(i,1);
-                            }
-                        })
-                    }else break;
-                }
+//                for (var n=0;n<spceList.length ;n++){
+//                    let condition = this.search.condition;
+//                    if(Array.isArray(condition)){
+//                        condition.forEach((cond,i)=>{
+//                            if(spceList[n] === cond){
+//                                this.search.condition.splice(i,1);
+//                            }
+//                        })
+//                    }else break;
+//                }
+                let count = 0;
+                this.search.condition.forEach((cond,i)=>{
+                    if(item === cond){
+                       count ++ ;
+                    }
+                })
                 // 加入条件
-                if(item){
+                if(count == 0){
                     this.search.condition.push(item)
                 }
                 this.submit()
@@ -200,7 +206,7 @@
             // 关闭条件
             delCondition(index) {
                 this.search.condition.splice(index, 1);
-                this.searchWithText(this.text);
+//                this.searchWithText(this.text);
             },
             selected(selected){
                 this.activeLi = selected
@@ -382,7 +388,7 @@
                     display: flex;
                     flex-wrap: wrap;
                     li{
-                        color:#777;
+                        color:#ff3b41;
                         font-size: 14px;
                         line-height: 36px;
                         margin-right: 12px;
@@ -443,7 +449,7 @@
             position: relative;
             left: 50%;
             margin-left: -123px;
-            margin-top: -5px;
+            margin-top: -6px;
             button{
                 width: 247px;
                 height: 42px;
@@ -483,7 +489,7 @@
             }
         }
         .content{
-            margin-top: 64px;
+            margin-top: 22px;
             padding-bottom: 100px;
             .header{
                 line-height: 40px;

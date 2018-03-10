@@ -2,7 +2,7 @@
     <div>
         <div v-for="(bar,key) in formFileds" :key="key">
             <div v-for="(menubar,menukey) in bar">
-                <el-form :inline="true" :model="formInline" class="demo-form-inline" if="formInline">
+                <el-form :inline="true" :label-position="position"  :model="formInline"  class="demo-form-inline" if="formInline">
                     <el-form-item v-for="(val,key) in menubar" :label="val.label" :key="val.bindValue">
                         <div v-if="val.type == 'datetimerange'">
                             <el-date-picker
@@ -83,7 +83,16 @@
 
     export default {
         name: 'lts-form',
-        props: ['formInlines', 'formFileds', 'autocomplete','cascader'],
+        props: {
+            formInlines : Object,
+            formFileds : Array,
+            autocomplete: Object,
+            cascader: Object,
+            labelPosition:{
+                type : String,
+                default : "top"
+            }
+        },
         data() {
             return {
                 datelist: '',
@@ -94,6 +103,7 @@
                 restaurants: [],
                 state1: '',
                 state2: '',
+                position : this.labelPosition,
                 datePickerOptions: {
                     shortcuts: [
                         {

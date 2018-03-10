@@ -413,6 +413,7 @@ export default {
                 mainPerPer2MB: '上传头像图片大小不能超过 2MB!',
             },
             receiveAdd: {
+                mainPerReAddInfo: '地址信息',
                 mainPerReNewCreate: '新增收获地址',
                 mainPerRePhone: '手机号码',
                 mainPerReEnterCont: '请输入内容',

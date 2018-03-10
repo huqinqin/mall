@@ -7,7 +7,7 @@
             <el-form :model="ruleForm" :rules="rules" :inline="true" ref="ruleForm" label-width="100px"
                      label-position="top"
                      class="demo-ruleForm">
-                <el-form-item :label='$t("main.cart.settle.mainCartSeContact")' required style="margin-top: 5px;">
+                <el-form-item :label='$t("main.cart.settle.mainCartSeContact")' prop="name" style="margin-top: 5px;">
                     <el-input v-model="ruleForm.name"></el-input>
                 </el-form-item>
                 <br>
@@ -34,10 +34,10 @@
                 </el-form-item>
                 <br>
                 <el-form-item :label='$t("main.personal.card.mainPerCarState")' prop="state" style="margin-top: 5px;">
-                    <lts-location-select v-model="ruleForm.location" :labels.sync="locationLabel" style="width: 400px"/>
+                    <lts-location v-model="ruleForm.location" :labels.sync="locationLabel" style="width: 400px"/>
                 </el-form-item>
                 <br>
-                <el-form-item :label='$t("main.personal.card.mainPerCarZip")' prop="zipcode" style="margin-top: 5px;">
+                <el-form-item :label='$t("main.personal.card.mainPerCarZip")' prop="zipCode" style="margin-top: 5px;">
                     <el-input v-model="ruleForm.zipCode"></el-input>
                 </el-form-item>
                 <br>
@@ -124,10 +124,10 @@
 <script>
     import addressService from '@/services/AddressService'
     import {request, commonUtils} from 'ltsutil'
-    import {ltsLocationSelect} from 'ui'
+    import {ltsLocation} from 'ui'
 
     export default {
-        components: {ltsLocationSelect},
+        components: {ltsLocation},
         name: "receiveAddress",
         data() {
             return {
@@ -137,11 +137,12 @@
                     name: '',
                     mobile: '',
                     address: '',
+                    building: '',
                     location: [],
                     city: '',
                     country: this.$t("main.personal.card.mainPerCarUsa"),
                     state: '',
-                    zipcode: '',
+                    zipCode: '',
                     setDefaultFlag: false
                 },
                 locationLabel: [],
@@ -165,7 +166,7 @@
                     state: [
                         {required: true, message: this.$t("main.personal.card.mainPerCarSeleState"), trigger: 'change'}
                     ],
-                    zipcode: [
+                    zipCode: [
                         {required: true, message: this.$t("main.personal.card.mainPerCarPutZip"), trigger: 'blur'}
                     ]
                 }
@@ -186,14 +187,17 @@
                 let address = {
                     mobile: this.ruleForm.mobile,
                     user_name: this.ruleForm.name,
-                    address: this.locationLabel + ' ' + this.ruleForm.city + '' + this.ruleForm.address,
+                    address: this.ruleForm.address,
                     building: this.ruleForm.building,
                     rank: this.ruleForm.rank,
-                    setDefault: this.setDefaultFlag,
-                    status: '',//1设为默认，0有效
-                    zip_code: this.ruleForm.zipcode,
-                    lcCode: ''
+                    country: this.ruleForm.country,
+                    state: this.locationLabel[0],
+                    setDefault: this.ruleForm.setDefaultFlag,
+                    status: this.setDefaultFlag ? 1 : 0,//1设为默认，0有效
+                    zipCode: this.ruleForm.zipCode,
+                    lcCode: this.ruleForm.location[0]
                 };
+                debugger;
 
                 if (this.tableData == '') {
                     this.ruleForm.setDefaultFlag = true;
@@ -240,7 +244,6 @@
                 }).then(() => {
                     this.deleteAdress(id);
                     this.$message({type: 'success', message: '删除成功!'});
-
                 }).catch(() => {
                     this.$message({type: 'info', message: '已取消删除'});
                 });
@@ -255,7 +258,9 @@
                 }
             },
             emptyData() {
-                this.$refs['ruleForm'].resetFields();
+                this.$refs.ruleForm.resetFields();
+                this.ruleForm.location = [];
+                this.locationLabel = [];
             }
         }
     }

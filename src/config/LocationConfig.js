@@ -5,7 +5,7 @@
  */
 export default [
     {
-        value: '320000',
+        value: '320100',
         label: 'New York'
     }
 ]

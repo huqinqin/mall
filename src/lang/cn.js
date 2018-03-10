@@ -612,6 +612,12 @@ export default {
             commLtsAddress: '收货地址'
         }
     },
+    validate: {
+        validEmail: '请输入邮箱',
+        valiFormErr: '邮箱格式错误',
+        valiEnterNum: '请输入联系号码',
+        valiLength: '长度在 11-16 个字符',
+    },
     ...zhLocale
 }
 

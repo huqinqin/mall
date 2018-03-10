@@ -196,6 +196,9 @@
         padding-top: 60px;
         padding-bottom: 60px;
         border-bottom: 1px solid #f6f6f6;
+        .el-form--label-top .el-form-item {
+            margin-right: 0px!important;
+        }
         main{
             width:400px;
             margin:40px auto;

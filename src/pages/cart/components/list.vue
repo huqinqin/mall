@@ -520,12 +520,12 @@
             } else if (value.discount_type === 4) {
               value.rule = JSON.parse(value.sale_rule)
               value.item_props[0].storage = value.rule.maxinum
-              // value.rule.end = Date.parse(value.rule.endTime)
-              // value.rule.start = Date.parse(value.rule.startTime)
+              value.rule.end = Date.parse(value.rule.endTime)
+              value.rule.start = Date.parse(value.rule.startTime)
               // value.rule.end = 1520438400000
               // value.rule.start = 1519833600000
-              value.rule.end = 1553702400000
-              value.rule.start = 1552838400000
+              // value.rule.end = 1553702400000
+              // value.rule.start = 1552838400000
                 value.realPrice = value.rule.price
               let now = Date.parse(new Date())
               if (value.rule.end > now) {

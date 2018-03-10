@@ -1,12 +1,12 @@
 <template>
    <div class="wrapperExperts">
        <div class="el-icon-close" @click="close" style="color: #bcbcbc;"></div>
-       <h3>联系我的专家</h3>
+       <h3>CALL EXPERT</h3>
        <div class="box">
            <ul>
-               <li><span>姓名：</span><span>{{someInfo.name}}</span></li>
-               <li><span>联系方式：</span><span>{{someInfo.mobile}}</span></li>
-               <li><span>邮箱：</span><span>{{someInfo.email}}</span></li>
+               <li><span>name：</span><span>{{someInfo.name}}</span></li>
+               <li><span>contact：</span><span>{{someInfo.mobile}}</span></li>
+               <li><span>email：</span><span>{{someInfo.email}}</span></li>
            </ul>
            <!--<ul><img src="../../assets/img/expert.png" alt=""></ul>-->
        </div>

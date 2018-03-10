@@ -44,13 +44,14 @@
           <div>{{ $t("main.cart.settle.mainCartSeAddAdress") }}</div>
         </li>
       </ul>
-      <el-dialog :title='$t("main.address.mainAddReceivingAddress")' :visible.sync="showAddAddress" center>
-        <el-form :model="addForm">
+      <el-dialog :title='$t("main.address.mainAddReceivingAddress")' :visible.sync="showAddAddress" center @close="clearForm">
+        <el-form :model="addForm" ref="addForm">
           <el-form-item :label='$t("main.cart.settle.mainCartSeRegion")'
                         :rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterRegion'), trigger: 'blur' }]">
             <el-cascader
               :options="cityOptions"
               popper-class="addressPopover"
+              v-model="addForm.StateSelection"
               @change="selectCity"
               :placeholder="addForm.address">
             </el-cascader>
@@ -142,7 +143,8 @@
         </el-table-column>
         <el-table-column prop="" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
           <template slot-scope="scope">
-            <span><lts-money :money="scope.row.item_props[0].price"></lts-money></span>
+            <p class="oldPrice" v-if="scope.row.discount_type == 1 || scope.row.discount_type == 2 || scope.row.discount_type == 4"><span><span><lts-money :money="scope.row.oldPrice"></lts-money></span></span></p>
+            <p><span><span><lts-money :money="scope.row.realPrice"></lts-money></span></span></p>
           </template>
         </el-table-column>
         <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="" prop="num" align="center">
@@ -150,13 +152,30 @@
         <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="" align="center">
           <template slot-scope="scope">
             <div class="count" ref="count">
-              <span><lts-money :money="(scope.row.item_props[0].price) * scope.row.num"></lts-money></span>
+              <!--<p  class="oldPrice"  v-if="scope.row.discount_type == 1 || scope.row.discount_type == 2 || scope.row.discount_type == 4"><span><span><lts-money :money="(scope.row.oldPrice) * scope.row.num"></lts-money></span></span></p>-->
+              <p><span><span><lts-money :money="(scope.row.realPrice) * scope.row.num"></lts-money></span></span></p>
             </div>
           </template>
         </el-table-column>
       </el-table>
-      <div class="remark"><span>{{ $t("main.cart.settle.mainCartSeBuyersTalk") }}： </span>
-        <el-input v-model="remark"></el-input>
+      <div class="remark">
+        <el-form >
+          <el-form-item label-width="90px" :label='$t("main.cart.settle.mainCartSeBuyersTalk")+ "："'>
+            <el-input v-model="remark"></el-input>
+          </el-form-item>
+        </el-form>
+        <el-form>
+          <el-form-item label-width="90px" :label='$t("main.someinfo.mainSomeCoupon")+ "："'>
+            <el-select v-model="selectedBonus" @change="selectBonus">
+              <el-option
+                v-for="item in bonusOption"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-form>
       </div>
     </div>
     <div class="someCount">
@@ -169,16 +188,19 @@
           :money="sum.tax"></lts-money></span></span></p>
         <p>{{ $t("main.cart.list.mainCartliBenefit") }}： <span><span v-if="sum.promotion == 0 || sum.promotion">-<lts-money
           :money="sum.promotion"></lts-money></span></span></p>
-        <p class="result">{{ $t("main.cart.settle.mainCartSeMustPay") }}： <span><span v-if="totalPrice"><lts-money
-          :money="totalPrice"></lts-money></span></span></p>
+        <p v-if="bonusId">{{$t("main.someinfo.mainSomeCoupon")}}：<span>-<lts-money :money="bonus" /></span></p>
+        <p class="result">{{ $t("main.cart.settle.mainCartSeMustPay") }}： <span>
+            <span v-if="totalPrice && !bonus"><lts-money :money="totalPrice"></lts-money></span>
+            <span v-if="totalPrice && bonus"><lts-money :money="totalPrice - bonus"></lts-money></span>
+        </span></p>
       </div>
     </div>
     <div class="allInfo">
       <p>{{$t("main.cart.settle.mainCartSeContact")}}： {{checkedAddress.user_name}}</p>
       <p>{{$t("main.cart.settle.mainCartSeContactPhone")}}： {{checkedAddress.mobile}}</p>
-      <p>{{ $t("main.address.mainAddReceivingAddress") }}： {{checkedAddress.address}}{{checkedAddress.building}}</p>
-      <p>{{$t("main.cart.settle.mainCartSeAccountAddr")}}： {{checkedAddress.address}}{{checkedAddress.building}}</p>
-      <p>{{$t("main.cart.settle.mainCartSeQuaAddr")}}： {{checkedAddress.address}}{{checkedAddress.building}}</p>
+      <p>{{ $t("main.address.mainAddReceivingAddress") }}： {{checkedAddress.address}}&nbsp;{{checkedAddress.building}}</p>
+      <!--<p>{{$t("main.cart.settle.mainCartSeAccountAddr")}}： {{checkedAddress.address}}{{checkedAddress.building}}</p>-->
+      <p>{{$t("main.cart.settle.mainCartSeQuaAddr")}}： {{checkedAddress.address}}&nbsp;{{checkedAddress.building}}</p>
     </div>
     <div class="submit">
       <el-button @click="settle" :disabled="canSubmit">{{$t("main.cart.settle.mainCartSeSubOrder")}}</el-button>
@@ -280,7 +302,9 @@
         defaultId: '',
         checkedId: '',
         addForm: {
-          setDefault: false
+          setDefault: false,
+          StateSelection:[]
+
         },
         editOrAdd: true, // 点击的是修改还是新增
         chooseAll: true,
@@ -307,10 +331,20 @@
             {},
             {}
           ]
-        }
+        },
+        bonusId:'',
+        bonus:'',
+        selectedBonus:'',
+        bonusOption:[],
+        bonusArr:[]
       }
     },
     methods: {
+      // 重置表单
+      clearForm(){
+        this.addForm.StateSelection = []
+        this.$refs['addForm'].resetFields()
+      },
       // 设置默认地址
       toggleDefault (item) {
         this.defaultId = item.id
@@ -324,13 +358,13 @@
 
       // 选择地址
       checkAddress (item) {
-        console.log(this.addressData)
         this.checkedAddress = item
         this.checkedId = item.id
         this.simulateCreateTrade()
       },
       // 编辑地址
       editAddress (item) {
+        this.addForm.address = item.address
         let string = JSON.stringify(item)
         this.editOrAdd = true
         this.showAddAddress = true
@@ -343,25 +377,24 @@
       },
       // 选择城市he lc_code
       selectCity (value) {
+        this.addForm.StateSelection = value
         let arr = value[0].split('-')
-        console.log(arr)
         this.addForm.address = arr[0]
         this.addForm.lcCode = arr[1]
-        // this.addForm.address = ''
-        // value.forEach((value) => {
-        //   this.addForm.address += value
-        // })
       },
       // 添加地址
       addAddress () {
         for (let val in this.addForm) {
-          this.addForm[val] = ''
+          this.addForm[val] = this.addForm[val] instanceof Array ? [] : ''
         }
+        this.addForm.address = 'Select'
         this.editOrAdd = false
         this.showAddAddress = true
       },
       // 查询地址列表
       getAddressList () {
+          this.defaultId = ''
+          this.defaultAddress = []
         addressService.getList().then((data) => {
           this.addressData = data.data.consumer_address_d_o
           this.addressData.forEach((value, index) => {
@@ -389,11 +422,11 @@
             value.building = value.city
             value.valid = dateUtils.timeToStr(value.valid_time)
             this.addressData.push(value)
-            console.log(this.addressData)
           })
-          if(!this.defaultId){
+            if(!this.defaultId){
             this.checkedId = this.addressData[0].id
             this.checkedAddress = this.addressData[0]
+            // this.addressData.splice(0,1)
           }
           this.simulateCreateTrade()
         })
@@ -408,8 +441,8 @@
             this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
           })
         }else{
-          this.addressData.push(this.addForm)
           addressService.addItem(this.addForm).then((data) => {
+            this.addressData.push(this.addForm)
             this.getAddressList()
             this.$ltsMessage.show({type: 'success', message: this.$t('main.cart.settle.mainCartSeHandleSucc')})
           }, (msg) => {
@@ -427,6 +460,15 @@
       },
       settle () {
         this.submitOrder()
+      },
+      // 选择红包
+      selectBonus(value){
+          this.bonusId = value
+          this.bonusArr.forEach((val) => {
+            if(val.id == value){
+                this.bonus = val.realRule.value
+          }
+        })
       },
       // 正式下单
       submitOrder () {
@@ -459,6 +501,7 @@
           hdFee: this.sum.express,
           taxesFeeCalculator: 1,
           taxesFee: this.sum.tax,
+          accBonusId:this.bonusId,
           ship: {
             logisticsCompany:this.expressForm.express,
             userAddrIdType: this.checkedAddress.valid_time ? 1 : 0,
@@ -470,7 +513,7 @@
         }
         orderService.createTrade(params, this.remark).then((data) => {
           this.$emit('submit', 3)
-          this.$router.push({name: 'beforePay', query: {tid: data.data, delivery: this.deliveryType}})
+          this.$router.push({name: 'beforePay', query: {tid: data.data, delivery: this.deliveryType, orderpay: 3}})
         }, (msg) => {
           this.$ltsMessage.show({type: 'error', message: msg.error_message})
         })
@@ -480,7 +523,6 @@
         let items = []
         this.tableData.forEach(function (value, index, array) {
           let itemPropIds = []
-
           itemPropIds.push(value.item_props[0].id)
           let Obj = {
             'id': value.id,
@@ -518,6 +560,19 @@
           this.sum.amount = resp.data.wholesale_order.pay
           this.sum.promotion = resp.data.wholesale_order.discount
           this.totalPrice = resp.data.wholesale_order.pay_info.pay_real
+          if(resp.data.wholesale_order.pay_info.acc_bonus_list.length > 0){
+            this.bonusOption = [{label:this.$t("main.someinfo.mainSomeNoBonus"),value:''}]
+            this.bonusArr = resp.data.wholesale_order.pay_info.acc_bonus_list
+              this.bonusArr.forEach((item) => {
+              item.realRule = JSON.parse(item.rule)[0]
+              this.bonusOption.push({
+                label: this.$t("main.someinfo.mainSomeCoupon") + '：' + this.$t("main.someinfo.mainSomeFull") + ' ' + (item.realRule.startV/100).toFixed(2) + ' ' +this.$t("main.someinfo.mainSomeMinus") + ' ' + (item.realRule.value/100).toFixed(2),
+                value: item.id
+              })
+            })
+          }else{
+              this.selectedBonus = this.$t('main.cart.settle.mainCartSeNoBonus')
+          }
           this.$emit('submit', 2)
         }, (msg) => {
           this.$ltsMessage.show({type: 'error', message: msg.error_message})
@@ -541,10 +596,23 @@
         this.tableData = items
         // this.user_id = this.$route.params.userId
       }
-
+      this.tableData.forEach((item) => {
+          if(item.discount_type == 1){
+              item.realPrice = item.item_props[0].price * item.discount / 100
+              item.oldPrice = item.item_props[0].price
+          }else if(item.discount_type == 1){
+              item.realPrice = item.item_props[0].price - item.discount
+              item.oldPrice = item.item_props[0].price
+          }else if(item.discount_type == 4){
+              item.realPrice = 0
+              // item.realPrice = item.sale_rule_do.price
+              item.oldPrice = item.item_props[0].price
+          }else{
+              item.realPrice = item.item_props[0].price
+          }
+      })
       console.log(this.tableData)
       this.getAddressList()
-
       this.expressOptions = this.UPSOptions
     }
   }
@@ -598,7 +666,9 @@
   .settle {
 
     overflow: hidden;
-
+      p.oldPrice{
+          text-decoration: line-through;
+      }
     button {
       cursor: pointer;
     }
@@ -917,21 +987,14 @@
       h5 {
         margin-top: 18px;
       }
-      padding-bottom: 24px;
       border-bottom: 1px solid #f2f2f2;
       .remark {
         margin-top: 24px;
-        margin-left: 24px;
-        span {
-          font-size: 14px;
-          color: rgba(0, 0, 0, 0.5);
-          line-height: 30px;
-        }
         .el-input {
           width: 350px;
-          height: 30px;
+          height: 40px;
           input {
-            height: 30px;
+            height: 40px;
           }
         }
       }
@@ -960,6 +1023,7 @@
     }
     .someCount {
       margin-right: 24px;
+      padding-top: 12px;
       display: flex;
       flex-direction: column;
       align-items: flex-end;
@@ -1007,6 +1071,7 @@
       margin-right: 24px;
       margin-top: 24px;
       .el-button {
+          padding:0;
         width: 160px;
         height: 40px;
         background-color: #f13a40;

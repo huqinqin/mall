@@ -29,7 +29,6 @@ function checkLogin(e){
 Vue.directive('ltsLoginShow',{
     bind(el,binding){
         if(session.checkLogin() != true && binding.value != undefined){
-            console.log(binding.value);
             if(binding.value == true){
 
             }else{

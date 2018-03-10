@@ -3,7 +3,7 @@
         <el-button type="text" @click="dialogShow = true;editFlag = false;">
             <el-button type="primary">{{$t("main.personal.receiveAdd.mainPerReNewCreate")}}</el-button>
         </el-button>
-        <el-dialog title="地址信息" :visible.sync="dialogShow" :close-on-click-modal="false" @close="emptyData">
+        <el-dialog :title='$t("main.personal.receiveAdd.mainPerReAddInfo")' :visible.sync="dialogShow" :close-on-click-modal="false" @close="emptyData">
             <el-form :model="ruleForm" :rules="rules" :inline="true" ref="ruleForm" label-width="100px"
                      label-position="top"
                      class="demo-ruleForm">
@@ -57,45 +57,45 @@
                 </el-form-item>
             </el-form>
         </el-dialog>
-        <h3 class="title">地址信息</h3>
+        <h3 class="title">{{$t("main.personal.receiveAdd.mainPerReAddInfo")}}</h3>
         <el-table
             :data="tableData"
             style="width: 100%"
             ref="itemTable">
             <el-table-column
                 prop="user_name"
-                label="收货人"
+                :label='$t("main.personal.receiveAdd.mainPerReConsigee")'
                 width="100">
             </el-table-column>
             <el-table-column
                 prop="address"
-                label="详细地址"
+                :label='$t("main.personal.card.mainPerCarAddress")'
                 width="150">
             </el-table-column>
             <el-table-column
                 prop="city"
-                label="城市"
+                :label='$t("main.personal.card.mainPerCarCity")'
                 width="80">
             </el-table-column>
             <el-table-column
                 prop="state"
-                label="州"
+                :label='$t("main.personal.card.mainPerCarState")'
                 width="80">
             </el-table-column>
             <el-table-column
                 prop="country"
-                label="国家"
+                :label='$t("main.personal.card.mainPerCarCountry")'
                 width="80">
             </el-table-column>
             <el-table-column
                 prop="zip_code"
-                label="邮编"
+                :label='$t("main.personal.card.mainPerCarZip")'
                 width="100">
             </el-table-column>
             <el-table-column
                 prop="mobile"
-                label="联系电话"
-                width="120">
+                :label='$t("main.cart.settle.mainCartSeContactPhone")'
+                width="140">
             </el-table-column>
             <el-table-column
                 prop=""

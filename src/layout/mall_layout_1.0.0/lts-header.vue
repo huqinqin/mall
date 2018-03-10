@@ -4,7 +4,7 @@
           <ul class="s-span-page">
             <li class="sign">
               <span class="login" v-login v-if="!userInfo">{{ $t("comHeader.headerImmediatelyLog") }}</span>
-              <span class="login"  v-if="userInfo">{{ $t("comHeader.headerWelcom") }}，{{userInfo.account.user_name}}</span>
+              <a href="/someinfo" @click="toInfo"><span class="login"  v-if="userInfo">{{ $t("comHeader.headerWelcom") }}，{{userInfo.account.user_name}}</span></a>
               <a href="/account#/register" v-if="!userInfo"><span class="register">{{ $t("comHeader.headerImmediatelySign") }}</span></a>
             </li>
             <li class="">
@@ -14,8 +14,19 @@
                 <div slot="content"><myExperts></myExperts></div>
                 <a href="javascript:void(0)" class="top-menu" v-login v-if="showToIndex && !userInfo">{{ $t("comHeader.headerMyExpert") }}</a>
               </el-tooltip>
-              <a href="javascript:void(0)" ><i class="iconfont icon-shouji"></i>{{ $t("comHeader.headerPhoneOrder") }}</a>
-              <a href="javascript:void(0)" @click="logout" v-if="userInfo">{{ $t("comHeader.headerLogin") }}</a>
+              <a href="javascript:void(0)" class="top-menu"><i class="iconfont icon-shouji"></i>{{ $t("comHeader.headerPhoneOrder") }}</a>
+              <a href="javascript:void(0)" class="top-menu" @click="logout" v-if="userInfo">{{ $t("comHeader.headerLogin") }}</a>
+              <el-dropdown @command="handleCommand">
+                  <span class="el-dropdown-link">
+                     <span v-if="language == 'cn'">中文</span>
+                     <span v-else>English</span>
+                     <i class="el-icon-arrow-down el-icon--right"></i>
+                  </span>
+                  <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item command="cn">中文</el-dropdown-item>
+                        <el-dropdown-item command="en">English</el-dropdown-item>
+                  </el-dropdown-menu>
+              </el-dropdown>
             </li>
           </ul>
         </div>
@@ -81,7 +92,12 @@
               },
               isShowMenu : true,
               cart_num : -1,
+              language : 'en',
+              test:0
           }
+        },
+        mounted(){
+           this.language = store.getItem('language') ?  store.getItem('language') : this.language
         },
         methods:{
             closeDialog(){
@@ -137,8 +153,15 @@
                 this.selfContext.$emit('getItemList')
             },
             toOrder(){
-                store.setItem('selected', '我的订单');
-            }
+                store.setItem('selected', this.$t("common.ltsMenu.commLtsMyOrder"));
+            },
+            toInfo(){
+                store.setItem('selected', this.$t("common.ltsMenu.commLtsPersonlPage"));
+            },
+            handleCommand(command){
+                store.setItem('language', command);
+                location.reload();
+            },
 
         },
         created(){
@@ -182,6 +205,7 @@
               display: flex;
               align-items: center;
               justify-content: space-between;
+              height: 100%;
           }
           li{
             align-self: center;
@@ -346,6 +370,7 @@
                                 border-radius: 4px;
                                 margin-bottom: 12px;
                                 cursor: pointer;
+                                line-height: 24px;
                             }
                             button.signup{
                                 background: #fff;

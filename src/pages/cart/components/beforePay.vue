@@ -5,7 +5,7 @@
       <p>{{ $t("main.cart.beforePay.mainCartBefOrderNum") }}：{{tid}}</p>
       <p>{{ $t("main.cart.beforePay.mainCartBefWaitPay") }}：<span class="red"><lts-money :money="form.moneyPay"/></span>
       </p>
-      <div>
+      <div v-if="!frozened">
         <el-checkbox
           v-model="form.useBalance"
           :disabled="!form.balance"
@@ -16,26 +16,29 @@
         <lts-money v-if="form.balance !== ''" :money="form.balance"></lts-money>
         <span>）</span>
       </div>
+        <div v-else-if="frozened"><span >{{ $t("main.cart.beforePay.mainCartBefEngineerAccount") }}{{ $t("main.cart.beforePay.mainCartBefPay") }}：<lts-money :money="form.useBalance" /></span></div>
     </div>
     <div class="payment" v-if="!form.useBalance || form.balance <= form.moneyPay">
       <p>{{ $t("main.cart.beforePay.mainCartBefShouldPay") }}：
-        <lts-money :money="form.moneyPay - form.used*100"/>
+        <lts-money :money="form.moneyPay - form.used" />
       </p>
       <el-radio
         v-model="form.payBank"
         label="CREDIT"
         class="first"
-        :disabled="form.moneyPay-form.used*100 > form.credit">
+        :disabled="form.moneyPay - form.used > form.credit">
+        <!--:disabled="form.moneyPay - form.used * 100 > form.credit">-->
         {{ $t("main.cart.beforePay.mainCartBefUseAccount") }}
       </el-radio>
       <span v-if="form.credit">({{ $t("main.cart.beforePay.mainCartBefBalance") }}<lts-money
         :money="form.credit"></lts-money>)</span>
+      <div class="termInfo">{{$t('main.cart.beforePay.mainCartBefTermInfo')}}</div>
       <el-radio class="second" v-model="form.payBank" label="ANET_CREDIT_CARD">{{
         $t("main.cart.beforePay.mainCartBefcartPay") }}
       </el-radio>
     </div>
     <div class="goPay">
-      <el-button @click="confirmPay" :disabled="(form.used > form.moneyPay || form.used > form.balance)  || (!form.useBalance && (form.payBank == 'BALANCE'))">{{
+      <el-button @click="confirmPay" :disabled="((form.moneyPay - form.used > 0)&& (form.payBank == 'BALANCE'))">{{
         $t("main.cart.beforePay.mainCartBefgoPay") }}
       </el-button>
       <el-dialog :title="$t('main.cart.beforePay.mainCartBefCreditInfo')"   :visible.sync="creditFormVisible" class="creditDialog" @close="closeCreditForm">
@@ -86,13 +89,13 @@
           num: '',
           date: '',
           pay_no: ''
-        }
+        },
+        frozened:false
       }
     },
     methods: {
       // 勾选账户余额
       selectBalance (value) {
-        console.log(this.form.useBalance, value)
         if (value) {
           if (this.form.balance >= this.form.moneyPay) {
             this.form.used = this.form.moneyPay
@@ -114,6 +117,11 @@
           this.form.balance = data.data.balance
           this.form.moneyPay = data.data.money_pay
           this.form.credit = data.data.credit_blance
+            if(data.data.balance_frozened){
+              this.frozened = true
+              this.form.useBalance = data.data.balance_pay
+              this.form.used = data.data.balance_pay
+            }
         }, (msg) => {
           this.$ltsMessage.show({type: 'error', message: msg.error_message})
         })
@@ -132,7 +140,7 @@
       },
       // 确认支付
       confirmPay () {
-        if (this.form.payBank === 'ANET_CREDIT_CARD' && (this.form.moneyPay - this.form.used * 100) > 0) {
+        if (this.form.payBank === 'ANET_CREDIT_CARD' && (this.form.moneyPay - this.form.used) > 0) {
           // 信用卡支付弹框
           orderService.pay_confirm(this.tid, this.form).then((data) => {
             this.statement = data.data.statement
@@ -201,15 +209,15 @@
       span.error {
         color: #ff3b41;
       }
+        &>div{
+            margin-bottom: 12px;
+        }
       label {
         margin-right: 12px;
       }
       .el-input {
         width: 80px;
         margin: 0 12px;
-      }
-      & > div {
-        padding-bottom: 16px;
       }
       .el-checkbox {
         line-height: 40px;
@@ -225,16 +233,16 @@
         margin-top: 12px;
         margin-left: 0;
       }
-      .el-radio.first.is-disabled::after {
-        content: '若余额不足则不能使用账期支付';
-        position: relative;
-        top: 16px;
-        font-size: 12px;
-        left: -55px;
-        color: #f13a40;
-      }
+        .termInfo{
+            position: relative;
+            color: #f13a40;
+            font-size: 12px;
+            top:-8px;
+            left: 28px;
+            width: 400px;
+        }
       .el-radio.second {
-        margin-top: 12px;
+        margin-top: 0px;
         display: block;
       }
       .el-form {

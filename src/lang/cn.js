@@ -80,7 +80,8 @@ export default {
                 mainCartBefCreditInfo:'请输入信用卡信息',
                 mainCartBefInputNum:'请输入信用卡号',
                 mainCartBefCreditNum:'信用卡号',
-                mainCartBefCreditValid:'有效期'
+                mainCartBefCreditValid:'有效期',
+                mainCartBefTermInfo:'若余额不足则不能使用账期支付',
             },
             fail: {
                 mainCartFaProblem: '您在支付的时候好像出现了一些问题',
@@ -160,6 +161,7 @@ export default {
                 mainCartSeSetDefaultSuc: '设置默认地址成功',
                 mainCartSeHandleSucc: '操作成功',
                 mainCartSeHandleErr: '删除失败',
+                mainCartSeNoBonus: '没有可用的优惠券',
             },
             other: {
                 mainCartOtCart: '购物车',
@@ -179,7 +181,9 @@ export default {
                 mainDetInfoDown: '开始倒计时',
                 mainDetInfoEnd: '距离结束',
                 mainDetInfoDay: '天',
+                mainDetInLimitOver: '活动已结束',
                 mainDetInfoPrice: '价格',
+                mainDetInfoNoChoose: '未选择该商品',
                 mainDetInfoComp: '完成登录注册，享受惊爆价',
                 mainDetInfoContactSale: '请选择商品属性。若商品属性不可选。请联系销售',
                 mainDetInfoAmount: '采购量',
@@ -197,6 +201,7 @@ export default {
                 mainDetInfoDetail: '详细',
                 mainInMore: '更多',
                 mainDetConfigure:'推荐套餐',
+                mainDetInfoOffShelf:'商品已下架',
                 mainDetPiece:'件',
                 mainDetCheckedPackage:'已选择配件',
                 mainDetSure:'确定',
@@ -349,7 +354,7 @@ export default {
                 mainPerCarDisPic: '分销证照片',
                 mainPerCarDisProveNum: '分销证号',
                 mainPerCarCompany: '公司名',
-                mainPerCarAddress: '地址',
+                mainPerCarAddress: '详细地址',
                 mainPerCarCity: '城市',
                 mainPerCarCountry: '国家',
                 mainPerCarEnterCoun: '请选择国家',
@@ -370,6 +375,8 @@ export default {
                 mainPerCarSeleCount: '请选择国家',
                 mainPerCarSeleState: '请选择州',
                 mainPerCarPutZip: '请输入邮编',
+                mainPerCarUpDate: '上传时间',
+                mainPerCarDisStatus: '分销证状态',
             },
             password: {
                 mainPerPwdsetter: '密码设置',
@@ -410,7 +417,8 @@ export default {
                 mainPerRePhone: '手机号码',
                 mainPerReEnterCont: '请输入内容',
                 mainPerReTeleNum: '电话号码',
-                mainPerReEnterPhone: '请输入手机号'
+                mainPerReEnterPhone: '请输入手机号',
+                mainPerReConsigee: '收货人',
             },
         },
         repayMent: {
@@ -558,6 +566,8 @@ export default {
             mainSomeCoupon: '优惠券',
             mainSomeFullCoupon: '满减劵',
             mainSomeFull: '满',
+            mainSomeMinus: '减',
+            mainSomeNoBonus: '不使用优惠券',
             mainSomeDollar: '美元使用',
             mainSomeUsedTime: '使用时间',
             mainSomeRange: '至',

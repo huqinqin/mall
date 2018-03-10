@@ -40,10 +40,10 @@
               <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
                 <template slot-scope="subscope">
                   <p class="oldPrice">
-                    <lts-money :money="subscope.row.price"></lts-money>
+                    <lts-money :money="subscope.row.oldPrice"></lts-money>
                   </p>
                   <p>
-                    <lts-money :money="subscope.row.price * subscope.row.discount / 100"></lts-money>
+                    <lts-money :money="subscope.row.realPrice"></lts-money>
                   </p>
                 </template>
               </el-table-column>
@@ -66,7 +66,7 @@
               <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center">
                 <template slot-scope="subscope">
                   <div class="count" >
-                    <lts-money :money="subscope.row.num*subscope.row.price_real"></lts-money>
+                    <lts-money :money="subscope.row.num * subscope.row.realPrice"></lts-money>
                   </div>
                 </template>
               </el-table-column>
@@ -110,10 +110,12 @@
               </el-table-column>
               <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
                 <template slot-scope="subscope">
-                  <p class="oldPrice">
-                    <lts-money :money="subscope.row.price"></lts-money>
-                  </p>
-                  <p><lts-money :money="subscope.row.price - subscope.row.discount"></lts-money></p>
+                    <p class="oldPrice">
+                        <lts-money :money="subscope.row.oldPrice"></lts-money>
+                    </p>
+                    <p>
+                        <lts-money :money="subscope.row.realPrice"></lts-money>
+                    </p>
                 </template>
               </el-table-column>
               <el-table-column prop="" width="90" :label='$t("main.cart.list.mainCartliStock")' align="center">
@@ -135,7 +137,7 @@
               <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center">
                 <template slot-scope="subscope">
                   <div class="count">
-                    <lts-money :money="subscope.row.num*subscope.row.price_real"></lts-money>
+                    <lts-money :money="subscope.row.num * subscope.row.realPrice"></lts-money>
                   </div>
                 </template>
               </el-table-column>
@@ -153,8 +155,15 @@
               <div class="popover">
                 <div class="popTitle">{{ $t("main.cart.list.mainCartliOnsaleLimits") }}</div>
                 <div class="popDetail" :class="[{ 'noStart': !limitItem[0].rule.started }, {'started': limitItem[0].rule.started}]">
-                  <div><span v-if="limitItem[0].rule.started">{{$t("main.cart.list.mainCartliEndCountdown")}}</span><span v-if="!limitItem[0].rule.started">{{$t("main.cart.list.mainCartliStartCountdown")}}</span>：<span v-if="limitItem[0].rule.day">{{limitItem[0].rule.day}}{{$t("main.detail.info.mainDetInfoDay")}}</span></div>
-                  <div class="timeDown">
+                  <div v-if="!limitItem[0].rule.finished">
+                    <span v-if="limitItem[0].rule.started">{{$t("main.cart.list.mainCartliEndCountdown")}}</span>
+                    <span v-if="!limitItem[0].rule.started">{{$t("main.cart.list.mainCartliStartCountdown")}}</span>：
+                    <span v-if="limitItem[0].rule.day">{{limitItem[0].rule.day}}{{$t("main.detail.info.mainDetInfoDay")}}</span>
+                  </div>
+                  <div v-else-if="limitItem[0].rule.finished">
+                    <span>{{$t("main.detail.info.mainDetInLimitOver")}}</span>
+                  </div>
+                  <div class="timeDown" v-if="limitItem[0].rule.started && (!limitItem[0].rule.finished)">
                     <span v-show="false">{{t}}</span>
                     <div>{{limitItem[0].rule.hr}}</div>:
                     <div>{{limitItem[0].rule.min}}</div>:
@@ -168,7 +177,7 @@
                 style="width: 100%">
                 <el-table-column align="center" width="48">
                   <template slot-scope="subscope">
-                    <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)"></el-checkbox>
+                    <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)" :disabled="subscope.row.rule.finished || (!subscope.row.rule.started)"></el-checkbox>
                   </template>
                 </el-table-column>
                 <el-table-column align="center" width="600">
@@ -189,10 +198,12 @@
                 </el-table-column>
                 <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
                   <template slot-scope="subscope">
-                    <p class="oldPrice">
-                      <lts-money :money="subscope.row.price"></lts-money>
-                    </p>
-                    <p><lts-money :money="subscope.row.rule.price"></lts-money></p>
+                      <p class="oldPrice">
+                          <lts-money :money="subscope.row.oldPrice"></lts-money>
+                      </p>
+                      <p>
+                          <lts-money :money="subscope.row.realPrice"></lts-money>
+                      </p>
                   </template>
                 </el-table-column>
                 <el-table-column prop="" width="90" :label='$t("main.cart.list.mainCartliStock")' align="center">
@@ -214,7 +225,7 @@
                 <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center">
                   <template slot-scope="subscope">
                     <div class="count">
-                      <lts-money :money="subscope.row.num*subscope.row.price_real"></lts-money>
+                      <lts-money :money="subscope.row.num * subscope.row.realPrice"></lts-money>
                     </div>
                   </template>
                 </el-table-column>
@@ -256,7 +267,7 @@
               </el-table-column>
               <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
                 <template slot-scope="subscope">
-                  <p><lts-money :money="subscope.row.price"></lts-money></p>
+                    <p><lts-money :money="subscope.row.realPrice"></lts-money></p>
                 </template>
               </el-table-column>
               <el-table-column prop="" width="90" :label='$t("main.cart.list.mainCartliStock")' align="center">
@@ -278,7 +289,7 @@
               <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center">
                 <template slot-scope="subscope">
                   <div class="count">
-                    <lts-money :money="subscope.row.num*subscope.row.price"></lts-money>
+                    <p><lts-money :money="subscope.row.num * subscope.row.realPrice"></lts-money></p>
                   </div>
                 </template>
               </el-table-column>
@@ -309,7 +320,7 @@
       <div class="check">
         <div class="info">
           <div class="topline">
-            <span>{{ $t("main.cart.list.mainCartliCheckedItem") }}{{checkedItem.length}}{{ $t("main.cart.other.mainCartUnit") }}，{{ $t("main.cart.list.mainCartliAllPrice") }}{{ $t("main.cart.other.mainCartNo") }}({{ $t("main.cart.settle.mainCartSeTax") }}、{{ $t("main.cart.settle.mainCartSeFright") }})：<lts-money
+            <span>{{ $t("main.cart.list.mainCartliCheckedItem") }} {{checkedItem.length}} {{ $t("main.cart.other.mainCartUnit") }}，{{ $t("main.cart.list.mainCartliAllPrice") }}({{ $t("main.cart.other.mainCartNo") }} {{ $t("main.cart.settle.mainCartSeTax") }}、{{ $t("main.cart.settle.mainCartSeFright") }})：<lts-money
               :money="totalPrice"></lts-money></span>
           </div>
           <div class="bottomline">
@@ -347,7 +358,7 @@
     name: 'list',
     data () {
       return {
-        t:1000,
+        t:1,
         expands: [], // 默认展开全部
         checked: false,
         tooManyItems: true,
@@ -434,6 +445,7 @@
       },
       // 单选框
       selectChange (row) {
+        console.log(row)
         if (this.checkedItem.indexOf(row) !== -1) {
           this.checkedItem.splice(this.checkedItem.indexOf(row), 1)
             row.checked = false;
@@ -442,18 +454,18 @@
           row.checked  = true
         }
         this.tableData.forEach((table,index,array) => {
-              for(let key in table){
-                  this.tableData[index][key].forEach((item,count) => {
-                      if(item.length > 0 && item[0].id == row.id){
-                          Vue.set(item,0,row);
-                          Vue.set(this.tableData[index][key],count,item)
-                      }else if(item.id == row.id){
-                          Vue.set(this.tableData[index][key],count,row)
-                      }
+          for(let key in table){
+              this.tableData[index][key].forEach((item,count) => {
+                  if(item.length > 0 && item[0].id == row.id && JSON.stringify(item[0].item_props[0].prop_value) == JSON.stringify(row.item_props[0].prop_value)){
+                      Vue.set(item,0,row);
                       Vue.set(this.tableData[index][key],count,item)
-                  })
-              }
-              Vue.set(this.tableData,index,this.tableData[index])
+                  }else if(item.id == row.id && JSON.stringify(item.item_props[0].prop_value) == JSON.stringify(row.item_props[0].prop_value)){
+                      Vue.set(this.tableData[index][key],count,row)
+                  }
+                  Vue.set(this.tableData[index][key],count,item)
+              })
+          }
+          Vue.set(this.tableData,index,this.tableData[index])
          })
         Vue.set(this.tableData)
         this.calc(this.checkedItem)
@@ -468,15 +480,14 @@
         let total = 0
         let realTotal = 0
         checked.forEach((item) => {
-          total += item.num * item.price
-          realTotal += item.num * item.price_real
+          total += item.num * item.oldPrice
+          realTotal += item.num * item.realPrice
         })
         this.totalPrice = total
         this.realTotal = realTotal
       },
       queryCartList () {
         cartService.queryCartList().then((data) => {
-
           this.tableData = [
             {discount: []},
             {reduce: []},
@@ -488,24 +499,29 @@
             value.item_props.forEach((item) => {
               item.prop_value = JSON.parse(item.prop_value)
             })
+            value.oldPrice = value.item_props[0].price
             if (value.discount_type === 1) {
+                value.realPrice = value.item_props[0].price * value.discount / 100
               this.tableData[0].discount.push(value)
             } else if (value.discount_type === 2) {
+                value.realPrice = value.item_props[0].price - value.discount
               this.tableData[1].reduce.push(value)
             } else if (value.discount_type === 4) {
               value.rule = JSON.parse(value.sale_rule)
               value.item_props[0].storage = value.rule.maxinum
               value.rule.end = Date.parse(value.rule.endTime)
               value.rule.start = Date.parse(value.rule.startTime)
+                value.realPrice = value.rule.price
               let now = Date.parse(new Date())
               if (value.rule.end > now) {
-                this.countdown(value.rule)
+                this.countdown(value)
               } else {
                 // 活动结束，不显示了
                 value.rule.finished = true
               }
               this.tableData[2].limit.push([value])
             } else {
+                value.realPrice = value.item_props[0].price
                 this.tableData[3].others.push(value)
             }
             this.tableDataItem = data.datalist
@@ -553,7 +569,8 @@
         })
       },
       // 倒计时计算
-      countdown(item){
+      countdown(value){
+        let item  = value.rule
         let start = item.start
         let end = item.end
         let now = Date.parse(new Date())
@@ -564,6 +581,11 @@
           item.started = false
           item.finished = false
           date = item.start
+          this.tableDataItem.forEach((val,index) => {
+            if(val.id === value.id){
+              this.tableDataItem.splice(index, 1)
+            }
+          })
         } else if (start <= now <= end) {
           // 开始了还没结束
           item.started = true
@@ -572,9 +594,15 @@
         } else {
           item.started = true
           item.finished = true
+          this.tableDataItem.forEach((val,index) => {
+            if(val.id === value.id){
+              this.tableDataItem.splice(index, 1)
+            }
+          })
+          return false
         }
         let msec = date - now
-        this.t--
+        this.t++
 
         // 计算时分秒数
         item.day = parseInt(msec / 1000 / 60 / 60 / 24)
@@ -588,7 +616,7 @@
         // 倒计时开始
         if (msec >= 0) {
           setTimeout(() => {
-            this.countdown(item)
+            this.countdown(value)
           }, 1000)
         }
       }
@@ -621,7 +649,7 @@
     .has-gutter {
       tr {
         th {
-          background-color: rgba(0, 0, 0, 0.05);
+          background-color: #f2f2f2;
           .el-checkbox {
             margin-left: -16px;
           }

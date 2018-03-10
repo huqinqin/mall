@@ -20,18 +20,17 @@
       <div class="detail-sku-box" v-if="item.price">
         <!-- 商品标题-->
         <h3>{{item.item_name}}</h3>
-        <!--<p class="brief">{{item.promotion_title}}</p>-->
         <!-- 商品属性-->
-        <div class="slogan" v-if="!finished">
+        <div class="slogan" :class="{ isFinished: finished }">
           <span v-if="item.discount_type == 1" class="bold">{{ $t("main.detail.info.mainDetInfoDisGoods") }}</span>
-          <span v-else-if="item.discount_type == 2"
-                class="bold">{{ $t("main.detail.info.mainDetInfoDepriceGoods") }}</span>
+          <span v-else-if="item.discount_type == 2" class="bold">{{ $t("main.detail.info.mainDetInfoDepriceGoods") }}</span>
           <span v-else-if="item.discount_type == 4" class="bold">{{ $t("main.detail.info.mainDetInfoLimit") }}</span>
-          <div class="count" v-if="started && !finished">
+          <div class="count" style="margin-right:24px;" v-if="finished">{{ $t("main.detail.info.mainDetInLimitOver") }}</div>
+          <div class="count" v-if="(item.discount_type == 4) && (!finished)">
             <span v-if="!started" class="bold">{{ $t("main.detail.info.mainDetInfoDown") }}</span>
             <span v-if="started" class="bold">{{ $t("main.detail.info.mainDetInfoEnd") }}</span>
             <span v-if="day>0">{{day}}{{ $t("main.detail.info.mainDetInfoDay") }}</span>
-            <span><div>{{hr}}</div>:<div>{{min}}</div>:<div>{{sec}}</div></span>
+            <span v-if="!finished"><div>{{hr}}</div>:<div>{{min}}</div>:<div>{{sec}}</div></span>
           </div>
         </div>
         <el-form label-position="left" label-width="120px" ref="ruleForm">
@@ -41,14 +40,27 @@
               <lts-money :money="item.price"></lts-money>
             </div>
             <div v-ltsLoginShow:true class="detail_price" v-else>
-              <lts-money :money="checkedSpu.price"></lts-money>
+              <span v-if="item.discount_type === 1">
+                <lts-money :money="checkedSpu.price * item.discount / 100" />
+                <span class="oldPrice"><lts-money :money="checkedSpu.price" /></span>
+              </span>
+              <span v-else-if="item.discount_type === 2">
+                <lts-money :money="checkedSpu.price - item.discount" />
+                <span class="oldPrice"><lts-money :money="checkedSpu.price" /></span>
+              </span>
+              <span v-else-if="item.discount_type === 4">
+                <lts-money :money="item.sale_rule_do.price" />
+                <span class="oldPrice"><lts-money :money="checkedSpu.price" /></span>
+              </span>
+              <span v-else><lts-money :money="checkedSpu.price"></lts-money></span>
             </div>
           </el-form-item>
           <div :class="[showPropsError ? 'error' : '']" @click="closeError">
             <el-form-item v-for="prop in item.item_prop_value_maps" :key="prop.prop_name" :label="prop.prop_name" class="radio sku_prop">
               <el-radio-group v-model="prop.checked_prop" @change="checkedProp(prop,item,'checkedSku')">
                 <el-radio v-for="propValue in prop.prop_values" :disabled="!propValue.can_checked" :label="propValue.value" :key="propValue.value">
-                  {{propValue.value}}<i class="iconfont icon-duihao"></i>
+                  {{propValue.value}}
+                    <!--<i class="iconfont icon-duihao"></i>-->
                 </el-radio>
               </el-radio-group>
             </el-form-item>
@@ -67,7 +79,7 @@
           <el-form-item :label='$t("main.detail.info.mainDetInfoCozyTip")' class="mark">
             <p>{{ $t("main.detail.info.mainDetInfoNoReason") }}</p>
           </el-form-item>
-          <el-form-item class="buttons" v-if="item.status == 1">
+          <el-form-item class="buttons" v-if="item.status == 1 && !finished">
             <lts-login display="inline-block">
                <el-button @click.stop="buyNow"  type="button">
                   {{ $t("main.detail.info.mainDetInfoImme") }}
@@ -79,7 +91,7 @@
                 </el-button>
             </lts-login>
           </el-form-item>
-          <el-form-item class="buttons-disabled" v-else>
+          <el-form-item class="buttons-disabled" v-else-if="item.status != 1 || finished">
             <el-button type="info" plain disabled>
               {{ $t("main.detail.info.mainDetInfoOffShelf") }}
             </el-button>
@@ -126,8 +138,12 @@
           <div class="briefInfo">
             <div class="img" :style="'background-image: url(' + item.image_value + ')'"></div>
             <div class="name">{{item.item_name}}</div>
-            <div class="price" v-if="!checkedSpu.price"><span class="red"><lts-money :money="item.price"></lts-money></span></div>
-            <div class="price" v-else><span class="red"><lts-money :money="checkedSpu.price"></lts-money></span></div>
+            <div class="price" v-if="!checkedSpu.price"><span class="red" style="font-size: 14px;">{{ $t("main.detail.info.mainDetInfoNoChoose") }}</span></div>
+            <div class="price" v-if="checkedSpu.price"><span class="red">
+              <span v-if="item.discount_type === 1"><lts-money :money="checkedSpu.price * item.discount / 100"></lts-money></span>
+              <span v-else-if="item.discount_type === 2"><lts-money :money="checkedSpu.price - item.discount"></lts-money></span>
+              <span v-else-if="item.discount_type === 4"><lts-money :money="item.sale_rule_do.price"></lts-money></span>
+            </span></div>
           </div>
           <div class="icon-handle"><i class="iconfont icon-jiahaocu"></i></div>
           <el-button class="handlePage" @click="pre" disabled><i class="el-icon-caret-left"></i></el-button>
@@ -146,11 +162,11 @@
                   </el-form-item>
                   <el-form-item :label=' $t("main.detail.info.mainDetInfoPrice")' class="price">
                     <div class="tips" v-ltsLoginShow:false>{{ $t("main.detail.info.mainDetInfoComp") }}</div>
-                    <div v-ltsLoginShow:true class="detail_price" v-if="!checkedSpu.price">
+                    <div v-ltsLoginShow:true class="detail_price" v-if="!otherSpu.price">
                       <lts-money :money="value.price"></lts-money>
                     </div>
                     <div v-ltsLoginShow:true class="detail_price" v-else>
-                      <lts-money :money="checkedSpu.price"></lts-money>
+                      <lts-money :money="otherSpu.price"></lts-money>
                     </div>
                   </el-form-item>
                   <el-form-item :label='$t("main.detail.info.mainDetInfoAmount")' class="num">
@@ -181,12 +197,12 @@
                       <div class="name">{{item.item.name}}</div>
                       <div class="props">{{ $t("main.detail.info.mainDetCkeckedProp") }}：{{item.otherProp.newProps}}</div>
                       <div class="about">
-                        <div class="num">{{ $t("main.detail.info.mainDetNum") }}：{{item.item.num}}个</div><div class="price">{{ $t("main.detail.info.mainDetSinglePrice") }}：<span class="bold red" v-if="item.otherProp.price"><lts-money :money="item.otherProp.price"></lts-money></span></div>
+                        <div class="num">{{ $t("main.detail.info.mainDetNum") }}：{{item.item.num}}</div><div class="price">{{ $t("main.detail.info.mainDetSinglePrice") }}：<span class="bold red" v-if="item.otherProp.price"><lts-money :money="item.otherProp.price"></lts-money></span></div>
                       </div>
                     </div>
                   </li>
                 </ul>
-                <p v-else>{{ $t("main.detail.info.mainDetNoAnyPackage") }}</p>
+                <span v-else>{{ $t("main.detail.info.mainDetNoAnyPackage") }}</span>
                 <i class="el-icon-warning" slot="reference"></i>
               </el-popover>
             </p>
@@ -359,7 +375,12 @@
           data.data.item.item_struct_props.forEach((value, index, array) => {
             value.propValues = JSON.parse(value.prop_value)
           })
-          this.aboutDetail = data.data.item.item_struct_props
+
+         data.data.item.item_struct_props.forEach((value,index,array)=>{
+              if(!value.sku){
+                  this.aboutDetail.push(value);
+              }
+         })
           this.otherGoods = data.data.item.package_item_list
           this.item = data.data.item
           this.activeImg = this.item.item_images[0]
@@ -430,6 +451,7 @@
             if (count >= skuLength && sku.storage > 0) {
               if (type === 'checkedSku') {
                 self.checkedSpu = sku
+
               }else if(type === 'otherSku'){
                 self.otherSpu = sku
               }
@@ -521,8 +543,6 @@
       },
       selectModel(id){
         itemService.getItemProps(id).then((data) => {
-          // let qwe = JSON.stringify({"data":{"activity_price":0,"advance":false,"app_show":false,"attr_activity":true,"attribute":4194305,"best_box":false,"beyond_num":0,"biz_type":101,"brand":"LTS","cart":[],"category_name":"","category_id":9487695,"cdate":1517809106000,"commission_s":0,"commission_t":0,"cost_price_value":"0.01","cost_price":1,"count":null,"cut":false,"description":"","discount":50,"discount_type_cname":"æ‰“æŠ˜","discount_type":1,"distribution":false,"diy_price":false,"edate":1517822273000,"end_time":null,"fixed":false,"follow_num":0,"group":false,"hd_method":2304,"id":2101472,"image_value":"http://res.500mi.com/item/240c01b643302fdc25cbd7b2e084f212.png","item_images":[{"url":"http://ltsres-us.oss-us-west-1.aliyuncs.com/item/240c01b643302fdc25cbd7b2e084f212.png","value":"240c01b643302fdc25cbd7b2e084f212.png"}],"item_prop_value_maps":[{"checked_prop":"","prop_name":"Brand","prop_values":[{"can_checked":true,"value":"Starlink"}]}],"item_name":"NA-SLE3/4G-CB-TF, StarLinkâ„¢ NAPCO Alarm Communicator for Universal Cell or IP","item_struct_props":[{"attribute":1792,"id":747,"img_url":"","multi_select":false,"price":23,"price_real":null,"price_action":1,"prop_value":"{\"Brand\":\"Starlink\"}","props":"Starlink","required":false,"search":true,"selectable":false,"show":true,"sin":"NA-SLE3/4G-CB-TF","sku":true,"spec":false,"spu_id":180515,"storage":100.000,"system":false,"value_type":0}],"manager_cate_name":"","manager_cate_id":0,"member_price":1,"member_price_value":"0.01","min_num":0.000,"module_id":null,"module_sku_id":null,"no_rebate":false,"num":null,"open_code":"lts2open","open_codes":"","order_promotion":true,"order_num":0.000,"orign":"Shenzhen","package_item_list":[],"parent_id":0,"partner":null,"partner_id":79376,"partner_name":"","percent":true,"prepay":false,"presale":false,"price":1,"price_real":null,"price_real_value":"","price_value":"0.01","price_define":"","price_define_do":null,"promotion_title":"NA-SLE3/4G-CB-TF","props":"{}","props_ext":"","puser_id":158667,"rank":0,"retail":false,"safe_num":0.000,"sale_rule":"","sale_rule_do":{"commission_rate":null,"end_time":"","maxinum":null,"minimum":null,"price":null,"start_time":"","total":null,"virtual_start":null},"send_rule":"","share_num":0,"shop_name":"","shop_id":28616,"short_code":"","sin":"2010000438745","sinr":"2010000438745","size":"{\"h\":1,\"l\":1,\"w\":1}","size_d_o":{"h":1,"l":1,"volume":1,"w":1},"sku_cost_price_value":"","sku_cost_price":null,"sku_id":819252,"sku_total":0,"soldout":false,"spec":"æ— æè¿°","special":"","spot_price_value":"0","spot_rule_d_o":null,"spot_price":0,"spot_rule":"","spu_d_o":null,"spu_id":180514,"start_time":null,"status":1,"status_cname":"å·²ä¸Šæž¶","stock_out":0.000,"storage":0.000,"storage_num":null,"tag":"çƒ­å–å•†å“","type":41,"type_ch":false,"type_fa":false,"unit":"Piece","upshelf":true,"url":"240c01b643302fdc25cbd7b2e084f212.png","urls":"240c01b643302fdc25cbd7b2e084f212.png","warehousing":true,"weight":1.000,"wholesale":true},"error_code":999,"error_message":"","error_name":"SERVICE_ERROR","fail":false,"success":true,"success_message":""})
-          // this.otherGoodsItem = JSON.parse(qwe).data
           this.otherGoodsItem = data.data
           if(this.otherGoods){
             this.otherGoods.forEach((item) => {
@@ -532,39 +552,33 @@
              }
             })
           }
-          console.log(data)
         },(msg) => {
           this.$ltsMessage({type:'error',message:msg.error_message})
         })
       },
       addOthers (value){
         this.otherSpu.newProps = this.otherSpu.props.split(',').join('/')
+        let obj = {
+          item:{
+            id:value.id,
+            num:value.num,
+            img:value.image_value,
+            name:value.item_name
+          },
+          otherProp:this.otherSpu
+        }
         if(this.checkedOthers.length > 0){
-          for(let i = 0;i < this.checkedOthers.length;i++){
-            if(this.checkedOthers[i].item.id === value.id){
-              this.checkedOthers[i].item.num = value.num
-            }else{
-              this.checkedOthers.push({
-                item:{
-                  id:value.id,
-                  num:value.num,
-                  img:value.image_value,
-                  name:value.item_name
-                },
-                otherProp:this.otherSpu
-              })
-            }
+          if(JSON.stringify(this.checkedOthers).indexOf(value.id) !== -1){
+            this.checkedOthers.forEach((val) => {
+              if(val.item.id == value.id){
+                val.item.num = value.num
+              }
+            })
+          }else{
+            this.checkedOthers.push(obj)
           }
         }else{
-          this.checkedOthers.push({
-            item:{
-              id:value.id,
-              num:value.num,
-              img:value.image_value,
-              name:value.item_name
-            },
-            otherProp:this.otherSpu
-          })
+          this.checkedOthers.push(obj)
         }
       },
       otherItemNum(row,value){
@@ -572,10 +586,20 @@
       },
       // 添加套餐到购物车
       addPackage(){
-        this.addCart (this.item, this.checkedSpu)
+        if(this.checkedSpu){
+          this.addCart (this.item, this.checkedSpu)
+        }
         if(this.checkedOthers.length > 0){
           this.checkedOthers.forEach((item) => {
-            this.addCart (item.item, item.otherProp)
+            // this.addCart (item.item, item.otherProp)
+            cartService.putCartPlus(item.item, item.otherProp).then((data) => {
+              if (!this.showPropsError) {
+                this.flag = true
+              }
+              this.selfContext.$emit('addCartSuccess')
+            }, (msg) => {
+              this.$ltsMessage.show({type: 'error', message: msg.error_message})
+            })
           })
         }
       }
@@ -586,26 +610,31 @@
     },
     computed: {
       packagePrice: function(){
-        let price = this.item.price
+        let price = 0
         if(this.checkedSpu.price){
-          price = this.checkedSpu.price
+          if(this.item.discount_type === 1){
+            price = this.checkedSpu.price * item.discount / 100
+          }else  if(this.item.discount_type === 2){
+            price = this.checkedSpu.price - item.discount
+          }else  if(this.item.discount_type === 4){
+            price = this.item.sale_rule_do.price
+          }
         }
         if(this.checkedOthers.length > 0){
           this.checkedOthers.forEach((item) => {
             price += item.otherProp.price * item.item.num
           })
         }
-
         return price
-      }
+      },
     }
   }
 </script>
 
 <style lang="less">
   .othersPopover{
-    width:280px;
     padding:12px;
+    padding-right: 24px;
     .el-form-item {
       margin-bottom: 0;
       .detail_price{
@@ -634,6 +663,7 @@
       color: #ff3b41;
       font-size: 18px;
       font-weight: bold;
+
     }
     .radio {
       .el-radio {
@@ -806,7 +836,6 @@
     }
     .el-breadcrumb {
       font-size: 14px;
-      margin-bottom: 24px;
     }
 
     .detail-top {
@@ -910,7 +939,7 @@
           position: relative;
           span.bold {
             font-weight: bold;
-            margin: 0 12px 0 24px;
+            margin: 0 6px 0 12px;
           }
           .count {
             position: absolute;
@@ -927,15 +956,18 @@
               background: #451012;
               margin: -4px 2px;
               border-radius: 4px;
-            }
-            div:first-child {
-              margin-left: 12px;
+                padding-left: 2px;
             }
             div:last-child {
-              margin-right: 16px;
+              margin-right: 12px;
             }
           }
         }
+          .slogan.isFinished{
+              background-image: none;
+              background-color: #f3f3f3;
+              color: #bbb;
+          }
         p.brief {
           margin: 6px 0 16px 0;
           span {
@@ -963,6 +995,11 @@
           color: #ff3b41;
           font-size: 18px;
           font-weight: bold;
+          span.oldPrice{
+            color: #9a9a9a;
+            text-decoration:line-through;
+            font-size: 14px;
+          }
         }
         .radio {
           .el-radio {
@@ -1008,10 +1045,10 @@
             content: '';
             width: 0;
             height: 0;
-            border-right: 4px solid red;
-            border-bottom: 4px solid red;
-            border-top: 4px solid transparent;
-            border-left: 4px solid transparent;
+            border-right: 6px solid red;
+            border-bottom: 6px solid red;
+            border-top: 6px solid transparent;
+            border-left: 6px solid transparent;
             position: absolute;
             bottom: 0;
             right: 0;
@@ -1083,6 +1120,7 @@
         .buttons {
           display: inline-block;
           button {
+            padding: 0;
             width: 160px;
             height: 40px;
             border: 1px solid #ff3b41;
@@ -1161,12 +1199,12 @@
         }
         ul.others{
           padding:0 24px;
-          width:925px;
+          width:640px;
           display: flex;
           li.othersItem{
             margin-left: 24px;
             .el-button{
-              width:80px;
+              width:100px;
               height: 24px;
               padding:0;
               color:#ff3b41;

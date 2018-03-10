@@ -111,14 +111,7 @@
                         { required: true, message: this.$t("main.accountNew.register.mainAcReContentNotNull"), trigger: 'blur' },
                     ],
                     email:validatorConfig.email,
-                    /*pass: [
-                        { required: true, message: '内容不能为空', trigger: 'blur' },
-                        { min: 8, max: 20, message: '密码长度为8到20个字符', trigger: 'blur' },
-                    ],*/
-                   /* checkPass: validatorConfig.passwordRepeat((rule, value, callback)=>{
-                        validatorConfig.validatePasswordRepeat(this.resetForm.pass, value, callback)
-                    }),*/
-                    mobile:validatorConfig.mobile,
+                    mobile:validatorConfig.phone,
                     address:validatorConfig.address,
                 },
                 options: [{

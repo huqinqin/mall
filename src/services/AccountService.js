@@ -15,7 +15,7 @@ export default class AccountService extends BaseService {
         let params = {
             email: form.email,
             captcha: form.code,
-            second_password: form.pass
+            second_password: md5(form.pass)
         }
         return super.getRequest('/user/reset_password', params)
     }

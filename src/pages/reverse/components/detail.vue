@@ -108,8 +108,26 @@
                     <div>{{detail.wholesale_order.user_addr}}</div>
                 </el-form-item>
                 <el-form-item :label='$t("main.order.detail.mainOrDePayInfo")'>
-                    <div>{{$t("main.order.detail.mainOrDeCard")}}</div>
-                    <div>{{$t("main.order.detail.mainOrDeAccount")}}</div>
+                    <div>
+                        {{$t("main.order.detail.mainOrDeCard")}}
+                        <lts-money v-if="detail.wholesale_order.pay_info.pay_remark && detail.wholesale_order.pay_info.pay_remark.ANET_CREDIT_CARD > 0" :money="detail.wholesale_order.pay_info.pay_remark.ANET_CREDIT_CARD" ></lts-money>
+                        <span v-else>$0.00</span>
+                    </div>
+                    <div>
+                        {{$t("main.order.detail.mainOrDeAccount")}}
+                        <lts-money v-if="detail.wholesale_order.pay_info.pay_remark && detail.wholesale_order.pay_info.pay_remark.CREDIT > 0" :money="detail.wholesale_order.pay_info.pay_remark.CREDIT" ></lts-money>
+                        <span v-else>$0.00</span>
+                    </div>
+                    <div>
+                        {{$t("main.order.detail.mainOrDeYue")}}
+                        <lts-money v-if="detail.wholesale_order.pay_info.balance_pay && detail.wholesale_order.pay_info.balance_pay > 0" :money="detail.wholesale_order.pay_info.balance_pay" ></lts-money>
+                        <span v-else>$0.00</span>
+                    </div>
+                    <div>
+                        {{$t("main.order.detail.mainOrDeGouwu")}}
+                        <lts-money v-if="detail.wholesale_order.pay_info.acc_bonus_pay && detail.wholesale_order.pay_info.acc_bonus_pay" :money="detail.wholesale_order.pay_info.acc_bonus_pay" ></lts-money>
+                        <span v-else>$0.00</span>
+                    </div>
                 </el-form-item>
                 <el-form-item :label='$t("main.order.detail.mainOrDeOrderStatus")'>
                     {{detail.wholesale_order.status_title}}
@@ -177,6 +195,7 @@
         methods: {
             get () {
                 revereService.get(this.detail.id).then((resp) => {
+                    resp.data.wholesale_order.pay_info.pay_remark = JSON.parse(resp.data.wholesale_order.pay_info.pay_remark_string)
                     resp.data.wholesale_order.sell_order_list[0].wholesale_order_items.forEach((value,index,array)=>{
                         if(value.tid == resp.data.reverse.oid){
                             resp.data.wholesale_order.wholesale_order_items.push(value);

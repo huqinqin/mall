@@ -44,7 +44,7 @@
                                 <template>
                                 </template>
                             </el-table-column>
-                            <el-table-column prop="status_title" width="80" align="center">
+                            <el-table-column prop="status_title" width="160" align="left">
                                 <template slot-scope="subscope">
                                         <!--<span v-if="subscope.row.status != 9">-->
                                             <!--<span v-if="subscope.row.last_refund_status == 1">-->
@@ -65,7 +65,7 @@
                                                  {{$t("main.order.list.mainOrLiReject")}}
                                             </span>
                                             <span v-else-if="subscope.row.last_refund_status == 7">
-                                                 {{$t("main.order.list.mainOrLiAlreadyBack")}}{{subscope.row.refund_num}}{{subscope.row.wholesale_item_d_o.unit}}{{subscope.row.refund_real | money2str}}{{$t("main.repayMent.readyPay.mainReReDollar")}}
+                                                 {{$t("main.order.list.mainOrLiAlreadyBack")}} {{subscope.row.refund_num}} {{subscope.row.wholesale_item_d_o.unit}}{{subscope.row.refund_real | money2str}} {{$t("main.repayMent.readyPay.mainReReDollar")}}
                                             </span>
                                             <span v-else-if="subscope.row.last_refund_status == 9">
                                                  {{$t("main.order.list.mainOrLiClose")}}
@@ -110,12 +110,20 @@
                     <div><lts-money :money="scope.row.fee_total"></lts-money></div>
                 </template>
             </el-table-column>
-            <el-table-column prop="status_title" :label='$t("main.order.list.mainOrLiTransationSta")' align="left" width="80">
+            <el-table-column prop="status_title" :label='$t("main.order.list.mainOrLiTransationSta")' align="left" width="160">
                 <template slot-scope="scope">
-                    <span type="success" v-if="scope.row.status == 7 || scope.row.status == 9">
-                        {{scope.row.status_title}}
+                    <span v-if="scope.row.status == 0">
+                        {{$t("main.order.list.mainOrLiWaitPay")}}
                     </span>
-                    <span v-else>{{scope.row.status_title}}</span>
+                    <span v-else-if="scope.row.status == 1">
+                        {{$t("main.order.list.mainOrLiRealPay")}}
+                    </span>
+                    <span v-else-if="scope.row.status == 7">
+                        {{$t("main.order.list.mainOrLiRealComp")}}
+                    </span>
+                    <span v-else-if="scope.row.status == 9">
+                        {{$t("main.order.list.mainOrLiRealClose")}}
+                    </span>
                     <div v-if="scope.row.last_refund_status > 0 && scope.row.last_refund_status < 9" style="color: #ff3b41;">
                       {{$t("main.order.list.mainOrLiRefund")}}
                     </div>

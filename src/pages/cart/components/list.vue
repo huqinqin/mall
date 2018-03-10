@@ -25,7 +25,7 @@
                 <template slot-scope="subscope">
                   <a :href="'/detail#/?id=' + subscope.row.id">
                     <div class="item-img"
-                         :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+subscope.row.url+')'}"></div>
+                         :style="{backgroundImage : 'url(' + subscope.row.full_url + ')'}"></div>
                     <div class="content">
                       <p :title="subscope.row.item_name">{{subscope.row.item_name}}</p>
                     </div>
@@ -96,7 +96,7 @@
                 <template slot-scope="subscope">
                   <a :href="'/detail#/?id=' + subscope.row.id">
                     <div class="item-img"
-                         :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+subscope.row.url+')'}"></div>
+                         :style="{backgroundImage : 'url(' + subscope.row.full_url + ')'}"></div>
                     <div class="content">
                       <p :title="subscope.row.item_name">{{subscope.row.item_name}}</p>
                     </div>
@@ -153,17 +153,17 @@
           <div v-else-if="scope.row.limit && scope.row.limit.length>0" >
             <div v-for="limitItem in scope.row.limit" :key="limitItem.id" class="limitTable subtable">
               <div class="popover">
-                <div class="popTitle">{{ $t("main.cart.list.mainCartliOnsaleLimits") }}</div>
+                <div class="popTitle" :class="{ 'noStart': !limitItem[0].rule.started }">{{ $t("main.cart.list.mainCartliOnsaleLimits") }}</div>
                 <div class="popDetail" :class="[{ 'noStart': !limitItem[0].rule.started }, {'started': limitItem[0].rule.started}]">
                   <div v-if="!limitItem[0].rule.finished">
                     <span v-if="limitItem[0].rule.started">{{$t("main.cart.list.mainCartliEndCountdown")}}</span>
-                    <span v-if="!limitItem[0].rule.started">{{$t("main.cart.list.mainCartliStartCountdown")}}</span>：
+                    <span v-else>{{$t("main.cart.list.mainCartliStartCountdown")}}</span>：
                     <span v-if="limitItem[0].rule.day">{{limitItem[0].rule.day}}{{$t("main.detail.info.mainDetInfoDay")}}</span>
                   </div>
                   <div v-else-if="limitItem[0].rule.finished">
                     <span>{{$t("main.detail.info.mainDetInLimitOver")}}</span>
                   </div>
-                  <div class="timeDown" v-if="limitItem[0].rule.started && (!limitItem[0].rule.finished)">
+                  <div class="timeDown" v-if="!limitItem[0].rule.finished">
                     <span v-show="false">{{t}}</span>
                     <div>{{limitItem[0].rule.hr}}</div>:
                     <div>{{limitItem[0].rule.min}}</div>:
@@ -177,14 +177,14 @@
                 style="width: 100%">
                 <el-table-column align="center" width="48">
                   <template slot-scope="subscope">
-                    <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)" :disabled="subscope.row.rule.finished || (!subscope.row.rule.started)"></el-checkbox>
+                    <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)" :disabled="!(subscope.row.rule.started && !subscope.row.rule.finished)"></el-checkbox>
                   </template>
                 </el-table-column>
                 <el-table-column align="center" width="600">
                   <template slot-scope="subscope">
                     <a :href="'/detail#/?id=' + subscope.row.id">
                       <div class="item-img"
-                           :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+subscope.row.url+')'}"></div>
+                           :style="{backgroundImage : 'url(' + subscope.row.full_url + ')'}"></div>
                       <div class="content">
                         <p :title="subscope.row.item_name">{{subscope.row.item_name}}</p>
                       </div>
@@ -253,7 +253,7 @@
                 <template slot-scope="subscope">
                   <a :href="'/detail#/?id=' + subscope.row.id">
                     <div class="item-img"
-                         :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+subscope.row.url+')'}"></div>
+                         :style="{backgroundImage : 'url(' + subscope.row.full_url + ')'}"></div>
                     <div class="content">
                       <p :title="subscope.row.item_name">{{subscope.row.item_name}}</p>
                     </div>
@@ -404,14 +404,25 @@
       selectAll () {
         if (this.selectedAll) {
           this.checkedItem = this.tableDataItem
+            console.log(this.checkedItem)
+            this.checkedItem.forEach((item, index) => {
+                if(item.rule.started && !item.rule.finished){
+
+                }else{
+                    this.checkedItem.splice(index, 1)
+                }
+            })
           this.tableData.forEach((table,index,array) => {
             for(let key in table){
               this.tableData[index][key].forEach((item,count) => {
                  if(item.length > 0){
-                   item[0].checked = true;
-                   let cloneItem = item[0];
-                   Vue.set(item,0,cloneItem);
-                   item[0].checked = true;
+                     if(item[0].rule.started && !item[0].rule.finished){
+                         item[0].checked = true;
+                         let cloneItem = item[0];
+                         Vue.set(item,0,cloneItem);
+                         item[0].checked = true;
+                     }else{
+                     }
                  }else{
                     item.checked = true;
                  }
@@ -511,6 +522,10 @@
               value.item_props[0].storage = value.rule.maxinum
               value.rule.end = Date.parse(value.rule.endTime)
               value.rule.start = Date.parse(value.rule.startTime)
+              // value.rule.end = 1520438400000
+              // value.rule.start = 1519833600000
+              // value.rule.end = 1553702400000
+              // value.rule.start = 1552838400000
                 value.realPrice = value.rule.price
               let now = Date.parse(new Date())
               if (value.rule.end > now) {
@@ -581,11 +596,14 @@
           item.started = false
           item.finished = false
           date = item.start
-          this.tableDataItem.forEach((val,index) => {
-            if(val.id === value.id){
-              this.tableDataItem.splice(index, 1)
+            if(this.tableDataItem.length){
+                this.tableDataItem.forEach((val,index) => {
+                    if(val.id === value.id){
+                        this.tableDataItem.splice(index, 1)
+                    }
+                })
             }
-          })
+
         } else if (start <= now <= end) {
           // 开始了还没结束
           item.started = true
@@ -722,12 +740,14 @@
                 }
               }
             }
-            .popDetail.noStart{
+            .noStart{
               background: #a7a7a7;
               .timeDown div{
                 background: #6d6d6d;
               }
-            }
+            }.noStart::before {
+                 border-top: 8px solid #a7a7a7;
+             }
             .popDetail.started{
               background: #f48719;
               .timeDown div{

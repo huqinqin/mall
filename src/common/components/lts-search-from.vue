@@ -2,7 +2,7 @@
     <div>
         <div v-for="(bar,key) in formFileds" :key="key">
             <div v-for="(menubar,menukey) in bar">
-                <el-form :inline="true" :model="formInline" class="demo-form-inline" if="formInline">
+                <el-form :inline="true" :label-position="position"  :model="formInline"  class="demo-form-inline" if="formInline">
                     <el-form-item v-for="(val,key) in menubar" :label="val.label" :key="val.bindValue">
                         <div v-if="val.type == 'datetimerange'">
                             <el-date-picker
@@ -83,7 +83,16 @@
 
     export default {
         name: 'lts-form',
-        props: ['formInlines', 'formFileds', 'autocomplete','cascader'],
+        props: {
+            formInlines : Object,
+            formFileds : Array,
+            autocomplete: Object,
+            cascader: Object,
+            labelPosition:{
+                type : String,
+                default : "top"
+            }
+        },
         data() {
             return {
                 datelist: '',
@@ -94,8 +103,52 @@
                 restaurants: [],
                 state1: '',
                 state2: '',
+                position : this.labelPosition,
                 datePickerOptions: {
-                    shortcuts: dateUtils.datePickerOptionsShortcuts
+                    shortcuts: [
+                        {
+                            text: this.$t('main.finance.mainfiLastWeek'),
+                            onClick(picker) {
+                                const end = new Date();
+                                const start = new Date();
+                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                                picker.$emit('pick', [start, end]);
+                            }
+                        }, {
+                            text: this.$t('main.finance.mainfiLastMouth'),
+                            onClick(picker) {
+                                const end = new Date();
+                                const start = new Date();
+                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                                picker.$emit('pick', [start, end]);
+                            }
+                        }, {
+                            text: this.$t('main.finance.mainfiLastThhreeM'),
+                            onClick(picker) {
+                                const end = new Date();
+                                const start = new Date();
+                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                                picker.$emit('pick', [start, end]);
+                            }
+                        }
+//                        , {
+//                            text: '最近半年',
+//                            onClick(picker) {
+//                                const end = new Date();
+//                                const start = new Date();
+//                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 180);
+//                                picker.$emit('pick', [start, end]);
+//                            }
+//                        }, {
+//                            text: '最近一年',
+//                            onClick(picker) {
+//                                const end = new Date();
+//                                const start = new Date();
+//                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 365);
+//                                picker.$emit('pick', [start, end]);
+//                            }
+//                        }
+                    ]
                 }
             }
         },

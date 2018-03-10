@@ -181,7 +181,7 @@ export default {
                 mainDetInfoDown: '开始倒计时',
                 mainDetInfoEnd: '距离结束',
                 mainDetInfoDay: '天',
-                mainDetInLimitOver: '活动结束',
+                mainDetInLimitOver: '活动已结束',
                 mainDetInfoPrice: '价格',
                 mainDetInfoNoChoose: '未选择该商品',
                 mainDetInfoComp: '完成登录注册，享受惊爆价',
@@ -354,7 +354,7 @@ export default {
                 mainPerCarDisPic: '分销证照片',
                 mainPerCarDisProveNum: '分销证号',
                 mainPerCarCompany: '公司名',
-                mainPerCarAddress: '地址',
+                mainPerCarAddress: '详细地址',
                 mainPerCarCity: '城市',
                 mainPerCarCountry: '国家',
                 mainPerCarEnterCoun: '请选择国家',
@@ -375,6 +375,8 @@ export default {
                 mainPerCarSeleCount: '请选择国家',
                 mainPerCarSeleState: '请选择州',
                 mainPerCarPutZip: '请输入邮编',
+                mainPerCarUpDate: '上传时间',
+                mainPerCarDisStatus: '分销证状态',
             },
             password: {
                 mainPerPwdsetter: '密码设置',
@@ -415,7 +417,8 @@ export default {
                 mainPerRePhone: '手机号码',
                 mainPerReEnterCont: '请输入内容',
                 mainPerReTeleNum: '电话号码',
-                mainPerReEnterPhone: '请输入手机号'
+                mainPerReEnterPhone: '请输入手机号',
+                mainPerReConsigee: '收货人',
             },
         },
         repayMent: {

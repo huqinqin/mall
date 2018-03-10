@@ -20,18 +20,17 @@
       <div class="detail-sku-box" v-if="item.price">
         <!-- 商品标题-->
         <h3>{{item.item_name}}</h3>
-        <!--<p class="brief">{{item.promotion_title}}</p>-->
         <!-- 商品属性-->
-        <div class="slogan" v-if="!finished">
+        <div class="slogan" :class="{ isFinished: finished }">
           <span v-if="item.discount_type == 1" class="bold">{{ $t("main.detail.info.mainDetInfoDisGoods") }}</span>
-          <span v-else-if="item.discount_type == 2"
-                class="bold">{{ $t("main.detail.info.mainDetInfoDepriceGoods") }}</span>
+          <span v-else-if="item.discount_type == 2" class="bold">{{ $t("main.detail.info.mainDetInfoDepriceGoods") }}</span>
           <span v-else-if="item.discount_type == 4" class="bold">{{ $t("main.detail.info.mainDetInfoLimit") }}</span>
+          <div class="count" style="margin-right:24px;" v-if="finished">{{ $t("main.detail.info.mainDetInLimitOver") }}</div>
           <div class="count" v-if="(item.discount_type == 4) && (!finished)">
             <span v-if="!started" class="bold">{{ $t("main.detail.info.mainDetInfoDown") }}</span>
             <span v-if="started" class="bold">{{ $t("main.detail.info.mainDetInfoEnd") }}</span>
             <span v-if="day>0">{{day}}{{ $t("main.detail.info.mainDetInfoDay") }}</span>
-            <span v-if="finished"><div>{{hr}}</div>:<div>{{min}}</div>:<div>{{sec}}</div></span>
+            <span v-if="!finished"><div>{{hr}}</div>:<div>{{min}}</div>:<div>{{sec}}</div></span>
           </div>
         </div>
         <el-form label-position="left" label-width="120px" ref="ruleForm">
@@ -60,7 +59,8 @@
             <el-form-item v-for="prop in item.item_prop_value_maps" :key="prop.prop_name" :label="prop.prop_name" class="radio sku_prop">
               <el-radio-group v-model="prop.checked_prop" @change="checkedProp(prop,item,'checkedSku')">
                 <el-radio v-for="propValue in prop.prop_values" :disabled="!propValue.can_checked" :label="propValue.value" :key="propValue.value">
-                  {{propValue.value}}<i class="iconfont icon-duihao"></i>
+                  {{propValue.value}}
+                    <!--<i class="iconfont icon-duihao"></i>-->
                 </el-radio>
               </el-radio-group>
             </el-form-item>
@@ -79,7 +79,7 @@
           <el-form-item :label='$t("main.detail.info.mainDetInfoCozyTip")' class="mark">
             <p>{{ $t("main.detail.info.mainDetInfoNoReason") }}</p>
           </el-form-item>
-          <el-form-item class="buttons" v-if="item.status == 1">
+          <el-form-item class="buttons" v-if="item.status == 1 && !finished">
             <lts-login display="inline-block">
                <el-button @click.stop="buyNow"  type="button">
                   {{ $t("main.detail.info.mainDetInfoImme") }}
@@ -91,7 +91,7 @@
                 </el-button>
             </lts-login>
           </el-form-item>
-          <el-form-item class="buttons-disabled" v-else>
+          <el-form-item class="buttons-disabled" v-else-if="item.status != 1 || finished">
             <el-button type="info" plain disabled>
               {{ $t("main.detail.info.mainDetInfoOffShelf") }}
             </el-button>
@@ -836,7 +836,6 @@
     }
     .el-breadcrumb {
       font-size: 14px;
-      margin-bottom: 24px;
     }
 
     .detail-top {
@@ -940,7 +939,7 @@
           position: relative;
           span.bold {
             font-weight: bold;
-            margin: 0 12px 0 24px;
+            margin: 0 6px 0 12px;
           }
           .count {
             position: absolute;
@@ -957,15 +956,18 @@
               background: #451012;
               margin: -4px 2px;
               border-radius: 4px;
-            }
-            div:first-child {
-              margin-left: 12px;
+                padding-left: 2px;
             }
             div:last-child {
-              margin-right: 16px;
+              margin-right: 12px;
             }
           }
         }
+          .slogan.isFinished{
+              background-image: none;
+              background-color: #f3f3f3;
+              color: #bbb;
+          }
         p.brief {
           margin: 6px 0 16px 0;
           span {
@@ -1043,10 +1045,10 @@
             content: '';
             width: 0;
             height: 0;
-            border-right: 4px solid red;
-            border-bottom: 4px solid red;
-            border-top: 4px solid transparent;
-            border-left: 4px solid transparent;
+            border-right: 6px solid red;
+            border-bottom: 6px solid red;
+            border-top: 6px solid transparent;
+            border-left: 6px solid transparent;
             position: absolute;
             bottom: 0;
             right: 0;

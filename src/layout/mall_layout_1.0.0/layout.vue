@@ -79,6 +79,12 @@
     }
     .gray{
         background-color: #eeeeee;
+        .lts-main .lts-content{
+            margin-top: 0;
+        }
+        .lts-head-bottom {
+            padding-bottom: 12px;
+        }
     }
     a{
         color:inherit;
@@ -151,10 +157,7 @@
             color: #999;
         }
         .lts-content{
+            margin-top: 12px;
         }
     }
-    .lts-head-bottom{
-        margin-bottom: 24px;
-    }
-
 </style>

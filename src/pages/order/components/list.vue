@@ -6,7 +6,7 @@
             <el-tab-pane :label='$t("main.order.list.mainOrLiWaitDeli")' name="noDeliver"></el-tab-pane>
             <el-tab-pane :label='$t("main.order.list.mainOrLiAlreadyDeli")' name="delivered"></el-tab-pane>
         </el-tabs>
-        <lts-search-form @get-from="getParameter" :form-fileds="form.formFileds" :form-inlines="form.formInline" ref="searchForm"/>
+        <lts-search-form @get-from="getParameter" :form-fileds="form.formFileds" :form-inlines="form.formInline"  ref="searchForm"/>
         <el-table :data="datalist" v-loading="loading" default-expand-all style="width: 100%;overflow: hidden;" class="order-table" :span-method="arraySpanMethod">
             <el-table-column type="expand">
                 <template slot-scope="scope">
@@ -95,7 +95,7 @@
             <el-table-column  :label='$t("main.cart.list.mainCartliGoodsInfo")' align="left">
                 <template slot-scope="scope">
                     <div>
-                        <span>{{scope.row.cdate | timestamp2str}}</span>
+                        <span>{{scope.row.cdate | timestamp2str}}</span>，
                         <span>{{$t("main.order.list.mainOrLiOrderNum")}}:{{scope.row.tid}}</span>
                         <!--<span style="color: #3b98ff;">{{$t("main.order.list.mainOrLiPayInfo")}}</span>-->
                         <!--<span style="font-size: 12px">{{$t("main.order.list.mainOrLiPhone")}}</span>-->

@@ -12,7 +12,8 @@ export default {
         }
     },
     validatePassword(rule, value, callback){
-        let reg =  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/;
+        //let reg =  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/;
+        let reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/;
         if(!reg.test(value)){
             callback(new Error('密码格式错误!'))
         }
@@ -32,7 +33,7 @@ export default {
     ],
     password: [
         {required: true, message: '内容不能为空', trigger: 'blur'},
-        {min: 8, max: 30, message: '密码长度在 8 到 30 个字符', trigger: 'blur'},
+        {min: 8, max: 30, message: '密码长度在 8 到 20 个字符，需包含大小写字母和数字', trigger: 'blur'},
         {validator: this.validatePassword, trigger: 'blur'}
     ],
     email: [

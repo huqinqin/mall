@@ -40,8 +40,8 @@
             <div class="header">
                 <div class="left">
                     <div class="synth" @click="selectOrderBy" data-value='A' :class='{active:activeItem == $t("main.search.mainSeaCompre")}'>{{$t("main.search.mainSeaCompre")}}</div>
-                    <div class="price" @click="selectOrderBy" data-value='B' :class='{active:activeItem == $t("main.search.mainSeaPrice"),isDesc:priceDesc}'>{{$t("main.search.mainSeaPrice")}}<i class="iconfont icon-shang1"></i></div>
-                    <div class="time" @click="selectOrderBy"  data-value='C' :class='{active:activeItem == $t("main.search.mainSeaShelf"),isDesc:cdateDesc}'>{{$t("main.search.mainSeaShelf")}}<i class="iconfont icon-shang1"></i></div>
+                    <div class="price" @click="selectOrderBy" data-value='B' :class="[{active:activeItem == $t('main.search.mainSeaPrice'),isDesc:priceDesc}]">{{$t("main.search.mainSeaPrice")}}<i class="iconfont icon-shang1"></i></div>
+                    <div class="time" @click="selectOrderBy"  data-value='C' :class='[{active:activeItem == $t("main.search.mainSeaShelf"),isDesc:cdateDesc}]'>{{$t("main.search.mainSeaShelf")}}<i class="iconfont icon-shang1"></i></div>
                     <!--<div class="input"><i class="iconfont icon-dingdanjine"></i><input type="text" class="lowest" @input="showRangeButton"></div>-->
                     <!--<div class="hr"></div>-->
                     <!--<div class="input"><i  class="iconfont icon-dingdanjine"></i><input type="text" class="highest" @input="showRangeButton"></div>-->
@@ -157,18 +157,24 @@
             },
             searchWithText(spceList = [],item = ''){
                 // 排除同一组规格的条件
-                for (var n=0;n<spceList.length ;n++){
-                    let condition = this.search.condition;
-                    if(Array.isArray(condition)){
-                        condition.forEach((cond,i)=>{
-                            if(spceList[n] === cond){
-                                this.search.condition.splice(i,1);
-                            }
-                        })
-                    }else break;
-                }
+//                for (var n=0;n<spceList.length ;n++){
+//                    let condition = this.search.condition;
+//                    if(Array.isArray(condition)){
+//                        condition.forEach((cond,i)=>{
+//                            if(spceList[n] === cond){
+//                                this.search.condition.splice(i,1);
+//                            }
+//                        })
+//                    }else break;
+//                }
+                let count = 0;
+                this.search.condition.forEach((cond,i)=>{
+                    if(item === cond){
+                       count ++ ;
+                    }
+                })
                 // 加入条件
-                if(item){
+                if(count == 0){
                     this.search.condition.push(item)
                 }
                 this.submit()
@@ -200,25 +206,29 @@
             // 关闭条件
             delCondition(index) {
                 this.search.condition.splice(index, 1);
-                this.searchWithText(this.text);
+//                this.searchWithText(this.text);
             },
             selected(selected){
                 this.activeLi = selected
             },
             selectOrderBy(e){
                 console.log(e.currentTarget.getAttribute("data-value"));
+                this.priceDesc = false
+                this.cdateDesc = false
                 switch (e.currentTarget.getAttribute("data-value")){
                     case 'A':
                         this.search.orderBy = ''
                         this.activeItem = this.$t("main.search.mainSeaCompre");
                         break
                     case 'B':
-                        this.search.orderBy = this.search.orderBy === 'price' ? 'price desc' : 'price'
+                        this.search.orderBy = this.search.orderBy === 'price asc' ? 'price desc' : 'price asc'
                         this.activeItem = this.$t("main.search.mainSeaPrice");
+                        this.priceDesc = this.search.orderBy === 'price desc' ? true :false
                         break
                     case 'C':
-                        this.search.orderBy = this.search.orderBy === 'cdate' ? 'cdate desc' : 'cdate'
+                        this.search.orderBy = this.search.orderBy === 'cdate asc' ? 'cdate desc' : 'cdate asc'
                         this.activeItem = this.$t("main.search.mainSeaShelf");
+                        this.cdateDesc = this.search.orderBy === 'cdate desc' ? true :false
                         break
                 }
                 this.submit()
@@ -378,7 +388,7 @@
                     display: flex;
                     flex-wrap: wrap;
                     li{
-                        color:#777;
+                        color:#ff3b41;
                         font-size: 14px;
                         line-height: 36px;
                         margin-right: 12px;
@@ -439,7 +449,7 @@
             position: relative;
             left: 50%;
             margin-left: -123px;
-            margin-top: -5px;
+            margin-top: -6px;
             button{
                 width: 247px;
                 height: 42px;
@@ -479,7 +489,7 @@
             }
         }
         .content{
-            margin-top: 64px;
+            margin-top: 22px;
             padding-bottom: 100px;
             .header{
                 line-height: 40px;
@@ -515,9 +525,10 @@
                         background: #ff3b41;
                         border-right:1px solid #ff3b41;
                     }
-                    div.desc{
+                    div.isDesc{
                         i{
-                            transform: rotate(90deg)
+                            display: inline-block;
+                            transform: rotate(180deg)
                         }
                     }
 

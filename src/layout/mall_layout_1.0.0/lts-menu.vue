@@ -32,7 +32,7 @@
                     {href: '/someinfo', title: this.$t("common.ltsMenu.commLtsPersonlPage")},
                     {href: '/order', title: this.$t("common.ltsMenu.commLtsMyOrder")},
                     {href: '/cart', title: this.$t("common.ltsMenu.commLtsCart")},
-                    {href: 'javascript:void(0)', title: this.$t("common.ltsMenu.commLtsResolve")},
+                    // {href: 'javascript:void(0)', title: this.$t("common.ltsMenu.commLtsResolve")},
                     {href: '/reverse', title: 'RMA'},
                 ],
                 finance: [

@@ -413,6 +413,7 @@ export default {
                 mainPerPer2MB: '上传头像图片大小不能超过 2MB!',
             },
             receiveAdd: {
+                mainPerReAddInfo: '地址信息',
                 mainPerReNewCreate: '新增收获地址',
                 mainPerRePhone: '手机号码',
                 mainPerReEnterCont: '请输入内容',
@@ -610,6 +611,12 @@ export default {
             commLtsPwdSet: '密码设置',
             commLtsAddress: '收货地址'
         }
+    },
+    validate: {
+        validEmail: '请输入邮箱',
+        valiFormErr: '邮箱格式错误',
+        valiEnterNum: '请输入联系号码',
+        valiLength: '长度在 11-16 个字符',
     },
     ...zhLocale
 }

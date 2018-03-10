@@ -413,6 +413,7 @@ export default {
                 mainPerPer2MB: 'Profile Picture Cannot Exceed 2MB!',
             },
             receiveAdd: {
+                mainPerReAddInfo: 'Address Info',
                 mainPerReNewCreate: 'Add New Shipping Address',
                 mainPerRePhone: 'Phone Number',
                 mainPerReEnterCont: 'Please Enter Content',

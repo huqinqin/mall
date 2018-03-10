@@ -131,6 +131,11 @@
 
 <style lang="less">
     .personalMessage {
+        .avatar-uploader {
+            .avatar {
+                width: 100%;
+            }
+        }
         margin-left: 60px;
         .title {
             font-weight: bold;

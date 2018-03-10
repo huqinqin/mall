@@ -164,7 +164,7 @@
                             {{$t("main.order.list.mainOrLiHanlde")}}<i class="el-icon-arrow-down el-icon--right"></i>
                         </el-button>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item :command="{type: 'edit',row: scope.row}">
+                            <el-dropdown-item :command="{type: 'edit',row: scope.row}" v-if="scope.row.status != 2">
                                 {{$t("main.cart.settle.mainCartSeAlert")}}
                             </el-dropdown-item>
                             <el-dropdown-item :command="{type: 'delete',row: scope.row}">
@@ -243,7 +243,7 @@
             addCard() {
                 let params = {
                     address: this.ruleForm.address,
-                    lc_code: this.ruleForm.location,
+                    lc_code: this.ruleForm.location[0],
                     company: this.ruleForm.company,
                     city: this.ruleForm.city,
                     country: this.ruleForm.country,
@@ -279,7 +279,7 @@
                 let params = {
                     id: this.ruleForm.id,
                     address: this.ruleForm.address,
-                    lc_code: this.ruleForm.location[1],
+                    lc_code: this.ruleForm.location[0],
                     company: this.ruleForm.company,
                     city: this.ruleForm.city,
                     country: this.ruleForm.country,
@@ -302,6 +302,30 @@
                     }
                 }, (error) => {
                     this.$ltsMessage.show({type: 'error', message: error.error_message});
+                });
+            },
+            deleteSaleCard(id) {
+                let params = {
+                    id: id
+                };
+                personalService.deleteSaleCard(params).then((resp) => {
+                    if (resp.success) {
+                        this.getCardList();
+                    }
+                }, (error) => {
+                    this.$ltsMessage.show({type: 'error', message: error.error_message});
+                });
+            },
+            makeSure(id) {
+                this.$confirm('此操作将永久删除该项, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.deleteSaleCard(id);
+                    this.$message({type: 'success', message: '删除成功!'});
+                }).catch(() => {
+                    this.$message({type: 'info', message: '已取消删除'});
                 });
             },
             checkStatus(item) {
@@ -331,11 +355,12 @@
                             invalid_time: [item.row.valid_time,item.row.invalid_time],
                             setDefaultFlag: false
                         };
+                        this.dialogShow = true;
                         break;
                     case 'delete':
+                        this.makeSure(item.row.id);
                         break;
                 }
-                this.dialogShow = true;
             },
             handleAvatarSuccess(res, file) {
                 this.ruleForm.cardPicUrl = res.data.url;

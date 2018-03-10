@@ -4,3 +4,22 @@ $--color-primary: #f13a40;
 $--font-path: '~element-ui/lib/theme-chalk/fonts';
 
 @import "~element-ui/packages/theme-chalk/src/index";
+
+.el-form--label-top{
+    .el-form-item__label {
+        font-size: 14px;
+        color: #606266;
+        line-height: 14px;
+        padding: 0 0 5px;
+    }
+    input,.el-date-editor {
+        border: 1px solid #b2b2b2;
+    }
+    .el-form-item{
+        margin-right: 24px;
+        vertical-align: -webkit-baseline-middle;
+    }
+    .el-form-item:last-child{
+        margin-bottom: 0;
+    }
+}

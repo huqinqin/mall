@@ -375,7 +375,12 @@
           data.data.item.item_struct_props.forEach((value, index, array) => {
             value.propValues = JSON.parse(value.prop_value)
           })
-          this.aboutDetail = data.data.item.item_struct_props
+
+         data.data.item.item_struct_props.forEach((value,index,array)=>{
+              if(!value.sku){
+                  this.aboutDetail.push(value);
+              }
+         })
           this.otherGoods = data.data.item.package_item_list
           this.item = data.data.item
           this.activeImg = this.item.item_images[0]

@@ -6,7 +6,7 @@ export default {
         headerWelcom: 'Welcome',
         headerNews: 'News',
         headerIndex: 'Front Page',
-        headerMyOrder: 'My Order',
+        headerMyOrder: 'My Orders',
         headerFavorite: 'My Favorites',
         headerMyExpert: 'My Expert',
         headerPhoneOrder: 'APP',
@@ -63,7 +63,7 @@ export default {
         },
         cart: {
             beforePay: {
-                mainCartBefPay: 'Pay',
+                mainCartBefPay: 'Payment',
                 mainCartBefOrderNum: 'Order Number',
                 mainCartBefWaitPay: 'To Be Paid',
                 mainCartBefEngineerAccount:'Account Balance',
@@ -72,7 +72,7 @@ export default {
                 mainCartBefExceedBanalace:'Limited Balance',
                 mainCartBefNoExcWaitPay:'Overpaid',
                 mainCartBefShouldPay:'Remaining Total',
-                mainCartBefUseAccount:'Apply Terms',
+                mainCartBefUseAccount:'Apply Credit Terms',
                 mainCartBefcartPay:'Pay With Credit Card',
                 mainCartBefgoPay:'Pay',
                 mainCartBefExpress:'Express',
@@ -180,7 +180,7 @@ export default {
                 mainDetInfoDepriceGoods: 'On Sale Items',
                 mainDetInfoLimit: 'Limited Time and Quantity',
                 mainDetInfoDown: 'Countdown',
-                mainDetInfoEnd: 'Will Be Invalid In',
+                mainDetInfoEnd: 'Invalid In',
                 mainDetInfoDay: 'Day',
                 mainDetInLimitOver: 'Activity Over',
                 mainDetInfoPrice: 'Price',
@@ -300,7 +300,7 @@ export default {
                 mainOrLiAllStatus: 'All Status',
                 mainOrLiWaitPay: 'Waiting for Payment',
                 mainOrLiRealPay: 'Open Orders',
-                mainOrLiRealComp: 'Recevied Orders',
+                mainOrLiRealComp: 'Delivered Orders',
                 mainOrLiRealClose: 'Invalid Orders',
                 mainOrLiSearch: 'Search',
                 mainOrLiAcceptSuccess: 'Proceed',
@@ -350,9 +350,10 @@ export default {
         },
         personal: {
             card: {
+                mainPerCarTitle: 'Reseller Certificate Info',
                 mainPerCarNewCreate: 'New Reseller Certificate',
                 mainPerCarDisPic: 'Reseller Certificate Picture',
-                mainPerCarDisProveNum: 'Reseller Certificate Number',
+                mainPerCarDisProveNum: 'Number',
                 mainPerCarAddress: 'Address',
                 mainPerCarCity: 'City',
                 mainPerCarCountry: 'Country',
@@ -374,6 +375,8 @@ export default {
                 mainPerCarSeleCount: 'Please Enter Country',
                 mainPerCarSeleState: 'Please Enter State',
                 mainPerCarPutZip: 'Please Enter Zipcode',
+                mainPerCarUpDate: 'Upload Tiem',
+                mainPerCarDisStatus: 'Status',
             },
             password: {
                 mainPerPwdsetter: 'Password Settings',
@@ -414,7 +417,9 @@ export default {
                 mainPerRePhone: 'Phone Number',
                 mainPerReEnterCont: 'Please Enter Content',
                 mainPerReTeleNum: 'Phone Number',
-                mainPerReEnterPhone: 'Please Enter Phone Number'
+                mainPerReEnterPhone: 'Please Enter Phone Number',
+                mainPerReAddInfo: 'Address Info',
+                mainPerReConsigee: 'Consigee',
             },
         },
         repayMent: {
@@ -481,7 +486,7 @@ export default {
                 mainRevLiInfo: 'Description',
                 mainRevLiMoneyNum: 'Refund Amount',
                 mainRevLiReturnGoods: 'RMA Qty',
-                mainRevLiSubmitTime: 'Submission Time',
+                mainRevLiSubmitTime: 'Created Time',
                 mainRevLiGooodsType: 'Return Type',
                 mainRevLiReturnGoodPay: 'RMA',
                 mainRevLiOnlyNotGood: 'Refund Only',
@@ -556,7 +561,7 @@ export default {
             mainSomeHello: 'Hi',
             mainSomeLever: 'Membership Level',
             mainSomeAccountBala: 'Account Balance',
-            mainSomePayBalance: 'Credit Balance',
+            mainSomePayBalance: 'Credit Terms Balance',
             mainSomeUsed: 'Applied',
             mainSomeShopCoupon: 'Coupon',
             mainSomeCoupon: 'Coupon',
@@ -574,7 +579,7 @@ export default {
     common: {
         addCart: {
             comAddCartSucc: 'Added to Cart!',
-            comAddCartSettle: 'Proceed to Checkout',
+            comAddCartSettle: 'Checkout',
             comAddCartRecommon: 'Recommendations For You',
         },
         searchFrom: {
@@ -601,7 +606,7 @@ export default {
             commLtsMyBalance: 'Account Balance',
             commLtsWaitting: 'Account Payable',
             commLtsPersonInfo: 'Account Details',
-            commLtsEmailAlert: 'Change-Email Address',
+            commLtsEmailAlert: 'Change Email Address',
             commLtsAnth: 'Reseller Certificate',
             commLtsPwdSet: 'Password Settings',
             commLtsAddress: 'Shipping Address'

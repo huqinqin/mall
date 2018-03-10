@@ -4,7 +4,7 @@
             <el-button type="primary">{{$t("main.personal.card.mainPerCarNewCreate")}}</el-button>
         </el-button>
 
-        <el-dialog title="分销资格证信息" :visible.sync="dialogShow" :close-on-click-modal="false" @close="emptyData">
+        <el-dialog :title='$t("main.personal.card.mainPerCarTitle")' :visible.sync="dialogShow" :close-on-click-modal="false" @close="emptyData">
             <el-form :model="ruleForm" :rules="rules" :inline="true" ref="ruleForm" label-width="100px"
                      label-position="top"
                      class="demo-ruleForm">
@@ -86,7 +86,7 @@
         </el-dialog>
 
         <!--<h3 class="title">{{$t("main.personal.card.mainPerCarTitle")}}</h3>-->
-        <h3 class="title">分销证信息</h3>
+        <h3 class="title">{{$t("main.personal.card.mainPerCarTitle")}}</h3>
         <el-table
             :data="tableData"
             style="width: 100%"
@@ -101,50 +101,50 @@
             </el-table-column>
             <el-table-column
                 prop="distribute_num"
-                label="分销证号"
+                :label='$t("main.personal.card.mainPerCarDisProveNum")'
                 width="100">
             </el-table-column>
             <el-table-column
                 prop="address"
-                label="详细地址"
+                :label='$t("main.personal.card.mainPerCarAddress")'
                 width="150">
             </el-table-column>
             <el-table-column
                 prop="city"
                 width="80"
-                label="城市">
+                :label='$t("main.personal.card.mainPerCarCity")'>
             </el-table-column>
             <el-table-column
                 prop="state"
-                label="州"
+                :label='$t("main.personal.card.mainPerCarState")'
                 width="80">
             </el-table-column>
             <el-table-column
                 prop="country"
-                label="国家"
+                :label='$t("main.personal.card.mainPerCarCountry")'
                 width="80">
             </el-table-column>
             <el-table-column
                 prop="postcode"
-                label="邮编">
+                :label='$t("main.personal.card.mainPerCarZip")'>
             </el-table-column>
             <el-table-column
                 prop="invalid_time"
-                label="有效期至">
+                :label='$t("main.personal.card.mainPerCarFromDate")'>
                 <template slot-scope="scope">
                     {{scope.row.invalid_time | timestamp2str}}
                 </template>
             </el-table-column>
             <el-table-column
                 prop="valid_time"
-                label="上传时间">
+                :label='$t("main.personal.card.mainPerCarUpDate")'>
                 <template slot-scope="scope">
                     {{scope.row.valid_time | timestamp2str}}
                 </template>
             </el-table-column>
             <el-table-column
                 prop="status"
-                label="分销证状态"
+                :label='$t("main.personal.card.mainPerCarDisStatus")'
                 align="center">
                 <template slot-scope="scope">
                     {{checkStatus(scope.row.status)}}

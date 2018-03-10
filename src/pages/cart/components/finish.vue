@@ -11,7 +11,7 @@
           }}：{{this.detailOrder.user_addr}}</p>
         <p>{{ $t("main.cart.fail.mainCartFaLogisticsMode") }}：{{method}}</p>
         <div class="button">
-          <a href="/order">
+          <a href="/order" @click="toOrder">
             <button class="go"><span>{{ $t("main.cart.fail.mainCartFaMyOrder") }}</span></button>
           </a>
           <a href="/">
@@ -35,6 +35,9 @@
       }
     },
     methods: {
+        toOrder(){
+            store.setItem('selected', this.$t("common.ltsMenu.commLtsMyOrder"));
+        },
       getTid () {
         this.tid = this.$route.params.tid
         console.log(this.tid)

@@ -124,7 +124,7 @@
                         needLogin : true
                     },
                     {
-                        name : 'suopping cart',
+                        name : 'shopping center',
                         icon : 'icon-gouwuche2',
                         first : 'SUOPPING',
                         last : 'CART',
@@ -257,7 +257,7 @@
     .all-head{
         background-color: white;
         .search-bar{
-            padding-bottom: 24px;
+            padding-bottom: 12px;
         }
         .menu-list{
             padding: 24px 0;

@@ -571,7 +571,7 @@
               })
             })
           }else{
-              this.selectedBonus = this.$t('main.cart.settle.mainCartSeHandleErr')
+              this.selectedBonus = this.$t('main.cart.settle.mainCartSeNoBonus')
           }
           this.$emit('submit', 2)
         }, (msg) => {
@@ -604,7 +604,8 @@
               item.realPrice = item.item_props[0].price - item.discount
               item.oldPrice = item.item_props[0].price
           }else if(item.discount_type == 4){
-              item.realPrice = item.rule.price
+              item.realPrice = 0
+              // item.realPrice = item.sale_rule_do.price
               item.oldPrice = item.item_props[0].price
           }else{
               item.realPrice = item.item_props[0].price

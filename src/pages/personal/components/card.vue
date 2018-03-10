@@ -225,19 +225,11 @@
             };
         },
         mounted() {
-            this.getUserMessage();
+            this.getCardList();
         },
         methods: {
-            getUserMessage() {
-                personalService.getUserMessage().then((resp) => {
-                    this.ruleForm.uid = resp.data.shop_d_o.uid;
-                    this.getCardList(this.ruleForm.uid);
-                }, (msg) => {
-                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
-                })
-            },
-            getCardList(uid) {
-                personalService.getSaleCard(uid).then((resp) => {
+            getCardList() {
+                personalService.getSaleCard().then((resp) => {
                     this.tableData = resp.data.distribute_certificate_d_o_list;
                     this.tableData ? this.ruleForm.setDefaultFlag = false : this.ruleForm.setDefaultFlag = true;
                 }, (error) => {
@@ -246,8 +238,9 @@
             },
             addCard() {
                 let params = {
-                    address: this.locationLabel + ' ' + this.ruleForm.city + '' + this.ruleForm.address,
+                    address: this.ruleForm.address,
                     lc_code: this.ruleForm.location,
+                    company: this.ruleForm.company,
                     city: this.ruleForm.city,
                     country: this.ruleForm.country,
                     distributeNum: this.ruleForm.number,
@@ -281,8 +274,9 @@
             updateCard() {
                 let params = {
                     id: this.ruleForm.id,
-                    address: this.locationLabel[0] + ' ' + this.ruleForm.city + '' + this.ruleForm.address,
+                    address: this.ruleForm.address,
                     lc_code: this.ruleForm.location[1],
+                    company: this.ruleForm.company,
                     city: this.ruleForm.city,
                     country: this.ruleForm.country,
                     distributeNum: this.ruleForm.number,

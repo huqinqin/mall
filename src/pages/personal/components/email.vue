@@ -7,7 +7,7 @@
                 <el-form-item :label='$t("main.personal.email.mainPerEmaCurrent")' prop="currentEmail"
                               style="margin-top: 24px;">
                     <el-input v-model="ruleForm.currentEmail" :disabled="true"></el-input>
-                    <span @click="sendEmailCode(ruleForm.currentEmail)" style="cursor: pointer;">{{$t("main.personal.email.mainPerEmaPostCode")}}</span>
+                    <el-button type="primary" @click="sendEmailCode(ruleForm.currentEmail)" class="emailButton">{{$t("main.personal.email.mainPerEmaPostCode")}}</el-button>
                 </el-form-item>
                 <el-form-item :label='$t("main.personal.email.mainPerEmaCode")' prop="code" style="margin-top: 24px;">
                     <el-input v-model="ruleForm.code"></el-input>
@@ -22,7 +22,7 @@
                 <el-form-item :label='$t("main.personal.email.mainPerEmaNew")' prop="currentEmail"
                               style="margin-top: 24px;">
                     <el-input v-model="ruleForm.newEmail"></el-input>
-                    <span @click="sendEmailCode(ruleForm.newEmail)" style="cursor: pointer;">{{$t("main.personal.email.mainPerEmaPostCode")}}</span>
+                    <el-button type="primary" @click="sendEmailCode(ruleForm.newEmail)" class="emailButton">{{$t("main.personal.email.mainPerEmaPostCode")}}</el-button>
                 </el-form-item>
                 <el-form-item :label='$t("main.personal.email.mainPerEmaCode")' prop="code" style="margin-top: 24px;">
                     <el-input v-model="ruleForm.code"></el-input>
@@ -148,6 +148,12 @@
         .submitBtn {
             width: 100px;
             height: 40px;
+        }
+        .emailButton{
+            position: absolute;
+            top: 0;
+            left: 430px;
+            cursor: pointer;
         }
     }
 </style>

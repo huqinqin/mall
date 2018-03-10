@@ -1,4 +1,4 @@
-import VueI18n from 'vue-i18n'
+import  VueI18n from 'vue-i18n'
 import Vue from  'vue'
 import VueResource from 'vue-resource'
 import {dateUtils} from 'ltsutil'
@@ -189,30 +189,11 @@ export default function (App, router = new Router()) {
             }
         }
     })
-  // if(showMenu.indexOf(App.name) !== -1){
-  //     Layout.components = {
-  //         'lts-header-content':ltsHeaderSimple,
-  //         'lts-menu':ltsMenu
-  //     }
-  // }
-  // if(showHeadAll.indexOf(App.name) !== -1){
-  //     Layout.components = {
-  //         'lts-header-content': ltsHeaderAll,
-  //         'lts-menu':ltsEmpty
-  //     }
-  // }
-  // if(noHead.indexOf(App.name) !== -1){
-  //     Layout.components = {
-  //         'lts-header-content':ltsEmpty,
-  //         'lts-menu':ltsEmpty
-  //     }
-  // }
-
-  new Vue({
-    el        : '#app',
-    i18n      : i18n,
-    router,
-    template  : '<Layout/>',
-    components: {Layout}
-  })
+    new Vue({
+        el        : '#app',
+        i18n      : i18n,
+        router,
+        template  : '<Layout/>',
+        components: {Layout},
+    })
 }

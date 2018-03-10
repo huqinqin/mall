@@ -48,7 +48,12 @@
                 };
                 if(this.ruleForm.newPassword == this.ruleForm.confirmPassword){
                     personalService.changePassword(params).then((resp) => {
-                        this.$ltsMessage.show({type: 'success', message: 'Revise the password successfully'})
+                        this.$ltsMessage.show({type: 'success', message: 'Revise the password successfully'});
+                        this.ruleForm = {
+                            oldPassword: '',
+                            newPassword: '',
+                            confirmPassword: ''
+                        };
                     }, (msg) => {
                         this.$ltsMessage.show({type: 'error', message: msg.error_message})
                     })

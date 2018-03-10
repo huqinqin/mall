@@ -49,7 +49,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item :label='$t("main.personal.card.mainPerCarState")' prop="state" style="margin-top: 5px;">
-                    <lts-location-select v-model="ruleForm.location" :labels.sync="locationLabel" style="width: 400px"/>
+                    <lts-location v-model="ruleForm.location" :labels.sync="locationLabel" style="width: 400px"/>
                 </el-form-item>
                 <br>
                 <el-form-item :label='$t("main.personal.card.mainPerCarZip")' prop="zipcode" style="margin-top: 5px;">
@@ -67,10 +67,10 @@
                         class="common-width">
                     </el-date-picker>
                 </el-form-item>
-                <br>
+                <!--<br>
                 <el-form-item>
                     <el-checkbox v-model="ruleForm.setDefaultFlag">设为默认</el-checkbox>
-                </el-form-item>
+                </el-form-item>-->
                 <br>
                 <el-form-item v-show="!editFlag">
                     <el-button type="primary" @click="addCard" class="submitBtn">
@@ -94,7 +94,8 @@
             <el-table-column
                 prop="picture"
                 label=""
-                align="center">
+                align="center"
+                width="100">
                 <template slot-scope="scope">
                     <img :src="scope.row.picture" alt="" style="width: 40px;height: 40px;">
                 </template>
@@ -117,7 +118,7 @@
             <el-table-column
                 prop="state"
                 :label='$t("main.personal.card.mainPerCarState")'
-                width="80">
+                width="100">
             </el-table-column>
             <el-table-column
                 prop="country"
@@ -126,25 +127,28 @@
             </el-table-column>
             <el-table-column
                 prop="postcode"
-                :label='$t("main.personal.card.mainPerCarZip")'>
+                :label='$t("main.personal.card.mainPerCarZip")'
+                width="100">
             </el-table-column>
             <el-table-column
                 prop="invalid_time"
-                :label='$t("main.personal.card.mainPerCarFromDate")'>
+                :label='$t("main.personal.card.mainPerCarFromDate")'
+                width="120">
                 <template slot-scope="scope">
                     {{scope.row.invalid_time | timestamp2str}}
                 </template>
             </el-table-column>
-            <el-table-column
+           <!-- <el-table-column
                 prop="valid_time"
                 :label='$t("main.personal.card.mainPerCarUpDate")'>
                 <template slot-scope="scope">
                     {{scope.row.valid_time | timestamp2str}}
                 </template>
-            </el-table-column>
+            </el-table-column>-->
             <el-table-column
                 prop="status"
                 :label='$t("main.personal.card.mainPerCarDisStatus")'
+                width="100"
                 align="center">
                 <template slot-scope="scope">
                     {{checkStatus(scope.row.status)}}
@@ -177,10 +181,10 @@
 <script>
     import personalService from '@/services/PersonalService'
     import {request, commonUtils} from 'ltsutil'
-    import {ltsLocationSelect} from 'ui'
+    import {ltsLocation} from 'ui'
 
     export default {
-        components: {ltsLocationSelect},
+        components: {ltsLocation},
         name: "card",
         data() {
             return {
@@ -225,19 +229,11 @@
             };
         },
         mounted() {
-            this.getUserMessage();
+            this.getCardList();
         },
         methods: {
-            getUserMessage() {
-                personalService.getUserMessage().then((resp) => {
-                    this.ruleForm.uid = resp.data.shop_d_o.uid;
-                    this.getCardList(this.ruleForm.uid);
-                }, (msg) => {
-                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
-                })
-            },
-            getCardList(uid) {
-                personalService.getSaleCard(uid).then((resp) => {
+            getCardList() {
+                personalService.getSaleCard().then((resp) => {
                     this.tableData = resp.data.distribute_certificate_d_o_list;
                     this.tableData ? this.ruleForm.setDefaultFlag = false : this.ruleForm.setDefaultFlag = true;
                 }, (error) => {
@@ -246,8 +242,9 @@
             },
             addCard() {
                 let params = {
-                    address: this.locationLabel + ' ' + this.ruleForm.city + '' + this.ruleForm.address,
+                    address: this.ruleForm.address,
                     lc_code: this.ruleForm.location,
+                    company: this.ruleForm.company,
                     city: this.ruleForm.city,
                     country: this.ruleForm.country,
                     distributeNum: this.ruleForm.number,
@@ -257,7 +254,7 @@
                     postcode: this.ruleForm.zipcode,
                     remark: "",
                     shopUid: this.ruleForm.uid,
-                    state: this.locationLabel,//州
+                    state: this.locationLabel[0],//州
                     status: 0,//状态
                     type: ''//设为默认，0，有效
                 };
@@ -272,7 +269,7 @@
                     if (resp.success) {
                         this.dialogShow = false;
                         this.emptyData();
-                        this.getUserMessage();
+                        this.getCardList();
                     }
                 }, (error) => {
                     this.$ltsMessage.show({type: 'error', message: error.error_message});
@@ -281,8 +278,9 @@
             updateCard() {
                 let params = {
                     id: this.ruleForm.id,
-                    address: this.locationLabel[0] + ' ' + this.ruleForm.city + '' + this.ruleForm.address,
+                    address: this.ruleForm.address,
                     lc_code: this.ruleForm.location[1],
+                    company: this.ruleForm.company,
                     city: this.ruleForm.city,
                     country: this.ruleForm.country,
                     distributeNum: this.ruleForm.number,
@@ -300,7 +298,7 @@
                     if (resp.success) {
                         this.dialogShow = false;
                         this.emptyData();
-                        this.getUserMessage();
+                        this.getCardList();
                     }
                 }, (error) => {
                     this.$ltsMessage.show({type: 'error', message: error.error_message});
@@ -346,8 +344,11 @@
 
             },
             emptyData() {
-                this.$refs['ruleForm'].resetFields();
+                this.$refs.ruleForm.resetFields();
                 this.ruleForm.cardPicUrl = '';
+                this.ruleForm.invalid_time = [];
+                this.ruleForm.location = [];
+                this.locationLabel = [];
             }
         }
     }
@@ -355,6 +356,11 @@
 
 <style lang="less">
     .card {
+        .avatar-uploader {
+            .avatar {
+                width: 100%;
+            }
+        }
         margin-left: 60px;
         .title {
             font-weight: bold;

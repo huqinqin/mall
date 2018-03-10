@@ -6,7 +6,6 @@
 export default [
     {
         value: '320000',
-        label: 'New York',
-        children: []
+        label: 'New York'
     }
 ]

@@ -7,6 +7,7 @@
             v-show="defaultAddress.user_name" @click="checkAddress(defaultAddress)">
           <header>
             <div><p>{{defaultAddress.user_name}}({{defaultAddress.address}}) </p></div>
+            <div><p v-if="defaultAddress.isCerti">{{ $t("main.cart.settle.mainAddCertiAddress") }}</p></div>
           </header>
           <main>
             <p>{{defaultAddress.building}}</p>
@@ -23,20 +24,17 @@
             @click="checkAddress(item)" v-if="item.status !== 1">
           <header>
             <div><p>{{item.user_name}}({{item.address}}) </p></div>
+            <div><p v-if="defaultAddress.isCerti">{{ $t("main.cart.settle.mainAddCertiAddress") }}</p></div>
           </header>
           <main>
             <p>{{item.building}}</p>
-            <p v-if="item.ship == 1">{{ $t("main.cart.settle.mainCartSePhone") }}：{{item.mobile}}</p>
-            <p v-else-if="item.ship == 0">{{$t("main.cart.settle.mainAddCertiValidDate")}}：{{item.valid}}</p>
+            <p>{{ $t("main.cart.settle.mainCartSePhone") }}：{{item.mobile}}</p>
           </main>
-          <footer v-if="item.ship == 1" class="ship-footer">
+          <footer class="ship-footer">
             <button class="default" @click.stop="toggleDefault(item)">{{ $t("main.cart.settle.mainCartSeFitDefault") }}</button>
             <button v-show="item.id === defaultId">{{ $t("main.cart.settle.mainCartSeDefaultAdress") }}</button>
             <button class="delete" @click="deleteAddress(item,key)">{{ $t("main.cart.settle.mainCartSeDel") }}</button>
             <button @click="editAddress(item)">{{ $t("main.cart.settle.mainCartSeAlert") }}</button>
-          </footer>
-          <footer v-else-if="item.ship == 0" class="certi-footer">
-            <button >{{$t("main.cart.settle.mainAddCertiAddress")}}</button>
           </footer>
         </li>
         <li class="addAddress" @click="addAddress">
@@ -396,9 +394,16 @@
           this.defaultId = ''
           this.defaultAddress = []
         addressService.getList().then((data) => {
-          this.addressData = data.data.consumer_address_d_o
+            this.addressData = data.data.consumer_address_d_o
+            data.data.distribute_certificate_d_o.forEach((value, index) => {
+                let zipCode = value.postcode
+                this.addressData.forEach((item) => {
+                    if(zipCode == item.zip_code){
+                        item.isCerti = true
+                    }
+                })
+            })
           this.addressData.forEach((value, index) => {
-            value.ship = 1
             value.zipCode = value.zip_code
             value.state = value.location_d_o.province
             if (value.status === 1) {
@@ -415,18 +420,21 @@
               value.address = value.address.slice(0, position)
             }
           })
-          data.data.distribute_certificate_d_o.forEach((value, index) => {
-            value.ship = 0
-            value.zipCode = value.postcode
-            value.user_name = value.company
-            value.building = value.city
-            value.valid = dateUtils.timeToStr(value.valid_time)
-            this.addressData.push(value)
-          })
+          //
+          // data.data.distribute_certificate_d_o.forEach((value, index) => {
+          //
+          //   value.zipCode = value.postcode
+          //   value.user_name = value.company
+          //   value.building = value.city
+          //   value.valid = dateUtils.timeToStr(value.valid_time)
+          //   this.addressData.push(value)
+          // })
+
+
+
             if(!this.defaultId){
             this.checkedId = this.addressData[0].id
             this.checkedAddress = this.addressData[0]
-            // this.addressData.splice(0,1)
           }
           this.simulateCreateTrade()
         })
@@ -747,11 +755,17 @@
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
             color: rgba(0, 0, 0, 0.7);
             padding: 0 12px;
+              display: flex;
+              justify-content: space-between;
             div{
               overflow: hidden;
               text-overflow:ellipsis;
               white-space: nowrap;
             }
+              div:last-child{
+                  font-size: 12px;
+                  color:#3d98ff;
+              }
             p {
               line-height: 40px;
               font-size: 14px;

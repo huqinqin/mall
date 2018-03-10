@@ -129,7 +129,7 @@ export default {
                 mainCartSeDefaultAdress: 'Default',
                 mainCartSeDel: 'Delete',
                 mainCartSeAlert: 'Modify',
-                mainAddCertiAddress:'Certificate Address',
+                mainAddCertiAddress:'Certificate',
                 mainAddCertiValidDate:'Validity',
                 mainCartSeAddAdress: 'Add New Address',
                 mainCartSeRegion: 'Region',

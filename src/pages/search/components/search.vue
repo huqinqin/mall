@@ -40,8 +40,8 @@
             <div class="header">
                 <div class="left">
                     <div class="synth" @click="selectOrderBy" data-value='A' :class='{active:activeItem == $t("main.search.mainSeaCompre")}'>{{$t("main.search.mainSeaCompre")}}</div>
-                    <div class="price" @click="selectOrderBy" data-value='B' :class='{active:activeItem == $t("main.search.mainSeaPrice"),isDesc:priceDesc}'>{{$t("main.search.mainSeaPrice")}}<i class="iconfont icon-shang1"></i></div>
-                    <div class="time" @click="selectOrderBy"  data-value='C' :class='{active:activeItem == $t("main.search.mainSeaShelf"),isDesc:cdateDesc}'>{{$t("main.search.mainSeaShelf")}}<i class="iconfont icon-shang1"></i></div>
+                    <div class="price" @click="selectOrderBy" data-value='B' :class="[{active:activeItem == $t('main.search.mainSeaPrice'),isDesc:priceDesc}]">{{$t("main.search.mainSeaPrice")}}<i class="iconfont icon-shang1"></i></div>
+                    <div class="time" @click="selectOrderBy"  data-value='C' :class='[{active:activeItem == $t("main.search.mainSeaShelf"),isDesc:cdateDesc}]'>{{$t("main.search.mainSeaShelf")}}<i class="iconfont icon-shang1"></i></div>
                     <!--<div class="input"><i class="iconfont icon-dingdanjine"></i><input type="text" class="lowest" @input="showRangeButton"></div>-->
                     <!--<div class="hr"></div>-->
                     <!--<div class="input"><i  class="iconfont icon-dingdanjine"></i><input type="text" class="highest" @input="showRangeButton"></div>-->
@@ -207,18 +207,22 @@
             },
             selectOrderBy(e){
                 console.log(e.currentTarget.getAttribute("data-value"));
+                this.priceDesc = false
+                this.cdateDesc = false
                 switch (e.currentTarget.getAttribute("data-value")){
                     case 'A':
                         this.search.orderBy = ''
                         this.activeItem = this.$t("main.search.mainSeaCompre");
                         break
                     case 'B':
-                        this.search.orderBy = this.search.orderBy === 'price' ? 'price desc' : 'price'
+                        this.search.orderBy = this.search.orderBy === 'price asc' ? 'price desc' : 'price asc'
                         this.activeItem = this.$t("main.search.mainSeaPrice");
+                        this.priceDesc = this.search.orderBy === 'price desc' ? true :false
                         break
                     case 'C':
-                        this.search.orderBy = this.search.orderBy === 'cdate' ? 'cdate desc' : 'cdate'
+                        this.search.orderBy = this.search.orderBy === 'cdate asc' ? 'cdate desc' : 'cdate asc'
                         this.activeItem = this.$t("main.search.mainSeaShelf");
+                        this.cdateDesc = this.search.orderBy === 'cdate desc' ? true :false
                         break
                 }
                 this.submit()
@@ -515,9 +519,10 @@
                         background: #ff3b41;
                         border-right:1px solid #ff3b41;
                     }
-                    div.desc{
+                    div.isDesc{
                         i{
-                            transform: rotate(90deg)
+                            display: inline-block;
+                            transform: rotate(180deg)
                         }
                     }
 

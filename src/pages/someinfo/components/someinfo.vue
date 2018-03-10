@@ -2,11 +2,11 @@
     <div class="someinfo">
         <div class="someInfoWrapper">
             <div class="infoLeft">
-                <img src="" alt="">
+                <span class="iconfont icon-icon"></span>
             </div>
             <div class="infoRight">
                 <h2>{{$t("main.someinfo.mainSomeDear")}}<span class="name">{{engineerInfo.user.name}}</span>,{{$t("main.someinfo.mainSomeHello")}}！</h2>
-                <p>{{$t("main.someinfo.mainSomeLever")}}:<span>level{{engineerInfo.level}}</span></p>
+                <p style="font-weight: bold">{{$t("main.someinfo.mainSomeLever")}}:<span style="margin-left: 4px;font-weight: bold">{{engineerInfo.level1}}</span></p>
                 <hr class="flagLine">
                 <div>
                     <span>{{$t("main.someinfo.mainSomeAccountBala")}}:<span class="name">${{engineerInfo.cash}}</span></span>
@@ -84,6 +84,7 @@
                 engineerInfo:{
                     user: {},
                     acc_books: {},
+                    level1:0,
                 },
                 account: 0,
                 usedAcc: 0,
@@ -133,6 +134,8 @@
                 this.usedAcc = this.usedAcc.toFixed(2);
                 checkService.checkInfo().then((data) => {
                     this.engineerInfo = data.data;
+                    this.engineerInfo.level1 = data.data.level;
+                    console.log(this.engineerInfo.level1);
                     this.engineerInfo.acc_books.forEach((item) => {
                         if(item.subject === 2010101){
                             this.engineerInfo.cash = (item.use_balance / 100).toFixed(2);
@@ -289,11 +292,18 @@
             margin-left: 50px;
             .infoLeft{
                 flex:0 0 102px;
-                border: 1px solid #a3a3a3;
+                /*border: 1px solid #a3a3a3;
                 width: 102px;
                 height: 102px;
                 border-radius: 50%;
-                background-color: #55a532;
+                background-color: #55a532;*/
+                .iconfont{
+                    font-size: 72px;
+                    color: white;
+                    background-color: #bbb;
+                    border-radius: 50%;
+                    padding:12px 14px;
+                }
                 img{
                     width: 100%;
                     height: 100%;
@@ -306,6 +316,7 @@
                 .name{
                     color: #ff3b41;
                     margin-left: 3px;
+                    font-weight: bold;
                 }
                 h2{
                    font-size: 18px;

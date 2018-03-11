@@ -353,7 +353,7 @@
           <div class="img" :style="'backgroundImage: url(' + nullImg + ')'"></div>
           <div class="text">
               <p>您的购物车还是空的，赶紧行动吧！您可以：</p>
-              <p>去<a href="">商城</a>加购</p>
+              <p>去<a href="/">商城</a>加购</p>
           </div>
       </div>
   </div>

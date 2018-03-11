@@ -151,7 +151,7 @@
             <li v-for="value in otherGoods" :key="value.id" class="othersItem">
               <a :href="'/detail#/?id=' + value.id" target="_blank"><div class="img" :style="'background-image: url(' + value.image_value + ')'"></div></a>
               <div class="name">{{value.item_name}}</div>
-              <el-popover placement="bottom" popper-class="othersPopover">
+              <el-popover placement="bottom" popper-class="othersPopover" v-model="packVisible">
                 <el-form label-width="120px" label-position="left">
                   <el-form-item v-for="prop in otherGoodsItem.item_prop_value_maps" :key="prop.prop_name" :label="prop.prop_name" class="radio sku_prop">
                     <el-radio-group v-model="prop.checked_prop" @change="checkedProp(prop,value,'otherSku')">
@@ -284,6 +284,7 @@
     props: {},
     data () {
       return {
+          packVisible:false,
         activeName: 'first',
         sku_1: '',
         sku_2: '',
@@ -557,6 +558,7 @@
         })
       },
       addOthers (value){
+          thi.packVisible = false
         this.otherSpu.newProps = this.otherSpu.props.split(',').join('/')
         let obj = {
           item:{

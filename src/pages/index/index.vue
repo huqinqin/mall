@@ -206,6 +206,11 @@
 
           if(data.banner){
             data.banner.datalist.forEach((val, index) => {
+                if(val.link_url){
+
+                }else{
+                    val.link_url = 'javascript:void(0)'
+                }
               this.index_banner.push(JSON.parse(val.content))
             })
           }

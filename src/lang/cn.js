@@ -112,6 +112,7 @@ export default {
                 mainCartliOpera: '操作',
                 mainCartliOnsaleGoods: '减价商品',
                 mainCartliOnsaleLimits: '限时限量',
+                mainCartliOnsaleFull: '全场满减',
                 mainCartliStartCountdown: '开始倒计时',
                 mainCartliEndCountdown:'结束倒计时',
                 mainCartliShouldPay: '应付金额',
@@ -379,6 +380,9 @@ export default {
                 mainPerCarPutZip: '请输入邮编',
                 mainPerCarUpDate: '上传时间',
                 mainPerCarDisStatus: '分销证状态',
+                mainPerCarDisPass: '通过',
+                mainPerCarDisNotPass: '未通过',
+                mainPerCarDisAudited: '待审核'
             },
             password: {
                 mainPerPwdsetter: '密码设置',

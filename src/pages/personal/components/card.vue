@@ -123,7 +123,7 @@
             <el-table-column
                 prop="country"
                 :label='$t("main.personal.card.mainPerCarCountry")'
-                width="80">
+                width="100">
             </el-table-column>
             <el-table-column
                 prop="postcode"
@@ -328,11 +328,11 @@
             },
             checkStatus(item) {
                 if (item == '0') {
-                    return '待审核'
+                    return this.$t("main.personal.card.mainPerCarDisAudited")
                 } else if (item == '1') {
-                    return '未通过'
+                    return this.$t("main.personal.card.mainPerCarDisNotPass")
                 } else if (item == '2') {
-                    return '通过'
+                    return this.$t("main.personal.card.mainPerCarDisPass")
                 }
             },
             getDialog(item) {

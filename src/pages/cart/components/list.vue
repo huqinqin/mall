@@ -48,7 +48,7 @@
                       </p>
                     </template>
                   </el-table-column>
-                  <el-table-column prop="" width="100" :label='$t("main.cart.list.mainCartliStock")' align="center">
+                  <el-table-column prop="" width="92" :label='$t("main.cart.list.mainCartliStock")' align="center">
                     <template slot-scope="subscope">
                       <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">{{
                         $t("main.cart.list.mainCartliAvailable") }}</p>
@@ -64,7 +64,7 @@
                       </div>
                     </template>
                   </el-table-column>
-                  <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center">
+                  <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="90" align="center">
                     <template slot-scope="subscope">
                       <div class="count" >
                         <lts-money :money="subscope.row.num * subscope.row.realPrice"></lts-money>
@@ -135,7 +135,7 @@
                       </div>
                     </template>
                   </el-table-column>
-                  <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center">
+                  <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="90" align="center">
                     <template slot-scope="subscope">
                       <div class="count">
                         <lts-money :money="subscope.row.num * subscope.row.realPrice"></lts-money>
@@ -223,7 +223,7 @@
                         </div>
                       </template>
                     </el-table-column>
-                    <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center">
+                    <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="90" align="center">
                       <template slot-scope="subscope">
                         <div class="count">
                           <lts-money :money="subscope.row.num * subscope.row.realPrice"></lts-money>
@@ -241,6 +241,9 @@
                 </div>
               </div>
               <div v-else-if="scope.row.others && scope.row.others.length>0" class="otherTable subtable">
+                <div class="popover">
+                  <div class="popTitle">{{ $t("main.cart.list.mainCartliOnsaleFull") }}</div>
+                </div>
                 <el-table
                   :data="scope.row.others"
                   :show-header="false"
@@ -287,7 +290,7 @@
                       </div>
                     </template>
                   </el-table-column>
-                  <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center">
+                  <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="90" align="center">
                     <template slot-scope="subscope">
                       <div class="count">
                         <p><lts-money :money="subscope.row.num * subscope.row.realPrice"></lts-money></p>
@@ -309,7 +312,7 @@
           <el-table-column width="" :label='$t("main.cart.list.mainCartliPrice")' align="center"></el-table-column>
           <el-table-column width="100" :label='$t("main.cart.list.mainCartliStock")' align="center"></el-table-column>
           <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="200" prop="num" align="center"></el-table-column>
-          <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center"></el-table-column>
+          <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="90" align="center"></el-table-column>
           <el-table-column :label='$t("main.cart.list.mainCartliOpera")' width="" align="center"></el-table-column>
         </el-table>
         <div class="table-footer">
@@ -367,7 +370,7 @@
     data () {
       return {
         nullImg: require('@/assets/img/cartNull.png'),
-        t:1,
+        rending:1,
         expands: [], // 默认展开全部
         checked: false,
         tooManyItems: true,
@@ -389,7 +392,7 @@
           cartPriceTotal: 0
         },
         checkedItem: [], // 已选商品
-        cartNum:''
+        cartNum:1
       }
     },
     mounted () {
@@ -633,7 +636,7 @@
           return false
         }
         let msec = date - now
-        this.t++
+        this.rending++
 
         // 计算时分秒数
         item.day = parseInt(msec / 1000 / 60 / 60 / 24)
@@ -777,7 +780,6 @@
           }
         }
         .otherTable.subtable{
-          margin-top: 12px;
         }
         .dicount {
         }

@@ -1,5 +1,19 @@
 import BaseService from "./abstract/BaseService";
 export default class CartService extends BaseService {
+
+    /**
+     * return datalist 配置列表
+     * param 无
+     * @remark 获取满减配置
+     * @auth taohua
+     */
+    static getFullSetting(form) {
+        let params = {
+
+        }
+        return super.getRequest('/installer/hq/get_paras_promotion', params)
+    }
+
     /**
      * return ture
      * param  userId 工程商ID

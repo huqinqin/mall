@@ -35,7 +35,7 @@
             </ul>
         </div>
         <div class="s-span-page search-bar">
-             <el-input :placeholder="$t('comHeader.headerSearchGoods')" v-model="keywords" class="input-with-select" @keyup.native.enter='searchToHref'>
+            <el-input :placeholder="$t('comHeader.headerSearchGoods')" v-model="keywords" class="input-with-select" @keyup.native.enter='searchToHref'>
                 <el-cascader
                     slot="prepend"
                     :placeholder="select"
@@ -45,7 +45,7 @@
                     style="width: 240px"
                     @change="handleChange">
                 </el-cascader>
-                <el-button slot="append" type="primary" icon="iconfont icon-sousuo2" @click="searchToHref"></el-button>
+                <el-button slot="append" icon="iconfont icon-sousuo2"></el-button>
             </el-input>
         </div>
     </div>
@@ -308,29 +308,26 @@
                 color: #cc242e !important;
             }
         }
-        .input-with-select{
-            .el-input-group__prepend{
-                padding:0;
+        .el-select .el-input {
+            width: 130px;
+        }
+        .el-input-group__prepend{
+            padding:0;
+            border:none;
+            .el-cascader{
+                width:110px;
+                line-height: 38px;
                 border:none;
-                .el-cascader{
-                    width:110px;
-                }
-                .iconfont{
-                    font-size: 20px;
-                }
                 .el-input__inner{
                     border-right:none;
                 }
             }
-            .el-input__inner{
-                border:solid 1px #cccccc;
-                border-right:none;
+            .iconfont{
+                font-size: 20px;
             }
-            .el-input-group__append{
-                border:solid 1px #cccccc;
-                border-left:none;
-            }
-
+        }
+        .input-with-select .el-input-group__prepend {
+            background-color: #fff;
         }
     }
 </style>

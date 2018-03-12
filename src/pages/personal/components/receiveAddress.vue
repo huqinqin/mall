@@ -8,37 +8,37 @@
                      label-position="top"
                      class="demo-ruleForm">
                 <el-form-item :label='$t("main.cart.settle.mainCartSeContact")' prop="name" style="margin-top: 5px;">
-                    <el-input v-model="ruleForm.name"></el-input>
+                    <el-input v-model="ruleForm.name" class="commonWidth"></el-input>
                 </el-form-item>
                 <br>
-                <el-form-item :label='$t("main.personal.receiveAdd.mainPerReTeleNum")' prop="telephone"
+                <el-form-item :label='$t("main.personal.receiveAdd.mainPerReTeleNum")' prop="mobile"
                               style="margin-top: 5px;">
-                    <el-input v-model="ruleForm.mobile"></el-input>
+                    <el-input v-model="ruleForm.mobile" class="commonWidth"></el-input>
                 </el-form-item>
                 <br>
                 <el-form-item :label='$t("main.personal.card.mainPerCarAddress")' prop="address"
                               style="margin-top: 5px;">
-                    <el-input type="textarea" resize="none" v-model="ruleForm.address" class="address"></el-input>
+                    <el-input v-model="ruleForm.address" class="commonWidth"></el-input>
                 </el-form-item>
                 <br>
                 <el-form-item :label='$t("main.personal.card.mainPerCarCity")' prop="city" style="margin-top: 5px;">
-                    <el-input v-model="ruleForm.city"></el-input>
+                    <el-input v-model="ruleForm.city" class="commonWidth"></el-input>
                 </el-form-item>
                 <br>
                 <el-form-item :label='$t("main.personal.card.mainPerCarCountry")' prop="country"
                               style="margin-top: 5px;">
-                    <el-select v-model="ruleForm.country" :placeholder='$t("main.personal.card.mainPerCarEnterCoun")'>
+                    <el-select v-model="ruleForm.country" :placeholder='$t("main.personal.card.mainPerCarEnterCoun")' class="commonWidth">
                         <el-option :label='$t("main.personal.card.mainPerCarUsa")'
                                    :value='$t("main.personal.card.mainPerCarUsa")'></el-option>
                     </el-select>
                 </el-form-item>
                 <br>
-                <el-form-item :label='$t("main.personal.card.mainPerCarState")' prop="state" style="margin-top: 5px;">
-                    <lts-location v-model="ruleForm.location" :labels.sync="locationLabel" style="width: 400px"/>
+                <el-form-item :label='$t("main.personal.card.mainPerCarState")' prop="location" style="margin-top: 5px;">
+                    <lts-location v-model="ruleForm.location" :labels.sync="locationLabel" class="commonWidth"/>
                 </el-form-item>
                 <br>
                 <el-form-item :label='$t("main.personal.card.mainPerCarZip")' prop="zipCode" style="margin-top: 5px;">
-                    <el-input v-model="ruleForm.zipCode"></el-input>
+                    <el-input v-model="ruleForm.zipCode" class="commonWidth"></el-input>
                 </el-form-item>
                 <br>
                 <el-form-item>
@@ -151,7 +151,7 @@
                     name: [
                         {required: true, message: this.$t("main.personal.personalMsg.mainPerPerEnterName"), trigger: 'blur'}
                     ],
-                    telephone: [
+                    mobile: [
                         {required: true, message: this.$t("main.personal.receiveAdd.mainPerReEnterPhone"), trigger: 'blur'}
                     ],
                     address: [
@@ -163,7 +163,7 @@
                     country: [
                         {required: true, message: this.$t("main.personal.card.mainPerCarSeleCount"), trigger: 'change'}
                     ],
-                    state: [
+                    location: [
                         {required: true, message: this.$t("main.personal.card.mainPerCarSeleState"), trigger: 'change'}
                     ],
                     zipCode: [
@@ -197,7 +197,6 @@
                     zipCode: this.ruleForm.zipCode,
                     lcCode: this.ruleForm.location[0]
                 };
-                debugger;
 
                 if (this.tableData == '') {
                     this.ruleForm.setDefaultFlag = true;
@@ -266,7 +265,7 @@
     }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
     .receiveAddress {
         margin-left: 60px;
         .title {
@@ -299,6 +298,9 @@
         }
         .input-with-select .el-input-group__prepend {
             background-color: #fff;
+        }
+        .commonWidth{
+            width: 400px;
         }
     }
 </style>

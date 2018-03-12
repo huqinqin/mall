@@ -18,6 +18,13 @@ export default {
             callback(new Error('密码格式错误!'))
         }
     },
+    validatePhoneNew(value, callback){
+        //let reg =  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/;
+        let reg = /^[2-9][0-9]{2}[2-9][0-9]{2}[0-9]{4}$/;
+        if(!reg.test(value)){
+            callback(new Error('号码格式错误!'))
+        }
+    },
     validateMobile(rule, value, callback){
         callback()
     },
@@ -73,7 +80,7 @@ export default {
      */
     mobile: [
         {required: true, message: '请输入手机号', trigger: 'blur'},
-        {min: 11, max: 11, message: '长度在11个字符', trigger: 'blur'},
+        {min: 10, max: 10, message: '长度在10个字符', trigger: 'blur'},
         {validator: this.validateMobile, trigger: 'blur'}
     ],
     /**
@@ -81,7 +88,7 @@ export default {
      */
     phone: [
         {required: true, message: '请输入联系号码', trigger: 'blur'},
-        {min: 11, max: 16, message: '长度在 11-16 个字符', trigger: 'blur'},
+        {min: 10, max: 10, message: '长度在10个字符', trigger: 'blur'},
         {validator: this.validatePhone, trigger: 'blur'}
     ],
 }

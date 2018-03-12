@@ -253,7 +253,6 @@
                     picture: this.ruleForm.cardPicUrl,
                     postcode: this.ruleForm.zipcode,
                     remark: "",
-                    shopUid: this.ruleForm.uid,
                     state: this.locationLabel[0],//州
                     status: 0,//状态
                     type: ''//设为默认，0，有效
@@ -289,7 +288,6 @@
                     picture: this.ruleForm.cardPicUrl,
                     postcode: this.ruleForm.zipcode,
                     remark: "",
-                    shopUid: this.ruleForm.uid,
                     state: this.locationLabel[0],//州
                     status: 0,//状态
                     type: this.ruleForm.setDefaultFlag ? 1 : 0//设为默认，0，有效

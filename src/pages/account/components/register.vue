@@ -93,6 +93,12 @@
                     this.$ltsMessage.show({type: 'error', message: msg.error_message})
                 })
             }
+            let checkMobile = (rule, value, callback)=>{
+                let reg = /^[2-9][0-9]{2}[2-9][0-9]{2}[0-9]{4}$/;
+                if(!reg.test(value)){
+                    callback(new Error('号码格式错误!'))
+                }
+            }
             return{
                 checked:false,
                 send:true,
@@ -128,7 +134,10 @@
                         { required: true, message: this.$t("main.accountNew.register.mainAcReContentNotNull"), trigger: 'blur' },
                     ],
                     email:validatorConfig.email,
-                    phone:validatorConfig.validatePhoneNew((this.signupForm.phone, callback)),
+                    phone: [
+                        { required: true, message:  this.$t("main.accountNew.register.mainAcReContentNotNull"), trigger: 'blur' },
+                        {validator:checkMobile,trigger: 'blur,change'}
+                    ],
                     address:validatorConfig.address,
                 },
                 globlaNum: [{

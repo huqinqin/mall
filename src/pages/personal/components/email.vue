@@ -146,7 +146,7 @@
             height: 40px;
         }
         .submitBtn {
-            width: 100px;
+            padding: 0 20px;
             height: 40px;
         }
         .emailButton{

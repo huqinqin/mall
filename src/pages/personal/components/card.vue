@@ -24,36 +24,37 @@
                 <br>
                 <el-form-item :label='$t("main.personal.card.mainPerCarCompany")' prop="company"
                               style="margin-top: 5px;">
-                    <el-input v-model="ruleForm.company"></el-input>
+                    <el-input v-model="ruleForm.company" class="commonWidth"></el-input>
                 </el-form-item>
                 <br>
                 <el-form-item :label='$t("main.personal.card.mainPerCarDisProveNum")' prop="number"
                               style="margin-top: 5px;">
-                    <el-input v-model="ruleForm.number"></el-input>
+                    <el-input v-model="ruleForm.number" class="commonWidth"></el-input>
                 </el-form-item>
                 <br>
                 <el-form-item :label='$t("main.personal.card.mainPerCarAddress")' prop="address"
                               style="margin-top: 5px;">
-                    <el-input type="textarea" resize="none" v-model="ruleForm.address" class="address"></el-input>
+                    <el-input v-model="ruleForm.address" class="commonWidth"></el-input>
                 </el-form-item>
                 <br>
                 <el-form-item :label='$t("main.personal.card.mainPerCarCity")' prop="city" style="margin-top: 5px;">
-                    <el-input v-model="ruleForm.city"></el-input>
+                    <el-input v-model="ruleForm.city" class="commonWidth"></el-input>
                 </el-form-item>
                 <br>
                 <el-form-item :label='$t("main.personal.card.mainPerCarCountry")' prop="country"
                               style="margin-top: 5px;">
-                    <el-select v-model="ruleForm.country" :placeholder='$t("main.personal.card.mainPerCarEnterCoun")'>
+                    <el-select v-model="ruleForm.country" :placeholder='$t("main.personal.card.mainPerCarEnterCoun")' class="commonWidth">
                         <el-option :label='$t("main.personal.card.mainPerCarUsa")'
                                    :value='$t("main.personal.card.mainPerCarUsa")'></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item :label='$t("main.personal.card.mainPerCarState")' prop="state" style="margin-top: 5px;">
-                    <lts-location v-model="ruleForm.location" :labels.sync="locationLabel" style="width: 400px"/>
+                <br>
+                <el-form-item :label='$t("main.personal.card.mainPerCarState")' prop="location" style="margin-top: 5px;">
+                    <lts-location v-model="ruleForm.location" :labels.sync="locationLabel" class="commonWidth"/>
                 </el-form-item>
                 <br>
                 <el-form-item :label='$t("main.personal.card.mainPerCarZip")' prop="zipcode" style="margin-top: 5px;">
-                    <el-input v-model="ruleForm.zipcode"></el-input>
+                    <el-input v-model="ruleForm.zipcode" class="commonWidth"></el-input>
                 </el-form-item>
                 <br>
                 <el-form-item :label='$t("main.personal.card.mainPerCarFromDate")' prop="" style="margin-top: 5px;">
@@ -64,7 +65,7 @@
                         start-placeholder="start date"
                         end-placeholder="end date"
                         :default-time="['00:00:00', '23:59:59']"
-                        class="common-width">
+                        class="commonWidth">
                     </el-date-picker>
                 </el-form-item>
                 <!--<br>
@@ -120,11 +121,11 @@
                 :label='$t("main.personal.card.mainPerCarState")'
                 width="100">
             </el-table-column>
-            <el-table-column
+            <!--<el-table-column
                 prop="country"
                 :label='$t("main.personal.card.mainPerCarCountry")'
                 width="100">
-            </el-table-column>
+            </el-table-column>-->
             <el-table-column
                 prop="postcode"
                 :label='$t("main.personal.card.mainPerCarZip")'
@@ -219,8 +220,8 @@
                     country: [
                         {required: true, message: this.$t("main.personal.card.mainPerCarSeleCount"), trigger: 'change'}
                     ],
-                    state: [
-                        {required: true, message: this.$t("main.personal.card.mainPerCarSeleState"), trigger: 'blur'}
+                    location: [
+                        {required: true, message: this.$t("main.personal.card.mainPerCarSeleState"), trigger: 'change'}
                     ],
                     zipcode: [
                         {required: true, message: this.$t("main.personal.card.mainPerCarPutZip"), trigger: 'blur'}
@@ -377,11 +378,23 @@
     }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
     .card {
         .avatar-uploader {
             .avatar {
                 width: 100%;
+            }
+
+            .avatar-uploader-icon {
+                border: 1px dashed #d9d9d9;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 28px;
+                color: #8c939d;
+                width: 178px;
+                height: 178px;
+                line-height: 178px;
+                text-align: center;
             }
         }
         margin-left: 60px;
@@ -409,12 +422,11 @@
             width: 100px;
             height: 40px;
         }
-        .address textarea {
-            width: 400px;
-            height: 150px;
-        }
         .input-with-select .el-input-group__prepend {
             background-color: #fff;
+        }
+        .commonWidth{
+            width: 400px;
         }
     }
 </style>

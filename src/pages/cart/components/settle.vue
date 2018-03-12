@@ -143,7 +143,7 @@
         <el-table-column prop="" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
           <template slot-scope="scope">
             <p class="oldPrice" v-if="scope.row.discount_type == 1 || scope.row.discount_type == 2 || scope.row.discount_type == 4"><span><span><lts-money :money="scope.row.oldPrice"></lts-money></span></span></p>
-            <p><span><span><lts-money :money="scope.row.realPrice"></lts-money></span></span></p>
+            <p class="red"><span><span><lts-money :money="scope.row.realPrice"></lts-money></span></span></p>
           </template>
         </el-table-column>
         <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="" prop="num" align="center">
@@ -152,7 +152,7 @@
           <template slot-scope="scope">
             <div class="count" ref="count">
               <!--<p  class="oldPrice"  v-if="scope.row.discount_type == 1 || scope.row.discount_type == 2 || scope.row.discount_type == 4"><span><span><lts-money :money="(scope.row.oldPrice) * scope.row.num"></lts-money></span></span></p>-->
-              <p><span><span><lts-money :money="(scope.row.realPrice) * scope.row.num"></lts-money></span></span></p>
+              <p class="red"><span><span><lts-money :money="(scope.row.realPrice) * scope.row.num"></lts-money></span></span></p>
             </div>
           </template>
         </el-table-column>
@@ -198,7 +198,7 @@
       <p>{{$t("main.cart.settle.mainCartSeQuaAddr")}}： {{checkedAddress.address}}&nbsp;{{checkedAddress.building}}</p>
     </div>
     <div class="submit">
-      <el-button @click="settle" :disabled="canSubmit">{{$t("main.cart.settle.mainCartSeSubOrder")}}</el-button>
+      <el-button @click="settle" :disabled="canSubmit || checkedId == 0">{{$t("main.cart.settle.mainCartSeSubOrder")}}</el-button>
     </div>
   </div>
 </template>
@@ -295,7 +295,7 @@
           {value: 'Wyoming-500101000000',label: 'Wyoming',}
         ],
         defaultId: '',
-        checkedId: '',
+        checkedId: 0,
         addForm: {
           setDefault: false,
           StateSelection:[]
@@ -417,18 +417,6 @@
               value.address = value.address.slice(0, position)
             }
           })
-          //
-          // data.data.distribute_certificate_d_o.forEach((value, index) => {
-          //
-          //   value.zipCode = value.postcode
-          //   value.user_name = value.company
-          //   value.building = value.city
-          //   value.valid = dateUtils.timeToStr(value.valid_time)
-          //   this.addressData.push(value)
-          // })
-
-
-
             if(!this.defaultId){
             this.checkedId = this.addressData[0].id
             this.checkedAddress = this.addressData[0]
@@ -602,6 +590,7 @@
         // this.user_id = this.$route.params.userId
       }
       this.tableData.forEach((item) => {
+          console.log(item)
           if(item.discount_type == 1){
               item.realPrice = item.item_props[0].price * item.discount / 100
               item.oldPrice = item.item_props[0].price
@@ -722,6 +711,9 @@
         color: red;
         font-size: 16px;
       }
+        p.red{
+            color:#ff423b;
+        }
 
     }
     h5 {

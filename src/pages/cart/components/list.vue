@@ -157,7 +157,7 @@
                     <div class="popTitle" :class="{ 'noStart': !limitItem[0].rule.started }">{{ $t("main.cart.list.mainCartliOnsaleLimits") }} <span v-show="false">{{rending}}</span></div>
                     <div class="popDetail" :class="[{ 'noStart': !limitItem[0].rule.started }, {'started': limitItem[0].rule.started}]">
                       <div v-if="!limitItem[0].rule.finished">
-                        <span v-if="!limitItem[0].rule.started">{{$t("main.cart.list.mainCartliEndCountdown")}}</span>
+                        <span v-if="limitItem[0].rule.started">{{$t("main.cart.list.mainCartliEndCountdown")}}</span>
                         <span v-else>{{$t("main.cart.list.mainCartliStartCountdown")}}</span>：
                         <span v-if="limitItem[0].rule.day">{{limitItem[0].rule.day}}{{$t("main.detail.info.mainDetInfoDay")}}</span>
                       </div>

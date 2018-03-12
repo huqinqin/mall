@@ -559,7 +559,8 @@
                     'status': this.item.status,
                     'storage': this.item.storage,
                     'tag': this.item.tag,
-                    'url': this.item.url
+                    'url': this.item.url,
+                    'sale_rule': this.item.sale_rule
                 }
                 window.open('/cart#/settle?item=' + JSON.stringify(items))
             },

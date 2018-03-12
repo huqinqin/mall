@@ -1,5 +1,5 @@
 <template>
-    <el-cascader :options="locationOptions" v-model="location" class="lts-location" expand-trigger="hover" @change="changeHandler"/>
+    <el-cascader :options="locationOptions" v-model="location" class="lts-location" popper-class="location-Popover" expand-trigger="hover" @change="changeHandler"/>
 </template>
 
 <script>

@@ -87,9 +87,9 @@
                     {
                         name : 'project registration',
                         icon : 'icon-jiatingjiejuefangan',
-                        first : 'Project',
-                        last : 'Registration',
-                        link : 'javascript:void(0)',
+                        first : 'PROJECT',
+                        last : 'REGISTRATION',
+                        link : '//www.ltsecurityinc.com/projectregistration',
                         needLogin : false
                     },
                     {
@@ -126,7 +126,7 @@
                     {
                         name : 'shopping center',
                         icon : 'icon-gouwuche2',
-                        first : 'SUOPPING',
+                        first : 'SHOPPING',
                         last : 'CART',
                         link : '/cart',
                         needLogin : true

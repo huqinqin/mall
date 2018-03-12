@@ -82,9 +82,9 @@
                     <el-form-item :label='$t("main.detail.info.mainDetInfoCozyTip")' class="mark">
                         <p>{{ $t("main.detail.info.mainDetInfoNoReason") }}</p>
                     </el-form-item>
-                    <el-form-item class="buttons" v-if="item.status == 1 && !finished">
+                    <el-form-item class="buttons" v-if="item.status == 1">
                         <lts-login display="inline-block">
-                            <el-button @click.stop="buyNow" type="button" :disabled="!(started != finished)">
+                            <el-button @click.stop="buyNow" type="button" :disabled="(item.discount_type == 4 && (!started) || (started && finished))">
                                 {{ $t("main.detail.info.mainDetInfoImme") }}
                             </el-button>
                         </lts-login>
@@ -94,7 +94,7 @@
                             </el-button>
                         </lts-login>
                     </el-form-item>
-                    <el-form-item class="buttons-disabled" v-else-if="item.status != 1 || finished">
+                    <el-form-item class="buttons-disabled" v-else-if="item.status != 1">
                         <el-button type="info" plain disabled>
                             {{ $t("main.detail.info.mainDetInfoOffShelf") }}
                         </el-button>
@@ -1198,6 +1198,13 @@
                     }
                     button:focus {
                         outline: none;
+                    }
+                    button.is-disabled{
+                        background: #f3f3f3;
+                        color: #bbb;
+                    }
+                    button.is-disabled:hover{
+                        cursor: not-allowed;
                     }
                 }
                 .buttons-disabled button {

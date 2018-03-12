@@ -6,7 +6,7 @@
             <div class="line"></div>
         </header>
         <main>
-            <el-form label-position="top" :model="signupForm" :rules="rules">
+            <el-form label-position="top" :model="signupForm" :rules="rules" ref="form">
                 <el-form-item label="Email address" prop="email">
                     <el-input v-model="signupForm.email" ></el-input>
                 </el-form-item>
@@ -96,7 +96,9 @@
             let checkMobile = (rule, value, callback)=>{
                 let reg = /^[2-9][0-9]{2}[2-9][0-9]{2}[0-9]{4}$/;
                 if(!reg.test(value)){
-                    callback(new Error('号码格式错误!'))
+                    callback(new Error(this.$t("validate.valiPhone")));
+                }else{
+                    callback();
                 }
             }
             return{
@@ -135,7 +137,7 @@
                     ],
                     email:validatorConfig.email,
                     phone: [
-                        { required: true, message:  this.$t("main.accountNew.register.mainAcReContentNotNull"), trigger: 'blur' },
+                        { required: true, message:  this.$t("validate.valiPhoneNull"), trigger: 'blur' },
                         {validator:checkMobile,trigger: 'blur,change'}
                     ],
                     address:validatorConfig.address,
@@ -175,27 +177,35 @@
                 this.signupForm.url.push(response.data.url);
             },
             submitFrom(){
-                let params = {
-                    businessPhone:"1-"+this.signupForm.phone,
-                    zipCode:this.signupForm.address,
-                    taxId:this.signupForm.FTI,
-                    typeOfBusiness:this.signupForm.Business,
-                    urls:this.signupForm.url
-                };
-                let obj = {
-                    email: this.signupForm.email,
-                    contractName:this.signupForm.fisrtName + this.signupForm.lastName,
-                    companyName: this.signupForm.companyName,
-                    mobile:"1-" + this.signupForm.mobile,
-                    type:3,
-                    from:'PC_WEB',
-                    ext:params
-                }
-                accountService.creatAccount(obj).then((data) => {
-                    this.$ltsMessage.show({type: 'success', message: this.$t("main.accountNew.register.mainAcReCreateSuccess")})
-                    this.$router.push('/waitAuthing')
-                },(msg) => {
-                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                this.$refs.form.validate((valid) => {
+                    if(valid){
+                        let params = {
+                            businessPhone: "1-" + this.signupForm.phone,
+                            zipCode: this.signupForm.address,
+                            taxId: this.signupForm.FTI,
+                            typeOfBusiness: this.signupForm.Business,
+                            urls: this.signupForm.url
+                        };
+                        let obj = {
+                            email: this.signupForm.email,
+                            contractName: this.signupForm.fisrtName + this.signupForm.lastName,
+                            companyName: this.signupForm.companyName,
+                            mobile: "1-" + this.signupForm.mobile,
+                            type: 3,
+                            from: 'PC_WEB',
+                            ext: params
+                        }
+                        accountService.creatAccount(obj).then((data) => {
+                            this.$ltsMessage.show({
+                                type: 'success',
+                                message: this.$t("main.accountNew.register.mainAcReCreateSuccess")
+                            })
+                            this.$router.push('/waitAuthing')
+                        }, (msg) => {
+                            this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                        })
+                    }
+
                 })
             },
             getCode(){

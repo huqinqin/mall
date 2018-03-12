@@ -23,14 +23,10 @@
                 <h3>{{item.item_name}}</h3>
                 <!-- 商品属性-->
                 <div class="slogan" :class="{ isFinished: finished }">
-                    <span v-if="item.discount_type == 1"
-                          class="bold">{{ $t("main.detail.info.mainDetInfoDisGoods") }}</span>
+                    <span v-if="item.discount_type == 1" class="bold">{{ $t("main.detail.info.mainDetInfoDisGoods") }}</span>
                     <span v-else-if="item.discount_type == 2" class="bold">{{ $t("main.detail.info.mainDetInfoDepriceGoods") }}</span>
-                    <span v-else-if="item.discount_type == 4"
-                          class="bold">{{ $t("main.detail.info.mainDetInfoLimit") }}</span>
-                    <div class="count" style="margin-right:24px;" v-if="finished">{{
-                        $t("main.detail.info.mainDetInLimitOver") }}
-                    </div>
+                    <span v-else-if="item.discount_type == 4" class="bold">{{ $t("main.detail.info.mainDetInfoLimit") }}</span>
+                    <div class="count" style="margin-right:24px;" v-if="finished">{{ $t("main.detail.info.mainDetInLimitOver") }} </div>
                     <div class="count" v-if="(item.discount_type == 4) && (!finished) && item.status == 1">
                         <span v-if="!started" class="bold">{{ $t("main.detail.info.mainDetInfoDown") }}</span>
                         <span v-if="started" class="bold">{{ $t("main.detail.info.mainDetInfoEnd") }}</span>
@@ -88,7 +84,7 @@
                     </el-form-item>
                     <el-form-item class="buttons" v-if="item.status == 1 && !finished">
                         <lts-login display="inline-block">
-                            <el-button @click.stop="buyNow" type="button">
+                            <el-button @click.stop="buyNow" type="button" :disabled="!(started != finished)">
                                 {{ $t("main.detail.info.mainDetInfoImme") }}
                             </el-button>
                         </lts-login>
@@ -436,8 +432,8 @@
                     this.hotSale = data.data.hot_recomment.items
                     this.buyHistory = data.data.user_order_history
                     if (this.item.discount_type === 4) {
-                        this.end = Date.parse(new Date(this.item.sale_rule_do.end_time))
-                        this.start = Date.parse(new Date(this.item.sale_rule_do.start_time))
+                        this.end = this.item.end_time
+                        this.start = this.item.start_time
                         let now = Date.parse(new Date())
                         if (this.end > now) {
                             this.countdown()

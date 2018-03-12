@@ -48,7 +48,7 @@
                       </p>
                     </template>
                   </el-table-column>
-                  <el-table-column prop="" width="92" :label='$t("main.cart.list.mainCartliStock")' align="center">
+                  <el-table-column prop="" width="100" :label='$t("main.cart.list.mainCartliStock")' align="center">
                     <template slot-scope="subscope">
                       <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">{{
                         $t("main.cart.list.mainCartliAvailable") }}</p>
@@ -154,10 +154,10 @@
               <div v-else-if="scope.row.limit && scope.row.limit.length>0" >
                 <div v-for="limitItem in scope.row.limit" :key="limitItem.id" class="limitTable subtable">
                   <div class="popover">
-                    <div class="popTitle" :class="{ 'noStart': !limitItem[0].rule.started }">{{ $t("main.cart.list.mainCartliOnsaleLimits") }}</div>
+                    <div class="popTitle" :class="{ 'noStart': !limitItem[0].rule.started }">{{ $t("main.cart.list.mainCartliOnsaleLimits") }} <span v-show="false">{{rending}}</span></div>
                     <div class="popDetail" :class="[{ 'noStart': !limitItem[0].rule.started }, {'started': limitItem[0].rule.started}]">
                       <div v-if="!limitItem[0].rule.finished">
-                        <span v-if="limitItem[0].rule.started">{{$t("main.cart.list.mainCartliEndCountdown")}}</span>
+                        <span v-if="!limitItem[0].rule.started">{{$t("main.cart.list.mainCartliEndCountdown")}}</span>
                         <span v-else>{{$t("main.cart.list.mainCartliStartCountdown")}}</span>：
                         <span v-if="limitItem[0].rule.day">{{limitItem[0].rule.day}}{{$t("main.detail.info.mainDetInfoDay")}}</span>
                       </div>
@@ -165,7 +165,6 @@
                         <span>{{$t("main.detail.info.mainDetInLimitOver")}}</span>
                       </div>
                       <div class="timeDown" v-if="!limitItem[0].rule.finished">
-                        <span v-show="false">{{t}}</span>
                         <div>{{limitItem[0].rule.hr}}</div>:
                         <div>{{limitItem[0].rule.min}}</div>:
                         <div>{{limitItem[0].rule.sec}}</div>
@@ -217,7 +216,10 @@
                     <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="200" prop="num" align="center">
                       <template slot-scope="subscope">
                         <div class="inputNumber">
-                          <el-input-number :min='1' size="small" v-model="subscope.row.num"
+                          <el-input-number :min='subscope.row.mininum'
+                                           :max="subscope.row.item_props[0].storage > subscope.row.maxinum ? subscope.row.maxinum : subscope.row.item_props[0].storage"
+                                           size="small"
+                                           v-model="subscope.row.num"
                                            @change="inputNumeberChange(subscope.row)"
                                            :label='$t("main.cart.list.mainCartliDescWord")'></el-input-number>
                         </div>
@@ -398,6 +400,7 @@
     mounted () {
       setTimeout(() => {
         this.queryCartList()
+        this.minus()
         // this.putCartPlus()
       }, 20)
     },
@@ -535,9 +538,9 @@
               this.tableData[1].reduce.push(value)
             } else if (value.discount_type === 4) {
               value.rule = JSON.parse(value.sale_rule)
-              value.item_props[0].storage = value.rule.maxinum
-              value.rule.end = Date.parse(value.rule.endTime)
-              value.rule.start = Date.parse(value.rule.startTime)
+              value.item_props[0].storage = value.rule.total
+              value.rule.end = value.end_time
+              value.rule.start = value.start_time
               // value.rule.end = 1520438400000
               // value.rule.start = 1519833600000
               // value.rule.end = 1553702400000
@@ -653,7 +656,15 @@
             this.countdown(value)
           }, 1000)
         }
-      }
+      },
+        // 查询是否有满减活动
+        minus(){
+          cartService.getFullSetting().then((data) => {
+              console.log(data)
+          }, (msg) => {
+              this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
+          })
+        }
     },
     watch: {
       tableData: {

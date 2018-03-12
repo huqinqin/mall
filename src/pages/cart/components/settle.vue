@@ -76,7 +76,7 @@
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="submitFrom">{{ $t("main.cart.settle.mainCartSeSure") }}</el-button>
+          <el-button type="primary" @click="submitForm">{{ $t("main.cart.settle.mainCartSeSure") }}</el-button>
         </div>
       </el-dialog>
     </div>
@@ -94,7 +94,8 @@
           <el-radio-button label="ZITI" value="">{{ $t("main.cart.beforePay.mainCartBefSelfFetch") }}</el-radio-button>
           <el-radio-button label="SHSM" value="">{{ $t("main.cart.beforePay.mainCartBefExpress") }}</el-radio-button>
         </el-radio-group>
-        <div class="selectExpress" v-if="deliveryType == 'SHSM'">
+        <!--<div class="selectExpress" v-if="deliveryType == 'SHSM'">-->
+        <div class="selectExpress" v-if="false">
           <el-form label-position="top">
             <el-form-item label="LOGISTICS COMPANY:">
               <el-radio-group v-model="expressForm.express" >
@@ -178,14 +179,10 @@
     </div>
     <div class="someCount">
       <div class="count">
-        <p>{{ $t("main.cart.settle.mainCartSeShouldPay") }}： <span class="money"><span
-          v-if="sum.amount == 0 || sum.amount"><lts-money :money="sum.amount"></lts-money></span></span></p>
-        <p>{{ $t("main.cart.settle.mainCartSeFright") }}： <span><span v-if="sum.express == 0 || sum.express">+<lts-money
-          :money="sum.express"></lts-money></span></span></p>
-        <p>{{ $t("main.cart.settle.mainCartSeTax") }}： <span><span v-if="sum.tax == 0 || sum.tax">+<lts-money
-          :money="sum.tax"></lts-money></span></span></p>
-        <p>{{ $t("main.cart.list.mainCartliBenefit") }}： <span><span v-if="sum.promotion == 0 || sum.promotion">-<lts-money
-          :money="sum.promotion"></lts-money></span></span></p>
+        <p>{{ $t("main.cart.settle.mainCartSeShouldPay") }}： <span class="money"><span v-if="sum.amount == 0 || sum.amount"><lts-money :money="sum.amount"></lts-money></span></span></p>
+        <p>{{ $t("main.cart.settle.mainCartSeFright") }}： <span><span v-if="sum.express == 0 || sum.express">+<lts-money :money="sum.express"></lts-money></span></span></p>
+        <p>{{ $t("main.cart.settle.mainCartSeTax") }}： <span><span v-if="sum.tax == 0 || sum.tax">+<lts-money :money="sum.tax"></lts-money></span></span></p>
+        <p>{{ $t("main.cart.list.mainCartliBenefit") }}： <span><span v-if="sum.promotion == 0 || sum.promotion">-<lts-money :money="sum.promotion"></lts-money></span></span></p>
         <p v-if="bonusId">{{$t("main.someinfo.mainSomeCoupon")}}：<span>-<lts-money :money="bonus" /></span></p>
         <p class="result">{{ $t("main.cart.settle.mainCartSeMustPay") }}： <span>
             <span v-if="totalPrice && !bonus"><lts-money :money="totalPrice"></lts-money></span>
@@ -440,7 +437,7 @@
         })
       },
       // 提交地址表单
-      submitFrom () {
+      submitForm () {
         if (this.editOrAdd) {
           addressService.updateItem(this.addForm).then((data) => {
             this.getAddressList()
@@ -612,7 +609,7 @@
               item.realPrice = item.item_props[0].price - item.discount
               item.oldPrice = item.item_props[0].price
           }else if(item.discount_type == 4){
-              item.realPrice = 0
+              item.realPrice = JSON.parse(item.sale_rule).price
               // item.realPrice = item.sale_rule_do.price
               item.oldPrice = item.item_props[0].price
           }else{

@@ -48,7 +48,7 @@
                       </p>
                     </template>
                   </el-table-column>
-                  <el-table-column prop="" width="90" :label='$t("main.cart.list.mainCartliStock")' align="center">
+                  <el-table-column prop="" width="100" :label='$t("main.cart.list.mainCartliStock")' align="center">
                     <template slot-scope="subscope">
                       <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">{{
                         $t("main.cart.list.mainCartliAvailable") }}</p>
@@ -119,7 +119,7 @@
                         </p>
                     </template>
                   </el-table-column>
-                  <el-table-column prop="" width="90" :label='$t("main.cart.list.mainCartliStock")' align="center">
+                  <el-table-column prop="" width="100" :label='$t("main.cart.list.mainCartliStock")' align="center">
                     <template slot-scope="subscope">
                       <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">{{
                         $t("main.cart.list.mainCartliAvailable") }}</p>
@@ -207,7 +207,7 @@
                           </p>
                       </template>
                     </el-table-column>
-                    <el-table-column prop="" width="90" :label='$t("main.cart.list.mainCartliStock")' align="center">
+                    <el-table-column prop="" width="100" :label='$t("main.cart.list.mainCartliStock")' align="center">
                       <template slot-scope="subscope">
                         <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">{{
                           $t("main.cart.list.mainCartliAvailable") }}</p>
@@ -271,7 +271,7 @@
                         <p><lts-money :money="subscope.row.realPrice"></lts-money></p>
                     </template>
                   </el-table-column>
-                  <el-table-column prop="" width="90" :label='$t("main.cart.list.mainCartliStock")' align="center">
+                  <el-table-column prop="" width="100" :label='$t("main.cart.list.mainCartliStock")' align="center">
                     <template slot-scope="subscope">
                       <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">{{
                         $t("main.cart.list.mainCartliAvailable") }}</p>
@@ -307,7 +307,7 @@
           </el-table-column>
           <el-table-column :label='$t("main.cart.list.mainCartliGoodsInfo")' width="600"></el-table-column>
           <el-table-column width="" :label='$t("main.cart.list.mainCartliPrice")' align="center"></el-table-column>
-          <el-table-column width="90" :label='$t("main.cart.list.mainCartliStock")' align="center"></el-table-column>
+          <el-table-column width="100" :label='$t("main.cart.list.mainCartliStock")' align="center"></el-table-column>
           <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="200" prop="num" align="center"></el-table-column>
           <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center"></el-table-column>
           <el-table-column :label='$t("main.cart.list.mainCartliOpera")' width="" align="center"></el-table-column>

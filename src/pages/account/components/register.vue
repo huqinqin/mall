@@ -19,7 +19,7 @@
                 <el-form-item label="Company name" prop="companyName">
                     <el-input v-model="signupForm.companyName" @keyup.enter="getCode"></el-input>
                 </el-form-item>
-                <el-form-item label="Business phone" prop="phone">
+                <el-form-item label="Business phone" prop="phone" >
                     <el-input v-model="signupForm.phone" ></el-input>
                 </el-form-item>
                 <el-form-item label="Mobile phone" prop="mobile">
@@ -111,7 +111,7 @@
                         { required: true, message: this.$t("main.accountNew.register.mainAcReContentNotNull"), trigger: 'blur' },
                     ],
                     email:validatorConfig.email,
-                    mobile:validatorConfig.phone,
+                    phone:validatorConfig.phone,
                     address:validatorConfig.address,
                 },
                 options: [{

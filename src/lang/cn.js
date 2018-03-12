@@ -380,6 +380,9 @@ export default {
                 mainPerCarPutZip: '请输入邮编',
                 mainPerCarUpDate: '上传时间',
                 mainPerCarDisStatus: '分销证状态',
+                mainPerCarDisPass: '通过',
+                mainPerCarDisNotPass: '未通过',
+                mainPerCarDisAudited: '待审核'
             },
             password: {
                 mainPerPwdsetter: '密码设置',

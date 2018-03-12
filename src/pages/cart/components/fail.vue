@@ -25,7 +25,7 @@
 
 <script>
   import detailOrder from '@/services/OrderService'
-
+  import {store} from 'ltsutil'
   export default {
     name: 'fail',
     data () {

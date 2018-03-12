@@ -246,12 +246,11 @@
             width:400px;
             margin:40px auto;
             .el-form{
-                label{
+                .el-form-item__label{
                     line-height: 26px;
                     margin-left: 10px;
                     position: relative;
                     padding:0;
-
                 }
                 label::before{
                     position: absolute;

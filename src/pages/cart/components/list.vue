@@ -1,353 +1,361 @@
 <template>
   <div class="cartlist">
-    <el-table
-      :data="tableData"
-      :default-expand-all="true"
-      :stripe="false"
-      tooltip-effect="dark"
-      style="width: 100%" align="right">
-      <el-table-column type="expand">
-        <template slot-scope="scope">
-          <div v-if="scope.row.discount && scope.row.discount.length>0" class="discountTable subtable">
-            <div class="popover">
-              <div class="popTitle">{{ $t("main.cart.list.mainCartliDisGoods") }}</div>
-            </div>
-            <el-table
-              :data="scope.row.discount"
-              :show-header="false"
-              style="width: 100%">
-              <el-table-column align="center" width="48">
-                <template slot-scope="subscope">
-                  <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)"></el-checkbox>
-                </template>
-              </el-table-column>
-              <el-table-column align="center" width="600">
-                <template slot-scope="subscope">
-                  <a :href="'/detail#/?id=' + subscope.row.id">
-                    <div class="item-img"
-                         :style="{backgroundImage : 'url(' + subscope.row.full_url + ')'}"></div>
-                    <div class="content">
-                      <p :title="subscope.row.item_name">{{subscope.row.item_name}}</p>
-                    </div>
-                    <ul class="other">
-                      <li v-for="(item,index) in subscope.row.item_props">
-                        <p v-for="(val,key) in item.prop_value" :title="val">{{key}}:{{val}}</p>
-                      </li>
-                    </ul>
-                  </a>
-                </template>
-              </el-table-column>
-              <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
-                <template slot-scope="subscope">
-                  <p class="oldPrice">
-                    <lts-money :money="subscope.row.oldPrice"></lts-money>
-                  </p>
-                  <p>
-                    <lts-money :money="subscope.row.realPrice"></lts-money>
-                  </p>
-                </template>
-              </el-table-column>
-              <el-table-column prop="" width="90" :label='$t("main.cart.list.mainCartliStock")' align="center">
-                <template slot-scope="subscope">
-                  <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">{{
-                    $t("main.cart.list.mainCartliAvailable") }}</p>
-                  <p v-else>{{ $t("main.cart.list.mainCartliStockInsuff") }}</p>
-                </template>
-              </el-table-column>
-              <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="200" prop="num" align="center">
-                <template slot-scope="subscope">
-                  <div class="inputNumber">
-                    <el-input-number :min='1' size="small" v-model="subscope.row.num"
-                                     @change="inputNumeberChange(subscope.row)"
-                                     :label='$t("main.cart.list.mainCartliDescWord")'></el-input-number>
-                  </div>
-                </template>
-              </el-table-column>
-              <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center">
-                <template slot-scope="subscope">
-                  <div class="count" >
-                    <lts-money :money="subscope.row.num * subscope.row.realPrice"></lts-money>
-                  </div>
-                </template>
-              </el-table-column>
-              <el-table-column :label='$t("main.cart.list.mainCartliOpera")' width="" align="center">
-                <template slot-scope="subscope">
-                  <div class="cart-delete" @click="deleteHandle(subscope.$index, subscope.row)">
-                    <i class="iconfont icon-shanchu"></i>
-                  </div>
-                </template>
-              </el-table-column>
-            </el-table>
-          </div>
-          <div v-else-if="scope.row.reduce && scope.row.reduce.length>0" class="reduceTable subtable">
-            <div class="popover">
-              <div class="popTitle">{{ $t("main.cart.list.mainCartliOnsaleGoods") }}</div>
-            </div>
-            <el-table
-              :data="scope.row.reduce"
-              :show-header="false"
-              style="width: 100%">
-              <el-table-column align="center" width="48">
-                <template slot-scope="subscope">
-                  <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)"></el-checkbox>
-                </template>
-              </el-table-column>
-              <el-table-column align="center" width="600">
-                <template slot-scope="subscope">
-                  <a :href="'/detail#/?id=' + subscope.row.id">
-                    <div class="item-img"
-                         :style="{backgroundImage : 'url(' + subscope.row.full_url + ')'}"></div>
-                    <div class="content">
-                      <p :title="subscope.row.item_name">{{subscope.row.item_name}}</p>
-                    </div>
-                    <ul class="other">
-                      <li v-for="(item,index) in subscope.row.item_props">
-                        <p v-for="(val,key) in item.prop_value" :title="val">{{key}}:{{val}}</p>
-                      </li>
-                    </ul>
-                  </a>
-                </template>
-              </el-table-column>
-              <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
-                <template slot-scope="subscope">
-                    <p class="oldPrice">
-                        <lts-money :money="subscope.row.oldPrice"></lts-money>
-                    </p>
-                    <p>
-                        <lts-money :money="subscope.row.realPrice"></lts-money>
-                    </p>
-                </template>
-              </el-table-column>
-              <el-table-column prop="" width="90" :label='$t("main.cart.list.mainCartliStock")' align="center">
-                <template slot-scope="subscope">
-                  <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">{{
-                    $t("main.cart.list.mainCartliAvailable") }}</p>
-                  <p v-else>{{ $t("main.cart.list.mainCartliStockInsuff") }}</p>
-                </template>
-              </el-table-column>
-              <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="200" prop="num" align="center">
-                <template slot-scope="subscope">
-                  <div class="inputNumber">
-                    <el-input-number :min='1' size="small" v-model="subscope.row.num"
-                                     @change="inputNumeberChange(subscope.row)"
-                                     :label='$t("main.cart.list.mainCartliDescWord")'></el-input-number>
-                  </div>
-                </template>
-              </el-table-column>
-              <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center">
-                <template slot-scope="subscope">
-                  <div class="count">
-                    <lts-money :money="subscope.row.num * subscope.row.realPrice"></lts-money>
-                  </div>
-                </template>
-              </el-table-column>
-              <el-table-column :label='$t("main.cart.list.mainCartliOpera")' width="" align="center">
-                <template slot-scope="subscope">
-                  <div class="cart-delete" @click="deleteHandle(subscope.$index, subscope.row)">
-                    <i class="iconfont icon-shanchu"></i>
-                  </div>
-                </template>
-              </el-table-column>
-            </el-table>
-          </div>
-          <div v-else-if="scope.row.limit && scope.row.limit.length>0" >
-            <div v-for="limitItem in scope.row.limit" :key="limitItem.id" class="limitTable subtable">
-              <div class="popover">
-                <div class="popTitle" :class="{ 'noStart': !limitItem[0].rule.started }">{{ $t("main.cart.list.mainCartliOnsaleLimits") }}</div>
-                <div class="popDetail" :class="[{ 'noStart': !limitItem[0].rule.started }, {'started': limitItem[0].rule.started}]">
-                  <div v-if="!limitItem[0].rule.finished">
-                    <span v-if="limitItem[0].rule.started">{{$t("main.cart.list.mainCartliEndCountdown")}}</span>
-                    <span v-else>{{$t("main.cart.list.mainCartliStartCountdown")}}</span>：
-                    <span v-if="limitItem[0].rule.day">{{limitItem[0].rule.day}}{{$t("main.detail.info.mainDetInfoDay")}}</span>
-                  </div>
-                  <div v-else-if="limitItem[0].rule.finished">
-                    <span>{{$t("main.detail.info.mainDetInLimitOver")}}</span>
-                  </div>
-                  <div class="timeDown" v-if="!limitItem[0].rule.finished">
-                    <span v-show="false">{{t}}</span>
-                    <div>{{limitItem[0].rule.hr}}</div>:
-                    <div>{{limitItem[0].rule.min}}</div>:
-                    <div>{{limitItem[0].rule.sec}}</div>
-                  </div>
+      <div v-if="cartNum">
+        <el-table
+          :data="tableData"
+          :default-expand-all="true"
+          :stripe="false"
+          tooltip-effect="dark"
+          style="width: 100%" align="right">
+          <el-table-column type="expand">
+            <template slot-scope="scope">
+              <div v-if="scope.row.discount && scope.row.discount.length>0" class="discountTable subtable">
+                <div class="popover">
+                  <div class="popTitle">{{ $t("main.cart.list.mainCartliDisGoods") }}</div>
                 </div>
-              </div>
-              <el-table
-                :data="limitItem"
-                :show-header="false"
-                style="width: 100%">
-                <el-table-column align="center" width="48">
-                  <template slot-scope="subscope">
-                    <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)" :disabled="!(subscope.row.rule.started && !subscope.row.rule.finished)"></el-checkbox>
-                  </template>
-                </el-table-column>
-                <el-table-column align="center" width="600">
-                  <template slot-scope="subscope">
-                    <a :href="'/detail#/?id=' + subscope.row.id">
-                      <div class="item-img"
-                           :style="{backgroundImage : 'url(' + subscope.row.full_url + ')'}"></div>
-                      <div class="content">
-                        <p :title="subscope.row.item_name">{{subscope.row.item_name}}</p>
-                      </div>
-                      <ul class="other">
-                        <li v-for="(item,index) in subscope.row.item_props">
-                          <p v-for="(val,key) in item.prop_value" :title="val">{{key}}:{{val}}</p>
-                        </li>
-                      </ul>
-                    </a>
-                  </template>
-                </el-table-column>
-                <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
-                  <template slot-scope="subscope">
+                <el-table
+                  :data="scope.row.discount"
+                  :show-header="false"
+                  style="width: 100%">
+                  <el-table-column align="center" width="48">
+                    <template slot-scope="subscope">
+                      <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)"></el-checkbox>
+                    </template>
+                  </el-table-column>
+                  <el-table-column align="center" width="600">
+                    <template slot-scope="subscope">
+                      <a :href="'/detail#/?id=' + subscope.row.id">
+                        <div class="item-img"
+                             :style="{backgroundImage : 'url(' + subscope.row.full_url + ')'}"></div>
+                        <div class="content">
+                          <p :title="subscope.row.item_name">{{subscope.row.item_name}}</p>
+                        </div>
+                        <ul class="other">
+                          <li v-for="(item,index) in subscope.row.item_props">
+                            <p v-for="(val,key) in item.prop_value" :title="val">{{key}}:{{val}}</p>
+                          </li>
+                        </ul>
+                      </a>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
+                    <template slot-scope="subscope">
                       <p class="oldPrice">
-                          <lts-money :money="subscope.row.oldPrice"></lts-money>
+                        <lts-money :money="subscope.row.oldPrice"></lts-money>
                       </p>
                       <p>
-                          <lts-money :money="subscope.row.realPrice"></lts-money>
+                        <lts-money :money="subscope.row.realPrice"></lts-money>
                       </p>
-                  </template>
-                </el-table-column>
-                <el-table-column prop="" width="90" :label='$t("main.cart.list.mainCartliStock")' align="center">
-                  <template slot-scope="subscope">
-                    <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">{{
-                      $t("main.cart.list.mainCartliAvailable") }}</p>
-                    <p v-else>{{ $t("main.cart.list.mainCartliStockInsuff") }}</p>
-                  </template>
-                </el-table-column>
-                <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="200" prop="num" align="center">
-                  <template slot-scope="subscope">
-                    <div class="inputNumber">
-                      <el-input-number :min='1' size="small" v-model="subscope.row.num"
-                                       @change="inputNumeberChange(subscope.row)"
-                                       :label='$t("main.cart.list.mainCartliDescWord")'></el-input-number>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="" width="100" :label='$t("main.cart.list.mainCartliStock")' align="center">
+                    <template slot-scope="subscope">
+                      <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">{{
+                        $t("main.cart.list.mainCartliAvailable") }}</p>
+                      <p v-else>{{ $t("main.cart.list.mainCartliStockInsuff") }}</p>
+                    </template>
+                  </el-table-column>
+                  <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="200" prop="num" align="center">
+                    <template slot-scope="subscope">
+                      <div class="inputNumber">
+                        <el-input-number :min='1' size="small" v-model="subscope.row.num"
+                                         @change="inputNumeberChange(subscope.row)"
+                                         :label='$t("main.cart.list.mainCartliDescWord")'></el-input-number>
+                      </div>
+                    </template>
+                  </el-table-column>
+                  <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center">
+                    <template slot-scope="subscope">
+                      <div class="count" >
+                        <lts-money :money="subscope.row.num * subscope.row.realPrice"></lts-money>
+                      </div>
+                    </template>
+                  </el-table-column>
+                  <el-table-column :label='$t("main.cart.list.mainCartliOpera")' width="" align="center">
+                    <template slot-scope="subscope">
+                      <div class="cart-delete" @click="deleteHandle(subscope.$index, subscope.row)">
+                        <i class="iconfont icon-shanchu"></i>
+                      </div>
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </div>
+              <div v-else-if="scope.row.reduce && scope.row.reduce.length>0" class="reduceTable subtable">
+                <div class="popover">
+                  <div class="popTitle">{{ $t("main.cart.list.mainCartliOnsaleGoods") }}</div>
+                </div>
+                <el-table
+                  :data="scope.row.reduce"
+                  :show-header="false"
+                  style="width: 100%">
+                  <el-table-column align="center" width="48">
+                    <template slot-scope="subscope">
+                      <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)"></el-checkbox>
+                    </template>
+                  </el-table-column>
+                  <el-table-column align="center" width="600">
+                    <template slot-scope="subscope">
+                      <a :href="'/detail#/?id=' + subscope.row.id">
+                        <div class="item-img"
+                             :style="{backgroundImage : 'url(' + subscope.row.full_url + ')'}"></div>
+                        <div class="content">
+                          <p :title="subscope.row.item_name">{{subscope.row.item_name}}</p>
+                        </div>
+                        <ul class="other">
+                          <li v-for="(item,index) in subscope.row.item_props">
+                            <p v-for="(val,key) in item.prop_value" :title="val">{{key}}:{{val}}</p>
+                          </li>
+                        </ul>
+                      </a>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
+                    <template slot-scope="subscope">
+                        <p class="oldPrice">
+                            <lts-money :money="subscope.row.oldPrice"></lts-money>
+                        </p>
+                        <p>
+                            <lts-money :money="subscope.row.realPrice"></lts-money>
+                        </p>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="" width="100" :label='$t("main.cart.list.mainCartliStock")' align="center">
+                    <template slot-scope="subscope">
+                      <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">{{
+                        $t("main.cart.list.mainCartliAvailable") }}</p>
+                      <p v-else>{{ $t("main.cart.list.mainCartliStockInsuff") }}</p>
+                    </template>
+                  </el-table-column>
+                  <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="200" prop="num" align="center">
+                    <template slot-scope="subscope">
+                      <div class="inputNumber">
+                        <el-input-number :min='1' size="small" v-model="subscope.row.num"
+                                         @change="inputNumeberChange(subscope.row)"
+                                         :label='$t("main.cart.list.mainCartliDescWord")'></el-input-number>
+                      </div>
+                    </template>
+                  </el-table-column>
+                  <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center">
+                    <template slot-scope="subscope">
+                      <div class="count">
+                        <lts-money :money="subscope.row.num * subscope.row.realPrice"></lts-money>
+                      </div>
+                    </template>
+                  </el-table-column>
+                  <el-table-column :label='$t("main.cart.list.mainCartliOpera")' width="" align="center">
+                    <template slot-scope="subscope">
+                      <div class="cart-delete" @click="deleteHandle(subscope.$index, subscope.row)">
+                        <i class="iconfont icon-shanchu"></i>
+                      </div>
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </div>
+              <div v-else-if="scope.row.limit && scope.row.limit.length>0" >
+                <div v-for="limitItem in scope.row.limit" :key="limitItem.id" class="limitTable subtable">
+                  <div class="popover">
+                    <div class="popTitle" :class="{ 'noStart': !limitItem[0].rule.started }">{{ $t("main.cart.list.mainCartliOnsaleLimits") }}</div>
+                    <div class="popDetail" :class="[{ 'noStart': !limitItem[0].rule.started }, {'started': limitItem[0].rule.started}]">
+                      <div v-if="!limitItem[0].rule.finished">
+                        <span v-if="limitItem[0].rule.started">{{$t("main.cart.list.mainCartliEndCountdown")}}</span>
+                        <span v-else>{{$t("main.cart.list.mainCartliStartCountdown")}}</span>：
+                        <span v-if="limitItem[0].rule.day">{{limitItem[0].rule.day}}{{$t("main.detail.info.mainDetInfoDay")}}</span>
+                      </div>
+                      <div v-else-if="limitItem[0].rule.finished">
+                        <span>{{$t("main.detail.info.mainDetInLimitOver")}}</span>
+                      </div>
+                      <div class="timeDown" v-if="!limitItem[0].rule.finished">
+                        <span v-show="false">{{t}}</span>
+                        <div>{{limitItem[0].rule.hr}}</div>:
+                        <div>{{limitItem[0].rule.min}}</div>:
+                        <div>{{limitItem[0].rule.sec}}</div>
+                      </div>
                     </div>
-                  </template>
-                </el-table-column>
-                <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center">
-                  <template slot-scope="subscope">
-                    <div class="count">
-                      <lts-money :money="subscope.row.num * subscope.row.realPrice"></lts-money>
-                    </div>
-                  </template>
-                </el-table-column>
-                <el-table-column :label='$t("main.cart.list.mainCartliOpera")' width="" align="center">
-                  <template slot-scope="subscope">
-                    <div class="cart-delete" @click="deleteHandle(subscope.$index, subscope.row)">
-                      <i class="iconfont icon-shanchu"></i>
-                    </div>
-                  </template>
-                </el-table-column>
-              </el-table>
+                  </div>
+                  <el-table
+                    :data="limitItem"
+                    :show-header="false"
+                    style="width: 100%">
+                    <el-table-column align="center" width="48">
+                      <template slot-scope="subscope">
+                        <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)" :disabled="!(subscope.row.rule.started && !subscope.row.rule.finished)"></el-checkbox>
+                      </template>
+                    </el-table-column>
+                    <el-table-column align="center" width="600">
+                      <template slot-scope="subscope">
+                        <a :href="'/detail#/?id=' + subscope.row.id">
+                          <div class="item-img"
+                               :style="{backgroundImage : 'url(' + subscope.row.full_url + ')'}"></div>
+                          <div class="content">
+                            <p :title="subscope.row.item_name">{{subscope.row.item_name}}</p>
+                          </div>
+                          <ul class="other">
+                            <li v-for="(item,index) in subscope.row.item_props">
+                              <p v-for="(val,key) in item.prop_value" :title="val">{{key}}:{{val}}</p>
+                            </li>
+                          </ul>
+                        </a>
+                      </template>
+                    </el-table-column>
+                    <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
+                      <template slot-scope="subscope">
+                          <p class="oldPrice">
+                              <lts-money :money="subscope.row.oldPrice"></lts-money>
+                          </p>
+                          <p>
+                              <lts-money :money="subscope.row.realPrice"></lts-money>
+                          </p>
+                      </template>
+                    </el-table-column>
+                    <el-table-column prop="" width="100" :label='$t("main.cart.list.mainCartliStock")' align="center">
+                      <template slot-scope="subscope">
+                        <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">{{
+                          $t("main.cart.list.mainCartliAvailable") }}</p>
+                        <p v-else>{{ $t("main.cart.list.mainCartliStockInsuff") }}</p>
+                      </template>
+                    </el-table-column>
+                    <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="200" prop="num" align="center">
+                      <template slot-scope="subscope">
+                        <div class="inputNumber">
+                          <el-input-number :min='1' size="small" v-model="subscope.row.num"
+                                           @change="inputNumeberChange(subscope.row)"
+                                           :label='$t("main.cart.list.mainCartliDescWord")'></el-input-number>
+                        </div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center">
+                      <template slot-scope="subscope">
+                        <div class="count">
+                          <lts-money :money="subscope.row.num * subscope.row.realPrice"></lts-money>
+                        </div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column :label='$t("main.cart.list.mainCartliOpera")' width="" align="center">
+                      <template slot-scope="subscope">
+                        <div class="cart-delete" @click="deleteHandle(subscope.$index, subscope.row)">
+                          <i class="iconfont icon-shanchu"></i>
+                        </div>
+                      </template>
+                    </el-table-column>
+                  </el-table>
+                </div>
+              </div>
+              <div v-else-if="scope.row.others && scope.row.others.length>0" class="otherTable subtable">
+                <el-table
+                  :data="scope.row.others"
+                  :show-header="false"
+                  style="width: 100%">
+                  <el-table-column align="center" width="48">
+                    <template slot-scope="subscope">
+                      <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)"></el-checkbox>
+                    </template>
+                  </el-table-column>
+                  <el-table-column align="center" width="600">
+                    <template slot-scope="subscope">
+                      <a :href="'/detail#/?id=' + subscope.row.id">
+                        <div class="item-img"
+                             :style="{backgroundImage : 'url(' + subscope.row.full_url + ')'}"></div>
+                        <div class="content">
+                          <p :title="subscope.row.item_name">{{subscope.row.item_name}}</p>
+                        </div>
+                        <ul class="other">
+                          <li v-for="(item,index) in subscope.row.item_props">
+                            <p v-for="(val,key) in item.prop_value" :title="val">{{key}}:{{val}}</p>
+                          </li>
+                        </ul>
+                      </a>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
+                    <template slot-scope="subscope">
+                        <p><lts-money :money="subscope.row.realPrice"></lts-money></p>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="" width="100" :label='$t("main.cart.list.mainCartliStock")' align="center">
+                    <template slot-scope="subscope">
+                      <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">{{
+                        $t("main.cart.list.mainCartliAvailable") }}</p>
+                      <p v-else>{{ $t("main.cart.list.mainCartliStockInsuff") }}</p>
+                    </template>
+                  </el-table-column>
+                  <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="200" prop="num" align="center">
+                    <template slot-scope="subscope">
+                      <div class="inputNumber">
+                        <el-input-number :min='1' size="small" v-model="subscope.row.num"
+                                         @change="inputNumeberChange(subscope.row)"
+                                         :label='$t("main.cart.list.mainCartliDescWord")'></el-input-number>
+                      </div>
+                    </template>
+                  </el-table-column>
+                  <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center">
+                    <template slot-scope="subscope">
+                      <div class="count">
+                        <p><lts-money :money="subscope.row.num * subscope.row.realPrice"></lts-money></p>
+                      </div>
+                    </template>
+                  </el-table-column>
+                  <el-table-column :label='$t("main.cart.list.mainCartliOpera")' width="" align="center">
+                    <template slot-scope="subscope">
+                      <div class="cart-delete" @click="deleteHandle(subscope.$index, subscope.row)">
+                        <i class="iconfont icon-shanchu"></i>
+                      </div>
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column :label='$t("main.cart.list.mainCartliGoodsInfo")' width="600"></el-table-column>
+          <el-table-column width="" :label='$t("main.cart.list.mainCartliPrice")' align="center"></el-table-column>
+          <el-table-column width="100" :label='$t("main.cart.list.mainCartliStock")' align="center"></el-table-column>
+          <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="200" prop="num" align="center"></el-table-column>
+          <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center"></el-table-column>
+          <el-table-column :label='$t("main.cart.list.mainCartliOpera")' width="" align="center"></el-table-column>
+        </el-table>
+        <div class="table-footer">
+          <div class="choose">
+            <el-checkbox :label='$t("main.cart.list.mainCartliCheckedAll")' v-model="selectedAll"
+                         @change="selectAll"></el-checkbox>
+          </div>
+          <div class="check">
+            <div class="info">
+              <div class="topline">
+                <span>{{ $t("main.cart.list.mainCartliCheckedItem") }} {{checkedItem.length}} {{ $t("main.cart.other.mainCartUnit") }}，{{ $t("main.cart.list.mainCartliAllPrice") }}({{ $t("main.cart.other.mainCartNo") }} {{ $t("main.cart.settle.mainCartSeTax") }}、{{ $t("main.cart.settle.mainCartSeFright") }})：<lts-money
+                  :money="totalPrice"></lts-money></span>
+              </div>
+              <div class="bottomline">
+                <div><span>{{ $t("main.cart.list.mainCartliBenefit") }}：-</span>
+                  <lts-money :money="totalPrice - realTotal"></lts-money>
+                </div>
+                <div><span>{{ $t("main.cart.list.mainCartliShouldPay") }}：</span><span class="bold"><lts-money
+                  :money="realTotal"></lts-money></span></div>
+              </div>
             </div>
-          </div>
-          <div v-else-if="scope.row.others && scope.row.others.length>0" class="otherTable subtable">
-            <el-table
-              :data="scope.row.others"
-              :show-header="false"
-              style="width: 100%">
-              <el-table-column align="center" width="48">
-                <template slot-scope="subscope">
-                  <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)"></el-checkbox>
-                </template>
-              </el-table-column>
-              <el-table-column align="center" width="600">
-                <template slot-scope="subscope">
-                  <a :href="'/detail#/?id=' + subscope.row.id">
-                    <div class="item-img"
-                         :style="{backgroundImage : 'url(' + subscope.row.full_url + ')'}"></div>
-                    <div class="content">
-                      <p :title="subscope.row.item_name">{{subscope.row.item_name}}</p>
-                    </div>
-                    <ul class="other">
-                      <li v-for="(item,index) in subscope.row.item_props">
-                        <p v-for="(val,key) in item.prop_value" :title="val">{{key}}:{{val}}</p>
-                      </li>
-                    </ul>
-                  </a>
-                </template>
-              </el-table-column>
-              <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
-                <template slot-scope="subscope">
-                    <p><lts-money :money="subscope.row.realPrice"></lts-money></p>
-                </template>
-              </el-table-column>
-              <el-table-column prop="" width="90" :label='$t("main.cart.list.mainCartliStock")' align="center">
-                <template slot-scope="subscope">
-                  <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">{{
-                    $t("main.cart.list.mainCartliAvailable") }}</p>
-                  <p v-else>{{ $t("main.cart.list.mainCartliStockInsuff") }}</p>
-                </template>
-              </el-table-column>
-              <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="200" prop="num" align="center">
-                <template slot-scope="subscope">
-                  <div class="inputNumber">
-                    <el-input-number :min='1' size="small" v-model="subscope.row.num"
-                                     @change="inputNumeberChange(subscope.row)"
-                                     :label='$t("main.cart.list.mainCartliDescWord")'></el-input-number>
-                  </div>
-                </template>
-              </el-table-column>
-              <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center">
-                <template slot-scope="subscope">
-                  <div class="count">
-                    <p><lts-money :money="subscope.row.num * subscope.row.realPrice"></lts-money></p>
-                  </div>
-                </template>
-              </el-table-column>
-              <el-table-column :label='$t("main.cart.list.mainCartliOpera")' width="" align="center">
-                <template slot-scope="subscope">
-                  <div class="cart-delete" @click="deleteHandle(subscope.$index, subscope.row)">
-                    <i class="iconfont icon-shanchu"></i>
-                  </div>
-                </template>
-              </el-table-column>
-            </el-table>
-          </div>
-        </template>
-      </el-table-column>
-      <el-table-column :label='$t("main.cart.list.mainCartliGoodsInfo")' width="600"></el-table-column>
-      <el-table-column width="" :label='$t("main.cart.list.mainCartliPrice")' align="center"></el-table-column>
-      <el-table-column width="90" :label='$t("main.cart.list.mainCartliStock")' align="center"></el-table-column>
-      <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="200" prop="num"
-                       align="center"></el-table-column>
-      <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="100" align="center"></el-table-column>
-      <el-table-column :label='$t("main.cart.list.mainCartliOpera")' width="" align="center"></el-table-column>
-    </el-table>
-    <div class="table-footer">
-      <div class="choose">
-        <el-checkbox :label='$t("main.cart.list.mainCartliCheckedAll")' v-model="selectedAll"
-                     @change="selectAll"></el-checkbox>
-      </div>
-      <div class="check">
-        <div class="info">
-          <div class="topline">
-            <span>{{ $t("main.cart.list.mainCartliCheckedItem") }} {{checkedItem.length}} {{ $t("main.cart.other.mainCartUnit") }}，{{ $t("main.cart.list.mainCartliAllPrice") }}({{ $t("main.cart.other.mainCartNo") }} {{ $t("main.cart.settle.mainCartSeTax") }}、{{ $t("main.cart.settle.mainCartSeFright") }})：<lts-money
-              :money="totalPrice"></lts-money></span>
-          </div>
-          <div class="bottomline">
-            <div><span>{{ $t("main.cart.list.mainCartliBenefit") }}：-</span>
-              <lts-money :money="totalPrice - realTotal"></lts-money>
-            </div>
-            <div><span>{{ $t("main.cart.list.mainCartliShouldPay") }}：</span><span class="bold"><lts-money
-              :money="realTotal"></lts-money></span></div>
+            <el-button @click="check" :disabled="checkedItem.length <= 0 && tooManyItems">{{
+              $t("main.cart.list.mainCartliImmeSettle") }}
+            </el-button>
           </div>
         </div>
-        <el-button @click="check" :disabled="checkedItem.length <= 0 && tooManyItems">{{
-          $t("main.cart.list.mainCartliImmeSettle") }}
-        </el-button>
+        <!--<div class="history">-->
+        <!--<h5>购买记录</h5>-->
+        <!--<ul class="items">-->
+        <!--<li v-for="item in historyData">-->
+        <!--<img :src="item.img" :alt=item.disc>-->
+        <!--<p>{{item.name}}</p>-->
+        <!--<p><span>{{item.info}}</span></p>-->
+        <!--<p><span>{{item.model}}</span></p>-->
+        <!--<div class="price"><lts-money :money="item.price"></lts-money></div>-->
+        <!--</li>-->
+        <!--</ul>-->
+        <!--</div>-->
       </div>
-    </div>
-    <!--<div class="history">-->
-    <!--<h5>购买记录</h5>-->
-    <!--<ul class="items">-->
-    <!--<li v-for="item in historyData">-->
-    <!--<img :src="item.img" :alt=item.disc>-->
-    <!--<p>{{item.name}}</p>-->
-    <!--<p><span>{{item.info}}</span></p>-->
-    <!--<p><span>{{item.model}}</span></p>-->
-    <!--<div class="price"><lts-money :money="item.price"></lts-money></div>-->
-    <!--</li>-->
-    <!--</ul>-->
-    <!--</div>-->
+      <div v-else class="cartNull">
+          <div class="img" :style="'backgroundImage: url(' + nullImg + ')'"></div>
+          <div class="text">
+              <p>您的购物车还是空的，赶紧行动吧！您可以：</p>
+              <p>去<a href="/">商城</a>加购</p>
+          </div>
+      </div>
   </div>
 </template>
 
@@ -358,6 +366,7 @@
     name: 'list',
     data () {
       return {
+        nullImg: require('@/assets/img/cartNull.png'),
         t:1,
         expands: [], // 默认展开全部
         checked: false,
@@ -380,6 +389,7 @@
           cartPriceTotal: 0
         },
         checkedItem: [], // 已选商品
+        cartNum:''
       }
     },
     mounted () {
@@ -404,12 +414,14 @@
       selectAll () {
         if (this.selectedAll) {
           this.checkedItem = this.tableDataItem
-            console.log(this.checkedItem)
             this.checkedItem.forEach((item, index) => {
-                if(item.rule.started && !item.rule.finished){
+                console.log(item)
+                if(item,length > 0){
+                    if(item.rule.started && !item.rule.finished){
 
-                }else{
-                    this.checkedItem.splice(index, 1)
+                    }else{
+                        this.checkedItem.splice(index, 1)
+                    }
                 }
             })
           this.tableData.forEach((table,index,array) => {
@@ -505,6 +517,7 @@
             {limit: []},
             {others: []}
           ]
+            this.cartNum = data.datalist.length
           data.datalist.forEach((value) => {
             value.checked = false
             value.item_props.forEach((item) => {
@@ -935,7 +948,29 @@
       padding-bottom: 96px;
       border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     }
-
+      .cartNull{
+          display: flex;
+          padding-top:48px;
+          padding-left: 20%;
+        .img{
+            width:268px;
+            height: 224px;
+            margin-right: 36px;
+        }
+        .text{
+            padding-top: 24px;
+            p{
+                font-size: 18px;
+                line-height: 42px;
+                color:#282828;
+                vertical-align: middle;
+                a{
+                    text-decoration: none;
+                    color: #7ec1e7;
+                }
+            }
+        }
+      }
   }
 
   @keyframes floats {

@@ -7,6 +7,7 @@
             v-show="defaultAddress.user_name" @click="checkAddress(defaultAddress)">
           <header>
             <div><p>{{defaultAddress.user_name}}({{defaultAddress.address}}) </p></div>
+            <div><p v-if="defaultAddress.isCerti">{{ $t("main.cart.settle.mainAddCertiAddress") }}</p></div>
           </header>
           <main>
             <p>{{defaultAddress.building}}</p>
@@ -23,20 +24,17 @@
             @click="checkAddress(item)" v-if="item.status !== 1">
           <header>
             <div><p>{{item.user_name}}({{item.address}}) </p></div>
+            <div><p v-if="defaultAddress.isCerti">{{ $t("main.cart.settle.mainAddCertiAddress") }}</p></div>
           </header>
           <main>
             <p>{{item.building}}</p>
-            <p v-if="item.ship == 1">{{ $t("main.cart.settle.mainCartSePhone") }}：{{item.mobile}}</p>
-            <p v-else-if="item.ship == 0">{{$t("main.cart.settle.mainAddCertiValidDate")}}：{{item.valid}}</p>
+            <p>{{ $t("main.cart.settle.mainCartSePhone") }}：{{item.mobile}}</p>
           </main>
-          <footer v-if="item.ship == 1" class="ship-footer">
+          <footer class="ship-footer">
             <button class="default" @click.stop="toggleDefault(item)">{{ $t("main.cart.settle.mainCartSeFitDefault") }}</button>
             <button v-show="item.id === defaultId">{{ $t("main.cart.settle.mainCartSeDefaultAdress") }}</button>
             <button class="delete" @click="deleteAddress(item,key)">{{ $t("main.cart.settle.mainCartSeDel") }}</button>
             <button @click="editAddress(item)">{{ $t("main.cart.settle.mainCartSeAlert") }}</button>
-          </footer>
-          <footer v-else-if="item.ship == 0" class="certi-footer">
-            <button >{{$t("main.cart.settle.mainAddCertiAddress")}}</button>
           </footer>
         </li>
         <li class="addAddress" @click="addAddress">
@@ -78,7 +76,7 @@
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="submitFrom">{{ $t("main.cart.settle.mainCartSeSure") }}</el-button>
+          <el-button type="primary" @click="submitForm">{{ $t("main.cart.settle.mainCartSeSure") }}</el-button>
         </div>
       </el-dialog>
     </div>
@@ -96,7 +94,8 @@
           <el-radio-button label="ZITI" value="">{{ $t("main.cart.beforePay.mainCartBefSelfFetch") }}</el-radio-button>
           <el-radio-button label="SHSM" value="">{{ $t("main.cart.beforePay.mainCartBefExpress") }}</el-radio-button>
         </el-radio-group>
-        <div class="selectExpress" v-if="deliveryType == 'SHSM'">
+        <!--<div class="selectExpress" v-if="deliveryType == 'SHSM'">-->
+        <div class="selectExpress" v-if="false">
           <el-form label-position="top">
             <el-form-item label="LOGISTICS COMPANY:">
               <el-radio-group v-model="expressForm.express" >
@@ -180,14 +179,10 @@
     </div>
     <div class="someCount">
       <div class="count">
-        <p>{{ $t("main.cart.settle.mainCartSeShouldPay") }}： <span class="money"><span
-          v-if="sum.amount == 0 || sum.amount"><lts-money :money="sum.amount"></lts-money></span></span></p>
-        <p>{{ $t("main.cart.settle.mainCartSeFright") }}： <span><span v-if="sum.express == 0 || sum.express">+<lts-money
-          :money="sum.express"></lts-money></span></span></p>
-        <p>{{ $t("main.cart.settle.mainCartSeTax") }}： <span><span v-if="sum.tax == 0 || sum.tax">+<lts-money
-          :money="sum.tax"></lts-money></span></span></p>
-        <p>{{ $t("main.cart.list.mainCartliBenefit") }}： <span><span v-if="sum.promotion == 0 || sum.promotion">-<lts-money
-          :money="sum.promotion"></lts-money></span></span></p>
+        <p>{{ $t("main.cart.settle.mainCartSeShouldPay") }}： <span class="money"><span v-if="sum.amount == 0 || sum.amount"><lts-money :money="sum.amount"></lts-money></span></span></p>
+        <p>{{ $t("main.cart.settle.mainCartSeFright") }}： <span><span v-if="sum.express == 0 || sum.express">+<lts-money :money="sum.express"></lts-money></span></span></p>
+        <p>{{ $t("main.cart.settle.mainCartSeTax") }}： <span><span v-if="sum.tax == 0 || sum.tax">+<lts-money :money="sum.tax"></lts-money></span></span></p>
+        <p>{{ $t("main.cart.list.mainCartliBenefit") }}： <span><span v-if="sum.promotion == 0 || sum.promotion">-<lts-money :money="sum.promotion"></lts-money></span></span></p>
         <p v-if="bonusId">{{$t("main.someinfo.mainSomeCoupon")}}：<span>-<lts-money :money="bonus" /></span></p>
         <p class="result">{{ $t("main.cart.settle.mainCartSeMustPay") }}： <span>
             <span v-if="totalPrice && !bonus"><lts-money :money="totalPrice"></lts-money></span>
@@ -396,9 +391,16 @@
           this.defaultId = ''
           this.defaultAddress = []
         addressService.getList().then((data) => {
-          this.addressData = data.data.consumer_address_d_o
+            this.addressData = data.data.consumer_address_d_o
+            data.data.distribute_certificate_d_o.forEach((value, index) => {
+                let zipCode = value.postcode
+                this.addressData.forEach((item) => {
+                    if(zipCode == item.zip_code){
+                        item.isCerti = true
+                    }
+                })
+            })
           this.addressData.forEach((value, index) => {
-            value.ship = 1
             value.zipCode = value.zip_code
             value.state = value.location_d_o.province
             if (value.status === 1) {
@@ -415,24 +417,27 @@
               value.address = value.address.slice(0, position)
             }
           })
-          data.data.distribute_certificate_d_o.forEach((value, index) => {
-            value.ship = 0
-            value.zipCode = value.postcode
-            value.user_name = value.company
-            value.building = value.city
-            value.valid = dateUtils.timeToStr(value.valid_time)
-            this.addressData.push(value)
-          })
+          //
+          // data.data.distribute_certificate_d_o.forEach((value, index) => {
+          //
+          //   value.zipCode = value.postcode
+          //   value.user_name = value.company
+          //   value.building = value.city
+          //   value.valid = dateUtils.timeToStr(value.valid_time)
+          //   this.addressData.push(value)
+          // })
+
+
+
             if(!this.defaultId){
             this.checkedId = this.addressData[0].id
             this.checkedAddress = this.addressData[0]
-            // this.addressData.splice(0,1)
           }
           this.simulateCreateTrade()
         })
       },
       // 提交地址表单
-      submitFrom () {
+      submitForm () {
         if (this.editOrAdd) {
           addressService.updateItem(this.addForm).then((data) => {
             this.getAddressList()
@@ -604,7 +609,7 @@
               item.realPrice = item.item_props[0].price - item.discount
               item.oldPrice = item.item_props[0].price
           }else if(item.discount_type == 4){
-              item.realPrice = 0
+              item.realPrice = JSON.parse(item.sale_rule).price
               // item.realPrice = item.sale_rule_do.price
               item.oldPrice = item.item_props[0].price
           }else{
@@ -747,11 +752,17 @@
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
             color: rgba(0, 0, 0, 0.7);
             padding: 0 12px;
+              display: flex;
+              justify-content: space-between;
             div{
               overflow: hidden;
               text-overflow:ellipsis;
               white-space: nowrap;
             }
+              div:last-child{
+                  font-size: 12px;
+                  color:#3d98ff;
+              }
             p {
               line-height: 40px;
               font-size: 14px;

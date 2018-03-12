@@ -54,7 +54,7 @@ export default {
         address: {
             mainAddContent: 'Content',
             mainAddPersonData: 'Personal Information',
-            mainAddDistributionAuth: 'Reseller Certificate Information',
+            mainAddDistributionAuth: 'Resale Certificate Information',
             mainAddBindCard: 'Add Credit Card',
             mainAddBillAddress: 'Billing Address',
             mainAddPwdInstall: 'Password Settings',
@@ -129,7 +129,7 @@ export default {
                 mainCartSeDefaultAdress: 'Default',
                 mainCartSeDel: 'Delete',
                 mainCartSeAlert: 'Modify',
-                mainAddCertiAddress:'Certificate Address',
+                mainAddCertiAddress:'Certificate',
                 mainAddCertiValidDate:'Validity',
                 mainCartSeAddAdress: 'Add New Address',
                 mainCartSeRegion: 'Region',
@@ -350,9 +350,9 @@ export default {
         },
         personal: {
             card: {
-                mainPerCarTitle: 'Reseller Certificate Info',
-                mainPerCarNewCreate: 'New Reseller Certificate',
-                mainPerCarDisPic: 'Reseller Certificate Picture',
+                mainPerCarTitle: 'Resale Certificate Info',
+                mainPerCarNewCreate: 'New Resale Certificate',
+                mainPerCarDisPic: 'Resale Certificate Picture',
                 mainPerCarDisProveNum: 'Number',
                 mainPerCarAddress: 'Address',
                 mainPerCarCity: 'City',
@@ -369,7 +369,7 @@ export default {
                 mainPerCarFromDate: 'Valid Until',
                 mainPerCarSelDate: 'Select Date',
                 mainPerCarSave: 'Save',
-                mainPerCarEnterSale: 'Please Enter Reseller Certificate Number',
+                mainPerCarEnterSale: 'Please Enter Resale Certificate Number',
                 mainPerCarEnterAddr: 'Please Enter Address',
                 mainPerCarEnterCity: 'Please Enter City',
                 mainPerCarSeleCount: 'Please Enter Country',
@@ -608,7 +608,7 @@ export default {
             commLtsWaitting: 'Account Payable',
             commLtsPersonInfo: 'Account Details',
             commLtsEmailAlert: 'Change Email Address',
-            commLtsAnth: 'Reseller Certificate',
+            commLtsAnth: 'Resale Certificate',
             commLtsPwdSet: 'Password Settings',
             commLtsAddress: 'Shipping Address'
         }

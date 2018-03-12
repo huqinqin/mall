@@ -19,10 +19,27 @@
                 <el-form-item label="Company name" prop="companyName">
                     <el-input v-model="signupForm.companyName" @keyup.enter="getCode"></el-input>
                 </el-form-item>
-                <el-form-item label="Business phone" prop="phone" >
+                <el-form-item label="Business phone" prop="phone" class="num">
+                    <el-select v-model="num" placeholder="请选择">
+                        <el-option
+                            v-for="item in globlaNum"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                        </el-option>
+                    </el-select>
                     <el-input v-model="signupForm.phone" ></el-input>
                 </el-form-item>
-                <el-form-item label="Mobile phone" prop="mobile">
+                <el-form-item label="Mobile phone" prop="mobile" class="num">
+                    <el-select v-model="num" placeholder="请选择">
+                        <el-option
+                            width="50px"
+                            v-for="item in globlaNum"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                        </el-option>
+                    </el-select>
                     <el-input v-model="signupForm.mobile" ></el-input>
                 </el-form-item>
                 <el-form-item label="Zip code" prop="address">
@@ -111,9 +128,14 @@
                         { required: true, message: this.$t("main.accountNew.register.mainAcReContentNotNull"), trigger: 'blur' },
                     ],
                     email:validatorConfig.email,
-                    phone:validatorConfig.phone,
+                    phone:validatorConfig.validatePhoneNew((this.signupForm.phone, callback)),
                     address:validatorConfig.address,
                 },
+                globlaNum: [{
+                    value: '1',
+                    label: '1'
+                }],
+                num:'1',
                 options: [{
                     value: 'Installer',
                     label: 'Installer'
@@ -145,7 +167,7 @@
             },
             submitFrom(){
                 let params = {
-                    businessPhone:this.signupForm.phone,
+                    businessPhone:"1-"+this.signupForm.phone,
                     zipCode:this.signupForm.address,
                     taxId:this.signupForm.FTI,
                     typeOfBusiness:this.signupForm.Business,
@@ -155,7 +177,7 @@
                     email: this.signupForm.email,
                     contractName:this.signupForm.fisrtName + this.signupForm.lastName,
                     companyName: this.signupForm.companyName,
-                    mobile:this.signupForm.mobile,
+                    mobile:"1-" + this.signupForm.mobile,
                     type:3,
                     from:'PC_WEB',
                     ext:params
@@ -198,6 +220,18 @@
         border-bottom: 1px solid #f6f6f6;
         .el-form--label-top .el-form-item {
             margin-right: 0px!important;
+        }
+        .num{
+            .el-form-item__content{
+                display: flex;
+                .el-select{
+                    flex: 0 0 50px;
+                    .el-input--suffix{
+                        width: 50px!important;
+                        margin-right: 10px;
+                    }
+                }
+            }
         }
         main{
             width:400px;

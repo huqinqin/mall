@@ -207,6 +207,7 @@
             delCondition(index) {
                 this.search.condition.splice(index, 1);
 //                this.searchWithText(this.text);
+                this.submit();
             },
             selected(selected){
                 this.activeLi = selected

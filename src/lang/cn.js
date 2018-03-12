@@ -35,7 +35,9 @@ export default {
         footerUseItem: '使用条款',
         footerSecretItem: '隐私条款',
         footerItemCondition: '条款条件',
-        footerFollowUs: '关注我们'
+        footerFollowUs: '关注我们',
+        footerFollowEvent: '活动',
+        footerFollowSupport: '支持'
     },
     main: {
         accountNew: {

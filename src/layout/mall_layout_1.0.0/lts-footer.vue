@@ -9,20 +9,19 @@
           </ul>
           <div class="footer-menu-box">
                 <ul>
-                  <li>{{ $t("comFooter.footerAboutLts") }}</li>
-                  <li>{{ $t("comFooter.footerContactUs") }}</li>
-                  <li>{{ $t("comFooter.footerHelpUs") }}</li>
-
+                  <li><a href="http://www.ltsecurityinc.com/about-lts">{{ $t("comFooter.footerAboutLts") }}</a></li>
+                  <li><a href="http://www.ltsecurityinc.com/contact">{{ $t("comFooter.footerContactUs") }}</a></li>
+                  <li><a href="http://www.ltsecurityinc.com/careers"></a>{{ $t("comFooter.footerUseItem") }}</li>
                 </ul>
                 <ul>
-                  <li>{{ $t("comFooter.footerInvitePerson") }}</li>
-                  <li>{{ $t("comFooter.footerEvevtNews") }}</li>
-                  <li>{{ $t("comFooter.footerCompanyAddress") }}</li>
+                  <li><a href="https://www.ltsecurityinc.com/support"></a>{{ $t("comFooter.footerFollowSupport") }}</li>
+                  <li><a href="http://www.ltsecurityinc.com/news">{{ $t("comFooter.footerEvevtNews") }}</a></li>
+                  <li><a href="http://www.ltsecurityinc.com/events">{{ $t("comFooter.footerFollowEvent") }}</a></li>
                 </ul>
                 <ul>
-                  <li>{{ $t("comFooter.footerUseItem") }}</li>
-                  <li>{{ $t("comFooter.footerSecretItem") }}</li>
-                  <li>{{ $t("comFooter.footerItemCondition") }}</li>
+                  <li><a href="https://www.ltsecurityinc.com/terms-of-use">{{ $t("comFooter.footerUseItem") }}</a></li>
+                  <li><a href="https://www.ltsecurityinc.com/privacy-policy">{{ $t("comFooter.footerSecretItem") }}</a></li>
+                  <li><a href="https://www.ltsecurityinc.com/terms-and-Conditions">{{ $t("comFooter.footerItemCondition") }}</a></li>
                 </ul>
                 <ul>
                   <li>{{ $t("comFooter.footerFollowUs") }}:</li>
@@ -46,37 +45,37 @@
             {
                 value : 'hikvision',
                 img : require('@/assets/img/hikvision.png'),
-                link : 'http://www.ltsecurityinc.com/discussion'
+                link : 'javascript:void(0)'
             },
             {
                 value : 'resolution',
                 img : require('@/assets/img/resolution.png'),
-                link : 'http://www.ltsecurityinc.com/discussion'
+                link : 'javascript:void(0)'
             },
             {
                 value : 'MD',
                 img : require('@/assets/img/MD.png'),
-                link : 'http://www.ltsecurityinc.com/discussion'
+                link : 'javascript:void(0)'
             },
             {
                 value : 'seagate',
                 img : require('@/assets/img/seagate.png'),
-                link : 'http://www.ltsecurityinc.com/discussion'
+                link : 'javascript:void(0)'
             },
             {
                 value : 'unisight',
                 img : require('@/assets/img/unisight.png'),
-                link : 'http://www.ltsecurityinc.com/discussion'
+                link : 'javascript:void(0)'
             },
             {
                 value : 'ubiquiti',
                 img : require('@/assets/img/ubiquiti.png'),
-                link : 'http://www.ltsecurityinc.com/discussion'
+                link : 'javascript:void(0)'
             },
             {
                 value : 'napco',
                 img : require('@/assets/img/napco.png'),
-                link : 'http://www.ltsecurityinc.com/discussion'
+                link : 'javascript:void(0)'
             }
         ],
         footerLinkList:[
@@ -88,22 +87,22 @@
           {
             value : 'facebook',
             img : require('@//assets/img/facebook_icon.png'),
-            link : 'http://www.ltsecurityinc.com/discussion'
+            link : 'https://www.facebook.com/CCTV.LTS'
           },
           {
             value : 'linkedin',
             img : require('@//assets/img/linkedin_icon.png'),
-            link : 'http://www.ltsecurityinc.com/discussion'
+            link : 'https://www.linkedin.com/authwall?trk=ripf&trkInfo=AQF2vCAKaW1cEwAAAWIK65i4LRRHjbpidiEMDaFnJhLcB6_zhSeYEDqB3b9mc4xmhP_3zAdPE4HtT04IgpuU8I3tR46n1bBQKuStDQ39U1TvOUF7NoQLWkbgBjU0hAzqwWb49Xc=&originalReferer=http://www.ltsecurityinc.com/discussion&sessionRedirect=https%3A%2F%2Fwww.linkedin.com%2Fcompany%2F894315'
           },
           {
             value : 'twitter',
             img : require('@//assets/img/twitter_icon.png'),
-            link : 'http://www.ltsecurityinc.com/discussion'
+            link : 'https://twitter.com/LTSecurityinc'
           },
           {
             value : 'youtube',
             img : require('@//assets/img/youtube_icon.png'),
-            link : 'http://www.ltsecurityinc.com/discussion'
+            link : 'https://www.youtube.com/user/LTSCCTV'
           }
         ]
       }

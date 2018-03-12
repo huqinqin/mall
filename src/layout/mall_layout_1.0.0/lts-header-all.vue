@@ -21,15 +21,15 @@
                              <p>{{value.last}}</p>
                         </a>
                         <a :href="value.link" v-else v-login @click="menuHandle">
-                                <el-badge :value="cart_num" :max="99" class="item" v-if="value.name == 'suopping cart'" :hidden="cart_num <= 0">
-                                <span class="iconfont" :class="[value.icon,value.name == 'suopping cart' ? 'cart' : '']">
+                            <el-badge :value="cart_num"  class="item" v-if="value.name == 'shopping center'" :hidden="cart_num <= 0">
+                                <span class="iconfont" :class="[value.icon,value.name == 'shopping center' ? 'cart' : '']">
                                 </span>
-                                    </el-badge>
-                                    <span class="iconfont" :class="[value.icon]" v-else>
+                            </el-badge>
+                            <span class="iconfont" :class="[value.icon]" v-else>
                             </span>
-                                    <p>{{value.first}}</p>
-                                    <p>{{value.last}}</p>
-                                </a>
+                            <p>{{value.first}}</p>
+                            <p>{{value.last}}</p>
+                         </a>
                      </div>
                 </li>
             </ul>
@@ -117,7 +117,7 @@
                     },
                     {
                         name : 'my favorite',
-                        icon : 'icon-wodezuiai',
+                        icon : 'icon-yewushouce',
                         first : 'PRODUCT',
                         last : 'CATALOG',
                         link : '/catelog',

@@ -126,6 +126,6 @@ export default class PersonalService extends BaseService {
         let newparams = {
             id: params.id
         };
-        return super.getRequest('/installer/distribute/delete', newparams);
+        return super.getRequest('/store/distribute/delete', newparams);
     }
 }

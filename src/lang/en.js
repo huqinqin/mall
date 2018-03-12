@@ -109,6 +109,7 @@ export default {
                 mainCartliSubtotal: 'Subtotal',
                 mainCartliOpera: 'Operate',
                 mainCartliOnsaleGoods: 'On Sale Items',
+                mainCartliOnsaleFull: 'Full Reduction',
                 mainCartliOnsaleLimits: 'Limited Time and Quantity',
                 mainCartliStartCountdown: 'Before Countdown',
                 mainCartliEndCountdown:'Countdown',

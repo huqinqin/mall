@@ -35,7 +35,9 @@ export default {
         footerUseItem: '使用条款',
         footerSecretItem: '隐私条款',
         footerItemCondition: '条款条件',
-        footerFollowUs: '关注我们'
+        footerFollowUs: '关注我们',
+        footerFollowEvent: '活动',
+        footerFollowSupport: '支持'
     },
     main: {
         accountNew: {
@@ -110,6 +112,7 @@ export default {
                 mainCartliOpera: '操作',
                 mainCartliOnsaleGoods: '减价商品',
                 mainCartliOnsaleLimits: '限时限量',
+                mainCartliOnsaleFull: '全场满减',
                 mainCartliStartCountdown: '开始倒计时',
                 mainCartliEndCountdown:'结束倒计时',
                 mainCartliShouldPay: '应付金额',

@@ -1,6 +1,6 @@
 <template>
    <div class="wrapperExperts">
-       <div class="el-icon-close" @click="close" style="color: #bcbcbc;"></div>
+       <div class="el-icon-close" @click="close" style=""></div>
        <h3>CALL EXPERT</h3>
        <div class="box">
            <ul>
@@ -8,7 +8,7 @@
                <li><span>contact：</span><span>{{someInfo.mobile}}</span></li>
                <li><span>email：</span><span>{{someInfo.email}}</span></li>
            </ul>
-           <!--<ul><img src="../../assets/img/expert.png" alt=""></ul>-->
+           <ul><img src="../../assets/img/expert.png" alt=""></ul>
        </div>
    </div>
 </template>
@@ -53,7 +53,7 @@
         padding: 40px;
         width: 204px;
         /*background-color: #3b98ff;*/
-        background:#fafafa;
+        background: #dae2fa;
         color: rgba(102,102,102,0.8);
         border-radius: 4px;
         font-family: "Microsoft YaHei";
@@ -63,7 +63,7 @@
             position: absolute;
             right:30px;
             top:20px;
-            color: #bcbcbc;
+            color: #333;
         }
         .box{
             display: flex;
@@ -78,6 +78,14 @@
             }
             ul:first-child{
                 flex:1;
+            }
+            ul:nth-child(2){
+                width: 90px;
+                height: 80px;
+                img{
+                    width: 100%;
+                    height: 100%;
+                }
             }
         }
     }

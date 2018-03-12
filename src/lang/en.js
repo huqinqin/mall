@@ -570,7 +570,7 @@ export default {
             mainSomeFull: 'Purchase Up To',
             mainSomeMinus: 'Minus',
             mainSomeNoBonus: 'Do Not Use Coupons',
-            mainSomeDollar: '美元使用',
+            mainSomeDollar: 'dollar',
             mainSomeUsedTime: 'Applied Time',
             mainSomeRange: 'To',
             mainSomeEvery: 'Piece',

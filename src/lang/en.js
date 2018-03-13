@@ -94,7 +94,7 @@ export default {
                 mainCartFaLogisticsMode: 'Shipping Method',
                 mainCartFaMyOrder: 'My Order',
                 mainCartFaFirstPage: 'Main Page',
-                mainCartFaSince: 'Express'
+                mainCartFaSince: 'Pick Up'
             },
             finish: {
                 mainCartFiSuccess: 'Congratulations, You Order Has Been Made！',

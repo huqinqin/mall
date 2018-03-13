@@ -72,7 +72,18 @@
                     </div>
                     <div :class="[item.num > checkedSpu.storage ? 'error' : '']" @click="closeError">
                         <el-form-item :label='$t("main.detail.info.mainDetInfoAmount")' class="num">
-                            <el-input-number v-model="item.num" size="mini" :min="1"></el-input-number>
+                            <el-input-number
+                                v-if="item.discount_type == 4"
+                                v-model="item.num"
+                                size="mini"
+                                :max="item.sale_rule_do.total > item.sale_rule_do.maxinum ? item.sale_rule_do.maxinum : item.sale_rule_do.total"
+                                :min=item.sale_rule_do.minimum></el-input-number>
+                            <el-input-number
+                                v-else
+                                v-model="item.num"
+                                size="mini"
+                                :max="checkedSpu.storage"
+                                :min="1"></el-input-number>
                             <span v-if="checkedSpu.storage > 0" class="storage_spec">{{ $t("main.detail.info.mainDetInfoStock") }}</span>
                             <span v-else-if="checkedSpu && checkedSpu.storage <= 0" class="storage_spec">{{ $t("main.detail.info.mainDetInfoNoStock") }}</span>
                             <div class="el-form-item__error">{{ $t("main.detail.info.mainDetInfoExceed") }}！</div>
@@ -140,7 +151,9 @@
             <div class="content">
                 <div class="briefInfo">
                     <div class="img" :style="'background-image: url(' + item.image_value + ')'"></div>
-                    <div class="name">{{item.item_name}}</div>
+                    <el-tooltip class="item" effect="dark" :content="item.item_name" placement="top-start">
+                        <div class="name">{{item.item_name}}</div>
+                    </el-tooltip>
                     <div class="price" v-if="!checkedSpu.price"><span class="red" style="font-size: 14px;">{{ $t("main.detail.info.mainDetInfoNoChoose") }}</span>
                     </div>
                     <div class="price" v-if="checkedSpu.price">
@@ -158,8 +171,9 @@
                         <a :href="'/detail#/?id=' + value.id" target="_blank">
                             <div class="img" :style="'background-image: url(' + value.image_value + ')'"></div>
                         </a>
-                        <div class="name">{{value.item_name}}</div>
-
+                        <el-tooltip class="item" effect="dark" :content="value.item_name" placement="top-start">
+                            <div class="name">{{value.item_name}}</div>
+                        </el-tooltip>
                         <el-popover placement="bottom" popper-class="othersPopover" ref="popover">
                             <el-form label-width="120px" label-position="left">
                                 <el-form-item v-for="prop in otherGoodsItem.item_prop_value_maps" :key="prop.prop_name"
@@ -457,8 +471,10 @@
                 let checkedSkuProp = {}
                 // 匹配sku
                 checkedSkuProp[key] = prop.checked_prop
+                // checkedSkuProp['rules'] = data.sale_rule_do
                 // 匹配库存
                 propValue[key] = prop.checked_prop
+                // propValue['rules'] = data.sale_rule_do
                 if (data.item_prop_value_maps.length > 1) {
                     data.item_prop_value_maps.forEach((value, index, array) => {
                         if (value.prop_name !== prop.prop_name) {
@@ -543,6 +559,7 @@
                     'attribute': this.item.attribute,
                     'brand': this.item.brand,
                     'category_id': this.item.category_id,
+                    'discount':this.item.discount,
                     'discount_type': this.item.discount_type,
                     'id': this.item.id,
                     'item_name': this.item.item_name,
@@ -1258,6 +1275,7 @@
                 .name {
                     width: 100px;
                     line-height: 26px;
+                    height: 48px;
                     overflow: hidden;
                     text-overflow: ellipsis;
                     display: -webkit-box;

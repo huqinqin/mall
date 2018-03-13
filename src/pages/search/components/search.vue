@@ -63,10 +63,10 @@
                             <p class="name" :title="item.item_name">{{item.item_name}}</p>
                             <div class="item-price">
                                 <button v-ltsLoginShow:false v-login>{{$t("main.search.mainSeaLogin")}}</button>
-                                <p class="price" v-ltsLoginShow:true v-if="item.activity_price">
-                                    <lts-money :money="item.activity_price"></lts-money>
-                                </p>
-                                <p class="price" v-ltsLoginShow:true v-else>
+                                <!--<p class="price" v-ltsLoginShow:true v-if="item.activity_price">-->
+                                    <!--<lts-money :money="item.activity_price"></lts-money>-->
+                                <!--</p>-->
+                                <p class="price" v-ltsLoginShow:true>
                                     <lts-money :money="item.price"></lts-money>
                                 </p>
                             </div>

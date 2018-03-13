@@ -65,7 +65,8 @@ export default class AddressService extends BaseService {
             zip_code: form.zipCode,
             lc_code: form.lcCode,
             state: form.state,
-            country: form.country
+            country: form.country,
+            city: form.city
         }
         let params = {
             address:JSON.stringify(address)
@@ -103,14 +104,16 @@ export default class AddressService extends BaseService {
     static updateItem(form){
         let address = {
             mobile:form.mobile,
-            userName:form.first + '-' + form.last,
+            userName:form.first+ '-' + form.last,
             address:form.address,
             building:form.city + '-' + form.street,
             status: form.setDefault ? 1 : 0,
             rank: form.rank,
             zip_code: form.zipCode,
-            id: form.id,
             lc_code: form.lcCode,
+            state: form.state,
+            country: form.country,
+            city: form.city
         }
         let params = {
             address:JSON.stringify(address)

@@ -61,10 +61,10 @@
                     <el-date-picker
                         v-model="ruleForm.invalid_time"
                         type="daterange"
-                        value-format="timestamp"
                         start-placeholder="start date"
                         end-placeholder="end date"
                         :default-time="['00:00:00', '23:59:59']"
+                        @change="test"
                         class="commonWidth">
                     </el-date-picker>
                 </el-form-item>
@@ -232,6 +232,9 @@
             this.getCardList();
         },
         methods: {
+            test(i){
+                console.log(i);
+            },
             getCardList() {
                 personalService.getSaleCard().then((resp) => {
                     this.tableData = resp.data.distribute_certificate_d_o_list;
@@ -257,6 +260,12 @@
                     status: 0,//状态
                     type: ''//设为默认，0，有效
                 };
+
+                params.validTime = new Date(params.validTime);
+                params.validTime = params.validTime.getTime();
+
+                params.invalidTime = new Date(params.invalidTime);
+                params.invalidTime = params.invalidTime.getTime();
 
                 if (this.tableData == '' || this.ruleForm.setDefaultFlag) {
                     params.type = 1;
@@ -292,6 +301,13 @@
                     status: 0,//状态
                     type: this.ruleForm.setDefaultFlag ? 1 : 0//设为默认，0，有效
                 };
+
+                params.validTime = new Date(params.validTime);
+                params.validTime = params.validTime.getTime();
+
+                params.invalidTime = new Date(params.invalidTime);
+                params.invalidTime = params.invalidTime.getTime();
+
                 personalService.updateSaleCard(params).then((resp) => {
                     if (resp.success) {
                         this.dialogShow = false;

@@ -431,7 +431,7 @@
                     data.data.distribute_certificate_d_o.forEach((item) => {
                         item.user_name = this.user.name
                         item.mobile = this.user.phone
-                        item.zip_code = item.postcode
+                        item.zipCode = item.postcode
                     })
                     this.certiAddress = data.data.distribute_certificate_d_o
                     if (!this.defaultId) {

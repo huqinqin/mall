@@ -357,8 +357,8 @@
       <div v-else class="cartNull">
           <div class="img" :style="'backgroundImage: url(' + nullImg + ')'"></div>
           <div class="text">
-              <p>您的购物车还是空的，赶紧行动吧！您可以：</p>
-              <p>去<a href="/">商城</a>加购</p>
+              <p>{{$t("main.cart.list.mainCartliTextOne")}}</p>
+              <p>{{$t("main.cart.list.mainCartliTextTwo")}}<a href="/">{{$t("main.cart.list.mainCartliTextThree")}}</a>{{$t("main.cart.list.mainCartliTextFour")}}</p>
           </div>
       </div>
   </div>

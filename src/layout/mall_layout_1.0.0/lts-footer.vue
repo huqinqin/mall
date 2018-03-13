@@ -11,7 +11,7 @@
                 <ul>
                   <li><a target="_blank" href="http://www.ltsecurityinc.com/about-lts">{{ $t("comFooter.footerAboutLts") }}</a></li>
                   <li><a target="_blank" href="http://www.ltsecurityinc.com/contact">{{ $t("comFooter.footerContactUs") }}</a></li>
-                  <li><a target="_blank" href="http://www.ltsecurityinc.com/careers">{{ $t("comFooter.footerUseItem") }}</a></li>
+                  <li><a target="_blank" href="http://www.ltsecurityinc.com/careers">{{ $t("comFooter.footerInvitePerson") }}</a></li>
                 </ul>
                 <ul>
                   <li><a target="_blank" href="https://www.ltsecurityinc.com/support">{{ $t("comFooter.footerFollowSupport") }}</a></li>

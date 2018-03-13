@@ -72,21 +72,24 @@
                     </div>
                     <div :class="[item.num > checkedSpu.storage ? 'error' : '']" @click="closeError">
                         <el-form-item :label='$t("main.detail.info.mainDetInfoAmount")' class="num">
-                            <el-input-number
-                                v-if="item.discount_type == 4"
-                                v-model="item.num"
-                                size="mini"
-                                :max="item.sale_rule_do.total > item.sale_rule_do.maxinum ? item.sale_rule_do.maxinum : item.sale_rule_do.total"
-                                :min=item.sale_rule_do.minimum></el-input-number>
-                            <el-input-number
-                                v-else
-                                v-model="item.num"
-                                size="mini"
-                                :max="checkedSpu.storage"
-                                :min="1"></el-input-number>
-                            <span v-if="checkedSpu.storage > 0" class="storage_spec">{{ $t("main.detail.info.mainDetInfoStock") }}</span>
-                            <span v-else-if="checkedSpu && checkedSpu.storage <= 0" class="storage_spec">{{ $t("main.detail.info.mainDetInfoNoStock") }}</span>
-                            <div class="el-form-item__error">{{ $t("main.detail.info.mainDetInfoExceed") }}！</div>
+                            <template v-if="item.discount_type == 4">
+                                <el-input-number
+                                    v-model="item.num"
+                                    size="mini"
+                                    :max="item.sale_rule_do.total > item.sale_rule_do.maxinum ? item.sale_rule_do.maxinum : item.sale_rule_do.total"
+                                    :min="item.sale_rule_do.minimum"></el-input-number>
+                                <span class="red">起订量{{item.sale_rule_do.minimum}},限购{{item.sale_rule_do.maxinum}}</span>
+                            </template>
+                            <template v-else>
+                                <el-input-number
+                                    v-model="item.num"
+                                    size="mini"
+                                    :max="checkedSpu.storage"
+                                    :min="1"></el-input-number>
+                                <span v-if="checkedSpu.storage > 0" class="storage_spec">{{ $t("main.detail.info.mainDetInfoStock") }}</span>
+                                <span v-else-if="checkedSpu && checkedSpu.storage <= 0" class="storage_spec">{{ $t("main.detail.info.mainDetInfoNoStock") }}</span>
+                                <div class="el-form-item__error">{{ $t("main.detail.info.mainDetInfoExceed") }}！</div>
+                            </template>
                             <i class="el-icon-close"></i>
                         </el-form-item>
                     </div>
@@ -262,7 +265,7 @@
                     </p>
                     <p>{{ $t("main.detail.info.mainDetPackagePrice") }}：<span class="red bold"><lts-money
                         :money="packagePrice"/></span></p>
-                    <el-button @click="addPackage">{{ $t("main.detail.info.mainDetInfoJoinCart") }}</el-button>
+                    <el-button @click="addPackage" :disabled="!(checkedSpu.id || checkedOthers.length > 0)">{{ $t("main.detail.info.mainDetInfoJoinCart") }}</el-button>
                 </div>
             </div>
         </div>
@@ -300,7 +303,7 @@
                 <div class="detail_goods">
                     <el-tabs v-model="activeName" @tab-click="handleClick" type="border-card">
                         <el-tab-pane :label='$t("main.detail.info.mainDetInfoGoodsInfo")' name="first">
-                            <ul class="aboutDetail" :class="[showPropDetail ? 'propOpen' : 'propClose']">
+                            <ul class="aboutDetail" :class="[showPropDetail ? 'propOpen' : 'propClose']" v-if="aboutDetail.length > 0">
                                 <li v-for="(value,index) in aboutDetail" v-if="!value.sku">
                                     <span v-for="(val,key) in value.propValues">
                                         {{key}}: {{val}}
@@ -441,6 +444,14 @@
                         }
                     })
                     this.otherGoods = data.data.item.package_item_list
+                    if(data.data.item.item_images.length == 0){
+                        data.data.item.item_images.push(
+                            {
+                                url : data.data.item.image_value
+                            }
+                        )
+                    }
+                    console.log(data.data.item);
                     this.item = data.data.item
                     this.activeImg = this.item.item_images[0]
                     this.hotSale = data.data.hot_recomment.items
@@ -572,7 +583,7 @@
                     'proxy_distribute_num': this.item.proxy_distribute_num,
                     'puser_id': this.item.puser_id,
                     'spec_unit': this.item.spec_unit,
-                    'spu_id': this.item.spu_id,
+                    'spu_id': this.checkedSpu.spu_id,
                     'status': this.item.status,
                     'storage': this.item.storage,
                     'tag': this.item.tag,
@@ -656,7 +667,7 @@
             },
             // 添加套餐到购物车
             addPackage() {
-                if (this.checkedSpu) {
+                if (this.checkedSpu.id) {
                     this.addCart(this.item, this.checkedSpu)
                 }
                 if (this.checkedOthers.length > 0) {
@@ -704,7 +715,7 @@
 <style lang="less">
     .othersPopover {
         padding: 12px;
-        padding-right: 24px;
+        min-width: 300px;
         .el-form-item {
             margin-bottom: 0;
             .detail_price {
@@ -725,6 +736,7 @@
             text-decoration: line-through;
             font-size: 12px;
         }
+
         .tips {
             border: 1px solid #ff3b41;
             line-height: 21px;
@@ -1059,10 +1071,13 @@
                 .price {
                     margin-top: 7px;
                 }
+                span.red {
+                    color: #ff3b41;
+                }
                 .tips {
                     border: 1px solid #ff3b41;
                     line-height: 21px;
-                    width: 155px;
+                    width: 190px;
                     margin-top: 10px;
                     font-size: 12px;
                     padding-left: 6px;
@@ -1185,6 +1200,8 @@
                     margin-bottom: 8px;
                     p {
                         font-size: 12px;
+                        line-height: 20px;
+                        margin-top: 10px;
                     }
                 }
                 .el-alert {
@@ -1196,6 +1213,7 @@
                 }
                 .buttons {
                     display: inline-block;
+                    margin-top: 20px;
                     button {
                         padding: 0;
                         width: 160px;
@@ -1353,7 +1371,6 @@
                             background: #f6f6f6;
                             .el-tabs__item {
                                 border-top: 2px solid #f6f6f6;
-                                width: 122px;
                                 font-size: 14px;
                                 height: 38px;
                                 line-height: 38px;
@@ -1383,7 +1400,6 @@
                             flex-wrap: wrap;
                             justify-content: flex-start;
                             border-bottom: 1px solid #E5E5E5;
-                            margin-left: 24px;
                             max-height: 56px;
                             overflow: hidden;
                             li {
@@ -1471,6 +1487,9 @@
                     }
                     .icon-right {
                         transform: rotateZ(180deg);
+                        i{
+                            margin-bottom: -2px;
+                        }
                     }
                 }
             }

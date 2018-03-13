@@ -10,7 +10,7 @@
                 <el-form-item label="Email address" prop="email">
                     <el-input v-model="signupForm.email" ></el-input>
                 </el-form-item>
-                <el-form-item label="FISRT NAME" prop="fisrtName" class="name">
+                <el-form-item label="FIRST NAME" prop="fisrtName" class="name">
                     <el-input v-model="signupForm.fisrtName" ></el-input>
                 </el-form-item>
                 <el-form-item label="LAST NAME" prop="lastName" class="name">
@@ -59,7 +59,7 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="Upload distribution card" prop="pic">
+                <el-form-item label="Upload Resale Certificate" prop="pic">
                     <el-upload
                         :limit = 1
                         :on-success="urlFileList"
@@ -217,7 +217,7 @@
                         };
                         let obj = {
                             email: this.signupForm.email,
-                            contractName: this.signupForm.fisrtName + this.signupForm.lastName,
+                            contractName: this.signupForm.fisrtName + '-' + this.signupForm.lastName,
                             companyName: this.signupForm.companyName,
                             /*mobile: this.signupForm.mobile ? "1-" + this.signupForm.mobile : '',*/
                             type: 3,

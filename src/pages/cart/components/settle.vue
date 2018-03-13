@@ -166,7 +166,7 @@
                     <template slot-scope="scope">
                         <a :href="'/detail#/?id=' + scope.row.id">
                             <div class="cart-item-info">
-                                <img class="item-img" :src="'http://res.500mi.com/item/' + scope.row.url">
+                                <img class="item-img" :src="scope.row.full_url">
                                 <div class="content">
                                     <p :title="scope.row.item_name">{{scope.row.item_name}}</p>
                                 </div>
@@ -632,6 +632,7 @@
                     item.realPrice = item.item_props[0].price
                 }
             })
+            console.log(this.tableData);
             this.getInfo()
             this.expressOptions = this.UPSOptions
         }

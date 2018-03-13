@@ -61,6 +61,7 @@
                 </el-form-item>
                 <el-form-item label="Upload distribution card" prop="pic">
                     <el-upload
+                        :limit = 1
                         :on-success="urlFileList"
                         class="upload-demo"
                         drag

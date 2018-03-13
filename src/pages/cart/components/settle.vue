@@ -344,12 +344,6 @@
                 bonusArr: []
             }
         },
-        watch: {
-            location1: function () {
-                console.log(this.location1)
-                console.log(this.location2)
-            }
-        },
         methods: {
             // 重置表单
             clearForm() {
@@ -933,9 +927,6 @@
                     .el-form--inline{
                         .el-form-item{
                             margin-right: 0;
-                            .el-form-item__label {
-
-                            }
                             .el-input{
                                 width:180px;
                                 input{

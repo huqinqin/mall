@@ -3,7 +3,7 @@
         <div class="header-box">
           <ul class="s-span-page">
             <li class="sign">
-              <span class="login" v-login v-if="!userInfo">{{ $t("comHeader.headerImmediatelyLog") }}</span>
+              <span class="login" v-login v-if="!userInfo">{{ $t("main.index.mainInImmeLogin") }}</span>
               <a href="/someinfo" @click="toInfo"><span class="login"  v-if="userInfo">{{ $t("comHeader.headerWelcom") }}，{{userInfo.account.user_name}}</span></a>
               <a href="/account#/register" v-if="!userInfo"><span class="register">{{ $t("comHeader.headerImmediatelySign") }}</span></a>
             </li>

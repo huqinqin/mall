@@ -40,7 +40,7 @@
 </script>
 <style scoped lang="less">
     .lts-location{
-        width: 350px;
+        /*width: 350px;*/
         /deep/ .el-input {
             width: 100% !important;
         }

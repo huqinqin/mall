@@ -393,7 +393,8 @@ export default {
                 mainPerCarDisStatus: 'Status',
                 mainPerCarDisPass: 'Approved',
                 mainPerCarDisNotPass: 'Failed',
-                mainPerCarDisAudited: 'Under Review'
+                mainPerCarDisAudited: 'Under Review',
+                mainPerCarDeleteSure: 'Are you sure you want to delete?'
             },
             password: {
                 mainPerPwdsetter: 'Password Settings',

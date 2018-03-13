@@ -19,26 +19,29 @@
             <br>
             <el-form-item :label='$t("main.personal.personalMsg.mainPerPerEmail")' prop="email"
                           style="margin-top: 10px;">
-                <el-input v-model="ruleForm.email" :disabled="true"></el-input>
+                <el-input v-model="ruleForm.email" :disabled="true" style="width: 400px"></el-input>
             </el-form-item>
             <br>
-            <el-form-item label="name" required style="margin-top: 10px;">
-                <el-input v-model="ruleForm.name"></el-input>
+            <el-form-item label="名" prop="lastName">
+                <el-input v-model="ruleForm.lastName" style="width: 400px"/>
+            </el-form-item>
+            <el-form-item label="姓" prop="firstName">
+                <el-input v-model="ruleForm.firstName" style="width: 400px"/>
             </el-form-item>
             <br>
             <el-form-item :label='$t("main.personal.personalMsg.mainPerPerContactPhone")' prop="mobile"
                           style="margin-top: 10px;">
-                <el-input v-model="ruleForm.mobile"></el-input>
+                <lts-input-phone  v-model="ruleForm.mobile" style="width: 400px"/>
             </el-form-item>
             <br>
             <el-form-item :label='$t("main.personal.personalMsg.mainPerPerCompany")' prop="companyName"
                           style="margin-top: 10px;">
-                <el-input v-model="ruleForm.companyName"></el-input>
+                <el-input v-model="ruleForm.companyName" style="width: 400px"></el-input>
             </el-form-item>
             <br>
             <el-form-item :label='$t("main.personal.personalMsg.mainPerPerCompanyMode")' prop="companyPhone"
                           style="margin-top: 10px;">
-                <el-input v-model="ruleForm.companyPhone"></el-input>
+                <lts-input-phone  v-model="ruleForm.companyPhone" style="width: 400px"/>
             </el-form-item>
             <br>
             <el-form-item>
@@ -52,9 +55,12 @@
 
 <script>
     import personalService from '@/services/PersonalService'
+    import {ltsInputPhone} from 'ui'
+    import ValidatorConfig from 'config/ValidatorConfig'
 
     export default {
         name: "personalMessage",
+        components: {ltsInputPhone},
         data() {
             return {
                 ruleForm: {
@@ -63,7 +69,9 @@
                     name: '',
                     mobile: '',
                     companyName: '',
-                    companyPhone: ''
+                    companyPhone: '',
+                    firstName: '',
+                    lastName: ''
                 },
                 rules: {
                     email: [
@@ -80,13 +88,8 @@
                             trigger: 'blur'
                         }
                     ],
-                    mobile: [
-                        {
-                            required: true,
-                            message: this.$t("main.personal.personalMsg.mainPerPerEnterCont"),
-                            trigger: 'change'
-                        }
-                    ]
+                    mobile: ValidatorConfig.mobile(),
+                    companyPhone: ValidatorConfig.mobile(false)
                 }
             };
         },
@@ -99,7 +102,8 @@
                     this.ruleForm = {
                         imageUrl: resp.data.user_d_o.ext,
                         email: resp.data.user_d_o.email,
-                        name: resp.data.user_d_o.name,
+                        firstName: resp.data.shop_d_o.contact.split('-')[0] ? resp.data.shop_d_o.contact.split('-')[0] : '',
+                        lastName: resp.data.shop_d_o.contact.split('-')[1] ? resp.data.shop_d_o.contact.split('-')[1] : '',
                         mobile: resp.data.user_d_o.mobile,
                         companyName: resp.data.shop_d_o.shop_name,
                         companyPhone: resp.data.shop_d_o.contact_phone
@@ -109,7 +113,17 @@
                 })
             },
             updateUserMessage() {
-                personalService.updateUserMessage(this.ruleForm).then((resp) => {
+                let params = {
+                    imageUrl: this.ruleForm.imageUrl,
+                    email: this.ruleForm.email,
+                    name: this.ruleForm.firstName + '-' + this.ruleForm.lastName,
+                    mobile: this.ruleForm.mobile,
+                    companyName: this.ruleForm.companyName,
+                    companyPhone: this.ruleForm.companyPhone,
+                    firstName: this.ruleForm.firstName,
+                    lastName: this.ruleForm.lastName
+                };
+                personalService.updateUserMessage(params).then((resp) => {
                     this.$ltsMessage.show({type: 'success', message: 'success'});
                     this.getUserMessage();
                 }, (msg) => {
@@ -129,10 +143,11 @@
     }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
     .personalMessage {
         .avatar-uploader {
             .avatar {
+                float: left;
                 width: 50%;
             }
 
@@ -170,6 +185,9 @@
         .submitBtn {
             width: 100px;
             height: 40px;
+        }
+        .input-with-select .el-input__inner{
+            width: 320px;
         }
     }
 </style>

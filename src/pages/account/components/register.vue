@@ -217,7 +217,7 @@
                         };
                         let obj = {
                             email: this.signupForm.email,
-                            contractName: this.signupForm.fisrtName + this.signupForm.lastName,
+                            contractName: this.signupForm.fisrtName + '-' + this.signupForm.lastName,
                             companyName: this.signupForm.companyName,
                             /*mobile: this.signupForm.mobile ? "1-" + this.signupForm.mobile : '',*/
                             type: 3,

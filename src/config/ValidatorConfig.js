@@ -44,7 +44,7 @@ export default {
         {validator: this.validatePassword, trigger: 'blur'}
     ],
     email: [
-        {required: true, message: '请输入邮箱', trigger: 'blur'},
+        {required: true, message: 'Please Enter Your Email', trigger: 'blur'},
         {type: 'email', message: '邮箱格式错误', trigger: 'blur'},
         {validator: this.validateEmail, trigger: 'blur'}
     ],

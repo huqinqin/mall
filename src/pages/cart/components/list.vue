@@ -330,7 +330,7 @@
               </div>
               <div class="bottomline">
                 <div><span>{{ $t("main.cart.list.mainCartliBenefit") }}：-</span>
-                  <lts-money :money="totalPrice - realTotal"></lts-money>
+                  <lts-money :money="totalPrice - realTotal + minusPro"></lts-money>
                 </div>
                 <div><span>{{ $t("main.cart.list.mainCartliShouldPay") }}：</span><span class="bold"><lts-money
                   :money="realTotal"></lts-money></span></div>
@@ -394,7 +394,9 @@
           cartPriceTotal: 0
         },
         checkedItem: [], // 已选商品
-        cartNum:1
+        cartNum:1,
+        fullrule:[], // 满减规则
+        minusPro:0, // 满减
       }
     },
     mounted () {
@@ -421,7 +423,6 @@
         if (this.selectedAll) {
           this.checkedItem = this.tableDataItem
             this.checkedItem.forEach((item, index) => {
-                console.log(item)
                 if(item,length > 0){
                     if(item.rule.started && !item.rule.finished){
 
@@ -471,10 +472,10 @@
         }
 
         this.calc(this.checkedItem)
+          this.calcMinus(this.checkedItem)
       },
       // 单选框
       selectChange (row) {
-        console.log(row)
         if (this.checkedItem.indexOf(row) !== -1) {
           this.checkedItem.splice(this.checkedItem.indexOf(row), 1)
             row.checked = false;
@@ -498,6 +499,7 @@
          })
         Vue.set(this.tableData)
         this.calc(this.checkedItem)
+        this.calcMinus(this.checkedItem)
         if (this.checkedItem.length === this.tableDataItem.length) {
           this.selectedAll = true
         } else {
@@ -589,7 +591,7 @@
           this.putCartPlus(row).then((data) => {
             this.calc(this.checkedItem)
           }, (msg) => {
-            console.log('fail')
+            this.$ltsMessage.show({type:'error',message:msg.error_message})
           })
         })
       },
@@ -660,10 +662,27 @@
         // 查询是否有满减活动
         minus(){
           cartService.getFullSetting().then((data) => {
-              console.log(data)
+              this.fullrule = data.datalist
           }, (msg) => {
               this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
           })
+        },
+        calcMinus(item){
+            let sum = 0
+            this.minusPro = 0
+            if(item.length > 0){
+                item.forEach((value) => {
+                    if(value.discount_type === 0){
+                        console.log(value)
+                        sum += value.price
+                    }
+                })
+                this.fullrule.forEach((value) => {
+                    if(sum >= value.start_v){
+                        this.minusPro = value.value
+                    }
+                })
+            }
         }
     },
     watch: {
@@ -896,6 +915,8 @@
         .el-button {
           background-color: #ff3b41;
           width: 160px;
+          border-radius: 0;
+          border:1px solid #ff3b41;
           span {
             color: #fff;
             font-size: 18px;

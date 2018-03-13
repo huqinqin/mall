@@ -94,7 +94,7 @@ export default {
                 mainCartFaLogisticsMode: '物流方式',
                 mainCartFaMyOrder: '我的订单',
                 mainCartFaFirstPage: '回到首页',
-                mainCartFaSince: '送货上门'
+                mainCartFaSince: '自提'
             },
             finish: {
                 mainCartFiSuccess: '恭喜您，订单已经支付完成！',

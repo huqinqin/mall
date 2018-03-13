@@ -65,6 +65,7 @@
     .mall-menu {
         margin-right: 24px;
         min-width: 180px;
+        margin-top: 12px;
         ul {
             border: 1px solid #ddd;
             li a {

@@ -45,7 +45,7 @@
                     style="width: 240px"
                     @change="handleChange">
                 </el-cascader>
-                <el-button slot="append" icon="iconfont icon-sousuo2"></el-button>
+                <el-button slot="append" icon="iconfont icon-sousuo2" @click="searchToHref"></el-button>
             </el-input>
         </div>
     </div>

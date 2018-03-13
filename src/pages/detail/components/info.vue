@@ -580,7 +580,7 @@
                     'proxy_distribute_num': this.item.proxy_distribute_num,
                     'puser_id': this.item.puser_id,
                     'spec_unit': this.item.spec_unit,
-                    'spu_id': this.item.spu_id,
+                    'spu_id': this.checkedSpu.spu_id,
                     'status': this.item.status,
                     'storage': this.item.storage,
                     'tag': this.item.tag,

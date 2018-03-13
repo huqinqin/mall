@@ -86,7 +86,6 @@
             </el-form>
         </el-dialog>
 
-        <!--<h3 class="title">{{$t("main.personal.card.mainPerCarTitle")}}</h3>-->
         <h3 class="title">{{$t("main.personal.card.mainPerCarTitle")}}</h3>
         <el-table
             :data="tableData"
@@ -316,15 +315,15 @@
                 });
             },
             makeSure(id) {
-                this.$confirm('此操作将永久删除该项, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
+                this.$confirm(this.$t("main.personal.card.mainPerCarDeleteSure"), this.$t("main.order.list.mainOrLiIsDelTip"), {
+                    confirmButtonText: this.$t("main.order.list.mainOrLiConfirm"),
+                    cancelButtonText: this.$t("main.order.list.mainOrLiCanle"),
                     type: 'warning'
                 }).then(() => {
                     this.deleteSaleCard(id);
-                    this.$message({type: 'success', message: '删除成功!'});
+                    this.$message({type: 'success', message: this.$t("main.order.list.mainOrLiDeleteSucc")});
                 }).catch(() => {
-                    this.$message({type: 'info', message: '已取消删除'});
+                    this.$message({type: 'info', message: 'cancel'});
                 });
             },
             checkStatus(item) {
@@ -345,7 +344,7 @@
                             cardPicUrl: item.row.picture,
                             number: item.row.distribute_num,
                             address: item.row.address,
-                            location: [],
+                            location: [item.row.state],
                             company: item.row.company,
                             city: item.row.city,
                             country: this.$t("main.personal.card.mainPerCarUsa"),
@@ -354,6 +353,7 @@
                             invalid_time: [item.row.valid_time,item.row.invalid_time],
                             setDefaultFlag: false
                         };
+                        this.locationLabel[0] = item.row.state;
                         this.dialogShow = true;
                         break;
                     case 'delete':
@@ -378,7 +378,15 @@
     }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
+    .location-Popover{
+        width: 400px;
+        height: 200px;
+    }
+    html .location-Popover .el-cascader-menu{
+        width: 100%;
+        height: 100%;
+    }
     .card {
         .avatar-uploader {
             .avatar {

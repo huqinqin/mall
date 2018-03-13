@@ -315,7 +315,7 @@ export default {
                 mainOrLiAccessFail: '受理失败',
                 mainOrLiNoAccept: '拒绝',
                 mainOrLiIsDelOrder: '是否删除订单?',
-                mainOrLiIsDelTip: '提示?',
+                mainOrLiIsDelTip: '提示',
                 mainOrLiConfirm: '确定',
                 mainOrLiCanle: '取消',
                 mainOrLiDeleteSucc: '删除成功',
@@ -388,7 +388,8 @@ export default {
                 mainPerCarDisStatus: '分销证状态',
                 mainPerCarDisPass: '通过',
                 mainPerCarDisNotPass: '未通过',
-                mainPerCarDisAudited: '待审核'
+                mainPerCarDisAudited: '待审核',
+                mainPerCarDeleteSure: '确认删除'
             },
             password: {
                 mainPerPwdsetter: '密码设置',

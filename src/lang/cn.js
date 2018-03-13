@@ -124,7 +124,10 @@ export default {
                 mainCartliBenefit: '活动优惠',
                 mainCartliCheckedAll: '全选',
                 mainCartliDeleteChecked: '删除选中商品',
-                mainCartliDeleteInvalid: '清除失效商品',
+                mainCartliTextOne: '您的购物车还是空的，赶紧行动吧！您可以：',
+                mainCartliTextTwo: '去',
+                mainCartliTextThree: '商城',
+                mainCartliTextFour: '加购',
             },
             settle: {
                 mainCartSePhone: '电话',

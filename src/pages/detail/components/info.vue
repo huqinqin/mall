@@ -300,7 +300,7 @@
                 <div class="detail_goods">
                     <el-tabs v-model="activeName" @tab-click="handleClick" type="border-card">
                         <el-tab-pane :label='$t("main.detail.info.mainDetInfoGoodsInfo")' name="first">
-                            <ul class="aboutDetail" :class="[showPropDetail ? 'propOpen' : 'propClose']">
+                            <ul class="aboutDetail" :class="[showPropDetail ? 'propOpen' : 'propClose']" v-if="aboutDetail.length > 0">
                                 <li v-for="(value,index) in aboutDetail" v-if="!value.sku">
                                     <span v-for="(val,key) in value.propValues">
                                         {{key}}: {{val}}
@@ -441,6 +441,14 @@
                         }
                     })
                     this.otherGoods = data.data.item.package_item_list
+                    if(data.data.item.item_images.length == 0){
+                        data.data.item.item_images.push(
+                            {
+                                url : data.data.item.image_value
+                            }
+                        )
+                    }
+                    console.log(data.data.item);
                     this.item = data.data.item
                     this.activeImg = this.item.item_images[0]
                     this.hotSale = data.data.hot_recomment.items
@@ -1062,7 +1070,7 @@
                 .tips {
                     border: 1px solid #ff3b41;
                     line-height: 21px;
-                    width: 155px;
+                    width: 190px;
                     margin-top: 10px;
                     font-size: 12px;
                     padding-left: 6px;
@@ -1353,7 +1361,6 @@
                             background: #f6f6f6;
                             .el-tabs__item {
                                 border-top: 2px solid #f6f6f6;
-                                width: 122px;
                                 font-size: 14px;
                                 height: 38px;
                                 line-height: 38px;
@@ -1383,7 +1390,6 @@
                             flex-wrap: wrap;
                             justify-content: flex-start;
                             border-bottom: 1px solid #E5E5E5;
-                            margin-left: 24px;
                             max-height: 56px;
                             overflow: hidden;
                             li {

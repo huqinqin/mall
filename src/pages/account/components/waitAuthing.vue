@@ -2,12 +2,12 @@
     <div class="waitAuthing">
         <header>
             <div class="line"></div>
-            <div class="title">SUBMIT SUCCESS</div>
+            <div class="title">Submission Successful</div>
             <div class="line"></div>
         </header>
         <main>
-            <div class="info1">SUBMITTED SUCCESSFULLY</div>
-            <div class="info2">WAITING FOR THE SYSTEM AUDIT</div>
+            <div class="info1">Your request has been submitted, awaiting approval</div>
+            <div class="info2">Once your request has been approved, we will send you an initial password through Email</div>
             <div class="buttons">
                 <el-button class="back" @click="back">BACK TO THE MALL</el-button>
             </div>
@@ -35,8 +35,8 @@
 <style lang="less">
     .waitAuthing{
         main{
-            width:700px;
-            height: 700px;
+            width:100%;
+            height: 100%;
             margin:0 auto;
             display: flex;
             flex-direction: column;
@@ -44,7 +44,7 @@
             color:#ff3b41;
             .info1{
                 line-height: 60px;
-                font-size: 48px;
+                font-size: 30px;
                 font-weight: bold;
                 margin-top: 140px;
             }

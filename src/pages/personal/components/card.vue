@@ -134,7 +134,7 @@
             <el-table-column
                 prop="invalid_time"
                 :label='$t("main.personal.card.mainPerCarFromDate")'
-                width="120">
+                width="100">
                 <template slot-scope="scope">
                     {{scope.row.invalid_time | timestamp2str}}
                 </template>

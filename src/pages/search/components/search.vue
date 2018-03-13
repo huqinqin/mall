@@ -86,7 +86,6 @@
         </div>
         <div v-else-if="data.length <= 0 && isLoadEnding" class="error">
             <div :style="{backgroundImage: 'url('+errorImg+')'}">
-
             </div>
         </div>
     </div>

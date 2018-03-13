@@ -38,7 +38,7 @@
                                 </template>
                             </el-table-column>
                             <el-table-column prop="num" width="100" align="left">
-                                <template slot-scope="subscope">{{subscope.row.num}}{{subscope.row.wholesale_item_d_o.unit}}</template>
+                                <template slot-scope="subscope">{{subscope.row.num}}</template>
                             </el-table-column>
                             <el-table-column  width="80" align="center">
                                 <template>

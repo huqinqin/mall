@@ -9,24 +9,24 @@
           </ul>
           <div class="footer-menu-box">
                 <ul>
-                  <li><a href="http://www.ltsecurityinc.com/about-lts">{{ $t("comFooter.footerAboutLts") }}</a></li>
-                  <li><a href="http://www.ltsecurityinc.com/contact">{{ $t("comFooter.footerContactUs") }}</a></li>
-                  <li><a href="http://www.ltsecurityinc.com/careers"></a>{{ $t("comFooter.footerUseItem") }}</li>
+                  <li><a target="_blank" href="http://www.ltsecurityinc.com/about-lts">{{ $t("comFooter.footerAboutLts") }}</a></li>
+                  <li><a target="_blank" href="http://www.ltsecurityinc.com/contact">{{ $t("comFooter.footerContactUs") }}</a></li>
+                  <li><a target="_blank" href="http://www.ltsecurityinc.com/careers">{{ $t("comFooter.footerUseItem") }}</a></li>
                 </ul>
                 <ul>
-                  <li><a href="https://www.ltsecurityinc.com/support"></a>{{ $t("comFooter.footerFollowSupport") }}</li>
-                  <li><a href="http://www.ltsecurityinc.com/news">{{ $t("comFooter.footerEvevtNews") }}</a></li>
-                  <li><a href="http://www.ltsecurityinc.com/events">{{ $t("comFooter.footerFollowEvent") }}</a></li>
+                  <li><a target="_blank" href="https://www.ltsecurityinc.com/support">{{ $t("comFooter.footerFollowSupport") }}</a></li>
+                  <li><a target="_blank" href="http://www.ltsecurityinc.com/news">{{ $t("comFooter.footerEvevtNews") }}</a></li>
+                  <li><a target="_blank" href="http://www.ltsecurityinc.com/events">{{ $t("comFooter.footerFollowEvent") }}</a></li>
                 </ul>
                 <ul>
-                  <li><a href="https://www.ltsecurityinc.com/terms-of-use">{{ $t("comFooter.footerUseItem") }}</a></li>
-                  <li><a href="https://www.ltsecurityinc.com/privacy-policy">{{ $t("comFooter.footerSecretItem") }}</a></li>
-                  <li><a href="https://www.ltsecurityinc.com/terms-and-Conditions">{{ $t("comFooter.footerItemCondition") }}</a></li>
+                  <li><a target="_blank" href="https://www.ltsecurityinc.com/terms-of-use">{{ $t("comFooter.footerUseItem") }}</a></li>
+                  <li><a target="_blank" href="https://www.ltsecurityinc.com/privacy-policy">{{ $t("comFooter.footerSecretItem") }}</a></li>
+                  <li><a target="_blank" href="https://www.ltsecurityinc.com/terms-and-Conditions">{{ $t("comFooter.footerItemCondition") }}</a></li>
                 </ul>
                 <ul>
                   <li>{{ $t("comFooter.footerFollowUs") }}:</li>
                   <li>
-                      <a v-for="link in footerLinkList" :style="{backgroundImage: 'url('+link.img+')'}" :href="link.link" :key="link.value" class="link-img-box"></a>
+                      <a target="_blank" v-for="link in footerLinkList" :style="{backgroundImage: 'url('+link.img+')'}" :href="link.link" :key="link.value" class="link-img-box"></a>
                   </li>
                 </ul>
               </div>

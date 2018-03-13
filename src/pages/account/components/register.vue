@@ -6,7 +6,7 @@
             <div class="line"></div>
         </header>
         <main>
-            <el-form label-position="top" :model="signupForm" :rules="rules">
+            <el-form label-position="top" :model="signupForm" :rules="rules" ref="form">
                 <el-form-item label="Email address" prop="email">
                     <el-input v-model="signupForm.email" ></el-input>
                 </el-form-item>
@@ -40,7 +40,7 @@
                             :value="item.value">
                         </el-option>
                     </el-select>
-                    <el-input v-model="signupForm.mobile" ></el-input>
+                    <el-input v-model="signupForm.mobile" @blur="validted"></el-input>
                 </el-form-item>
                 <el-form-item label="Zip code" prop="address">
                     <el-input v-model="signupForm.address" ></el-input>
@@ -61,6 +61,7 @@
                 </el-form-item>
                 <el-form-item label="Upload distribution card" prop="pic">
                     <el-upload
+                        :limit = 1
                         :on-success="urlFileList"
                         class="upload-demo"
                         drag
@@ -96,7 +97,9 @@
             let checkMobile = (rule, value, callback)=>{
                 let reg = /^[2-9][0-9]{2}[2-9][0-9]{2}[0-9]{4}$/;
                 if(!reg.test(value)){
-                    callback(new Error('号码格式错误!'))
+                    callback(new Error("Mobile Phone Format Error"));
+                }else{
+                    callback();
                 }
             }
             return{
@@ -135,9 +138,13 @@
                     ],
                     email:validatorConfig.email,
                     phone: [
-                        { required: true, message:  this.$t("main.accountNew.register.mainAcReContentNotNull"), trigger: 'blur' },
+                        { required: true, message:  "Phone Number Can't Be Empty", trigger: 'blur' },
                         {validator:checkMobile,trigger: 'blur,change'}
                     ],
+                   /* mobile: [
+                        { required: false, message:  "Phone Number Can't Be Empty", trigger: 'blur' },
+                        {required: false,validator:checkMobile,trigger: 'blur,change'}
+                    ],*/
                     address:validatorConfig.address,
                 },
                 globlaNum: [{
@@ -171,31 +178,66 @@
             }
         },
         methods: {
+            validted(){
+                if(this.signupForm.mobile){
+                    let reg = /^[2-9][0-9]{2}[2-9][0-9]{2}[0-9]{4}$/;
+                    if(!reg.test(this.signupForm.mobile)){
+                        this.$ltsMessage.show({type: "error", message: "Mobile phone: Format error"});
+                        return false;
+                    }else{
+                    }
+                }else{}
+            },
             urlFileList(response, file, fileList){
-                this.signupForm.url.push(response.data.url);
+                if(response.data){
+                    this.signupForm.url.push(response.data.url);
+                }else{
+                    console.log("000");
+                }
             },
             submitFrom(){
-                let params = {
-                    businessPhone:"1-"+this.signupForm.phone,
-                    zipCode:this.signupForm.address,
-                    taxId:this.signupForm.FTI,
-                    typeOfBusiness:this.signupForm.Business,
-                    urls:this.signupForm.url
-                };
-                let obj = {
-                    email: this.signupForm.email,
-                    contractName:this.signupForm.fisrtName + this.signupForm.lastName,
-                    companyName: this.signupForm.companyName,
-                    mobile:"1-" + this.signupForm.mobile,
-                    type:3,
-                    from:'PC_WEB',
-                    ext:params
-                }
-                accountService.creatAccount(obj).then((data) => {
-                    this.$ltsMessage.show({type: 'success', message: this.$t("main.accountNew.register.mainAcReCreateSuccess")})
-                    this.$router.push('/waitAuthing')
-                },(msg) => {
-                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                this.$refs.form.validate((valid) => {
+                    /*if(this.signupForm.mobile){
+                        let reg = /^[2-9][0-9]{2}[2-9][0-9]{2}[0-9]{4}$/;
+                        if(!reg.test(this.signupForm.mobile)){
+                            this.$ltsMessage.show({type: "error", message: "Mobile phone: Format error"});
+                            /!*callback(new Error("Mobile Phone Format Error"));*!/
+                            return false;
+                        }else{
+                            callback();
+                        }
+                    }else{}*/
+                    if(valid){
+                        let params = {
+                            businessPhone: "1-" + this.signupForm.phone,
+                            zipCode: this.signupForm.address,
+                            taxId: this.signupForm.FTI,
+                            typeOfBusiness: this.signupForm.Business,
+                            urls: this.signupForm.url
+                        };
+                        let obj = {
+                            email: this.signupForm.email,
+                            contractName: this.signupForm.fisrtName + this.signupForm.lastName,
+                            companyName: this.signupForm.companyName,
+                            /*mobile: this.signupForm.mobile ? "1-" + this.signupForm.mobile : '',*/
+                            type: 3,
+                            from: 'PC_WEB',
+                            ext: params
+                        }
+                        if(this.signupForm.mobile){
+                            obj.mobile = "1-" + this.signupForm.mobile;
+                        }else{}
+                        accountService.creatAccount(obj).then((data) => {
+                            this.$ltsMessage.show({
+                                type: 'success',
+                                message: this.$t("main.accountNew.register.mainAcReCreateSuccess")
+                            })
+                            this.$router.push('/waitAuthing')
+                        }, (msg) => {
+                            this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                        })
+                    }
+
                 })
             },
             getCode(){

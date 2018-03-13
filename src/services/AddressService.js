@@ -57,14 +57,13 @@ export default class AddressService extends BaseService {
     static addItem(form){
         let address = {
             mobile:form.mobile,
-            userName:form.user_name,
-            address:form.address + form.building,
-            building:form.building,
+            userName:form.first+ '-' + form.last,
+            address:form.address,
+            building:form.city + '-' + form.street,
             status: form.setDefault ? 1 : 0,
             rank: form.rank,
             zip_code: form.zipCode,
             lc_code: form.lcCode,
-            ship:1,
             state: form.state,
             country: form.country
         }
@@ -104,15 +103,14 @@ export default class AddressService extends BaseService {
     static updateItem(form){
         let address = {
             mobile:form.mobile,
-            userName:form.user_name,
-            address:form.address + form.building,
-            building:form.building,
+            userName:form.first + '-' + form.last,
+            address:form.address,
+            building:form.city + '-' + form.street,
             status: form.setDefault ? 1 : 0,
             rank: form.rank,
             zip_code: form.zipCode,
             id: form.id,
             lc_code: form.lcCode,
-            ship:1
         }
         let params = {
             address:JSON.stringify(address)

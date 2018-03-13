@@ -65,7 +65,7 @@
                                                  {{$t("main.order.list.mainOrLiReject")}}
                                             </span>
                                             <span v-else-if="subscope.row.last_refund_status == 7">
-                                                 {{$t("main.order.list.mainOrLiAlreadyBack")}} {{subscope.row.refund_num}} {{subscope.row.wholesale_item_d_o.unit}}{{subscope.row.refund_real | money2str}} {{$t("main.repayMent.readyPay.mainReReDollar")}}
+                                                 {{$t("main.order.list.mainOrLiAlreadyBack")}} {{subscope.row.refund_num}} {{subscope.row.wholesale_item_d_o.unit}} <lts-money :money="subscope.row.refund_real"></lts-money> {{$t("main.repayMent.readyPay.mainReReDollar")}}
                                             </span>
                                             <span v-else-if="subscope.row.last_refund_status == 9">
                                                  {{$t("main.order.list.mainOrLiClose")}}

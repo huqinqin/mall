@@ -90,7 +90,7 @@
                             <div><lts-money :money="detail.reverse.refund"></lts-money></div>
                         </template>
                     </el-table-column>
-                    <el-table-column v-if="detail.reverse.status == 1 || detail.reverse.status == 2"  :label='$t("main.order.reverse.mainOrReRejectSureTotalPay")' width="200" header-align="center" align="center">
+                    <el-table-column v-if="detail.reverse.status == 4"  :label='$t("main.order.reverse.mainOrReRejectSureTotalPay")' width="200" header-align="center" align="center">
                         <template slot-scope="scope">
                             <div><lts-money :money="detail.reverse.refund_real"></lts-money></div>
                         </template>
@@ -107,7 +107,7 @@
                     <div>{{detail.wholesale_order.user_name}} {{detail.wholesale_order.receiver_mobile}}</div>
                     <div>{{detail.wholesale_order.user_addr}}</div>
                 </el-form-item>
-                <el-form-item :label='$t("main.order.detail.mainOrDePayInfo")'>
+                <el-form-item :label='$t("main.order.detail.mainOrDePayInfo")' v-if="detail.wholesale_order.pay_info">
                     <div>
                         {{$t("main.order.detail.mainOrDeCard")}}
                         <lts-money v-if="detail.wholesale_order.pay_info.pay_remark && detail.wholesale_order.pay_info.pay_remark.ANET_CREDIT_CARD > 0" :money="detail.wholesale_order.pay_info.pay_remark.ANET_CREDIT_CARD" ></lts-money>

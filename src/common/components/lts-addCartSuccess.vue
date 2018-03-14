@@ -21,7 +21,7 @@
                 <hr style="height:1px;border:none;width: 100%;border-top: 1px solid #cecece;margin-top: 32px"/>
                 <h3 class="recommoned">{{$t("common.addCart.comAddCartRecommon")}}</h3>
                 <ul class="list">
-                      <li v-for = "(item,index) in info">
+                      <li v-for = "(item,index) in info" v-if="index < 5">
                           <el-tooltip placement="top">
                               <div slot="content"><p class="desc">{{item.item_name}}</p></div>
                               <a :href=" '/detail#/?id=' + item.id" target="_self" @click="refresh">
@@ -193,7 +193,7 @@
                 align-items: center;
                 overflow: hidden;
                 li{
-                    margin-left: 11px;
+                    margin-left: 7px;
                     width: 90px;
                     word-break: break-all;
                     .bg{

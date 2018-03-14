@@ -12,8 +12,8 @@
        <div class="numMony"><span>{{$t("main.repayMent.readyPay.mainReReRepayBala")}}:</span><span style="color: #ff3d41">${{payBalanceMoney}}</span></div>
        <h3 style="font-size: 16px;color: rgba(0,0,0,0.8);margin-top: 20px">{{$t("main.repayMent.readyPay.mainReRePayType")}}</h3>
        <div class="payMethod"><el-radio v-model="radio" label="1" :disabled="checked">{{$t("main.repayMent.readyPay.mainReReCard")}}</el-radio></div>
-       <div class="payMethod"><el-radio v-model="radio" label="2" :disabled="checked">{{$t("main.repayMent.readyPay.mainReReOnlinePay")}}</el-radio></div>
-       <div class="goPay"><el-button type="danger">{{$t("main.repayMent.readyPay.mainReReGoPay")}}</el-button></div>
+       <div class="payMethod" style="display: none"><el-radio v-model="radio" label="2" :disabled="checked">{{$t("main.repayMent.readyPay.mainReReOnlinePay")}}</el-radio></div>
+       <div class="goPay" style="display: none"><el-button type="danger">{{$t("main.repayMent.readyPay.mainReReGoPay")}}</el-button></div>
    </div>
 </template>
 

@@ -727,6 +727,7 @@
                 .cart-item-info {
                     width: 100%;
                     display: flex;
+                    align-items: center;
                     justify-content: space-between;
                     img {
                         width: 80px;
@@ -734,14 +735,14 @@
                         border: 1px solid #dadada;
                     }
                     div {
-                        /*width:120px;*/
                         p {
                             line-height: 30px;
                             font-size: 14px;
                             text-align: left;
-                        }
-                        p:first-child {
-                            margin-top: 12px;
+                            display: -webkit-box;
+                            -webkit-box-orient: vertical;
+                            -webkit-line-clamp: 3;
+                            overflow: hidden;
                         }
                     }
                 }

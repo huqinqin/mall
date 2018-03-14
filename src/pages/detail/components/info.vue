@@ -78,7 +78,7 @@
                                     size="mini"
                                     :max="item.sale_rule_do.total > item.sale_rule_do.maxinum ? item.sale_rule_do.maxinum : item.sale_rule_do.total"
                                     :min="item.sale_rule_do.minimum"></el-input-number>
-                                <span class="red">起订量{{item.sale_rule_do.minimum}},限购{{item.sale_rule_do.maxinum}}</span>
+                                <span class="red">Minimum Quantity{{item.sale_rule_do.minimum}},Purchase Restrictions{{item.sale_rule_do.maxinum}}</span>
                             </template>
                             <template v-else>
                                 <el-input-number
@@ -116,7 +116,7 @@
                     <addCartSuccess
                         :flag.sync="flag"
                         @fade="hide"
-                        :info="hotSale"
+                        :info="recommondInfo"
                     ></addCartSuccess>
                 </el-form>
             </div>
@@ -386,7 +386,8 @@
                 otherGoodsItem: {},
                 showSelectModel: true,
                 checkedOthers: [],
-                otherSpu: {}
+                otherSpu: {},
+                recommondInfo:[],
             }
         },
         methods: {
@@ -469,6 +470,11 @@
                     }
                 }, (msg) => {
                     this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
+                })
+            },
+            hotRecommoned(){
+                cartService.hotRecommond().then((data) => {
+                   this.recommondInfo = data.datalist[0].items;
                 })
             },
             checkedProp(prop, data, type) {
@@ -709,7 +715,10 @@
                 }
                 return price
             },
-        }
+        },
+        mounted() {
+            this.hotRecommoned();
+        },
     }
 </script>
 
@@ -1493,9 +1502,9 @@
                     }
                     .icon-right {
                         transform: rotateZ(180deg);
-                        i{
-                            margin-bottom: -2px;
-                        }
+                        /*i{*/
+                            /*margin-bottom: -2px;*/
+                        /*}*/
                     }
                 }
             }

@@ -35,7 +35,7 @@ export default {
         footerUseItem: 'Terms of Use',
         footerSecretItem: 'Privacy Policy',
         footerItemCondition: 'Terms and Conditions',
-        footerFollowUs: 'Follow Us',
+        footerFollowUs: 'FOLLOW US',
         footerFollowEvent: 'Events',
         footerFollowSupport: 'Support'
     },
@@ -141,7 +141,7 @@ export default {
                 mainCartSeAddAdress: 'Added A New Address',
                 mainCartSeRegion: 'State',
                 mainCartSeEnterRegion: 'Please Enter Your Region',
-                mainCartSeStreet: 'Street address',
+                mainCartSeStreet: 'Street Address',
                 mainCartSeCity: 'City',
                 mainCartSeEnterStreet: 'Please Enter Street Address',
                 mainCartSeEnterCity: 'Please Enter City',

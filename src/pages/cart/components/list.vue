@@ -710,7 +710,7 @@
     .el-table__header-wrapper {
       height: 40px;
     }
-    .has-gutter {
+    thead {
       tr {
         th {
           background-color: #f2f2f2;

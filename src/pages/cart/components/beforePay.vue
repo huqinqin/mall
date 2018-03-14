@@ -41,8 +41,7 @@
       <el-button @click="confirmPay" :disabled="((form.moneyPay - form.used > 0)&& (form.payBank == 'BALANCE'))">{{
         $t("main.cart.beforePay.mainCartBefgoPay") }}
       </el-button>
-        <!--:visible.sync="creditFormVisible"-->
-      <el-dialog :title="$t('main.cart.beforePay.mainCartBefCreditInfo')" :visible="true" class="creditDialog" @close="closeCreditForm">
+      <el-dialog :title="$t('main.cart.beforePay.mainCartBefCreditInfo')" :visible.sync="creditFormVisible" class="creditDialog" @close="closeCreditForm">
         <el-form :model="creditFrom" label-position="left">
           <el-form-item :label="$t('main.cart.beforePay.mainCartBefCreditNum')" >
             <el-input v-model="creditFrom.num" :placeholder="$t('main.cart.beforePay.mainCartBefInputNum')" :clearable="true"></el-input>

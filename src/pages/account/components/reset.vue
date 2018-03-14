@@ -148,7 +148,7 @@
                             margin-left: -16px;
                         }
                         .el-button{
-                            width:116px;
+                            width:100px;
                             background: #3b98ff;
                             margin-right: -18px;
                         }

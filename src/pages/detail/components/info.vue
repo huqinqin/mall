@@ -103,7 +103,7 @@
                             </el-button>
                         </lts-login>
                         <lts-login display="inline-block">
-                            <el-button @click.stop="addCart(item, checkedSpu)" type="button" class="addcart">
+                            <el-button @click.stop="addCart(item, checkedSpu)" type="button" class="addcart" :disabled="(item.discount_type == 4 && (started && finished))">
                                 {{ $t("main.detail.info.mainDetInfoJoinCart") }}
                             </el-button>
                         </lts-login>

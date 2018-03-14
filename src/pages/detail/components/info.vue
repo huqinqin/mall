@@ -588,6 +588,7 @@
                     'storage': this.item.storage,
                     'tag': this.item.tag,
                     'url': this.item.url,
+                    'full_url': this.item.full_url,
                     'sale_rule': this.item.sale_rule
                 }
                 window.open('/cart#/settle?item=' + JSON.stringify(items))

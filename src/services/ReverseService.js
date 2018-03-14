@@ -26,7 +26,7 @@ export default class ReverseService extends BaseService{
             oid : oid,
             reverse_reason : reverse_reason,
             num : num,
-            refund : refund,
+            refund : (refund*100).toFixed(0),
             is_return : is_return == 1 ? true : false,
             voucher : imageUrls,
             remark : remark

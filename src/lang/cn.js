@@ -81,6 +81,9 @@ export default {
                 mainCartBefSelfFetch:'自提',
                 mainCartBefCreditInfo:'请输入信用卡信息',
                 mainCartBefInputNum:'请输入信用卡号',
+                mainCartBefInputDate:'请输入有效期',
+                mainCartBefInputCCV:'请输入CCV',
+                mainCartBefInputzipCode:'请输入邮编',
                 mainCartBefCreditNum:'信用卡号',
                 mainCartBefCreditValid:'有效期',
                 mainCartBefTermInfo:'若余额不足则不能使用账期支付',
@@ -430,7 +433,7 @@ export default {
             },
             receiveAdd: {
                 mainPerReAddInfo: '地址信息',
-                mainPerReNewCreate: '新增收获地址',
+                mainPerReNewCreate: '新增收货地址',
                 mainPerRePhone: '手机号码',
                 mainPerReEnterCont: '请输入内容',
                 mainPerReTeleNum: '电话号码',

@@ -162,12 +162,12 @@
             onSubmitRefund(){
                 this.$refs['form'].validate((valid) => {
                     if(valid){
+                        debugger;
                         let imagesUrl = '';
                         this.fileList.forEach(function (value, index, array) {
                             imagesUrl = (imagesUrl == "") ? value.response.data.url : imagesUrl + "," + value.response.data.url;
                         });
-                        this.form.refund = this.form.refund * 100;
-                        if(this.form.refundType == 1 && this.form.num){
+                        if(this.form.refundType == 1 && !this.form.num){
                             this.$ltsMessage.show({type:'error',message:this.$t("main.order.reverse.mainOrReEnterGoodsNum")})
                             return false;
                         }

@@ -35,7 +35,7 @@ export default {
         footerUseItem: 'Terms of Use',
         footerSecretItem: 'Privacy Policy',
         footerItemCondition: 'Terms and Conditions',
-        footerFollowUs: 'Follow Us',
+        footerFollowUs: 'FOLLOW US',
         footerFollowEvent: 'Events',
         footerFollowSupport: 'Support'
     },

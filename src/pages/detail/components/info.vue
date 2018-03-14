@@ -908,20 +908,25 @@
             position: relative;
             overflow: hidden;
         }
-        li.reduce::before, li.discount::before, li.limit::before {
-            content: '活动';
-            color: white;
-            font-weight: bold;
-            font-size: 18px;
-            line-height: 35px;
-            text-align: center;
-            background: rgb(237, 39, 58);
-            width: 110px;
-            height: 35px;
+        li.reduce::before,li.discount::before,li.limit::before{
+            content:'';
+            width:100px;
+            height: 100px;
             position: absolute;
-            top: 8px;
-            left: -29px;
-            transform: rotate(-45deg)
+            top: 0px;
+            left: 0px;
+            background-position: 0 0;
+            background-repeat: no-repeat;
+            background-size: 100px 100px;
+        }
+        li.reduce::before{
+            background-image:url('../../../assets/img/ONSALE.png');
+        }
+        li.discount::before{
+            background-image:url('../../../assets/img/Discount.png');
+        }
+        li.limit::before{
+            background-image:url('../../../assets/img/Doorbuster.png');
         }
         .el-breadcrumb {
             font-size: 14px;
@@ -1500,9 +1505,10 @@
                 background: #ffffff;
                 margin: 0 15px;
                 border-bottom: 1px solid #f2f2f2;
+                margin-top: 4px;
                 .img {
-                    width: 146px;
-                    height: 146px;
+                    width: 140px;
+                    height: 140px;
                     margin: 0 auto;
                     background-position: center;
                     background-size: contain;
@@ -1510,24 +1516,19 @@
                 }
 
                 p.name {
-                    margin: 10px 0;
+                    margin: 10px 0 0;
                     font-size: 14px;
                     color: #a3a3a3;
                     overflow: hidden;
                     text-overflow: ellipsis;
                     display: -webkit-box;
-                    -webkit-line-clamp: 3;
+                    -webkit-line-clamp: 2;
                     -webkit-box-orient: vertical;
                 }
-                p.line-four {
-                    border-top: 1px solid #f2f2f2;
-                    margin: 0 12px;
-                }
                 .item-price {
-                    margin-top: 24px;
-                    margin-bottom: 24px;
                     background-color: #ffffff;
                     font-weight: bold;
+                    line-height: 24px;
                     button {
                         border: none;
                         width: 60%;

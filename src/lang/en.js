@@ -29,7 +29,7 @@ export default {
         footerAboutLts: 'About LTS',
         footerContactUs: 'Contact US',
         footerHelpUs: 'Help Us',
-        footerInvitePerson: 'GAREERS',
+        footerInvitePerson: 'Gareers',
         footerEvevtNews: 'News',
         footerCompanyAddress: 'Address',
         footerUseItem: 'Terms of Use',
@@ -94,7 +94,7 @@ export default {
                 mainCartFaLogisticsMode: 'Shipping Method',
                 mainCartFaMyOrder: 'My Order',
                 mainCartFaFirstPage: 'Main Page',
-                mainCartFaSince: 'Express'
+                mainCartFaSince: 'Pick Up'
             },
             finish: {
                 mainCartFiSuccess: 'Congratulations, You Order Has Been Made！',

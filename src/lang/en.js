@@ -141,7 +141,7 @@ export default {
                 mainCartSeAddAdress: 'Added A New Address',
                 mainCartSeRegion: 'State',
                 mainCartSeEnterRegion: 'Please Enter Your Region',
-                mainCartSeStreet: 'Street address',
+                mainCartSeStreet: 'Street Address',
                 mainCartSeCity: 'City',
                 mainCartSeEnterStreet: 'Please Enter Street Address',
                 mainCartSeEnterCity: 'Please Enter City',

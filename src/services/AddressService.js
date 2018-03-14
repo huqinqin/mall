@@ -113,7 +113,8 @@ export default class AddressService extends BaseService {
             lc_code: form.lcCode,
             state: form.state,
             country: form.country,
-            city: form.city
+            city: form.city,
+            id: form.id
         }
         let params = {
             address:JSON.stringify(address)

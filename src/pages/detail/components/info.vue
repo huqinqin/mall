@@ -116,7 +116,7 @@
                     <addCartSuccess
                         :flag.sync="flag"
                         @fade="hide"
-                        :info="hotSale"
+                        :info="recommondInfo"
                     ></addCartSuccess>
                 </el-form>
             </div>
@@ -386,7 +386,8 @@
                 otherGoodsItem: {},
                 showSelectModel: true,
                 checkedOthers: [],
-                otherSpu: {}
+                otherSpu: {},
+                recommondInfo:[],
             }
         },
         methods: {
@@ -469,6 +470,11 @@
                     }
                 }, (msg) => {
                     this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
+                })
+            },
+            hotRecommoned(){
+                cartService.hotRecommond().then((data) => {
+                   this.recommondInfo = data.datalist[0].items;
                 })
             },
             checkedProp(prop, data, type) {
@@ -709,7 +715,10 @@
                 }
                 return price
             },
-        }
+        },
+        mounted() {
+            this.hotRecommoned();
+        },
     }
 </script>
 

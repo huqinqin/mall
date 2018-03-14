@@ -79,7 +79,7 @@
                                     size="mini"
                                     :max="item.sale_rule_do.total > item.sale_rule_do.maxinum ? item.sale_rule_do.maxinum : item.sale_rule_do.total"
                                     :min="item.sale_rule_do.minimum"></el-input-number>
-                                <span class="red">Minimum Quantity{{item.sale_rule_do.minimum}},Purchase Restrictions{{item.sale_rule_do.maxinum}}</span>
+                                <span class="red">{{$t("main.detail.info.mainDetPackageMin")}} {{item.sale_rule_do.minimum}}, {{$t("main.detail.info.mainDetPackageMax")}} {{item.sale_rule_do.maxinum}}</span>
                             </template>
                             <template v-else>
                                 <el-input-number

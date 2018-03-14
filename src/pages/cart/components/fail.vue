@@ -43,10 +43,10 @@
         this.tid = this.$route.params.tid
         detailOrder.detailOrder(this.tid).then((data) => {
           this.detailOrder = data.data
-          if (this.detailOrder.wholesale_order_items.length > 0 && this.detailOrder.wholesale_order_items[0].s_h_s_m === true) {
-            this.method = this.$t('main.cart.fail.mainCartFaSince')
-          } else {
-            this.method = this.$t('main.cart.beforePay.mainCartBefExpress')
+            if (this.detailOrder.sell_order_list.length > 0 && this.detailOrder.this.detailOrder.sell_order_list[0].wholesale_order_items.length > 0 && this.detailOrder.sell_order_list[0].wholesale_order_items[0].s_h_s_m === true) {
+                this.method = this.$t('main.cart.beforePay.mainCartBefExpress')
+            } else {
+                this.method = this.$t('main.cart.fail.mainCartFaSince')
           }
         }, (msg) => {
           this.$ltsMessage.show({type: 'error', message: msg.error_message})

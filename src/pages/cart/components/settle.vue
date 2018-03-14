@@ -341,7 +341,8 @@
                 bonus: '',
                 selectedBonus: '',
                 bonusOption: [],
-                bonusArr: []
+                bonusArr: [],
+                editing:0 // 正在编辑的地址id
             }
         },
         methods: {
@@ -372,10 +373,12 @@
             },
             // 编辑地址
             editAddress(item) {
+                this.editing = item.id
                 let string = JSON.stringify(item)
                 this.editOrAdd = true
                 this.showAddAddress = true
                 this.addForm = JSON.parse(string)
+                this.location.label = [this.addForm.state]
                 this.addForm.first = this.addForm.user_name.split('-')[0]
                 this.addForm.last = this.addForm.user_name.split('-')[1]
                 this.addForm.city = this.addForm.building.split('-')[0]
@@ -413,8 +416,14 @@
                     this.addressData.forEach((value, index) => {
                         // value.user_name = value.user_name.replace('-', ' ')
                         value.zipCode = value.zip_code
-                        value.state = value.location_d_o.province
-                        if (value.status === 1) {
+                        if(value.location_d_o){
+                            value.state = value.location_d_o.province
+                        }
+                        console.log(this.editing)
+                        if(this.editing && this.editing == value.id){
+                            this.checkedId = value.id
+                            this.checkedAddress = value
+                        }else if (value.status === 1) {
                             value.setDefault = true
                             this.defaultId = value.id
                             this.checkedId = value.id
@@ -423,10 +432,10 @@
                         } else {
                             value.setDefault = false
                         }
-                        let position = value.address.indexOf(value.building)
-                        if (position !== 0) {
-                            value.address = value.address.slice(0, position)
-                        }
+                        // let position = value.address.indexOf(value.building)
+                        // if (position !== 0) {
+                        //     value.address = value.address.slice(0, position)
+                        // }
                     })
                     data.data.distribute_certificate_d_o.forEach((item) => {
                         item.user_name = this.user.name
@@ -444,6 +453,7 @@
             // 提交地址表单
             submitForm() {
                 this.addForm.address = this.location.label[0]
+                this.addForm.state = this.location.label[0]
                 this.addForm.lcCode = this.location.value[0]
                 if (this.editOrAdd) {
                     addressService.updateItem(this.addForm).then((data) => {

@@ -53,8 +53,8 @@
             <li v-for="item in hotList" :key="item.sin"
                 v-bind:class="{'limit':item.type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1}">
               <a :href="'/detail#/?id=' + item.id" target="_blank">
-                <div class="img"
-                     :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+item.url+')'}"></div>
+                <div class="img" :style="{backgroundImage : 'url(' + item.image_value + ')'}"></div>
+                  <!--:style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/' + item.url + ')'}"></div>-->
                 <div class="item-spec">
                   <p class="line-two" :title="item.item_name">{{item.item_name}}</p>
                   <p class="line-four"></p>
@@ -88,7 +88,7 @@
                 v-bind:class="{'limit':item.type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1}">
               <a :href="'/detail#/?id=' + item.id" target="_blank">
                 <div class="img"
-                     :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+item.url+')'}"></div>
+                     :style="{backgroundImage : 'url(' + item.image_value + ')'}"></div>
                 <div class="item-spec">
                   <p class="line-two" :title="item.item_name">{{item.item_name}}</p>
                   <p class="line-four"></p>
@@ -232,34 +232,25 @@
     overflow: hidden;
   }
 
-  /**/
-  li.reduce::before, li.discount::before, li.limit::before {
-    content: '';
-    color: white;
-    font-weight: bold;
-    font-size: 16px;
-    line-height: 35px;
-    text-align: center;
-    background: rgb(237, 39, 58);
-    width: 110px;
-    height: 35px;
-    position: absolute;
-    top: 8px;
-    left: -29px;
-    transform: rotate(-45deg);
+  li.reduce::before,li.discount::before,li.limit::before{
+      content:'';
+      width:100px;
+      height: 100px;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      background-position: 0 0;
+      background-repeat: no-repeat;
+      background-size: 100px 100px;
   }
-
-  li.reduce::before {
-    content: 'sale';
+  li.reduce::before{
+      background-image:url('../../assets/img/ONSALE.png');
   }
-
-  li.discount::before {
-    content: 'discount';
+  li.discount::before{
+      background-image:url('../../assets/img/Discount.png');
   }
-
-  li.limit::before {
-    content: 'Time limit Quantity limit';
-    font-size: 14px;
+  li.limit::before{
+      background-image:url('../../assets/img/Doorbuster.png');
   }
 
   .b1200 {
@@ -302,7 +293,6 @@
     background-color: #eee;
     .banner {
       .img {
-        height: auto;
         width: 100%;
         background-size: cover;
         background-position: center center;
@@ -475,7 +465,8 @@
             .img {
               height: 242px;
               background-position: center;
-              background-size: cover;
+              background-size: contain;
+                background-repeat: no-repeat;
             }
           }
 
@@ -493,9 +484,10 @@
       li {
         transition: all ease .2s;
         .img {
-          background-size: cover;
+          background-size: contain;
           background-position: center center;
           height: 242px;
+          background-repeat: no-repeat;
         }
         .item-spec {
           .line-one {

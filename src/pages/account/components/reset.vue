@@ -8,10 +8,10 @@
         <main>
             <el-form label-position="top" :model="resetForm" :rules="rules" >
                 <el-form-item label="EMAIL" prop="email">
-                    <el-input v-model="resetForm.email" placeholder="PLEASE ENTER EMAIL ADDRESS"></el-input>
+                    <el-input v-model="resetForm.email" placeholder="Please Enter Email Address"></el-input>
                 </el-form-item>
                 <el-form-item label="VERIFICATION CODE" prop="code" width="260" class="inline">
-                    <el-input v-model="resetForm.code" placeholder="PLEASE ENTER VERIFICATION CODE"></el-input>
+                    <el-input v-model="resetForm.code" placeholder="Enter Verification Code"></el-input>
                     <el-button @click="getCode" :disabled="!send && !sendAgain">
                         <span v-if="send">SEND</span>
                         <span v-else-if="sendAgain">SEND AGAIN</span>
@@ -148,7 +148,7 @@
                             margin-left: -16px;
                         }
                         .el-button{
-                            width:116px;
+                            width:100px;
                             background: #3b98ff;
                             margin-right: -18px;
                         }

@@ -85,7 +85,7 @@
                         needLogin : false
                     },
                     {
-                        name : 'project registration',
+                        name : 'PROJECT REGISTRATION',
                         icon : 'icon-jiatingjiejuefangan',
                         first : 'PROJECT',
                         last : 'REGISTRATION',

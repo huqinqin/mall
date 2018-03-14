@@ -144,13 +144,12 @@ export default class OrderService extends BaseService {
             pay_no:form.pay_no,
             credit_card_pay_info:JSON.stringify({
                 cardNumber:form.num,
-                // cardNumber:,
-                // expirationDate:form.date 测试到期时间
-                expirationDate:1551974400000
+                expirationDate:form.date,
+                // expirationDate:1551974400000,  测试到期时间
+                cardCode:form.cardCode
 
            })
         }
-        debugger
         return super.postRequest('/trade_pay/credit_card_pay',params);
     }
 

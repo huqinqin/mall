@@ -59,7 +59,7 @@
                 <ul class="result">
                     <li v-for="item in data" :key="item.id" v-bind:class="{'limit':item.discount_type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1}">
                         <a :href="'/detail#/?id=' + item.id" target="_blank">
-                            <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
+                            <div class="img" :style="{backgroundImage : 'url(' + item.image_value + ')'}"></div>
                             <p class="name" :title="item.item_name">{{item.item_name}}</p>
                             <div class="item-price">
                                 <button v-ltsLoginShow:false v-login>{{$t("main.search.mainSeaLogin")}}</button>
@@ -281,31 +281,25 @@
             position: relative;
             overflow: hidden;
         }
-        /**/
         li.reduce::before,li.discount::before,li.limit::before{
             content:'';
-            color:white;
-            font-weight: bold;
-            font-size: 16px;
-            line-height: 35px;
-            text-align: center;
-            background: rgb(237,39,58);
-            width:110px;
-            height: 35px;
+            width:100px;
+            height: 100px;
             position: absolute;
-            top: 8px;
-            left: -29px;
-            transform:rotate(-45deg);
+            top: 0px;
+            left: 0px;
+            background-position: 0 0;
+            background-repeat: no-repeat;
+            background-size: 100px 100px;
         }
         li.reduce::before{
-            content:'减价';
+            background-image:url('../../../assets/img/ONSALE.png');
         }
         li.discount::before{
-            content:'折扣';
+            background-image:url('../../../assets/img/Discount.png');
         }
         li.limit::before{
-            content:'限时限量';
-            font-size: 14px;
+            background-image:url('../../../assets/img/Doorbuster.png');
         }
         button{
             cursor:pointer;

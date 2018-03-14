@@ -27,13 +27,13 @@
                         <button class="default" @click.stop="toggleDefault(defaultAddress)">{{
                             $t("main.cart.settle.mainCartSeFitDefault") }}
                         </button>
-                        <button v-show="defaultAddress.id === defaultId" class="defaultAdd">{{
-                            $t("main.cart.settle.mainCartSeDefaultAdress") }}
-                        </button>
                         <button class="delete" @click="deleteAddress(defaultAddress,0)">{{
                             $t("main.cart.settle.mainCartSeDel") }}
                         </button>
                         <button @click="editAddress(defaultAddress)">{{ $t("main.cart.settle.mainCartSeAlert") }}
+                        </button>
+                        <button v-show="defaultAddress.id === defaultId" class="defaultAdd">{{
+                            $t("main.cart.settle.mainCartSeDefaultAdress") }}
                         </button>
                     </footer>
                 </li>
@@ -51,12 +51,11 @@
                         <button class="default" @click.stop="toggleDefault(item)">{{
                             $t("main.cart.settle.mainCartSeFitDefault") }}
                         </button>
-                        <button v-show="item.id === defaultId">{{ $t("main.cart.settle.mainCartSeDefaultAdress") }}
-                        </button>
-                        <button class="delete" @click="deleteAddress(item,key)">{{ $t("main.cart.settle.mainCartSeDel")
-                            }}
+                        <button class="delete" @click="deleteAddress(item,key)">{{ $t("main.cart.settle.mainCartSeDel") }}
                         </button>
                         <button @click="editAddress(item)">{{ $t("main.cart.settle.mainCartSeAlert") }}</button>
+                        <button v-show="item.id === defaultId" class="defaultAdd">{{ $t("main.cart.settle.mainCartSeDefaultAdress") }}
+                        </button>
                     </footer>
                 </li>
                 <li class="addAddress" @click="addAddress">
@@ -67,17 +66,17 @@
             <el-dialog :title='$t("main.address.mainAddReceivingAddress")' :visible.sync="showAddAddress" center
                        @close="clearForm">
                 <el-form :model="addForm" ref="addForm">
-                    <el-form-item :label='$t("main.cart.settle.mainCartSeRegion")'
-                                  :rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterRegion'), trigger: 'blur' }]">
-                        <lts-location v-model="location.value" :labels.sync="location.label"/>
+                    <el-form-item :label='$t("main.cart.settle.mainCartSeStreet")'
+                                  :rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterStreet'), trigger: 'blur' }]">
+                        <el-input v-model="addForm.street" type="textarea" :row="2"></el-input>
                     </el-form-item>
                     <el-form-item :label='$t("main.cart.settle.mainCartSeCity")'
                                   :rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterCity'), trigger: 'blur' }]">
                         <el-input v-model="addForm.city"></el-input>
                     </el-form-item>
-                    <el-form-item :label='$t("main.cart.settle.mainCartSeStreet")'
-                                  :rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterStreet'), trigger: 'blur' }]">
-                        <el-input v-model="addForm.street" type="textarea" :row="2"></el-input>
+                    <el-form-item :label='$t("main.cart.settle.mainCartSeRegion")'
+                                  :rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterRegion'), trigger: 'blur' }]">
+                        <lts-location v-model="location.value" :labels.sync="location.label"/>
                     </el-form-item>
                     <el-form-item :label='$t("main.cart.settle.mainCartSeZip")'
                                   :rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterZip'), trigger: 'blur' }]">
@@ -375,12 +374,11 @@
             // 编辑地址
             editAddress(item) {
                 this.editing = item.id
-                console.log(this.editing)
                 let string = JSON.stringify(item)
                 this.editOrAdd = true
                 this.showAddAddress = true
                 this.addForm = JSON.parse(string)
-                this.location.label = [this.addForm.state]
+                this.location.value = [this.addForm.lc_code]
                 this.addForm.first = this.addForm.user_name.split('-')[0]
                 this.addForm.last = this.addForm.user_name.split('-')[1]
                 this.addForm.city = this.addForm.building.split('-')[0]
@@ -429,7 +427,6 @@
                                 this.defaultAddress = value
                             }
                             if(this.editing == value.id){
-                                console.log(this.editing,value.id)
                                 this.checkedId = value.id
                                 this.checkedAddress = value
                             }
@@ -648,7 +645,6 @@
                     item.realPrice = item.item_props[0].price
                 }
             })
-            console.log(this.tableData);
             this.getInfo()
             this.expressOptions = this.UPSOptions
         }
@@ -824,6 +820,7 @@
                     }
                     footer {
                         text-align: right;
+                        padding-right: 12px;
                         button {
                             font-size: 12px;
                             color: #3d98ff;
@@ -834,6 +831,9 @@
                             border: none;
                             visibility: hidden;
                             outline: none;
+                        }
+                        button.defaultAdd{
+                            visibility: visible;
                         }
                     }
                     footer.ship-footer {

@@ -53,8 +53,8 @@
             <li v-for="item in hotList" :key="item.sin"
                 v-bind:class="{'limit':item.type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1}">
               <a :href="'/detail#/?id=' + item.id" target="_blank">
-                <div class="img"
-                     :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+item.url+')'}"></div>
+                <div class="img" :style="{backgroundImage : 'url(' + item.image_value + ')'}"></div>
+                  <!--:style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/' + item.url + ')'}"></div>-->
                 <div class="item-spec">
                   <p class="line-two" :title="item.item_name">{{item.item_name}}</p>
                   <p class="line-four"></p>
@@ -88,7 +88,7 @@
                 v-bind:class="{'limit':item.type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1}">
               <a :href="'/detail#/?id=' + item.id" target="_blank">
                 <div class="img"
-                     :style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/'+item.url+')'}"></div>
+                     :style="{backgroundImage : 'url(' + item.image_value + ')'}"></div>
                 <div class="item-spec">
                   <p class="line-two" :title="item.item_name">{{item.item_name}}</p>
                   <p class="line-four"></p>
@@ -302,7 +302,6 @@
     background-color: #eee;
     .banner {
       .img {
-        height: auto;
         width: 100%;
         background-size: cover;
         background-position: center center;
@@ -475,7 +474,8 @@
             .img {
               height: 242px;
               background-position: center;
-              background-size: cover;
+              background-size: contain;
+                background-repeat: no-repeat;
             }
           }
 
@@ -493,9 +493,11 @@
       li {
         transition: all ease .2s;
         .img {
-          background-size: cover;
+          background-size: contain;
           background-position: center center;
           height: 242px;
+
+            background-repeat: no-repeat;
         }
         .item-spec {
           .line-one {

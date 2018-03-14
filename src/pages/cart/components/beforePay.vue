@@ -41,7 +41,8 @@
       <el-button @click="confirmPay" :disabled="((form.moneyPay - form.used > 0)&& (form.payBank == 'BALANCE'))">{{
         $t("main.cart.beforePay.mainCartBefgoPay") }}
       </el-button>
-      <el-dialog :title="$t('main.cart.beforePay.mainCartBefCreditInfo')"   :visible.sync="creditFormVisible" class="creditDialog" @close="closeCreditForm">
+        <!--:visible.sync="creditFormVisible"-->
+      <el-dialog :title="$t('main.cart.beforePay.mainCartBefCreditInfo')" :visible="true" class="creditDialog" @close="closeCreditForm">
         <el-form :model="creditFrom" label-position="left">
           <el-form-item :label="$t('main.cart.beforePay.mainCartBefCreditNum')" >
             <el-input v-model="creditFrom.num" :placeholder="$t('main.cart.beforePay.mainCartBefInputNum')" :clearable="true"></el-input>
@@ -53,6 +54,9 @@
               :placeholder="$t('main.personal.card.mainPerCarSelDate')">
             </el-date-picker>
           </el-form-item>
+            <el-form-item label="CardCode">
+                <el-input v-model="creditFrom.cardCode"></el-input>
+            </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="creditFormVisible = false">{{$t("main.order.list.mainOrLiCanle")}}</el-button>
@@ -88,7 +92,8 @@
         creditFrom:{
           num: '',
           date: '',
-          pay_no: ''
+          pay_no: '',
+          cardCode:''
         },
         frozened:false
       }
@@ -295,8 +300,7 @@
       }
       .creditDialog{
         .el-dialog{
-          width:366px;
-          margin-top: 20px;
+          width:380px;
         }
         .el-dialog__header{
           text-align: left;

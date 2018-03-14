@@ -310,9 +310,10 @@
                         break;
                 }
             },
-            emptyData() {
+            emptyData() {console.log(2);
                 this.$refs.ruleForm.resetFields();
                 this.ruleForm.location = [];
+                this.ruleForm.mobile = '';
                 this.locationLabel = [];
             }
         }

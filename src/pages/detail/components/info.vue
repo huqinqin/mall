@@ -1502,9 +1502,9 @@
                     }
                     .icon-right {
                         transform: rotateZ(180deg);
-                        i{
-                            margin-bottom: -2px;
-                        }
+                        /*i{*/
+                            /*margin-bottom: -2px;*/
+                        /*}*/
                     }
                 }
             }

@@ -9,7 +9,6 @@ export default class CartService extends BaseService {
      */
     static getFullSetting(form) {
         let params = {
-
         }
         return super.getRequest('/installer/hq/get_paras_promotion', params)
     }
@@ -62,5 +61,14 @@ export default class CartService extends BaseService {
      */
     static queryCartCount() {
         return super.getRequest('/installer/cart/query_item_in_cart_count');
+    }
+    static hotRecommond() {
+        let params = {
+            page: 1,
+            page_size:10,
+            type:3
+        };
+
+        return super.getRequest('/hq/manager/get_hot_buy_list',params);
     }
 }

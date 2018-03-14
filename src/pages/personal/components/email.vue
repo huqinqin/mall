@@ -1,16 +1,16 @@
 <template>
     <div class="email">
         <h3 class="title">{{$t("main.personal.email.mainPerEmaTitle")}}</h3>
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" label-position="left"
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" label-position="top"
                  class="demo-ruleForm">
             <div v-show="currentFlag">
                 <el-form-item :label='$t("main.personal.email.mainPerEmaCurrent")' prop="currentEmail"
                               style="margin-top: 24px;">
                     <el-input v-model="ruleForm.currentEmail" :disabled="true"></el-input>
-                    <el-button type="primary" @click="sendEmailCode(ruleForm.currentEmail)" class="emailButton">{{$t("main.personal.email.mainPerEmaPostCode")}}</el-button>
+                    <!--<el-button type="primary" @click="sendEmailCode(ruleForm.currentEmail)" class="emailButton">{{$t("main.personal.email.mainPerEmaPostCode")}}</el-button>-->
                 </el-form-item>
-                <el-form-item :label='$t("main.personal.email.mainPerEmaCode")' prop="code" style="margin-top: 24px;">
-                    <el-input v-model="ruleForm.code"></el-input>
+                <el-form-item :label='$t("comHeader.headerPwd")' prop="code" style="margin-top: 24px;">
+                    <el-input v-model="ruleForm.password" type="password"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="changeEmail" class="submitBtn">
@@ -49,7 +49,8 @@
                 ruleForm: {
                     currentEmail: '',
                     code: '',
-                    newEmail: ''
+                    newEmail: '',
+                    password: ''
                 },
                 rules: {
                     /*currentEmail: [
@@ -74,9 +75,10 @@
                     this.$ltsMessage.show({type: 'error', message: msg.error_message})
                 })
             },
-            sendEmailCode(item) {
+            sendEmailCode() {
                 let params = {
-                    account: item
+                    newEmail: this.ruleForm.newEmail,
+                    oldEmail: this.ruleForm.currentEmail
                 };
                 personalService.sendEmailCode(params).then((resp) => {
                     if (resp.success) {
@@ -89,14 +91,14 @@
             },
             changeEmail() {
                 let params = {
-                    captcha: this.ruleForm.code,
+                    password: this.ruleForm.password,
                     email: this.ruleForm.currentEmail
                 };
                 personalService.changeEmail(params).then((resp) => {
                     if (resp.success) {
                         this.currentFlag = false;
                         this.newFlag = true;
-                        this.ruleForm.code = '';
+                        this.ruleForm.password = '';
                     }
                 }, (msg) => {
                     this.$ltsMessage.show({type: 'error', message: msg.error_message})
@@ -104,8 +106,8 @@
             },
             checkNewEmail() {
                 let params = {
-                    captcha: this.ruleForm.code,
-                    email: this.ruleForm.newEmail
+                    code: this.ruleForm.code,
+                    newEmail: this.ruleForm.newEmail
                 };
                 personalService.checkNewEmail(params).then((resp) => {
                     if (resp.success) {

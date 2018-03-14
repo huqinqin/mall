@@ -36,6 +36,7 @@
                  * 国家区域内具体号码
                  */
                 phoneNumber: '',
+                copyValue : this.value,
                 options: PhoneAreaCodeConfig
             }
         },
@@ -54,13 +55,23 @@
             }
         },
         watch:{
-            value(newVal){
-                if (newVal) {
-                    let phoneNumberArr = newVal.split(SEPARATOR);
+            // value(newVal){
+            //     if (newVal) {
+            //         debugger;
+            //         let phoneNumberArr = newVal.split(SEPARATOR);
+            //         this.areaCode = phoneNumberArr.length === 2 ? phoneNumberArr[0] : this.options[0].value;
+            //         this.phoneNumber = phoneNumberArr.length === 2 ? phoneNumberArr[1] : phoneNumberArr[0];
+            //     }
+            // },
+            value : {
+                deep:true,
+                handler:(val)=>{
+                    console.log(val);
+                    let phoneNumberArr = val.split(SEPARATOR);
                     this.areaCode = phoneNumberArr.length === 2 ? phoneNumberArr[0] : this.options[0].value;
                     this.phoneNumber = phoneNumberArr.length === 2 ? phoneNumberArr[1] : phoneNumberArr[0];
                 }
-            },
+            }
         },
     }
 </script>

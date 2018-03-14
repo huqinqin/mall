@@ -1,13 +1,15 @@
 <template>
     <div class="waitAuthing">
         <header>
-            <div class="line"></div>
+            <!--<div class="line"></div>
             <div class="title">Submission Successful</div>
-            <div class="line"></div>
+            <div class="line"></div>-->
+            <div class="iconfont icon-LTS-LOGO- LTSLogo"></div>
         </header>
         <main>
-            <div class="info1">Your request has been submitted, awaiting approval</div>
-            <div class="info2">Once your request has been approved, we will send you an initial password through Email</div>
+            <div class="info1">SUBMISSION SUCCESSFUL</div>
+            <div class="info2">YOUR REQUEST HAS BEEN SUBMITTED, AWITING APPROVAL ONCE YOUR REQUEST</div>
+            <div class="info2">HAS BEEN APPROVED, WE WILL SEND YOU AN INITIAL PASSWORD THROUGH EMAIL</div>
             <div class="buttons">
                 <el-button class="back" @click="back">BACK TO THE MALL</el-button>
             </div>
@@ -34,6 +36,11 @@
 
 <style lang="less">
     .waitAuthing{
+        .LTSLogo{
+            margin:120px auto 50px;
+            font-size: 100px;
+            color: #ce2127;
+        }
         main{
             width:100%;
             height: 100%;
@@ -41,19 +48,20 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            color:#ff3b41;
+            color:#585858;
             .info1{
                 line-height: 60px;
                 font-size: 30px;
                 font-weight: bold;
-                margin-top: 140px;
+                margin-bottom: 30px;
+                color:#ff3b41;
             }
             .info2{
-                font-size: 34px;
+                font-size: 20px;
                 line-height: 34px;
-                margin-bottom: 100px;
             }
             .buttons{
+                margin:60px 0;
                 button.back{
                     width:200px;
                     color:#f13a40;

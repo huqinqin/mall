@@ -598,7 +598,7 @@ export default {
     common: {
         addCart: {
             comAddCartSucc: 'Added to Cart!',
-            comAddCartSettle: 'Checkout',
+            comAddCartSettle: 'Check Out',
             comAddCartRecommon: 'Recommendations For You',
         },
         searchFrom: {

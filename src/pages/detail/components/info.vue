@@ -79,7 +79,7 @@
                                     size="mini"
                                     :max="item.sale_rule_do.total > item.sale_rule_do.maxinum ? item.sale_rule_do.maxinum : item.sale_rule_do.total"
                                     :min="item.sale_rule_do.minimum"></el-input-number>
-                                <span class="red">起订量{{item.sale_rule_do.minimum}},限购{{item.sale_rule_do.maxinum}}</span>
+                                <span class="red">Minimum Quantity{{item.sale_rule_do.minimum}},Purchase Restrictions{{item.sale_rule_do.maxinum}}</span>
                             </template>
                             <template v-else>
                                 <el-input-number
@@ -588,6 +588,7 @@
                     'storage': this.item.storage,
                     'tag': this.item.tag,
                     'url': this.item.url,
+                    'full_url': this.item.full_url,
                     'sale_rule': this.item.sale_rule
                 }
                 window.open('/cart#/settle?item=' + JSON.stringify(items))
@@ -1492,9 +1493,9 @@
                     }
                     .icon-right {
                         transform: rotateZ(180deg);
-                        i{
-                            margin-bottom: -2px;
-                        }
+                        /*i{*/
+                            /*margin-bottom: -2px;*/
+                        /*}*/
                     }
                 }
             }

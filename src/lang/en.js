@@ -1,8 +1,8 @@
 import enLocale from 'element-ui/lib/locale/lang/en'
 export default {
     comHeader: {
-        headerImmediatelyLog: 'Sign Up',
-        headerImmediatelySign: 'Register',
+        headerImmediatelyLog: 'Sign In',
+        headerImmediatelySign: 'Sign Up',
         headerWelcom: 'Welcome',
         headerNews: 'News',
         headerIndex: 'Front Page',
@@ -35,7 +35,7 @@ export default {
         footerUseItem: 'Terms of Use',
         footerSecretItem: 'Privacy Policy',
         footerItemCondition: 'Terms and Conditions',
-        footerFollowUs: 'Follow Us',
+        footerFollowUs: 'FOLLOW US',
         footerFollowEvent: 'Events',
         footerFollowSupport: 'Support'
     },
@@ -43,7 +43,7 @@ export default {
         accountNew: {
             register: {
                 mainAcReSelect: 'Select',
-                mainAcReFileDragHere: 'Drag Files To Here，Or',
+                mainAcReFileDragHere: 'Upload Resale Certificate',
                 mainAcReClickUpload: 'Upload',
                 mainAcReValidateSuccess: 'Validation Succeeded',
                 mainAcReContentNotNull: 'Please Enter Your Information',
@@ -141,7 +141,7 @@ export default {
                 mainCartSeAddAdress: 'Added A New Address',
                 mainCartSeRegion: 'State',
                 mainCartSeEnterRegion: 'Please Enter Your Region',
-                mainCartSeStreet: 'Street address',
+                mainCartSeStreet: 'Street Address',
                 mainCartSeCity: 'City',
                 mainCartSeEnterStreet: 'Please Enter Street Address',
                 mainCartSeEnterCity: 'Please Enter City',
@@ -261,8 +261,8 @@ export default {
             mainfiAvail: 'Not Available'
         },
         index: {
-            mainInImmeLogin: 'Log In',
-            mainInFreeRegis: 'Sign Up For Free',
+            mainInImmeLogin: 'Sign In',
+            mainInFreeRegis: 'Sign Up',
             mainInHotSingle: 'Best Sellers',
             mainInMore: 'More',
         },
@@ -571,7 +571,7 @@ export default {
             mainSeaCompre: 'Relevance',
             mainSeaPrice: 'Price',
             mainSeaShelf: 'Added Time',
-            mainSeaLogin: 'Log In To See Price',
+            mainSeaLogin: 'Sign In To See Price',
             mainSeaPre: 'Previous',
             mainSeaNext: 'Next',
         },

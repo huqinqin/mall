@@ -14,7 +14,8 @@
                     </main>
                 </li>
                 <li :class="[{checked:defaultAddress.id === checkedId},{default:defaultAddress.id === defaultId}]"
-                    v-show="defaultAddress.user_name" @click="checkAddress(defaultAddress)">
+                    v-show="defaultAddress.user_name"
+                    @click="checkAddress(defaultAddress)">
                     <header>
                         <div><p>{{defaultAddress.user_name}}({{defaultAddress.address}}) </p></div>
                     </header>
@@ -38,7 +39,7 @@
                 </li>
                 <li v-for="(item,key) in addressData"
                     :class="[{checked:item.id === checkedId},{default:item.id === defaultId}]"
-                    @click="checkAddress(item)" v-if="item.status !== 1">
+                    @click="checkAddress(item)" v-if="item.id !== defaultId">
                     <header>
                         <div><p>{{item.user_name}}({{item.address}}) </p></div>
                     </header>
@@ -76,7 +77,7 @@
                     </el-form-item>
                     <el-form-item :label='$t("main.cart.settle.mainCartSeStreet")'
                                   :rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterStreet'), trigger: 'blur' }]">
-                        <el-input v-model="addForm.street"></el-input>
+                        <el-input v-model="addForm.street" type="textarea" :row="2"></el-input>
                     </el-form-item>
                     <el-form-item :label='$t("main.cart.settle.mainCartSeZip")'
                                   :rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterZip'), trigger: 'blur' }]">
@@ -374,6 +375,7 @@
             // 编辑地址
             editAddress(item) {
                 this.editing = item.id
+                console.log(this.editing)
                 let string = JSON.stringify(item)
                 this.editOrAdd = true
                 this.showAddAddress = true
@@ -416,13 +418,21 @@
                     this.addressData.forEach((value, index) => {
                         // value.user_name = value.user_name.replace('-', ' ')
                         value.zipCode = value.zip_code
+                        value.setDefault = false
                         if(value.location_d_o){
                             value.state = value.location_d_o.province
                         }
-                        console.log(this.editing)
-                        if(this.editing && this.editing == value.id){
-                            this.checkedId = value.id
-                            this.checkedAddress = value
+                        if(this.editing){
+                            if (value.status === 1) {
+                                value.setDefault = true
+                                this.defaultId = value.id
+                                this.defaultAddress = value
+                            }
+                            if(this.editing == value.id){
+                                console.log(this.editing,value.id)
+                                this.checkedId = value.id
+                                this.checkedAddress = value
+                            }
                         }else if (value.status === 1) {
                             value.setDefault = true
                             this.defaultId = value.id
@@ -432,10 +442,6 @@
                         } else {
                             value.setDefault = false
                         }
-                        // let position = value.address.indexOf(value.building)
-                        // if (position !== 0) {
-                        //     value.address = value.address.slice(0, position)
-                        // }
                     })
                     data.data.distribute_certificate_d_o.forEach((item) => {
                         item.user_name = this.user.name

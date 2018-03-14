@@ -423,9 +423,8 @@
         if (this.selectedAll) {
           this.checkedItem = this.tableDataItem
             this.checkedItem.forEach((item, index) => {
-                if(item,length > 0){
+                if(item.discount_type == 4){
                     if(item.rule.started && !item.rule.finished){
-
                     }else{
                         this.checkedItem.splice(index, 1)
                     }
@@ -471,8 +470,9 @@
           })
         }
 
-        this.calc(this.checkedItem)
+
           this.calcMinus(this.checkedItem)
+          this.calc(this.checkedItem)
       },
       // 单选框
       selectChange (row) {
@@ -498,8 +498,8 @@
           Vue.set(this.tableData,index,this.tableData[index])
          })
         Vue.set(this.tableData)
-        this.calc(this.checkedItem)
         this.calcMinus(this.checkedItem)
+        this.calc(this.checkedItem)
         if (this.checkedItem.length === this.tableDataItem.length) {
           this.selectedAll = true
         } else {
@@ -515,7 +515,7 @@
           realTotal += item.num * item.realPrice
         })
         this.totalPrice = total
-        this.realTotal = realTotal
+        this.realTotal = realTotal - this.minusPro
       },
       queryCartList () {
         cartService.queryCartList().then((data) => {
@@ -541,12 +541,10 @@
             } else if (value.discount_type === 4) {
               value.rule = JSON.parse(value.sale_rule)
               value.item_props[0].storage = value.rule.total
-              value.rule.end = value.end_time
-              value.rule.start = value.start_time
-              // value.rule.end = 1520438400000
-              // value.rule.start = 1519833600000
-              // value.rule.end = 1553702400000
-              // value.rule.start = 1552838400000
+              // value.rule.end = value.end_time
+              // value.rule.end = value.end_time
+              value.rule.end = Date.parse(new Date(value.rule.endTime))
+              value.rule.start = Date.parse(new Date(value.rule.startTime))
                 value.realPrice = value.rule.price
               let now = Date.parse(new Date())
               if (value.rule.end > now) {

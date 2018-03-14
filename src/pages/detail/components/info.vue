@@ -38,7 +38,8 @@
                     <el-form-item :label=' $t("main.detail.info.mainDetInfoPrice")' class="price">
                         <div class="tips" v-ltsLoginShow:false>{{ $t("main.detail.info.mainDetInfoComp") }}</div>
                         <div v-ltsLoginShow:true class="detail_price" v-if="!checkedSpu.price">
-                            <lts-money :money="item.price"></lts-money>
+                            <lts-money :money="item.price_real"></lts-money>
+                            <span class="oldPrice"><lts-money :money="item.price"/></span>
                         </div>
                         <div v-ltsLoginShow:true class="detail_price" v-else>
                             <span v-if="item.discount_type === 1">
@@ -103,7 +104,7 @@
                             </el-button>
                         </lts-login>
                         <lts-login display="inline-block">
-                            <el-button @click.stop="addCart(item, checkedSpu)" type="button" class="addcart" :disabled="(item.discount_type == 4 && (started && finished))">
+                            <el-button @click.stop="addCart(item, checkedSpu)" type="button" class="addcart" :disabled="(item.discount_type == 4 && finished)">
                                 {{ $t("main.detail.info.mainDetInfoJoinCart") }}
                             </el-button>
                         </lts-login>
@@ -451,14 +452,13 @@
                             }
                         )
                     }
-                    console.log(data.data.item);
                     this.item = data.data.item
                     this.activeImg = this.item.item_images[0]
                     this.hotSale = data.data.hot_recomment.items
                     this.buyHistory = data.data.user_order_history
                     if (this.item.discount_type === 4) {
-                        this.end = this.item.end_time
-                        this.start = this.item.start_time
+                        this.end = Date.parse(new Date(this.item.sale_rule_do.end_time))
+                        this.start = Date.parse(new Date(this.item.sale_rule_do.start_time))
                         let now = Date.parse(new Date())
                         if (this.end > now) {
                             this.countdown()

@@ -22,11 +22,11 @@
                 <el-input v-model="ruleForm.email" :disabled="true" style="width: 400px"></el-input>
             </el-form-item>
             <br>
-            <el-form-item label="名" prop="lastName">
-                <el-input v-model="ruleForm.lastName" style="width: 400px"/>
-            </el-form-item>
-            <el-form-item label="姓" prop="firstName">
+            <el-form-item :label='$t("main.cart.settle.mainCartSeFirstName")' prop="firstName">
                 <el-input v-model="ruleForm.firstName" style="width: 400px"/>
+            </el-form-item>
+            <el-form-item :label='$t("main.cart.settle.mainCartSeLastName")' prop="lastName">
+                <el-input v-model="ruleForm.lastName" style="width: 400px"/>
             </el-form-item>
             <br>
             <el-form-item :label='$t("main.personal.personalMsg.mainPerPerContactPhone")' prop="mobile"

@@ -1,7 +1,7 @@
 <template>
     <div class="password">
         <h3 class="title">{{$t("main.personal.password.mainPerPwdsetter")}}</h3>
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" label-position="left"
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" label-position="top"
                  class="demo-ruleForm">
             <el-form-item :label='$t("main.personal.password.mainPerPwdOldPwd")' prop="oldPassword" style="margin-top: 24px;">
                 <el-input v-model="ruleForm.oldPassword" type="password" ref="password"></el-input>
@@ -34,7 +34,7 @@
                     confirmPassword: ''
                 },
                 rules: {
-                    oldPassword: ValidatorConfig.password,
+                    //oldPassword: ValidatorConfig.password,
                     newPassword: ValidatorConfig.password,
                     confirmPassword: ValidatorConfig.password
                 }

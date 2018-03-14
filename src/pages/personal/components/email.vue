@@ -1,7 +1,7 @@
 <template>
     <div class="email">
         <h3 class="title">{{$t("main.personal.email.mainPerEmaTitle")}}</h3>
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" label-position="left"
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" label-position="top"
                  class="demo-ruleForm">
             <div v-show="currentFlag">
                 <el-form-item :label='$t("main.personal.email.mainPerEmaCurrent")' prop="currentEmail"

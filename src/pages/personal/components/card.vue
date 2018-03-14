@@ -7,6 +7,7 @@
         <el-dialog :title='$t("main.personal.card.mainPerCarTitle")' :visible.sync="dialogShow" :close-on-click-modal="false" @close="emptyData">
             <el-form :model="ruleForm" :rules="rules" :inline="true" ref="ruleForm" label-width="100px"
                      label-position="top"
+                     prop="ruleForm"
                      class="demo-ruleForm">
                 <el-form-item :label='$t("main.personal.card.mainPerCarDisPic")' required>
                     <div>
@@ -86,6 +87,10 @@
             </el-form>
         </el-dialog>
 
+        <el-dialog :visible.sync="dialogPicShow">
+            <img width="100%" :src="dialogImageUrl" alt="">
+        </el-dialog>
+
         <h3 class="title">{{$t("main.personal.card.mainPerCarTitle")}}</h3>
         <el-table
             :data="tableData"
@@ -97,7 +102,7 @@
                 align="center"
                 width="100">
                 <template slot-scope="scope">
-                    <img :src="scope.row.picture" alt="" style="width: 40px;height: 40px;">
+                    <img :src="scope.row.picture" alt="" style="width: 40px;height: 40px;cursor: pointer;" @click="openPic(scope.row.picture)">
                 </template>
             </el-table-column>
             <el-table-column
@@ -188,6 +193,8 @@
         name: "card",
         data() {
             return {
+                dialogPicShow: false,
+                dialogImageUrl: '',
                 dialogShow: false,
                 editFlag: false,
                 ruleForm: {
@@ -384,11 +391,15 @@
 
             },
             emptyData() {
-                this.$refs.ruleForm.resetFields();
+                this.$refs['ruleForm'].resetFields();
                 this.ruleForm.cardPicUrl = '';
                 this.ruleForm.invalid_time = [];
                 this.ruleForm.location = [];
                 this.locationLabel = [];
+            },
+            openPic(url) {
+                this.dialogImageUrl = url;
+                this.dialogPicShow = true;
             }
         }
     }

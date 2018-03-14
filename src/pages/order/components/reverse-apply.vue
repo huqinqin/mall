@@ -107,7 +107,7 @@
                         {required: true, message: this.$t("main.order.reverse.mainOrReEnterSomeReason"), trigger: 'change'},
                     ],
                     num: [
-                        {required: true, message: this.$t("main.order.reverse.mainOrReEnterGoodsNum"), trigger: 'blur'},
+                        {required: true,min: 1, message: this.$t("main.order.reverse.mainOrReEnterGoodsNum"), trigger: 'blur'},
                     ],
                     refund: [
                         {required: true, message: this.$t("main.order.reverse.mainOrReEnterMoney"), trigger: 'blur'},
@@ -167,6 +167,10 @@
                             imagesUrl = (imagesUrl == "") ? value.response.data.url : imagesUrl + "," + value.response.data.url;
                         });
                         this.form.refund = this.form.refund * 100;
+                        if(this.form.refundType == 1 && this.form.num){
+                            this.$ltsMessage.show({type:'error',message:this.$t("main.order.reverse.mainOrReEnterGoodsNum")})
+                            return false;
+                        }
                         reverseService.apply(this.tid, this.form.reason, this.form.num, this.form.refund, this.form.refundType, imagesUrl, this.form.remark).then((resp) => {
                             this.$ltsMessage.show({type: 'success', message: this.$t("main.order.reverse.mainOrReSuccess")});
                             this.$router.back(-1);

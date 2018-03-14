@@ -206,19 +206,19 @@
             addAdress() {
                 let address = {
                     mobile: this.ruleForm.mobile,
-                    address: this.ruleForm.address,
+                    address: this.locationLabel[0],
+                    street: this.ruleForm.address,
                     building: this.ruleForm.building,
                     rank: this.ruleForm.rank,
                     city: this.ruleForm.city,
                     country: this.ruleForm.country,
                     first: this.ruleForm.first,
                     last: this.ruleForm.last,
-                    state: this.locationLabel[0],
+                    //state: this.locationLabel[0],
                     setDefault: this.ruleForm.setDefaultFlag,
                     status: this.setDefaultFlag ? 1 : 0,//1设为默认，0有效
                     zipCode: this.ruleForm.zipCode,
                     lcCode: this.ruleForm.location[0],
-                    street: ''
                 };
 
                 if (this.tableData == '') {

@@ -430,7 +430,7 @@ export default {
             },
             receiveAdd: {
                 mainPerReAddInfo: '地址信息',
-                mainPerReNewCreate: '新增收获地址',
+                mainPerReNewCreate: '新增收货地址',
                 mainPerRePhone: '手机号码',
                 mainPerReEnterCont: '请输入内容',
                 mainPerReTeleNum: '电话号码',

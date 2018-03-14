@@ -21,9 +21,11 @@
                     :end-placeholder='$t("main.repayMent.repayList.mainRePayEndTime")'>
                 </el-date-picker>
             </div>
+        </div>
+        <div class="select">
             <div class="status">
-                <div class="demonstration">{{$t("main.repayMent.repayList.mainRePayPeState")}}</div>
-                <el-select v-model="value1" :placeholder='$t("main.accountNew.register.mainAcReSelect")' @change="changeValue1">
+                <div class="demonstrationSta">{{$t("main.repayMent.repayList.mainRePayPeState")}}</div>
+                <el-select  v-model="value1" :placeholder='$t("main.accountNew.register.mainAcReSelect")' @change="changeValue1">
                     <el-option
                         v-for="item in options1"
                         :key="item.value"
@@ -211,24 +213,29 @@
             display: flex;
             align-items: center;
             margin-top: 10px;
-            position: relative;
-            .status{
-                margin-left: 10px;
-            }
             .shouldBlock{
                 margin-left: 10px;
             }
             .block{}
-            .btn1{
-                height: 100%;
-                margin-left: 10px;
-                position: absolute;
-                bottom: 0;
-                right:10%;
-                height: 40px;
-            }
             .demonstration{
                 margin-bottom: 10px;
+            }
+        }
+        .select{
+            display: flex;
+            align-items: flex-end;
+            margin-top: 10px;
+            .status{
+                .demonstrationSta{
+                    margin-bottom: 10px;
+                }
+                .el-select{
+                    width: 350px;
+                }
+            }
+            .btn1{
+                margin-left: 10px;
+                height: 40px;
             }
         }
         .el-table th{

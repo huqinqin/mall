@@ -78,43 +78,45 @@
             </el-table-column>
             <el-table-column :label='$t("main.reverse.list.mainRevLiHandle")' align="center" header-align="center" width="120">
                 <template slot-scope="scope">
-                    <el-button type="text" class="probtn" size="mini" ><router-link :to="'/detail/' + scope.row.id">{{$t("main.reverse.list.mainRevLiGoodsInfo")}}</router-link></el-button>
-                    <el-popover
-                        placement="bottom"
-                        width="220"
-                        v-model="scope.row.visible2">
-                        <p>{{$t("main.reverse.list.mainRevLiIsSure")}}</p>
-                        <div class="popverbtn">
-                            <el-button size="mini" type="text" @click="scope.row.visible2 = false">{{$t("main.reverse.list.mainRevLiCanle")}}</el-button>
-                            <el-button type="primary" size="mini" @click="closeOrder(scope.row)">{{$t("main.reverse.list.mainRevLiConfirm")}}</el-button>
-                        </div>
-                        <el-button type="text" class="probtn" size="mini" slot="reference" v-if="scope.row.status == 1">{{$t("main.reverse.list.mainRevLiApply")}}</el-button>
-                    </el-popover>
-                    <el-popover
-                        placement="bottom"
-                        :title='$t("main.reverse.list.mainRevLiLogis")'
-                        width="360"
-                        trigger="click"
-                        v-model="scope.row.visible3">
-                        <el-form ref="form"  label-width="80px">
-                            <el-form-item :label='$t("main.reverse.list.mainRevLiLogisCompany")'>
-                                <el-select v-model="express" :placeholder='$t("main.reverse.list.mainRevLiSelect")'>
-                                    <el-option label="UPS" value="ups"></el-option>
-                                    <el-option label="FEDEX" value="fedex"></el-option>
-                                    <el-option label="自送" value="self"></el-option>
-                                    <el-option label="其他" value="other"></el-option>
-                                </el-select>
-                            </el-form-item>
-                            <el-form-item :label='$t("main.reverse.list.mainRevLiLogisNum")'>
-                                <el-input v-model="express_number"></el-input>
-                            </el-form-item>
-                            <el-form-item>
-                                <el-button type="primary" size="small" @click="submitExpress(scope.row)">{{$t("main.reverse.list.mainRevLiConfirm")}}</el-button>
-                                <el-button @click="scope.row.visible3 = false">{{$t("main.reverse.list.mainRevLiCanle")}}</el-button>
-                            </el-form-item>
-                        </el-form>
-                        <el-button type="text" v-if="scope.row.status == 2 && (scope.row.hd_status == 1)" class="probtn" size="mini" slot="reference">{{$t("main.reverse.list.mainRevLiLogising")}}</el-button>
-                    </el-popover>
+                    <div class="reverse-button">
+                        <el-button type="text" class="probtn" size="mini" ><router-link :to="'/detail/' + scope.row.id">{{$t("main.reverse.list.mainRevLiGoodsInfo")}}</router-link></el-button>
+                        <el-popover
+                            placement="bottom"
+                            width="220"
+                            v-model="scope.row.visible2">
+                            <p>{{$t("main.reverse.list.mainRevLiIsSure")}}</p>
+                            <div class="popverbtn">
+                                <el-button size="mini" type="text" @click="scope.row.visible2 = false">{{$t("main.reverse.list.mainRevLiCanle")}}</el-button>
+                                <el-button type="primary" size="mini" @click="closeOrder(scope.row)">{{$t("main.reverse.list.mainRevLiConfirm")}}</el-button>
+                            </div>
+                            <el-button type="text" class="probtn" size="mini" slot="reference" v-if="scope.row.status == 1">{{$t("main.reverse.list.mainRevLiApply")}}</el-button>
+                        </el-popover>
+                        <el-popover
+                            placement="bottom"
+                            :title='$t("main.reverse.list.mainRevLiLogis")'
+                            width="360"
+                            trigger="click"
+                            v-model="scope.row.visible3">
+                            <el-form ref="form"  label-width="80px">
+                                <el-form-item :label='$t("main.reverse.list.mainRevLiLogisCompany")'>
+                                    <el-select v-model="express" :placeholder='$t("main.reverse.list.mainRevLiSelect")'>
+                                        <el-option label="UPS" value="ups"></el-option>
+                                        <el-option label="FEDEX" value="fedex"></el-option>
+                                        <el-option label="自送" value="self"></el-option>
+                                        <el-option label="其他" value="other"></el-option>
+                                    </el-select>
+                                </el-form-item>
+                                <el-form-item :label='$t("main.reverse.list.mainRevLiLogisNum")'>
+                                    <el-input v-model="express_number"></el-input>
+                                </el-form-item>
+                                <el-form-item>
+                                    <el-button type="primary" size="small" @click="submitExpress(scope.row)">{{$t("main.reverse.list.mainRevLiConfirm")}}</el-button>
+                                    <el-button @click="scope.row.visible3 = false">{{$t("main.reverse.list.mainRevLiCanle")}}</el-button>
+                                </el-form-item>
+                            </el-form>
+                            <el-button type="text" v-if="scope.row.status == 2 && (scope.row.hd_status == 1)" class="probtn" size="mini" slot="reference">{{$t("main.reverse.list.mainRevLiLogising")}}</el-button>
+                        </el-popover>
+                    </div>
                 </template>
             </el-table-column>
         </el-table>
@@ -353,11 +355,17 @@
             }
 
         }
+        .reverse-button{
+            span{
+                display: block;
+            }
+        }
         .probtn:hover{
             color: #fff;
             background-color: #409EFF;
             border-color: #409EFF;
             padding: 4px 12px;
+            display: block;
         }
         .el-button+.el-button{
             margin-left: 0;

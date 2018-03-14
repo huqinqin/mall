@@ -146,7 +146,8 @@ export default class OrderService extends BaseService {
                 cardNumber:form.num,
                 expirationDate:form.date,
                 // expirationDate:1551974400000,  测试到期时间
-                cardCode:form.cardCode
+                cardCode:form.cardCode,
+                zipCode:form.zipCode
 
            })
         }

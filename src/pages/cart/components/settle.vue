@@ -14,7 +14,8 @@
                     </main>
                 </li>
                 <li :class="[{checked:defaultAddress.id === checkedId},{default:defaultAddress.id === defaultId}]"
-                    v-show="defaultAddress.user_name" @click="checkAddress(defaultAddress)">
+                    v-show="defaultAddress.user_name"
+                    @click="checkAddress(defaultAddress)">
                     <header>
                         <div><p>{{defaultAddress.user_name}}({{defaultAddress.address}}) </p></div>
                     </header>
@@ -26,19 +27,19 @@
                         <button class="default" @click.stop="toggleDefault(defaultAddress)">{{
                             $t("main.cart.settle.mainCartSeFitDefault") }}
                         </button>
-                        <button v-show="defaultAddress.id === defaultId" class="defaultAdd">{{
-                            $t("main.cart.settle.mainCartSeDefaultAdress") }}
-                        </button>
                         <button class="delete" @click="deleteAddress(defaultAddress,0)">{{
                             $t("main.cart.settle.mainCartSeDel") }}
                         </button>
                         <button @click="editAddress(defaultAddress)">{{ $t("main.cart.settle.mainCartSeAlert") }}
                         </button>
+                        <button v-show="defaultAddress.id === defaultId" class="defaultAdd">{{
+                            $t("main.cart.settle.mainCartSeDefaultAdress") }}
+                        </button>
                     </footer>
                 </li>
                 <li v-for="(item,key) in addressData"
                     :class="[{checked:item.id === checkedId},{default:item.id === defaultId}]"
-                    @click="checkAddress(item)" v-if="item.status !== 1">
+                    @click="checkAddress(item)" v-if="item.id !== defaultId">
                     <header>
                         <div><p>{{item.user_name}}({{item.address}}) </p></div>
                     </header>
@@ -50,12 +51,11 @@
                         <button class="default" @click.stop="toggleDefault(item)">{{
                             $t("main.cart.settle.mainCartSeFitDefault") }}
                         </button>
-                        <button v-show="item.id === defaultId">{{ $t("main.cart.settle.mainCartSeDefaultAdress") }}
-                        </button>
-                        <button class="delete" @click="deleteAddress(item,key)">{{ $t("main.cart.settle.mainCartSeDel")
-                            }}
+                        <button class="delete" @click="deleteAddress(item,key)">{{ $t("main.cart.settle.mainCartSeDel") }}
                         </button>
                         <button @click="editAddress(item)">{{ $t("main.cart.settle.mainCartSeAlert") }}</button>
+                        <button v-show="item.id === defaultId" class="defaultAdd">{{ $t("main.cart.settle.mainCartSeDefaultAdress") }}
+                        </button>
                     </footer>
                 </li>
                 <li class="addAddress" @click="addAddress">
@@ -66,17 +66,17 @@
             <el-dialog :title='$t("main.address.mainAddReceivingAddress")' :visible.sync="showAddAddress" center
                        @close="clearForm">
                 <el-form :model="addForm" ref="addForm">
-                    <el-form-item :label='$t("main.cart.settle.mainCartSeRegion")'
-                                  :rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterRegion'), trigger: 'blur' }]">
-                        <lts-location v-model="location.value" :labels.sync="location.label"/>
+                    <el-form-item :label='$t("main.cart.settle.mainCartSeStreet")'
+                                  :rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterStreet'), trigger: 'blur' }]">
+                        <el-input v-model="addForm.street" type="textarea" :row="2"></el-input>
                     </el-form-item>
                     <el-form-item :label='$t("main.cart.settle.mainCartSeCity")'
                                   :rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterCity'), trigger: 'blur' }]">
                         <el-input v-model="addForm.city"></el-input>
                     </el-form-item>
-                    <el-form-item :label='$t("main.cart.settle.mainCartSeStreet")'
-                                  :rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterStreet'), trigger: 'blur' }]">
-                        <el-input v-model="addForm.street"></el-input>
+                    <el-form-item :label='$t("main.cart.settle.mainCartSeRegion")'
+                                  :rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterRegion'), trigger: 'blur' }]">
+                        <lts-location v-model="location.value" :labels.sync="location.label"/>
                     </el-form-item>
                     <el-form-item :label='$t("main.cart.settle.mainCartSeZip")'
                                   :rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterZip'), trigger: 'blur' }]">
@@ -378,7 +378,7 @@
                 this.editOrAdd = true
                 this.showAddAddress = true
                 this.addForm = JSON.parse(string)
-                this.location.label = [this.addForm.state]
+                this.location.value = [this.addForm.lc_code]
                 this.addForm.first = this.addForm.user_name.split('-')[0]
                 this.addForm.last = this.addForm.user_name.split('-')[1]
                 this.addForm.city = this.addForm.building.split('-')[0]
@@ -416,13 +416,20 @@
                     this.addressData.forEach((value, index) => {
                         // value.user_name = value.user_name.replace('-', ' ')
                         value.zipCode = value.zip_code
+                        value.setDefault = false
                         if(value.location_d_o){
                             value.state = value.location_d_o.province
                         }
-                        console.log(this.editing)
-                        if(this.editing && this.editing == value.id){
-                            this.checkedId = value.id
-                            this.checkedAddress = value
+                        if(this.editing){
+                            if (value.status === 1) {
+                                value.setDefault = true
+                                this.defaultId = value.id
+                                this.defaultAddress = value
+                            }
+                            if(this.editing == value.id){
+                                this.checkedId = value.id
+                                this.checkedAddress = value
+                            }
                         }else if (value.status === 1) {
                             value.setDefault = true
                             this.defaultId = value.id
@@ -432,10 +439,6 @@
                         } else {
                             value.setDefault = false
                         }
-                        // let position = value.address.indexOf(value.building)
-                        // if (position !== 0) {
-                        //     value.address = value.address.slice(0, position)
-                        // }
                     })
                     data.data.distribute_certificate_d_o.forEach((item) => {
                         item.user_name = this.user.name
@@ -642,7 +645,6 @@
                     item.realPrice = item.item_props[0].price
                 }
             })
-            console.log(this.tableData);
             this.getInfo()
             this.expressOptions = this.UPSOptions
         }
@@ -725,6 +727,7 @@
                 .cart-item-info {
                     width: 100%;
                     display: flex;
+                    align-items: center;
                     justify-content: space-between;
                     img {
                         width: 80px;
@@ -732,14 +735,14 @@
                         border: 1px solid #dadada;
                     }
                     div {
-                        /*width:120px;*/
                         p {
                             line-height: 30px;
                             font-size: 14px;
                             text-align: left;
-                        }
-                        p:first-child {
-                            margin-top: 12px;
+                            display: -webkit-box;
+                            -webkit-box-orient: vertical;
+                            -webkit-line-clamp: 3;
+                            overflow: hidden;
                         }
                     }
                 }
@@ -818,6 +821,7 @@
                     }
                     footer {
                         text-align: right;
+                        padding-right: 12px;
                         button {
                             font-size: 12px;
                             color: #3d98ff;
@@ -828,6 +832,9 @@
                             border: none;
                             visibility: hidden;
                             outline: none;
+                        }
+                        button.defaultAdd{
+                            visibility: visible;
                         }
                     }
                     footer.ship-footer {

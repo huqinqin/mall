@@ -8,12 +8,12 @@
             <el-form :model="ruleForm" :rules="rules" :inline="true" ref="ruleForm" label-width="100px"
                      label-position="top"
                      class="demo-ruleForm">
-                <el-form-item label="名" prop="last">
-                    <el-input v-model="ruleForm.last" style="width: 400px"/>
+                <el-form-item :label='$t("main.cart.settle.mainCartSeFirstName")' prop="first">
+                    <el-input v-model="ruleForm.first" style="width: 400px"/>
                 </el-form-item>
                 <br>
-                <el-form-item label="姓" prop="first">
-                    <el-input v-model="ruleForm.first" style="width: 400px"/>
+                <el-form-item :label='$t("main.cart.settle.mainCartSeLastName")' prop="last">
+                    <el-input v-model="ruleForm.last" style="width: 400px"/>
                 </el-form-item>
                 <br>
                 <el-form-item :label='$t("main.personal.receiveAdd.mainPerReTeleNum")' prop="mobile"
@@ -81,9 +81,12 @@
                 width="200">
             </el-table-column>
             <el-table-column
-                prop="location_d_o.city"
+                prop="city"
                 :label='$t("main.personal.card.mainPerCarCity")'
                 width="80">
+                <template slot-scope="scope">
+                    {{scope.row.building.split('-')[0]}}
+                </template>
             </el-table-column>
             <el-table-column
                 prop="location_d_o.province"
@@ -206,19 +209,19 @@
             addAdress() {
                 let address = {
                     mobile: this.ruleForm.mobile,
-                    address: this.ruleForm.address,
+                    address: this.locationLabel[0],
+                    street: this.ruleForm.address,
                     building: this.ruleForm.building,
                     rank: this.ruleForm.rank,
                     city: this.ruleForm.city,
                     country: this.ruleForm.country,
                     first: this.ruleForm.first,
                     last: this.ruleForm.last,
-                    state: this.locationLabel[0],
+                    //state: this.locationLabel[0],
                     setDefault: this.ruleForm.setDefaultFlag,
                     status: this.setDefaultFlag ? 1 : 0,//1设为默认，0有效
                     zipCode: this.ruleForm.zipCode,
                     lcCode: this.ruleForm.location[0],
-                    street: ''
                 };
 
                 if (this.tableData == '') {
@@ -238,19 +241,19 @@
             updateAdress() {
                 let address = {
                     mobile: this.ruleForm.mobile,
-                    address: this.ruleForm.address,
+                    address: this.locationLabel[0],
+                    street: this.ruleForm.address,
                     building: this.ruleForm.building,
                     rank: this.ruleForm.rank,
                     city: this.ruleForm.city,
                     country: this.ruleForm.country,
                     first: this.ruleForm.first,
                     last: this.ruleForm.last,
-                    state: this.locationLabel[0],
+                    //state: this.locationLabel[0],
                     setDefault: this.ruleForm.setDefaultFlag,
                     status: this.setDefaultFlag ? 1 : 0,//1设为默认，0有效
                     zipCode: this.ruleForm.zipCode,
                     lcCode: this.ruleForm.location[0],
-                    street: ''
                 };
 
                 addressService.updateItem(address).then((resp) => {
@@ -294,11 +297,11 @@
                             first: item.row.user_name.split('-')[0],
                             last: item.row.user_name.split('-')[1],
                             mobile: item.row.mobile,
-                            address: item.row.address,
-                            location: [item.row.lc_code.substr(0, 6)],
-                            city: item.row.location_d_o.city,
-                            state: item.row.location_d_o.province,
-                            zipCode: item.row.zip_code
+                            address: item.row.building.split('-')[1],
+                            location: [parseInt(item.row.lc_code)],
+                            city: item.row.building.split('-')[0],
+                            zipCode: item.row.zip_code,
+                            country: this.$t("main.personal.card.mainPerCarUsa"),
                         };
                         this.dialogShow = true;
                         break;
@@ -307,9 +310,10 @@
                         break;
                 }
             },
-            emptyData() {
+            emptyData() {console.log(2);
                 this.$refs.ruleForm.resetFields();
                 this.ruleForm.location = [];
+                this.ruleForm.mobile = '';
                 this.locationLabel = [];
             }
         }

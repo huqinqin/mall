@@ -42,19 +42,22 @@
         $t("main.cart.beforePay.mainCartBefgoPay") }}
       </el-button>
       <el-dialog :title="$t('main.cart.beforePay.mainCartBefCreditInfo')" :visible.sync="creditFormVisible" class="creditDialog" @close="closeCreditForm">
-        <el-form :model="creditFrom" label-position="left">
-          <el-form-item :label="$t('main.cart.beforePay.mainCartBefCreditNum')" >
+        <el-form :model="creditFrom" label-position="left" ref="form" :rules="formRule">
+          <el-form-item :label="$t('main.cart.beforePay.mainCartBefCreditNum')" prop="num">
             <el-input v-model="creditFrom.num" :placeholder="$t('main.cart.beforePay.mainCartBefInputNum')" :clearable="true"></el-input>
           </el-form-item>
-          <el-form-item :label="$t('main.cart.beforePay.mainCartBefCreditValid')">
+          <el-form-item :label="$t('main.cart.beforePay.mainCartBefCreditValid')" prop="date">
             <el-date-picker
               v-model="creditFrom.date"
               type="date"
               :placeholder="$t('main.personal.card.mainPerCarSelDate')">
             </el-date-picker>
           </el-form-item>
-            <el-form-item label="CardCode">
+            <el-form-item label="CCV" prop="cardCode">
                 <el-input v-model="creditFrom.cardCode"></el-input>
+            </el-form-item>
+            <el-form-item label="zipCode" prop="zipCode">
+                <el-input v-model="creditFrom.zipCode"></el-input>
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -92,9 +95,16 @@
           num: '',
           date: '',
           pay_no: '',
+          zipCode:'',
           cardCode:''
         },
-        frozened:false
+        frozened:false,
+          formRule:{
+            num:[{ required: true, message: this.$t('main.cart.beforePay.mainCartBefInputNum'), trigger: 'blur' }],
+            date:[{ required: true, message: this.$t('main.cart.beforePay.mainCartBefInputDate'), trigger: 'blur' }],
+            zipCode:[{ required: true, message: this.$t('main.cart.beforePay.mainCartBefInputzipCode'), trigger: 'blur' }],
+            cardCode:[{ required: true, message: this.$t('main.cart.beforePay.mainCartBefInputCCV'), trigger: 'blur' }],
+        }
       }
     },
     methods: {
@@ -169,12 +179,16 @@
       },
       submitCreditForm(){
         this.creditFrom.pay_no = this.statement
-        orderService.credit_pay(this.creditFrom).then((data) => {
-          this.$router.push({name: 'finish', params: {tid: this.tid}})
-        }, (msg) => {
-          this.$ltsMessage.show({type: 'error', message: msg.error_message})
-          this.$router.push({name: 'fail', params: {tid: this.tid}})
-        })
+          this.$refs['form'].validate((valid) => {
+              if(valid){
+                  orderService.credit_pay(this.creditFrom).then((data) => {
+                      this.$router.push({name: 'finish', params: {tid: this.tid}})
+                  }, (msg) => {
+                      this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                      this.$router.push({name: 'fail', params: {tid: this.tid}})
+                  })
+              }
+          })
       }
     },
     mounted () {
@@ -299,7 +313,7 @@
       }
       .creditDialog{
         .el-dialog{
-          width:380px;
+          width:400px;
         }
         .el-dialog__header{
           text-align: left;
@@ -308,6 +322,9 @@
           .el-input{
             width:250px;
           }
+            .el-form-item__error{
+                left:120px;
+            }
         }
         .dialog-footer{
           .el-button{

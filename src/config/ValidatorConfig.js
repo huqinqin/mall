@@ -69,8 +69,8 @@ export default {
     },
     password: [
         {required: true, message: '请输入密码', trigger: 'blur'},
-        {min: 8, max: 30, message: '密码长度在 8 到 30 个字符', trigger: 'blur'},
-        // {pattern: /^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*? ]).*$/, message: '密码包括至少1个大写字母，1个小写字母，1个数字，1个特殊字符', trigger: 'blur'},
+        {min: 8, max: 20, message: '密码长度在 8 到 20 个字符', trigger: 'blur'},
+        {pattern: /^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).*$/, message: '密码包括至少1个大写字母，1个小写字母，1个数字', trigger: 'blur'},
         {validator: validatePassword, trigger: 'blur'}
     ],
     email (require, cb){

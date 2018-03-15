@@ -10,9 +10,9 @@
                 <hr class="flagLine">
                 <div>
                     <span>{{$t("main.someinfo.mainSomeAccountBala")}}:<span class="name">${{engineerInfo.cash}}</span></span>
-                    <span style="margin-left: 23px">{{$t("main.someinfo.mainSomePayBalance")}}:<span class="name">${{account}}</span><span>({{$t("main.someinfo.mainSomeUsed")}}<span>${{usedAcc}}</span>)</span></span>
+                    <span style="margin-left: 23px" v-if="account > 0">{{$t("main.someinfo.mainSomePayBalance")}}:<span class="name">${{account}}</span><span>({{$t("main.someinfo.mainSomeUsed")}}<span>${{usedAcc}}</span>)</span></span>
                     <span style="margin-left: 23px">{{$t("main.someinfo.mainSomeShopCoupon")}}:
-                        <el-tooltip placement="top" effect="light">
+                        <el-tooltip placement="top" effect="light" :visible-arrow="false">
                             <div slot="content" v-if="len>0">
                                 <div class="bgDiscount">
                                     <div class="el-icon-close iconClose" @click="closeAll"></div>

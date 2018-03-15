@@ -122,13 +122,13 @@
                         <div class="icon-right"><i class="iconfont  icon-iconfontyou-copy"></i></div>
                     </div>
                 </div>
-                <ul v-if="buyHistory">
-                    <li v-for="item in buyHistory"
+                <ul v-if="buyHistory.length > 0">
+                    <li v-for="item in historyItems"
                         :class="{ limit: item.discount_type == 4, reduce:item.discount_type == 2, discount:item.discount_type == 1}">
                         <a :href="'/detail#/?id=' + item.id" target="_blank">
                             <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
                             <div class="content" :title="item.item_name">
-                                <el-tooltip class="item" effect="dark" :content="item.item_name" placement="top-start">
+                                <el-tooltip class="item" effect="dark" :content="item.item_name" placement="top">
                                     <p class="name">{{item.item_name}}</p>
                                 </el-tooltip>
                             </div>
@@ -151,7 +151,7 @@
             <div class="content">
                 <div class="briefInfo">
                     <div class="img" :style="'background-image: url(' + item.image_value + ')'"></div>
-                    <el-tooltip class="item" effect="dark" :content="item.item_name" placement="top-start">
+                    <el-tooltip class="item" effect="dark" :content="item.item_name" placement="top">
                         <div class="name">{{item.item_name}}</div>
                     </el-tooltip>
                     <div class="price" v-if="!checkedSpu.price"><span class="red" style="font-size: 14px;">{{ $t("main.detail.info.mainDetInfoNoChoose") }}</span>
@@ -171,7 +171,7 @@
                         <a :href="'/detail#/?id=' + value.id" target="_blank">
                             <div class="img" :style="'background-image: url(' + value.image_value + ')'"></div>
                         </a>
-                        <el-tooltip class="item" effect="dark" :content="value.item_name" placement="top-start">
+                        <el-tooltip class="item" effect="dark" :content="value.item_name" placement="top">
                             <div class="name">{{value.item_name}}</div>
                         </el-tooltip>
                         <el-popover placement="bottom" popper-class="othersPopover" ref="popover">
@@ -273,8 +273,8 @@
                     <div class="header">
                         <div>{{ $t("main.detail.info.mainDetInfoHot") }}</div>
                         <div class="icons">
-                            <div class="icon-left"><i class="iconfont  icon-iconfontzuo"></i></div>
-                            <div class="icon-right"><i class="iconfont  icon-iconfontyou-copy"></i></div>
+                            <div class="icon-left" @click="preHistory"><i class="iconfont  icon-iconfontzuo"></i></div>
+                            <div class="icon-right" @click="nextHistory"><i class="iconfont  icon-iconfontyou-copy"></i></div>
                         </div>
                     </div>
                     <ul class="item-list-box">
@@ -282,7 +282,11 @@
                             :class="{ limit: item.discount_type == 4, reduce:item.discount_type == 2, discount:item.discount_type == 1}">
                             <a :href="'/detail#/?id=' + item.id" target="_blank">
                                 <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
-                                <p class="name" :title="item.item_name">{{item.item_name}}</p>
+                                <div class="content" >
+                                    <el-tooltip class="item" effect="dark" :content="item.item_name" placement="top">
+                                        <p class="name">{{item.item_name}}</p>
+                                    </el-tooltip>
+                                </div>
                                 <div class="item-price">
                                     <button v-ltsLoginShow:false v-login>{{ $t("main.detail.info.mainDetInfoLoginPrice")
                                         }}
@@ -384,9 +388,17 @@
                 checkedOthers: [],
                 otherSpu: {},
                 recommondInfo:[],
+                historyIndex:1
             }
         },
         methods: {
+            // 购买历史左右选择
+            preHistory(){
+
+            },
+            nextHistory(){
+
+            },
             // 倒计时
             countdown() {
                 let self = this
@@ -452,6 +464,7 @@
                     this.activeImg = this.item.item_images[0]
                     this.hotSale = data.data.hot_recomment.items
                     this.buyHistory = data.data.user_order_history
+                    this.historyItems = this.buyHistory.slice(0,2)
                     if (this.item.discount_type === 4) {
                         this.end = Date.parse(new Date(this.item.sale_rule_do.end_time))
                         this.start = Date.parse(new Date(this.item.sale_rule_do.start_time))
@@ -1212,6 +1225,9 @@
                 }
                 .mark {
                     margin-bottom: 8px;
+                    label{
+                        margin-left: -120px;
+                    }
                     p {
                         font-size: 12px;
                         line-height: 20px;
@@ -1466,13 +1482,7 @@
                 }
             }
         }
-        // 购买记录和热卖推荐
-        .detail-buy-history {
-            ul {
-                overflow-y: scroll;
-                height: 434px;
-            }
-        }
+
         .detail-buy-history, .detail_side_img {
             width: 290px;
             background: #fff;
@@ -1494,6 +1504,7 @@
                     align-items: center;
                     div {
                         color: #b6b6b6;
+                        cursor: pointer;
                         i {
                             display: block;
                             font-size: 14px;
@@ -1521,9 +1532,6 @@
                     background-position: center;
                     background-size: contain;
                     background-repeat: no-repeat;
-                }
-                div.content{
-                    height: 38px;
                 }
                 p.name {
                     margin: 10px 0 0;
@@ -1567,6 +1575,35 @@
                     height: 128px;
                     background-size: contain;
                     background-repeat: no-repeat;
+                }
+            }
+        }
+        // 购买记录和热卖推荐
+        .detail-buy-history {
+            ul {
+                overflow: hidden;
+                height: 434px;
+                li{
+                    div.content{
+                        height: 38px;
+                    }
+                }
+            }
+        }
+        .detail_side_img{
+            ul li{
+                p.name {
+                    margin: 10px 0 0;
+                    font-size: 14px;
+                    color: #a3a3a3;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 3;
+                    -webkit-box-orient: vertical;
+                }
+                p.price{
+                    line-height: 2;
                 }
             }
         }

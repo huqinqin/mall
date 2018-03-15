@@ -54,7 +54,7 @@
               :placeholder="$t('main.personal.card.mainPerCarSelDate')">
             </el-date-picker>
           </el-form-item>
-            <el-form-item label="CCV" prop="cardCode">
+            <el-form-item label="CVV" prop="cardCode">
                 <el-input v-model="creditFrom.cardCode"></el-input>
             </el-form-item>
             <el-form-item label="zipCode" prop="zipCode">

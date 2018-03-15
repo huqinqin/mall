@@ -40,12 +40,12 @@
                   </el-table-column>
                   <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
                     <template slot-scope="subscope">
-                      <p class="oldPrice">
-                        <lts-money :money="subscope.row.oldPrice"></lts-money>
-                      </p>
-                      <p>
-                        <lts-money :money="subscope.row.realPrice"></lts-money>
-                      </p>
+                        <p class="oldPrice">
+                            <lts-money :money="subscope.row.price"></lts-money>
+                        </p>
+                        <p>
+                            <lts-money :money="subscope.row.price_real"></lts-money>
+                        </p>
                     </template>
                   </el-table-column>
                   <el-table-column prop="" width="100" :label='$t("main.cart.list.mainCartliStock")' align="center">
@@ -67,7 +67,7 @@
                   <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="90" align="center">
                     <template slot-scope="subscope">
                       <div class="count" >
-                        <lts-money :money="subscope.row.num * subscope.row.realPrice"></lts-money>
+                        <lts-money :money="subscope.row.num * subscope.row.price_real"></lts-money>
                       </div>
                     </template>
                   </el-table-column>
@@ -112,10 +112,10 @@
                   <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
                     <template slot-scope="subscope">
                         <p class="oldPrice">
-                            <lts-money :money="subscope.row.oldPrice"></lts-money>
+                            <lts-money :money="subscope.row.price"></lts-money>
                         </p>
                         <p>
-                            <lts-money :money="subscope.row.realPrice"></lts-money>
+                            <lts-money :money="subscope.row.price_real"></lts-money>
                         </p>
                     </template>
                   </el-table-column>
@@ -138,7 +138,7 @@
                   <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="90" align="center">
                     <template slot-scope="subscope">
                       <div class="count">
-                        <lts-money :money="subscope.row.num * subscope.row.realPrice"></lts-money>
+                        <lts-money :money="subscope.row.num * subscope.row.price_real"></lts-money>
                       </div>
                     </template>
                   </el-table-column>
@@ -199,10 +199,10 @@
                     <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
                       <template slot-scope="subscope">
                           <p class="oldPrice">
-                              <lts-money :money="subscope.row.oldPrice"></lts-money>
+                              <lts-money :money="subscope.row.price"></lts-money>
                           </p>
                           <p>
-                              <lts-money :money="subscope.row.realPrice"></lts-money>
+                              <lts-money :money="subscope.row.price_real"></lts-money>
                           </p>
                       </template>
                     </el-table-column>
@@ -228,7 +228,7 @@
                     <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="90" align="center">
                       <template slot-scope="subscope">
                         <div class="count">
-                          <lts-money :money="subscope.row.num * subscope.row.realPrice"></lts-money>
+                          <lts-money :money="subscope.row.num * subscope.row.price_real"></lts-money>
                         </div>
                       </template>
                     </el-table-column>
@@ -273,7 +273,8 @@
                   </el-table-column>
                   <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
                     <template slot-scope="subscope">
-                        <p><lts-money :money="subscope.row.realPrice"></lts-money></p>
+                        <p class="oldPrice"><lts-money :money="subscope.row.price"></lts-money></p>
+                        <p><lts-money :money="subscope.row.price_real"></lts-money></p>
                     </template>
                   </el-table-column>
                   <el-table-column prop="" width="100" :label='$t("main.cart.list.mainCartliStock")' align="center">
@@ -295,7 +296,7 @@
                   <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="90" align="center">
                     <template slot-scope="subscope">
                       <div class="count">
-                        <p><lts-money :money="subscope.row.num * subscope.row.realPrice"></lts-money></p>
+                        <p><lts-money :money="subscope.row.num * subscope.row.price_real"></lts-money></p>
                       </div>
                     </template>
                   </el-table-column>
@@ -511,8 +512,8 @@
         let total = 0
         let realTotal = 0
         checked.forEach((item) => {
-          total += item.num * item.oldPrice
-          realTotal += item.num * item.realPrice
+          total += item.num * item.price
+          realTotal += item.num * item.price_real
         })
         this.totalPrice = total
         this.realTotal = realTotal - this.minusPro

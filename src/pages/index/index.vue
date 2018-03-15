@@ -164,9 +164,11 @@
         homeService.getList().then((data) => {
           this.itemList = data.floor.datalist
             this.itemList.forEach((item) => {
-                if(item.tag.indexOf('新品') != -1){
-                    item.isNew = true
-                }
+                item.items.forEach((val) => {
+                    if(val.tag.indexOf('新品') != -1){
+                        val.isNew = true
+                    }
+                })
             })
           this.hotList = data.hot_buys.datalist[0].items
 

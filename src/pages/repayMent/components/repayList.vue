@@ -68,6 +68,7 @@
                 prop="realTimePay"
                 :label='$t("main.repayMent.repayList.mainRePayRepayTime")'
                 sortable
+                v-if='realTime'
             >
             </el-table-column>
             <el-table-column
@@ -77,7 +78,7 @@
             <el-table-column
                 :label='$t("main.order.list.mainOrLiHanlde")'>
                 <template slot-scope="scope">
-                    <el-button  @click="handleClick(scope.row)" type="primary" size="small" v-if="scope.row.status === 1">{{$t('main.cart.beforePay.mainCartBefPay')}}</el-button>
+                    <el-button  @click="handleClick(scope.row)" type="primary" size="small" v-if="scope.row.status === 1" :disabled="scope.row.flag">{{$t('main.cart.beforePay.mainCartBefPay')}}</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -94,6 +95,12 @@
             },
             handleSelectionChange(val) {
                 this.multipleSelection = val;
+                this.tableData.forEach((item) => {
+                    item.flag = true;
+                })
+                this.multipleSelection.forEach((item) => {
+                    item.flag = false;
+                })
             },
             changeValue1(){
                 if(this.value1 === this.$t("main.order.list.mainOrLiRealPay")){
@@ -105,7 +112,8 @@
                 }
             },
             handleClick(row) {
-                this.$router.push({name:'readyPay',params:[row]});
+                console.log(row);
+                /*this.$router.push({name:'readyPay',params:[row]});*/
             },
             getDate(tm){
                 var tt = new Date(tm).toLocaleString().replace(/\//g, "-");
@@ -139,8 +147,11 @@
                 MonyManageService.getMoney(params).then((data) => {
                     this.tableData = data.datalist;
                     this.tableData.forEach((item) => {
+                        item.flag = true;
+                        this.realTime = item.real_time;
                         item.deadlinePay = this.getDate(item.deadline);
                         item.realTimePay = this.getDate(item.real_time);
+                        console.log(this.realTime);
                         item.changeTotal = item.total / 100;
                         if(item.status === 1){
                             item.payStatus = this.$t("main.repayMent.repayList.mainRePayNoRepay");
@@ -149,6 +160,7 @@
                             item.payStatus = this.$t("main.repayMent.repayList.mainRePayRepayed");
                         }
                     })
+                    console.log(this.tableData);
                 });
             }
         },
@@ -157,6 +169,8 @@
         },
         data(){
             return{
+                show:{},
+                realTime:'',
                 multipleSelection: [],
                 status:'',
                 id:'',

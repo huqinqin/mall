@@ -179,8 +179,9 @@
         this.creditFrom.pay_no = ''
       },
       submitCreditForm(){
-          this.creditFormVisible = false
+        this.creditFormVisible = false
         this.creditFrom.pay_no = this.statement
+          this.creditFrom.date = this.creditFrom.date.getTime()
           this.$refs['form'].validate((valid) => {
               if(valid){
                   let option  ={

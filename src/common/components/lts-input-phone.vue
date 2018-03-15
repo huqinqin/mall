@@ -1,7 +1,7 @@
 <template>
     <el-input :placeholder="placeholder" v-model="phoneNumber" class="input-with-select" @change="changeHandler">
         <el-select v-model="areaCode" slot="prepend" placeholder="请选择国家" @change="changeHandler">
-            <el-option v-for="option in options" :key="value" :label="option.label" :value="option.value" />
+            <el-option v-for="option in options" :key="option.value" :label="option.label" :value="option.value" />
         </el-select>
     </el-input>
 </template>
@@ -25,6 +25,13 @@
                 }
             },
             value: String
+        },
+        mounted(){
+            if(this.value){
+                let phoneNumberArr = this.value.split(SEPARATOR);
+                this.areaCode = phoneNumberArr.length === 2 ? phoneNumberArr[0] : this.options[0].value;
+                this.phoneNumber = phoneNumberArr.length === 2 ? phoneNumberArr[1] : phoneNumberArr[0];
+            }
         },
         data() {
             return {
@@ -54,25 +61,20 @@
                 this.$emit('input', this.phoneNumberFull);
             }
         },
-        watch:{
-            // value(newVal){
-            //     if (newVal) {
-            //         debugger;
-            //         let phoneNumberArr = newVal.split(SEPARATOR);
-            //         this.areaCode = phoneNumberArr.length === 2 ? phoneNumberArr[0] : this.options[0].value;
-            //         this.phoneNumber = phoneNumberArr.length === 2 ? phoneNumberArr[1] : phoneNumberArr[0];
-            //     }
-            // },
-            value : {
-                deep:true,
-                handler:(val)=>{
-                    console.log(val);
-                    let phoneNumberArr = val.split(SEPARATOR);
+        beforeDestroy(){
+            console.log(this.value + '***');
+        },
+        watch: {
+            value(newVal) {
+                if (newVal) {
+                    let phoneNumberArr = newVal.split(SEPARATOR);
                     this.areaCode = phoneNumberArr.length === 2 ? phoneNumberArr[0] : this.options[0].value;
                     this.phoneNumber = phoneNumberArr.length === 2 ? phoneNumberArr[1] : phoneNumberArr[0];
+                }else{
+                    this.phoneNumber = '';
                 }
-            }
-        },
+            },
+        }
     }
 </script>
 <style scoped lang="less">

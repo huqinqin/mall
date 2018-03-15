@@ -126,7 +126,7 @@
                     <div>{{ $t("main.detail.info.mainDetInfoBuy") }}</div>
                     <div class="icons">
                         <div class="icon-left"><i class="iconfont  icon-iconfontzuo"></i></div>
-                        <div class="icon-right"><i class="iconfont  icon-iconfontzuo"></i></div>
+                        <div class="icon-right"><i class="iconfont  icon-iconfontyou-copy"></i></div>
                     </div>
                 </div>
                 <ul v-if="buyHistory">
@@ -134,8 +134,9 @@
                         :class="{ limit: item.discount_type == 4, reduce:item.discount_type == 2, discount:item.discount_type == 1}">
                         <a :href="'/detail#/?id=' + item.id" target="_blank">
                             <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
-                            <p class="name" :title="item.item_name">{{item.item_name}}</p>
-                            <p class="line-four"></p>
+                            <div class="content" :title="item.item_name">
+                                <p class="name">{{item.item_name}}</p>
+                            </div>
                             <div class="item-price">
                                 <p v-ltsLoginShow:true class="price">
                                     <lts-money :money="item.price"></lts-money>
@@ -278,7 +279,7 @@
                         <div>{{ $t("main.detail.info.mainDetInfoHot") }}</div>
                         <div class="icons">
                             <div class="icon-left"><i class="iconfont  icon-iconfontzuo"></i></div>
-                            <div class="icon-right"><i class="iconfont  icon-iconfontzuo"></i></div>
+                            <div class="icon-right"><i class="iconfont  icon-iconfontyou-copy"></i></div>
                         </div>
                     </div>
                     <ul class="item-list-box">
@@ -287,7 +288,6 @@
                             <a :href="'/detail#/?id=' + item.id" target="_blank">
                                 <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
                                 <p class="name" :title="item.item_name">{{item.item_name}}</p>
-                                <p class="line-four"></p>
                                 <div class="item-price">
                                     <button v-ltsLoginShow:false v-login>{{ $t("main.detail.info.mainDetInfoLoginPrice")
                                         }}
@@ -1501,7 +1501,6 @@
                         }
                     }
                     .icon-right {
-                        transform: rotateZ(180deg);
                         /*i{*/
                             /*margin-bottom: -2px;*/
                         /*}*/
@@ -1524,7 +1523,9 @@
                     background-size: contain;
                     background-repeat: no-repeat;
                 }
-
+                div.content{
+                    line-height: 38px;
+                }
                 p.name {
                     margin: 10px 0 0;
                     font-size: 14px;

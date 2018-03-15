@@ -166,7 +166,7 @@
                     <template slot-scope="scope">
                         <a :href="'/detail#/?id=' + scope.row.id">
                             <div class="cart-item-info">
-                                <img class="item-img" :src="scope.row.full_url">
+                                <img class="item-img" :src="scope.row.full_url + '!item_small'">
                                 <div class="content">
                                     <p :title="scope.row.item_name">{{scope.row.item_name}}</p>
                                 </div>

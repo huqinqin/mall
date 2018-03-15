@@ -8,7 +8,7 @@
                 <template slot-scope="scope">
                     <div class="item-info">
                         <div class="order-item-detail">
-                            <img :src="scope.row.item_remark.url" class="item" />
+                            <img :src="scope.row.item_remark.url + '!item_small'" class="item" />
                             <div>{{scope.row.item_remark.item_name}}</div>
                         </div>
                         <div class="prop-box">

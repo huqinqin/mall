@@ -92,7 +92,7 @@
                     <el-table-column :label='$t("main.cart.list.mainCartliGoodsInfo")' header-align="left" align="left">
                         <template slot-scope="scope">
                             <div class="order-item-detail">
-                                <img :src="scope.row.wholesale_item_d_o.image_value" class="item" />
+                                <img :src="scope.row.wholesale_item_d_o.image_value + '!item_small'" class="item" />
                                 <div>{{scope.row.wholesale_item_d_o.item_name}}</div>
                             </div>
                         </template>

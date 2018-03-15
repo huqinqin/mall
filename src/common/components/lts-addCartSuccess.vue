@@ -25,7 +25,7 @@
                           <el-tooltip placement="top">
                               <div slot="content"><p class="desc">{{item.item_name}}</p></div>
                               <a :href=" '/detail#/?id=' + item.id" target="_self" @click="refresh">
-                                  <div class="bg" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
+                                  <div class="bg" :style="{backgroundImage : 'url(' + item.image_value +'!item_middle)'}"></div>
                                   <p class="price">
                                       <lts-money :money="item.price"></lts-money>
                                   </p>

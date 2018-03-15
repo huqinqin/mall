@@ -144,7 +144,8 @@ export default class AddressService extends BaseService {
     static getAddressListByUserId(form){
         let params = {
             page: 1,
-            page_size: 10
+            page_size: 100,
+            order_by: 'cdate desc'
         };
         return super.getRequest('/installer/consumer_address/get_list_by_user_id',params)
     }

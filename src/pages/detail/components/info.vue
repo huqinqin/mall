@@ -118,8 +118,8 @@
                 <div class="header">
                     <div>{{ $t("main.detail.info.mainDetInfoBuy") }}</div>
                     <div class="icons">
-                        <div class="icon-left"><i class="iconfont  icon-iconfontzuo"></i></div>
-                        <div class="icon-right"><i class="iconfont  icon-iconfontyou-copy"></i></div>
+                        <div class="icon-left" @click="handleHistory(-1)"><i class="iconfont  icon-iconfontzuo"></i></div>
+                        <div class="icon-right" @click="handleHistory(+1)"><i class="iconfont  icon-iconfontyou-copy"></i></div>
                     </div>
                 </div>
                 <ul v-if="buyHistory.length > 0">
@@ -273,8 +273,8 @@
                     <div class="header">
                         <div>{{ $t("main.detail.info.mainDetInfoHot") }}</div>
                         <div class="icons">
-                            <div class="icon-left" @click="preHistory"><i class="iconfont  icon-iconfontzuo"></i></div>
-                            <div class="icon-right" @click="nextHistory"><i class="iconfont  icon-iconfontyou-copy"></i></div>
+                            <div class="icon-left"><i class="iconfont  icon-iconfontzuo"></i></div>
+                            <div class="icon-right"><i class="iconfont  icon-iconfontyou-copy"></i></div>
                         </div>
                     </div>
                     <ul class="item-list-box">
@@ -388,16 +388,20 @@
                 checkedOthers: [],
                 otherSpu: {},
                 recommondInfo:[],
-                historyIndex:1
+                historyIndex:1,
+                historyItems:[]
             }
         },
         methods: {
             // 购买历史左右选择
-            preHistory(){
-
-            },
-            nextHistory(){
-
+            handleHistory(index){
+                this.historyIndex += index
+                if(this.historyIndex == 0){
+                    this.historyIndex = Math.ceil(this.buyHistory.length / 2)
+                }else if(this.historyIndex == Math.ceil(this.buyHistory.length / 2)){
+                    this.historyIndex = 0
+                }
+                this.historyItems = this.buyHistory.slice(this.historyIndex * 2,this.historyIndex * 2 + 2)
             },
             // 倒计时
             countdown() {
@@ -463,8 +467,9 @@
                     this.item = data.data.item
                     this.activeImg = this.item.item_images[0]
                     this.hotSale = data.data.hot_recomment.items
-                    this.buyHistory = data.data.user_order_history
+                    this.buyHistory = (data.data && data.data.user_order_history) ? data.data.user_order_history : [];
                     this.historyItems = this.buyHistory.slice(0,2)
+                    console.log(this.historyItems)
                     if (this.item.discount_type === 4) {
                         this.end = Date.parse(new Date(this.item.sale_rule_do.end_time))
                         this.start = Date.parse(new Date(this.item.sale_rule_do.start_time))
@@ -1006,6 +1011,9 @@
                             color: #48a2ff;
                             line-height: 14px;
                         }
+                        div.disabled{
+                            cursor:not-allowed;
+                        }
                     }
                 }
             }
@@ -1226,7 +1234,7 @@
                 .mark {
                     margin-bottom: 8px;
                     label{
-                        margin-left: -120px;
+                        /*margin-left: -120px;*/
                     }
                     p {
                         font-size: 12px;

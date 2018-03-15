@@ -8,7 +8,7 @@
                            :style="{backgroundImage : 'url('+value.icon+')'}"> <span class="iconfont"
                                                                                      :class="value.icon"></span></a>
                         <a :href="value.link" v-else-if="value.name === 'call experts'">
-                            <el-tooltip placement="top" effect="ligth">
+                            <el-tooltip placement="top" effect="ligth" :visible-arrow="false">
                                 <div>
                                     <span class="iconfont" :class="value.icon"></span>
                                     <p>{{value.first}}</p>
@@ -131,7 +131,7 @@
                         icon: 'icon-zhichi',
                         first: 'SUPPORT',
                         last: 'CENTER',
-                        link: 'javascript:void(0)',
+                        link: '//www.ltsecurityinc.com/support',
                         needLogin: false
                     },
                     {

@@ -118,8 +118,8 @@
                 <div class="header">
                     <div>{{ $t("main.detail.info.mainDetInfoBuy") }}</div>
                     <div class="icons">
-                        <div class="icon-left"><i class="iconfont  icon-iconfontzuo"></i></div>
-                        <div class="icon-right"><i class="iconfont  icon-iconfontyou-copy"></i></div>
+                        <div class="icon-left" @click="handleHistory(-1)"><i class="iconfont  icon-iconfontzuo"></i></div>
+                        <div class="icon-right" @click="handleHistory(+1)"><i class="iconfont  icon-iconfontyou-copy"></i></div>
                     </div>
                 </div>
                 <ul v-if="buyHistory.length > 0">
@@ -273,8 +273,8 @@
                     <div class="header">
                         <div>{{ $t("main.detail.info.mainDetInfoHot") }}</div>
                         <div class="icons">
-                            <div class="icon-left" @click="preHistory"><i class="iconfont  icon-iconfontzuo"></i></div>
-                            <div class="icon-right" @click="nextHistory"><i class="iconfont  icon-iconfontyou-copy"></i></div>
+                            <div class="icon-left"><i class="iconfont  icon-iconfontzuo"></i></div>
+                            <div class="icon-right"><i class="iconfont  icon-iconfontyou-copy"></i></div>
                         </div>
                     </div>
                     <ul class="item-list-box">
@@ -393,11 +393,8 @@
         },
         methods: {
             // 购买历史左右选择
-            preHistory(){
-
-            },
-            nextHistory(){
-
+            handleHistory(index){
+                console.log(index)
             },
             // 倒计时
             countdown() {

@@ -41,7 +41,7 @@
                   <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
                     <template slot-scope="subscope">
                         <p class="oldPrice">
-                            <lts-money :money="subscope.row.price"></lts-money>
+                            <lts-money :money="subscope.row.item_props[0].price"></lts-money>
                         </p>
                         <p>
                             <lts-money :money="subscope.row.price_real"></lts-money>
@@ -112,7 +112,7 @@
                   <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
                     <template slot-scope="subscope">
                         <p class="oldPrice">
-                            <lts-money :money="subscope.row.price"></lts-money>
+                            <lts-money :money="subscope.row.item_props[0].price"></lts-money>
                         </p>
                         <p>
                             <lts-money :money="subscope.row.price_real"></lts-money>
@@ -199,7 +199,7 @@
                     <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
                       <template slot-scope="subscope">
                           <p class="oldPrice">
-                              <lts-money :money="subscope.row.price"></lts-money>
+                              <lts-money :money="subscope.row.item_props[0].price"></lts-money>
                           </p>
                           <p>
                               <lts-money :money="subscope.row.price_real"></lts-money>
@@ -273,7 +273,7 @@
                   </el-table-column>
                   <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
                     <template slot-scope="subscope">
-                        <p class="oldPrice"><lts-money :money="subscope.row.price"></lts-money></p>
+                        <p class="oldPrice" v-if="subscope.row.item_props[0].price != subscope.row.price_real"><lts-money :money="subscope.row.item_props[0].price"></lts-money></p>
                         <p><lts-money :money="subscope.row.price_real"></lts-money></p>
                     </template>
                   </el-table-column>

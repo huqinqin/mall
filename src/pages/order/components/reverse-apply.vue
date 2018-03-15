@@ -4,10 +4,10 @@
             <el-form  :model="form" :rules="rules" ref="form" label-position="top" size="small" label-width="110px" class="detail-info">
                 <el-form-item :label='$t("main.order.reverse.mainOrReGoods")'>
                     <el-table :data="orderItem.wholesale_item_d_o_list" border style="width: 100%">
-                        <el-table-column label="商品信息" header-align="left" align="left">
+                        <el-table-column :label='$t("main.cart.list.mainCartliGoodsInfo")' header-align="left" align="left">
                             <template slot-scope="scope">
                                 <div class="order-item-detail">
-                                    <img :src="scope.row.image_value + '@30w_2e'" class="item" />
+                                    <img :src="scope.row.image_value + '!item_small'" class="item" />
                                     <div>{{scope.row.item_name}}</div>
                                     <div class="prop-box">
                                         <div v-for="(propObj,index) in scope.row.propValue">

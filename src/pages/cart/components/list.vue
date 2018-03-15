@@ -26,7 +26,7 @@
                     <template slot-scope="subscope">
                       <a :href="'/detail#/?id=' + subscope.row.id">
                         <div class="item-img"
-                             :style="{backgroundImage : 'url(' + subscope.row.full_url + ')'}"></div>
+                             :style="{backgroundImage : 'url(' + subscope.row.full_url + '!item_small)'}"></div>
                         <div class="content">
                           <p :title="subscope.row.item_name">{{subscope.row.item_name}}</p>
                         </div>
@@ -97,7 +97,7 @@
                     <template slot-scope="subscope">
                       <a :href="'/detail#/?id=' + subscope.row.id">
                         <div class="item-img"
-                             :style="{backgroundImage : 'url(' + subscope.row.full_url + ')'}"></div>
+                             :style="{backgroundImage : 'url(' + subscope.row.full_url + '!item_small)'}"></div>
                         <div class="content">
                           <p :title="subscope.row.item_name">{{subscope.row.item_name}}</p>
                         </div>
@@ -184,7 +184,7 @@
                       <template slot-scope="subscope">
                         <a :href="'/detail#/?id=' + subscope.row.id">
                           <div class="item-img"
-                               :style="{backgroundImage : 'url(' + subscope.row.full_url + ')'}"></div>
+                               :style="{backgroundImage : 'url(' + subscope.row.full_url + '!item_small)'}"></div>
                           <div class="content">
                             <p :title="subscope.row.item_name">{{subscope.row.item_name}}</p>
                           </div>
@@ -259,7 +259,7 @@
                     <template slot-scope="subscope">
                       <a :href="'/detail#/?id=' + subscope.row.id">
                         <div class="item-img"
-                             :style="{backgroundImage : 'url(' + subscope.row.full_url + ')'}"></div>
+                             :style="{backgroundImage : 'url(' + subscope.row.full_url + '!item_small)'}"></div>
                         <div class="content">
                           <p :title="subscope.row.item_name">{{subscope.row.item_name}}</p>
                         </div>

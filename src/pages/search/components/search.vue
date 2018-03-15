@@ -59,7 +59,7 @@
                 <ul class="result">
                     <li v-for="item in data" :key="item.id" v-bind:class="{'limit':item.discount_type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1}">
                         <a :href="'/detail#/?id=' + item.id" target="_blank">
-                            <div class="img" :style="{backgroundImage : 'url(' + item.image_value + ')'}"></div>
+                            <div class="img" :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}"></div>
                             <p class="name" :title="item.item_name">{{item.item_name}}</p>
                             <div class="item-price">
                                 <button v-ltsLoginShow:false v-login>{{$t("main.search.mainSeaLogin")}}</button>

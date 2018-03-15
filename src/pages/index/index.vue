@@ -53,7 +53,7 @@
             <li v-for="item in hotList" :key="item.sin"
                 v-bind:class="{'limit':item.type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1}">
               <a :href="'/detail#/?id=' + item.id" target="_blank">
-                <div class="img" :style="{backgroundImage : 'url(' + item.image_value + ')'}"></div>
+                <div class="img" :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}"></div>
                   <!--:style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/' + item.url + ')'}"></div>-->
                 <div class="item-spec">
                   <p class="line-two" :title="item.item_name">{{item.item_name}}</p>
@@ -88,7 +88,7 @@
                 v-bind:class="{'limit':item.type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1}">
               <a :href="'/detail#/?id=' + item.id" target="_blank">
                 <div class="img"
-                     :style="{backgroundImage : 'url(' + item.image_value + ')'}"></div>
+                     :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}"></div>
                 <div class="item-spec">
                   <p class="line-two" :title="item.item_name">{{item.item_name}}</p>
                   <p class="line-four"></p>
@@ -115,7 +115,7 @@
           <li v-for="item in hotList" :key="item.id"
               v-bind:class="{'limit':item.type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1}">
             <a :href="'/detail#/?id=' + item.id" target="_blank">
-              <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
+              <div class="img" :style="{backgroundImage : 'url(' + item.image_value +'!item_middle)'}"></div>
               <div class="item-spec">
                 <p class="line-two" :title="item.item_name">{{item.item_name}}</p>
                 <div class="item-price">

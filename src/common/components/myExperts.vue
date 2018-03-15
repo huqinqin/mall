@@ -8,7 +8,7 @@
                <li><span>contact：</span><span>{{someInfo.mobile}}</span></li>
                <li><span>email：</span><span>{{someInfo.email}}</span></li>
            </ul>
-           <ul><img src="../../assets/img/expert.png" alt=""></ul>
+           <ul><img src="../../assets/img/expertIcon.png" alt=""></ul>
        </div>
    </div>
 </template>
@@ -50,20 +50,19 @@
         border: none;
     }
     .wrapperExperts{
-        padding: 40px;
-        width: 204px;
+        padding: 20px;
+        width: 298px;
         /*background-color: #3b98ff;*/
-        background: #dae2fa;
+        background: #f8fcff;
         color: rgba(102,102,102,0.8);
         border-radius: 4px;
         font-family: "Microsoft YaHei";
-
         .el-icon-close{
             font-size: 20px;
             position: absolute;
-            right:30px;
+            right:20px;
             top:20px;
-            color: #333;
+            color: #bbbec0;
         }
         .box{
             display: flex;
@@ -80,8 +79,8 @@
                 flex:1;
             }
             ul:nth-child(2){
-                width: 90px;
-                height: 80px;
+                width: 63px;
+                height: 69px;
                 img{
                     width: 100%;
                     height: 100%;

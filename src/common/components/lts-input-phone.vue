@@ -1,6 +1,6 @@
 <template>
     <el-input :placeholder="placeholder" v-model="phoneNumber" class="input-with-select" @change="changeHandler">
-        <el-select v-model="areaCode" slot="prepend" placeholder="请选择国家" @change="changeHandler">
+        <el-select v-model="areaCode" slot="prepend" placeholder="Select Country" @change="changeHandler">
             <el-option v-for="option in options" :key="option.value" :label="option.label" :value="option.value" />
         </el-select>
     </el-input>
@@ -21,7 +21,7 @@
             placeholder: {
                 type: String,
                 default(){
-                    return '请输入号码'
+                    return 'Please Input Number'
                 }
             },
             value: String
@@ -60,9 +60,6 @@
             changeHandler(){
                 this.$emit('input', this.phoneNumberFull);
             }
-        },
-        beforeDestroy(){
-            console.log(this.value + '***');
         },
         watch: {
             value(newVal) {

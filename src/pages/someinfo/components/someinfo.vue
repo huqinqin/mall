@@ -17,7 +17,7 @@
                                 <div class="bgDiscount">
                                     <div class="el-icon-close iconClose" @click="closeAll"></div>
                                     <h2>{{$t("main.someinfo.mainSomeCoupon")}}</h2>
-                                    <div class="sale" v-for="item in discountData">
+                                    <div class="sale" v-for="item in discountData" style="margin-top: 20px">
                                         <div class="saleTop">
                                             <div class="saleTopTop">
                                                 <div class="saleTopLeft">
@@ -360,6 +360,7 @@
                         text-align: center;
                         .pic{
                             width: 100%;
+                            height: 200px;
                             img{
                                 width:80%;
                             }

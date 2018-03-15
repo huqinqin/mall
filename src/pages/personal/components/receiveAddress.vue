@@ -19,8 +19,7 @@
                 <br>
                 <el-form-item :label='$t("main.personal.receiveAdd.mainPerReTeleNum")' prop="mobile"
                               style="margin-top: 5px;">
-                    {{ruleForm.mobile}}
-                    <lts-input-phone :value="ruleForm.mobile" class="commonWidth"/>
+                    <lts-input-phone v-model="ruleForm.mobile" class="commonWidth"/>
                 </el-form-item>
                 <br>
                 <el-form-item :label='$t("main.personal.card.mainPerCarAddress")' prop="address"
@@ -179,7 +178,7 @@
                             trigger: 'blur'
                         }
                     ],
-                    mobile: ValidatorConfig.mobile(),
+                    mobile: ValidatorConfig.mobile(true),
                     address: [
                         {required: true, message: this.$t("main.personal.card.mainPerCarEnterAddr"), trigger: 'blur'}
                     ],
@@ -190,7 +189,7 @@
                         {required: true, message: this.$t("main.personal.card.mainPerCarSeleCount"), trigger: 'change'}
                     ],
                     location: [
-                        {required: true, message: this.$t("main.personal.card.mainPerCarSeleState"), trigger: 'change'}
+                        {required: true, message: this.$t("main.personal.card.mainPerCarSeleState"), trigger: 'blur'}
                     ],
                     zipCode: [
                         {required: true, message: this.$t("main.personal.card.mainPerCarPutZip"), trigger: 'blur'}
@@ -306,6 +305,7 @@
                             location: [item.row.lc_code],
                             city: item.row.building.split('-')[0],
                             zipCode: item.row.zip_code,
+                            setDefaultFlag: item.row.status == 1 ? true : false,
                             country: this.$t("main.personal.card.mainPerCarUsa"),
                         };
                         this.editFlag = true;
@@ -315,24 +315,23 @@
                         this.makeSure(item.row.id);
                         break;
                 }
-                console.log(this.ruleForm);
             },
             emptyData() {
-                 this.ruleForm= {
-                     id: '',
-                     name: '',
-                     first: '',
-                     last: '',
-                     mobile: '',
-                     address: '',
-                     building: '',
-                     location: [],
-                     city: '',
-                     country: this.$t("main.personal.card.mainPerCarUsa"),
-                     state: '',
-                     zipCode: '',
-                     setDefaultFlag: false
-                 };
+                this.ruleForm = {
+                    id: '',
+                    name: '',
+                    first: '',
+                    last: '',
+                    mobile: '',
+                    address: '',
+                    building: '',
+                    location: [],
+                    city: '',
+                    country: this.$t("main.personal.card.mainPerCarUsa"),
+                    state: '',
+                    zipCode: '',
+                    setDefaultFlag: false
+                };
             }
         }
     }

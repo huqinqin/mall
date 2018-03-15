@@ -29,7 +29,7 @@ export default {
         footerAboutLts: 'About LTS',
         footerContactUs: 'Contact US',
         footerHelpUs: 'Help Us',
-        footerInvitePerson: 'Gareers',
+        footerInvitePerson: 'Careers',
         footerEvevtNews: 'News',
         footerCompanyAddress: 'Address',
         footerUseItem: 'Terms of Use',

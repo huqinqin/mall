@@ -104,7 +104,7 @@
                         email: resp.data.user_d_o.email,
                         firstName: resp.data.user_d_o.name.split('-')[0] ? resp.data.user_d_o.name.split('-')[0] : '',
                         lastName: resp.data.user_d_o.name.split('-')[1] ? resp.data.user_d_o.name.split('-')[1] : '',
-                        mobile: resp.data.user_d_o.mobile,
+                        mobile: resp.data.partner_d_o.contact_mobile,
                         companyName: resp.data.shop_d_o.shop_name,
                         companyPhone: resp.data.shop_d_o.contact_phone
                     };

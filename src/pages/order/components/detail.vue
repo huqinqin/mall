@@ -126,7 +126,7 @@
                         <template slot-scope="scope">
                             {{scope.row.status_title}}
                             <div v-if="scope.row.last_refund_status > 0 && scope.row.last_refund_status < 9" style="color: #ff3b41;">
-                                退款
+                                refund
                             </div>
                         </template>
                     </el-table-column>
@@ -184,6 +184,34 @@
                     }else if(this.order.status == 2) {
                         this.order.status_title = this.$t("main.order.list.mainOrLiWaitPay");
                     }
+                    if(this.order.pay_info.pay_status == 0){
+                        this.order.pay_info.pay_status_title = "Unpaid";
+                    }else if(this.order.pay_info.pay_status == 1){
+                        this.order.pay_info.pay_status_title = "Wait For Refund";
+                    }else if(this.order.pay_info.pay_status == 2) {
+                        this.order.pay_info.pay_status_title = "Payment Has Been Received";
+                    }else if(this.order.pay_info.pay_status == 3) {
+                        this.order.pay_info.pay_status_title = "Prepaid Success";
+                    }else if(this.order.pay_info.pay_status == 5) {
+                        this.order.pay_info.pay_status_title = "Already Settled";
+                    }else if(this.order.pay_info.pay_status == 7) {
+                        this.order.pay_info.pay_status_title = "Already Closed";
+                    }
+                    this.order.sell_order_list.forEach((item) => {
+                        item.wholesale_order_items.forEach((value) => {
+                            if(value.status == 0){
+                                value.status_title = this.$t("main.order.list.mainOrLiWaitPay");
+                            }else if(value.status == 1){
+                                value.status_title = this.$t("main.order.list.mainOrLiRealPay");
+                            }else if(value.status == 2){
+                                value.status_title = this.$t("main.order.list.mainOrLiAlreadyDeli");
+                            }else if(value.status == 7){
+                                value.status_title = "Transaction Finished";
+                            }else if(value.status == 8){
+                                value.status_title = "To Be Returned to Warehouse";
+                            }
+                        })
+                    })
                 },(err) => {
 
                 });

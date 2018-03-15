@@ -9,10 +9,10 @@ let validateAccount = (rule, value, callback)=>{
             if (resp.success) {
                 callback()
             } else {
-                callback('账号已存在')
+                callback('Existing account')
             }
         },(error)=>{
-            callback('账号已存在')
+            callback('Existing account')
         });
     },
     validatePassword = (rule, value, callback)=>{
@@ -29,22 +29,22 @@ let validateAccount = (rule, value, callback)=>{
             if (resp.success) {
                 callback()
             } else {
-                callback('E-mail已存在')
+                callback('Existing E-mail')
             }
         },(error)=>{
-            callback('E-mail已存在')
+            callback('Existing E-mail')
         });
     },
     validateNum = (rule, value, callback)=>{
         if(value && /^\d+$/.test(value)) {
-            callback(new Error('请输入数字!'))
+            callback(new Error('Please enter number!'))
         }
         callback()
     };
 export default {
     validatePasswordRepeat(rule, password, passwordRepeat, callback) {
         if (password !== passwordRepeat) {
-            callback(new Error('两次输入密码不一致!'))
+            callback(new Error('Two passwords do not match!'))
         } else {
             callback()
         }
@@ -54,7 +54,7 @@ export default {
             cb = validateAccount;
         }
         return [
-            {required: require !== false, message: '请输入登录账号', trigger: 'blur'},
+            {required: require !== false, message: 'Please enter account number', trigger: 'blur'},
             //{min: 8, max: 30, message: '长度在 8 到 30 个字符', trigger: 'blur'},
             //{pattern: /^[a-zA-Z\d_]+/, message: '可使用字母、数字、下划线，需以字母开头', trigger: 'blur'},
             {validator: cb, trigger: 'blur'}
@@ -68,9 +68,9 @@ export default {
         return validateAccount(rule, value, callback)
     },
     password: [
-        {required: true, message: '请输入密码', trigger: 'blur'},
-        {min: 8, max: 20, message: '密码长度在 8 到 20 个字符', trigger: 'blur'},
-        {pattern: /^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).*$/, message: '密码包括至少1个大写字母，1个小写字母，1个数字', trigger: 'blur'},
+        {required: true, message: 'Please enter password', trigger: 'blur'},
+        {min: 8, max: 20, message: 'Password must contain 8-20 charaters', trigger: 'blur'},
+        {pattern: /^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).*$/, message: 'Password must contain at least 1 upper case, 1 lower case, 1 number', trigger: 'blur'},
         {validator: validatePassword, trigger: 'blur'}
     ],
     email (require, cb){
@@ -78,8 +78,8 @@ export default {
             cb = validateEmail;
         }
         return [
-            {required: true, message: '请输入email', trigger: 'blur'},
-            {type: 'email', message: '输入的email格式不正确', trigger: 'blur'},
+            {required: true, message: 'Please input email', trigger: 'blur'},
+            {type: 'email', message: 'Email has a wrong format', trigger: 'blur'},
             {validator: cb, trigger: 'blur'}
         ]
     },
@@ -103,23 +103,23 @@ export default {
         return rules;
     },
     location: [
-        {required: true, message: '请选择区域', trigger: 'change'}
+        {required: true, message: 'Please select region', trigger: 'change'}
     ],
     storeName: [
-        {required: true, message: '请输入门店名称', trigger: 'blur'},
-        {min: 4, max: 200, message: '长度在 4 到 200 个字符', trigger: 'blur'}
+        {required: true, message: 'Please enter the name of the branch', trigger: 'blur'},
+        {min: 4, max: 200, message: 'Length must be between 4-200 charaters', trigger: 'blur'}
     ],
     address: [
         {required: true, message: 'Please Enter Detail Address', trigger: 'blur'},
         {min: 4, max: 200, message: 'Length is 4 to 200', trigger: 'blur'}
     ],
     contact: [
-        {required: true, message: '请输入联系人', trigger: 'blur'},
-        {min: 2, max: 800, message: '长度在 2 到 800 个字符', trigger: 'blur'}
+        {required: true, message: 'Please enter contact person', trigger: 'blur'},
+        {min: 2, max: 800, message: 'Length must be between 2-200 charaters', trigger: 'blur'}
     ],
     name: [
-        {required: true, message: '请输入姓名', trigger: 'blur'},
-        {min: 4, max: 200, message: '长度在 4 到 100 个字符', trigger: 'blur'}
+        {required: true, message: 'Please enter name', trigger: 'blur'},
+        {min: 4, max: 200, message: 'Length must be between 4-100 charaters', trigger: 'blur'}
     ],
     /**
      * 仅手机 ^[2-9][0-9]{2}[2-9][0-9]{2}[0-9]{4}$
@@ -130,8 +130,8 @@ export default {
         }
 
         return [
-            {required: require !== false, message: '请输入手机号', trigger: 'blur'},
-            {pattern: /^[1-9]{1,3}\-[2-9][0-9]{2}[2-9][0-9]{2}[0-9]{4}$/, message: '手机号码格式不正确', trigger: 'blur'},
+            {required: require !== false, message: 'Please input phone', trigger: 'blur'},
+            {pattern: /^[1-9]{1,3}\-[2-9][0-9]{2}[2-9][0-9]{2}[0-9]{4}$/, message: 'Phone numer has a wrong format', trigger: 'blur'},
             {validator: cb, trigger: 'blur'}
         ]
     },
@@ -146,8 +146,8 @@ export default {
      * 电话或者手机
      */
     phone: [
-        {required: true, message: '请输入联系号码', trigger: 'blur'},
-        {pattern: /^[1-9]{1,3}\-[2-9][0-9]{2}[2-9][0-9]{2}[0-9]{4}$/, message: '联系号码格式不正确', trigger: 'blur'},
+        {required: true, message: 'Please enter contact number', trigger: 'blur'},
+        {pattern: /^[1-9]{1,3}\-[2-9][0-9]{2}[2-9][0-9]{2}[0-9]{4}$/, message: 'Contact number has a wrong format', trigger: 'blur'},
         {validator: validatePhone, trigger: 'blur'}
     ],
 }

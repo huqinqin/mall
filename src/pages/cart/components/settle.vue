@@ -181,7 +181,7 @@
                 </el-table-column>
                 <el-table-column prop="" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
                     <template slot-scope="scope">
-                        <p class="oldPrice"><lts-money :money="scope.row.price"></lts-money></p>
+                        <p class="oldPrice" v-if="scope.row.price != scope.row.price_real"><lts-money :money="scope.row.price"></lts-money></p>
                         <p class="red"><span><span><lts-money :money="scope.row.price_real"></lts-money></span></span>
                         </p>
                     </template>

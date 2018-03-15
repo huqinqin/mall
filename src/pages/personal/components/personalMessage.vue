@@ -148,7 +148,7 @@
         .avatar-uploader {
             .avatar {
                 float: left;
-                width: 50%;
+                width: 280px;
             }
 
             .avatar-uploader-icon {

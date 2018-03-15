@@ -165,7 +165,7 @@
           this.itemList = data.floor.datalist
           this.hotList = data.hot_buys.datalist[0].items
 
-          if(data.fix_pic && data.fix_pic.datalist && data.fix_pic.datalist[0] && data.fix_pic.datalist[0].content){
+          if(data.fix_pic && data.fix_pic.datalist.length > 0 && data.fix_pic.datalist[0] && data.fix_pic.datalist[0].content){
             data.fix_pic.datalist[0].content = JSON.parse(data.fix_pic.datalist[0].content)
             this.posterBig = data.fix_pic.datalist[0]
           }else{
@@ -173,12 +173,12 @@
               name:'error_picture',
               content: {
                 link_url:'javascript:void(0)',
-                fix_url:'http://specimen.oss-cn-hangzhou.aliyuncs.com/tmp/Retail%20Solution1.png'
+                fix_url:'http://ltsb2b.oss-us-west-1.aliyuncs.com/tmp/Retail%20Solution1.png'
               }
             }
           }
 
-          if(data.fix_pic_right2 && data.fix_pic_right2.datalist && data.fix_pic_right2.datalist[0] && data.fix_pic_right2.datalist[0].content){
+          if(data.fix_pic_right2 && data.fix_pic_right2.datalist.length > 0 && data.fix_pic_right2.datalist[0] && data.fix_pic_right2.datalist[0].content){
             data.fix_pic_right2.datalist[0].content = JSON.parse(data.fix_pic_right2.datalist[0].content)
             this.posterSmall.bottom = data.fix_pic_right2.datalist[0]
           }else{
@@ -186,12 +186,12 @@
               name:'error_picture',
               content: {
                 link_url:'javascript:void(0)',
-                fix_url:'http://specimen.oss-cn-hangzhou.aliyuncs.com/tmp/Retail%20Solution1.png'
+                fix_url:'http://ltsb2b.oss-us-west-1.aliyuncs.com/tmp/Retail%20Solution1.png'
               }
             }
           }
 
-          if(data.fix_pic_right1 && data.fix_pic_right1.datalist && data.fix_pic_right1.datalist[0] && data.fix_pic_right1.datalist[0].content){
+          if(data.fix_pic_right1 && data.fix_pic_right1.datalist.length > 0 && data.fix_pic_right1.datalist[0] && data.fix_pic_right1.datalist[0].content){
             data.fix_pic_right1.datalist[0].content = JSON.parse(data.fix_pic_right1.datalist[0].content)
             this.posterSmall.top = data.fix_pic_right1.datalist[0]
           }else{
@@ -199,7 +199,7 @@
               name:'error_picture',
               content: {
                 link_url:'javascript:void(0)',
-                fix_url:'http://specimen.oss-cn-hangzhou.aliyuncs.com/tmp/Retail%20Solution1.png'
+                fix_url:'http://ltsb2b.oss-us-west-1.aliyuncs.com/tmp/Retail%20Solution1.png'
               }
             }
           }
@@ -209,7 +209,8 @@
                 if(val.link_url){
 
                 }else{
-                    val.link_url = 'javascript:void(0)'
+                    val.link_url = 'javascript:void(0)',
+                    val.banner_url = 'http://ltsb2b.oss-us-west-1.aliyuncs.com/tmp/Retail%20Solution1.png'
                 }
               this.index_banner.push(JSON.parse(val.content))
             })

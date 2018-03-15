@@ -49,7 +49,8 @@
           <el-form-item :label="$t('main.cart.beforePay.mainCartBefCreditValid')" prop="date">
             <el-date-picker
               v-model="creditFrom.date"
-              type="date"
+              type="month"
+              format="MM-yyyy"
               :placeholder="$t('main.personal.card.mainPerCarSelDate')">
             </el-date-picker>
           </el-form-item>
@@ -178,12 +179,22 @@
         this.creditFrom.pay_no = ''
       },
       submitCreditForm(){
+          this.creditFormVisible = false
         this.creditFrom.pay_no = this.statement
           this.$refs['form'].validate((valid) => {
               if(valid){
+                  let option  ={
+                      lock: true,
+                      text: 'loading',
+                      spinner: 'el-icon-loading',
+                      background: 'rgba(0, 0, 0, 0.7)'
+                  }
+                  this.$ltsLoading.show(option)
                   orderService.credit_pay(this.creditFrom).then((data) => {
+                      this.$ltsLoading.close()
                       this.$router.push({name: 'finish', params: {tid: this.tid}})
                   }, (msg) => {
+                      this.$ltsLoading.close()
                       this.$ltsMessage.show({type: 'error', message: msg.error_message})
                       this.$router.push({name: 'fail', params: {tid: this.tid}})
                   })

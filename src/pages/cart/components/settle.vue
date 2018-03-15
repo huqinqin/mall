@@ -535,7 +535,7 @@
                     accBonusId: this.bonusId,
                     ship: {
                         logisticsCompany: this.expressForm.express,
-                        userAddrIdType: this.checkedAddress.isCerti ? 1 : 0,
+                        userAddrIdType: this.checkedAddress.valid_time ? 1 : 0,
                         // 0代表收货地址，1代表分销证地址，1免税费
                         toStates: this.checkedAddress.state,
                         toZipCode: this.checkedAddress.zipCode,

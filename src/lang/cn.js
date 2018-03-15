@@ -226,6 +226,8 @@ export default {
                 mainDetSinglePrice:'单价',
                 mainDetNoAnyPackage:'您没有选择任何配件',
                 mainDetPackagePrice:'组合价',
+                mainDetPackageMin:'起订量',
+                mainDetPackageMax:'限购',
            }
         },
         finance: {
@@ -489,7 +491,6 @@ export default {
                 mainRevDeWaitWrite: '(待签收)',
                 mainRevDeWrited: '(已签收)',
                 mainRevDeAgree: 'LTS已同意退款，请退货',
-                mainRevDeWaitLts: '请等待LTS收货',
                 mainRevDeReceipt: 'LTS已收货，请等待退款',
                 mainRevDeRefundSucc: '退款接受',
                 mainRevDeReject: '退款已拒绝',

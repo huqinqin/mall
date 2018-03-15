@@ -13,7 +13,7 @@
                     <span style="margin-left: 23px">{{$t("main.someinfo.mainSomePayBalance")}}:<span class="name">${{account}}</span><span>({{$t("main.someinfo.mainSomeUsed")}}<span>${{usedAcc}}</span>)</span></span>
                     <span style="margin-left: 23px">{{$t("main.someinfo.mainSomeShopCoupon")}}:
                         <el-tooltip placement="top" effect="light">
-                            <div slot="content">
+                            <div slot="content" v-if="len>0">
                                 <div class="bgDiscount">
                                     <div class="el-icon-close iconClose" @click="closeAll"></div>
                                     <h2>{{$t("main.someinfo.mainSomeCoupon")}}</h2>
@@ -134,7 +134,7 @@
                 this.usedAcc = this.usedAcc.toFixed(2);
                 checkService.checkInfo().then((data) => {
                     this.engineerInfo = data.data;
-                    this.engineerInfo.level1 = data.data.level;
+                    this.engineerInfo.level1 = data.data.vip;
                     console.log(this.engineerInfo.level1);
                     this.engineerInfo.acc_books.forEach((item) => {
                         if(item.subject === 2010101){

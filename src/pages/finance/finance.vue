@@ -2,18 +2,18 @@
   <div class="finance">
     <header>
       <div><i class="iconfont icon-qian1"></i>{{ $t("main.finance.mainfiAccountBal") }}：
-        <span class="red" v-if="account.balance || account.balance == 0"><lts-money :money="account.balance"></lts-money></span>
+        <span class="red"><lts-money :money="account.balance"></lts-money></span>
       </div>
       <div v-show="credit.content"><i class="iconfont icon-qian"></i>{{ $t("main.finance.mainficreditBal") }}：
-        <span v-if="!credit.balance && credit.balance !== 0">{{ $t("main.finance.mainfiNo") }}</span>
-        <span class="red" v-if="credit.balance"><lts-money :money="credit.balance"></lts-money></span>
-        <small v-if="credit.used"> ({{ $t("main.finance.mainfiUsedCredit") }}：
+        <!--<span v-if="credit.balance >= 0">{{ $t("main.finance.mainfiNo") }}</span>-->
+        <span class="red" ><lts-money :money="credit.balance"></lts-money></span>
+        <small > ({{ $t("main.finance.mainfiUsedCredit") }}：
           <span class="red"><lts-money :money="credit.used"></lts-money></span>)
         </small>
       </div>
       <div><i class="iconfont icon-gouwuquan-copy"></i>{{ $t("main.finance.mainfiCoupon") }}：
-        <span class="red" v-if="bonus.balance || bonus.balance == 0"><lts-money :money="bonus.balance"></lts-money></span>
-        <small class="showBonus">(<span class="blue">{{bonus.total}}</span>{{ $t("main.finance.mainfiOneWord") }})</small>
+        <span class="red"><lts-money :money="bonus.balance"></lts-money></span>
+        <small class="showBonus">(<span class="blue">{{bonus.total || 0}}</span>{{ $t("main.finance.mainfiOneWord") }})</small>
       </div>
     </header>
     <main>
@@ -92,9 +92,9 @@
     data () {
       return {
         daterange: [],
-        account: {balance: ''},
-        credit: {balance: '', used:'', content:false},
-        bonus: {balance: '', total: ''},
+        account: {balance: 0},
+        credit: {balance: 0, used:0, content:false},
+        bonus: {balance: 0, total: 0},
         searchForm: {type: '2010101', handle: '', cdate: '', edate: '', orderBy: ''},
         pagination: {page: 1, pageSize: 20, total: 0},
         handleData: [],

@@ -5,7 +5,7 @@
         </el-button>
         <el-dialog :title='$t("main.personal.receiveAdd.mainPerReAddInfo")' :visible.sync="dialogShow"
                    :close-on-click-modal="false" @close="emptyData">
-            <el-form :model="ruleForm" :rules="rules" :inline="true" ref="ruleForm1" label-width="100px"
+            <el-form :model="ruleForm" :rules="rules" :inline="true" ref="ruleForm" label-width="100px"
                      label-position="top"
                      prop="ruleForm"
                      class="demo-ruleForm">
@@ -19,6 +19,7 @@
                 <br>
                 <el-form-item :label='$t("main.personal.receiveAdd.mainPerReTeleNum")' prop="mobile"
                               style="margin-top: 5px;">
+                    {{ruleForm.mobile}}
                     <lts-input-phone :value="ruleForm.mobile" class="commonWidth"/>
                 </el-form-item>
                 <br>
@@ -317,11 +318,21 @@
                 console.log(this.ruleForm);
             },
             emptyData() {
-                // this.ruleForm.mobile = '';
-                this.$refs['ruleForm1'].resetFields();
-                console.log(this.ruleForm);
-                // this.ruleForm.location = [];
-                // this.locationLabel = [];
+                 this.ruleForm= {
+                     id: '',
+                     name: '',
+                     first: '',
+                     last: '',
+                     mobile: '',
+                     address: '',
+                     building: '',
+                     location: [],
+                     city: '',
+                     country: this.$t("main.personal.card.mainPerCarUsa"),
+                     state: '',
+                     zipCode: '',
+                     setDefaultFlag: false
+                 };
             }
         }
     }

@@ -150,14 +150,14 @@
                             this.account = ( sum / 100).toFixed(2);
                             console.log(this.account,item.rule_blc1.limit + item.use_balance,this.account);
                         }
-                        if(item.subject === 2010102){
+                        if(item.subject === 2010102 && item.bonus){
                             item.bonus.datalist.forEach((item) => {
                                 this.len++;
                             })
                         }
                     });
                     data.data.acc_books.forEach((item) => {
-                        if(item.subject === 2010102){
+                        if(item.subject === 2010102 && item.bonus){
                             this.discountData = item.bonus.datalist;
                             this.discountData.forEach((item) => {
                                 item.balance = (item.balance / 100).toFixed(2);

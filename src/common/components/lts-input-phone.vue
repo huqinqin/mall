@@ -61,9 +61,6 @@
                 this.$emit('input', this.phoneNumberFull);
             }
         },
-        beforeDestroy(){
-            console.log(this.value + '***');
-        },
         watch: {
             value(newVal) {
                 if (newVal) {

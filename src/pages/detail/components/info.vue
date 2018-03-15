@@ -42,19 +42,21 @@
                             <span class="oldPrice"><lts-money :money="item.price"/></span>
                         </div>
                         <div v-ltsLoginShow:true class="detail_price" v-else>
-                            <span v-if="item.discount_type === 1">
-                                <lts-money :money="checkedSpu.price * item.discount / 100"/>
-                                <span class="oldPrice"><lts-money :money="checkedSpu.price"/></span>
-                            </span>
-                            <span v-else-if="item.discount_type === 2">
-                                <lts-money :money="checkedSpu.price - item.discount"/>
-                                <span class="oldPrice"><lts-money :money="checkedSpu.price"/></span>
-                            </span>
-                            <span v-else-if="item.discount_type === 4">
-                                <lts-money :money="item.sale_rule_do.price"/>
-                                <span class="oldPrice"><lts-money :money="checkedSpu.price"/></span>
-                            </span>
-                            <span v-else><lts-money :money="checkedSpu.price"></lts-money></span>
+                            <lts-money :money="checkedSpu.price_real"></lts-money>
+                            <span class="oldPrice"><lts-money :money="checkedSpu.price"/></span>
+                            <!--<span v-if="item.discount_type === 1">-->
+                                <!--<lts-money :money="checkedSpu.price * item.discount / 100"/>-->
+                                <!--<span class="oldPrice"><lts-money :money="checkedSpu.price"/></span>-->
+                            <!--</span>-->
+                            <!--<span v-else-if="item.discount_type === 2">-->
+                                <!--<lts-money :money="checkedSpu.price - item.discount"/>-->
+                                <!--<span class="oldPrice"><lts-money :money="checkedSpu.price"/></span>-->
+                            <!--</span>-->
+                            <!--<span v-else-if="item.discount_type === 4">-->
+                                <!--<lts-money :money="item.sale_rule_do.price"/>-->
+                                <!--<span class="oldPrice"><lts-money :money="checkedSpu.price"/></span>-->
+                            <!--</span>-->
+                            <!--<span v-else><lts-money :money="checkedSpu.price"></lts-money></span>-->
                         </div>
                     </el-form-item>
                     <div :class="[showPropsError ? 'error' : '']" @click="closeError">
@@ -71,27 +73,18 @@
                         <i class="el-icon-close"></i>
                         <div class="el-form-item__error">{{ $t("main.detail.info.mainDetInfoContactSale") }}</div>
                     </div>
-                    <div :class="[item.num > checkedSpu.storage ? 'error' : '']" @click="closeError">
+                    <div :class="[item.num > checkedSpu.storage ? 'error' : '']">
                         <el-form-item :label='$t("main.detail.info.mainDetInfoAmount")' class="num">
-                            <template v-if="item.discount_type == 4">
+                            <template>
                                 <el-input-number
                                     v-model="item.num"
                                     size="mini"
-                                    :max="item.sale_rule_do.total > item.sale_rule_do.maxinum ? item.sale_rule_do.maxinum : item.sale_rule_do.total"
-                                    :min="item.sale_rule_do.minimum"></el-input-number>
-                                <span class="red">{{$t("main.detail.info.mainDetPackageMin")}} {{item.sale_rule_do.minimum}}, {{$t("main.detail.info.mainDetPackageMax")}} {{item.sale_rule_do.maxinum}}</span>
-                            </template>
-                            <template v-else>
-                                <el-input-number
-                                    v-model="item.num"
-                                    size="mini"
-                                    :max="checkedSpu.storage"
                                     :min="1"></el-input-number>
                                 <span v-if="checkedSpu.storage > 0" class="storage_spec">{{ $t("main.detail.info.mainDetInfoStock") }}</span>
                                 <span v-else-if="checkedSpu && checkedSpu.storage <= 0" class="storage_spec">{{ $t("main.detail.info.mainDetInfoNoStock") }}</span>
                                 <div class="el-form-item__error">{{ $t("main.detail.info.mainDetInfoExceed") }}！</div>
+                                <div class="limit-red" v-if="item.discount_type == 4">{{$t("main.detail.info.mainDetPackageMin")}} {{item.sale_rule_do.minimum}}, {{$t("main.detail.info.mainDetPackageMax")}} {{item.sale_rule_do.maxinum}}</div>
                             </template>
-                            <i class="el-icon-close"></i>
                         </el-form-item>
                     </div>
                     <el-form-item :label='$t("main.detail.info.mainDetInfoCozyTip")' class="mark">
@@ -99,7 +92,7 @@
                     </el-form-item>
                     <el-form-item class="buttons" v-if="item.status == 1">
                         <lts-login display="inline-block">
-                            <el-button @click.stop="buyNow" type="button" :disabled="(item.discount_type == 4 && (!started) || (started && finished))">
+                            <el-button @click.stop="buyNow" type="button" :disabled="(item.discount_type == 4 && (!started) || (started && finished)) || item.num > checkedSpu.storage || (item.discount_type == 4 && (item.num > item.sale_rule_do.maxinum || item.num < item.sale_rule_do.minimum))">
                                 {{ $t("main.detail.info.mainDetInfoImme") }}
                             </el-button>
                         </lts-login>
@@ -135,7 +128,9 @@
                         <a :href="'/detail#/?id=' + item.id" target="_blank">
                             <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
                             <div class="content" :title="item.item_name">
-                                <p class="name">{{item.item_name}}</p>
+                                <el-tooltip class="item" effect="dark" :content="item.item_name" placement="top-start">
+                                    <p class="name">{{item.item_name}}</p>
+                                </el-tooltip>
                             </div>
                             <div class="item-price">
                                 <p v-ltsLoginShow:true class="price">
@@ -856,8 +851,8 @@
                     i {
                         color: rgba(0, 0, 0, 0.7);
                     }
-
                 }
+
             }
             .storage_spec {
                 font-size: 12px;
@@ -1173,7 +1168,6 @@
                     .el-input-number {
                         width: 84px;
                         margin-left: 0px;
-                        margin-bottom: 12px;
                         border: 1px solid rgba(0, 0, 0, 0.2);
                         border-radius: 0;
                         .el-input__inner {
@@ -1203,13 +1197,18 @@
                             i {
                                 color: rgba(0, 0, 0, 0.7);
                             }
-
                         }
                     }
                     .storage_spec {
                         font-size: 12px;
                         margin-left: 20px;
                     }
+                }
+                .limit-red{
+                    font-size: 12px;
+                    color:#f56c6c;
+                    line-height: 1;
+                    margin-bottom: 12px;
                 }
                 .mark {
                     margin-bottom: 8px;
@@ -1524,7 +1523,7 @@
                     background-repeat: no-repeat;
                 }
                 div.content{
-                    line-height: 38px;
+                    height: 38px;
                 }
                 p.name {
                     margin: 10px 0 0;

@@ -84,7 +84,7 @@
                         icon: 'icon-IPjiejuefangan',
                         first: 'IP',
                         last: 'SOLUTION',
-                        link: '/search#/?cateId=9487608',
+                        link: '/search#/?cateId=1',
                         needLogin: false
                     },
                     {
@@ -92,7 +92,7 @@
                         icon: 'icon-jiankong',
                         first: 'HD-TVI',
                         last: 'SOLUTION',
-                        link: '/search#/?cateId=9487675',
+                        link: '/search#/?cateId=2',
                         needLogin: false
                     },
                     {

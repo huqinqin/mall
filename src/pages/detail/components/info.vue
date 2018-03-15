@@ -388,20 +388,28 @@
                 checkedOthers: [],
                 otherSpu: {},
                 recommondInfo:[],
-                historyIndex:1,
+                historyIndex:0,
                 historyItems:[]
             }
         },
         methods: {
             // 购买历史左右选择
             handleHistory(index){
-                this.historyIndex += index
-                if(this.historyIndex == 0){
-                    this.historyIndex = Math.ceil(this.buyHistory.length / 2)
-                }else if(this.historyIndex == Math.ceil(this.buyHistory.length / 2)){
-                    this.historyIndex = 0
+                console.log(this.historyIndex)
+                if(index > 0){
+                    if(this.historyIndex == Math.floor(this.buyHistory.length / 2)){
+                        this.historyIndex = 0
+                    }else {
+                        this.historyIndex += index
+                    }
+                }else{
+                    if(this.historyIndex == 0){
+                        this.historyIndex = Math.floor(this.buyHistory.length / 2)
+                    }else{
+                        this.historyIndex += index
+                    }
                 }
-                this.historyItems = this.buyHistory.slice(this.historyIndex * 2,this.historyIndex * 2 + 2)
+                this.historyItems = this.buyHistory.slice(this.historyIndex * 2, this.historyIndex * 2 + 2)
             },
             // 倒计时
             countdown() {

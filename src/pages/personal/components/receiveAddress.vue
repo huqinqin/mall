@@ -315,7 +315,6 @@
                         this.makeSure(item.row.id);
                         break;
                 }
-                console.log(this.ruleForm);
             },
             emptyData() {
                  this.ruleForm= {

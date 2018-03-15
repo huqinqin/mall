@@ -110,8 +110,8 @@ export default {
         {min: 4, max: 200, message: '长度在 4 到 200 个字符', trigger: 'blur'}
     ],
     address: [
-        {required: true, message: '请输入详细地址', trigger: 'blur'},
-        {min: 4, max: 200, message: '长度在 4 到 200 个字符', trigger: 'blur'}
+        {required: true, message: 'Please Enter Detail Address', trigger: 'blur'},
+        {min: 4, max: 200, message: 'Length is 4 to 200', trigger: 'blur'}
     ],
     contact: [
         {required: true, message: '请输入联系人', trigger: 'blur'},

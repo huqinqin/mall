@@ -10,9 +10,9 @@
             <li class="">
               <a href="/" class="news top-menu" v-if="showToIndex">{{ $t("comHeader.headerIndex") }}</a>
               <a v-login href="/order" class="top-menu"  @click="toOrder">{{ $t("comHeader.headerMyOrder") }}</a>
-              <el-tooltip placement="top" effect="light">
+              <el-tooltip placement="top" effect="light" :visible-arrow="false">
                 <div slot="content"><myExperts></myExperts></div>
-                <a href="javascript:void(0)" class="top-menu" v-login v-if="showToIndex && !userInfo">{{ $t("comHeader.headerMyExpert") }}</a>
+                <a href="javascript:void(0)" class="top-menu" v-login v-if="showToIndex && userInfo">{{ $t("comHeader.headerMyExpert") }}</a>
               </el-tooltip>
               <a href="javascript:void(0)" class="top-menu"><i class="iconfont icon-shouji"></i>{{ $t("comHeader.headerPhoneOrder") }}</a>
               <a href="javascript:void(0)" class="top-menu" @click="logout" v-if="userInfo">{{ $t("comHeader.headerLogin") }}</a>

@@ -13,7 +13,7 @@
             <div slot="header" class="clearfix">
                 <span>{{$t("main.cart.settle.mainCartSeOrderInfo")}}</span>
             </div>
-            <el-form label-position="left" inline class="form-row">
+            <el-form label-position="left" inline class="form-row" label-width="130px">
                 <el-form-item :label='$t("main.order.detail.mainOrDeBuyerInfo")'>
                     {{order.user_name}} {{order.receiver_mobile}}
                 </el-form-item>
@@ -247,7 +247,6 @@
         .form-row {
             font-size: 0;
             label {
-                width: 100px;
                 color: #a3a3a3;
             }
             .el-form-item {

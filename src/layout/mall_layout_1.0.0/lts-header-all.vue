@@ -131,7 +131,7 @@
                         icon: 'icon-zhichi',
                         first: 'SUPPORT',
                         last: 'CENTER',
-                        link: 'javascript:void(0)',
+                        link: '//www.ltsecurityinc.com/support',
                         needLogin: false
                     },
                     {

@@ -23,7 +23,7 @@
                             v-else-if="value.name === 'shopby scenario'"
                             placement="bottom"
                             trigger="hover"
-                            content="Coming out soon">
+                            content="Coming Soon">
                             <a :href="value.link"  @click="menuHandle" slot="reference">
                                 <span class="iconfont" :class="value.icon"></span>
                                 <p>{{value.first}}</p>

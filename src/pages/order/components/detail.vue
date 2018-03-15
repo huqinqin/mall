@@ -177,6 +177,13 @@
                     resp.data.pay_info.pay_remark = JSON.parse(resp.data.pay_info.pay_remark_string);
                     resp.data.fee_hd_value = JSON.parse(resp.data.fee_hd);
                     this.order = resp.data;
+                    if(this.order.status == 0){
+                        this.order.status_title = this.$t("main.order.list.mainOrLiWaitPay");
+                    }else if(this.order.status == 1){
+                        this.order.status_title = this.$t("main.order.list.mainOrLiRealPay");
+                    }else if(this.order.status == 2) {
+                        this.order.status_title = this.$t("main.order.list.mainOrLiWaitPay");
+                    }
                 },(err) => {
 
                 });

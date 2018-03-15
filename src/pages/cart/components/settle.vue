@@ -181,10 +181,8 @@
                 </el-table-column>
                 <el-table-column prop="" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
                     <template slot-scope="scope">
-                        <p class="oldPrice"
-                           v-if="scope.row.discount_type == 1 || scope.row.discount_type == 2 || scope.row.discount_type == 4">
-                            <span><span><lts-money :money="scope.row.oldPrice"></lts-money></span></span></p>
-                        <p class="red"><span><span><lts-money :money="scope.row.realPrice"></lts-money></span></span>
+                        <p class="oldPrice"><lts-money :money="scope.row.price"></lts-money></p>
+                        <p class="red"><span><span><lts-money :money="scope.row.price_real"></lts-money></span></span>
                         </p>
                     </template>
                 </el-table-column>
@@ -193,9 +191,7 @@
                 <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="" align="center">
                     <template slot-scope="scope">
                         <div class="count" ref="count">
-                            <!--<p  class="oldPrice"  v-if="scope.row.discount_type == 1 || scope.row.discount_type == 2 || scope.row.discount_type == 4"><span><span><lts-money :money="(scope.row.oldPrice) * scope.row.num"></lts-money></span></span></p>-->
-                            <p class="red"><span><span><lts-money
-                                :money="(scope.row.realPrice) * scope.row.num"></lts-money></span></span></p>
+                            <p class="red"><lts-money :money="(scope.row.price_real) * scope.row.num"></lts-money></p>
                         </div>
                     </template>
                 </el-table-column>
@@ -375,14 +371,14 @@
             editAddress(item) {
                 this.editing = item.id
                 let string = JSON.stringify(item)
-                this.editOrAdd = true
-                this.showAddAddress = true
                 this.addForm = JSON.parse(string)
                 this.location.value = [this.addForm.lc_code]
                 this.addForm.first = this.addForm.user_name.split('-')[0]
                 this.addForm.last = this.addForm.user_name.split('-')[1]
                 this.addForm.city = this.addForm.building.split('-')[0]
                 this.addForm.street = this.addForm.building.split('-')[1]
+                this.editOrAdd = true
+                this.showAddAddress = true
                 if (item.status === 1) {
                     this.addForm.setDefault = true
                 } else {
@@ -446,9 +442,14 @@
                         item.zipCode = item.postcode
                     })
                     this.certiAddress = data.data.distribute_certificate_d_o
-                    if (!this.defaultId) {
-                        this.checkedId = this.addressData[0].id
-                        this.checkedAddress = this.addressData[0]
+                    if(!this.defaultId){
+                        if(this.addressData.length > 0){
+                            this.checkedId = this.addressData[0].id
+                            this.checkedAddress = this.addressData[0]
+                        }else if(this.certiAddress.length > 0){
+                            this.checkedId = this.certiAddress[0].id
+                            this.checkedAddress = this.certiAddress[0]
+                        }
                     }
                     this.simulateCreateTrade()
                 })

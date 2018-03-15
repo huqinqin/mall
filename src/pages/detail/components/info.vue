@@ -1226,7 +1226,7 @@
                 .mark {
                     margin-bottom: 8px;
                     label{
-                        margin-left: -120px;
+                        /*margin-left: -120px;*/
                     }
                     p {
                         font-size: 12px;

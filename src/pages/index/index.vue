@@ -85,7 +85,7 @@
           </div>
           <ul class="item-list-box">
             <li v-for="item in itemlist.items" :key="item.sin"
-                v-bind:class="{'limit':item.type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1}">
+                v-bind:class="{'limit':item.type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1,'newSeller': item.isNew}">
               <a :href="'/detail#/?id=' + item.id" target="_blank">
                 <div class="img"
                      :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}"></div>
@@ -113,7 +113,7 @@
         </div>
         <ul class="best-sellers">
           <li v-for="item in hotList" :key="item.id"
-              v-bind:class="{'limit':item.type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1}">
+              v-bind:class="{'limit':item.type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1,'newSeller': item.isNew}">
             <a :href="'/detail#/?id=' + item.id" target="_blank">
               <div class="img" :style="{backgroundImage : 'url(' + item.image_value +'!item_middle)'}"></div>
               <div class="item-spec">
@@ -163,6 +163,11 @@
       getList () {
         homeService.getList().then((data) => {
           this.itemList = data.floor.datalist
+            this.itemList.forEach((item) => {
+                if(item.tag.indexOf('新品') != -1){
+                    item.isNew = true
+                }
+            })
           this.hotList = data.hot_buys.datalist[0].items
 
           if(data.fix_pic && data.fix_pic.datalist.length > 0 && data.fix_pic.datalist[0] && data.fix_pic.datalist[0].content){
@@ -233,7 +238,7 @@
     overflow: hidden;
   }
 
-  li.reduce::before,li.discount::before,li.limit::before{
+  li.reduce::before,li.discount::before,li.limit::before,li.newSeller::before{
       content:'';
       width:100px;
       height: 100px;
@@ -243,6 +248,9 @@
       background-position: 0 0;
       background-repeat: no-repeat;
       background-size: 100px 100px;
+  }
+  li.newSeller::before{
+      background-image:url('../../assets/img/new.png');
   }
   li.reduce::before{
       background-image:url('../../assets/img/ONSALE.png');

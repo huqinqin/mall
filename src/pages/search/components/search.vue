@@ -57,7 +57,7 @@
             </div>
             <div class="search-result">
                 <ul class="result">
-                    <li v-for="item in data" :key="item.id" v-bind:class="{'limit':item.discount_type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1}">
+                    <li v-for="item in data" :key="item.id" v-bind:class="{'limit':item.discount_type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1,'newSeller': item.isNew}">
                         <a :href="'/detail#/?id=' + item.id" target="_blank">
                             <div class="img" :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}"></div>
                             <p class="name" :title="item.item_name">{{item.item_name}}</p>
@@ -188,6 +188,11 @@
                 }
                 ItemService.searchItem(this.search,this.tags).then((rtn)=>{
                     this.data = rtn.data.item_d_o_list
+                    this.data.forEach((item) => {
+                        if(item.tag.indexOf('新品') != -1){
+                            item.isNew = true
+                        }
+                    })
                     // TOOD 这里计算页数
                     this.search.totalPage = rtn.data.total;
 
@@ -281,7 +286,7 @@
             position: relative;
             overflow: hidden;
         }
-        li.reduce::before,li.discount::before,li.limit::before{
+        li.reduce::before,li.discount::before,li.limit::before,li.newSeller::before{
             content:'';
             width:100px;
             height: 100px;
@@ -291,6 +296,9 @@
             background-position: 0 0;
             background-repeat: no-repeat;
             background-size: 100px 100px;
+        }
+        li.newSeller::before{
+            background-image:url('../../../assets/img/new.png');
         }
         li.reduce::before{
             background-image:url('../../../assets/img/ONSALE.png');

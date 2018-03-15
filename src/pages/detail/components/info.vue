@@ -39,11 +39,11 @@
                         <div class="tips" v-ltsLoginShow:false>{{ $t("main.detail.info.mainDetInfoComp") }}</div>
                         <div v-ltsLoginShow:true class="detail_price" v-if="!checkedSpu.price">
                             <lts-money :money="item.price_real"></lts-money>
-                            <span class="oldPrice"><lts-money :money="item.price"/></span>
+                            <span class="oldPrice" v-if="item.price_real != item.price"><lts-money :money="item.price"/></span>
                         </div>
                         <div v-ltsLoginShow:true class="detail_price" v-else>
                             <lts-money :money="checkedSpu.price_real"></lts-money>
-                            <span class="oldPrice"><lts-money :money="checkedSpu.price"/></span>
+                            <span class="oldPrice" v-if="checkedSpu.price_real != checkedSpu.price"><lts-money :money="checkedSpu.price"/></span>
                             <!--<span v-if="item.discount_type === 1">-->
                                 <!--<lts-money :money="checkedSpu.price * item.discount / 100"/>-->
                                 <!--<span class="oldPrice"><lts-money :money="checkedSpu.price"/></span>-->
@@ -124,7 +124,7 @@
                 </div>
                 <ul v-if="buyHistory.length > 0">
                     <li v-for="item in historyItems"
-                        :class="{ limit: item.discount_type == 4, reduce:item.discount_type == 2, discount:item.discount_type == 1}">
+                        :class="{ limit: item.discount_type == 4, reduce:item.discount_type == 2, discount:item.discount_type == 1,'newSeller': item.isNew}">
                         <a :href="'/detail#/?id=' + item.id" target="_blank">
                             <div class="img" :style="{backgroundImage : 'url(' + item.image_value +'!item_middle)'}"></div>
                             <div class="content" :title="item.item_name">
@@ -279,7 +279,7 @@
                     </div>
                     <ul class="item-list-box">
                         <li v-for="item in hotSale" :key="item.id"
-                            :class="{ limit: item.discount_type == 4, reduce:item.discount_type == 2, discount:item.discount_type == 1}">
+                            :class="{ limit: item.discount_type == 4, reduce:item.discount_type == 2, discount:item.discount_type == 1,'newSeller': item.isNew}">
                             <a :href="'/detail#/?id=' + item.id" target="_blank">
                                 <div class="img" :style="{backgroundImage : 'url(' + item.image_value +'!item_middle)'}"></div>
                                 <div class="content" >
@@ -475,7 +475,19 @@
                     this.item = data.data.item
                     this.activeImg = this.item.item_images[0]
                     this.hotSale = data.data.hot_recomment.items
+                    this.hotSale.forEach((item) => {
+                        if(item.tag.indexOf('新品') != -1){
+                            item.isNew = true
+                        }
+                    })
                     this.buyHistory = (data.data && data.data.user_order_history) ? data.data.user_order_history : [];
+                    if(this.buyHistory.length > 0){
+                        this.buyHistory.forEach((item) => {
+                            if(item.tag.indexOf('新品') != -1){
+                                item.isNew = true
+                            }
+                        })
+                    }
                     this.historyItems = this.buyHistory.slice(0,2)
                     console.log(this.historyItems)
                     if (this.item.discount_type === 4) {
@@ -939,7 +951,7 @@
             position: relative;
             overflow: hidden;
         }
-        li.reduce::before,li.discount::before,li.limit::before{
+        li.reduce::before,li.discount::before,li.limit::before,li.newSeller::before{
             content:'';
             width:100px;
             height: 100px;
@@ -949,6 +961,9 @@
             background-position: 0 0;
             background-repeat: no-repeat;
             background-size: 100px 100px;
+        }
+        li.newSeller::before{
+            background-image:url('../../../assets/img/new.png');
         }
         li.reduce::before{
             background-image:url('../../../assets/img/ONSALE.png');
@@ -1027,8 +1042,7 @@
             }
             .error {
                 border: solid 1px red;
-                padding: 0 10px;
-                margin-bottom: 10px !important;
+                padding: 0 10px 10px;
                 position: relative;
                 .el-form-item__error {
                     display: block;
@@ -1227,6 +1241,9 @@
                                 color: rgba(0, 0, 0, 0.7);
                             }
                         }
+                    }
+                    .el-form-item__content{
+                        margin-bottom: 10px;
                     }
                     .storage_spec {
                         font-size: 12px;

@@ -1,5 +1,6 @@
 <template>
-    <el-cascader :options="locationOptions" v-model="location" class="lts-location" popper-class="location-Popover" expand-trigger="hover" @change="changeHandler"/>
+    <el-cascader :options="locationOptions" v-model="location" class="lts-location" popper-class="location-Popover"
+                 expand-trigger="hover" @change="changeHandler"/>
 </template>
 
 <script>
@@ -23,24 +24,32 @@
                 locationOptions: LocationConfig
             }
         },
-        methods:{
-            changeHandler(newVal = []){
+        mounted() {
+            if (this.value.length > 0) {
+                this.location = this.value;
+            }
+        },
+        methods: {
+            changeHandler(newVal = []) {
                 let labelArray = commonUtils.getCascaderFullLabelByValue(LocationConfig, newVal);
                 this.$emit('update:labels', labelArray);
                 this.$emit('input', newVal);
             }
         },
-        watch:{
-            value(newVal){
-                this.location = newVal;
-                this.changeHandler(newVal);
-            },
-        },
+        watch: {
+            value(newVal) {
+                if (newVal) {
+                    this.location = newVal;
+                    this.changeHandler(newVal);
+                } else {
+                    this.location = [];
+                }
+            }
+        }
     }
 </script>
 <style scoped lang="less">
-    .lts-location{
-        /*width: 350px;*/
+    .lts-location {
         /deep/ .el-input {
             width: 100% !important;
         }

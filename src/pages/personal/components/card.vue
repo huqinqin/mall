@@ -4,7 +4,8 @@
             <el-button type="primary">{{$t("main.personal.card.mainPerCarNewCreate")}}</el-button>
         </el-button>
 
-        <el-dialog :title='$t("main.personal.card.mainPerCarTitle")' :visible.sync="dialogShow" :close-on-click-modal="false" @close="emptyData">
+        <el-dialog :title='$t("main.personal.card.mainPerCarTitle")' :visible.sync="dialogShow"
+                   :close-on-click-modal="false" @close="emptyData">
             <el-form :model="ruleForm" :rules="rules" :inline="true" ref="ruleForm" label-width="100px"
                      label-position="top"
                      prop="ruleForm"
@@ -44,13 +45,15 @@
                 <br>
                 <el-form-item :label='$t("main.personal.card.mainPerCarCountry")' prop="country"
                               style="margin-top: 5px;">
-                    <el-select v-model="ruleForm.country" :placeholder='$t("main.personal.card.mainPerCarEnterCoun")' class="commonWidth">
+                    <el-select v-model="ruleForm.country" :placeholder='$t("main.personal.card.mainPerCarEnterCoun")'
+                               class="commonWidth">
                         <el-option :label='$t("main.personal.card.mainPerCarUsa")'
                                    :value='$t("main.personal.card.mainPerCarUsa")'></el-option>
                     </el-select>
                 </el-form-item>
                 <br>
-                <el-form-item :label='$t("main.personal.card.mainPerCarState")' prop="location" style="margin-top: 5px;">
+                <el-form-item :label='$t("main.personal.card.mainPerCarState")' prop="location"
+                              style="margin-top: 5px;">
                     <lts-location v-model="ruleForm.location" :labels.sync="locationLabel" class="commonWidth"/>
                 </el-form-item>
                 <br>
@@ -65,7 +68,6 @@
                         start-placeholder="start date"
                         end-placeholder="end date"
                         :default-time="['00:00:00', '23:59:59']"
-                        @change="test"
                         class="commonWidth">
                     </el-date-picker>
                 </el-form-item>
@@ -102,7 +104,8 @@
                 align="center"
                 width="100">
                 <template slot-scope="scope">
-                    <img :src="scope.row.picture" alt="" style="width: 40px;height: 40px;cursor: pointer;" @click="openPic(scope.row.picture)">
+                    <img :src="scope.row.picture" alt="" style="width: 40px;height: 40px;cursor: pointer;"
+                         @click="openPic(scope.row.picture)">
                 </template>
             </el-table-column>
             <el-table-column
@@ -143,13 +146,13 @@
                     {{scope.row.invalid_time | timestamp2str}}
                 </template>
             </el-table-column>
-           <!-- <el-table-column
-                prop="valid_time"
-                :label='$t("main.personal.card.mainPerCarUpDate")'>
-                <template slot-scope="scope">
-                    {{scope.row.valid_time | timestamp2str}}
-                </template>
-            </el-table-column>-->
+            <!-- <el-table-column
+                 prop="valid_time"
+                 :label='$t("main.personal.card.mainPerCarUpDate")'>
+                 <template slot-scope="scope">
+                     {{scope.row.valid_time | timestamp2str}}
+                 </template>
+             </el-table-column>-->
             <el-table-column
                 prop="status"
                 :label='$t("main.personal.card.mainPerCarDisStatus")'
@@ -187,6 +190,7 @@
     import personalService from '@/services/PersonalService'
     import {request, commonUtils} from 'ltsutil'
     import {ltsLocation} from 'ui'
+    import LocationConfig from 'config/LocationConfig'
 
     export default {
         components: {ltsLocation},
@@ -197,6 +201,7 @@
                 dialogImageUrl: '',
                 dialogShow: false,
                 editFlag: false,
+                stateList: LocationConfig,
                 ruleForm: {
                     id: '',
                     cardPicUrl: '',
@@ -227,7 +232,7 @@
                         {required: true, message: this.$t("main.personal.card.mainPerCarSeleCount"), trigger: 'change'}
                     ],
                     location: [
-                        {required: true, message: this.$t("main.personal.card.mainPerCarSeleState"), trigger: 'change'}
+                        {required: true, message: this.$t("main.personal.card.mainPerCarSeleState"), trigger: 'blur'}
                     ],
                     zipcode: [
                         {required: true, message: this.$t("main.personal.card.mainPerCarPutZip"), trigger: 'blur'}
@@ -239,9 +244,6 @@
             this.getCardList();
         },
         methods: {
-            test(i){
-                console.log(i);
-            },
             getCardList() {
                 personalService.getSaleCard().then((resp) => {
                     this.tableData = resp.data.distribute_certificate_d_o_list;
@@ -373,10 +375,17 @@
                             country: this.$t("main.personal.card.mainPerCarUsa"),
                             state: item.row.state,
                             zipcode: item.row.postcode,
-                            invalid_time: [item.row.valid_time,item.row.invalid_time],
+                            invalid_time: [item.row.valid_time, item.row.invalid_time],
                             setDefaultFlag: false
                         };
-                        this.locationLabel[0] = item.row.state;
+                        let newLocation = [];
+                        this.stateList.forEach(function (value, index, array) {
+                            if (value.label === item.row.state) {
+                                newLocation.push(value.value);
+                                return;
+                            }
+                        });
+                        this.ruleForm.location = newLocation;
                         this.dialogShow = true;
                         break;
                     case 'delete':
@@ -391,10 +400,20 @@
 
             },
             emptyData() {
-                this.$refs['ruleForm'].resetFields();
-                this.ruleForm.cardPicUrl = '';
-                this.ruleForm.invalid_time = [];
-                this.ruleForm.location = [];
+                this.ruleForm = {
+                    id: '',
+                    cardPicUrl: '',
+                    number: '',
+                    address: '',
+                    location: [],
+                    company: '',
+                    city: '',
+                    country: this.$t("main.personal.card.mainPerCarUsa"),
+                    state: '',
+                    zipcode: '',
+                    invalid_time: [],
+                    setDefaultFlag: false
+                };
                 this.locationLabel = [];
             },
             openPic(url) {
@@ -406,14 +425,16 @@
 </script>
 
 <style lang="less">
-    .location-Popover{
+    .location-Popover {
         width: 400px;
         height: 200px;
     }
-    html .location-Popover .el-cascader-menu{
+
+    html .location-Popover .el-cascader-menu {
         width: 100%;
         height: 100%;
     }
+
     .card {
         .avatar-uploader {
             .avatar {
@@ -460,7 +481,7 @@
         .input-with-select .el-input-group__prepend {
             background-color: #fff;
         }
-        .commonWidth{
+        .commonWidth {
             width: 400px;
         }
     }

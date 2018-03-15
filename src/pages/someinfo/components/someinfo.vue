@@ -10,7 +10,7 @@
                 <hr class="flagLine">
                 <div>
                     <span>{{$t("main.someinfo.mainSomeAccountBala")}}:<span class="name">${{engineerInfo.cash}}</span></span>
-                    <span style="margin-left: 23px">{{$t("main.someinfo.mainSomePayBalance")}}:<span class="name">${{account}}</span><span>({{$t("main.someinfo.mainSomeUsed")}}<span>${{usedAcc}}</span>)</span></span>
+                    <span v-show="hasTerms" style="margin-left: 23px">{{$t("main.someinfo.mainSomePayBalance")}}:<span class="name">${{account}}</span><span>({{$t("main.someinfo.mainSomeUsed")}}<span>${{usedAcc}}</span>)</span></span>
                     <span style="margin-left: 23px">{{$t("main.someinfo.mainSomeShopCoupon")}}:
                         <el-tooltip placement="top" effect="light">
                             <div slot="content" v-if="len>0">
@@ -75,6 +75,7 @@
         name: "someinfo",
         data(){
             return{
+                hasTerms:false,
                 tableData:[
                     {url:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1519827728720&di=7e49169bcabc7c75a4f4fd88ae6498de&imgtype=0&src=http%3A%2F%2Fwww.wallcoo.com%2Fflower%2FAmazing_Color_Flowers_2560x1600_IV%2Fwallpapers%2F2560x1600%2FFlowers_Wallpapers_144.jpg',company:"海康威视",desc:'hahah',price:"$100"},
                     {url:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1519827728720&di=7e49169bcabc7c75a4f4fd88ae6498de&imgtype=0&src=http%3A%2F%2Fwww.wallcoo.com%2Fflower%2FAmazing_Color_Flowers_2560x1600_IV%2Fwallpapers%2F2560x1600%2FFlowers_Wallpapers_144.jpg',company:"海康威视",desc:'hahah',price:"$200"},
@@ -141,6 +142,7 @@
                             this.engineerInfo.cash = (item.use_balance / 100).toFixed(2);
                         }
                         if(item.subject === 2010106){
+                            this.hasTerms = true
                             item.rule_blc1 = JSON.parse(item.rule_blc);
                             /*this.usedAcc = ((item.rule_blc1.limit + item.balance) / 100).toFixed(2);*/
                             this.usedAcc = (((item.use_balance) / 100).toFixed(2)).slice(1);

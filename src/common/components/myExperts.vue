@@ -35,7 +35,7 @@
           },
           getExpert(){
               expertService.getExpert().then((data) => {
-                  this.someInfo = data.data;
+                      this.someInfo = data.data;
               });
           },
       },
@@ -51,7 +51,7 @@
     }
     .wrapperExperts{
         padding: 20px;
-        width: 230px;
+        /*width: 298px;*/
         /*background-color: #3b98ff;*/
         background: #f8fcff;
         color: rgba(102,102,102,0.8);
@@ -77,6 +77,7 @@
             }
             ul:first-child{
                 flex:1;
+                margin-right: 20px;
             }
             ul:nth-child(2){
                 width: 63px;

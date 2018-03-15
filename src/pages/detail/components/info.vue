@@ -14,7 +14,7 @@
                     <div class="small">
                         <div class="small_img" v-for="prc in item.item_images" :key="prc.index"
                              @mouseover="showImage(prc,$event)"
-                             :style="{backgroundImage:'url('+prc.url+')'}"></div>
+                             :style="{backgroundImage:'url('+prc.url+'!item_small)'}"></div>
                     </div>
                 </div>
             </div>
@@ -126,7 +126,7 @@
                     <li v-for="item in historyItems"
                         :class="{ limit: item.discount_type == 4, reduce:item.discount_type == 2, discount:item.discount_type == 1}">
                         <a :href="'/detail#/?id=' + item.id" target="_blank">
-                            <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
+                            <div class="img" :style="{backgroundImage : 'url(' + item.image_value +'!item_middle)'}"></div>
                             <div class="content" :title="item.item_name">
                                 <el-tooltip class="item" effect="dark" :content="item.item_name" placement="top">
                                     <p class="name">{{item.item_name}}</p>
@@ -281,7 +281,7 @@
                         <li v-for="item in hotSale" :key="item.id"
                             :class="{ limit: item.discount_type == 4, reduce:item.discount_type == 2, discount:item.discount_type == 1}">
                             <a :href="'/detail#/?id=' + item.id" target="_blank">
-                                <div class="img" :style="{backgroundImage : 'url(' + item.image_value +')'}"></div>
+                                <div class="img" :style="{backgroundImage : 'url(' + item.image_value +'!item_middle)'}"></div>
                                 <div class="content" >
                                     <el-tooltip class="item" effect="dark" :content="item.item_name" placement="top">
                                         <p class="name">{{item.item_name}}</p>

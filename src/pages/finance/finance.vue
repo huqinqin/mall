@@ -172,8 +172,6 @@
       },
       getFinance () {
         financeService.getFinance().then((data) => {
-          console.log(data)
-
           for (let i = 0; i < data.data.acc_books.length; i++) {
             if (data.data.acc_books[i].subject === 2010101) {
               this.account.balance = data.data.acc_books[i].balance

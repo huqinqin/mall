@@ -8,7 +8,7 @@
         </ul>
         <ul>
             <li>{{$t("common.ltsMenu.commLtsMyMoney")}}</li>
-            <li v-for="item in finance" @click="selectChange" :class="{ active: selected == item.title }"><a
+            <li v-for="item in finance" @click="selectChange" :class="{ active: selected == item.title }" v-show="item.show"><a
                 :href=item.href>{{item.title}}</a>
             </li>
         </ul>
@@ -23,6 +23,7 @@
 
 <script>
     import {store} from 'ltsutil'
+    import checkService from '@/services/CheckService'
 
     export default {
         name: "lts-menu",
@@ -36,8 +37,8 @@
                     {href: '/reverse', title: 'RMA'},
                 ],
                 finance: [
-                    {href: '/finance', title: this.$t("common.ltsMenu.commLtsMyBalance")},
-                    {href: '/repayMent', title: this.$t("common.ltsMenu.commLtsWaitting")},
+                    {href: '/finance', title: this.$t("common.ltsMenu.commLtsMyBalance"),show:true},
+                    {href: '/repayMent', title: this.$t("common.ltsMenu.commLtsWaitting"),show:true},
                 ],
                 settings: [
                     {href: '/personal#/personalMessage', title: this.$t("common.ltsMenu.commLtsPersonInfo")},
@@ -54,9 +55,22 @@
                 store.setItem('selected', value.currentTarget.textContent);
                 this.selected = value.currentTarget.textContent;
             },
+            checkInfo(){
+                checkService.checkInfo().then((data) => {
+                    this.finance[1].show = false
+                    data.data.acc_books.forEach((item) => {
+                        if(item.subject === 2010106){
+                            this.finance[1].show = true
+                        }
+                    });
+                },(msg) => {
+                    this.$ltsMessage.show({type:'error',message:msg.error_message})
+                })
+            }
         },
         mounted() {
             this.selected = store.getItem("selected") ? store.getItem("selected") : this.$t("common.ltsMenu.commLtsPersonlPage")
+            this.checkInfo()
         }
     }
 </script>
@@ -85,22 +99,11 @@
                 font-size: 16px;
             }
             li.active {
-                color: #ff3b41;
-                position: relative;
+                color: #737373;
                 a {
                     color: inherit;
                 }
-            }
-            li.active::after {
-                content: '';
-                height: 0;
-                width: 0;
-                border-left: 6px solid #ff3b41;
-                border-top: 5px solid transparent;;
-                border-bottom: 5px solid transparent;;
-                position: absolute;
-                right: 6px;
-                top: 14px;
+                background:#f5f7fa;
             }
         }
         ul:nth-child(1), ul:nth-child(2) {

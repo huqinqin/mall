@@ -228,6 +228,8 @@ export default {
                 mainDetSinglePrice:'Unit Price',
                 mainDetNoAnyPackage:'No accessories selected',
                 mainDetPackagePrice:'Combo Price',
+                mainDetPackageMin:'Min Quantity',
+                mainDetPackageMax:'Max Quantity',
             }
         },
         finance: {
@@ -294,7 +296,6 @@ export default {
                 mainOrDePayTotal: 'Total',
             },
             list: {
-                mainOrLiWaitPay: 'Waiting for Payment',
                 mainOrLiWaitDeli: 'Pending Shipment',
                 mainOrLiAlreadyDeli: 'Shipped',
                 mainOrLiBackApply: 'Apply for Refund',

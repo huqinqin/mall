@@ -42,24 +42,30 @@
         },
         methods: {
             changePassword() {
-                let params = {
-                    oldPassword: this.ruleForm.oldPassword,
-                    newPassword: this.ruleForm.newPassword
-                };
-                if(this.ruleForm.newPassword == this.ruleForm.confirmPassword){
-                    personalService.changePassword(params).then((resp) => {
-                        this.$ltsMessage.show({type: 'success', message: 'Revise the password successfully'});
-                        this.ruleForm = {
-                            oldPassword: '',
-                            newPassword: '',
-                            confirmPassword: ''
+                this.$refs.ruleForm.validate((valid) => {
+                    if (valid) {
+                        let params = {
+                            oldPassword: this.ruleForm.oldPassword,
+                            newPassword: this.ruleForm.newPassword
                         };
-                    }, (msg) => {
-                        this.$ltsMessage.show({type: 'error', message: msg.error_message})
-                    })
-                }else{
-                    this.$ltsMessage.show({type: 'error', message: 'Confirm that the password is not consistent with the new password'})
-                }
+                        if(this.ruleForm.newPassword == this.ruleForm.confirmPassword){
+                            personalService.changePassword(params).then((resp) => {
+                                this.$ltsMessage.show({type: 'success', message: 'Revise the password successfully'});
+                                this.ruleForm = {
+                                    oldPassword: '',
+                                    newPassword: '',
+                                    confirmPassword: ''
+                                };
+                            }, (msg) => {
+                                this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                            })
+                        }else{
+                            this.$ltsMessage.show({type: 'error', message: 'Confirm that the password is not consistent with the new password'})
+                        }
+                    } else {
+
+                    }
+                });
             },
             showPassword(){
                 this.$refs.password.type = this.$refs.password.type == "text" ? 'password' : 'text';

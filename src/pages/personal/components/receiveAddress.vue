@@ -7,6 +7,7 @@
                    :close-on-click-modal="false" @close="emptyData">
             <el-form :model="ruleForm" :rules="rules" :inline="true" ref="ruleForm" label-width="100px"
                      label-position="top"
+                     prop="ruleForm"
                      class="demo-ruleForm">
                 <el-form-item :label='$t("main.cart.settle.mainCartSeFirstName")' prop="first">
                     <el-input v-model="ruleForm.first" style="width: 400px"/>
@@ -18,7 +19,8 @@
                 <br>
                 <el-form-item :label='$t("main.personal.receiveAdd.mainPerReTeleNum")' prop="mobile"
                               style="margin-top: 5px;">
-                    <lts-input-phone v-model="ruleForm.mobile" class="commonWidth"/>
+                    {{ruleForm.mobile}}
+                    <lts-input-phone :value="ruleForm.mobile" class="commonWidth"/>
                 </el-form-item>
                 <br>
                 <el-form-item :label='$t("main.personal.card.mainPerCarAddress")' prop="address"
@@ -146,6 +148,7 @@
                 dialogShow: false,
                 editFlag: false,
                 ruleForm: {
+                    id: '',
                     name: '',
                     first: '',
                     last: '',
@@ -240,6 +243,7 @@
             },
             updateAdress() {
                 let address = {
+                    id: this.ruleForm.id,
                     mobile: this.ruleForm.mobile,
                     address: this.locationLabel[0],
                     street: this.ruleForm.address,
@@ -294,27 +298,41 @@
                 switch (item.type) {
                     case 'edit':
                         this.ruleForm = {
+                            id: item.row.id,
                             first: item.row.user_name.split('-')[0],
                             last: item.row.user_name.split('-')[1],
                             mobile: item.row.mobile,
                             address: item.row.building.split('-')[1],
-                            location: [parseInt(item.row.lc_code)],
+                            location: [item.row.lc_code],
                             city: item.row.building.split('-')[0],
                             zipCode: item.row.zip_code,
                             country: this.$t("main.personal.card.mainPerCarUsa"),
                         };
+                        this.editFlag = true;
                         this.dialogShow = true;
                         break;
                     case 'delete':
                         this.makeSure(item.row.id);
                         break;
                 }
+                console.log(this.ruleForm);
             },
-            emptyData() {console.log(2);
-                this.$refs.ruleForm.resetFields();
-                this.ruleForm.location = [];
-                this.ruleForm.mobile = '';
-                this.locationLabel = [];
+            emptyData() {
+                 this.ruleForm= {
+                     id: '',
+                     name: '',
+                     first: '',
+                     last: '',
+                     mobile: '',
+                     address: '',
+                     building: '',
+                     location: [],
+                     city: '',
+                     country: this.$t("main.personal.card.mainPerCarUsa"),
+                     state: '',
+                     zipCode: '',
+                     setDefaultFlag: false
+                 };
             }
         }
     }

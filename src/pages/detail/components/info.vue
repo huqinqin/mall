@@ -460,7 +460,7 @@
                     this.item = data.data.item
                     this.activeImg = this.item.item_images[0]
                     this.hotSale = data.data.hot_recomment.items
-                    this.buyHistory = data.data.user_order_history
+                    this.buyHistory = (data.data && data.data.user_order_history) ? data.data.user_order_history : [];
                     this.historyItems = this.buyHistory.slice(0,2)
                     if (this.item.discount_type === 4) {
                         this.end = Date.parse(new Date(this.item.sale_rule_do.end_time))

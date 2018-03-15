@@ -8,7 +8,7 @@
                 <template slot-scope="scope">
                     <div class="item-info">
                         <div class="order-item-detail">
-                            <img :src="scope.row.item_remark.url + '@100w_2e'" class="item" />
+                            <img :src="scope.row.item_remark.url" class="item" />
                             <div>{{scope.row.item_remark.item_name}}</div>
                         </div>
                         <div class="prop-box">
@@ -214,6 +214,49 @@
                         date: dateUtils.getNearMonth(),
                     },
                 },
+                reasonList: [
+                    {
+                        value: 'REFUND_STOCK_OUT',
+                        label: this.$t("main.order.reverse.mainOrReBack")
+                    },
+                    {
+                        value: 'REFUND_ERROR_NUM',
+                        label: this.$t("main.order.reverse.mainOrReNumNot")
+                    },
+                    {
+                        value: 'REFUND_BAD_PACKING',
+                        label: this.$t("main.order.reverse.mainOrRePackDamage")
+                    },
+                    {
+                        value: 'REFUND_BAD_QUALITY',
+                        label: this.$t("main.order.reverse.mainOrReQulity")
+                    },
+                    {
+                        value: 'REFUND_BAD_CDATE',
+                        label: this.$t("main.order.reverse.mainOrReDateNot")
+                    },
+                    {
+                        value: 'REFUND_ERROR_PROPS',
+                        label: this.$t("main.order.reverse.mainOrReFlovarNot")
+                    },
+                    {
+                        value: 'REFUND_CONSULT',
+                        label: this.$t("main.order.reverse.mainOrReAgree")
+                    },
+                    {
+                        value: 'REFUND_OTHER',
+                        label: this.$t("main.order.reverse.mainOrReOtherReason")
+                    }
+                ],
+                reverseStatusList : [
+                    {label: this.$t("main.reverse.list.mainRevLiAppling"), value: 1},
+                    {label: this.$t("main.reverse.list.mainRevLiAccept"), value: 2},
+                    {label: this.$t("main.reverse.list.mainRevLiReject"), value: 3},
+                    {label: this.$t("main.reverse.detail.mainRevDeRefundSucc"), value: 4},
+                    {label: this.$t("main.reverse.list.mainRevLiSeller"), value: 5},
+                    {label: this.$t("main.reverse.list.mainRevLiSuccess"), value: 7},
+                    {label: this.$t("main.reverse.list.mainRevLiClose"), value: 9}
+                ],
                 pagination: {
                     page: 1,
                     pagesize: 10,
@@ -242,10 +285,31 @@
                 reverseService.getList(param, this.pagination.page, this.pagination.pageSize, 'cdate desc').then((resp) => {
                     this.loading = false;
                     resp.datalist.forEach((value,index,array)=>{
+                        /**
+                         * 前端替换退货理由
+                         * 误删
+                         * 需要跟reverse-apply 同步。不同步会导致数据错误
+                         */
+                        this.reasonList.forEach((reason,key,list)=>{
+                            if(value.reverse_reason == reason.value){
+                                value.reverse_reason_title = reason.label;
+                            }
+                        })
+                        /**
+                         * 前端替换退货状态
+                         * 误删
+                         * 需要跟下拉选择框同步。不同步会导致数据错误
+                         */
+                        this.reverseStatusList.forEach((status,key,list)=>{
+                            if(value.status == status.value){
+                                value.status_title = status.label;
+                            }
+                        })
                         value.item_remark.propValue = JSON.parse(value.item_remark.props);
                         value.visible2 = false;
                         value.visible3 = false;
                     })
+                    console.log(resp.datalist);
                     this.datalist = resp.datalist;
                     this.pagination.total = resp.total;
                 }, (err) => {
@@ -356,8 +420,12 @@
 
         }
         .reverse-button{
+            button{
+                margin:auto;
+            }
             span{
                 display: block;
+                margin: auto;
             }
         }
         .probtn:hover{

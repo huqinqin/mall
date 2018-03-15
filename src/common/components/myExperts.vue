@@ -22,9 +22,9 @@
           return{
               flag:false,
               someInfo:{
-                  name: '抹茶',
-                  mobile: '626-435-2838',
-                  email: '92839382@qq.com'
+                  name: 'kevin',
+                  mobile: '888-216-2812',
+                  email: 'Support.SanFrancisco@LTSecurityinc.com'
               }
           }
       },
@@ -51,7 +51,7 @@
     }
     .wrapperExperts{
         padding: 20px;
-        width: 298px;
+        width: 230px;
         /*background-color: #3b98ff;*/
         background: #f8fcff;
         color: rgba(102,102,102,0.8);

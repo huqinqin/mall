@@ -80,6 +80,9 @@
                 prop="address"
                 :label='$t("main.personal.card.mainPerCarAddress")'
                 width="200">
+                <template slot-scope="scope">
+                    {{scope.row.building.split('-')[1]}}
+                </template>
             </el-table-column>
             <el-table-column
                 prop="city"
@@ -358,7 +361,7 @@
         .el-form--label-top .el-form-item__label {
             padding: 0;
             line-height: 0;
-            margin-bottom: 10px;
+            margin: 18px 0 10px 0;
         }
         .el-form-item {
             margin-bottom: 10px;

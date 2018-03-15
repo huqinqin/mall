@@ -183,8 +183,6 @@
                         this.order.status_title = this.$t("main.order.list.mainOrLiRealPay");
                     }else if(this.order.status == 2) {
                         this.order.status_title = this.$t("main.order.list.mainOrLiWaitPay");
-                    }else if(this.order.status == 2){
-                        this.order.status_title = this.$t("main.order.list.mainOrLiWaitPay");
                     }
                 },(err) => {
 

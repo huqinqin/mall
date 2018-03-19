@@ -481,6 +481,7 @@
                         }
                     })
                     this.buyHistory = (data.data && data.data.user_order_history) ? data.data.user_order_history : [];
+                    // console.log(this.buyHistory)
                     if(this.buyHistory.length > 0){
                         this.buyHistory.forEach((item) => {
                             if(item.tag.indexOf('新品') != -1){

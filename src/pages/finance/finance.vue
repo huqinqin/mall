@@ -177,7 +177,7 @@
               this.account.balance = data.data.acc_books[i].balance
             } else if (data.data.acc_books[i].subject === 2010102) {
               this.bonus.balance = data.data.acc_books[i].balance
-              this.bonus.total = data.data.acc_books[i].bonus.total
+              this.bonus.total = data.data.acc_books[i].bonus ? data.data.acc_books[i].bonus.total : 0
             } else if (data.data.acc_books[i].subject === 2010106) {
               this.credit.content = true
               this.credit.balance = data.data.acc_books[i].rule_blc_object.limit + data.data.acc_books[i].use_balance

@@ -183,6 +183,8 @@
                         this.order.status_title = this.$t("main.order.list.mainOrLiRealPay");
                     }else if(this.order.status == 2) {
                         this.order.status_title = this.$t("main.order.list.mainOrLiWaitPay");
+                    }else if(this.order.status == 9) {
+                        this.order.status_title = "The Order Closed";
                     }
                     if(this.order.pay_info.pay_status == 0){
                         this.order.pay_info.pay_status_title = "Unpaid";
@@ -196,6 +198,8 @@
                         this.order.pay_info.pay_status_title = "Already Settled";
                     }else if(this.order.pay_info.pay_status == 7) {
                         this.order.pay_info.pay_status_title = "Already Closed";
+                    }else if(this.order.pay_info.pay_status == 9) {
+                        this.order.pay_info.pay_status_title = "The Order Closed";
                     }
                     this.order.sell_order_list.forEach((item) => {
                         item.wholesale_order_items.forEach((value) => {
@@ -209,6 +213,8 @@
                                 value.status_title = "Transaction Finished";
                             }else if(value.status == 8){
                                 value.status_title = "To Be Returned to Warehouse";
+                            }else if(value.status == 9){
+                                value.status_title = "The Order Closed";
                             }
                         })
                     })

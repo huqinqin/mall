@@ -93,7 +93,7 @@
                   <p class="line-two" :title="item.item_name">{{item.item_name}}</p>
                   <p class="line-four"></p>
                   <div class="item-price">
-                    <button v-ltsLoginShow:false="(itemlist.attribute | 4) != itemlist.attribute">
+                    <button v-ltsLoginShow:false="(itemlist.attribute | 4) != itemlist.attribute" v-login>
                       {{$t("main.detail.info.mainDetInfoLoginPrice")}}
                     </button>
                     <p v-ltsLoginShow:true="(itemlist.attribute | 4) == itemlist.attribute" class="price">

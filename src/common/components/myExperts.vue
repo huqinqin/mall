@@ -35,7 +35,9 @@
           },
           getExpert(){
               expertService.getExpert().then((data) => {
+                  if(data.data){
                       this.someInfo = data.data;
+                  }
               });
           },
       },

@@ -59,7 +59,7 @@
                             <!--<span v-else><lts-money :money="checkedSpu.price"></lts-money></span>-->
                         </div>
                     </el-form-item>
-                    <div :class="[showPropsError ? 'error' : '']" @click="closeError">
+                    <div :class="[showPropsError ? 'error' : '']" class="error_box" @click="closeError">
                         <el-form-item v-for="prop in item.item_prop_value_maps" :key="prop.prop_name"
                                       :label="prop.prop_name" class="radio sku_prop">
                             <el-radio-group v-model="prop.checked_prop" @change="checkedProp(prop,item,'checkedSku')">
@@ -1054,6 +1054,9 @@
                     color: red;
                     display: block;
                 }
+            }
+            .error_box{
+                margin-bottom: 2px;
             }
             .el-form-item__error {
                 display: none;

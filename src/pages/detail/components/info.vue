@@ -1057,7 +1057,7 @@
                 }
             }
             .error_box{
-                margin-bottom: 2px;
+                margin-bottom: 12px;
             }
             .el-form-item__error {
                 display: none;

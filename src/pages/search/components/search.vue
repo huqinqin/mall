@@ -173,7 +173,7 @@
                     }
                 })
                 // 加入条件
-                if(count == 0){
+                if(count == 0 && item){
                     this.search.condition.push(item)
                 }
                 this.submit()

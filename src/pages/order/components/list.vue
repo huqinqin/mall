@@ -124,6 +124,9 @@
                     <span v-else-if="scope.row.status == 9">
                         {{$t("main.order.list.mainOrLiRealClose")}}
                     </span>
+                    <span v-else-if="scope.row.status == 2">
+                        {{$t("main.order.list.mainOrLiAlreadyDeli")}}
+                    </span>
                     <div v-if="scope.row.last_refund_status > 0 && scope.row.last_refund_status < 9" style="color: #ff3b41;">
                       {{$t("main.order.list.mainOrLiRefund")}}
                     </div>

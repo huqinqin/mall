@@ -42,12 +42,12 @@
                                 <p>{{value.last}}</p>
                             </a>
                         </el-popover>
-                        <a :href="value.link" v-else-if="!value.needLogin" @click="menuHandle" slot="reference">
+                        <a :href="value.link" v-else-if="!value.needLogin" @click="menuHandle" slot="reference" target="_blank">
                             <span class="iconfont" :class="value.icon"></span>
                             <p>{{value.first}}</p>
                             <p>{{value.last}}</p>
                         </a>
-                        <a :href="value.link" v-else v-login @click="menuHandle">
+                        <a :href="value.link" v-else v-login @click="menuHandle" target="_blank">
                             <el-badge :value="cart_num" class="item" v-if="value.name == 'shopping center'"
                                       :hidden="cart_num <= 0">
                                 <span class="iconfont"

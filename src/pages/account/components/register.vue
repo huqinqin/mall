@@ -136,7 +136,7 @@
                     lastName: [
                         { required: true, message: this.$t("main.accountNew.register.mainAcReContentNotNull"), trigger: 'blur' },
                     ],
-                    email:validatorConfig.email,
+                    email:validatorConfig.email(),
                     phone: [
                         { required: true, message:  "Phone Number Can't Be Empty", trigger: 'blur' },
                         {validator:checkMobile,trigger: 'blur,change'}

@@ -1623,6 +1623,10 @@
                 li{
                     div.content{
                         height: 38px;
+                        p{
+                            height: 38px;
+                            -webkit-box-orient: vertical;
+                        }
                     }
                 }
             }
@@ -1633,6 +1637,7 @@
                     margin: 10px 0 0;
                     font-size: 14px;
                     color: #a3a3a3;
+                    max-height: 57px;
                     overflow: hidden;
                     text-overflow: ellipsis;
                     display: -webkit-box;

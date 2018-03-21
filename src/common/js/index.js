@@ -1,3 +1,4 @@
+window.checkIl8n = 123;
 import  VueI18n from 'vue-i18n'
 import Vue from  'vue'
 import VueResource from 'vue-resource'
@@ -36,7 +37,6 @@ const i18n = new VueI18n({
 Vue.use(Element, {
     i18n: (key, value) => i18n.t(key, value)
 })
-
 export default function (App, router = new Router()) {
   let isIndex = true,isCart = true
   App.name && App.name == 'index' ? isIndex = true : isIndex = false;
@@ -189,11 +189,21 @@ export default function (App, router = new Router()) {
             }
         }
     })
-    new Vue({
+    const VueIl8n = new Vue({
         el        : '#app',
         i18n      : i18n,
         router,
         template  : '<Layout/>',
         components: {Layout},
     })
+    window.checkIl8n = (msg)=>{
+        if(msg){
+            return VueIl8n.$t(msg);
+        }
+    }
+    Vue.prototype.checkIl8n = (msg)=>{
+        if(msg){
+            return VueIl8n.$t(msg);
+        }
+    }
 }

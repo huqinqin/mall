@@ -69,8 +69,8 @@ export default {
     },
     password: [
         {required: true, message: 'Please enter password', trigger: 'blur'},
-        {min: 8, max: 20, message: 'Password must contain 8-20 charaters', trigger: 'blur'},
-        {pattern: /^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).*$/, message: 'Password must contain at least 1 upper case, 1 lower case, 1 number', trigger: 'blur'},
+        {min: 8, max: 20, message: 'Password must contain 8-20 charaters at least 1 upper case, 1 lower case, 1 number', trigger: 'blur'},
+        {pattern: /^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).*$/, message: 'Password must contain 8-20 charaters at least 1 upper case, 1 lower case, 1 number', trigger: 'blur'},
         {validator: validatePassword, trigger: 'blur'}
     ],
     email (require, cb){

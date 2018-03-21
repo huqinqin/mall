@@ -31,8 +31,8 @@
                 <el-form-item :label='$t("main.order.detail.mainOrDeCreateTime")'>
                     {{order.cdate | timestamp2str}}
                 </el-form-item>
-                <el-form-item :label='$t("main.order.detail.mainOrDePayTime")'>
-                    {{order.cdate | timestamp2str}}
+                <el-form-item :label='$t("main.order.detail.mainOrDePayTime")' v-if="order.pay_time">
+                    {{order.pay_time | timestamp2str}}
                 </el-form-item>
                 <el-form-item :label='$t("main.order.detail.mainOrDePayInfo")' v-if="order.status == 1">
                     <div>
@@ -319,6 +319,7 @@
                         height: 80px;
                         flex-basis: 80px;
                         min-width: 80px;
+                        margin-left: 12px;
                     }
                     div{
                         overflow: hidden;

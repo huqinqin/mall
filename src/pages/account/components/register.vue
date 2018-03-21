@@ -6,6 +6,7 @@
             <div class="line"></div>
         </header>
         <main>
+            
             <el-form label-position="top" :model="signupForm" :rules="rules" ref="form">
                 <el-form-item label="Email address" prop="email">
                     <el-input v-model="signupForm.email" ></el-input>

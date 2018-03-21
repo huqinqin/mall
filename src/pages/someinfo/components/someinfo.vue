@@ -57,7 +57,7 @@
                        <div class="pic"><img :src="item.image_value" alt=""></div>
                        <div class="decs">{{item.item_name}}</div>
                        <hr>
-                       <div class="price">${{item.price}}</div>
+                       <div class="price" v-if="item.price > 0"><lts-money :money="item.price"></lts-money></div>
                    </a>
                </li>
                 <div>

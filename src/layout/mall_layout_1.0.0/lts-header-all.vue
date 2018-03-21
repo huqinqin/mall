@@ -8,16 +8,11 @@
                            :style="{backgroundImage : 'url('+value.icon+')'}"> <span class="iconfont"
                                                                                      :class="value.icon"></span></a>
                         <a :href="value.link" target="_blank" v-else-if="value.name === 'support center'">
-                            <el-tooltip placement="top" effect="ligth" :visible-arrow="false">
                                 <div>
                                     <span class="iconfont" :class="value.icon"></span>
                                     <p>{{value.first}}</p>
                                     <p>{{value.last}}</p>
                                 </div>
-                                <div slot="content">
-                                    <myExperts></myExperts>
-                                </div>
-                            </el-tooltip>
                         </a>
                         <a :href="value.link" v-else-if="value.name === 'call experts'">
                             <el-tooltip placement="top" effect="ligth" :visible-arrow="false">

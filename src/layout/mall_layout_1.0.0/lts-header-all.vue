@@ -7,7 +7,7 @@
                         <a :href="value.link" v-if="value.type == 'logo'" class="header-logo"
                            :style="{backgroundImage : 'url('+value.icon+')'}"> <span class="iconfont"
                                                                                      :class="value.icon"></span></a>
-                        <a :href="value.link" v-else-if="value.name === 'call experts'">
+                        <a :href="value.link" v-else-if="value.name == 'call experts'">
                             <el-tooltip placement="top" effect="ligth" :visible-arrow="false">
                                 <div>
                                     <span class="iconfont" :class="value.icon"></span>

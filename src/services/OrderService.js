@@ -131,11 +131,8 @@ export default class OrderService extends BaseService {
     }
     /**
      * return
-     * params tid 订单号
-     * params pay_bank 支付方式
-     * params pay_source 支付方式
-     * params use_balance 是否使用余额
-     * params balance_pay 使用多少余额
+     * params pay_no 支付number
+     * params credit_card_pay_info 信用卡信息
      * @auth taohua
      * @remark 使用信用卡支付
      * */

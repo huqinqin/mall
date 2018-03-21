@@ -182,7 +182,7 @@
                     }else if(this.order.status == 1){
                         this.order.status_title = this.$t("main.order.list.mainOrLiRealPay");
                     }else if(this.order.status == 2) {
-                        this.order.status_title = this.$t("main.order.list.mainOrLiWaitPay");
+                        this.order.status_title = this.$t("main.order.list.mainOrLiAlreadyDeli");
                     }else if(this.order.status == 9) {
                         this.order.status_title = "The Order Closed";
                     }

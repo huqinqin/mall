@@ -197,8 +197,9 @@
                                     {label: this.$t("main.reverse.list.mainRevLiAppling"), bindValue: 1},
                                     {label: this.$t("main.reverse.list.mainRevLiAccept"), bindValue: 2},
                                     {label: this.$t("main.reverse.list.mainRevLiReject"), bindValue: 3},
-                                    {label: this.$t("main.reverse.list.mainRevLiSeller"), bindValue: 5},
-                                    {label: this.$t("main.reverse.list.mainRevLiSuccess"), bindValue: 7},
+                                    // {label: this.$t("main.reverse.list.mainRevLiSeller"), bindValue: 4},
+                                    // {label: this.$t("main.reverse.list.mainRevLiSuccess"), bindValue: 7},
+                                    {label: this.$t("main.reverse.list.mainRevLiSuccess"), bindValue: 4},
                                     {label: this.$t("main.reverse.list.mainRevLiClose"), bindValue: 9}
                                   ]
                                 },
@@ -248,13 +249,14 @@
                         label: this.$t("main.order.reverse.mainOrReOtherReason")
                     }
                 ],
+                // 1退款申请中，2退款接受，3退款驳回，4已赔付给买家，5卖家已赔，7退款成功，9退款关闭
                 reverseStatusList : [
                     {label: this.$t("main.reverse.list.mainRevLiAppling"), value: 1},
                     {label: this.$t("main.reverse.list.mainRevLiAccept"), value: 2},
                     {label: this.$t("main.reverse.list.mainRevLiReject"), value: 3},
-                    {label: this.$t("main.reverse.detail.mainRevDeRefundSucc"), value: 4},
-                    {label: this.$t("main.reverse.list.mainRevLiSeller"), value: 5},
-                    {label: this.$t("main.reverse.list.mainRevLiSuccess"), value: 7},
+                    // {label: this.$t("main.reverse.list.mainRevLiSeller"), value: 4},
+                    // {label: this.$t("main.reverse.list.mainRevLiSuccess"), value: 7},
+                    {label: this.$t("main.reverse.list.mainRevLiSuccess"), value: 4},
                     {label: this.$t("main.reverse.list.mainRevLiClose"), value: 9}
                 ],
                 pagination: {

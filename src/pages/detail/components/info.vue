@@ -128,9 +128,9 @@
                         <a :href="'/detail#/?id=' + item.id" target="_blank">
                             <div class="img" :style="{backgroundImage : 'url(' + item.image_value +'!item_middle)'}"></div>
                             <div class="content" :title="item.item_name">
-                                <el-tooltip class="item" effect="dark" :content="item.item_name" placement="top">
+                                <!--<el-tooltip class="item" effect="dark" :content="item.item_name" placement="top">-->
                                     <p class="name">{{item.item_name}}</p>
-                                </el-tooltip>
+                                <!--</el-tooltip>-->
                             </div>
                             <div class="item-price">
                                 <p v-ltsLoginShow:true class="price">
@@ -151,9 +151,9 @@
             <div class="content">
                 <div class="briefInfo">
                     <div class="img" :style="'background-image: url(' + item.image_value + ')'"></div>
-                    <el-tooltip class="item" effect="dark" :content="item.item_name" placement="top">
-                        <div class="name">{{item.item_name}}</div>
-                    </el-tooltip>
+                    <!--<el-tooltip class="item" effect="dark" :content="item.item_name" placement="top">-->
+                        <div class="name" :title="item.item_name">{{item.item_name}}</div>
+                    <!--</el-tooltip>-->
                     <div class="price" v-if="!checkedSpu.price"><span class="red" style="font-size: 14px;">{{ $t("main.detail.info.mainDetInfoNoChoose") }}</span>
                     </div>
                     <div class="price" v-if="checkedSpu.price">
@@ -171,9 +171,9 @@
                         <a :href="'/detail#/?id=' + value.id" target="_blank">
                             <div class="img" :style="'background-image: url(' + value.image_value + ')'"></div>
                         </a>
-                        <el-tooltip class="item" effect="dark" :content="value.item_name" placement="top">
-                            <div class="name">{{value.item_name}}</div>
-                        </el-tooltip>
+                        <!--<el-tooltip class="item" effect="dark" :content="value.item_name" placement="top">-->
+                            <div class="name" :title="value.item_name">{{value.item_name}}</div>
+                        <!--</el-tooltip>-->
                         <el-popover placement="bottom" popper-class="othersPopover" ref="popover">
                             <el-form label-width="120px" label-position="left">
                                 <el-form-item v-for="prop in otherGoodsItem.item_prop_value_maps" :key="prop.prop_name"
@@ -283,9 +283,9 @@
                             <a :href="'/detail#/?id=' + item.id" target="_blank">
                                 <div class="img" :style="{backgroundImage : 'url(' + item.image_value +'!item_middle)'}"></div>
                                 <div class="content" >
-                                    <el-tooltip class="item" effect="dark" :content="item.item_name" placement="top">
-                                        <p class="name">{{item.item_name}}</p>
-                                    </el-tooltip>
+                                    <!--<el-tooltip class="item" effect="dark" :content="item.item_name" placement="top">-->
+                                        <p class="name" :title="item.item_name">{{item.item_name}}</p>
+                                    <!--</el-tooltip>-->
                                 </div>
                                 <div class="item-price">
                                     <button v-ltsLoginShow:false v-login>{{ $t("main.detail.info.mainDetInfoLoginPrice")

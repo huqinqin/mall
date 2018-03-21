@@ -620,6 +620,8 @@
                 item.item_props.forEach(function (val, key, array) {
                     val.propValue = JSON.parse(val.prop_value)
                 })
+                item.price = item.item_props[0].price
+                item.price_real = item.item_props[0].price_real
                 this.tableData.push(item)
             } else {
                 let items = this.$route.params.items

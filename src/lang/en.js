@@ -213,7 +213,7 @@ export default {
                 mainDetInfoJoinCart: 'Add to Cart',
                 mainDetInfoBuy: 'Purchase History',
                 mainDetInfoHot: 'Best Sellers',
-                mainDetInfoLoginPrice: 'Log In To See Price',
+                mainDetInfoLoginPrice: 'Sign In For Price',
                 mainDetInfoGoodsInfo: 'Specifications',
                 mainDetInfoDetail: 'Details',
                 mainInMore: 'More',

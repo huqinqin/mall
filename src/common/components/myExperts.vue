@@ -41,7 +41,8 @@
           getExpert(){
               let data = store.getItem('expert')
               if(data){
-                  this.someInfo = data
+                  this.someInfo = data;
+                  console.log(this.someInfo);
               }
           },
       },

@@ -326,7 +326,7 @@
           <div class="check">
             <div class="info">
               <div class="topline">
-                <span>{{ $t("main.cart.list.mainCartliCheckedItem") }} {{checkedItem.length}} {{ $t("main.cart.other.mainCartUnit") }}，{{ $t("main.cart.list.mainCartliAllPrice") }}({{ $t("main.cart.other.mainCartNo") }} {{ $t("main.cart.settle.mainCartSeTax") }}、{{ $t("main.cart.settle.mainCartSeFright") }})：<lts-money
+                <span>{{checkedItem.length}}{{ $t("main.cart.other.mainCartUnit") }} {{ $t("main.cart.list.mainCartliCheckedItem") }}，{{ $t("main.cart.list.mainCartliAllPrice") }}({{ $t("main.cart.other.mainCartNo") }} {{ $t("main.cart.settle.mainCartSeTax") }}、{{ $t("main.cart.settle.mainCartSeFright") }})：<lts-money
                   :money="totalPrice"></lts-money></span>
               </div>
               <div class="bottomline">
@@ -903,7 +903,10 @@
           }
           .bottomline {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end;
+              div:first-child{
+                  margin-right: 24px;
+              }
             span.bold span {
               color: #ff3b41;
               font-weight: bold;

@@ -123,7 +123,7 @@ export default {
                 mainCartliGoodsInfo: '商品信息',
                 mainCartliPrice: '价格',
                 mainCartliAllPrice: '总价',
-                mainCartliCheckedItem: '已选商品',
+                mainCartliCheckedItem: '已选',
                 mainCartliBenefit: '活动优惠',
                 mainCartliCheckedAll: '全选',
                 mainCartliDeleteChecked: '删除选中商品',

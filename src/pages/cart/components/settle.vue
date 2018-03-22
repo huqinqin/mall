@@ -222,7 +222,7 @@
         <div class="someCount">
             <div class="count">
                 <p>{{ $t("main.cart.settle.mainCartSeShouldPay") }}： <span class="money"><span
-                    v-if="sum.amount == 0 || sum.amount"><lts-money :money="sum.amount"></lts-money></span></span></p>
+                    v-if="sum.amount"><lts-money :money="sum.amount"></lts-money></span><span v-else>$0.00</span></span></p>
                 <p>{{ $t("main.cart.settle.mainCartSeFright") }}： <span><span v-if="sum.express">+<lts-money
                     :money="sum.express"></lts-money></span><span v-else>$0.00</span></span></p>
                 <p>{{ $t("main.cart.settle.mainCartSeTax") }}： <span><span v-if="sum.tax">+<lts-money

@@ -267,7 +267,7 @@
 
 <style lang="less">
     .register{
-        padding-top: 60px;
+        padding-top: 30px;
         padding-bottom: 60px;
         border-bottom: 1px solid #f6f6f6;
         .el-form--label-top .el-form-item {

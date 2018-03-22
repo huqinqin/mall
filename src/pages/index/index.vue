@@ -496,7 +496,7 @@
       li {
         transition: all ease .2s;
         .img {
-            background-size: 190px auto;
+          background-size: 190px auto;
           background-position: center center;
           height: 242px;
           background-repeat: no-repeat;

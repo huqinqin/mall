@@ -51,13 +51,13 @@
               v-model="creditFrom.date"
               type="month"
               format="MM-yyyy"
-              :placeholder="$t('main.personal.card.mainPerCarSelDate')">
+              placeholder="MM/YYYY">
             </el-date-picker>
           </el-form-item>
             <el-form-item label="CVV" prop="cardCode">
                 <el-input v-model="creditFrom.cardCode"></el-input>
             </el-form-item>
-            <el-form-item label="zipCode" prop="zipCode">
+            <el-form-item label="Zip code" prop="zipCode">
                 <el-input v-model="creditFrom.zipCode"></el-input>
             </el-form-item>
         </el-form>

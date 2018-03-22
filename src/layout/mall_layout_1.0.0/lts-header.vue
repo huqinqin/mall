@@ -71,6 +71,7 @@
     import session from '@/library/Session'
     import userService from '@/services/UserService.js'
     import myExperts from '@/common/components/myExperts'
+    import expertService from '@/services/MyexpertService.js'
     export default {
         name : "lts-header",
         data(){
@@ -104,6 +105,14 @@
               this.$refs.loginForm.resetFields()
               console.log(this.$refs.loginForm)
             },
+            // 登录时获取myExpert
+            getExpert(){
+                expertService.getExpert().then((data) => {
+                    if(data.data){
+                        session.expert(data.data);
+                    }
+                });
+            },
             signup(){
                 location.href = '/account#/register';
                 this.loginVisible = false;
@@ -122,6 +131,7 @@
             },
             login(data){
                 userService.login(this.form.acount,this.form.password).then((data)=>{
+                    this.getExpert();
                     this.loginVisible = false;
                     this.getUserInfo();
                 },(msg)=>{

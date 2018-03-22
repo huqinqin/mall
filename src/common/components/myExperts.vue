@@ -14,7 +14,8 @@
 </template>
 
 <script>
- import expertService from '@/services/MyexpertService.js'
+ // import expertService from '@/services/MyexpertService.js'
+ import {store} from 'ltsutil'
  import $ from 'jquery'
   export default {
      name:'expert',
@@ -34,11 +35,10 @@
               $('.el-tooltip__popper').css('display','none');
           },
           getExpert(){
-              expertService.getExpert().then((data) => {
-                  if(data.data){
-                      this.someInfo = data.data;
-                  }
-              });
+              let data = store.getItem('expert')
+              if(data){
+                  this.someInfo = data
+              }
           },
       },
       mounted(){

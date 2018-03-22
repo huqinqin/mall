@@ -476,8 +476,9 @@
             .img {
               height: 242px;
               background-position: center;
-              background-size: contain;
-                background-repeat: no-repeat;
+              background-size: 190px auto;
+              background-repeat: no-repeat;
+
             }
           }
 
@@ -495,7 +496,7 @@
       li {
         transition: all ease .2s;
         .img {
-          background-size: contain;
+            background-size: 190px auto;
           background-position: center center;
           height: 242px;
           background-repeat: no-repeat;

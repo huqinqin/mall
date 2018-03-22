@@ -620,7 +620,7 @@
                             width:100%;
                             height: 222px;
                             background-position: center center;
-                            background-size: contain;
+                            background-size: 190px auto;
                             background-repeat: no-repeat;
                             transition: all ease .4s;
                         }

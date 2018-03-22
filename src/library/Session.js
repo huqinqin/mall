@@ -29,6 +29,10 @@ export default {
     },
     logout(){
         store.removeItem(config.sessDataName);
+        store.removeItem('expert');
         location.href = config.homePage;
+    },
+    expert(expert){
+        store.setItem('expert', expert);
     }
 }

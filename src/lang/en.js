@@ -370,9 +370,9 @@ export default {
         personal: {
             card: {
                 mainPerCarTitle: 'Resale Certificate Info',
-                mainPerCarNewCreate: 'New Resale Certificate',
+                mainPerCarNewCreate: 'Add a New Certificate',
                 mainPerCarDisPic: 'Resale Certificate Picture',
-                mainPerCarDisProveNum: 'Account Number',
+                mainPerCarDisProveNum: 'Account No.',
                 mainPerCarAddress: 'Address',
                 mainPerCarCompany: 'Company',
                 mainPerCarCity: 'City',
@@ -385,7 +385,7 @@ export default {
                 mainPerCarDeco: '得克萨斯州',
                 mainPerCarWashington: '华盛顿州',
                 mainPerCarCali: '加利福尼亚州',
-                mainPerCarZip: 'Zipcode',
+                mainPerCarZip: 'Zip Code',
                 mainPerCarFromDate: 'Valid Until',
                 mainPerCarSelDate: 'Select Date',
                 mainPerCarSave: 'Save',

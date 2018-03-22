@@ -85,7 +85,7 @@ export default {
                 mainCartBefInputCCV:'Enter the CCV Please',
                 mainCartBefInputzipCode:'Enter the Zipcode Please',
                 mainCartBefCreditNum:'Number',
-                mainCartBefCreditValid:'Expires on',
+                mainCartBefCreditValid:'Valid though',
                 mainCartBefTermInfo:'Only Applies When Balance Is Sufficient',
             },
             fail: {

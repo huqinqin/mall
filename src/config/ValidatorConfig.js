@@ -115,11 +115,11 @@ export default {
     ],
     contact: [
         {required: true, message: 'Please enter contact person', trigger: 'blur'},
-        {min: 2, max: 800, message: 'Length must be between 2-200 charaters', trigger: 'blur'}
+        {min: 2, max: 800, message: 'Length must be between 2-800 charaters', trigger: 'blur'}
     ],
     name: [
         {required: true, message: 'Please enter name', trigger: 'blur'},
-        {min: 4, max: 200, message: 'Length must be between 4-100 charaters', trigger: 'blur'}
+        {min: 4, max: 200, message: 'Length must be between 4-200 charaters', trigger: 'blur'}
     ],
     /**
      * 仅手机 ^[2-9][0-9]{2}[2-9][0-9]{2}[0-9]{4}$

@@ -35,8 +35,7 @@ export default class PersonalService extends BaseService {
     static sendEmailCode(params) {
         let newparams = {
             old_email: params.oldEmail,
-            new_email: params.newEmail,
-            content: '<div  style=\"line-height:3;\">尊敬的' + params.account + '， 您好:<\/div><div><blockquote style=\"margin: 0 0 0 40px; border: none; padding: 0px;\"><div style=\"line-height:3;\">您在LTS商城' + '<a href="http://mall.lts.com">mall.lts.com</a>' + '点击了验证邮箱。<\/div><div>您的邮箱验证码为：<font color=\"#ff0000\" size=\"6\">$(captcha)<\/font><\/div><div style=\"line-height:3;\">注：请于30分钟内输入，工作人员不会向您索取，请勿告诉他人。如果您不需要注册账户，请忽略本邮件。<\/div><div style=\"line-height:3;\">欢迎来到LTS，祝您购物愉快！<\/div><\/blockquote><\/div><div><includetail><!--<![endif]--><\/includetail><\/div>'
+            new_email: params.newEmail
         };
         return super.getRequest('/user/send_email_plus', newparams)
     }

@@ -6,7 +6,7 @@
             <div class="line"></div>
         </header>
         <main>
-            
+
             <el-form label-position="top" :model="signupForm" :rules="rules" ref="form">
                 <el-form-item label="Email address" prop="email">
                     <el-input v-model="signupForm.email" ></el-input>
@@ -46,9 +46,9 @@
                 <el-form-item label="Zip code" prop="address">
                     <el-input v-model="signupForm.address" ></el-input>
                 </el-form-item>
-                <el-form-item label="Federal Tax ID" prop="FTI">
+                <!--<el-form-item label="Federal Tax ID" prop="FTI">
                     <el-input v-model="signupForm.FTI" ></el-input>
-                </el-form-item>
+                </el-form-item>-->
                 <el-form-item label="Type of Business" prop="Business">
                     <!--<el-input v-model="signupForm.checkPass" ></el-input>-->
                     <el-select v-model="signupForm.Business" :placeholder= '$t("main.accountNew.register.mainAcReSelect")'>
@@ -117,7 +117,7 @@
                     phone:'',
                     mobile:'',
                     address:'',
-                    FTI:'',
+                    /*FTI:'',*/
                     Business:'',
                     url:[],
                 },
@@ -128,9 +128,9 @@
                     companyName: [
                         { required: true, message: this.$t("main.accountNew.register.mainAcReContentNotNull"), trigger: 'blur' },
                     ],
-                    FTI: [
+                    /*FTI: [
                         { required: true, message: this.$t("main.accountNew.register.mainAcReContentNotNull"), trigger: 'blur' },
-                    ],
+                    ],*/
                     fisrtName: [
                         { required: true, message: this.$t("main.accountNew.register.mainAcReContentNotNull"), trigger: 'blur' },
                     ],
@@ -212,7 +212,7 @@
                         let params = {
                             businessPhone: "1-" + this.signupForm.phone,
                             zipCode: this.signupForm.address,
-                            taxId: this.signupForm.FTI,
+                            /*taxId: this.signupForm.FTI,*/
                             typeOfBusiness: this.signupForm.Business,
                             urls: this.signupForm.url
                         };
@@ -267,7 +267,7 @@
 
 <style lang="less">
     .register{
-        padding-top: 60px;
+        padding-top: 30px;
         padding-bottom: 60px;
         border-bottom: 1px solid #f6f6f6;
         .el-form--label-top .el-form-item {

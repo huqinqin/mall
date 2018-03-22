@@ -85,7 +85,7 @@ export default {
                 mainCartBefInputCCV:'Enter the CCV Please',
                 mainCartBefInputzipCode:'Enter the Zipcode Please',
                 mainCartBefCreditNum:'Number',
-                mainCartBefCreditValid:'Expires on',
+                mainCartBefCreditValid:'Valid though',
                 mainCartBefTermInfo:'Only Applies When Balance Is Sufficient',
             },
             fail: {
@@ -285,7 +285,7 @@ export default {
                 mainOrDeCard: 'Pay With Credit Card',
                 mainOrDeAccount: 'Pay By Terms',
                 mainOrDeGouwu: 'Coupon',
-                mainOrDeYue: 'Pay With Account Credit',
+                mainOrDeYue: 'Pay With Account Balance',
                 mainOrDePayStatus: 'Payment Status',
                 mainOrDeBag: 'Package',
                 mainOrDeLogiInfo: 'Order Tracking',

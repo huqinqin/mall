@@ -7,6 +7,8 @@
                <li><span>name：</span><span>{{someInfo.name}}</span></li>
                <li><span>contact：</span><span>{{someInfo.mobile}}</span></li>
                <li><span>email：</span><span>{{someInfo.email}}</span></li>
+               <li><span>store：</span><span>{{someInfo.p_shop_name}}</span></li>
+               <li><span>store Addr：</span><span>{{someInfo.p_shop_addr}}</span></li>
            </ul>
            <ul><img src="../../assets/img/expertIcon.png" alt=""></ul>
        </div>
@@ -25,7 +27,9 @@
               someInfo:{
                   name: 'kevin',
                   mobile: '888-216-2812',
-                  email: 'Support.SanFrancisco@LTSecurityinc.com'
+                  email: 'Support.SanFrancisco@LTSecurityinc.com',
+                  store:'San Francisco',
+                  storeAddr:'38507 Cherry St. Suite GNewark, CA 94560'
               }
           }
       },

@@ -15,5 +15,7 @@ export default class UserService extends BaseService {
     static get(){
         return super.getRequest('/user/get');
     }
-
+    static checkEmail(email){
+        return super.getRequest('/user/check_email', {email: email});
+    }
 }

@@ -137,6 +137,8 @@ export default {
                 mainCartSePhone: 'Phone',
                 mainCartSeFitDefault: 'SetDefault',
                 mainCartSeDefaultAdress: 'Default',
+                mainCartSeZitiAdress: 'Shop Address',
+                mainCartSeFullProm: 'Full Reduction',
                 mainCartSeDel: 'Delete',
                 mainCartSeAlert: 'Modify',
                 mainAddCertiAddress:'Certificate',

@@ -131,6 +131,9 @@
                     <el-radio-button label="SHSM" value="">{{ $t("main.cart.beforePay.mainCartBefExpress") }}
                     </el-radio-button>
                 </el-radio-group>
+                <div v-if="deliveryType == 'ZITI'" style="color: #666;">
+                    {{$t("main.cart.settle.mainCartSeZitiAdress")}}：{{user.address}}
+                </div>
                 <!--<div class="selectExpress" v-if="deliveryType == 'SHSM'">-->
                 <div class="selectExpress" v-if="false">
                     <el-form label-position="top">
@@ -220,12 +223,14 @@
             <div class="count">
                 <p>{{ $t("main.cart.settle.mainCartSeShouldPay") }}： <span class="money"><span
                     v-if="sum.amount == 0 || sum.amount"><lts-money :money="sum.amount"></lts-money></span></span></p>
-                <p>{{ $t("main.cart.settle.mainCartSeFright") }}： <span><span v-if="sum.express == 0 || sum.express">+<lts-money
-                    :money="sum.express"></lts-money></span></span></p>
-                <p>{{ $t("main.cart.settle.mainCartSeTax") }}： <span><span v-if="sum.tax == 0 || sum.tax">+<lts-money
-                    :money="sum.tax"></lts-money></span></span></p>
-                <p>{{ $t("main.cart.list.mainCartliBenefit") }}： <span><span v-if="sum.promotion == 0 || sum.promotion">-<lts-money
-                    :money="sum.promotion"></lts-money></span></span></p>
+                <p>{{ $t("main.cart.settle.mainCartSeFright") }}： <span><span v-if="sum.express">+<lts-money
+                    :money="sum.express"></lts-money></span><span v-else>$0.00</span></span></p>
+                <p>{{ $t("main.cart.settle.mainCartSeTax") }}： <span><span v-if="sum.tax">+<lts-money
+                    :money="sum.tax"></lts-money></span><span v-else>$0.00</span></span></p>
+                <p>{{ $t("main.cart.list.mainCartliBenefit") }}： <span><span v-if="sum.promotion - minusPro">-<lts-money
+                    :money="sum.promotion - minusPro"></lts-money></span><span v-else>$0.00</span></span></p>
+                <p>{{ $t("main.cart.settle.mainCartSeFullProm") }}： <span><span v-if="minusPro">-<lts-money
+                    :money="minusPro"></lts-money></span><span v-else>$0.00</span></span></p>
                 <p v-if="bonusId">{{$t("main.someinfo.mainSomeCoupon")}}：<span>-<lts-money :money="bonus"/></span></p>
                 <p class="result">{{ $t("main.cart.settle.mainCartSeMustPay") }}： <span>
             <span v-if="totalPrice && !bonusId"><lts-money :money="totalPrice"></lts-money></span>
@@ -236,8 +241,10 @@
         <div class="allInfo">
             <p>{{$t("main.cart.settle.mainCartSeContact")}}： {{checkedAddress.user_name}}</p>
             <p>{{$t("main.cart.settle.mainCartSeContactPhone")}}： {{checkedAddress.mobile}}</p>
-            <p>{{ $t("main.address.mainAddReceivingAddress") }}： {{checkedAddress.address}}&nbsp;{{checkedAddress.building}}</p>
-            <p>{{$t("main.cart.settle.mainCartSeQuaAddr")}}：
+            <p>{{ $t("main.address.mainAddReceivingAddress") }}：
+                <span v-if="deliveryType == 'ZITI'">{{user.address}}</span>
+                <span v-else>{{checkedAddress.address}}&nbsp;{{checkedAddress.building}}</span></p>
+            <p v-if="deliveryType != 'ZITI' && checkedAddress.valid_time">{{$t("main.cart.settle.mainCartSeQuaAddr")}}：
                 {{checkedAddress.address}}&nbsp;{{checkedAddress.building}}</p>
         </div>
         <div class="submit">
@@ -250,6 +257,7 @@
 
 <script>
     import addressService from '@/services/AddressService.js'
+    import cartService from '@/services/CartService.js'
     import orderService from '@/services/OrderService.js'
     import checkService from '@/services/CheckService.js'
     import {store, dateUtils} from 'ltsutil'
@@ -268,7 +276,8 @@
                 certiAddress: [],
                 user: {
                     name: '',
-                    phone: ''
+                    phone: '',
+                    address:''
                 },
                 canSubmit: true, // 刚进入页面等待运费税费计算
                 expressForm: {
@@ -295,7 +304,7 @@
                 info: JSON.parse(store.getItem('SESSION_DATA')),
                 totalPrice: '',
                 inPriceType: 'false', // 送货单是否包含价格，配送方式
-                deliveryType: 'ZITI', // 送货上门or快递
+                deliveryType: 'SHSM', // 送货上门or快递
                 useBalance: false, // 是否使用余额
                 showAddAddress: false, // 地址框
                 showEditAddress: false,
@@ -338,10 +347,37 @@
                 selectedBonus: '',
                 bonusOption: [],
                 bonusArr: [],
-                editing:0 // 正在编辑的地址id
+                editing:0, // 正在编辑的地址id
+                minusPro:0,
+                fullrule:[]
             }
         },
         methods: {
+            // 查询是否有满减活动
+            minus(){
+                cartService.getFullSetting().then((data) => {
+                    this.fullrule = data.datalist
+                    this.calcMinus(this.tableData)
+                }, (msg) => {
+                    this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
+                })
+            },
+            calcMinus(item){
+                let sum = 0
+                this.minusPro = 0
+                if(item.length > 0){
+                    item.forEach((value) => {
+                        if(value.discount_type === 0){
+                            sum += value.price
+                        }
+                    })
+                    this.fullrule.forEach((value) => {
+                        if(sum >= value.start_v){
+                            this.minusPro = value.value
+                        }
+                    })
+                }
+            },
             // 重置表单
             clearForm() {
                 this.addForm.StateSelection = []
@@ -398,6 +434,7 @@
                 checkService.checkInfo().then((data) => {
                     this.user.name = data.data.contact
                     this.user.phone = data.data.contact_phone
+                    this.user.address = data.data.address
                     this.getAddressList()
                 }, (msg) => {
                     this.$ltsMessage({type: 'error', message: msg.error_message})
@@ -633,6 +670,7 @@
                 this.tableData = items
                 // this.user_id = this.$route.params.userId
             }
+
             this.tableData.forEach((item) => {
                 if (item.discount_type == 1) {
                     item.realPrice = item.item_props[0].price * item.discount / 100
@@ -650,6 +688,7 @@
             })
             this.getInfo()
             this.expressOptions = this.UPSOptions
+            this.minus()
         }
     }
 </script>

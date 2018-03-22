@@ -136,6 +136,8 @@ export default {
                 mainCartSePhone: '电话',
                 mainCartSeFitDefault: '设为默认',
                 mainCartSeDefaultAdress: '默认地址',
+                mainCartSeZitiAdress: '门店地址',
+                mainCartSeFullProm: '满减优惠',
                 mainCartSeDel: '删除',
                 mainCartSeAlert: '修改',
                 mainAddCertiAddress:'分销证地址',

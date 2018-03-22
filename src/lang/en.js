@@ -283,7 +283,7 @@ export default {
                 mainOrDeCard: 'Pay With Credit Card',
                 mainOrDeAccount: 'Pay By Terms',
                 mainOrDeGouwu: 'Coupon',
-                mainOrDeYue: 'Pay With Account Credit',
+                mainOrDeYue: 'Pay With Account Balance',
                 mainOrDePayStatus: 'Payment Status',
                 mainOrDeBag: 'Package',
                 mainOrDeLogiInfo: 'Order Tracking',

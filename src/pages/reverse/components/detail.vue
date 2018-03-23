@@ -16,7 +16,7 @@
             <div class="remark" v-if="detail.reverse.status == 3 ">
                 <div>{{$t("main.reverse.detail.mainRevDeFuse")}}:{{detail.reverse.edate | timestamp2str}}</div>
             </div>
-            <p class="title" v-if="detail.reverse.status == 4">{{$t("main.reverse.detail.mainRevDeRefundSucc")}}</p>
+            <p class="title" v-if="detail.reverse.status == 4">{{$t("main.reverse.list.mainRevLiSuccess")}}</p>
             <div class="remark" v-if="detail.reverse.status == 4 ">
                 <div>{{$t("main.reverse.detail.mainRevDeReturnSucc")}}:{{detail.reverse.tobuy_time | timestamp2str}}</div>
                 <div>{{$t("main.reverse.detail.mainRevDeReturnTotal")}}<lts-money :money="detail.reverse.refund_real"></lts-money></div>

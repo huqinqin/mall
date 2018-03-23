@@ -28,8 +28,8 @@
                   name: 'kevin',
                   mobile: '888-216-2812',
                   email: 'Support.SanFrancisco@LTSecurityinc.com',
-                  store:'San Francisco',
-                  storeAddr:'38507 Cherry St. Suite GNewark, CA 94560'
+                  p_shop_name:'San Francisco',
+                  p_shop_addr:'38507 Cherry St. Suite GNewark, CA 94560'
               }
           }
       },

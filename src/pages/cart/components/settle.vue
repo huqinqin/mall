@@ -236,9 +236,10 @@
         <div class="allInfo">
             <p>{{$t("main.cart.settle.mainCartSeContact")}}： {{checkedAddress.user_name}}</p>
             <p>{{$t("main.cart.settle.mainCartSeContactPhone")}}： {{checkedAddress.mobile}}</p>
-            <p>{{ $t("main.address.mainAddReceivingAddress") }}：
-                <span v-if="deliveryType == 'ZITI'">{{user.address}}</span>
-                <span v-else>{{checkedAddress.address}}&nbsp;{{checkedAddress.building}}</span></p>
+            <p v-if="deliveryType == 'ZITI' ">{{$t("main.cart.settle.mainCartSeZitiAdress")}}：
+                <span>{{user.address}}</span></p>
+            <p v-else>{{ $t("main.address.mainAddReceivingAddress") }}：
+                <span>{{checkedAddress.address}}&nbsp;{{checkedAddress.building}}</span></p>
             <p v-if="deliveryType != 'ZITI' && checkedAddress.valid_time">{{$t("main.cart.settle.mainCartSeQuaAddr")}}：
                 {{checkedAddress.address}}&nbsp;{{checkedAddress.building}}</p>
         </div>
@@ -344,7 +345,7 @@
                 bonusArr: [],
                 editing:0, // 正在编辑的地址id
                 minusPro:0,
-                fullrule:[]
+                fullrule:[],
             }
         },
         methods: {
@@ -425,16 +426,16 @@
                 this.showAddAddress = true
             },
             // 查询个人信息
-            getInfo() {
-                checkService.checkInfo().then((data) => {
-                    this.user.name = data.data.contact
-                    this.user.phone = data.data.contact_phone
-                    this.user.address = data.data.address
-                    this.getAddressList()
-                }, (msg) => {
-                    this.$ltsMessage({type: 'error', message: msg.error_message})
-                })
-            },
+            // getInfo() {
+            //     checkService.checkInfo().then((data) => {
+            //         this.user.name = data.data.contact
+            //         this.user.phone = data.data.contact_phone
+            //         this.user.address = data.data.address
+            //         this.getAddressList()
+            //     }, (msg) => {
+            //         this.$ltsMessage({type: 'error', message: msg.error_message})
+            //     })
+            // },
             // 查询地址列表
             getAddressList() {
                 this.defaultId = ''
@@ -483,6 +484,7 @@
                             this.checkedAddress = this.certiAddress[0]
                         }
                     }
+
                     this.simulateCreateTrade()
                 })
             },
@@ -640,6 +642,10 @@
                     } else {
                         this.selectedBonus = this.$t('main.cart.settle.mainCartSeNoBonus')
                     }
+                    let ZITI = resp.data.wholesale_delivery_info_map.s_e_l_f_d_e_l_i_v_e_r_y_159872.wholesale_sell_order_list[0].shop
+                    this.user.name = ZITI.contact
+                    this.user.phone = ZITI.contact_phone
+                    this.user.address = ZITI.address
                     this.$emit('submit', 2)
                 }, (msg) => {
                     this.$ltsMessage.show({type: 'error', message: msg.error_message})
@@ -681,7 +687,7 @@
                     item.realPrice = item.item_props[0].price
                 }
             })
-            this.getInfo()
+            this.getAddressList()
             this.expressOptions = this.UPSOptions
             this.minus()
         }

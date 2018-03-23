@@ -53,5 +53,6 @@ export default [
     {value: '560101',label: 'Washington'},
     {value: '570101',label: 'West Virginia'},
     {value: '580101',label: 'Wisconsin'},
-    {value: '590101',label: 'Wyoming'}
+    {value: '590101',label: 'Wyoming'},
+    {value: '600101',label: 'Washington DC'}
 ]

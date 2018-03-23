@@ -523,7 +523,7 @@ export default {
                 mainRevLiIsSure: 'Proceed to cancel the application？',
                 mainRevLiCanle: 'No',
                 mainRevLiConfirm: 'Yes',
-                mainRevLiApply: 'Clo',
+                mainRevLiApply: 'Cancle',
                 mainRevLiLogis: 'Fill In Delivery Info',
                 mainRevLiLogising: 'Fill In Delivery Info',
                 mainRevLiLogisCompany: 'Shipping Company',

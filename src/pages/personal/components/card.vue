@@ -111,12 +111,12 @@
             <el-table-column
                 prop="distribute_num"
                 :label='$t("main.personal.card.mainPerCarDisProveNum")'
-                width="100">
+                width="130">
             </el-table-column>
             <el-table-column
                 prop="address"
                 :label='$t("main.personal.card.mainPerCarAddress")'
-                width="150">
+                width="130">
             </el-table-column>
             <el-table-column
                 prop="city"

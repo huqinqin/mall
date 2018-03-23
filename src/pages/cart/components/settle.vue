@@ -431,7 +431,7 @@
             },
             // 查询个人信息
             getInfo() {
-                checkService.checkInfo().then((data) => {
+                checkService.getInfo().then((data) => {
                     this.user.name = data.data.contact
                     this.user.phone = data.data.contact_phone
                     this.getAddressList()

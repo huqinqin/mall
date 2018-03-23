@@ -11,4 +11,7 @@ export default class CheckService extends BaseService {
     static history(params){
         return super.getRequest('/installer/item/user_order_history',params)
     }
+    static getInfo(){
+        return super.getRequest('/installer/installer_acct/query_by_uid')
+    }
 }

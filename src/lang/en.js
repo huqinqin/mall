@@ -137,7 +137,7 @@ export default {
                 mainCartSePhone: 'Phone',
                 mainCartSeFitDefault: 'SetDefault',
                 mainCartSeDefaultAdress: 'Default',
-                mainCartSeZitiAdress: 'Shop Address',
+                mainCartSeZitiAdress: 'Pick Up Address',
                 mainCartSeFullProm: 'Full Reduction',
                 mainCartSeDel: 'Delete',
                 mainCartSeAlert: 'Modify',

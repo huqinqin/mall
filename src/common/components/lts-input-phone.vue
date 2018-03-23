@@ -1,9 +1,11 @@
 <template>
-    <el-input :placeholder="placeholder" v-model="phoneNumber" class="input-with-select" @change="changeHandler">
+    <div style="display: flex;width: 100%;">
         <el-select v-model="areaCode" slot="prepend" placeholder="Select Country" @change="changeHandler">
             <el-option v-for="option in options" :key="option.value" :label="option.label" :value="option.value" />
         </el-select>
-    </el-input>
+        <el-input :placeholder="placeholder" v-model="phoneNumber" class="input-with-select num" @change="changeHandler">
+        </el-input>
+    </div>
 </template>
 
 <script>
@@ -44,7 +46,9 @@
                  */
                 phoneNumber: '',
                 copyValue : this.value,
-                options: PhoneAreaCodeConfig
+                options: PhoneAreaCodeConfig,
+                bussinessPhone:'',
+                phoneNumNew:''
             }
         },
         computed : {
@@ -58,7 +62,19 @@
         },
         methods:{
             changeHandler(){
-                this.$emit('input', this.phoneNumberFull);
+                let arr = [];
+                if(this.phoneNumber.indexOf("(") > -1){
+                    arr = this.phoneNumber.split("-");
+                    this.phoneNumNew = arr[0].slice(1,4) + arr[0].slice(5) + arr[1];
+                }else{
+                    this.phoneNumNew = this.phoneNumber;
+                }
+                if(this.phoneNumber.length === 10 && this.phoneNumNew.length === 10){
+                    this.phoneNumber = "(" + this.phoneNumber.slice(0,3) + ")" + this.phoneNumber.slice(3,6) + "-" + this.phoneNumber.slice(6);
+                }else {
+                    this.phoneNumber = this.phoneNumNew;
+                }
+                this.$emit('input', this.phoneNumNew);
             }
         },
         watch: {
@@ -74,11 +90,23 @@
         }
     }
 </script>
-<style scoped lang="less">
+<style lang="less">
         .el-input-group--prepend {
             /deep/ .el-input--suffix {
                 width: 80px !important;
             }
         }
+        /*.num{
+            .el-form-item__content{
+                display: flex;
+                .el-select{
+                    flex: 0 0 50px;
+                    .el-input--suffix{
+                        width: 50px!important;
+                        margin-right: 10px;
+                    }
+                }
+            }
+        }*/
 </style>
 

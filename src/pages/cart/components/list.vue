@@ -327,12 +327,11 @@
           <div class="check">
             <div class="info">
               <div class="topline">
-                <span>{{ $t("main.cart.list.mainCartliAllPrice") }}({{ $t("main.cart.other.mainCartNo") }} {{ $t("main.cart.settle.mainCartSeTax") }},{{ $t("main.cart.settle.mainCartSeFright") }})：<lts-money
+                <span>{{ $t("main.cart.list.mainCartliAllPrice") }} ({{ $t("main.cart.other.mainCartNo") }} {{ $t("main.cart.settle.mainCartSeTax") }}, {{ $t("main.cart.settle.mainCartSeFright") }})：<lts-money
                   :money="totalPrice"></lts-money></span>
               </div>
               <div class="bottomline">
-                <div><span>{{ $t("main.cart.list.mainCartliBenefit") }}：-</span>
-                  <lts-money :money="totalPrice - realTotal"></lts-money>
+                <div><span>{{ $t("main.cart.list.mainCartliBenefit") }}：-</span> <lts-money :money="totalPrice - realTotal"></lts-money>
                 </div>
                 <div><span>{{ $t("main.cart.list.mainCartliShouldPay") }}：</span><span class="bold"><lts-money
                   :money="realTotal"></lts-money></span></div>
@@ -343,18 +342,6 @@
             </el-button>
           </div>
         </div>
-        <!--<div class="history">-->
-        <!--<h5>购买记录</h5>-->
-        <!--<ul class="items">-->
-        <!--<li v-for="item in historyData">-->
-        <!--<img :src="item.img" :alt=item.disc>-->
-        <!--<p>{{item.name}}</p>-->
-        <!--<p><span>{{item.info}}</span></p>-->
-        <!--<p><span>{{item.model}}</span></p>-->
-        <!--<div class="price"><lts-money :money="item.price"></lts-money></div>-->
-        <!--</li>-->
-        <!--</ul>-->
-        <!--</div>-->
       </div>
       <div v-else class="cartNull">
           <div class="img" :style="'backgroundImage: url(' + nullImg + ')'"></div>

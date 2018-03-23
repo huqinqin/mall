@@ -1,5 +1,5 @@
 <template>
-    <div style="display: flex;width: 100%;">
+    <div style="display: flex;width: 100%;" class="inputPhone">
         <el-select v-model="areaCode" slot="prepend" placeholder="Select Country" @change="changeHandler">
             <el-option v-for="option in options" :key="option.value" :label="option.label" :value="option.value"/>
         </el-select>
@@ -76,7 +76,8 @@
                     let phoneNumberArr = newVal.split(SEPARATOR);
                     this.areaCode = phoneNumberArr.length === 2 ? phoneNumberArr[0] : this.options[0].value;
                     this.phoneNumber = phoneNumberArr.length === 2 ? phoneNumberArr[1] : phoneNumberArr[0];
-                } else {
+                    this.clone_phoneNumber = phoneNumberArr.length === 2 ? phoneNumberArr[1] : phoneNumberArr[0];
+                }else{
                     this.phoneNumber = '';
                 }
             },
@@ -101,9 +102,11 @@
     }
 </script>
 <style scoped lang="less">
-    .el-input-group--prepend {
-        /deep/ .el-input--suffix {
-            width: 80px !important;
+    .inputPhone{
+        .el-input-group--prepend {
+            .el-input--suffix {
+                width: 80px !important;
+            }
         }
     }
 </style>

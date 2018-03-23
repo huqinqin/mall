@@ -487,8 +487,9 @@
                             this.checkedAddress = this.certiAddress[0]
                         }
                     }
-
-                    this.simulateCreateTrade()
+                    if(this.checkedId){
+                        this.simulateCreateTrade()
+                    }
                 })
             },
             // 提交地址表单

@@ -1,5 +1,5 @@
 <template>
-    <div class="register">
+    <div class="accRegister">
         <header>
             <div class="line"></div>
             <div class="title">REGISTER AN ACCOUNT</div>
@@ -285,7 +285,7 @@
 </script>
 
 <style lang="less">
-    .register{
+    .accRegister{
         padding-top: 30px;
         padding-bottom: 60px;
         border-bottom: 1px solid #f6f6f6;

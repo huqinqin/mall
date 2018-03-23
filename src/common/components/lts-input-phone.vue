@@ -3,7 +3,7 @@
         <el-select v-model="areaCode" slot="prepend" placeholder="Select Country" @change="changeHandler">
             <el-option v-for="option in options" :key="option.value" :label="option.label" :value="option.value" />
         </el-select>
-        <el-input :placeholder="placeholder" v-model="phoneNumber" class="input-with-select num" @change="changeHandler">
+        <el-input :placeholder="placeholder" v-model="clone_phoneNumber" class="input-with-select num" @change="changeHandler">
         </el-input>
     </div>
 </template>
@@ -45,10 +45,10 @@
                  * 国家区域内具体号码
                  */
                 phoneNumber: '',
-                copyValue : this.value,
                 options: PhoneAreaCodeConfig,
                 bussinessPhone:'',
-                phoneNumNew:''
+                phoneNumNew:'',
+                clone_phoneNumber : '',
             }
         },
         computed : {
@@ -62,19 +62,7 @@
         },
         methods:{
             changeHandler(){
-                let arr = [];
-                if(this.phoneNumber.indexOf("(") > -1){
-                    arr = this.phoneNumber.split("-");
-                    this.phoneNumNew = arr[0].slice(1,4) + arr[0].slice(5) + arr[1];
-                }else{
-                    this.phoneNumNew = this.phoneNumber;
-                }
-                if(this.phoneNumber.length === 10 && this.phoneNumNew.length === 10){
-                    this.phoneNumber = "(" + this.phoneNumber.slice(0,3) + ")" + this.phoneNumber.slice(3,6) + "-" + this.phoneNumber.slice(6);
-                }else {
-                    this.phoneNumber = this.phoneNumNew;
-                }
-                this.$emit('input', this.phoneNumNew);
+                this.$emit('input', this.phoneNumberFull);
             }
         },
         watch: {
@@ -87,6 +75,19 @@
                     this.phoneNumber = '';
                 }
             },
+            clone_phoneNumber(newVal,oldVal){
+                if(newVal && oldVal != newVal){
+                    let phone = newVal.replace(/[^0-9]/ig,"");
+                    if(phone.length != 10 && newVal.indexOf("(") > -1){
+                        let arr = newVal.split("-");
+                        this.clone_phoneNumber = arr[0].slice(1,4) + arr[0].slice(5) + arr[1];
+                    }
+                    if(newVal.length === 10){
+                        this.clone_phoneNumber = "(" + newVal.slice(0,3) + ")" + newVal.slice(3,6) + "-" + newVal.slice(6);
+                    }
+                }
+                this.phoneNumber = newVal;
+            }
         }
     }
 </script>

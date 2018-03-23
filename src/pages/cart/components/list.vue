@@ -662,7 +662,9 @@
         // 查询是否有满减活动
         minus(){
           cartService.getFullSetting().then((data) => {
-              this.fullrule = data.datalist
+              if(data.datalist.length >0 ){
+                  this.fullrule = data.datalist
+              }
           }, (msg) => {
               this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
           })
@@ -676,11 +678,13 @@
                         sum += value.price * value.num
                     }
                 })
-                this.fullrule.forEach((value) => {
-                    if(sum >= value.start_v){
-                        this.minusPro = value.value
-                    }
-                })
+                if(this.fullrule.length > 0){
+                    this.fullrule.forEach((value) => {
+                        if(sum >= value.start_v){
+                            this.minusPro = value.value
+                        }
+                    })
+                }
             }
             this.calc(this.checkedItem)
         }

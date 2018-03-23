@@ -132,7 +132,7 @@
                     </el-radio-button>
                 </el-radio-group>
                 <div v-if="deliveryType == 'ZITI'" style="color: #666;">
-                    {{$t("main.cart.settle.mainCartSeZitiAdress")}}：{{user.address}}
+                    {{$t("main.cart.settle.mainCartSeZitiAdress")}}：{{user.shop_address}}
                 </div>
                 <!--<div class="selectExpress" v-if="deliveryType == 'SHSM'">-->
                 <div class="selectExpress" v-if="false">
@@ -237,7 +237,7 @@
             <p>{{$t("main.cart.settle.mainCartSeContact")}}： {{checkedAddress.user_name}}</p>
             <p>{{$t("main.cart.settle.mainCartSeContactPhone")}}： {{checkedAddress.mobile}}</p>
             <p v-if="deliveryType == 'ZITI' ">{{$t("main.cart.settle.mainCartSeZitiAdress")}}：
-                <span>{{user.address}}</span></p>
+                <span>{{user.shop_address}}</span></p>
             <p v-else>{{ $t("main.address.mainAddReceivingAddress") }}：
                 <span>{{checkedAddress.address}}&nbsp;{{checkedAddress.building}}</span></p>
             <p v-if="deliveryType != 'ZITI' && checkedAddress.valid_time">{{$t("main.cart.settle.mainCartSeQuaAddr")}}：
@@ -273,7 +273,7 @@
                 user: {
                     name: '',
                     phone: '',
-                    address:''
+                    shop_address:''
                 },
                 canSubmit: true, // 刚进入页面等待运费税费计算
                 expressForm: {
@@ -352,8 +352,10 @@
             // 查询是否有满减活动
             minus(){
                 cartService.getFullSetting().then((data) => {
-                    this.fullrule = data.datalist
-                    this.calcMinus(this.tableData)
+                    if(data.datalist.length > 0){
+                        this.fullrule = data.datalist
+                        this.calcMinus(this.tableData)
+                    }
                 }, (msg) => {
                     this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
                 })
@@ -367,11 +369,13 @@
                             sum += value.price * value.num
                         }
                     })
-                    this.fullrule.forEach((value) => {
-                        if(sum >= value.start_v){
-                            this.minusPro = value.value
-                        }
-                    })
+                    if(this.fullrule.length > 0){
+                        this.fullrule.forEach((value) => {
+                            if(sum >= value.start_v){
+                                this.minusPro = value.value
+                            }
+                        })
+                    }
                 }
             },
             // 重置表单
@@ -426,16 +430,15 @@
                 this.showAddAddress = true
             },
             // 查询个人信息
-            // getInfo() {
-            //     checkService.checkInfo().then((data) => {
-            //         this.user.name = data.data.contact
-            //         this.user.phone = data.data.contact_phone
-            //         this.user.address = data.data.address
-            //         this.getAddressList()
-            //     }, (msg) => {
-            //         this.$ltsMessage({type: 'error', message: msg.error_message})
-            //     })
-            // },
+            getInfo() {
+                checkService.checkInfo().then((data) => {
+                    this.user.name = data.data.contact
+                    this.user.phone = data.data.contact_phone
+                    this.getAddressList()
+                }, (msg) => {
+                    this.$ltsMessage({type: 'error', message: msg.error_message})
+                })
+            },
             // 查询地址列表
             getAddressList() {
                 this.defaultId = ''
@@ -645,9 +648,7 @@
                     let ZITI
                     for(let key in resp.data.wholesale_delivery_info_map){
                         ZITI = resp.data.wholesale_delivery_info_map[key].wholesale_sell_order_list[0].shop
-                        this.user.name = ZITI.contact
-                        this.user.phone = ZITI.contact_phone
-                        this.user.address = ZITI.address
+                        this.user.shop_address = ZITI.address
                     }
                     this.$emit('submit', 2)
                 }, (msg) => {
@@ -690,7 +691,7 @@
                     item.realPrice = item.item_props[0].price
                 }
             })
-            this.getAddressList()
+            this.getInfo()
             this.expressOptions = this.UPSOptions
             this.minus()
         }

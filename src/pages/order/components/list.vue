@@ -142,6 +142,7 @@
                             <el-dropdown-item v-if="scope.row.pay_status == 0 &&  scope.row.status == 0" command="pay" :data="scope.row">{{$t("main.order.list.mainOrLiPay")}}</el-dropdown-item>
                             <el-dropdown-item v-if="scope.row.pay_status == 0 &&  scope.row.status == 0" command="close" :data="scope.row">{{$t("main.order.list.mainOrLiCanleOrder")}}</el-dropdown-item>
                             <el-dropdown-item><router-link :to="'/detail/' + scope.row.tid">{{$t("main.order.list.mainOrLiOrderDet")}}</router-link></el-dropdown-item>
+                            <el-dropdown-item v-if="scope.row.status == 2 " command="sureAccept" :data="scope.row">确定收货</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
                 </template>
@@ -293,6 +294,12 @@
                             })
                         });
                         break;
+                    case "sureAccept":
+                        order = data.$vnode.data.attrs.data;
+                        console.log(order);
+                        orderService.confirmAccept(order.tid).then((data) => {
+                            location.reload();
+                        },(msg) => {this.$ltsMessage.show({type:'error',message:msg.error_message})})
                     default:
                         break;
                 }

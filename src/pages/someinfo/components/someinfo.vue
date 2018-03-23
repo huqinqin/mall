@@ -326,7 +326,7 @@
                 }
                 .flagLine{
                     border: none;
-                    border-top: 1px solid #a3a3a3;
+                    border-top: 1px solid #eee;
                     margin: 24px 0;
                     width: 90%;
                 }

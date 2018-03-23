@@ -322,11 +322,12 @@
           <div class="choose">
             <el-checkbox :label='$t("main.cart.list.mainCartliCheckedAll")' v-model="selectedAll"
                          @change="selectAll"></el-checkbox>
+              <span>{{checkedItem.length}} {{ $t("main.cart.other.mainCartUnit") }} {{ $t("main.cart.list.mainCartliCheckedItem") }}</span>
           </div>
           <div class="check">
             <div class="info">
               <div class="topline">
-                <span>{{checkedItem.length}}{{ $t("main.cart.other.mainCartUnit") }} {{ $t("main.cart.list.mainCartliCheckedItem") }}，{{ $t("main.cart.list.mainCartliAllPrice") }}({{ $t("main.cart.other.mainCartNo") }} {{ $t("main.cart.settle.mainCartSeTax") }}、{{ $t("main.cart.settle.mainCartSeFright") }})：<lts-money
+                <span>{{ $t("main.cart.list.mainCartliAllPrice") }}({{ $t("main.cart.other.mainCartNo") }} {{ $t("main.cart.settle.mainCartSeTax") }},{{ $t("main.cart.settle.mainCartSeFright") }})：<lts-money
                   :money="totalPrice"></lts-money></span>
               </div>
               <div class="bottomline">

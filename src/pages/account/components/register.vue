@@ -96,7 +96,7 @@
 <script>
     import accountService from '@/services/AccountService.js'
     import validatorConfig from '@/config/ValidatorConfig.js'
-    import InputPhone from '@/common/components/lts-input-phone'
+    import InputPhone from '@/common/components/lts-input-phone1'
     export default {
         name: "signup",
         data(){

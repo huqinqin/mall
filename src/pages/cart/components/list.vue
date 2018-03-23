@@ -588,7 +588,8 @@
       inputNumeberChange (row) {
         this.$nextTick(() => {
           this.putCartPlus(row).then((data) => {
-            this.calc(this.checkedItem)
+              this.calcMinus(this.checkedItem)
+
           }, (msg) => {
             this.$ltsMessage.show({type:'error',message:msg.error_message})
           })
@@ -661,7 +662,9 @@
         // 查询是否有满减活动
         minus(){
           cartService.getFullSetting().then((data) => {
-              this.fullrule = data.datalist
+              if(data.datalist.length >0 ){
+                  this.fullrule = data.datalist
+              }
           }, (msg) => {
               this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
           })
@@ -672,16 +675,18 @@
             if(item.length > 0){
                 item.forEach((value) => {
                     if(value.discount_type === 0){
-                        console.log(value)
-                        sum += value.price
+                        sum += value.price * value.num
                     }
                 })
-                this.fullrule.forEach((value) => {
-                    if(sum >= value.start_v){
-                        this.minusPro = value.value
-                    }
-                })
+                if(this.fullrule.length > 0){
+                    this.fullrule.forEach((value) => {
+                        if(sum >= value.start_v){
+                            this.minusPro = value.value
+                        }
+                    })
+                }
             }
+            this.calc(this.checkedItem)
         }
     },
     watch: {

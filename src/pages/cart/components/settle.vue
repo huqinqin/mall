@@ -132,7 +132,7 @@
                     </el-radio-button>
                 </el-radio-group>
                 <div v-if="deliveryType == 'ZITI'" style="color: #666;">
-                    {{$t("main.cart.settle.mainCartSeZitiAdress")}}：{{user.address}}
+                    {{$t("main.cart.settle.mainCartSeZitiAdress")}}：{{user.shop_address}}
                 </div>
                 <!--<div class="selectExpress" v-if="deliveryType == 'SHSM'">-->
                 <div class="selectExpress" v-if="false">
@@ -221,16 +221,11 @@
         </div>
         <div class="someCount">
             <div class="count">
-                <p>{{ $t("main.cart.settle.mainCartSeShouldPay") }}： <span class="money"><span
-                    v-if="sum.amount"><lts-money :money="sum.amount"></lts-money></span><span v-else>$0.00</span></span></p>
-                <p>{{ $t("main.cart.settle.mainCartSeFright") }}： <span><span v-if="sum.express">+<lts-money
-                    :money="sum.express"></lts-money></span><span v-else>+$0.00</span></span></p>
-                <p>{{ $t("main.cart.settle.mainCartSeTax") }}： <span><span v-if="sum.tax">+<lts-money
-                    :money="sum.tax"></lts-money></span><span v-else>+$0.00</span></span></p>
-                <p>{{ $t("main.cart.list.mainCartliBenefit") }}： <span><span v-if="sum.promotion - minusPro">-<lts-money
-                    :money="sum.promotion - minusPro"></lts-money></span><span v-else>-$0.00</span></span></p>
-                <p>{{ $t("main.cart.settle.mainCartSeFullProm") }}： <span><span v-if="minusPro">-<lts-money
-                    :money="minusPro"></lts-money></span><span v-else>-$0.00</span></span></p>
+                <p>{{ $t("main.cart.settle.mainCartSeShouldPay") }}： <span class="money"><span v-if="sum.amount"><lts-money :money="sum.amount"></lts-money></span><span v-else>$0.00</span></span></p>
+                <p>{{ $t("main.cart.settle.mainCartSeFright") }}： <span><span v-if="sum.express">+<lts-money :money="sum.express"></lts-money></span><span v-else>+$0.00</span></span></p>
+                <p>{{ $t("main.cart.settle.mainCartSeTax") }}： <span><span v-if="sum.tax">+<lts-money :money="sum.tax"></lts-money></span><span v-else>+$0.00</span></span></p>
+                <p v-if="sum.promotion - minusPro">{{ $t("main.cart.list.mainCartliBenefit") }}：<span><span>-<lts-money :money="sum.promotion - minusPro"></lts-money></span></span></p>
+                <p v-if="minusPro">{{ $t("main.cart.settle.mainCartSeFullProm") }}： <span><span>-<lts-money :money="minusPro"></lts-money></span></span></p>
                 <p v-if="bonusId">{{$t("main.someinfo.mainSomeCoupon")}}：<span>-<lts-money :money="bonus"/></span></p>
                 <p class="result">{{ $t("main.cart.settle.mainCartSeMustPay") }}： <span>
             <span v-if="totalPrice && !bonusId"><lts-money :money="totalPrice"></lts-money></span>
@@ -241,9 +236,10 @@
         <div class="allInfo">
             <p>{{$t("main.cart.settle.mainCartSeContact")}}： {{checkedAddress.user_name}}</p>
             <p>{{$t("main.cart.settle.mainCartSeContactPhone")}}： {{checkedAddress.mobile}}</p>
-            <p>{{ $t("main.address.mainAddReceivingAddress") }}：
-                <span v-if="deliveryType == 'ZITI'">{{user.address}}</span>
-                <span v-else>{{checkedAddress.address}}&nbsp;{{checkedAddress.building}}</span></p>
+            <p v-if="deliveryType == 'ZITI' ">{{$t("main.cart.settle.mainCartSeZitiAdress")}}：
+                <span>{{user.shop_address}}</span></p>
+            <p v-else>{{ $t("main.address.mainAddReceivingAddress") }}：
+                <span>{{checkedAddress.address}}&nbsp;{{checkedAddress.building}}</span></p>
             <p v-if="deliveryType != 'ZITI' && checkedAddress.valid_time">{{$t("main.cart.settle.mainCartSeQuaAddr")}}：
                 {{checkedAddress.address}}&nbsp;{{checkedAddress.building}}</p>
         </div>
@@ -277,7 +273,7 @@
                 user: {
                     name: '',
                     phone: '',
-                    address:''
+                    shop_address:''
                 },
                 canSubmit: true, // 刚进入页面等待运费税费计算
                 expressForm: {
@@ -349,15 +345,17 @@
                 bonusArr: [],
                 editing:0, // 正在编辑的地址id
                 minusPro:0,
-                fullrule:[]
+                fullrule:[],
             }
         },
         methods: {
             // 查询是否有满减活动
             minus(){
                 cartService.getFullSetting().then((data) => {
-                    this.fullrule = data.datalist
-                    this.calcMinus(this.tableData)
+                    if(data.datalist.length > 0){
+                        this.fullrule = data.datalist
+                        this.calcMinus(this.tableData)
+                    }
                 }, (msg) => {
                     this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
                 })
@@ -368,14 +366,16 @@
                 if(item.length > 0){
                     item.forEach((value) => {
                         if(value.discount_type === 0){
-                            sum += value.price
+                            sum += value.price * value.num
                         }
                     })
-                    this.fullrule.forEach((value) => {
-                        if(sum >= value.start_v){
-                            this.minusPro = value.value
-                        }
-                    })
+                    if(this.fullrule.length > 0){
+                        this.fullrule.forEach((value) => {
+                            if(sum >= value.start_v){
+                                this.minusPro = value.value
+                            }
+                        })
+                    }
                 }
             },
             // 重置表单
@@ -434,7 +434,6 @@
                 checkService.checkInfo().then((data) => {
                     this.user.name = data.data.contact
                     this.user.phone = data.data.contact_phone
-                    this.user.address = data.data.address
                     this.getAddressList()
                 }, (msg) => {
                     this.$ltsMessage({type: 'error', message: msg.error_message})
@@ -488,6 +487,7 @@
                             this.checkedAddress = this.certiAddress[0]
                         }
                     }
+
                     this.simulateCreateTrade()
                 })
             },
@@ -644,6 +644,11 @@
                         })
                     } else {
                         this.selectedBonus = this.$t('main.cart.settle.mainCartSeNoBonus')
+                    }
+                    let ZITI
+                    for(let key in resp.data.wholesale_delivery_info_map){
+                        ZITI = resp.data.wholesale_delivery_info_map[key].wholesale_sell_order_list[0].shop
+                        this.user.shop_address = ZITI.address
                     }
                     this.$emit('submit', 2)
                 }, (msg) => {

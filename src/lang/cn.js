@@ -136,7 +136,7 @@ export default {
                 mainCartSePhone: '电话',
                 mainCartSeFitDefault: '设为默认',
                 mainCartSeDefaultAdress: '默认地址',
-                mainCartSeZitiAdress: '门店地址',
+                mainCartSeZitiAdress: '自提地址',
                 mainCartSeFullProm: '满减优惠',
                 mainCartSeDel: '删除',
                 mainCartSeAlert: '修改',
@@ -296,6 +296,7 @@ export default {
                 mainOrDePayTotal: '应付总额',
             },
             list: {
+                mainOrLiSureAccept:"确定收货",
                 mainOrLiWaitDeli: '待发货',
                 mainOrLiAlreadyDeli: '已发货',
                 mainOrLiBackApply: '退款申请',

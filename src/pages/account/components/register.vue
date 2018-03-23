@@ -1,5 +1,5 @@
 <template>
-    <div class="register">
+    <div class="accRegister">
         <header>
             <div class="line"></div>
             <div class="title">REGISTER AN ACCOUNT</div>
@@ -21,6 +21,17 @@
                     <el-input v-model="signupForm.companyName" @keyup.enter="getCode"></el-input>
                 </el-form-item>
                 <el-form-item label="Business phone" prop="phone" class="num">
+                    <!--<el-select v-model="num" placeholder="请选择">
+                        <el-option
+                            v-for="item in globlaNum"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                        </el-option>
+                    </el-select>-->
+                   <InputPhone @input="print"></InputPhone>
+                </el-form-item>
+                <!--<el-form-item label="Business phone" prop="phone" class="num">
                     <el-select v-model="num" placeholder="请选择">
                         <el-option
                             v-for="item in globlaNum"
@@ -30,7 +41,7 @@
                         </el-option>
                     </el-select>
                     <el-input v-model="signupForm.phone" ></el-input>
-                </el-form-item>
+                </el-form-item>-->
                 <el-form-item label="Mobile phone" prop="mobile" class="num">
                     <el-select v-model="num" placeholder="请选择">
                         <el-option
@@ -85,6 +96,7 @@
 <script>
     import accountService from '@/services/AccountService.js'
     import validatorConfig from '@/config/ValidatorConfig.js'
+    import InputPhone from '@/common/components/lts-input-phone'
     export default {
         name: "signup",
         data(){
@@ -179,6 +191,10 @@
             }
         },
         methods: {
+            print(arg){
+                this.signupForm.phone = arg;
+                console.log(this.signupForm.phone);
+            },
             validted(){
                 if(this.signupForm.mobile){
                     let reg = /^[2-9][0-9]{2}[2-9][0-9]{2}[0-9]{4}$/;
@@ -261,12 +277,15 @@
                     }
                 },1000)
             },
+        },
+        components:{
+            InputPhone
         }
     }
 </script>
 
 <style lang="less">
-    .register{
+    .accRegister{
         padding-top: 30px;
         padding-bottom: 60px;
         border-bottom: 1px solid #f6f6f6;

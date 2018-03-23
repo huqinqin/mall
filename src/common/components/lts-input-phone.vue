@@ -1,9 +1,11 @@
 <template>
-    <el-input :placeholder="placeholder" v-model="phoneNumber" class="input-with-select" @change="changeHandler">
+    <div style="display: flex;width: 100%;">
         <el-select v-model="areaCode" slot="prepend" placeholder="Select Country" @change="changeHandler">
             <el-option v-for="option in options" :key="option.value" :label="option.label" :value="option.value"/>
         </el-select>
-    </el-input>
+        <el-input :placeholder="placeholder" v-model="phoneNumber" class="input-with-select num" @change="changeHandler">
+        </el-input>
+    </div>
 </template>
 
 <script>
@@ -43,8 +45,10 @@
                  * 国家区域内具体号码
                  */
                 phoneNumber: '',
-                copyValue: this.value,
-                options: PhoneAreaCodeConfig
+                copyValue : this.value,
+                options: PhoneAreaCodeConfig,
+                bussinessPhone:'',
+                phoneNumNew:''
             }
         },
         computed: {
@@ -60,9 +64,21 @@
                 }
             }
         },
-        methods: {
-            changeHandler() {
-                this.$emit('input', this.phoneNumberFull);
+        methods:{
+            changeHandler(){
+                let arr = [];
+                if(this.phoneNumber.indexOf("(") > -1){
+                    arr = this.phoneNumber.split("-");
+                    this.phoneNumNew = arr[0].slice(1,4) + arr[0].slice(5) + arr[1];
+                }else{
+                    this.phoneNumNew = this.phoneNumber;
+                }
+                if(this.phoneNumber.length === 10 && this.phoneNumNew.length === 10){
+                    this.phoneNumber = "(" + this.phoneNumber.slice(0,3) + ")" + this.phoneNumber.slice(3,6) + "-" + this.phoneNumber.slice(6);
+                }else {
+                    this.phoneNumber = this.phoneNumNew;
+                }
+                this.$emit('input', this.phoneNumNew);
             }
         },
         watch: {

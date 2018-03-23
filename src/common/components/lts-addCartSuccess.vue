@@ -195,7 +195,7 @@
                 li{
                     margin-left: 7px;
                     width: 90px;
-                    word-break: break-all;
+                    word-break: normal;
                     .bg{
                         border: 1px solid rgba(0,0,0,0.3);
                         width: 90px;

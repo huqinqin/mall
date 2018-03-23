@@ -297,7 +297,7 @@
                     display: -webkit-box;
                     -webkit-line-clamp: 2;
                     -webkit-box-orient: vertical;
-                    word-break: break-all;
+                    word-break: normal;
                 }
             }
             .prop-box{

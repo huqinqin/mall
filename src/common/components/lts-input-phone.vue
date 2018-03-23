@@ -71,6 +71,7 @@
                     let phoneNumberArr = newVal.split(SEPARATOR);
                     this.areaCode = phoneNumberArr.length === 2 ? phoneNumberArr[0] : this.options[0].value;
                     this.phoneNumber = phoneNumberArr.length === 2 ? phoneNumberArr[1] : phoneNumberArr[0];
+                    this.clone_phoneNumber = phoneNumberArr.length === 2 ? phoneNumberArr[1] : phoneNumberArr[0];
                 }else{
                     this.phoneNumber = '';
                 }

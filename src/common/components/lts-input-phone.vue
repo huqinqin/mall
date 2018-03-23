@@ -1,11 +1,9 @@
 <template>
-    <div style="display: flex;width: 100%;">
-        <el-select v-model="areaCode" slot="prepend" placeholder="Select Country" @change="changeHandler">
+    <el-input :placeholder="placeholder" v-model="phoneNumber" class="input-with-select" @change="changeHandler">
+        <el-select v-model="areaCode" slot="prepend" :placeholder='$t("components.inputPhone.compInputPhone")' @change="changeHandler">
             <el-option v-for="option in options" :key="option.value" :label="option.label" :value="option.value" />
         </el-select>
-        <el-input :placeholder="placeholder" v-model="phoneNumber" class="input-with-select num" @change="changeHandler">
-        </el-input>
-    </div>
+    </el-input>
 </template>
 
 <script>
@@ -22,18 +20,9 @@
         props: {
             placeholder: {
                 type: String,
-                default(){
-                    return 'Please Input Number'
-                }
+                default: '请输入号码'
             },
             value: String
-        },
-        mounted(){
-            if(this.value){
-                let phoneNumberArr = this.value.split(SEPARATOR);
-                this.areaCode = phoneNumberArr.length === 2 ? phoneNumberArr[0] : this.options[0].value;
-                this.phoneNumber = phoneNumberArr.length === 2 ? phoneNumberArr[1] : phoneNumberArr[0];
-            }
         },
         data() {
             return {
@@ -45,10 +34,7 @@
                  * 国家区域内具体号码
                  */
                 phoneNumber: '',
-                copyValue : this.value,
-                options: PhoneAreaCodeConfig,
-                bussinessPhone:'',
-                phoneNumNew:''
+                options: PhoneAreaCodeConfig
             }
         },
         computed : {
@@ -62,51 +48,25 @@
         },
         methods:{
             changeHandler(){
-                let arr = [];
-                if(this.phoneNumber.indexOf("(") > -1){
-                    arr = this.phoneNumber.split("-");
-                    this.phoneNumNew = arr[0].slice(1,4) + arr[0].slice(5) + arr[1];
-                }else{
-                    this.phoneNumNew = this.phoneNumber;
-                }
-                if(this.phoneNumber.length === 10 && this.phoneNumNew.length === 10){
-                    this.phoneNumber = "(" + this.phoneNumber.slice(0,3) + ")" + this.phoneNumber.slice(3,6) + "-" + this.phoneNumber.slice(6);
-                }else {
-                    this.phoneNumber = this.phoneNumNew;
-                }
-                this.$emit('input', this.phoneNumNew);
+                this.$emit('input', this.phoneNumberFull);
             }
         },
-        watch: {
-            value(newVal) {
+        watch:{
+            value(newVal){
                 if (newVal) {
                     let phoneNumberArr = newVal.split(SEPARATOR);
                     this.areaCode = phoneNumberArr.length === 2 ? phoneNumberArr[0] : this.options[0].value;
                     this.phoneNumber = phoneNumberArr.length === 2 ? phoneNumberArr[1] : phoneNumberArr[0];
-                }else{
-                    this.phoneNumber = '';
                 }
             },
-        }
+        },
     }
 </script>
-<style lang="less">
+<style scoped lang="less">
         .el-input-group--prepend {
             /deep/ .el-input--suffix {
                 width: 80px !important;
             }
         }
-        /*.num{
-            .el-form-item__content{
-                display: flex;
-                .el-select{
-                    flex: 0 0 50px;
-                    .el-input--suffix{
-                        width: 50px!important;
-                        margin-right: 10px;
-                    }
-                }
-            }
-        }*/
 </style>
 

@@ -19,7 +19,7 @@
                                 </div>
                             </template>
                         </el-table-column>
-                        <el-table-column :label='$t("main.order.reverse.mainOrRePriceAmount")' width="103" header-align="center" align="center">
+                        <el-table-column :label='$t("main.order.reverse.mainOrRePriceAmount")' width="130" header-align="center" align="center">
                             <template slot-scope="scope">
                                 <div>{{orderItem.num}}{{scope.row.unit}}</div>
                                 <!--<del class="text-secondary" v-if="scope.row.price > scope.row.price_real">-->

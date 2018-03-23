@@ -588,7 +588,8 @@
       inputNumeberChange (row) {
         this.$nextTick(() => {
           this.putCartPlus(row).then((data) => {
-            this.calc(this.checkedItem)
+              this.calcMinus(this.checkedItem)
+
           }, (msg) => {
             this.$ltsMessage.show({type:'error',message:msg.error_message})
           })
@@ -672,8 +673,7 @@
             if(item.length > 0){
                 item.forEach((value) => {
                     if(value.discount_type === 0){
-                        console.log(value)
-                        sum += value.price
+                        sum += value.price * value.num
                     }
                 })
                 this.fullrule.forEach((value) => {
@@ -682,6 +682,7 @@
                     }
                 })
             }
+            this.calc(this.checkedItem)
         }
     },
     watch: {

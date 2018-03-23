@@ -1,7 +1,7 @@
 <template>
     <el-input :placeholder="placeholder" v-model="phoneNumber" class="input-with-select" @change="changeHandler">
         <el-select v-model="areaCode" slot="prepend" placeholder="Select Country" @change="changeHandler">
-            <el-option v-for="option in options" :key="option.value" :label="option.label" :value="option.value" />
+            <el-option v-for="option in options" :key="option.value" :label="option.label" :value="option.value"/>
         </el-select>
     </el-input>
 </template>
@@ -20,14 +20,14 @@
         props: {
             placeholder: {
                 type: String,
-                default(){
+                default() {
                     return 'Please Input Number'
                 }
             },
             value: String
         },
-        mounted(){
-            if(this.value){
+        mounted() {
+            if (this.value) {
                 let phoneNumberArr = this.value.split(SEPARATOR);
                 this.areaCode = phoneNumberArr.length === 2 ? phoneNumberArr[0] : this.options[0].value;
                 this.phoneNumber = phoneNumberArr.length === 2 ? phoneNumberArr[1] : phoneNumberArr[0];
@@ -43,31 +43,35 @@
                  * 国家区域内具体号码
                  */
                 phoneNumber: '',
-                copyValue : this.value,
+                copyValue: this.value,
                 options: PhoneAreaCodeConfig
             }
         },
-        computed : {
+        computed: {
             /**
              * 全号码
              * @returns {string}
              */
-            phoneNumberFull : function(){
-                return this.areaCode + SEPARATOR + this.phoneNumber;
+            phoneNumberFull: function () {
+                if (this.phoneNumber == '') {
+                    return '';
+                } else {
+                    return this.areaCode + SEPARATOR + this.phoneNumber;
+                }
             }
         },
-        methods:{
-            changeHandler(){
+        methods: {
+            changeHandler() {
                 this.$emit('input', this.phoneNumberFull);
             }
         },
         watch: {
             value(newVal) {
-                if (newVal) {
+                if (newVal && newVal != '1-') {
                     let phoneNumberArr = newVal.split(SEPARATOR);
                     this.areaCode = phoneNumberArr.length === 2 ? phoneNumberArr[0] : this.options[0].value;
                     this.phoneNumber = phoneNumberArr.length === 2 ? phoneNumberArr[1] : phoneNumberArr[0];
-                }else{
+                } else {
                     this.phoneNumber = '';
                 }
             },
@@ -75,10 +79,10 @@
     }
 </script>
 <style scoped lang="less">
-        .el-input-group--prepend {
-            /deep/ .el-input--suffix {
-                width: 80px !important;
-            }
+    .el-input-group--prepend {
+        /deep/ .el-input--suffix {
+            width: 80px !important;
         }
+    }
 </style>
 

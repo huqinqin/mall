@@ -47,7 +47,7 @@ export default {
      */
     format : function (date, fmt) {
         if (fmt == null || fmt === undefined || fmt.length === 0) {
-            fmt = "yyyy-MM-dd hh:mm:ss";
+            fmt = "MM-dd-yyyy hh:mm:ss";
         }
         let o = {
             "M+": date.getMonth() + 1, //月份

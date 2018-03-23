@@ -31,7 +31,7 @@
             <br>
             <el-form-item :label='$t("main.personal.personalMsg.mainPerPerContactPhone")' prop="mobile"
                           style="margin-top: 10px;">
-                <lts-input-phone  v-model="ruleForm.mobile" style="width: 400px"/>
+                <lts-input-phone v-model="ruleForm.mobile" style="width: 400px"/>
             </el-form-item>
             <br>
             <el-form-item :label='$t("main.personal.personalMsg.mainPerPerCompany")' prop="companyName"
@@ -41,7 +41,7 @@
             <br>
             <el-form-item :label='$t("main.personal.personalMsg.mainPerPerCompanyMode")' prop="companyPhone"
                           style="margin-top: 10px;">
-                <lts-input-phone  v-model="ruleForm.companyPhone" style="width: 400px"/>
+                <lts-input-phone v-model="ruleForm.companyPhone" style="width: 400px"/>
             </el-form-item>
             <br>
             <el-form-item>
@@ -66,7 +66,6 @@
                 ruleForm: {
                     imageUrl: '',
                     email: '',
-                    name: '',
                     mobile: '',
                     companyName: '',
                     companyPhone: '',
@@ -113,6 +112,13 @@
                 })
             },
             updateUserMessage() {
+                if (this.ruleForm.companyPhone == '' || this.ruleForm.companyPhone == '1-') {
+                    this.$ltsMessage.show({type: 'error', message: 'Please input company phone'});
+                    this.ruleForm.companyPhone = '';
+                    return;
+                } else if (this.ruleForm.mobile == '' || this.ruleForm.mobile == '1-') {
+                    this.ruleForm.mobile = '';
+                }
                 let params = {
                     imageUrl: this.ruleForm.imageUrl,
                     email: this.ruleForm.email,
@@ -123,12 +129,16 @@
                     firstName: this.ruleForm.firstName,
                     lastName: this.ruleForm.lastName
                 };
-                personalService.updateUserMessage(params).then((resp) => {
-                    this.$ltsMessage.show({type: 'success', message: 'success'});
-                    this.getUserMessage();
-                }, (msg) => {
-                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
-                })
+                this.$refs.ruleForm.validate((valid) => {
+                    if (valid) {
+                        personalService.updateUserMessage(params).then((resp) => {
+                            this.$ltsMessage.show({type: 'success', message: 'success'});
+                            this.getUserMessage();
+                        }, (msg) => {
+                            this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                        });
+                    } else {}
+                });
             },
             resetForm(formName) {
                 this.$refs[formName].resetFields();
@@ -186,7 +196,7 @@
             width: 100px;
             height: 40px;
         }
-        .input-with-select .el-input__inner{
+        .input-with-select .el-input__inner {
             width: 320px;
         }
     }

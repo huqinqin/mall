@@ -1,5 +1,6 @@
 import BaseService from "./abstract/BaseService";
 import md5 from 'md5'
+
 export default class PersonalService extends BaseService {
     /**
      * return
@@ -20,8 +21,8 @@ export default class PersonalService extends BaseService {
             avatar: params.imageUrl,
             name: params.name,
             company_name: params.companyName,
-            company_phone: params.companyPhone,
-            mobile: params.mobile,
+            company_phone: params.companyPhone ? params.companyPhone : '',
+            mobile: params.mobile ? params.mobile : '',
             email: params.email
         };
         return super.getRequest('/user/update_user_info', newparams)

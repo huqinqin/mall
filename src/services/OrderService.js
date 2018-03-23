@@ -151,7 +151,7 @@ export default class OrderService extends BaseService {
         return super.postRequest('/trade_pay/credit_card_pay',params);
     }
     /*确认收货*/
-    static pay_confirm(tid){
+    static confirmAccept(tid){
         let params = {
             tid: tid,
         };

@@ -296,6 +296,7 @@ export default {
                 mainOrDePayTotal: '应付总额',
             },
             list: {
+                mainOrLiSureAccept:"确定收货",
                 mainOrLiWaitDeli: '待发货',
                 mainOrLiAlreadyDeli: '已发货',
                 mainOrLiBackApply: '退款申请',

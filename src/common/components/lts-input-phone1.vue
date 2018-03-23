@@ -3,7 +3,7 @@
         <el-select v-model="areaCode" slot="prepend" placeholder="Select Country" @change="changeHandler">
             <el-option v-for="option in options" :key="option.value" :label="option.label" :value="option.value" />
         </el-select>
-        <el-input :placeholder="placeholder" v-model="clone_phoneNumber" class="input-with-select num" @change="changeHandler">
+        <el-input :placeholder="placeholder" v-model="phoneNumber" class="input-with-select num" @change="changeHandler">
         </el-input>
     </div>
 </template>
@@ -29,7 +29,7 @@
             value: String
         },
         mounted(){
-            if(this.value){
+            if(this.value){debugger;
                 let phoneNumberArr = this.value.split(SEPARATOR);
                 this.areaCode = phoneNumberArr.length === 2 ? phoneNumberArr[0] : this.options[0].value;
                 this.phoneNumber = phoneNumberArr.length === 2 ? phoneNumberArr[1] : phoneNumberArr[0];
@@ -45,10 +45,10 @@
                  * 国家区域内具体号码
                  */
                 phoneNumber: '',
+                copyValue : this.value,
                 options: PhoneAreaCodeConfig,
                 bussinessPhone:'',
-                phoneNumNew:'',
-                clone_phoneNumber : '',
+                phoneNumNew:''
             }
         },
         computed : {
@@ -62,33 +62,31 @@
         },
         methods:{
             changeHandler(){
-                this.$emit('input', this.phoneNumberFull);
+                let arr = [];
+                if(this.phoneNumber.indexOf("(") > -1){
+                    arr = this.phoneNumber.split("-");
+                    this.phoneNumNew = arr[0].slice(1,4) + arr[0].slice(5) + arr[1];
+                }else{
+                    this.phoneNumNew = this.phoneNumber;
+                }
+                if(this.phoneNumber.length === 10 && this.phoneNumNew.length === 10){
+                    this.phoneNumber = "(" + this.phoneNumber.slice(0,3) + ")" + this.phoneNumber.slice(3,6) + "-" + this.phoneNumber.slice(6);
+                }else {
+                    this.phoneNumber = this.phoneNumNew;
+                }
+                this.$emit('input', this.phoneNumNew);
             }
         },
         watch: {
-            value(newVal) {
+            value(newVal) {debugger;
                 if (newVal) {
                     let phoneNumberArr = newVal.split(SEPARATOR);
                     this.areaCode = phoneNumberArr.length === 2 ? phoneNumberArr[0] : this.options[0].value;
                     this.phoneNumber = phoneNumberArr.length === 2 ? phoneNumberArr[1] : phoneNumberArr[0];
-                    this.clone_phoneNumber = phoneNumberArr.length === 2 ? phoneNumberArr[1] : phoneNumberArr[0];
                 }else{
                     this.phoneNumber = '';
                 }
             },
-            clone_phoneNumber(newVal,oldVal){
-                if(newVal && oldVal != newVal){
-                    let phone = newVal.replace(/[^0-9]/ig,"");
-                    if(phone.length != 10 && newVal.indexOf("(") > -1){
-                        let arr = newVal.split("-");
-                        this.clone_phoneNumber = arr[0].slice(1,4) + arr[0].slice(5) + arr[1];
-                    }
-                    if(newVal.length === 10){
-                        this.clone_phoneNumber = "(" + newVal.slice(0,3) + ")" + newVal.slice(3,6) + "-" + newVal.slice(6);
-                    }
-                }
-                this.phoneNumber = newVal;
-            }
         }
     }
 </script>

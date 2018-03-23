@@ -87,8 +87,8 @@
                             trigger: 'blur'
                         }
                     ],
-                    mobile: ValidatorConfig.mobile(false),
-                    companyPhone: ValidatorConfig.mobile()
+                    //mobile: ValidatorConfig.mobile(false),
+                    //companyPhone: ValidatorConfig.mobile()
                 }
             };
         },

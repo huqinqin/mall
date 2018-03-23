@@ -66,6 +66,7 @@
         },
         methods:{
             changeHandler(){
+                console.log(this.phoneNumber);
                 this.$emit('input', this.phoneNumberFull);
             }
         },
@@ -80,8 +81,8 @@
                 }
             },
             clone_phoneNumber(newVal,oldVal){
+                let phone = newVal.replace(/[^0-9]/ig,"");
                 if(newVal && oldVal != newVal){
-                    let phone = newVal.replace(/[^0-9]/ig,"");
                     if(phone.length != 10 && newVal.indexOf("(") > -1){
                         let arr = newVal.split("-");
                         this.clone_phoneNumber = arr[0].slice(1,4) + arr[0].slice(5) + arr[1];
@@ -90,7 +91,11 @@
                         this.clone_phoneNumber = "(" + newVal.slice(0,3) + ")" + newVal.slice(3,6) + "-" + newVal.slice(6);
                     }
                 }
-                this.phoneNumber = newVal;
+                if( phone.length == 10){
+                    this.phoneNumber = phone;
+                }else{
+                    this.phoneNumber = newVal;
+                }
             }
         }
     }

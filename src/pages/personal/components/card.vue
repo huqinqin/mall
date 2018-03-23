@@ -246,8 +246,8 @@
         methods: {
             getCardList() {
                 personalService.getSaleCard().then((resp) => {
-                    this.tableData = resp.data.distribute_certificate_d_o_list;
-                    this.tableData ? this.ruleForm.setDefaultFlag = false : this.ruleForm.setDefaultFlag = true;
+                    resp.data.distribute_certificate_d_o_list.length > 0 ? this.tableData = resp.data.distribute_certificate_d_o_list : '';
+                    this.tableData.length > 0 ? this.ruleForm.setDefaultFlag = false : this.ruleForm.setDefaultFlag = true;
                 }, (error) => {
                     this.$ltsMessage.show({type: 'error', message: error.error_message});
                 });

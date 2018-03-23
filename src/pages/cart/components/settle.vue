@@ -222,15 +222,15 @@
         <div class="someCount">
             <div class="count">
                 <p>{{ $t("main.cart.settle.mainCartSeShouldPay") }}： <span class="money"><span
-                    v-if="sum.amount == 0 || sum.amount"><lts-money :money="sum.amount"></lts-money></span></span></p>
+                    v-if="sum.amount"><lts-money :money="sum.amount"></lts-money></span><span v-else>$0.00</span></span></p>
                 <p>{{ $t("main.cart.settle.mainCartSeFright") }}： <span><span v-if="sum.express">+<lts-money
-                    :money="sum.express"></lts-money></span><span v-else>$0.00</span></span></p>
+                    :money="sum.express"></lts-money></span><span v-else>+$0.00</span></span></p>
                 <p>{{ $t("main.cart.settle.mainCartSeTax") }}： <span><span v-if="sum.tax">+<lts-money
-                    :money="sum.tax"></lts-money></span><span v-else>$0.00</span></span></p>
+                    :money="sum.tax"></lts-money></span><span v-else>+$0.00</span></span></p>
                 <p>{{ $t("main.cart.list.mainCartliBenefit") }}： <span><span v-if="sum.promotion - minusPro">-<lts-money
-                    :money="sum.promotion - minusPro"></lts-money></span><span v-else>$0.00</span></span></p>
+                    :money="sum.promotion - minusPro"></lts-money></span><span v-else>-$0.00</span></span></p>
                 <p>{{ $t("main.cart.settle.mainCartSeFullProm") }}： <span><span v-if="minusPro">-<lts-money
-                    :money="minusPro"></lts-money></span><span v-else>$0.00</span></span></p>
+                    :money="minusPro"></lts-money></span><span v-else>-$0.00</span></span></p>
                 <p v-if="bonusId">{{$t("main.someinfo.mainSomeCoupon")}}：<span>-<lts-money :money="bonus"/></span></p>
                 <p class="result">{{ $t("main.cart.settle.mainCartSeMustPay") }}： <span>
             <span v-if="totalPrice && !bonusId"><lts-money :money="totalPrice"></lts-money></span>

@@ -298,6 +298,7 @@ export default {
                 mainOrDePayTotal: 'Total',
             },
             list: {
+                mainOrLiSureAccept:"Have Received The Goods",
                 mainOrLiWaitDeli: 'Pending Shipment',
                 mainOrLiAlreadyDeli: 'Shipped',
                 mainOrLiBackApply: 'Apply for Refund',

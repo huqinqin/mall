@@ -642,10 +642,13 @@
                     } else {
                         this.selectedBonus = this.$t('main.cart.settle.mainCartSeNoBonus')
                     }
-                    let ZITI = resp.data.wholesale_delivery_info_map.s_e_l_f_d_e_l_i_v_e_r_y_159872.wholesale_sell_order_list[0].shop
-                    this.user.name = ZITI.contact
-                    this.user.phone = ZITI.contact_phone
-                    this.user.address = ZITI.address
+                    let ZITI
+                    for(let key in resp.data.wholesale_delivery_info_map){
+                        ZITI = resp.data.wholesale_delivery_info_map[key].wholesale_sell_order_list[0].shop
+                        this.user.name = ZITI.contact
+                        this.user.phone = ZITI.contact_phone
+                        this.user.address = ZITI.address
+                    }
                     this.$emit('submit', 2)
                 }, (msg) => {
                     this.$ltsMessage.show({type: 'error', message: msg.error_message})

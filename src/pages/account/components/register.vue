@@ -96,7 +96,7 @@
 <script>
     import accountService from '@/services/AccountService.js'
     import validatorConfig from '@/config/ValidatorConfig.js'
-    import InputPhone from '@/common/components/lts-input-phone'
+    import InputPhone from '@/common/components/lts-input-phone1'
     export default {
         name: "signup",
         data(){
@@ -151,8 +151,7 @@
                     ],
                     email:validatorConfig.email(),
                     phone: [
-                        { required: true, message:  "Phone Number Can't Be Empty", trigger: 'blur' },
-                        {validator:checkMobile,trigger: 'blur,change'}
+                        { required: true, message:  "Phone Number Can't Be Empty", trigger: 'blur' }
                     ],
                    /* mobile: [
                         { required: false, message:  "Phone Number Can't Be Empty", trigger: 'blur' },

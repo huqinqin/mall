@@ -241,7 +241,7 @@
             <p v-else>{{ $t("main.address.mainAddReceivingAddress") }}：
                 <span>{{checkedAddress.address}}&nbsp;{{checkedAddress.building}}</span></p>
             <p v-if="deliveryType != 'ZITI' && checkedAddress.valid_time">{{$t("main.cart.settle.mainCartSeQuaAddr")}}：
-                {{checkedAddress.address}}&nbsp;{{checkedAddress.building}}</p>
+                {{checkedAddress.address}}</p>
         </div>
         <div class="submit">
             <el-button @click="settle" :disabled="canSubmit || checkedId == 0">
@@ -431,7 +431,7 @@
             },
             // 查询个人信息
             getInfo() {
-                checkService.checkInfo().then((data) => {
+                checkService.getInfo().then((data) => {
                     this.user.name = data.data.contact
                     this.user.phone = data.data.contact_phone
                     this.getAddressList()
@@ -562,7 +562,7 @@
                     hdMethod: this.deliveryType,
                     receiverMobile: this.checkedAddress.mobile,
                     userName: this.checkedAddress.user_name,
-                    userAddr: this.checkedAddress.address + this.checkedAddress.building,
+                    userAddr: this.checkedAddress.building ? this.checkedAddress.address + this.checkedAddress.building : this.checkedAddress.address,
                     useBalance: false,
                     payMethod: 'online',
                     source: 'work.500mi.com.shop.pifa.market',

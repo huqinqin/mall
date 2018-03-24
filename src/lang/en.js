@@ -638,6 +638,12 @@ export default {
             commLtsAddress: 'Shipping Address'
         }
     },
+    validate: {
+        validEmail: 'Please input email',
+        valiFormErr: 'Email format error',
+        valiEnterNum: 'Please input phone',
+        valiLength: 'The length is 11-16 characters',
+    },
     ...enLocale
 }
 

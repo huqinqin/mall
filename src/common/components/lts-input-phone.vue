@@ -103,10 +103,8 @@
 </script>
 <style scoped lang="less">
     .inputPhone{
-        .el-input-group--prepend {
-            .el-input--suffix {
-                width: 80px !important;
-            }
+        .el-input__inner {
+            width: 80px !important;
         }
     }
 </style>

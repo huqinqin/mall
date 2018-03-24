@@ -87,6 +87,20 @@
                             trigger: 'blur'
                         }
                     ],
+                    mobile: [
+                        {
+                            required: false,
+                            message: this.$t("validate.valiEnterNum"),
+                            trigger: 'blur'
+                        }
+                    ],
+                    companyPhone: [
+                        {
+                            required: true,
+                            message: this.$t("validate.valiEnterNum"),
+                            trigger: 'blur'
+                        }
+                    ]
                     //mobile: ValidatorConfig.mobile(false),
                     //companyPhone: ValidatorConfig.mobile()
                 }
@@ -153,7 +167,7 @@
     }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
     .personalMessage {
         .avatar-uploader {
             .avatar {
@@ -197,6 +211,12 @@
             height: 40px;
         }
         .input-with-select .el-input__inner {
+            width: 320px;
+        }
+        .inputPhone .el-select .el-input__inner{
+            width: 80px;
+        }
+        .inputPhone .input-with-select .el-input__inner{
             width: 320px;
         }
     }

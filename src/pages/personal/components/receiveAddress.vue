@@ -181,7 +181,14 @@
                             trigger: 'blur'
                         }
                     ],
-                    mobile: ValidatorConfig.mobile(true),
+                    mobile: [
+                        {
+                            required: true,
+                            message: this.$t("validate.valiEnterNum"),
+                            trigger: 'blur'
+                        }
+                    ],
+                    //mobile: ValidatorConfig.mobile(true),
                     address: [
                         {required: true, message: this.$t("main.personal.card.mainPerCarEnterAddr"), trigger: 'blur'}
                     ],
@@ -385,6 +392,12 @@
         }
         .input-with-select .el-input__inner {
             width: 100%;
+        }
+        .inputPhone .el-select .el-input__inner{
+            width: 80px;
+        }
+        .inputPhone .input-with-select .el-input__inner{
+            width: 320px;
         }
     }
 </style>

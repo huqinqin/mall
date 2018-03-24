@@ -29,7 +29,7 @@
                             :value="item.value">
                         </el-option>
                     </el-select>-->
-                   <InputPhone @input="print"></InputPhone>
+                   <InputPhone v-model="signupForm.phone"></InputPhone>
                 </el-form-item>
                 <!--<el-form-item label="Business phone" prop="phone" class="num">
                     <el-select v-model="num" placeholder="请选择">
@@ -96,7 +96,7 @@
 <script>
     import accountService from '@/services/AccountService.js'
     import validatorConfig from '@/config/ValidatorConfig.js'
-    import InputPhone from '@/common/components/lts-input-phone1'
+    import InputPhone from '@/common/components/lts-input-phone'
     export default {
         name: "signup",
         data(){
@@ -190,10 +190,10 @@
             }
         },
         methods: {
-            print(arg){
-                this.signupForm.phone = arg;
-                console.log(this.signupForm.phone);
-            },
+            /*print(arg){
+                /!*this.signupForm.phone = arg;
+                console.log(this.signupForm.phone);*!/
+            },*/
             validted(){
                 if(this.signupForm.mobile){
                     let reg = /^[2-9][0-9]{2}[2-9][0-9]{2}[0-9]{4}$/;
@@ -225,7 +225,7 @@
                     }else{}*/
                     if(valid){
                         let params = {
-                            businessPhone: "1-" + this.signupForm.phone,
+                            businessPhone: this.signupForm.phone,
                             zipCode: this.signupForm.address,
                             /*taxId: this.signupForm.FTI,*/
                             typeOfBusiness: this.signupForm.Business,

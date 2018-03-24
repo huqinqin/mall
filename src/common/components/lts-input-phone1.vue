@@ -91,11 +91,11 @@
     }
 </script>
 <style lang="less">
-        .el-input-group--prepend {
-            /deep/ .el-input--suffix {
-                width: 80px !important;
-            }
-        }
+        /*.el-input-group--prepend {*/
+            /*/deep/ .el-input--suffix {*/
+                /*width: 80px !important;*/
+            /*}*/
+        /*}*/
         /*.num{
             .el-form-item__content{
                 display: flex;

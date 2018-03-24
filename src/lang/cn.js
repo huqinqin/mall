@@ -350,7 +350,7 @@ export default {
                 mainOrReEnterGoodsNum: '请输入退货退款数量',
                 mainOrReEnterMoney: '请输入退款金额',
                 mainOrReRemark: '备注长度在 5 到 500 个字符',
-                mainOrReBack: '未收到货 - 要求退',
+                mainOrReBack: '未收到货 - 要求退款',
                 mainOrReNumNot: '已收到货 - 数量不对',
                 mainOrRePackDamage: '已收到货 - 包装缺损',
                 mainOrReQulity: '已收到货 - 商品质量问题',

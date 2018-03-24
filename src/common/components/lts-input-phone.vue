@@ -105,7 +105,7 @@
     .inputPhone{
         .el-input-group--prepend {
             .el-input--suffix {
-                width: 80px !important;
+                width: 80px;
             }
         }
     }

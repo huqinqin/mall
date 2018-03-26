@@ -344,6 +344,9 @@
                 width: 110px;
                 line-height: 38px;
                 border: none;
+                .el-input--suffix{
+                    width: 100% !important;
+                }
                 .el-input__inner {
                     border-right: none;
                 }

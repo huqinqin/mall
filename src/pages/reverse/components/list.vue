@@ -3,7 +3,7 @@
         <lts-search-form @get-from="getParameter" :form-fileds="form.formFileds" :form-inlines="form.formInline"></lts-search-form>
         <el-table :data="datalist" v-loading="loading" style="width: 100%">
             <el-table-column type="selection"/>
-            <el-table-column prop="tid" :label='$t("main.reverse.list.mainRevLiOrder")' align="left" header-align="left" width="120"/>
+            <el-table-column prop="tid" :label='$t("main.reverse.list.mainRevLiOrder")' align="left" header-align="left"/>
             <el-table-column prop="tid" :label='$t("main.reverse.list.mainRevLiInfo")' align="left" header-align="left">
                 <template slot-scope="scope">
                     <div class="item-info">
@@ -21,10 +21,10 @@
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column :label='$t("main.reverse.list.mainRevLiMoneyNum")' align="left" header-align="left" width="80">
+            <el-table-column :label='$t("main.reverse.list.mainRevLiMoneyNum")' align="left" header-align="left" >
                 <template slot-scope="scope"><lts-money :money="scope.row.refund_real"></lts-money></template>
             </el-table-column>
-            <el-table-column :label='$t("main.reverse.list.mainRevLiReturnGoods")' align="left" header-align="left" width="80">
+            <el-table-column :label='$t("main.reverse.list.mainRevLiReturnGoods")' align="left" header-align="left" >
                 <template slot-scope="scope">
                     <!--<el-tooltip placement="top">-->
                         <!--<div slot="content">-->
@@ -38,10 +38,10 @@
                     <div>{{scope.row.total_num}}</div>
                 </template>
             </el-table-column>
-            <el-table-column :label='$t("main.reverse.list.mainRevLiSubmitTime")' align="left" header-align="left" width="105">
+            <el-table-column :label='$t("main.reverse.list.mainRevLiSubmitTime")' align="left" header-align="left" >
                 <template slot-scope="scope">{{scope.row.start_time | timestamp2str}}</template>
             </el-table-column>
-            <el-table-column prop="reverse_reason_title" :label='$t("main.reverse.list.mainRevLiGooodsType")' header-align="left" align="left" width="100">
+            <el-table-column prop="reverse_reason_title" :label='$t("main.reverse.list.mainRevLiGooodsType")' header-align="left" align="left" >
                 <template slot-scope="scope">
                     <div v-if="scope.row.hd_status > 0">
                         {{$t("main.reverse.list.mainRevLiReturnGoodPay")}}
@@ -49,12 +49,12 @@
                     <div v-else>{{$t("main.reverse.list.mainRevLiOnlyNotGood")}}</div>
                 </template>
             </el-table-column>
-            <el-table-column prop="reverse_reason_title" :label='$t("main.reverse.list.mainRevLiReason")' header-align="left" align="left" width="150">
+            <el-table-column prop="reverse_reason_title" :label='$t("main.reverse.list.mainRevLiReason")' header-align="left" align="left" >
                 <template slot-scope="scope">
                     <div>{{scope.row.reverse_reason_title}}</div>
                 </template>
             </el-table-column>
-            <el-table-column prop="status_title" :label='$t("main.reverse.list.mainRevLiStatus")' align="left" header-align="left" width="100">
+            <el-table-column prop="status_title" :label='$t("main.reverse.list.mainRevLiStatus")' align="left" header-align="left" >
                 <template slot-scope="scope">
                     <span v-if="scope.row.status == 7 || scope.row.status == 9">
                         {{scope.row.status_title}}
@@ -76,7 +76,7 @@
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column :label='$t("main.reverse.list.mainRevLiHandle")' align="center" header-align="center" width="120">
+            <el-table-column :label='$t("main.reverse.list.mainRevLiHandle")' align="center" header-align="center" >
                 <template slot-scope="scope">
                     <div class="reverse-button">
                         <el-button type="text" class="probtn" size="mini" ><router-link :to="'/detail/' + scope.row.id">{{$t("main.reverse.list.mainRevLiGoodsInfo")}}</router-link></el-button>

@@ -1495,6 +1495,7 @@
                         }
                         .propClose {
                             max-height: 56px;
+                            padding-left: 20px;
                         }
                         .imgDetail {
                             max-height: 2000px;
@@ -1514,7 +1515,7 @@
                     .item_detail {
                         text-align: left;
                         width: 750px;
-                        padding-top: 20px;
+                        padding: 20px;
                     }
                 }
             }

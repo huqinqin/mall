@@ -59,17 +59,21 @@
                >
             </el-table-column>
             <el-table-column
-                prop="deadlinePay"
                 :label='$t("main.repayMent.repayList.mainRePayPayTime")'
                 sortable
             >
+                <template slot-scope="scope">
+                    {{scope.row.deadline | timestamp2str}}
+                </template>
             </el-table-column>
             <el-table-column
-                prop="realTimePay"
                 :label='$t("main.repayMent.repayList.mainRePayRepayTime")'
                 sortable
                 v-if='realTime'
             >
+                <template slot-scope="scope">
+                    {{scope.start_time | timestamp2str}}
+                </template>
             </el-table-column>
             <el-table-column
                 prop="payStatus"
@@ -87,6 +91,7 @@
 
 <script>
     import MonyManageService from '@/services/MonyManageService.js'
+    import DateUtils from '@/utils/DateUtils.js'
     export default {
         name: "list",
         methods:{
@@ -113,7 +118,7 @@
             },
             handleClick(row) {
                 console.log(row);
-                /*this.$router.push({name:'readyPay',params:[row]});*/
+                this.$router.push({name:'readyPay',params:[row]});
             },
             getDate(tm){
                 var tt = new Date(tm).toLocaleString().replace(/\//g, "-");
@@ -149,9 +154,9 @@
                     this.tableData.forEach((item) => {
                         item.flag = true;
                         this.realTime = item.real_time;
-                        item.deadlinePay = this.getDate(item.deadline);
+                        /*item.deadlinePay = this.getDate(item.deadline);
                         item.realTimePay = this.getDate(item.real_time);
-                        console.log(this.realTime);
+                        console.log(this.realTime);*/
                         item.changeTotal = item.total / 100;
                         if(item.status === 1){
                             item.payStatus = this.$t("main.repayMent.repayList.mainRePayNoRepay");

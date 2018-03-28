@@ -94,7 +94,7 @@
                 color: white;
                 font-weight: bold;
                 text-align: center;
-                background: #4E747C;
+                background: #1d4e74;
                 line-height: 40px;
                 font-size: 16px;
             }
@@ -103,7 +103,7 @@
                 a {
                     color: inherit;
                 }
-                background:#f5f7fa;
+                background:#eef6ff;
             }
         }
         ul:nth-child(1), ul:nth-child(2) {

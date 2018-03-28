@@ -212,6 +212,7 @@
                                         {label: this.$t("main.order.list.mainOrLiAllStatus"), bindValue: ""},
                                         {label: this.$t("main.order.list.mainOrLiWaitPay"), bindValue: "0"},
                                         {label: this.$t("main.order.list.mainOrLiRealPay"), bindValue: "1"},
+                                        {label: this.$t("main.order.list.mainOrLiAlreadyDeliAll"), bindValue: "2"},
                                         {label: this.$t("main.order.list.mainOrLiRealComp"), bindValue: "7"},
                                         {label: this.$t("main.order.list.mainOrLiRealClose"), bindValue: "9"}
                                     ]

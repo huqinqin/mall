@@ -38,8 +38,13 @@
                     <el-form-item :label=' $t("main.detail.info.mainDetInfoPrice")' class="price">
                         <div class="tips" v-ltsLoginShow:false>{{ $t("main.detail.info.mainDetInfoComp") }}</div>
                         <div v-ltsLoginShow:true class="detail_price" v-if="!checkedSpu.price">
-                            <lts-money :money="item.price_real"></lts-money>
-                            <span class="oldPrice" v-if="item.price_real != item.price"><lts-money :money="item.price"/></span>
+                            <span v-if="item.price_real">
+                                <lts-money :money="item.price_real"></lts-money>
+                                <span class="oldPrice" v-if="item.price_real != item.price"><lts-money :money="item.price"/></span>
+                            </span>
+                            <span v-else>
+                                <lts-money :money="item.price"/>
+                            </span>
                         </div>
                         <div v-ltsLoginShow:true class="detail_price" v-else>
                             <lts-money :money="checkedSpu.price_real"></lts-money>
@@ -1495,6 +1500,7 @@
                         }
                         .propClose {
                             max-height: 56px;
+                            padding-left: 20px;
                         }
                         .imgDetail {
                             max-height: 2000px;
@@ -1514,7 +1520,7 @@
                     .item_detail {
                         text-align: left;
                         width: 750px;
-                        padding-top: 20px;
+                        padding: 20px;
                     }
                 }
             }

@@ -67,6 +67,7 @@
                     expand-trigger="hover"
                     :options="options"
                     v-model="selectedOptions"
+                    :change-on-select="false"
                     style="width: 240px"
                     @change="handleChange">
                 </el-cascader>
@@ -344,6 +345,10 @@
                 width: 110px;
                 line-height: 38px;
                 border: none;
+                .el-input--suffix{
+                    
+                    width: 100% !important;
+                }
                 .el-input__inner {
                     border-right: none;
                 }

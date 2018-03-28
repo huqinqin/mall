@@ -138,8 +138,14 @@
                 <label>{{$t("main.cart.settle.mainCartSeMustPay")}}</label>
                 <span><lts-money :money="order.pay"></lts-money></span>
             </div>
-            <div class="text">
+            <div class="text" v-if="order.discount - order.fee_promotion_manjian">
                 <label>{{$t("main.order.detail.mainOrDeActivity")}}</label> <span><lts-money :money="order.discount"></lts-money></span>
+            </div>
+            <div class="text" v-if="order.fee_promotion_manjian">
+                <label>{{$t("main.order.detail.mainOrDeFullReduce")}}</label> <span><lts-money :money="order.fee_promotion_manjian"></lts-money></span>
+            </div>
+            <div class="text" v-if="order.pay_info.acc_bonus_pay">
+                <label>{{$t("main.order.detail.mainOrDeFullReduce")}}</label> <span><lts-money :money="order.pay_info.acc_bonus_pay"></lts-money></span>
             </div>
             <div class="text">
                 <label>+{{$t("main.cart.settle.mainCartSeFright")}}</label> <span><lts-money :money="order.fee_hd_value.HD_ALL"></lts-money></span>
@@ -183,6 +189,10 @@
                         this.order.status_title = this.$t("main.order.list.mainOrLiRealPay");
                     }else if(this.order.status == 2) {
                         this.order.status_title = this.$t("main.order.list.mainOrLiAlreadyDeli");
+                    }else if(this.order.status == 7) {
+                        this.order.status_title = "Transaction Finished";
+                    }else if(this.order.status == 8) {
+                        this.order.status_title = "To Be Returned to Warehouse";
                     }else if(this.order.status == 9) {
                         this.order.status_title = "The Order Closed";
                     }

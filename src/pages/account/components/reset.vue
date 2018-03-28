@@ -86,12 +86,12 @@
             },
             getCode(){
                 accountService.getResetCode(this.resetForm.email).then((data) => {
-                    this.countdown()
+                    this.countDown()
                 },(msg) => {
                     this.$ltsMessage.show({type: 'error', message: msg.error_message})
                 })
             },
-            countdown(){
+            countDown(){
                 let self = this;
                 self.countdown = 60;
                 this.send = false;

@@ -139,7 +139,7 @@
                 <span><lts-money :money="order.pay"></lts-money></span>
             </div>
             <div class="text" v-if="order.discount - order.fee_promotion_manjian">
-                <label>{{$t("main.order.detail.mainOrDeActivity")}}</label> <span><lts-money :money="order.discount"></lts-money></span>
+                <label>{{$t("main.order.detail.mainOrDeActivity")}}</label> <span><lts-money :money="order.discount - order.fee_promotion_manjian"></lts-money></span>
             </div>
             <div class="text" v-if="order.fee_promotion_manjian">
                 <label>{{$t("main.order.detail.mainOrDeFullReduce")}}</label> <span><lts-money :money="order.fee_promotion_manjian"></lts-money></span>
@@ -154,7 +154,11 @@
                 <label>+{{$t("main.cart.settle.mainCartSeTax")}}</label> <span><lts-money :money="order.fee_hd_value.TAXES_ALL"></lts-money></span>
             </div>
             <div class="text">
-                <label>{{$t("main.order.detail.mainOrDePayTotal")}}</label><span class="large"><lts-money :money="order.fee_total"></lts-money></span>
+                <label>{{$t("main.order.detail.mainOrDePayTotal")}}</label>
+                <span class="large">
+                    <span v-if="order.pay_info.acc_bonus_pay"><lts-money :money="order.fee_total - order.pay_info.acc_bonus_pay"></lts-money></span>
+                    <span v-else><lts-money :money="order.fee_total"></lts-money></span>
+                </span>
             </div>
         </div>
     </div>

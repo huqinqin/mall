@@ -162,6 +162,7 @@
       },
       href(item){
           window.open("/detail#/?id=" + item.id);
+          location.reload();
       },
       getList () {
         homeService.getList().then((data) => {

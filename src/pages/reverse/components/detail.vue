@@ -246,12 +246,13 @@
         }
         .info-box{
             display: flex;
-            justify-content: space-between;
+            /*justify-content: space-between;*/
             color: #737373;
             margin: 24px 0 12px 0;
             .info{
                 font-size: 14px;
                 color: #737373;
+                margin-right: 24px;
                 div{
                     line-height: 28px;
                 }

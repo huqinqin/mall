@@ -300,6 +300,7 @@ export default {
                 mainOrLiSureAccept:"确定收货",
                 mainOrLiWaitDeli: '待发货',
                 mainOrLiAlreadyDeli: '已发货',
+                mainOrLiAlreadyDeliAll: '待收货',
                 mainOrLiBackApply: '退款申请',
                 mainOrLiReject: '退款驳回',
                 mainOrLiAlreadyBack: '已退',

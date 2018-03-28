@@ -187,6 +187,10 @@
                         this.order.status_title = this.$t("main.order.list.mainOrLiRealPay");
                     }else if(this.order.status == 2) {
                         this.order.status_title = this.$t("main.order.list.mainOrLiAlreadyDeli");
+                    }else if(this.order.status == 7) {
+                        this.order.status_title = "Transaction Finished";
+                    }else if(this.order.status == 8) {
+                        this.order.status_title = "To Be Returned to Warehouse";
                     }else if(this.order.status == 9) {
                         this.order.status_title = "The Order Closed";
                     }

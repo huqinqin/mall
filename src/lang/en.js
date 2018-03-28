@@ -302,6 +302,7 @@ export default {
                 mainOrLiSureAccept:"Received Goods",
                 mainOrLiWaitDeli: 'Pending Shipment',
                 mainOrLiAlreadyDeli: 'Shipped',
+                mainOrLiAlreadyDeliAll: 'Dispatched',
                 mainOrLiBackApply: 'Apply for Refund',
                 mainOrLiReject: 'Refund Application Has Been Denied',
                 mainOrLiAlreadyBack: 'Returned',

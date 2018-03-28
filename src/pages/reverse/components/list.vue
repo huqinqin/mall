@@ -9,7 +9,7 @@
                     <div class="item-info">
                         <div class="order-item-detail">
                             <img :src="scope.row.item_remark.url + '!item_small'" class="item" />
-                            <div>{{scope.row.item_remark.item_name}}</div>
+                            <!--<div>{{scope.row.item_remark.item_name}}</div>-->
                         </div>
                         <div class="prop-box">
                             <div v-for="(propObj,index) in scope.row.item_remark.propValue">

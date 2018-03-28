@@ -82,7 +82,7 @@ export default {
                 mainCartBefCreditInfo:'请输入信用卡信息',
                 mainCartBefInputNum:'请输入信用卡号',
                 mainCartBefInputDate:'请输入有效期',
-                mainCartBefInputCCV:'请输入CCV',
+                mainCartBefInputCVV:'请输入CVV',
                 mainCartBefInputzipCode:'请输入邮编',
                 mainCartBefCreditNum:'信用卡号',
                 mainCartBefCreditValid:'有效期',

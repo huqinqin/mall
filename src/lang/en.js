@@ -83,7 +83,7 @@ export default {
                 mainCartBefCreditInfo:'Credit Card Info',
                 mainCartBefInputNum:'Enter the Credit Num Please',
                 mainCartBefInputDate:'Enter the Period of Validity Please',
-                mainCartBefInputCCV:'Enter the CCV Please',
+                mainCartBefInputCVV:'Enter the CVV Please',
                 mainCartBefInputzipCode:'Enter the Zipcode Please',
                 mainCartBefCreditNum:'Number',
                 mainCartBefCreditValid:'Valid though',

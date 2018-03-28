@@ -139,7 +139,7 @@
                 <span><lts-money :money="order.pay"></lts-money></span>
             </div>
             <div class="text" v-if="order.discount - order.fee_promotion_manjian">
-                <label>{{$t("main.order.detail.mainOrDeActivity")}}</label> <span><lts-money :money="order.discount"></lts-money></span>
+                <label>{{$t("main.order.detail.mainOrDeActivity")}}</label> <span><lts-money :money="order.discount - order.fee_promotion_manjians"></lts-money></span>
             </div>
             <div class="text" v-if="order.fee_promotion_manjian">
                 <label>{{$t("main.order.detail.mainOrDeFullReduce")}}</label> <span><lts-money :money="order.fee_promotion_manjian"></lts-money></span>

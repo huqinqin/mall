@@ -441,6 +441,9 @@
             text-align: center;
             width: 290px;
             margin-bottom: 12px;
+            a{
+                display: block;
+            }
           }
           li:nth-child(4n) {
             margin-right: 0%;

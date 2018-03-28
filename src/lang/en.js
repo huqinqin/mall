@@ -46,7 +46,8 @@ export default {
                 mainAcReFileDragHere: 'Upload Resale Certificate',
                 mainAcReClickUpload: 'Upload',
                 mainAcReValidateSuccess: 'Validation Succeeded',
-                mainAcReContentNotNull: 'Please Enter Your Information',
+               /* mainAcReContentNotNull: 'Please Enter Your Information',*/
+                mainAcReContentNotNull: 'Required filed',
                 mainAcReCreateSuccess: 'Your Account Has Been Created',
             },
             reset: {

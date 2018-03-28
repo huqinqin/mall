@@ -55,10 +55,10 @@
                 rules: {
                     /*currentEmail: [
                         {required: true, message: this.$t("main.personal.email.mainPerPwdEnterOldPwd"), trigger: 'blur'}
-                    ],
+                    ],*/
                     code: [
-                        {required: true, message: this.$t("main.personal.email.mainPerPwdEnterNew"), trigger: 'blur'}
-                    ]*/
+                        {required: true, message: this.$t("comHeader.headerInputPwd"), trigger: 'blur'}
+                    ]
                 }
             };
         },
@@ -91,7 +91,7 @@
             },
             changeEmail() {
                 if(this.ruleForm.password == '' || this.ruleForm.password == undefined){
-                    this.$ltsMessage.show({type: 'error', message: 'Please input password'});
+                    this.$ltsMessage.show({type: 'error', message: this.$t("comHeader.headerInputPwd")});
                 }else{
                     let params = {
                         password: this.ruleForm.password,

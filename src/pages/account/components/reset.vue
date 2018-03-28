@@ -85,6 +85,13 @@
                 console.log(this.resetForm)
             },
             getCode(){
+                accountService.getResetCode(this.resetForm.email).then((data) => {
+                    this.countdown()
+                },(msg) => {
+                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                })
+            },
+            countdown(){
                 let self = this;
                 self.countdown = 60;
                 this.send = false;
@@ -99,11 +106,6 @@
                         self.countDisable = false
                     }
                 },1000)
-                accountService.getResetCode(this.resetForm.email).then((data)=>{
-                    console.log(data)
-                },(msg) => {
-                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
-                })
             }
         }
     }

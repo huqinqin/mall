@@ -138,8 +138,11 @@
                 <label>{{$t("main.cart.settle.mainCartSeMustPay")}}</label>
                 <span><lts-money :money="order.pay"></lts-money></span>
             </div>
-            <div class="text">
+            <div class="text" v-if="order.discount - minus">
                 <label>{{$t("main.order.detail.mainOrDeActivity")}}</label> <span><lts-money :money="order.discount"></lts-money></span>
+            </div>
+            <div class="text" v-if="minus">
+                <label>{{$t("main.order.detail.mainOrDeFullReduce")}}</label> <span><lts-money :money="minus"></lts-money></span>
             </div>
             <div class="text">
                 <label>+{{$t("main.cart.settle.mainCartSeFright")}}</label> <span><lts-money :money="order.fee_hd_value.HD_ALL"></lts-money></span>
@@ -168,7 +171,8 @@
                     },
                     status: 0
                 },
-                stepActive : 0
+                stepActive : 0,
+                minus:0
             }
         },
         methods: {
@@ -215,6 +219,9 @@
                                 value.status_title = "To Be Returned to Warehouse";
                             }else if(value.status == 9){
                                 value.status_title = "The Order Closed";
+                            }
+                            if(value.wholesale_item_d_o.discount_type == 0){
+                                this.minus += value.wholesale_item_d_o.discount
                             }
                         })
                     })

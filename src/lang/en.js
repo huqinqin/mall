@@ -295,6 +295,7 @@ export default {
                 mainOrDePayReal: 'Subtotal',
                 mainOrDeStatus: 'Status',
                 mainOrDeActivity: 'Promotion',
+                mainOrDeFullReduce: 'Full Reduce',
                 mainOrDePayTotal: 'Total',
             },
             list: {

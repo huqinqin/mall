@@ -67,6 +67,7 @@
                     expand-trigger="hover"
                     :options="options"
                     v-model="selectedOptions"
+                    :change-on-select="false"
                     style="width: 240px"
                     @change="handleChange">
                 </el-cascader>

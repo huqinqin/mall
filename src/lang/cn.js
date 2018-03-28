@@ -293,6 +293,7 @@ export default {
                 mainOrDePayReal: '小计',
                 mainOrDeStatus: '状态',
                 mainOrDeActivity: '活动优惠',
+                mainOrDeFullReduce: '满减优惠',
                 mainOrDePayTotal: '应付总额',
             },
             list: {

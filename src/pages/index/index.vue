@@ -161,6 +161,7 @@
         this.$emit('showLogin', 2)
       },
       href(id){
+          console.log(id);
           window.open('/detail#/?id=' + id + '&sign=' + new Date().getTime());
       },
       getList () {

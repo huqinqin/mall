@@ -90,19 +90,23 @@
                 })
             },
             changeEmail() {
-                let params = {
-                    password: this.ruleForm.password,
-                    email: this.ruleForm.currentEmail
-                };
-                personalService.changeEmail(params).then((resp) => {
-                    if (resp.success) {
-                        this.currentFlag = false;
-                        this.newFlag = true;
-                        this.ruleForm.password = '';
-                    }
-                }, (msg) => {
-                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
-                })
+                if(this.ruleForm.password == '' || this.ruleForm.password == undefined){
+                    this.$ltsMessage.show({type: 'error', message: 'Please input password'});
+                }else{
+                    let params = {
+                        password: this.ruleForm.password,
+                        email: this.ruleForm.currentEmail
+                    };
+                    personalService.changeEmail(params).then((resp) => {
+                        if (resp.success) {
+                            this.currentFlag = false;
+                            this.newFlag = true;
+                            this.ruleForm.password = '';
+                        }
+                    }, (msg) => {
+                        this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                    })
+                }
             },
             checkNewEmail() {
                 let params = {

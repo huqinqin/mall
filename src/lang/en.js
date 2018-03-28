@@ -15,7 +15,7 @@ export default {
         headerAllclassify: 'All Categories',
         headerInputUserOrEmail: 'Username/E-mail',
         headerPwd: 'Password',
-        headerInputPwd: '',
+        headerInputPwd: 'Please input password',
         headerAll: 'All',
         headerTopPic: 'Top Picture',
         headerUserOrEmail: 'Username/E-mail：',

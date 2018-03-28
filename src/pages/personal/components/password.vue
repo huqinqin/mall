@@ -3,18 +3,23 @@
         <h3 class="title">{{$t("main.personal.password.mainPerPwdsetter")}}</h3>
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" label-position="top"
                  class="demo-ruleForm">
-            <el-form-item :label='$t("main.personal.password.mainPerPwdOldPwd")' prop="oldPassword" style="margin-top: 24px;">
+            <el-form-item :label='$t("main.personal.password.mainPerPwdOldPwd")' prop="oldPassword"
+                          style="margin-top: 24px;">
                 <el-input v-model="ruleForm.oldPassword" type="password" ref="password"></el-input>
             </el-form-item>
-            <el-form-item :label='$t("main.personal.password.mainPerPwdNewPwd")' prop="newPassword" style="margin-top: 24px;">
+            <el-form-item :label='$t("main.personal.password.mainPerPwdNewPwd")' prop="newPassword"
+                          style="margin-top: 24px;">
                 <el-input v-model="ruleForm.newPassword" type="password"></el-input>
             </el-form-item>
-            <el-form-item :label='$t("main.personal.password.mainPerPwdConfirmPwd")' prop="confirmPassword" style="margin-top: 24px;">
-                <el-input v-model="ruleForm.confirmPassword" type="password"></el-input>
+            <el-form-item :label='$t("main.personal.password.mainPerPwdConfirmPwd")' prop="confirmPassword"
+                          style="margin-top: 24px;">
+                <el-input v-model="ruleForm.confirmPassword" type="password" @blur="confirmNewPassword"></el-input>
             </el-form-item>
 
             <el-form-item>
-                <el-button type="primary" @click="changePassword" class="submitBtn">{{$t("main.personal.card.mainPerCarSave")}}</el-button>
+                <el-button type="primary" @click="changePassword" class="submitBtn">
+                    {{$t("main.personal.card.mainPerCarSave")}}
+                </el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -36,11 +41,21 @@
                 rules: {
                     //oldPassword: ValidatorConfig.password,
                     newPassword: ValidatorConfig.password,
-                    confirmPassword: ValidatorConfig.password
+                    confirmPassword: [
+                        {required: true, message: this.$t("main.personal.password.mainPerPwdEnterNew"), trigger: 'blur'}
+                    ]
                 }
             };
         },
         methods: {
+            confirmNewPassword() {
+                if (this.ruleForm.newPassword != this.ruleForm.confirmPassword) {
+                    this.$ltsMessage.show({
+                        type: 'error',
+                        message: 'Confirm that the password is not consistent with the new password'
+                    });
+                }
+            },
             changePassword() {
                 this.$refs.ruleForm.validate((valid) => {
                     if (valid) {
@@ -48,7 +63,7 @@
                             oldPassword: this.ruleForm.oldPassword,
                             newPassword: this.ruleForm.newPassword
                         };
-                        if(this.ruleForm.newPassword == this.ruleForm.confirmPassword){
+                        if (this.ruleForm.newPassword == this.ruleForm.confirmPassword) {
                             personalService.changePassword(params).then((resp) => {
                                 this.$ltsMessage.show({type: 'success', message: 'Revise the password successfully'});
                                 this.ruleForm = {
@@ -59,15 +74,18 @@
                             }, (msg) => {
                                 this.$ltsMessage.show({type: 'error', message: msg.error_message})
                             })
-                        }else{
-                            this.$ltsMessage.show({type: 'error', message: 'Confirm that the password is not consistent with the new password'})
+                        } else {
+                            this.$ltsMessage.show({
+                                type: 'error',
+                                message: 'Confirm that the password is not consistent with the new password'
+                            })
                         }
                     } else {
 
                     }
                 });
             },
-            showPassword(){
+            showPassword() {
                 this.$refs.password.type = this.$refs.password.type == "text" ? 'password' : 'text';
             }
         }

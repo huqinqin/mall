@@ -8,19 +8,19 @@
         <main>
 
             <el-form label-position="top" :model="signupForm" :rules="rules" ref="form">
-                <el-form-item label="Email address" prop="email">
+                <el-form-item label="Email Address" prop="email">
                     <el-input v-model="signupForm.email" ></el-input>
                 </el-form-item>
-                <el-form-item label="FIRST NAME" prop="fisrtName" class="name">
+                <el-form-item label="First Name" prop="fisrtName" class="name">
                     <el-input v-model="signupForm.fisrtName" ></el-input>
                 </el-form-item>
-                <el-form-item label="LAST NAME" prop="lastName" class="name">
+                <el-form-item label="Last Name" prop="lastName" class="name">
                     <el-input v-model="signupForm.lastName" ></el-input>
                 </el-form-item>
-                <el-form-item label="Company name" prop="companyName">
+                <el-form-item label="Company Name" prop="companyName">
                     <el-input v-model="signupForm.companyName" @keyup.enter="getCode"></el-input>
                 </el-form-item>
-                <el-form-item label="Business phone" prop="phone" class="num">
+                <el-form-item label="Business Phone" prop="phone" class="num">
                     <!--<el-select v-model="num" placeholder="请选择">
                         <el-option
                             v-for="item in globlaNum"
@@ -42,7 +42,7 @@
                     </el-select>
                     <el-input v-model="signupForm.phone" ></el-input>
                 </el-form-item>-->
-                <el-form-item label="Mobile phone" prop="mobile" class="num">
+                <el-form-item label="Mobile Phone" prop="mobile" class="num">
                     <el-select v-model="num" placeholder="请选择">
                         <el-option
                             width="50px"
@@ -54,7 +54,7 @@
                     </el-select>
                     <el-input v-model="signupForm.mobile" @blur="validted"></el-input>
                 </el-form-item>
-                <el-form-item label="Zip code" prop="address">
+                <el-form-item label="Zip Code" prop="address">
                     <el-input v-model="signupForm.address" ></el-input>
                 </el-form-item>
                 <!--<el-form-item label="Federal Tax ID" prop="FTI">
@@ -71,7 +71,7 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="Upload Resale Certificate" prop="pic">
+                <el-form-item label="Upload Resale Certificate Photo" prop="pic">
                     <el-upload
                         :limit = 1
                         :on-success="urlFileList"
@@ -79,7 +79,7 @@
                         drag
                         action="/cgi/upload/file/misc/image">
                         <i class="el-icon-upload"></i>
-                        <div class="el-upload__text">{{ $t("main.accountNew.register.mainAcReFileDragHere") }}<em>{{ $t("main.accountNew.register.mainAcReClickUpload") }}</em></div>
+                        <div class="el-upload__text">{{ $t("main.accountNew.register.mainAcReFileDragHere") }}</div>
                     </el-upload>
                 </el-form-item>
                 <el-form-item>
@@ -151,7 +151,7 @@
                     ],
                     email:validatorConfig.email(),
                     phone: [
-                        { required: true, message:  "Phone Number Can't Be Empty", trigger: 'blur' }
+                        { required: true, message:  "Required field", trigger: 'blur' }
                     ],
                    /* mobile: [
                         { required: false, message:  "Phone Number Can't Be Empty", trigger: 'blur' },

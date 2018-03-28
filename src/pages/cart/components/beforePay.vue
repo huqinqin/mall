@@ -62,7 +62,7 @@
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="creditFormVisible = false">{{$t("main.order.list.mainOrLiCanle")}}</el-button>
+          <el-button @click="creditFormVisible = false;$refs['form'].clearValidate();">{{$t("main.order.list.mainOrLiCanle")}}</el-button>
           <el-button type="primary" @click="submitCreditForm">{{$t("main.order.list.mainOrLiConfirm")}}</el-button>
         </div>
       </el-dialog>
@@ -104,7 +104,7 @@
             num:[{ required: true, message: this.$t('main.cart.beforePay.mainCartBefInputNum'), trigger: 'blur' }],
             date:[{ required: true, message: this.$t('main.cart.beforePay.mainCartBefInputDate'), trigger: 'blur' }],
             zipCode:[{ required: true, message: this.$t('main.cart.beforePay.mainCartBefInputzipCode'), trigger: 'blur' }],
-            cardCode:[{ required: true, message: this.$t('main.cart.beforePay.mainCartBefInputCCV'), trigger: 'blur' }],
+            cardCode:[{ required: true, message: this.$t('main.cart.beforePay.mainCartBefInputCVV'), trigger: 'blur' }],
         }
       }
     },
@@ -179,9 +179,11 @@
         this.creditFrom.pay_no = ''
       },
       submitCreditForm(){
-        this.creditFormVisible = false
         this.creditFrom.pay_no = this.statement
-          this.creditFrom.date = this.creditFrom.date.getTime()
+          if(this.creditFrom.date){
+              this.creditFrom.date = this.creditFrom.date.getTime() + 864000000
+              // this.creditFrom.date = this.creditFrom.date.getTime()
+          }
           this.$refs['form'].validate((valid) => {
               if(valid){
                   let option  ={
@@ -199,6 +201,8 @@
                       this.$ltsMessage.show({type: 'error', message: msg.error_message})
                       this.$router.push({name: 'fail', params: {tid: this.tid}})
                   })
+              }else{
+                  return false
               }
           })
       }

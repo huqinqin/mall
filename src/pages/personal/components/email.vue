@@ -7,7 +7,6 @@
                 <el-form-item :label='$t("main.personal.email.mainPerEmaCurrent")' prop="currentEmail"
                               style="margin-top: 24px;">
                     <el-input v-model="ruleForm.currentEmail" :disabled="true"></el-input>
-                    <!--<el-button type="primary" @click="sendEmailCode(ruleForm.currentEmail)" class="emailButton">{{$t("main.personal.email.mainPerEmaPostCode")}}</el-button>-->
                 </el-form-item>
                 <el-form-item :label='$t("comHeader.headerPwd")' prop="code" style="margin-top: 24px;">
                     <el-input v-model="ruleForm.password" type="password"></el-input>
@@ -22,7 +21,10 @@
                 <el-form-item :label='$t("main.personal.email.mainPerEmaNew")' prop="currentEmail"
                               style="margin-top: 24px;">
                     <el-input v-model="ruleForm.newEmail"></el-input>
-                    <el-button type="primary" @click="sendEmailCode(ruleForm.newEmail)" class="emailButton">{{$t("main.personal.email.mainPerEmaPostCode")}}</el-button>
+                    <el-button type="primary" @click="sendEmailCode(ruleForm.newEmail)" class="emailButton"
+                               v-show="sendEmailCodeFlag">{{$t("main.personal.email.mainPerEmaPostCode")}}
+                    </el-button>
+                    <el-button type="primary" class="emailButton" v-show="!sendEmailCodeFlag">({{codeTime}}s)</el-button>
                 </el-form-item>
                 <el-form-item :label='$t("main.personal.email.mainPerEmaCode")' prop="code" style="margin-top: 24px;">
                     <el-input v-model="ruleForm.code"></el-input>
@@ -46,6 +48,8 @@
             return {
                 currentFlag: true,
                 newFlag: false,
+                sendEmailCodeFlag: true,
+                codeTime: 60,
                 ruleForm: {
                     currentEmail: '',
                     code: '',
@@ -55,10 +59,10 @@
                 rules: {
                     /*currentEmail: [
                         {required: true, message: this.$t("main.personal.email.mainPerPwdEnterOldPwd"), trigger: 'blur'}
-                    ],
+                    ],*/
                     code: [
-                        {required: true, message: this.$t("main.personal.email.mainPerPwdEnterNew"), trigger: 'blur'}
-                    ]*/
+                        {required: true, message: this.$t("comHeader.headerInputPwd"), trigger: 'blur'}
+                    ]
                 }
             };
         },
@@ -75,34 +79,56 @@
                     this.$ltsMessage.show({type: 'error', message: msg.error_message})
                 })
             },
-            sendEmailCode() {
-                let params = {
-                    newEmail: this.ruleForm.newEmail,
-                    oldEmail: this.ruleForm.currentEmail
-                };
-                personalService.sendEmailCode(params).then((resp) => {
-                    if (resp.success) {
-                        this.ruleForm.code = '';
-                        this.$ltsMessage.show({type: 'success', message: 'Send verification code success'})
+            setCodeTime() {
+                let _this = this;
+                let time = setInterval(function () {
+                    if (_this.codeTime == 0) {
+                        _this.sendEmailCodeFlag = true;
+                        _this.codeTime = 60;
+                        clearInterval(time);
+                    } else {
+                        _this.codeTime = _this.codeTime - 1;
                     }
-                }, (msg) => {
-                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
-                })
+                }, 1000);
+            },
+            sendEmailCode() {
+                if (this.ruleForm.newEmail == '' || this.ruleForm.newEmail == undefined) {
+                    this.$ltsMessage.show({type: 'error', message: 'Please input new email'});
+                } else {
+                    this.sendEmailCodeFlag = false;
+                    this.setCodeTime();
+                    let params = {
+                        newEmail: this.ruleForm.newEmail,
+                        oldEmail: this.ruleForm.currentEmail
+                    };
+                    personalService.sendEmailCode(params).then((resp) => {
+                        if (resp.success) {
+                            this.ruleForm.code = '';
+                            this.$ltsMessage.show({type: 'success', message: 'Send verification code success'})
+                        }
+                    }, (msg) => {
+                        this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                    })
+                }
             },
             changeEmail() {
-                let params = {
-                    password: this.ruleForm.password,
-                    email: this.ruleForm.currentEmail
-                };
-                personalService.changeEmail(params).then((resp) => {
-                    if (resp.success) {
-                        this.currentFlag = false;
-                        this.newFlag = true;
-                        this.ruleForm.password = '';
-                    }
-                }, (msg) => {
-                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
-                })
+                if (this.ruleForm.password == '' || this.ruleForm.password == undefined) {
+                    this.$ltsMessage.show({type: 'error', message: this.$t("comHeader.headerInputPwd")});
+                } else {
+                    let params = {
+                        password: this.ruleForm.password,
+                        email: this.ruleForm.currentEmail
+                    };
+                    personalService.changeEmail(params).then((resp) => {
+                        if (resp.success) {
+                            this.currentFlag = false;
+                            this.newFlag = true;
+                            this.ruleForm.password = '';
+                        }
+                    }, (msg) => {
+                        this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                    })
+                }
             },
             checkNewEmail() {
                 let params = {
@@ -151,7 +177,7 @@
             padding: 0 20px;
             height: 40px;
         }
-        .emailButton{
+        .emailButton {
             position: absolute;
             top: 0;
             left: 430px;

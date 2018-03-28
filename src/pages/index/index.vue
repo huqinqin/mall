@@ -86,7 +86,7 @@
           <ul class="item-list-box">
             <li v-for="item in itemlist.items" :key="item.sin"
                 v-bind:class="{'limit':item.type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1,'newSeller': item.isNew}">
-              <a target="javasrcipt:void(0)" @click="href(item)" >
+              <div  @click="href(item)" >
                 <div class="img"
                      :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}"></div>
                 <div class="item-spec">
@@ -101,7 +101,7 @@
                     </p>
                   </div>
                 </div>
-              </a>
+              </div>
             </li>
           </ul>
         </div>

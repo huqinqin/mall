@@ -203,6 +203,19 @@
                         }
                     })
                     this.detail = resp.data;
+                    if(resp.data.wholesale_order.status === 2){
+                        resp.data.wholesale_order.status_title = this.$t("main.order.list.mainOrLiAlreadyDeli")
+                    }else if(resp.data.wholesale_order.status === 0){
+                        resp.data.wholesale_order.status_title = this.$t("main.order.list.mainOrLiWaitPay");
+                    }else if(resp.data.wholesale_order.status === 1){
+                        resp.data.wholesale_order.status_title = this.$t("main.order.list.mainOrLiRealPay");
+                    }else if(resp.data.wholesale_order.status === 7){
+                        resp.data.wholesale_order.status_title = "Transaction Finished";
+                    }else if(resp.data.wholesale_order.status === 8){
+                        resp.data.wholesale_order.status_title = "To Be Returned to Warehouse";
+                    }else if(resp.data.wholesale_order.status === 9){
+                        resp.data.wholesale_order.status_title = "The Order Closed";
+                    }
                 }, (err) => {
                     this.$ltsMessage.show({type:'error',message:err.error_message})
                 });

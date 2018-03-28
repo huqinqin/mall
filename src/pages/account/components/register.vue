@@ -151,7 +151,7 @@
                     ],
                     email:validatorConfig.email(),
                     phone: [
-                        { required: true, message:  "Required filed", trigger: 'blur' }
+                        { required: true, message:  "Required field", trigger: 'blur' }
                     ],
                    /* mobile: [
                         { required: false, message:  "Phone Number Can't Be Empty", trigger: 'blur' },

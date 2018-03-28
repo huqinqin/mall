@@ -78,7 +78,7 @@ export default {
             cb = validateEmail;
         }
         return [
-            {required: true, message: 'Required filed', trigger: 'blur'},
+            {required: true, message: 'Required field', trigger: 'blur'},
             {type: 'email', message: 'Email has a wrong format', trigger: 'blur'},
             {validator: cb, trigger: 'blur'}
         ]
@@ -110,7 +110,7 @@ export default {
         {min: 4, max: 200, message: 'Length must be between 4-200 charaters', trigger: 'blur'}
     ],
     address: [
-        {required: true, message: 'Required filed', trigger: 'blur'},
+        {required: true, message: 'Required field', trigger: 'blur'},
         {min: 4, max: 200, message: 'Length is 4 to 200', trigger: 'blur'}
     ],
     contact: [

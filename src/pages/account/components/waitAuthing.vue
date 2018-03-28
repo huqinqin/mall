@@ -8,9 +8,9 @@
         </header>
         <main>
             <div class="info1">Account Registration Submission Successful</div>
-            <div class="info2">You account registration information has been received by LTS successful</div>
-            <div class="info2">An initial password will be sent to your email address once your account has been approved</div>
-            <div class="info2">We are really exited about the offcial launch of the brand new LTS online store in April. Thank you for your support to LTS</div>
+            <div class="info2">You account registration information has been received by LTS successfully.</div>
+            <div class="info2">An initial password will be sent to your email address once your account has been approved.</div>
+            <div class="info2">We are really exited about the offcial launch of the brand new LTS online store in April. Thank you for your support to LTS.</div>
             <div class="buttons">
                 <el-button class="back" @click="back">BACK TO THE MALL</el-button>
             </div>

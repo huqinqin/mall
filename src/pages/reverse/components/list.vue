@@ -11,13 +11,13 @@
                             <img :src="scope.row.item_remark.url + '!item_small'" class="item" />
                             <!--<div>{{scope.row.item_remark.item_name}}</div>-->
                         </div>
-                        <div class="prop-box">
+                        <!--<div class="prop-box">
                             <div v-for="(propObj,index) in scope.row.item_remark.propValue">
                                 <div v-for="(prop,key) in propObj">
                                     <div>{{key}}:{{prop}}</div>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
                 </template>
             </el-table-column>

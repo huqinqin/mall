@@ -86,22 +86,22 @@
           <ul class="item-list-box">
             <li v-for="item in itemlist.items" :key="item.sin"
                 v-bind:class="{'limit':item.type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1,'newSeller': item.isNew}">
-              <a :href="'/detail#/?id=' + item.id" >
-                <div class="img"
-                     :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}"></div>
-                <div class="item-spec">
-                  <p class="line-two" :title="item.item_name">{{item.item_name}}</p>
-                  <p class="line-four"></p>
-                  <div class="item-price">
-                    <button v-ltsLoginShow:false="(itemlist.attribute | 4) != itemlist.attribute" v-login>
-                      {{$t("main.detail.info.mainDetInfoLoginPrice")}}
-                    </button>
-                    <p v-ltsLoginShow:true="(itemlist.attribute | 4) == itemlist.attribute" class="price">
-                      <lts-money :money="item.price"></lts-money>
-                    </p>
-                  </div>
-                </div>
-              </a>
+                <router-link :to="'/detail#/?id=' + item.id" target="_blank">
+                    <div class="img"
+                         :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}"></div>
+                    <div class="item-spec">
+                        <p class="line-two" :title="item.item_name">{{item.item_name}}</p>
+                        <p class="line-four"></p>
+                        <div class="item-price">
+                            <button v-ltsLoginShow:false="(itemlist.attribute | 4) != itemlist.attribute" v-login>
+                                {{$t("main.detail.info.mainDetInfoLoginPrice")}}
+                            </button>
+                            <p v-ltsLoginShow:true="(itemlist.attribute | 4) == itemlist.attribute" class="price">
+                                <lts-money :money="item.price"></lts-money>
+                            </p>
+                        </div>
+                    </div>
+                </router-link>
             </li>
           </ul>
         </div>

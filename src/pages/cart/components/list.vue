@@ -828,7 +828,6 @@
           margin-left: 24px;
         }
         .other {
-          width: 250px;
           padding: 0 6px;
           margin-left: 24px;
 

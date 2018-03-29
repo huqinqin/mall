@@ -5,7 +5,7 @@
                 <span class="iconfont icon-icon"></span>
             </div>
             <div class="infoRight">
-                <div>{{$t("main.someinfo.mainSomeDear")}}<span class="name">{{engineerInfo.user.name}}</span>,{{$t("main.someinfo.mainSomeHello")}}！</div>
+                <div>{{$t("main.someinfo.mainSomeDear")}}<span class="name">{{engineerInfo.user.name}}</span>,  {{$t("main.someinfo.mainSomeHello")}}！</div>
                 <p style="font-weight: bold;margin-top: 10px">{{$t("main.someinfo.mainSomeLever")}}:<span style="margin-left: 4px;font-weight: bold">{{engineerInfo.level1}}</span></p>
                 <hr class="flagLine">
                 <div>

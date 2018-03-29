@@ -587,8 +587,8 @@ export default {
             mainSeaNext: 'Next',
         },
         someinfo: {
-            mainSomeDear: 'Dear',
-            mainSomeHello: 'Hi',
+            mainSomeDear: 'Hello',
+            mainSomeHello: 'good day',
             mainSomeLever: 'Membership Level',
             mainSomeAccountBala: 'Account Balance',
             mainSomePayBalance: 'Credit Terms Balance',

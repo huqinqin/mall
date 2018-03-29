@@ -24,7 +24,7 @@
                   </el-table-column>
                   <el-table-column align="center" width="600">
                     <template slot-scope="subscope">
-                      <a :href="'/detail#/?id=' + subscope.row.id">
+                      <a :href="'#/detail?id=' + subscope.row.id">
                         <div class="item-img"
                              :style="{backgroundImage : 'url(' + subscope.row.full_url + '!item_small)'}"></div>
                         <div class="content">

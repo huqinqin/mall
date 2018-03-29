@@ -92,6 +92,7 @@
 </template>
 
 <script>
+    import $ from 'jquery'
     import ItemService from '@/services/ItemService'
     export default {
         name: "search",

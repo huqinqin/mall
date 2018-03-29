@@ -1315,7 +1315,6 @@
                     }
                 }
                 .buttons-disabled button {
-                    width: 160px;
                     height: 40px;
                     background: #f3f3f3;
                     color: #bbb;

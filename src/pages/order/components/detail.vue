@@ -15,7 +15,7 @@
             </div>
             <el-form label-position="left" inline class="form-row" label-width="130px">
                 <el-form-item :label='$t("main.order.detail.mainOrDeBuyerInfo")'>
-                    {{order.user_name}} {{order.receiver_mobile}}
+                    <span class="name">{{order.user_name}}</span>{{order.receiver_mobile}}
                 </el-form-item>
                 <el-form-item :label='$t("main.order.detail.mainOrDeMyAddr")'>
                     {{order.user_addr}}
@@ -274,6 +274,9 @@
                 color: #666;
                 margin-right: 0;
                 margin-bottom: 0;
+                .name{
+                    margin-right: 48px;
+                }
             }
         }
         .el-card{

@@ -1,6 +1,6 @@
-window.checkIl8n = 123;
 import  VueI18n from 'vue-i18n'
 import Vue from  'vue'
+import Router from 'vue-router'
 import VueResource from 'vue-resource'
 import {dateUtils} from 'ltsutil'
 import Layout from 'layout'
@@ -21,6 +21,7 @@ import './filter'
 import {store} from 'ltsutil'
 import config from 'config'
 Vue.use(VueI18n)
+Vue.use(Router)
 Vue.prototype.$ltsLoading = Loading
 Vue.prototype.$ltsMessage = Message
 Vue.prototype.$ltsMessageBox = MessageBox
@@ -34,6 +35,7 @@ const i18n = new VueI18n({
     en: require('@/lang/en').default
   }
 })
+
 Vue.use(Element, {
     i18n: (key, value) => i18n.t(key, value)
 })
@@ -196,14 +198,16 @@ export default function (App, router = new Router()) {
         template  : '<Layout/>',
         components: {Layout},
     })
-    window.checkIl8n = (msg)=>{
+    let checkIl8n = (msg)=>{
         if(msg){
             return VueIl8n.$t(msg);
         }
     }
-    Vue.prototype.checkIl8n = (msg)=>{
-        if(msg){
-            return VueIl8n.$t(msg);
+    Vue.prototype.checkIl8n = checkIl8n;
+    window.checkIl8n = checkIl8n;
+    window.onpageshow = function(event) {
+        if (event.persisted) {
+            window.location.reload()
         }
-    }
+    };
 }

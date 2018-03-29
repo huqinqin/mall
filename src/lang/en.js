@@ -11,7 +11,7 @@ export default {
         headerMyExpert: 'My Expert',
         headerPhoneOrder: 'APP',
         headerLogin: 'Log Out',
-        headerSearchGoods: 'Search',
+        headerSearchGoods: 'Search model number, hardware type, key features',
         headerAllclassify: 'All Categories',
         headerInputUserOrEmail: 'Username/E-mail',
         headerPwd: 'Password',
@@ -47,7 +47,7 @@ export default {
                 mainAcReClickUpload: 'Upload',
                 mainAcReValidateSuccess: 'Validation Succeeded',
                /* mainAcReContentNotNull: 'Please Enter Your Information',*/
-                mainAcReContentNotNull: 'Required filed',
+                mainAcReContentNotNull: 'Required field',
                 mainAcReCreateSuccess: 'Your Account Has Been Created',
             },
             reset: {

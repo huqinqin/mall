@@ -69,6 +69,7 @@
                     v-model="selectedOptions"
                     :change-on-select="false"
                     style="width: 240px"
+                    @blur="handleChange"
                     @change="handleChange">
                 </el-cascader>
                 <el-button slot="append" icon="iconfont icon-sousuo2" @click="searchToHref"></el-button>
@@ -92,7 +93,7 @@
                         icon: 'icon-IPjiejuefangan',
                         first: 'IP',
                         last: 'SOLUTION',
-                        link: '/search#/?cateId=1',
+                        link: '/#/search?cateId=1',
                         needLogin: false
                     },
                     {
@@ -100,7 +101,7 @@
                         icon: 'icon-jiankong',
                         first: 'HD-TVI',
                         last: 'SOLUTION',
-                        link: '/search#/?cateId=2',
+                        link: '/#/search/?cateId=2',
                         needLogin: false
                     },
                     {
@@ -184,7 +185,9 @@
                 }
             },
             searchToHref() {
-                location.href = '/search#/?cateId=' + this.selectedOptions + '&keywords=' + this.keywords + '&tags=' + this.tags;
+                console.log(this.selectedOptions);
+                this.$router.push({name : 'search',query:{cateId : JSON.stringify(this.selectedOptions),keywords : this.keywords, tags : this.tags }})
+//                location.href = '/search#/?cateId=' + this.selectedOptions + '&keywords=' + this.keywords + '&tags=' + this.tags;
                 this.selfContext.$emit('getItemList')
             },
             getCategoryList() {
@@ -244,16 +247,17 @@
             handleChange(value) {
                 // 级联选择器选择类目
                 this.keywords = ''
-                window.location.href = '/search#/?cateId=' + this.selectedOptions
-                this.selfContext.$emit('getItemList')
+//                window.location.href = '/search#/?cateId=' + this.selectedOptions
+                this.searchToHref();
+//                this.selfContext.$emit('getItemList')
             },
             getParamas() {
                 let cateList = []
                 if (this.$route && this.$route.query.cateId) {
-                    this.$route.query.cateId.split(",").forEach((value) => {
-                        cateList.push(+value);
-                    })
-                    this.selectedOptions = cateList;
+//                    this.$route.query.cateId.split(",").forEach((value) => {
+//                        cateList.push(+value);
+//                    })
+                    this.selectedOptions = JSON.parse(this.$route.query.cateId);
                 }
                 if (this.$route && this.$route.query.keywords) {
                     this.keywords = this.$route.query.keywords

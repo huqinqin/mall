@@ -710,17 +710,18 @@
                 }
             }
         }
-    }
-    .error{
-        width: 818px;
-        height: 417px;
+        .error{
+            width: 818px;
+            height: 417px;
 
-        margin: auto;
-        div{
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-repeat: no-repeat;
+            margin: auto;
+            div{
+                width: 100%;
+                height: 100%;
+                background-size: cover;
+                background-repeat: no-repeat;
+            }
         }
     }
+
 </style>

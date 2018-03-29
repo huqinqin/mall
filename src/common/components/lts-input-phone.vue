@@ -3,7 +3,7 @@
         <el-select v-model="areaCode" slot="prepend" placeholder="Select Country" @change="changeHandler">
             <el-option v-for="option in options" :key="option.value" :label="option.label" :value="option.value"/>
         </el-select>
-        <el-input :placeholder="placeholder" v-model="clone_phoneNumber" class="input-with-select num" @change="changeHandler">
+        <el-input :placeholder="placeholder" v-model="clone_phoneNumber" class="input-with-select num" @change="changeHandler" @blur="changeHandler">
         </el-input>
     </div>
 </template>

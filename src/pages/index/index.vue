@@ -86,7 +86,7 @@
           <ul class="item-list-box">
             <li v-for="item in itemlist.items" :key="item.sin"
                 v-bind:class="{'limit':item.type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1,'newSeller': item.isNew}">
-              <a :href="'/detail#/?id=' + item.id" target="_blank">
+              <div @click="href(item.id)" >
                 <div class="img"
                      :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}"></div>
                 <div class="item-spec">
@@ -101,7 +101,7 @@
                     </p>
                   </div>
                 </div>
-              </a>
+              </div>
             </li>
           </ul>
         </div>
@@ -159,6 +159,10 @@
     methods: {
       login () {
         this.$emit('showLogin', 2)
+      },
+      href(id){
+          console.log(id);
+          window.open('/detail#/?id=' + id + '&sign=' + new Date().getTime());
       },
       getList () {
         homeService.getList().then((data) => {

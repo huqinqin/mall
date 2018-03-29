@@ -205,4 +205,9 @@ export default function (App, router = new Router()) {
     }
     Vue.prototype.checkIl8n = checkIl8n;
     window.checkIl8n = checkIl8n;
+    window.onpageshow = function(event) {
+        if (event.persisted) {
+            window.location.reload()
+        }
+    };
 }

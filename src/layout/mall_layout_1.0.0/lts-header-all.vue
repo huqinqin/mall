@@ -69,6 +69,7 @@
                     v-model="selectedOptions"
                     :change-on-select="false"
                     style="width: 240px"
+                    @blur="handleChange"
                     @change="handleChange">
                 </el-cascader>
                 <el-button slot="append" icon="iconfont icon-sousuo2" @click="searchToHref"></el-button>
@@ -346,7 +347,7 @@
                 line-height: 38px;
                 border: none;
                 .el-input--suffix{
-                    
+
                     width: 100% !important;
                 }
                 .el-input__inner {

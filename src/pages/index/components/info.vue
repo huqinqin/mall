@@ -94,7 +94,6 @@
                     </div>
                     <el-form-item :label='$t("main.detail.info.mainDetInfoCozyTip")' class="mark">
                         <p>{{ $t("main.detail.info.mainDetInfoNoReason") }}</p>
-                        <p v-if="item.attribute&16384 == 16384">{{ $t("main.detail.info.mainDetInfoNoCoupon") }}</p>
                     </el-form-item>
                     <el-form-item class="buttons" v-if="item.status == 1">
                         <lts-login display="inline-block">
@@ -131,7 +130,7 @@
                 <ul v-if="buyHistory.length > 0">
                     <li v-for="item in historyItems"
                         :class="{ limit: item.discount_type == 4, reduce:item.discount_type == 2, discount:item.discount_type == 1,'newSeller': item.isNew}">
-                        <a :href="'/detail#/?id=' + item.id" target="_blank">
+                        <router-link :to="{name:'info',query:{id : item.id}}" target="_blank">
                             <div class="img" :style="{backgroundImage : 'url(' + item.image_value +'!item_middle)'}"></div>
                             <div class="content" :title="item.item_name">
                                 <!--<el-tooltip class="item" effect="dark" :content="item.item_name" placement="top">-->
@@ -143,7 +142,7 @@
                                     <lts-money :money="item.price"></lts-money>
                                 </p>
                             </div>
-                        </a>
+                        </router-link>
                     </li>
                 </ul>
                 <div v-else class="history_null">
@@ -174,9 +173,9 @@
                 <el-button class="handlePage" @click="pre" disabled><i class="el-icon-caret-left"></i></el-button>
                 <ul class="others">
                     <li v-for="(value,index) in otherGoods" :key="value.id" class="othersItem">
-                        <a :href="'/detail#/?id=' + value.id" target="_blank">
+                        <router-link :to="{name:'info',query:{id : value.id}}" target="_blank">
                             <div class="img" :style="'background-image: url(' + value.image_value + ')'"></div>
-                        </a>
+                        </router-link>
                         <!--<el-tooltip class="item" effect="dark" :content="value.item_name" placement="top">-->
                             <div class="name" :title="value.item_name">{{value.item_name}}</div>
                         <!--</el-tooltip>-->
@@ -286,7 +285,7 @@
                     <ul class="item-list-box">
                         <li v-for="item in hotSale" :key="item.id"
                             :class="{ limit: item.discount_type == 4, reduce:item.discount_type == 2, discount:item.discount_type == 1,'newSeller': item.isNew}">
-                            <a :href="'/detail#/?id=' + item.id" target="_blank">
+                            <router-link :to="{name:'info',query:{id : item.id}}" target="_blank">
                                 <div class="img" :style="{backgroundImage : 'url(' + item.image_value +'!item_middle)'}"></div>
                                 <div class="content" >
                                     <!--<el-tooltip class="item" effect="dark" :content="item.item_name" placement="top">-->
@@ -301,7 +300,7 @@
                                         <lts-money :money="item.price"></lts-money>
                                     </p>
                                 </div>
-                            </a>
+                            </router-link>
                         </li>
                     </ul>
                 </div>
@@ -347,8 +346,8 @@
     import addCartSuccess from 'ui/components/lts-addCartSuccess.vue'
 
     export default {
-        components: {addCartSuccess},
         name: 'detailInfo',
+        components: {addCartSuccess},
         props: {},
         data() {
             return {
@@ -757,6 +756,7 @@
             },
         },
         mounted() {
+            $("html").attr('class','white')
             this.hotRecommoned();
         },
     }
@@ -984,7 +984,6 @@
         .el-breadcrumb {
             font-size: 14px;
         }
-
         .detail-top {
             display: flex;
             justify-content: space-between;

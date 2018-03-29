@@ -92,6 +92,7 @@
 </template>
 
 <script>
+    import $ from 'jquery'
     import ItemService from '@/services/ItemService'
     export default {
         name: "search",
@@ -139,6 +140,7 @@
             this.selfContext.$on("getItemList",this.submit)
         },
         mounted(){
+            $("html").attr('class','white')
             this.tags = this.$route.query.tags ? this.$route.query.tags.split(',') : [];
             this.submit();
         },
@@ -181,10 +183,10 @@
             // 调接口
             submit(){
                 this.search.itemName = this.$route.query.keywords;
-                if(this.$route.query.cateId == '-1000'){
+                if(this.$route.query.cateId == '-1000' || this.$route.query.cateId.length == ''){
                     this.search.cateId = '';
                 }else{
-                    this.search.cateId = this.$route.query.cateId.split(',')
+                    this.search.cateId = JSON.parse(this.$route.query.cateId);
                 }
                 ItemService.searchItem(this.search,this.tags).then((rtn)=>{
                     this.data = rtn.data.item_d_o_list
@@ -708,17 +710,18 @@
                 }
             }
         }
-    }
-    .error{
-        width: 818px;
-        height: 417px;
+        .error{
+            width: 818px;
+            height: 417px;
 
-        margin: auto;
-        div{
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-repeat: no-repeat;
+            margin: auto;
+            div{
+                width: 100%;
+                height: 100%;
+                background-size: cover;
+                background-repeat: no-repeat;
+            }
         }
     }
+
 </style>

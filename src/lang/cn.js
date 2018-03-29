@@ -209,6 +209,7 @@ export default {
                 mainDetInfoExceed: '您所填写的数量超过库存',
                 mainDetInfoCozyTip: '温馨提示',
                 mainDetInfoNoReason: '支持30天无理由退换(如果商品参加活动，退换货以活动规则为准)',
+                mainDetInfoNoCoupon: '该商品不可使用优惠券',
                 mainDetInfoImme: '立即购买',
                 mainDetInfoJoinCart: '加入购物车',
                 mainDetInfoBuy: '购买记录',

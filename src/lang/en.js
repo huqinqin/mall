@@ -522,7 +522,7 @@ export default {
                 mainRevLiOnlyNotGood: 'Refund Only',
                 mainRevLiReason: 'Reason',
                 mainRevLiStatus: 'Status',
-                mainRevLiHandle: 'More',
+                mainRevLiHandle: 'Operate',
                 mainRevLiGoodsInfo: 'RMA Details',
                 mainRevLiIsSure: 'Proceed to cancel the application？',
                 mainRevLiCanle: 'No',

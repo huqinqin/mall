@@ -68,7 +68,7 @@ export default {
             beforePay: {
                 mainCartBefPay: 'Payment',
                 mainCartBefOrderNum: 'Order Number',
-                mainCartBefWaitPay: 'To Be Paid',
+                mainCartBefWaitPay: 'To be paid',
                 mainCartBefEngineerAccount:'Account Balance',
                 mainCartBefBalance:'Credit Terms Balance',
                 mainCartBefBalancePay:'Pay With Credit',
@@ -475,8 +475,8 @@ export default {
                 mainRePayBatch: 'Batch Payment',
                 mainRePayShouldPay: 'Due Amount',
                 mainRePayRelation: 'Associated Order',
-                mainRePayNoPay: 'To Be Paid',
-                mainRePayNoRepay: 'To Be Paid',
+                mainRePayNoPay: 'To be paid',
+                mainRePayNoRepay: 'To be paid',
                 mainRePayRepayed: 'Paid',
             }
         },

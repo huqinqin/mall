@@ -161,9 +161,8 @@
         this.$emit('showLogin', 2)
       },
       href(id){
-          let url = 'http://mall.ltsecurityinc.com/detail#/?id='+ id;
-          console.log(url);
-          window.open(url);
+          let winOpen = window.open("", "_blank"); //首先打开一个新页面
+          winOpen.location = "/detail#/?id=" + id ;
       },
       getList () {
         homeService.getList().then((data) => {

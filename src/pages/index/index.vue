@@ -161,8 +161,9 @@
         this.$emit('showLogin', 2)
       },
       href(id){
-          console.log(id);
-          window.open('/detail#/?id=' + id + '&sign=' + new Date().getTime());
+          let url = 'http://mall.ltsecurityinc.com/detail#/?id='+ id;
+          console.log(url);
+          window.open(url);
       },
       getList () {
         homeService.getList().then((data) => {

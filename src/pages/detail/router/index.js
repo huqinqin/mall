@@ -9,11 +9,6 @@ export default new Router({
       path: '/info',
       name: 'info',
       component: info,
-      beforeEnter: (to, from, next) => {
-          console.log(to);
-          console.log(from);
-          console.log(next);
-      }
     }
   ]
 })

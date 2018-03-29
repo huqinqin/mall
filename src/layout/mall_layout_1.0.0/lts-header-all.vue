@@ -246,8 +246,7 @@
             handleChange(value) {
                 // 级联选择器选择类目
                 this.keywords = ''
-                window.location.href = '/search#/?cateId=' + this.selectedOptions
-                this.selfContext.$emit('getItemList')
+                this.searchToHref();
             },
             getParamas() {
                 let cateList = []

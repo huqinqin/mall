@@ -41,7 +41,7 @@ Vue.use(Element, {
 })
 export default function (App, router = new Router()) {
   let isIndex = true,isCart = true
-  App.name && App.name == 'index' ? isIndex = true : isIndex = false;
+  // App.name && App.name == 'index' ? isIndex = true : isIndex = false;
   // App.name && (App.name == 'cart' || App.name == 'order') ? isCart = true : isCart = false;
   config.isWhite = isIndex
   config.isCart = isCart

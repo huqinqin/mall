@@ -95,14 +95,14 @@
                 if (this.ruleForm.newEmail == '' || this.ruleForm.newEmail == undefined) {
                     this.$ltsMessage.show({type: 'error', message: 'Please input new email'});
                 } else {
-                    this.sendEmailCodeFlag = false;
-                    this.setCodeTime();
                     let params = {
                         newEmail: this.ruleForm.newEmail,
                         oldEmail: this.ruleForm.currentEmail
                     };
                     personalService.sendEmailCode(params).then((resp) => {
                         if (resp.success) {
+                            this.sendEmailCodeFlag = false;
+                            this.setCodeTime();
                             this.ruleForm.code = '';
                             this.$ltsMessage.show({type: 'success', message: 'Send verification code success'})
                         }

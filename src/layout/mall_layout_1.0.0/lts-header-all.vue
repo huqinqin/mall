@@ -185,7 +185,8 @@
                 }
             },
             searchToHref() {
-                location.href = '/search#/?cateId=' + this.selectedOptions + '&keywords=' + this.keywords + '&tags=' + this.tags;
+                this.$router.push({name : 'search',query:{cateId : this.selectedOptions,keywords : this.keywords, tags : this.tags }})
+//                location.href = '/search#/?cateId=' + this.selectedOptions + '&keywords=' + this.keywords + '&tags=' + this.tags;
                 this.selfContext.$emit('getItemList')
             },
             getCategoryList() {

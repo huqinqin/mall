@@ -139,6 +139,7 @@
             this.selfContext.$on("getItemList",this.submit)
         },
         mounted(){
+            $("html").attr('class','white')
             this.tags = this.$route.query.tags ? this.$route.query.tags.split(',') : [];
             this.submit();
         },

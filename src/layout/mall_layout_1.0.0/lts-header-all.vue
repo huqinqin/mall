@@ -104,10 +104,10 @@
                         needLogin: false
                     },
                     {
-                        name: 'shopby scenario',
+                        name: 'Popular Kits',
                         icon: 'icon-qiyejiejuefangan',
-                        first: 'SHOP BY',
-                        last: 'SCENARIO',
+                        first: 'POPULAR',
+                        last: 'KITS',
                         link: 'javascript:void(0)',
                         needLogin: false
                     },
@@ -346,7 +346,7 @@
                 line-height: 38px;
                 border: none;
                 .el-input--suffix{
-                    
+
                     width: 100% !important;
                 }
                 .el-input__inner {

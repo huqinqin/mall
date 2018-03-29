@@ -24,7 +24,7 @@
                   </el-table-column>
                   <el-table-column align="center" width="600">
                     <template slot-scope="subscope">
-                      <a :href="'#/detail?id=' + subscope.row.id">
+                      <router-link :to="{name:'info',query:{id : subscope.row.id}}" target="_blank">
                         <div class="item-img"
                              :style="{backgroundImage : 'url(' + subscope.row.full_url + '!item_small)'}"></div>
                         <div class="content">
@@ -35,7 +35,7 @@
                             <p v-for="(val,key) in item.prop_value" :title="val">{{key}}:{{val}}</p>
                           </li>
                         </ul>
-                      </a>
+                      </router-link>
                     </template>
                   </el-table-column>
                   <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">

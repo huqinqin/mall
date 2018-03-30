@@ -24,7 +24,8 @@
                   </el-table-column>
                   <el-table-column align="center" width="600">
                     <template slot-scope="subscope">
-                      <router-link :to="{name:'info',query:{id : subscope.row.id}}" target="_blank">
+                      <!--<router-link :to="{name:'info',query:{id : subscope.row.id}}" target="_blank">-->
+                        <a href="javascript:void(0)">
                         <div class="item-img"
                              :style="{backgroundImage : 'url(' + subscope.row.full_url + '!item_small)'}"></div>
                         <div class="content">
@@ -35,7 +36,8 @@
                             <p v-for="(val,key) in item.prop_value" :title="val">{{key}}:{{val}}</p>
                           </li>
                         </ul>
-                      </router-link>
+                      <!--</router-link>-->
+                        </a>
                     </template>
                   </el-table-column>
                   <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
@@ -95,7 +97,8 @@
                   </el-table-column>
                   <el-table-column align="center" width="600">
                     <template slot-scope="subscope">
-                      <a :href="'/detail#/?id=' + subscope.row.id">
+                      <!--<a :href="'/detail#/?id=' + subscope.row.id">-->
+                      <a href="javascript:void(0)">
                         <div class="item-img"
                              :style="{backgroundImage : 'url(' + subscope.row.full_url + '!item_small)'}"></div>
                         <div class="content">
@@ -182,7 +185,8 @@
                     </el-table-column>
                     <el-table-column align="center" width="600">
                       <template slot-scope="subscope">
-                        <a :href="'/detail#/?id=' + subscope.row.id">
+                        <!--<a :href="'/detail#/?id=' + subscope.row.id">-->
+                        <a href="javascript:void(0)">
                           <div class="item-img"
                                :style="{backgroundImage : 'url(' + subscope.row.full_url + '!item_small)'}"></div>
                           <div class="content">
@@ -257,7 +261,8 @@
                   </el-table-column>
                   <el-table-column align="center" width="600">
                     <template slot-scope="subscope">
-                      <a :href="'/detail#/?id=' + subscope.row.id">
+                      <!--<a :href="'/detail#/?id=' + subscope.row.id">-->
+                        <a href="javascript:void(0)">
                         <div class="item-img"
                              :style="{backgroundImage : 'url(' + subscope.row.full_url + '!item_small)'}"></div>
                         <div class="content">

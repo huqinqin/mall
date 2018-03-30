@@ -39,7 +39,9 @@
                     confirmPassword: ''
                 },
                 rules: {
-                    //oldPassword: ValidatorConfig.password,
+                    oldPassword: [
+                        {required: true, message: this.$t("main.personal.password.mainPerPwdEnterOldPwd"), trigger: 'blur'}
+                    ],
                     newPassword: ValidatorConfig.password,
                     confirmPassword: [
                         {required: true, message: this.$t("main.personal.password.mainPerPwdEnterNew"), trigger: 'blur'}

@@ -97,7 +97,7 @@
                             width="360"
                             trigger="click"
                             v-model="scope.row.visible3">
-                            <el-form ref="form"  label-width="80px">
+                            <el-form ref="form"  label-width="180px">
                                 <el-form-item :label='$t("main.reverse.list.mainRevLiLogisCompany")'>
                                     <el-select v-model="express" :placeholder='$t("main.reverse.list.mainRevLiSelect")'>
                                         <el-option label="UPS" value="ups"></el-option>

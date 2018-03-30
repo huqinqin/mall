@@ -3,6 +3,7 @@
         <div class="someInfoWrapper">
             <div class="infoLeft">
                 <span class="iconfont icon-icon"></span>
+                <!--<div><img :src="engineerInfo.user.url" alt=""></div>-->
             </div>
             <div class="infoRight">
                 <div>{{$t("main.someinfo.mainSomeDear")}}<span class="name">{{engineerInfo.user.name}}</span>,  {{$t("main.someinfo.mainSomeHello")}}！</div>
@@ -76,14 +77,11 @@
         data(){
             return{
                 hasTerms:false,
-                tableData:[
-                    {url:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1519827728720&di=7e49169bcabc7c75a4f4fd88ae6498de&imgtype=0&src=http%3A%2F%2Fwww.wallcoo.com%2Fflower%2FAmazing_Color_Flowers_2560x1600_IV%2Fwallpapers%2F2560x1600%2FFlowers_Wallpapers_144.jpg',company:"海康威视",desc:'hahah',price:"$100"},
-                    {url:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1519827728720&di=7e49169bcabc7c75a4f4fd88ae6498de&imgtype=0&src=http%3A%2F%2Fwww.wallcoo.com%2Fflower%2FAmazing_Color_Flowers_2560x1600_IV%2Fwallpapers%2F2560x1600%2FFlowers_Wallpapers_144.jpg',company:"海康威视",desc:'hahah',price:"$200"},
-                    {url:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1519827728720&di=7e49169bcabc7c75a4f4fd88ae6498de&imgtype=0&src=http%3A%2F%2Fwww.wallcoo.com%2Fflower%2FAmazing_Color_Flowers_2560x1600_IV%2Fwallpapers%2F2560x1600%2FFlowers_Wallpapers_144.jpg',company:"海康威视",desc:'hahah',price:"$300"},
-                    {url:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1519827728720&di=7e49169bcabc7c75a4f4fd88ae6498de&imgtype=0&src=http%3A%2F%2Fwww.wallcoo.com%2Fflower%2FAmazing_Color_Flowers_2560x1600_IV%2Fwallpapers%2F2560x1600%2FFlowers_Wallpapers_144.jpg',company:"海康威视",desc:'hahah',price:"$400"}
-                ],
+                tableData:[],
                 engineerInfo:{
-                    user: {},
+                    user: {
+                        url:''
+                    },
                     acc_books: {},
                     level1:0,
                 },
@@ -136,6 +134,7 @@
                 checkService.checkInfo().then((data) => {
                     this.engineerInfo = data.data;
                     this.engineerInfo.level1 = data.data.vip;
+                    this.engineerInfo.user.url = data.data.user.avatar;
                     console.log(this.engineerInfo.level1);
                     this.engineerInfo.acc_books.forEach((item) => {
                         if(item.subject === 2010101){

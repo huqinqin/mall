@@ -131,7 +131,7 @@
                 <ul v-if="buyHistory.length > 0">
                     <li v-for="item in historyItems"
                         :class="{ limit: item.discount_type == 4, reduce:item.discount_type == 2, discount:item.discount_type == 1,'newSeller': item.isNew}">
-                        <a :href="'/detail#/?id=' + item.id" target="_blank">
+                        <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
                             <div class="img" :style="{backgroundImage : 'url(' + item.image_value +'!item_middle)'}"></div>
                             <div class="content" :title="item.item_name">
                                 <!--<el-tooltip class="item" effect="dark" :content="item.item_name" placement="top">-->
@@ -174,7 +174,7 @@
                 <el-button class="handlePage" @click="pre" disabled><i class="el-icon-caret-left"></i></el-button>
                 <ul class="others">
                     <li v-for="(value,index) in otherGoods" :key="value.id" class="othersItem">
-                        <a :href="'/detail#/?id=' + value.id" target="_blank">
+                        <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
                             <div class="img" :style="'background-image: url(' + value.image_value + ')'"></div>
                         </a>
                         <!--<el-tooltip class="item" effect="dark" :content="value.item_name" placement="top">-->
@@ -286,7 +286,7 @@
                     <ul class="item-list-box">
                         <li v-for="item in hotSale" :key="item.id"
                             :class="{ limit: item.discount_type == 4, reduce:item.discount_type == 2, discount:item.discount_type == 1,'newSeller': item.isNew}">
-                            <a :href="'/detail#/?id=' + item.id" target="_blank">
+                            <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
                                 <div class="img" :style="{backgroundImage : 'url(' + item.image_value +'!item_middle)'}"></div>
                                 <div class="content" >
                                     <!--<el-tooltip class="item" effect="dark" :content="item.item_name" placement="top">-->
@@ -733,6 +733,7 @@
             }
         },
         created() {
+            console.log(this.$route);
             let id = this.$route.query.id
             this.getItemDetail(id)
         },

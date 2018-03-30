@@ -167,7 +167,7 @@
             <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark">
                 <el-table-column :label='$t("main.cart.list.mainCartliGoodsInfo")' align="left" width="700">
                     <template slot-scope="scope">
-                        <a :href="'/detail#/?id=' + scope.row.id">
+                        <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + scope.row.id" target="_blank">
                             <div class="cart-item-info">
                                 <img class="item-img" :src="scope.row.full_url + '!item_small'">
                                 <div class="content">

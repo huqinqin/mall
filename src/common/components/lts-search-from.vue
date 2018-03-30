@@ -12,6 +12,7 @@
                                 :start-placeholder='$t("common.searchFrom.comSearStartTime")'
                                 :end-placeholder='$t("common.searchFrom.comSearEndTime")'
                                 value-format="yyyy-MM-dd HH:mm:ss"
+                                format="MM-dd-yyyy HH:mm:ss"
                                 :picker-options="datePickerOptions"
                                 align="right">
                             </el-date-picker>
@@ -21,6 +22,7 @@
                             v-model="formInline[val.bindValue]"
                             type="datetime"
                             value-format="yyyy-MM-dd HH:mm:ss"
+                            format="MM-dd-yyyy HH:mm:ss"
                             :placeholder='$t("common.searchFrom.comSearSelectTime")'>
                           </el-date-picker>
                         </div>
@@ -29,6 +31,7 @@
                             v-model="formInline[val.bindValue]"
                             type="date"
                             value-format="yyyy-MM-dd"
+                            format="MM-dd-yyyy"
                             :placeholder='$t("common.searchFrom.comSearSelectDate")'
                             style="width: 150px">
                           </el-date-picker>

@@ -25,7 +25,7 @@
                   <el-table-column align="center" width="600">
                     <template slot-scope="subscope">
                       <!--<router-link :to="{name:'info',query:{id : subscope.row.id}}" target="_blank">-->
-                        <a href="javascript:void(0)">
+                        <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + subscope.row.id" target="_blank">
                         <div class="item-img"
                              :style="{backgroundImage : 'url(' + subscope.row.full_url + '!item_small)'}"></div>
                         <div class="content">
@@ -97,8 +97,7 @@
                   </el-table-column>
                   <el-table-column align="center" width="600">
                     <template slot-scope="subscope">
-                      <!--<a :href="'/detail#/?id=' + subscope.row.id">-->
-                      <a href="javascript:void(0)">
+                      <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + subscope.row.id" target="_blank">
                         <div class="item-img"
                              :style="{backgroundImage : 'url(' + subscope.row.full_url + '!item_small)'}"></div>
                         <div class="content">
@@ -185,8 +184,7 @@
                     </el-table-column>
                     <el-table-column align="center" width="600">
                       <template slot-scope="subscope">
-                        <!--<a :href="'/detail#/?id=' + subscope.row.id">-->
-                        <a href="javascript:void(0)">
+                        <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + subscope.row.id" target="_blank">
                           <div class="item-img"
                                :style="{backgroundImage : 'url(' + subscope.row.full_url + '!item_small)'}"></div>
                           <div class="content">
@@ -261,8 +259,7 @@
                   </el-table-column>
                   <el-table-column align="center" width="600">
                     <template slot-scope="subscope">
-                      <!--<a :href="'/detail#/?id=' + subscope.row.id">-->
-                        <a href="javascript:void(0)">
+                      <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + subscope.row.id" target="_blank">
                         <div class="item-img"
                              :style="{backgroundImage : 'url(' + subscope.row.full_url + '!item_small)'}"></div>
                         <div class="content">

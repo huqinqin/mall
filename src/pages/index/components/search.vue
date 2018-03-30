@@ -4,8 +4,8 @@
             <el-breadcrumb separator-class="el-icon-arrow-right" v-if="data.length > 0">
                 <el-breadcrumb-item :to="{ path: '/' }">{{$t("main.search.mainSeaGoods")}}</el-breadcrumb-item>
             </el-breadcrumb>
-            <div class="tags" v-if="search.condition.length > 0">
-                <el-tag  v-for="(tag,index) in search.condition" :key="tag" type="danger" closable @close="delCondition(index)">{{tag}}</el-tag>
+            <div class="tags" v-if="JSON.stringify(conditions) != '{}'">
+                <el-tag  v-for="(tag,key) in conditions" :key="tag" type="danger" closable @close="delCondition(key)">{{tag}}</el-tag>
             </div>
         </div>
         <div :class="{shown: minItem > 3}" v-if="condition.length > 0">
@@ -133,6 +133,7 @@
                 errorImg : require('@/assets/img/error.png'),
 
                 isLoadEnding : false,
+                conditions:{}
             }
 
         },
@@ -156,27 +157,11 @@
             nextPage(){
                 this.search.page++
             },
-            searchWithText(spceList = [],item = ''){
-                // 排除同一组规格的条件
-//                for (var n=0;n<spceList.length ;n++){
-//                    let condition = this.search.condition;
-//                    if(Array.isArray(condition)){
-//                        condition.forEach((cond,i)=>{
-//                            if(spceList[n] === cond){
-//                                this.search.condition.splice(i,1);
-//                            }
-//                        })
-//                    }else break;
-//                }
-                let count = 0;
-                this.search.condition.forEach((cond,i)=>{
-                    if(item === cond){
-                       count ++ ;
-                    }
-                })
-                // 加入条件
-                if(count == 0 && item){
-                    this.search.condition.push(item)
+            searchWithText(spceList = {},item = ''){
+                this.search.condition = []
+                this.conditions[spceList.name] = item
+                for(let key in this.conditions){
+                    this.search.condition.push('' + key + ':' + this.conditions[key] + '')
                 }
                 this.submit()
             },
@@ -199,7 +184,9 @@
                     this.search.totalPage = rtn.data.total;
 
                     this.rightTotal = Math.ceil(this.search.totalPage/this.search.pageSize);
-                    this.condition = rtn.data.aggregate_cate_prop_list;
+                    if(this.condition.length == 0){
+                        this.condition = rtn.data.aggregate_cate_prop_list;
+                    }
                     this.isLoadEnding = true;
 //                    for(let val in rtn.data.aggregate_cate_prop_map){
 //                        let key = rtn.data.aggregate_cate_prop_map[val],Object = {};
@@ -210,9 +197,12 @@
             },
 
             // 关闭条件
-            delCondition(index) {
-                this.search.condition.splice(index, 1);
-//                this.searchWithText(this.text);
+            delCondition(val) {
+                delete this.conditions[val]
+                this.search.condition = []
+                for(let key in this.conditions){
+                    this.search.condition.push('' + key + ':' + this.conditions[key] + '')
+                }
                 this.submit();
             },
             selected(selected){

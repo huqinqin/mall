@@ -7,7 +7,7 @@
         <p>{{ $t("main.cart.fail.mainCartFaOrderNum") }}：{{tid}}</p>
         <p>{{ $t("main.cart.fail.mainCartFaConsignee") }}：{{this.detailOrder.user_name}}
           {{this.detailOrder.receiver_mobile}}</p>
-        <p :title="this.detailOrder.user_addr">{{ $t("main.cart.fail.mainCartFaReceivingAddress")
+        <p :title="this.detailOrder.user_addr">{{addr}}:{{ $t("main.cart.fail.mainCartFaReceivingAddress")
           }}：{{this.detailOrder.user_addr}}</p>
         <p>{{ $t("main.cart.fail.mainCartFaLogisticsMode") }}：{{method}}</p>
         <div class="button">
@@ -32,7 +32,8 @@
       return {
         tid: 0,
         detailOrder: [],
-        method: this.$t('main.cart.beforePay.mainCartBefExpress')
+        method: this.$t('main.cart.beforePay.mainCartBefExpress'),
+        addr:this.$t("main.cart.fail.mainCartFaReceivingAddress")
       }
     },
     methods: {
@@ -44,9 +45,11 @@
         detailOrder.detailOrder(this.tid).then((data) => {
           this.detailOrder = data.data
             if (this.detailOrder.sell_order_list.length > 0 && this.detailOrder.sell_order_list[0].wholesale_order_items.length > 0 && this.detailOrder.sell_order_list[0].wholesale_order_items[0].s_h_s_m === true) {
-                this.method = this.$t('main.cart.beforePay.mainCartBefExpress')
+                this.method = this.$t('main.cart.beforePay.mainCartBefExpress');
+                this.addr =  this.$t("main.cart.fail.mainCartFaReceivingAddress")
             } else {
-                this.method = this.$t('main.cart.fail.mainCartFaSince')
+                this.method = this.$t('main.cart.fail.mainCartFaSince');
+                this.addr = this.$t('main.cart.settle.mainCartSeZitiAdress')
             }
         }, (msg) => {
           this.$ltsMessage.show({type: 'error', message: msg.error_message})

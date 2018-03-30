@@ -92,7 +92,7 @@
                         icon: 'icon-IPjiejuefangan',
                         first: 'IP',
                         last: 'SOLUTION',
-                        link: '/search?t='+ new Date().getTime() + '#/detail?cateId=1',
+                        link: '/search?t='+ new Date().getTime() + '#/detail?cateId='+JSON.stringify([1]),
                         needLogin: false
                     },
                     {
@@ -100,7 +100,7 @@
                         icon: 'icon-jiankong',
                         first: 'HD-TVI',
                         last: 'SOLUTION',
-                        link: '/search?t='+ new Date().getTime() + '#/detail?cateId=2',
+                        link: '/search?t='+ new Date().getTime() + '#/detail?cateId='+JSON.stringify([2]),
                         needLogin: false
                     },
                     {

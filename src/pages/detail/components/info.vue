@@ -94,7 +94,7 @@
                     </div>
                     <el-form-item :label='$t("main.detail.info.mainDetInfoCozyTip")' class="mark">
                         <p>{{ $t("main.detail.info.mainDetInfoNoReason") }}</p>
-                        <p v-if="item.attribute&16384 == 16384">{{ $t("main.detail.info.mainDetInfoNoCoupon") }}</p>
+                        <p v-if="(item.attribute&16384) == 16384">{{ $t("main.detail.info.mainDetInfoNoCoupon") }}</p>
                     </el-form-item>
                     <el-form-item class="buttons" v-if="item.status == 1">
                         <lts-login display="inline-block">
@@ -1311,6 +1311,7 @@
                     button.is-disabled{
                         background: #f3f3f3;
                         color: #bbb;
+                        display: none;
                     }
                     button.is-disabled:hover{
                         cursor: not-allowed;

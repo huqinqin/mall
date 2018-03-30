@@ -1311,6 +1311,7 @@
                     button.is-disabled{
                         background: #f3f3f3;
                         color: #bbb;
+                        display: none;
                     }
                     button.is-disabled:hover{
                         cursor: not-allowed;

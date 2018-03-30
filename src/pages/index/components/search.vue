@@ -159,10 +159,12 @@
                 this.search.page++
             },
             searchWithText(spceList = {},item = ''){
-                this.search.condition = []
-                this.conditions[spceList.name] = item
-                for(let key in this.conditions){
-                    this.search.condition.push('' + key + ':' + this.conditions[key] + '')
+                if(item){
+                    this.search.condition = []
+                    this.conditions[spceList.name] = item
+                    for(let key in this.conditions){
+                        this.search.condition.push('' + key + ':' + this.conditions[key] + '')
+                    }
                 }
                 this.submit()
             },

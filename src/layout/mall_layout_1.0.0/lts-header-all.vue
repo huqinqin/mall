@@ -69,7 +69,6 @@
                     v-model="selectedOptions"
                     :change-on-select="false"
                     style="width: 240px"
-                    @blur="handleChange"
                     @change="handleChange">
                 </el-cascader>
                 <el-button slot="append" icon="iconfont icon-sousuo2" @click="searchToHref"></el-button>
@@ -93,7 +92,7 @@
                         icon: 'icon-IPjiejuefangan',
                         first: 'IP',
                         last: 'SOLUTION',
-                        link: '/#/search?cateId=1',
+                        link: '/search?t='+ new Date().getTime() + '#/detail?cateId='+JSON.stringify([1]),
                         needLogin: false
                     },
                     {
@@ -101,7 +100,7 @@
                         icon: 'icon-jiankong',
                         first: 'HD-TVI',
                         last: 'SOLUTION',
-                        link: '/#/search/?cateId=2',
+                        link: '/search?t='+ new Date().getTime() + '#/detail?cateId='+JSON.stringify([2]),
                         needLogin: false
                     },
                     {
@@ -186,8 +185,8 @@
             },
             searchToHref() {
                 console.log(this.selectedOptions);
-                this.$router.push({name : 'search',query:{cateId : JSON.stringify(this.selectedOptions),keywords : this.keywords, tags : this.tags }})
-//                location.href = '/search#/?cateId=' + this.selectedOptions + '&keywords=' + this.keywords + '&tags=' + this.tags;
+//                this.$router.push({name : 'search',query:{cateId : JSON.stringify(this.selectedOptions),keywords : this.keywords, tags : this.tags }})
+                location.href = '/search?t='+ new Date().getTime() + '#/detail?cateId=' + JSON.stringify(this.selectedOptions) + '&keywords=' + this.keywords + '&tags=' + this.tags;
                 this.selfContext.$emit('getItemList')
             },
             getCategoryList() {
@@ -244,8 +243,9 @@
                     })
                 }
             },
-            handleChange(value) {
+            handleChange(value) {debugger;
                 // 级联选择器选择类目
+                this.selectedOptions = value;
                 this.keywords = ''
 //                window.location.href = '/search#/?cateId=' + this.selectedOptions
                 this.searchToHref();

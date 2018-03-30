@@ -4,10 +4,11 @@
             <el-breadcrumb separator-class="el-icon-arrow-right" v-if="data.length > 0">
                 <el-breadcrumb-item :to="{ path: '/' }">{{$t("main.search.mainSeaGoods")}}</el-breadcrumb-item>
             </el-breadcrumb>
-            <div class="tags" v-if="search.condition.length > 0">
-                <el-tag  v-for="(tag,index) in search.condition" :key="tag" type="danger" closable @close="delCondition(index)">{{tag}}</el-tag>
+            <div class="tags" v-if="JSON.stringify(conditions) != '{}'">
+                <el-tag  v-for="(tag,key) in conditions" :key="tag" type="danger" closable @close="delCondition(key)">{{tag}}</el-tag>
             </div>
         </div>
+
         <div :class="{shown: minItem > 3}" v-if="condition.length > 0">
             <el-form class="condition">
                 <el-form-item
@@ -58,19 +59,19 @@
             <div class="search-result">
                 <ul class="result">
                     <li v-for="item in data" :key="item.id" v-bind:class="{'limit':item.discount_type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1,'newSeller': item.isNew}">
-                        <router-link :to="{name:'info',query:{id : item.id}}" target="_blank">
+                        <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
                             <div class="img" :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}"></div>
                             <p class="name" :title="item.item_name">{{item.item_name}}</p>
                             <div class="item-price">
                                 <button v-ltsLoginShow:false v-login>{{$t("main.search.mainSeaLogin")}}</button>
                                 <!--<p class="price" v-ltsLoginShow:true v-if="item.activity_price">-->
-                                    <!--<lts-money :money="item.activity_price"></lts-money>-->
+                                <!--<lts-money :money="item.activity_price"></lts-money>-->
                                 <!--</p>-->
                                 <p class="price" v-ltsLoginShow:true>
                                     <lts-money :money="item.price"></lts-money>
                                 </p>
                             </div>
-                        </router-link>
+                        </a>
                     </li>
                 </ul>
                 <el-pagination
@@ -92,6 +93,7 @@
 </template>
 
 <script>
+    import $ from 'jquery'
     import ItemService from '@/services/ItemService'
     export default {
         name: "search",
@@ -132,6 +134,7 @@
                 errorImg : require('@/assets/img/error.png'),
 
                 isLoadEnding : false,
+                conditions:{}
             }
 
         },
@@ -139,6 +142,7 @@
             this.selfContext.$on("getItemList",this.submit)
         },
         mounted(){
+            $("html").attr('class','white')
             this.tags = this.$route.query.tags ? this.$route.query.tags.split(',') : [];
             this.submit();
         },
@@ -154,40 +158,23 @@
             nextPage(){
                 this.search.page++
             },
-            searchWithText(spceList = [],item = ''){
-                debugger
-                console.log(1,spceList,item)
-
-                // 排除同一组规格的条件
-//                for (var n=0;n<spceList.length ;n++){
-//                    let condition = this.search.condition;
-//                    if(Array.isArray(condition)){
-//                        condition.forEach((cond,i)=>{
-//                            if(spceList[n] === cond){
-//                                this.search.condition.splice(i,1);
-//                            }
-//                        })
-//                    }else break;
-//                }
-                let count = 0;
-                this.search.condition.forEach((cond,i)=>{
-                    if(item === cond){
-                       count ++ ;
+            searchWithText(spceList = {},item = ''){
+                if(item){
+                    this.search.condition = []
+                    this.conditions[spceList.name] = item
+                    for(let key in this.conditions){
+                        this.search.condition.push('' + key + ':' + this.conditions[key] + '')
                     }
-                })
-                // 加入条件
-                if(count == 0 && item){
-                    this.search.condition.push(item)
                 }
                 this.submit()
             },
             // 调接口
             submit(){
                 this.search.itemName = this.$route.query.keywords;
-                if(this.$route.query.cateId == '-1000'){
+                if(this.$route.query.cateId == '-1000' || this.$route.query.cateId.length == ''){
                     this.search.cateId = '';
                 }else{
-                    this.search.cateId = this.$route.query.cateId.split(',')
+                    this.search.cateId = JSON.parse(this.$route.query.cateId);
                 }
                 ItemService.searchItem(this.search,this.tags).then((rtn)=>{
                     this.data = rtn.data.item_d_o_list
@@ -211,9 +198,12 @@
             },
 
             // 关闭条件
-            delCondition(index) {
-                this.search.condition.splice(index, 1);
-//                this.searchWithText(this.text);
+            delCondition(val) {
+                delete this.conditions[val]
+                this.search.condition = []
+                for(let key in this.conditions){
+                    this.search.condition.push('' + key + ':' + this.conditions[key] + '')
+                }
                 this.submit();
             },
             selected(selected){
@@ -711,17 +701,18 @@
                 }
             }
         }
-    }
-    .error{
-        width: 818px;
-        height: 417px;
+        .error{
+            width: 818px;
+            height: 417px;
 
-        margin: auto;
-        div{
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-repeat: no-repeat;
+            margin: auto;
+            div{
+                width: 100%;
+                height: 100%;
+                background-size: cover;
+                background-repeat: no-repeat;
+            }
         }
     }
+
 </style>

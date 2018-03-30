@@ -179,11 +179,14 @@
         this.creditFrom.pay_no = ''
       },
       submitCreditForm(){
-        this.creditFrom.pay_no = this.statement
+          this.creditFrom.pay_no = this.statement
           if(this.creditFrom.date){
               this.creditFrom.date = this.creditFrom.date.getTime() + 864000000
               // this.creditFrom.date = this.creditFrom.date.getTime()
           }
+          this.creditFrom.num = this.creditFrom.num.replace(/\s+/g,"")
+          this.creditFrom.zipCode = this.creditFrom.zipCode.replace(/\s+/g,"")
+          this.creditFrom.cardCode = this.creditFrom.cardCode.replace(/\s+/g,"")
           this.$refs['form'].validate((valid) => {
               if(valid){
                   let option  ={

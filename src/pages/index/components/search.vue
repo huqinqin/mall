@@ -8,6 +8,7 @@
                 <el-tag  v-for="(tag,key) in conditions" :key="tag" type="danger" closable @close="delCondition(key)">{{tag}}</el-tag>
             </div>
         </div>
+        
         <div :class="{shown: minItem > 3}" v-if="condition.length > 0">
             <el-form class="condition">
                 <el-form-item

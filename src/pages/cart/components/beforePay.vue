@@ -179,7 +179,7 @@
         this.creditFrom.pay_no = ''
       },
       submitCreditForm(){
-        this.creditFrom.pay_no = this.statement
+          this.creditFrom.pay_no = this.statement
           if(this.creditFrom.date){
               this.creditFrom.date = this.creditFrom.date.getTime() + 864000000
               // this.creditFrom.date = this.creditFrom.date.getTime()

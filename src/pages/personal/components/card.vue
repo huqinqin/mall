@@ -114,6 +114,11 @@
                 width="130">
             </el-table-column>
             <el-table-column
+                prop="company"
+                :label='$t("main.personal.card.mainPerCarCompany")'
+                width="130">
+            </el-table-column>
+            <el-table-column
                 prop="address"
                 :label='$t("main.personal.card.mainPerCarAddress")'
                 width="130">

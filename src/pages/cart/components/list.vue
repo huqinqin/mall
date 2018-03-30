@@ -40,7 +40,7 @@
                         </a>
                     </template>
                   </el-table-column>
-                  <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
+                  <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center" class="price">
                     <template slot-scope="subscope">
                         <p class="oldPrice">
                             <lts-money :money="subscope.row.item_props[0].price"></lts-money>
@@ -111,7 +111,7 @@
                       </a>
                     </template>
                   </el-table-column>
-                  <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
+                  <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center" class="price">
                     <template slot-scope="subscope">
                         <p class="oldPrice">
                             <lts-money :money="subscope.row.item_props[0].price"></lts-money>
@@ -198,7 +198,7 @@
                         </a>
                       </template>
                     </el-table-column>
-                    <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
+                    <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center" class="price">
                       <template slot-scope="subscope">
                           <p class="oldPrice">
                               <lts-money :money="subscope.row.item_props[0].price"></lts-money>
@@ -273,7 +273,7 @@
                       </a>
                     </template>
                   </el-table-column>
-                  <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
+                  <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center" class="price">
                     <template slot-scope="subscope">
                         <p class="oldPrice" v-if="subscope.row.item_props[0].price != subscope.row.price_real"><lts-money :money="subscope.row.item_props[0].price"></lts-money></p>
                         <p><lts-money :money="subscope.row.price_real"></lts-money></p>
@@ -727,7 +727,7 @@
       tbody tr td:nth-child(2) {
         p {
           line-height: 30px;
-          text-align: left;
+          text-align: center;
         }
       }
       .el-table__row.expanded {
@@ -757,7 +757,7 @@
             .popTitle::before {
               content: '';
               position: absolute;
-              top: 80%;
+              top: 75%;
               left: 0;
               width: 0;
               height: 0;
@@ -841,6 +841,9 @@
       .el-table__expanded-cell:hover {
         background-color: #fff !important;
       }
+        .el-table.column.price{
+            text-align: center;
+        }
       .cart-delete {
         line-height: 40px;
         font-size: 22px;

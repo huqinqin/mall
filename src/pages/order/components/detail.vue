@@ -17,7 +17,8 @@
                 <el-form-item :label='$t("main.order.detail.mainOrDeBuyerInfo")'>
                     <span class="name">{{order.user_name}}</span>{{order.receiver_mobile}}
                 </el-form-item>
-                <el-form-item :label='$t("main.order.detail.mainOrDeMyAddr")'>
+                <!--<el-form-item :label='$t("main.order.detail.mainOrDeMyAddr")'>-->
+                <el-form-item :label="dilivery">
                     {{order.user_addr}}
                 </el-form-item>
                 <el-form-item :label='$t("main.cart.settle.mainCartSeBuyersTalk")'>
@@ -178,7 +179,8 @@
                     },
                     status: 0
                 },
-                stepActive : 0
+                stepActive : 0,
+                dilivery:''
             }
         },
         methods: {
@@ -232,6 +234,11 @@
                             }
                         })
                     })
+                    if (this.order.sell_order_list.length > 0 && this.order.sell_order_list[0].wholesale_order_items.length > 0 && this.order.sell_order_list[0].wholesale_order_items[0].s_h_s_m === true) {
+                        this.dilivery = this.$t("main.address.mainAddReceivingAddress")
+                    } else {
+                        this.dilivery = this.$t("main.cart.settle.mainCartSeZitiAdress")
+                    }
                 },(err) => {
 
                 });
@@ -248,22 +255,6 @@
         .base-info {
             margin-top: 20px;
         }
-
-        /*.hd-info {*/
-            /*margin-top: 20px;*/
-        /*}*/
-        /*.text {*/
-            /*font-size: 14px;*/
-            /*color: #666;*/
-        /*}*/
-        /*.item {*/
-            /*margin-bottom: 18px;*/
-            /*min-width:300px;*/
-            /*span{*/
-                /*display:inline-block;*/
-                /*width:100px;*/
-            /*}*/
-        /*}*/
         .form-row {
             font-size: 0;
             label {

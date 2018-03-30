@@ -832,6 +832,7 @@
         .other {
           padding: 0 6px;
           margin-left: 24px;
+          width: auto;
 
         }
         p.oldPrice {

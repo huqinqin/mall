@@ -718,43 +718,41 @@
             width: 100%;
         }
     }
-
-    tbody tr td:first-child {
-        p {
-            line-height: 30px;
-            text-align: left;
-        }
-        .cell a {
-            width: 100%;
-            display: flex;
-            align-items: center;
-        }
-        .item-img {
-            width: 80px;
-            height: 80px;
-            border: 1px solid #dadada;
-            background-position: center;
-            background-size: cover;
-            flex: 0 0 80px;
-        }
-        .content {
-            width: 300px;
-            margin-left: 24px;
-        }
-        .other {
-            width: 250px;
-            padding: 0 6px;
-            margin-left: 24px;
-            p {
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-            }
-
-        }
-    }
-
     .settle {
+        tbody tr td:first-child {
+            p {
+                line-height: 30px;
+                text-align: left;
+            }
+            .cell a {
+                width: 100%;
+                display: flex;
+                align-items: center;
+            }
+            .item-img {
+                width: 80px;
+                height: 80px;
+                border: 1px solid #dadada;
+                background-position: center;
+                background-size: cover;
+                flex: 0 0 80px;
+            }
+            .content {
+                width: 300px;
+                margin-left: 24px;
+            }
+            .other {
+                width: 250px;
+                padding: 0 6px;
+                margin-left: 24px;
+                p {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+
+            }
+        }
         overflow: hidden;
         p.oldPrice {
             text-decoration: line-through;

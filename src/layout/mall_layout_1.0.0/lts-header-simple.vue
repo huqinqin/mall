@@ -21,7 +21,7 @@
 
         methods:{
             searchToHref(){
-                location.href = '/search#/?cateId=' + '&keywords=' + this.keywords
+                location.href ='/search?t='+ new Date().getTime() + '#/detail?cateId=' + '&keywords=' + this.keywords
             },
         }
     }

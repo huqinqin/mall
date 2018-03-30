@@ -24,7 +24,7 @@
                       <li v-for = "(item,index) in info" v-if="index < 5">
                           <el-tooltip placement="top">
                               <div slot="content"><p class="desc">{{item.item_name}}</p></div>
-                              <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank" @click="refresh">
+                              <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
                                   <div class="bg" :style="{backgroundImage : 'url(' + item.image_value +'!item_middle)'}"></div>
                                   <p class="price">
                                       <lts-money :money="item.price"></lts-money>
@@ -100,9 +100,6 @@
             jump(){
                 this.$emit("jump");
             },
-            refresh(){
-                location.reload();
-            }
         }
     };
 </script>

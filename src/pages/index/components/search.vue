@@ -8,7 +8,7 @@
                 <el-tag  v-for="(tag,key) in conditions" :key="tag" type="danger" closable @close="delCondition(key)">{{tag}}</el-tag>
             </div>
         </div>
-        
+
         <div :class="{shown: minItem > 3}" v-if="condition.length > 0">
             <el-form class="condition">
                 <el-form-item
@@ -185,9 +185,7 @@
                     this.search.totalPage = rtn.data.total;
 
                     this.rightTotal = Math.ceil(this.search.totalPage/this.search.pageSize);
-                    if(this.condition.length == 0){
-                        this.condition = rtn.data.aggregate_cate_prop_list;
-                    }
+                    this.condition = rtn.data.aggregate_cate_prop_list;
                     this.isLoadEnding = true;
 //                    for(let val in rtn.data.aggregate_cate_prop_map){
 //                        let key = rtn.data.aggregate_cate_prop_map[val],Object = {};

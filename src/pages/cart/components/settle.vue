@@ -125,7 +125,7 @@
         <div class="delivery">
             <h5>{{ $t("main.cart.settle.mainCartSeDistraType") }}： </h5>
             <div>
-                <el-radio-group v-model="deliveryType" class="selectButtons" @change="simulateCreateTrade">
+                <el-radio-group v-model="deliveryType" class="selectButtons" @change="selectDilivery">
                     <el-radio-button label="ZITI" value="">{{ $t("main.cart.beforePay.mainCartBefSelfFetch") }}
                     </el-radio-button>
                     <el-radio-button label="SHSM" value="">{{ $t("main.cart.beforePay.mainCartBefExpress") }}
@@ -346,9 +346,19 @@
                 editing:0, // 正在编辑的地址id
                 minusPro:0,
                 fullrule:[],
+                userAddr:''
             }
         },
         methods: {
+            selectDilivery(value){
+                if(value == 'ZITI'){
+                    this.userAddr = this.user.shop_address
+                    this.simulateCreateTrade()
+                }else{
+                    this.userAddr = this.checkedAddress.building ? this.checkedAddress.address + this.checkedAddress.building : this.checkedAddress.address
+                    this.simulateCreateTrade()
+                }
+            },
             // 查询是否有满减活动
             minus(){
                 cartService.getFullSetting().then((data) => {
@@ -563,7 +573,7 @@
                     hdMethod: this.deliveryType,
                     receiverMobile: this.checkedAddress.mobile,
                     userName: this.checkedAddress.user_name,
-                    userAddr: this.checkedAddress.building ? this.checkedAddress.address + this.checkedAddress.building : this.checkedAddress.address,
+                    userAddr: this.userAddr,
                     useBalance: false,
                     payMethod: 'online',
                     source: 'work.500mi.com.shop.pifa.market',

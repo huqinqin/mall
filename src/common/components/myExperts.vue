@@ -38,11 +38,15 @@
               this.$emit('close',this.flag);
               $('.el-tooltip__popper').css('display','none');
           },
-          getExpert(){
-              let data = store.getItem('expert')
-              if(data){
+          getExpert() {
+              let data = store.getItem('expert');
+              if (data) {
+                  for (var value in data) {
+                      if (data[value] === '' || data[value] === 'null' || data[value] === 'undefined') {
+                          return false;
+                      }
+                  }
                   this.someInfo = data;
-                  console.log(this.someInfo);
               }
           },
       },

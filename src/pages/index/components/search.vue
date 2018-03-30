@@ -58,7 +58,7 @@
             <div class="search-result">
                 <ul class="result">
                     <li v-for="item in data" :key="item.id" v-bind:class="{'limit':item.discount_type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1,'newSeller': item.isNew}">
-                        <router-link :to="{name:'info',query:{id : item.id}}" target="_blank">
+                        <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
                             <div class="img" :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}"></div>
                             <p class="name" :title="item.item_name">{{item.item_name}}</p>
                             <div class="item-price">
@@ -70,7 +70,7 @@
                                     <lts-money :money="item.price"></lts-money>
                                 </p>
                             </div>
-                        </router-link>
+                        </a>
                     </li>
                 </ul>
                 <el-pagination

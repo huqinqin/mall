@@ -14,8 +14,8 @@
         </ul>
         <ul class="settings">
             <li>{{$t("common.ltsMenu.commLtsAccountSet")}}</li>
-            <li v-for="item in settings" @click="selectChange" :class="{ active: selected == item.title }"><a
-                :href=item.href>{{item.title}}</a>
+            <li v-for="item in settings" @click="selectChange" :class="{ active: selected == item.title }">
+                <a :href=item.href>{{item.title}}</a>
             </li>
         </ul>
     </el-aside>
@@ -41,11 +41,11 @@
                     {href: '/repayMent', title: this.$t("common.ltsMenu.commLtsWaitting"),show:true},
                 ],
                 settings: [
-                    {href: '/personal#/personalMessage', title: this.$t("common.ltsMenu.commLtsPersonInfo")},
-                    {href: '/personal#/email', title: this.$t("common.ltsMenu.commLtsEmailAlert")},
-                    {href: '/personal#/card', title: this.$t("common.ltsMenu.commLtsAnth")},
-                    {href: '/personal#/password', title: this.$t("common.ltsMenu.commLtsPwdSet")},
-                    {href: '/personal#/receiveAddress', title: this.$t("common.ltsMenu.commLtsAddress")},
+                    {href: '/personal?t=' + new Date().getTime() + '#/personalMessage', title: this.$t("common.ltsMenu.commLtsPersonInfo")},
+                    {href: '/personal?t=' + new Date().getTime() + '#/email', title: this.$t("common.ltsMenu.commLtsEmailAlert")},
+                    {href: '/personal?t=' + new Date().getTime() + '#/card', title: this.$t("common.ltsMenu.commLtsAnth")},
+                    {href: '/personal?t=' + new Date().getTime() + '#/password', title: this.$t("common.ltsMenu.commLtsPwdSet")},
+                    {href: '/personal?t=' + new Date().getTime() + '#/receiveAddress', title: this.$t("common.ltsMenu.commLtsAddress")},
                 ],
                 selected: '',
             }

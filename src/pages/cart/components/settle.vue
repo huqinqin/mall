@@ -745,7 +745,6 @@
     }
 
     .settle {
-
         overflow: hidden;
         p.oldPrice {
             text-decoration: line-through;
@@ -755,7 +754,7 @@
         }
 
         .el-table__header-wrapper {
-            height: 40px;
+            /*height: 40px;*/
         }
         .has-gutter {
             tr {
@@ -1108,6 +1107,9 @@
                         height: 40px;
                     }
                 }
+            }
+            .el-table thead,th{
+                background-color: #f6f6f6;
             }
         }
         .balance {

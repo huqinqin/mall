@@ -24,12 +24,12 @@
                       <li v-for = "(item,index) in info" v-if="index < 5">
                           <el-tooltip placement="top">
                               <div slot="content"><p class="desc">{{item.item_name}}</p></div>
-                              <a :href=" '/detail#/?id=' + item.id" target="_self" @click="refresh">
+                              <router-link :to="{name:'info',query:{id : item.id}}" target="_blank" @click="refresh">
                                   <div class="bg" :style="{backgroundImage : 'url(' + item.image_value +'!item_middle)'}"></div>
                                   <p class="price">
                                       <lts-money :money="item.price"></lts-money>
                                   </p>
-                              </a>
+                              </router-link>
                           </el-tooltip>
                     </li>
                 </ul>

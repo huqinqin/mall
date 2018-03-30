@@ -418,6 +418,8 @@
           .i {
             position: relative;
             padding-left: 11px;
+            align-items: center;
+            display: flex;
           }
           .i::before {
             content: '';
@@ -425,7 +427,6 @@
             height: 14px;
             background: #3b85ff;
             position: absolute;
-            top: 5px;
             left: 0px;
           }
           .more {
@@ -466,6 +467,8 @@
           .i {
             position: relative;
             padding-left: 11px;
+            align-items: center;
+            display: flex;
           }
           .i::before {
             content: '';
@@ -473,7 +476,6 @@
             height: 14px;
             background: #3b85ff;
             position: absolute;
-            top: 5px;
             left: 0px;
           }
         }

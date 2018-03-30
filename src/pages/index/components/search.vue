@@ -92,6 +92,7 @@
 </template>
 
 <script>
+    import $ from 'jquery'
     import ItemService from '@/services/ItemService'
     export default {
         name: "search",
@@ -139,6 +140,7 @@
             this.selfContext.$on("getItemList",this.submit)
         },
         mounted(){
+            $("html").attr('class','white')
             this.tags = this.$route.query.tags ? this.$route.query.tags.split(',') : [];
             this.submit();
         },
@@ -708,17 +710,18 @@
                 }
             }
         }
-    }
-    .error{
-        width: 818px;
-        height: 417px;
+        .error{
+            width: 818px;
+            height: 417px;
 
-        margin: auto;
-        div{
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-repeat: no-repeat;
+            margin: auto;
+            div{
+                width: 100%;
+                height: 100%;
+                background-size: cover;
+                background-repeat: no-repeat;
+            }
         }
     }
+
 </style>

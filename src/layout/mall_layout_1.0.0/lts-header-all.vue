@@ -93,7 +93,7 @@
                         icon: 'icon-IPjiejuefangan',
                         first: 'IP',
                         last: 'SOLUTION',
-                        link: '/search#/?cateId=1',
+                        link: '/#/search?cateId=1',
                         needLogin: false
                     },
                     {
@@ -101,14 +101,14 @@
                         icon: 'icon-jiankong',
                         first: 'HD-TVI',
                         last: 'SOLUTION',
-                        link: '/search#/?cateId=2',
+                        link: '/#/search/?cateId=2',
                         needLogin: false
                     },
                     {
-                        name: 'shopby scenario',
+                        name: 'Popular Kits',
                         icon: 'icon-qiyejiejuefangan',
-                        first: 'SHOP BY',
-                        last: 'SCENARIO',
+                        first: 'POPULAR',
+                        last: 'KITS',
                         link: 'javascript:void(0)',
                         needLogin: false
                     },

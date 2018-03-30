@@ -101,7 +101,7 @@ export default class AddressService extends BaseService {
     static updateItem(form){
         let address = {
             mobile:form.mobile,
-            userName:form.first+ '-' + form.last,
+            userName:form.first + '-' + form.last,
             address:form.address,
             building:form.city + '-' + form.street,
             status: form.setDefault ? 1 : 0,

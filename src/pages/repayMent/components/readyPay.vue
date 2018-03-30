@@ -54,6 +54,7 @@
   export default {
       data(){
           return{
+              param:[],
               checked: false,
               radio:'',
               data:'',
@@ -65,7 +66,9 @@
       },
       methods:{
           oddMoneyPay(){
-              this.$route.params.forEach((item) => {
+              this.param = JSON.parse(this.$route.query.data)
+              console.log(this.param);
+              this.param.forEach((item) => {
                   if(item.status !== 2){
                       this.info.push(item);
                   }

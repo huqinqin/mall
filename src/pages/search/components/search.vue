@@ -155,6 +155,9 @@
                 this.search.page++
             },
             searchWithText(spceList = [],item = ''){
+                debugger
+                console.log(1,spceList,item)
+
                 // 排除同一组规格的条件
 //                for (var n=0;n<spceList.length ;n++){
 //                    let condition = this.search.condition;

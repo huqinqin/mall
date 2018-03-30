@@ -94,7 +94,6 @@
                         <el-popover
                             placement="bottom"
                             :title='$t("main.reverse.list.mainRevLiLogis")'
-                            width="360"
                             trigger="click"
                             v-model="scope.row.visible3">
                             <el-form ref="form"  label-width="180px">

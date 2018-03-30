@@ -2,8 +2,8 @@
     <div class="someinfo">
         <div class="someInfoWrapper">
             <div class="infoLeft">
-                <span class="iconfont icon-icon"></span>
-                <!--<div><img :src="engineerInfo.user.url" alt=""></div>-->
+                <!--<span class="iconfont icon-icon"></span>-->
+                <div><img :src="engineerInfo.user.url" alt=""></div>
             </div>
             <div class="infoRight">
                 <div>{{$t("main.someinfo.mainSomeDear")}}<span class="name">{{engineerInfo.user.name}}</span>,  {{$t("main.someinfo.mainSomeHello")}}！</div>
@@ -134,7 +134,7 @@
                 checkService.checkInfo().then((data) => {
                     this.engineerInfo = data.data;
                     this.engineerInfo.level1 = data.data.vip;
-                    this.engineerInfo.user.url = data.data.user.avatar;
+                    this.engineerInfo.user.url = data.data.user.ext;
                     console.log(this.engineerInfo.level1);
                     this.engineerInfo.acc_books.forEach((item) => {
                         if(item.subject === 2010101){

@@ -101,7 +101,7 @@
         },
         frozened:false,
           formRule:{
-            num:[{ required: true, message: this.$t('main.cart.beforePay.mainCartBefInputNum'), trigger: 'blur' }],
+            num:[{ required: true, message: this.$t('main.cart.beforePay.mainCartBefInputDate'), trigger: 'blur' }],
             date:[{ required: true, message: this.$t('main.cart.beforePay.mainCartBefInputDate'), trigger: 'blur' }],
             zipCode:[{ required: true, message: this.$t('main.cart.beforePay.mainCartBefInputzipCode'), trigger: 'blur' }],
             cardCode:[{ required: true, message: this.$t('main.cart.beforePay.mainCartBefInputCVV'), trigger: 'blur' }],

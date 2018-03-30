@@ -101,7 +101,7 @@
           button {
             margin-top: 10px;
             border-radius: 4px;
-            width: 100px;
+            min-width: 100px;
             height: 30px;
             border: none;
             cursor: pointer;

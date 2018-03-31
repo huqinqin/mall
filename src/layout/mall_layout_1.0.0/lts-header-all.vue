@@ -71,7 +71,14 @@
                     style="width: 240px"
                     @change="handleChange">
                 </el-cascader>
-                <el-button slot="append" icon="iconfont icon-sousuo2" @click="searchToHref"></el-button>
+                <!--<el-button slot="append" icon="iconfont icon-sousuo2" @click="searchToHref"></el-button>-->
+                <el-dropdown split-button type="primary"  slot="append" @click="searchToHref"  @command="handleCommand">
+                    <i class="el-icon-search"></i><span>{{selectedItem}}</span>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item command="name">Item Name</el-dropdown-item>
+                        <el-dropdown-item command="sin">Model Name</el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
             </el-input>
         </div>
     </div>
@@ -165,9 +172,20 @@
                 options: [],
                 selectedOptions: [],
                 cart_num: -1,
+                selectedItem:'Item Name',
+                sin:'',
+                itemName:''
             }
         },
         methods: {
+            // 选择关键字类型
+            handleCommand(value){
+                if(value == 'name'){
+                    this.selectedItem = 'Item Name'
+                }else if(value == 'sin'){
+                    this.selectedItem = 'Model Name'
+                }
+            },
             // 头部菜单选择
             menuHandle() {
                 setTimeout(() => {
@@ -184,9 +202,16 @@
                 }
             },
             searchToHref() {
+                if(this.selectedItem == 'Item Name'){
+                    this.ItemName = this.keywords
+                    this.sin = ''
+                }else if(this.selectedItem == 'Model Name'){
+                    this.ItemName = ''
+                    this.sin = this.keywords
+                }
                 console.log(this.selectedOptions);
 //                this.$router.push({name : 'search',query:{cateId : JSON.stringify(this.selectedOptions),keywords : this.keywords, tags : this.tags }})
-                location.href = '/search?t='+ new Date().getTime() + '#/detail?cateId=' + JSON.stringify(this.selectedOptions) + '&keywords=' + this.keywords + '&tags=' + this.tags;
+                location.href = '/search?t='+ new Date().getTime() + '#/detail?cateId=' + JSON.stringify(this.selectedOptions) + '&itemname=' + this.ItemName + '&tags=' + this.tags + '&sin=' + this.sin;
                 this.selfContext.$emit('getItemList')
             },
             getCategoryList() {
@@ -259,9 +284,15 @@
 //                    })
                     this.selectedOptions = JSON.parse(this.$route.query.cateId);
                 }
-                if (this.$route && this.$route.query.keywords) {
-                    this.keywords = this.$route.query.keywords
+                if (this.$route && this.$route.query.itemname) {
+                    this.keywords = this.$route.query.itemname
+                    this.selectedItem = 'Item Name'
                 }
+                if (this.$route && this.$route.query.sin) {
+                    this.keywords = this.$route.query.sin
+                    this.selectedItem = 'Model Name'
+                }
+
             },
             getCartNum() {
                 cartService.queryCartCount().then((data) => {

@@ -68,7 +68,25 @@
                                     <!--<lts-money :money="item.activity_price"></lts-money>-->
                                 <!--</p>-->
                                 <p class="price" v-ltsLoginShow:true>
-                                    <lts-money :money="item.price"></lts-money>
+                                    <span class="realPrice">
+                                        <template v-if="item.discount_type ==1">
+                                            <lts-money :money="item.price * item.discount / 100"></lts-money>
+                                        </template>
+                                        <template v-else-if="item.discount_type ==2">
+                                            <lts-money :money="item.price - item.discount"></lts-money>
+                                        </template>
+                                        <template v-else-if="item.discount_type ==4">
+                                            <lts-money :money="item.sale_rule_do.price"></lts-money>
+                                        </template>
+                                        <template v-else>
+                                            <lts-money :money="item.price"></lts-money>
+                                        </template>
+                                    </span>
+                                    <span class="oldPrice">
+                                        <template v-if="item.discount_type != 0">
+                                            <lts-money :money="item.price"></lts-money>
+                                        </template>
+                                    </span>
                                 </p>
                             </div>
                         </a>
@@ -644,6 +662,16 @@
                                 font-size: 12px;
                                 color: #ff3b41;
                                 box-shadow: 0px 2px 15px 2px #e9e9e9;
+                            }
+                            .price{
+                                position: relative;
+                                .oldPrice{
+                                    font-size: 14px;
+                                    position: absolute;
+                                    top:12px;
+                                    text-decoration: line-through;
+                                    color: #a3a3a3;
+                                }
                             }
                         }
                         position: relative;

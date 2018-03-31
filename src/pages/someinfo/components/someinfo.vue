@@ -99,7 +99,8 @@
                 discountData: [],
                 isShow: true,
                 value:0,
-                startMoney:0
+                startMoney:0,
+                defaultAvatar:require('@/assets/img/expert.png')
             }
         },
         created(){},
@@ -134,7 +135,10 @@
                 checkService.checkInfo().then((data) => {
                     this.engineerInfo = data.data;
                     this.engineerInfo.level1 = data.data.vip;
-                    this.engineerInfo.user.url = data.data.user.ext;
+                    this.engineerInfo.user.url = this.defaultAvatar
+                    if(data.data.user.ext){
+                        this.engineerInfo.user.url = data.data.user.ext;
+                    }
                     console.log(this.engineerInfo.level1);
                     this.engineerInfo.acc_books.forEach((item) => {
                         if(item.subject === 2010101){
@@ -298,6 +302,9 @@
                 height: 102px;
                 border-radius: 50%;
                 background-color: #55a532;*/
+                background-color: #a3a3a3;
+                border-radius: 50%;
+                vertical-align: middle;
                 .iconfont{
                     font-size: 72px;
                     color: white;
@@ -309,6 +316,7 @@
                     width: 100%;
                     height: 100%;
                     border-radius: 50%;
+                    vertical-align: top;
                 }
             }
             .infoRight{

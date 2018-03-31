@@ -54,6 +54,7 @@
                 :label='$t("main.repayMent.repayList.mainRePayShouldPay")'>
             </el-table-column>
             <el-table-column
+                v-if="false"
                 prop="out_id"
                 :label='$t("main.repayMent.repayList.mainRePayRelation")'
                >
@@ -96,7 +97,7 @@
         name: "list",
         methods:{
             batchPay(){
-                this.$router.push({name:'readyPay',params:this.multipleSelection});
+                this.$router.push({path:'/readyPay',query:{data:JSON.stringify(this.multipleSelection)}});
             },
             handleSelectionChange(val) {
                 this.multipleSelection = val;
@@ -118,7 +119,7 @@
             },
             handleClick(row) {
                 console.log(row);
-                this.$router.push({name:'readyPay',params:[row]});
+                this.$router.push({path:'/readyPay',query:{data:JSON.stringify([row])}});
             },
             getDate(tm){
                 var tt = new Date(tm).toLocaleString().replace(/\//g, "-");

@@ -112,7 +112,7 @@
                     },
                     {
                         name: 'Popular Kits',
-                        icon: 'icon-qiyejiejuefangan',
+                        icon: 'icon-navicon-tcda',
                         first: 'POPULAR',
                         last: 'KITS',
                         link: 'javascript:void(0)',

@@ -105,7 +105,7 @@
             <el-table-column :label='$t("main.cart.list.mainCartliUnitPrice")' header-align="left" align="left" width="100" :show-overflow-tooltip="true" />
             <el-table-column :label='$t("main.reverse.detail.mainRevDeSaleNum")' header-align="left" align="left" width="100">
             </el-table-column>
-            <el-table-column prop="pay_info.pay_type_title" :label='$t("main.order.list.mainOrLiReal")' align="left" width="100">
+            <el-table-column prop="pay_info.pay_type_title" :label='$t("main.order.list.mainOrLiReal")' align="left" width="80">
                 <template slot-scope="scope">
                     <div><lts-money :money="scope.row.fee_total"></lts-money></div>
                 </template>

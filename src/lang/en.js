@@ -582,7 +582,7 @@ export default {
             mainSeaCompre: 'Relevance',
             mainSeaPrice: 'Price',
             mainSeaShelf: 'Added Time',
-            mainSeaLogin: 'Sign In To See Price',
+            mainSeaLogin: 'Sign In For Price',
             mainSeaPre: 'Previous',
             mainSeaNext: 'Next',
         },

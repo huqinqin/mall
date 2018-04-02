@@ -71,15 +71,16 @@
                     style="width: 240px"
                     @change="handleChange">
                 </el-cascader>
-                <!--<el-button slot="append" icon="iconfont icon-sousuo2" @click="searchToHref"></el-button>-->
-                <el-dropdown split-button type="primary"  slot="append" @click="searchToHref"  @command="handleCommand">
-                    <i class="el-icon-search"></i><span>{{selectedItem}}</span>
-                    <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item command="name">Item Name</el-dropdown-item>
-                        <el-dropdown-item command="sin">Model Name</el-dropdown-item>
-                    </el-dropdown-menu>
-                </el-dropdown>
+                <el-button slot="append" icon="iconfont icon-sousuo2" @click="searchToHref"></el-button>
+                <!--<el-dropdown split-button type="primary"  slot="append" @click="searchToHref"  @command="handleCommand">-->
+                    <!--<i class="el-icon-search"></i><span>{{selectedItem}}</span>-->
+                    <!--<el-dropdown-menu slot="dropdown">-->
+                        <!--<el-dropdown-item command="name">Item Name</el-dropdown-item>-->
+                        <!--<el-dropdown-item command="sin">Model Name</el-dropdown-item>-->
+                    <!--</el-dropdown-menu>-->
+                <!--</el-dropdown>-->
             </el-input>
+            <el-checkbox class="el-checkbox" label="Model Number" v-model="model"></el-checkbox>
         </div>
     </div>
 </template>
@@ -172,20 +173,21 @@
                 options: [],
                 selectedOptions: [],
                 cart_num: -1,
-                selectedItem:'Item Name',
+                // selectedItem:'Item Name',
                 sin:'',
-                itemName:''
+                itemName:'',
+                model:false
             }
         },
         methods: {
             // 选择关键字类型
-            handleCommand(value){
-                if(value == 'name'){
-                    this.selectedItem = 'Item Name'
-                }else if(value == 'sin'){
-                    this.selectedItem = 'Model Name'
-                }
-            },
+            // handleCommand(value){
+            //     if(value == 'name'){
+            //         this.selectedItem = 'Item Name'
+            //     }else if(value == 'sin'){
+            //         this.selectedItem = 'Model Name'
+            //     }
+            // },
             // 头部菜单选择
             menuHandle() {
                 setTimeout(() => {
@@ -202,10 +204,10 @@
                 }
             },
             searchToHref() {
-                if(this.selectedItem == 'Item Name'){
+                if(!this.model){
                     this.ItemName = this.keywords
                     this.sin = ''
-                }else if(this.selectedItem == 'Model Name'){
+                }else{
                     this.ItemName = ''
                     this.sin = this.keywords
                 }
@@ -286,11 +288,11 @@
                 }
                 if (this.$route && this.$route.query.itemname) {
                     this.keywords = this.$route.query.itemname
-                    this.selectedItem = 'Item Name'
+                    this.model = false
                 }
                 if (this.$route && this.$route.query.sin) {
                     this.keywords = this.$route.query.sin
-                    this.selectedItem = 'Model Name'
+                    this.model = true
                 }
 
             },
@@ -319,7 +321,26 @@
     .all-head {
         background-color: white;
         .search-bar {
+            display: flex;
             padding-bottom: 12px;
+            justify-content: space-between;
+            .el-input{
+                flex-grow: 1;
+                .el-input-group__append{
+                    color:white;
+                    border-radius:0;
+                    background: #D84D52;
+                }
+                .el-input-group__append:hover{
+                    background: #CE2127;
+                }
+            }
+            .el-checkbox{
+                padding:0 8px;
+                line-height: 40px;
+                font-size: 14px;
+                color:rgba(0,0,0,0.8)
+            }
         }
         .menu-list {
             padding: 24px 0;

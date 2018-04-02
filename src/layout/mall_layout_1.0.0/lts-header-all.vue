@@ -116,7 +116,7 @@
                         icon: 'icon-navicon-tcda',
                         first: 'POPULAR',
                         last: 'KITS',
-                        link: 'javascript:void(0)',
+                        link: '/search?t=' + new Date().getTime() + '#/detail?cateId=%5B77%5D&keywords=&tags=',
                         needLogin: false
                     },
                     {

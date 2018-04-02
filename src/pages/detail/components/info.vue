@@ -611,6 +611,7 @@
                 if (!this.validate()) {
                     return false
                 }
+                debugger
                 let items = {
                     'activity_id': null,
                     'attribute': this.item.attribute,
@@ -1089,6 +1090,7 @@
                     font-size: 14px;
                     color: white;
                     background-image: url('../../../assets/img/xqbjt.png');
+                    background-repeat: no-repeat;
                     position: relative;
                     span.bold {
                         font-weight: bold;

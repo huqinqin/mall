@@ -664,7 +664,16 @@
                     }
                     this.$emit('submit', 2)
                 }, (msg) => {
-                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                    this.$confirm(msg.error_message, '', {
+                        confirmButtonText: 'confirm',
+                        showCancelButton: false,
+                        type: 'warning',
+                        center: true
+                    }).then(() => {
+
+                    }).catch(() => {
+
+                    });
                 })
             }
         },

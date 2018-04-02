@@ -58,7 +58,7 @@ export default class ItemService extends BaseService {
                 sin: search.sin,
                 propValues: search.condition,
                 tags: tags ? tags : [],
-                type: 0
+                type: 0,
             }),
             page: search.page,
             page_size: search.pageSize,

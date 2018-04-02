@@ -144,7 +144,7 @@
             }
             .lts-content{
                 flex-grow: 1;
-
+                width:100%;
             }
 
         }

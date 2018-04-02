@@ -39,7 +39,7 @@
                         <img src="@/assets/img/denglu.tou.png" :alt='$t("comHeader.headerTopPic")'>
                     </el-form-item>
                     <el-form-item :label='$t("comHeader.headerUserOrEmail")' prop="acount">
-                        <el-input name="test"  v-model="form.acount" :placeholder='$t("comHeader.headerInputUserOrEmail")'></el-input>
+                        <el-input name="test"  v-model="form.acount" :placeholder='$t("comHeader.headerInputUserOrEmail")' @input="checkCookie" @blur="checkCookie"></el-input>
                     </el-form-item>
                     <el-form-item :label='$t("comHeader.headerPwd")' prop="password" class="password">
                         <el-input type="password" ref="password" v-model="form.password" :placeholder='$t("comHeader.headerInputPwd")' @keyup.enter.native="login">
@@ -72,6 +72,7 @@
     import userService from '@/services/UserService.js'
     import myExperts from '@/common/components/myExperts'
     import expertService from '@/services/MyexpertService.js'
+    import md5 from 'md5'
     export default {
         name : "lts-header",
         data(){
@@ -84,7 +85,7 @@
               form: {
                   acount:'',
                   password:'',
-                  checked: '',
+                  checked: false,
                   radio: '',
               },
               loginRules:{
@@ -94,7 +95,8 @@
               isShowMenu : true,
               cart_num : -1,
               language : 'en',
-              test:0
+              test:0,
+              hasMd5: false
           }
         },
         mounted(){
@@ -129,8 +131,47 @@
                     this.$ltsMessage.show({type: "error", message: err.error_message});
                 })
             },
+            checkCookie(){
+                let password = this.getCookie(this.form.acount)
+                if(password){
+                    this.form.checked = true
+                    this.form.password = password
+                    this.hasMd5 = true
+                }else{
+                    this.form.checked = false
+                    this.form.password = ''
+                    this.hasMd5 = false
+                }
+            },
+            setCookie(name,value){
+                let Days = 30;
+                let exp = new Date();
+                exp.setTime(exp.getTime() + Days*24*60*60*1000);
+                document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+            },
+            getCookie(name){
+                let arr,reg=new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+                if(arr=document.cookie.match(reg)){
+                    return unescape(arr[2]);
+                }else{
+                    return null;
+                }
+            },
+            delCookie(name){
+                let exp = new Date();
+                exp.setTime(exp.getTime() - 1);
+                let cval=this.getCookie(name);
+                if(cval!=null)
+                    document.cookie= name + "=" + cval + ";expires=" + exp.toGMTString();
+            },
             login(data){
-                userService.login(this.form.acount,this.form.password).then((data)=>{
+                if(this.form.checked){
+                    this.setCookie(this.form.acount,this.form.password)
+                    console.log(this.getCookie(this.form.acount))
+                }else{
+                    this.delCookie(this.form.acount)
+                }
+                userService.login(this.form.acount,this.form.password,this.hasMd5).then((data)=>{
                     this.getExpert();
                     this.loginVisible = false;
                     this.getUserInfo();

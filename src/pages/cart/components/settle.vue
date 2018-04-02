@@ -552,6 +552,7 @@
             },
             // 正式下单
             submitOrder() {
+                this.userAddr = this.checkedAddress.building ? this.checkedAddress.address + this.checkedAddress.building : this.checkedAddress.address
                 this.canSubmit = true
                 let items = []
                 this.tableData.forEach(function (value, index, array) {

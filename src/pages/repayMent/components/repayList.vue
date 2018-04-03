@@ -83,7 +83,7 @@
             <el-table-column
                 :label='$t("main.order.list.mainOrLiHanlde")'>
                 <template slot-scope="scope">
-                    <el-button  @click="handleClick(scope.row)" type="primary" size="small" v-if="scope.row.status === 1" :disabled="scope.row.flag">{{$t('main.cart.beforePay.mainCartBefPay')}}</el-button>
+                    <el-button  @click="handleClick(scope.row)" type="primary" size="small" v-if="scope.row.status === 1" :disabled="scope.row.flag">{{$t('main.repayMent.repayList.mainRePayPay')}}</el-button>
                 </template>
             </el-table-column>
         </el-table>

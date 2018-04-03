@@ -316,8 +316,8 @@ export default {
                 mainOrLiPhone: 'Ordered By APP',
                 mainOrLiReal: 'Total',
                 mainOrLiTransationSta: 'Order Status',
-                mainOrLiTransationHan: 'Transaction',
-                mainOrLiHanlde: 'Operate',
+                mainOrLiTransationHan: 'Operation',
+                mainOrLiHanlde: 'Operation',
                 mainOrLiPay: 'Pay',
                 mainOrLiCanleOrder: 'Cancel Order',
                 mainOrLiOrderDet: 'Order Details',
@@ -473,11 +473,12 @@ export default {
                 mainRePayRepayTime: 'Payment Date',
                 mainRePayPeState: 'Account Payable',
                 mainRePayBatch: 'Batch Payment',
-                mainRePayShouldPay: 'Due Amount',
+                mainRePayShouldPay: 'Amount Due',
                 mainRePayRelation: 'Associated Order',
                 mainRePayNoPay: 'To be paid',
                 mainRePayNoRepay: 'To be paid',
                 mainRePayRepayed: 'Paid',
+                mainRePayPay:'Pay'
             }
         },
         reverse: {

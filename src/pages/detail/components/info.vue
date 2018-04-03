@@ -611,7 +611,6 @@
                 if (!this.validate()) {
                     return false
                 }
-                debugger
                 let items = {
                     'activity_id': null,
                     'attribute': this.item.attribute,
@@ -638,6 +637,8 @@
                     'full_url': this.item.full_url,
                     'sale_rule': this.item.sale_rule
                 }
+                // window.open('/cart#/settle?item=' + JSON.stringify(items))
+                localStorage.setItem('buyNowItem',JSON.stringify(items))
                 window.open('/cart#/settle?item=' + JSON.stringify(items))
             },
             validate() {

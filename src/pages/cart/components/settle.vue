@@ -666,8 +666,8 @@
                     this.$emit('submit', 2)
                 }, (msg) => {
                     this.$confirm(msg.error_message, '', {
-                        confirmButtonText: 'confirm',
                         showCancelButton: false,
+                        showConfirmButton: false,
                         type: 'warning',
                         center: true
                     }).then(() => {

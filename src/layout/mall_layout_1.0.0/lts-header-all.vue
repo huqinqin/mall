@@ -270,7 +270,7 @@
                     })
                 }
             },
-            handleChange(value) {debugger;
+            handleChange(value) {
                 // 级联选择器选择类目
                 this.selectedOptions = value;
                 this.keywords = ''
@@ -329,10 +329,10 @@
                 .el-input-group__append{
                     color:white;
                     border-radius:0;
-                    background: #D84D52;
+                    background: #CE2127;
                 }
                 .el-input-group__append:hover{
-                    background: #CE2127;
+                    background: #D84D52;
                 }
             }
             .el-checkbox{

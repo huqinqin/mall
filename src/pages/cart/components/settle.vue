@@ -850,6 +850,7 @@
                         border-bottom: 1px solid rgba(0, 0, 0, 0.05);
                         color: rgba(0, 0, 0, 0.7);
                         padding: 0 12px;
+                        padding-top: 4px;
                         display: flex;
                         justify-content: space-between;
                         div {
@@ -914,9 +915,10 @@
                 }
                 li.checked {
                     header {
-                        border-top: 2px solid #f81f22;
+                        border-top: 6px solid #f81f22;
                         display: flex;
                         justify-content: space-between;
+                        padding-top: 0px;
                     }
                 }
                 li.default {
@@ -929,7 +931,8 @@
                 }
                 li.checked:hover {
                     header {
-                        border-top: 2px solid #f81f22;
+                        border-top: 6px solid #f81f22;
+                        padding-top: 0px;
                     }
                     footer {
                         button + button {
@@ -940,7 +943,8 @@
                 li:hover {
                     cursor: pointer;
                     header {
-                        border-top: 2px solid #1f85f8;
+                        border-top: 6px solid #1f85f8;
+                        padding-top: 0px;
                     }
                     footer {
                         button {

@@ -687,7 +687,7 @@
                 item.price = item.item_props[0].price
                 item.price_real = item.item_props[0].price_real
                 this.tableData.push(item)
-            } else {
+            } else  if(this.$route.params && this.$route.params.items){
                 let items = this.$route.params.items
                 items.forEach((item) => {
                     item.item_props.forEach((val) => {
@@ -696,6 +696,10 @@
                 })
                 this.tableData = items
                 // this.user_id = this.$route.params.userId
+            }else{
+                let items = JSON.parse(localStorage.getItem('buyNowItem'))
+                localStorage.removeItem('buyNowItem')
+                this.tableData.push(items)
             }
 
             this.tableData.forEach((item) => {
@@ -714,7 +718,7 @@
                 }
             })
             this.getInfo()
-            this.expressOptions = this.UPSOptions
+            // this.expressOptions = this.UPSOptions
             this.minus()
         }
     }

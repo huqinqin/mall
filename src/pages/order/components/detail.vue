@@ -298,7 +298,6 @@
             margin-top: 24px;
             .info-box{
                 display: flex;
-                justify-content: space-between;
                 color: #737373;
                 background-color: #f2f8fe;
                 height: 40px;
@@ -308,6 +307,10 @@
                 .info{
                     font-size: 14px;
                     color: #737373;
+                    margin-right: 36px;
+                    span:first-child{
+                        font-weight: bold;
+                    }
                     div{
                         line-height: 28px;
                     }

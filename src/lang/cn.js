@@ -285,6 +285,7 @@ export default {
                 mainOrDeAccount: '账期支付',
                 mainOrDeGouwu: '购物券',
                 mainOrDeYue: '余额支付',
+                mainOrDeOffline: '线下支付',
                 mainOrDePayStatus: '支付状态',
                 mainOrDeBag: '包裹',
                 mainOrDeLogiInfo: '物流信息',

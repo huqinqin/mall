@@ -288,6 +288,7 @@ export default {
                 mainOrDeAccount: 'Pay by Terms',
                 mainOrDeGouwu: 'Coupon',
                 mainOrDeYue: 'Pay with Account Balance',
+                mainOrDeOffline: 'Offline payment',
                 mainOrDePayStatus: 'Payment Status',
                 mainOrDeBag: 'Package',
                 mainOrDeLogiInfo: 'Order Tracking',

@@ -54,7 +54,6 @@
                     <div>
                         {{$t("main.order.detail.mainOrDeOffline")}}
                         <lts-money v-if="order.pay_info.pay_remark.OFFLINE && order.pay_info.pay_remark.OFFLINE" :money="order.pay_info.pay_remark.OFFLINE"></lts-money>
-                        <span v-else>$0.00</span>
                     </div>
                     <div>
                         {{$t("main.order.detail.mainOrDeGouwu")}}

@@ -176,7 +176,7 @@
                 // selectedItem:'Item Name',
                 sin:'',
                 itemName:'',
-                model:false
+                model:true
             }
         },
         methods: {

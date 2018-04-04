@@ -252,7 +252,10 @@
             .info{
                 font-size: 14px;
                 color: #737373;
-                margin-right: 24px;
+                margin-right: 36px;
+                span:first-child{
+                    font-weight: bold;
+                }
                 div{
                     line-height: 28px;
                 }

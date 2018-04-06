@@ -514,7 +514,7 @@
             },
             hotRecommoned(){
                 cartService.hotRecommond().then((data) => {
-                   this.recommondInfo = data.datalist[0].items;
+                   this.recommondInfo = data.data;
                 })
             },
             checkedProp(prop, data, type) {

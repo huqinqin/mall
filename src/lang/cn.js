@@ -78,6 +78,7 @@ export default {
                 mainCartBefcartPay:'信用卡支付',
                 mainCartBefgoPay:'去支付',
                 mainCartBefExpress:'快递',
+                mainCartBefExpressInfo:'物流信息',
                 mainCartBefSelfFetch:'自提',
                 mainCartBefCreditInfo:'请输入信用卡信息',
                 mainCartBefInputNum:'请输入信用卡号',

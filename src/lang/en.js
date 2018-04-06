@@ -79,6 +79,7 @@ export default {
                 mainCartBefcartPay:'Pay With Credit Card',
                 mainCartBefgoPay:'Pay',
                 mainCartBefExpress:'Express',
+                mainCartBefExpressInfo:'Delivery Info',
                 mainCartBefSelfFetch:'Pick Up',
                 mainCartBefCreditInfo:'Credit Card Info',
                 mainCartBefInputNum:'Enter credit card number',

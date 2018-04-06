@@ -29,8 +29,12 @@
                 <el-form-item :label='$t("main.cart.fail.mainCartFaOrderNum")'>
                     {{order.tid}}
                 </el-form-item>
-                <el-form-item :label='$t("main.cart.beforePay.mainCartBefExpress")'>
-                    {{order.fee_hd_value.ship.logisticsCompany}}({{order.fee_hd_value.ship.serviceLabel}})
+                <el-form-item :label='$t("main.cart.beforePay.mainCartBefExpressInfo")' v-if="order.attribute != 0">
+                    <span v-if="(order.attribute|8192) == order.attribute">{{$t('pages.store.order.pageStoreOrderByPickup')}}</span>
+                    <span v-if="(order.attribute|16384) == order.attribute">
+                        <!--{{$t('pages.store.order.pageStoreOrderByExpress')}}-->
+                        {{order.fee_hd_value.ship.logisticsCompany}}({{order.fee_hd_value.ship.serviceLabel}})
+                    </span>
                 </el-form-item>
                 <el-form-item :label='$t("main.order.detail.mainOrDeCreateTime")'>
                     {{order.cdate | timestamp2str}}
@@ -173,6 +177,7 @@
 </template>
 <script>
     import orderService from '@/services/OrderService'
+    import expressConfig from 'config/expressConfig'
     export default {
         props: {},
         components: {
@@ -188,22 +193,7 @@
                 },
                 stepActive : 0,
                 dilivery:'',
-                expressOptions: [
-                    {value: '01', label: 'Next Day Air'},
-                    {value: '02', label: '2nd Day Air'},
-                    {value: '03', label: 'Ground'},
-                    {value: '12', label: '3 Day Select'},
-                    {value: '13', label: 'Next Day Air Saver'},
-                    {value: '14', label: 'UPS Next Day Air Early'},
-                    {value: '59', label: '2nd Day Air A.M.Valid international values'},
-                    {value: '07', label: 'Worldwide Express'},
-                    {value: '08', label: 'Worldwide Expedited'},
-                    {value: '11', label: 'Standard'},
-                    {value: '54', label: 'Worldwide Express Plus'},
-                    {value: '65', label: 'Saver'},
-                    {value: '96', label: 'UPS Worldwide Express Freight'},
-                    {value: '71', label: 'UPS Worldwide Express Freight Midday'}
-                ],
+                expressOptions: expressConfig,
             }
         },
         methods: {

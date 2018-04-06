@@ -113,7 +113,7 @@
                     },
                     {
                         name: 'Popular Kits',
-                        icon: 'icon-taocanzuhe1',
+                        icon: 'icon-taozhuangzuhe2',
                         first: 'Popular',
                         last: 'Kits',
                         link: '/search?t=' + new Date().getTime() + '#/detail?cateId=%5B77%5D&keywords=&tags=',

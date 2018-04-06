@@ -72,6 +72,7 @@
           </ul>
         </div>
         <div v-for="itemlist in itemList" :key="itemlist.name" class="item-level">
+            <a :href="itemlist.url">
           <div class="item-list-title">
             <div class="i">
               <span>{{itemlist.name}}</span>
@@ -83,6 +84,7 @@
                 </a>
             </div>
           </div>
+            </a>
           <ul class="item-list-box">
             <li v-for="item in itemlist.items" :key="item.sin"
                 v-bind:class="{'limit':item.type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1,'newSeller': item.isNew}">
@@ -429,6 +431,7 @@
             background: #3b85ff;
             position: absolute;
             left: 0px;
+            top: 4px;
           }
           .more {
             font-size: 14px;

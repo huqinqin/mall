@@ -134,20 +134,22 @@
                 <div v-if="deliveryType == 'ZITI'" style="color: #666;">
                     {{$t("main.cart.settle.mainCartSeZitiAdress")}}：{{user.shop_address}}
                 </div>
-                <!--<div class="selectExpress" v-if="deliveryType == 'SHSM'">-->
-                <div class="selectExpress" v-if="false">
+                <div class="selectExpress" v-if="deliveryType == 'SHSM'">
+                <!--<div class="selectExpress" v-if="false">-->
                     <el-form label-position="top">
                         <el-form-item label="LOGISTICS COMPANY:">
-                            <el-radio-group v-model="expressForm.express">
+                            <el-radio-group v-model="expressForm.express" @change="simulateCreateTrade">
                                 <el-radio label="UPS">UPS</el-radio>
                                 <el-radio label="FEDEX">FEDEX</el-radio>
                             </el-radio-group>
                         </el-form-item>
                         <el-form-item label="SERVICE:">
                             <el-select v-model="expressForm.service"
-                                       :placeholder='$t("main.accountNew.register.mainAcReSelect")'>
+                                       :placeholder='$t("main.accountNew.register.mainAcReSelect")'
+                                       @change="simulateCreateTrade">
                                 <el-option
                                     v-for="item in expressOptions"
+                                    v-if="!(expressForm.express == 'FEDEX' && item.label.match('UPS')) || expressForm.express == 'UPS'"
                                     :key="item.value"
                                     :label="item.label"
                                     :value="item.value">
@@ -1095,7 +1097,6 @@
                 margin-bottom: 6px;
             }
             .selectExpress {
-                display: none;
                 font-size: 14px;
                 .el-form-item {
                     label {

@@ -29,6 +29,9 @@
                 <el-form-item :label='$t("main.cart.fail.mainCartFaOrderNum")'>
                     {{order.tid}}
                 </el-form-item>
+                <el-form-item :label='$t("main.cart.beforePay.mainCartBefExpress")'>
+                    {{order.fee_hd_value.ship.logisticsCompany}}({{order.fee_hd_value.ship.serviceLabel}})
+                </el-form-item>
                 <el-form-item :label='$t("main.order.detail.mainOrDeCreateTime")'>
                     {{order.cdate | timestamp2str}}
                 </el-form-item>
@@ -184,7 +187,23 @@
                     status: 0
                 },
                 stepActive : 0,
-                dilivery:''
+                dilivery:'',
+                expressOptions: [
+                    {value: '01', label: 'Next Day Air'},
+                    {value: '02', label: '2nd Day Air'},
+                    {value: '03', label: 'Ground'},
+                    {value: '12', label: '3 Day Select'},
+                    {value: '13', label: 'Next Day Air Saver'},
+                    {value: '14', label: 'UPS Next Day Air Early'},
+                    {value: '59', label: '2nd Day Air A.M.Valid international values'},
+                    {value: '07', label: 'Worldwide Express'},
+                    {value: '08', label: 'Worldwide Expedited'},
+                    {value: '11', label: 'Standard'},
+                    {value: '54', label: 'Worldwide Express Plus'},
+                    {value: '65', label: 'Saver'},
+                    {value: '96', label: 'UPS Worldwide Express Freight'},
+                    {value: '71', label: 'UPS Worldwide Express Freight Midday'}
+                ],
             }
         },
         methods: {
@@ -193,6 +212,11 @@
                     resp.data.pay_info.pay_remark = JSON.parse(resp.data.pay_info.pay_remark_string);
                     resp.data.fee_hd_value = JSON.parse(resp.data.fee_hd);
                     this.order = resp.data;
+                    this.expressOptions.forEach((value) => {
+                        if(value.value == this.order.fee_hd_value.ship.serviceCode){
+                            this.order.fee_hd_value.ship.serviceLabel = value.label
+                        }
+                    })
                     if(this.order.status == 0){
                         this.order.status_title = this.$t("main.order.list.mainOrLiWaitPay");
                     }else if(this.order.status == 1){

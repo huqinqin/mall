@@ -73,17 +73,17 @@
         </div>
         <div v-for="itemlist in itemList" :key="itemlist.name" class="item-level">
             <a :href="itemlist.url">
-          <div class="item-list-title">
-            <div class="i">
-              <span>{{itemlist.name}}</span>
-            </div>
-            <div class="more">
-                <a :href="itemlist.url">
+              <div class="item-list-title">
+                <div class="i">
+                  <span>{{itemlist.name}}</span>
+                </div>
+                <div class="more">
+                    <!--<a :href="itemlist.url">-->
                     <span>{{$t("main.detail.info.mainInMore")}}</span>
                     <i class="iconfont icon-shangyiye-copy-copy rotate"></i>
-                </a>
-            </div>
-          </div>
+                    <!--</a>-->
+                </div>
+              </div>
             </a>
           <ul class="item-list-box">
             <li v-for="item in itemlist.items" :key="item.sin"

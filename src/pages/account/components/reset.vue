@@ -2,15 +2,15 @@
     <div class="forgotPsw">
         <header>
             <div class="line"></div>
-            <div class="title">RETRIEVE THE PASSWORD</div>
+            <div class="title">Retrieve the Password</div>
             <div class="line"></div>
         </header>
         <main>
-            <el-form label-position="top" :model="resetForm" :rules="rules" >
-                <el-form-item label="EMAIL" prop="email">
+            <el-form label-position="top" :model="resetForm" :rules="rules" ref="form">
+                <el-form-item label="Email" prop="email">
                     <el-input v-model="resetForm.email" placeholder="Please Enter Email Address"></el-input>
                 </el-form-item>
-                <el-form-item label="VERIFICATION CODE" prop="code" width="260" class="inline">
+                <el-form-item label="Verification Code" prop="code" width="260" class="inline">
                     <el-input v-model="resetForm.code" placeholder="Enter Verification Code"></el-input>
                     <el-button @click="getCode" :disabled="!send && !sendAgain">
                         <span v-if="send">SEND</span>
@@ -18,10 +18,10 @@
                         <span v-else>{{countdown + 's'}}</span>
                     </el-button>
                 </el-form-item>
-                <el-form-item label="NEW PASSWORD" prop="pass">
+                <el-form-item label="New Password" prop="pass">
                     <el-input v-model="resetForm.pass" placeholder="ENTER A NEW PASSWORD" type="password"></el-input>
                 </el-form-item>
-                <el-form-item label="CONFIRM PASSWORD" prop="checkPass">
+                <el-form-item label="Confirm Password" prop="checkPass">
                     <el-input v-model="resetForm.checkPass" placeholder="ENTER THE NEW PASSWORD AGAIN" type="password"></el-input>
                 </el-form-item>
                 <el-form-item>
@@ -62,11 +62,12 @@
                     checkPass:'',
                 },
                 rules:{
-                    email: validatorConfig.email,
+                    email: validatorConfig.email(),
+                    // pass: validatorConfig.password,
                     pass: [ { required: true, message:  this.$t("main.accountNew.register.mainAcReContentNotNull"), trigger: 'blur' },
                             {validator:checkPass,trigger: 'blur,change'}],
                     checkPass: validatorConfig.passwordRepeat((rule, value, callback)=>{
-                        validatorConfig.validatePasswordRepeat(this.resetForm.pass, value, callback)
+                        validatorConfig.validatePasswordRepeat(rule, this.resetForm.pass, value, callback)
                     }),
                     code: [
                         { required: true, message:  this.$t("main.accountNew.register.mainAcReContentNotNull"), trigger: 'blur' },
@@ -77,12 +78,18 @@
         },
         methods: {
             submitFrom(){
-                accountService.resetPass(this.resetForm).then((data) => {
-                    location.href = '/'
-                },(msg) => {
-                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                this.$refs['form'].validate((valid) => {
+                    if(valid){
+                        accountService.resetPass(this.resetForm).then((data) => {
+                            location.href = '/'
+                        },(msg) => {
+                            this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                        })
+                        console.log(this.resetForm)
+                    }else{
+                        return false
+                    }
                 })
-                console.log(this.resetForm)
             },
             getCode(){
                 accountService.getResetCode(this.resetForm.email).then((data) => {

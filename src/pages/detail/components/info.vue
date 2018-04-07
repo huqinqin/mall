@@ -1092,6 +1092,7 @@
                     color: white;
                     background-image: url('../../../assets/img/xqbjt.png');
                     background-repeat: no-repeat;
+                    background-size: cover;
                     position: relative;
                     span.bold {
                         font-weight: bold;

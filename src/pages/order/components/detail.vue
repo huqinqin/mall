@@ -151,13 +151,13 @@
                 <span><lts-money :money="order.pay"></lts-money></span>
             </div>
             <div class="text" v-if="order.discount - order.fee_promotion_manjian">
-                <label>{{$t("main.order.detail.mainOrDeActivity")}}</label> <span>-<lts-money :money="order.discount - order.fee_promotion_manjian"></lts-money></span>
+                <label>{{$t("main.order.detail.mainOrDeActivity")}}</label> <span><i class="iconfont icon-jianquminus25"></i><lts-money :money="order.discount - order.fee_promotion_manjian"></lts-money></span>
             </div>
             <div class="text" v-if="order.fee_promotion_manjian">
-                <label>{{$t("main.order.detail.mainOrDeFullReduce")}}</label> <span>-<lts-money :money="order.fee_promotion_manjian"></lts-money></span>
+                <label>{{$t("main.order.detail.mainOrDeFullReduce")}}</label> <span><i class="iconfont icon-jianquminus25"></i><lts-money :money="order.fee_promotion_manjian"></lts-money></span>
             </div>
             <div class="text" v-if="order.pay_info.acc_bonus_pay">
-                <label>{{$t("main.order.detail.mainOrDeGouwu")}}</label> <span>-<lts-money :money="order.pay_info.acc_bonus_pay"></lts-money></span>
+                <label>{{$t("main.order.detail.mainOrDeGouwu")}}</label> <span><i class="iconfont icon-jianquminus25"></i><lts-money :money="order.pay_info.acc_bonus_pay"></lts-money></span>
             </div>
             <div class="text">
                 <label>{{$t("main.cart.settle.mainCartSeFright")}}</label> <span><lts-money :money="order.fee_hd_value.HD_ALL"></lts-money></span>
@@ -369,6 +369,13 @@
             text-align: right;
             .text{
                 margin-bottom: 12px;
+                &>span{
+                    width: 160px;
+                    text-align: right;
+                    display:inline-block;
+                    font-size: 14px;
+                    color: #ff3b41;
+                }
             }
             label{
                 width: 200px;
@@ -376,13 +383,6 @@
                 display:inline-block;
                 font-size: 14px;
                 color: #737373;
-            }
-            span{
-                width: 160px;
-                text-align: right;
-                display:inline-block;
-                font-size: 14px;
-                color: #ff3b41;
             }
             .large{
 

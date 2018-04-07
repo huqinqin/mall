@@ -137,13 +137,13 @@
                 <div class="selectExpress" v-if="deliveryType == 'SHSM'">
                 <!--<div class="selectExpress" v-if="false">-->
                     <el-form label-position="top">
-                        <el-form-item label="LOGISTICS COMPANY:">
+                        <el-form-item label="Logistics Company:">
                             <el-radio-group v-model="expressForm.express" @change="simulateCreateTrade">
                                 <el-radio label="UPS">UPS</el-radio>
                                 <el-radio label="FEDEX">FEDEX</el-radio>
                             </el-radio-group>
                         </el-form-item>
-                        <el-form-item label="SERVICE:">
+                        <el-form-item label="Service:">
                             <el-select v-model="expressForm.service"
                                        :placeholder='$t("main.accountNew.register.mainAcReSelect")'
                                        @change="simulateCreateTrade">

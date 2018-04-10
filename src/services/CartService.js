@@ -62,13 +62,14 @@ export default class CartService extends BaseService {
     static queryCartCount() {
         return super.getRequest('/installer/cart/query_item_in_cart_count');
     }
+    // 加入购物车成功后弹窗
     static hotRecommond() {
         let params = {
             page: 1,
             page_size:10,
-            type:3
+            type: 2
         };
 
-        return super.getRequest('/hq/manager/get_hot_buy_list',params);
+        return super.getRequest('/hq/manager/get_hot_item_list',params);
     }
 }

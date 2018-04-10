@@ -13,6 +13,7 @@
             <el-form class="condition">
                 <el-form-item
                     v-for="(propObj,index) in condition"
+                    v-if="propObj.value.length > 0"
                     :label="propObj.name"
                     :key = "propObj.name"
                     :class="{showAll: propObj.name === selectedItem }"
@@ -207,6 +208,15 @@
 
                     this.rightTotal = Math.ceil(this.search.totalPage/this.search.pageSize);
                     this.condition = rtn.data.aggregate_cate_prop_list;
+                    console.log(this.condition)
+                    console.log(this.conditions)
+                    this.condition.forEach((item) => {
+                        if(item.name in this.conditions){
+                            let index = item.value.indexOf(this.conditions[item.name])
+                            item.value.splice(index,1)
+                        }
+                    })
+                    console.log(this.condition)
                     this.isLoadEnding = true;
 //                    for(let val in rtn.data.aggregate_cate_prop_map){
 //                        let key = rtn.data.aggregate_cate_prop_map[val],Object = {};
@@ -229,7 +239,6 @@
                 this.activeLi = selected
             },
             selectOrderBy(e){
-                console.log(e.currentTarget.getAttribute("data-value"));
                 this.priceDesc = false
                 this.cdateDesc = false
                 switch (e.currentTarget.getAttribute("data-value")){
@@ -254,7 +263,6 @@
             // 点击更多按钮
             showAllCondition(e){
                 this.selectedItem = this.selectedItem === e.path[3].childNodes[0].innerText ? '' : e.path[3].childNodes[0].innerText
-                console.log(this.selectedItem)
 
             },
             // 加载所有条件

@@ -29,6 +29,13 @@
                 <el-form-item :label='$t("main.cart.fail.mainCartFaOrderNum")'>
                     {{order.tid}}
                 </el-form-item>
+                <el-form-item :label='$t("main.cart.beforePay.mainCartBefExpressInfo")' v-if="order.attribute != 0">
+                    <span v-if="(order.attribute|8192) == order.attribute">{{$t('pages.store.order.pageStoreOrderByPickup')}}</span>
+                    <span v-if="(order.attribute|16384) == order.attribute">
+                        <!--{{$t('pages.store.order.pageStoreOrderByExpress')}}-->
+                        {{order.fee_hd_value.ship.logisticsCompany}}({{order.fee_hd_value.ship.serviceLabel}})
+                    </span>
+                </el-form-item>
                 <el-form-item :label='$t("main.order.detail.mainOrDeCreateTime")'>
                     {{order.cdate | timestamp2str}}
                 </el-form-item>
@@ -144,13 +151,13 @@
                 <span><lts-money :money="order.pay"></lts-money></span>
             </div>
             <div class="text" v-if="order.discount - order.fee_promotion_manjian">
-                <label>{{$t("main.order.detail.mainOrDeActivity")}}</label> <span>-<lts-money :money="order.discount - order.fee_promotion_manjian"></lts-money></span>
+                <label>{{$t("main.order.detail.mainOrDeActivity")}}</label> <span><i class="iconfont icon-jianquminus25"></i><lts-money :money="order.discount - order.fee_promotion_manjian"></lts-money></span>
             </div>
             <div class="text" v-if="order.fee_promotion_manjian">
-                <label>{{$t("main.order.detail.mainOrDeFullReduce")}}</label> <span>-<lts-money :money="order.fee_promotion_manjian"></lts-money></span>
+                <label>{{$t("main.order.detail.mainOrDeFullReduce")}}</label> <span><i class="iconfont icon-jianquminus25"></i><lts-money :money="order.fee_promotion_manjian"></lts-money></span>
             </div>
             <div class="text" v-if="order.pay_info.acc_bonus_pay">
-                <label>{{$t("main.order.detail.mainOrDeGouwu")}}</label> <span>-<lts-money :money="order.pay_info.acc_bonus_pay"></lts-money></span>
+                <label>{{$t("main.order.detail.mainOrDeGouwu")}}</label> <span><i class="iconfont icon-jianquminus25"></i><lts-money :money="order.pay_info.acc_bonus_pay"></lts-money></span>
             </div>
             <div class="text">
                 <label>{{$t("main.cart.settle.mainCartSeFright")}}</label> <span><lts-money :money="order.fee_hd_value.HD_ALL"></lts-money></span>
@@ -170,6 +177,7 @@
 </template>
 <script>
     import orderService from '@/services/OrderService'
+    import expressConfig from 'config/expressConfig'
     export default {
         props: {},
         components: {
@@ -184,7 +192,8 @@
                     status: 0
                 },
                 stepActive : 0,
-                dilivery:''
+                dilivery:'',
+                expressOptions: expressConfig,
             }
         },
         methods: {
@@ -193,6 +202,11 @@
                     resp.data.pay_info.pay_remark = JSON.parse(resp.data.pay_info.pay_remark_string);
                     resp.data.fee_hd_value = JSON.parse(resp.data.fee_hd);
                     this.order = resp.data;
+                    this.expressOptions.forEach((value) => {
+                        if(value.value == this.order.fee_hd_value.ship.serviceCode){
+                            this.order.fee_hd_value.ship.serviceLabel = value.label
+                        }
+                    })
                     if(this.order.status == 0){
                         this.order.status_title = this.$t("main.order.list.mainOrLiWaitPay");
                     }else if(this.order.status == 1){
@@ -355,6 +369,13 @@
             text-align: right;
             .text{
                 margin-bottom: 12px;
+                &>span{
+                    width: 160px;
+                    text-align: right;
+                    display:inline-block;
+                    font-size: 14px;
+                    color: #ff3b41;
+                }
             }
             label{
                 width: 200px;
@@ -362,13 +383,6 @@
                 display:inline-block;
                 font-size: 14px;
                 color: #737373;
-            }
-            span{
-                width: 160px;
-                text-align: right;
-                display:inline-block;
-                font-size: 14px;
-                color: #ff3b41;
             }
             .large{
 

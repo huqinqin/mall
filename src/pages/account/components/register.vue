@@ -2,7 +2,7 @@
     <div class="accRegister">
         <header>
             <div class="line"></div>
-            <div class="title">REGISTER AN ACCOUNT</div>
+            <div class="title">Register an Account</div>
             <div class="line"></div>
         </header>
         <main>

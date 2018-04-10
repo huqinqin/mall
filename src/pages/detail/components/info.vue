@@ -514,7 +514,7 @@
             },
             hotRecommoned(){
                 cartService.hotRecommond().then((data) => {
-                   this.recommondInfo = data.datalist[0].items;
+                   this.recommondInfo = data.data;
                 })
             },
             checkedProp(prop, data, type) {
@@ -1092,6 +1092,7 @@
                     color: white;
                     background-image: url('../../../assets/img/xqbjt.png');
                     background-repeat: no-repeat;
+                    background-size: cover;
                     position: relative;
                     span.bold {
                         font-weight: bold;

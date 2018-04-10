@@ -1,7 +1,7 @@
 <template>
    <div class="wrapperExperts">
        <div class="el-icon-close" @click="close" style=""></div>
-       <h3>CALL EXPERT</h3>
+       <h3>Call Expert</h3>
        <div class="box">
            <ul>
                <li><span>name：</span><span>{{someInfo.name}}</span></li>

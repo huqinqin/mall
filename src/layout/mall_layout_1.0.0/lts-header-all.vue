@@ -80,7 +80,7 @@
                     <!--</el-dropdown-menu>-->
                 <!--</el-dropdown>-->
             </el-input>
-            <el-checkbox class="el-checkbox" label="Model Number" v-model="model"></el-checkbox>
+            <!--<el-checkbox class="el-checkbox" label="Model Number" v-model="model"></el-checkbox>-->
         </div>
     </div>
 </template>
@@ -99,7 +99,7 @@
                         name: 'ip solution',
                         icon: 'icon-IPjiejuefangan',
                         first: 'IP',
-                        last: 'SOLUTION',
+                        last: 'Solution',
                         link: '/search?t='+ new Date().getTime() + '#/detail?cateId='+JSON.stringify([1]),
                         needLogin: false
                     },
@@ -107,23 +107,23 @@
                         name: 'hdtvi solution',
                         icon: 'icon-jiankong',
                         first: 'HD-TVI',
-                        last: 'SOLUTION',
+                        last: 'Solution',
                         link: '/search?t='+ new Date().getTime() + '#/detail?cateId='+JSON.stringify([2]),
                         needLogin: false
                     },
                     {
                         name: 'Popular Kits',
-                        icon: 'icon-taocanzuhe1',
-                        first: 'POPULAR',
-                        last: 'KITS',
+                        icon: 'icon-taozhuangzuhe2',
+                        first: 'Popular',
+                        last: 'Kits',
                         link: '/search?t=' + new Date().getTime() + '#/detail?cateId=%5B77%5D&keywords=&tags=',
                         needLogin: false
                     },
                     {
                         name: 'PROJECT REGISTRATION',
                         icon: 'icon-jiatingjiejuefangan',
-                        first: 'PROJECT',
-                        last: 'REGISTRATION',
+                        first: 'Project',
+                        last: 'Registration',
                         link: '//www.ltsecurityinc.com/projectregistration',
                         needLogin: false
                     },
@@ -137,32 +137,32 @@
                     {
                         name: 'call experts',
                         icon: 'icon-lianxixiaoshoukefu',
-                        first: 'CALL',
-                        last: 'EXPERTS',
+                        first: 'Call',
+                        last: 'Experts',
                         link: 'javascript:void(0)',
                         needLogin: false
                     },
                     {
                         name: 'support center',
                         icon: 'icon-zhichi',
-                        first: 'SUPPORT',
-                        last: 'CENTER',
+                        first: 'Support',
+                        last: 'Center',
                         link: '//www.ltsecurityinc.com/support',
                         needLogin: false
                     },
                     {
                         name: 'my favorite',
                         icon: 'icon-yewushouce',
-                        first: 'PRODUCT',
-                        last: 'CATALOG',
+                        first: 'Product',
+                        last: 'Catalog',
                         link: '/catelog',
                         needLogin: true
                     },
                     {
                         name: 'shopping center',
                         icon: 'icon-gouwuche2',
-                        first: 'SHOPPING',
-                        last: 'CART',
+                        first: 'Shopping',
+                        last: 'Cart',
                         link: '/cart',
                         needLogin: true
                     }
@@ -176,7 +176,7 @@
                 // selectedItem:'Item Name',
                 sin:'',
                 itemName:'',
-                model:true
+                model:false
             }
         },
         methods: {
@@ -212,8 +212,8 @@
                     this.sin = this.keywords
                 }
                 console.log(this.selectedOptions);
-//                this.$router.push({name : 'search',query:{cateId : JSON.stringify(this.selectedOptions),keywords : this.keywords, tags : this.tags }})
-                location.href = '/search?t='+ new Date().getTime() + '#/detail?cateId=' + JSON.stringify(this.selectedOptions) + '&itemname=' + this.ItemName + '&tags=' + this.tags + '&sin=' + this.sin;
+                // location.href = '/search?t='+ new Date().getTime() + '#/detail?cateId=' + JSON.stringify(this.selectedOptions) + '&itemname=' + this.ItemName + '&tags=' + this.tags + '&sin=' + this.sin;
+                location.href = '/search?t='+ new Date().getTime() + '#/detail?cateId=' + JSON.stringify(this.selectedOptions) + '&itemname=' + this.ItemName + '&tags=' + this.tags;
                 this.selfContext.$emit('getItemList')
             },
             getCategoryList() {

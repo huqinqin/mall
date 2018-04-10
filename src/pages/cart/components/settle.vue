@@ -694,16 +694,17 @@
                 localStorage.removeItem('buyNowItem')
                 this.tableData.push(items)
             }
-            let level = window.localStorage.getItem('userLevel')
-            if(level != 0){
-                this.tableData.forEach((item) => {
-                    for(let map in item.price_define_do.discount_map){
-                        if(map == level){
-                            item.price_real = item.price_real * item.price_define_do.discount_map[map] / 100
-                        }
-                    }
-                })
-            }
+            console.log(this.tableData)
+            // let level = window.localStorage.getItem('userLevel')
+            // if(level != 0){
+            //     this.tableData.forEach((item) => {
+            //         for(let map in item.price_define_do.discount_map){
+            //             if(map == level){
+            //                 item.price_real = item.price_real * item.price_define_do.discount_map[map] / 100
+            //             }
+            //         }
+            //     })
+            // }
 
             this.tableData.forEach((item) => {
                 if (item.discount_type == 1) {

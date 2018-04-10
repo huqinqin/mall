@@ -344,6 +344,7 @@
     import $ from 'jquery'
     import itemService from '@/services/ItemService'
     import cartService from '@/services/CartService'
+    import timeService from '@/services/TimeService.js'
     import addCartSuccess from 'ui/components/lts-addCartSuccess.vue'
 
     export default {
@@ -518,17 +519,27 @@
                         })
                     })
                     this.historyItems = this.buyHistory.slice(0,2)
-                    console.log(this.historyItems)
                     if (this.item.discount_type === 4) {
-                        this.end = Date.parse(new Date(this.item.sale_rule_do.end_time))
-                        this.start = Date.parse(new Date(this.item.sale_rule_do.start_time))
-                        let now = Date.parse(new Date())
-                        if (this.end > now) {
-                            this.countdown()
-                        } else {
-                            // 活动结束，不显示了
-                            this.finished = true
-                        }
+                        let now
+                        timeService.getUtcTime(this.item.sale_rule_do.end_time).then(v1 => {
+                            this.end = new Date(v1.time).getTime()
+                            timeService.getUtcTime(this.item.sale_rule_do.start_time).then(v2 => {
+                                this.start = new Date(v2.time).getTime()
+                                timeService.getTimeAndZone().then(v3 => {
+                                    now = new Date(v3.current_time).getTime()
+                                    if (this.end > now) {
+                                        this.countdown()
+                                    } else {
+                                        // 活动结束，不显示了
+                                        this.finished = true
+                                    }
+                                })
+                            })
+                        })
+                        // this.end = Date.parse(new Date(this.item.sale_rule_do.end_time))
+                        // this.start = Date.parse(new Date(this.item.sale_rule_do.start_time))
+                        // let now = Date.parse(new Date())
+
                     }
                 }, (msg) => {
                     this.$ltsMessage.show({type: 'error', message: msg.errorMessage})

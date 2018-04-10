@@ -202,9 +202,7 @@
                         if(item.tag.indexOf('新品') != -1){
                             item.isNew = true
                         }
-                        // this.level = '1'
                         if(this.level != 0 && item.price_define_do){
-                            item.price_define_do.discount_map = {1:20}
                             for(let map in item.price_define_do.discount_map){
                                 if(map == this.level){
                                     item.price_real = item.price_real * item.price_define_do.discount_map[map] / 100
@@ -214,7 +212,6 @@
                     })
                     // TOOD 这里计算页数
                     this.search.totalPage = rtn.data.total;
-
                     this.rightTotal = Math.ceil(this.search.totalPage/this.search.pageSize);
                     this.condition = rtn.data.aggregate_cate_prop_list;
                     console.log(this.condition)

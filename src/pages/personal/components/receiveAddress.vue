@@ -360,6 +360,9 @@
 
     .receiveAddress {
         margin-left: 60px;
+        .el-table .cell{
+            padding-left: 0;
+        }
         .title {
             font-weight: bold;
             font-size: 16px;

@@ -134,20 +134,22 @@
                 <div v-if="deliveryType == 'ZITI'" style="color: #666;">
                     {{$t("main.cart.settle.mainCartSeZitiAdress")}}：{{user.shop_address}}
                 </div>
-                <!--<div class="selectExpress" v-if="deliveryType == 'SHSM'">-->
-                <div class="selectExpress" v-if="false">
+                <div class="selectExpress" v-if="deliveryType == 'SHSM'">
+                <!--<div class="selectExpress" v-if="false">-->
                     <el-form label-position="top">
-                        <el-form-item label="LOGISTICS COMPANY:">
-                            <el-radio-group v-model="expressForm.express">
+                        <el-form-item label="Logistics Company:">
+                            <el-radio-group v-model="expressForm.express" @change="simulateCreateTrade">
                                 <el-radio label="UPS">UPS</el-radio>
                                 <el-radio label="FEDEX">FEDEX</el-radio>
                             </el-radio-group>
                         </el-form-item>
-                        <el-form-item label="SERVICE:">
+                        <el-form-item label="Service:">
                             <el-select v-model="expressForm.service"
-                                       :placeholder='$t("main.accountNew.register.mainAcReSelect")'>
+                                       :placeholder='$t("main.accountNew.register.mainAcReSelect")'
+                                       @change="simulateCreateTrade">
                                 <el-option
                                     v-for="item in expressOptions"
+                                    v-if="!(expressForm.express == 'FEDEX' && item.label.match('UPS')) || expressForm.express == 'UPS'"
                                     :key="item.value"
                                     :label="item.label"
                                     :value="item.value">
@@ -222,11 +224,11 @@
         <div class="someCount">
             <div class="count">
                 <p>{{ $t("main.cart.settle.mainCartSeShouldPay") }}： <span class="money"><span v-if="sum.amount"><lts-money :money="sum.amount"></lts-money></span><span v-else>$0.00</span></span></p>
-                <p>{{ $t("main.cart.settle.mainCartSeFright") }}： <span><span v-if="sum.express">+<lts-money :money="sum.express"></lts-money></span><span v-else>+$0.00</span></span></p>
-                <p>{{ $t("main.cart.settle.mainCartSeTax") }}： <span><span v-if="sum.tax">+<lts-money :money="sum.tax"></lts-money></span><span v-else>+$0.00</span></span></p>
-                <p v-if="sum.promotion - minusPro">{{ $t("main.cart.list.mainCartliBenefit") }}：<span><span>-<lts-money :money="sum.promotion - minusPro"></lts-money></span></span></p>
-                <p v-if="minusPro">{{ $t("main.cart.settle.mainCartSeFullProm") }}： <span><span>-<lts-money :money="minusPro"></lts-money></span></span></p>
-                <p v-if="bonusId">{{$t("main.someinfo.mainSomeCoupon")}}：<span>-<lts-money :money="bonus"/></span></p>
+                <p>{{ $t("main.cart.settle.mainCartSeFright") }}： <span><span v-if="sum.express"><lts-money :money="sum.express"></lts-money></span><span v-else>+$0.00</span></span></p>
+                <p>{{ $t("main.cart.settle.mainCartSeTax") }}： <span><span v-if="sum.tax"><lts-money :money="sum.tax"></lts-money></span><span v-else>+$0.00</span></span></p>
+                <p v-if="sum.promotion - minusPro">{{ $t("main.cart.list.mainCartliBenefit") }}：<span><span><i class="iconfont icon-jianquminus25"></i><lts-money :money="sum.promotion - minusPro"></lts-money></span></span></p>
+                <p v-if="minusPro">{{ $t("main.cart.settle.mainCartSeFullProm") }}： <span><span><i class="iconfont icon-jianquminus25"></i><lts-money :money="minusPro"></lts-money></span></span></p>
+                <p v-if="bonusId">{{$t("main.someinfo.mainSomeCoupon")}}：<span><i class="iconfont icon-jianquminus25"></i><lts-money :money="bonus"/></span></p>
                 <p class="result">{{ $t("main.cart.settle.mainCartSeMustPay") }}： <span>
             <span v-if="totalPrice && !bonusId"><lts-money :money="totalPrice"></lts-money></span>
             <span v-if="totalPrice && bonusId"><lts-money :money="totalPrice - bonus"></lts-money></span>
@@ -256,6 +258,7 @@
     import cartService from '@/services/CartService.js'
     import orderService from '@/services/OrderService.js'
     import checkService from '@/services/CheckService.js'
+    import expressConfig from 'config/expressConfig'
     import {store, dateUtils} from 'ltsutil'
     import {ltsLocation} from 'ui'
 
@@ -281,22 +284,7 @@
                     service: '03',
                     self: false
                 },
-                expressOptions: [
-                    {value: '01', label: 'Next Day Air'},
-                    {value: '02', label: '2nd Day Air'},
-                    {value: '03', label: 'Ground'},
-                    {value: '12', label: '3 Day Select'},
-                    {value: '13', label: 'Next Day Air Saver'},
-                    {value: '14', label: 'UPS Next Day Air Early'},
-                    {value: '59', label: '2nd Day Air A.M.Valid international values'},
-                    {value: '07', label: 'Worldwide Express'},
-                    {value: '08', label: 'Worldwide Expedited'},
-                    {value: '11', label: 'Standard'},
-                    {value: '54', label: 'Worldwide Express Plus'},
-                    {value: '65', label: 'Saver'},
-                    {value: '96', label: 'UPS Worldwide Express Freight'},
-                    {value: '71', label: 'UPS Worldwide Express Freight Midday'}
-                ],
+                expressOptions: expressConfig,
                 info: JSON.parse(store.getItem('SESSION_DATA')),
                 totalPrice: '',
                 inPriceType: 'false', // 送货单是否包含价格，配送方式
@@ -665,7 +653,19 @@
                     }
                     this.$emit('submit', 2)
                 }, (msg) => {
-                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                    this.$confirm(msg.error_message, '', {
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        closeOnPressEscape: false,
+                        type: 'warning',
+                        center: true
+                    }).then(() => {
+
+                    }).catch(() => {
+                        this.$router.push({
+                            path: '/'
+                        })
+                    });
                 })
             }
         },
@@ -678,7 +678,7 @@
                 item.price = item.item_props[0].price
                 item.price_real = item.item_props[0].price_real
                 this.tableData.push(item)
-            } else {
+            } else  if(this.$route.params && this.$route.params.items){
                 let items = this.$route.params.items
                 items.forEach((item) => {
                     item.item_props.forEach((val) => {
@@ -687,6 +687,10 @@
                 })
                 this.tableData = items
                 // this.user_id = this.$route.params.userId
+            }else{
+                let items = JSON.parse(localStorage.getItem('buyNowItem'))
+                localStorage.removeItem('buyNowItem')
+                this.tableData.push(items)
             }
 
             this.tableData.forEach((item) => {
@@ -705,7 +709,7 @@
                 }
             })
             this.getInfo()
-            this.expressOptions = this.UPSOptions
+            // this.expressOptions = this.UPSOptions
             this.minus()
         }
     }
@@ -841,6 +845,7 @@
                         border-bottom: 1px solid rgba(0, 0, 0, 0.05);
                         color: rgba(0, 0, 0, 0.7);
                         padding: 0 12px;
+                        padding-top: 4px;
                         display: flex;
                         justify-content: space-between;
                         div {
@@ -905,9 +910,10 @@
                 }
                 li.checked {
                     header {
-                        border-top: 2px solid #f81f22;
+                        border-top: 6px solid #f81f22;
                         display: flex;
                         justify-content: space-between;
+                        padding-top: 0px;
                     }
                 }
                 li.default {
@@ -920,7 +926,8 @@
                 }
                 li.checked:hover {
                     header {
-                        border-top: 2px solid #f81f22;
+                        border-top: 6px solid #f81f22;
+                        padding-top: 0px;
                     }
                     footer {
                         button + button {
@@ -931,7 +938,8 @@
                 li:hover {
                     cursor: pointer;
                     header {
-                        border-top: 2px solid #1f85f8;
+                        border-top: 6px solid #1f85f8;
+                        padding-top: 0px;
                     }
                     footer {
                         button {
@@ -1078,7 +1086,6 @@
                 margin-bottom: 6px;
             }
             .selectExpress {
-                display: none;
                 font-size: 14px;
                 .el-form-item {
                     label {

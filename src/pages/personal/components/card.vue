@@ -162,7 +162,7 @@
                 prop="status"
                 :label='$t("main.personal.card.mainPerCarDisStatus")'
                 width="100"
-                align="center">
+                align="left">
                 <template slot-scope="scope">
                     {{checkStatus(scope.row.status)}}
                 </template>

@@ -514,7 +514,7 @@
             },
             hotRecommoned(){
                 cartService.hotRecommond().then((data) => {
-                   this.recommondInfo = data.datalist[0].items;
+                   this.recommondInfo = data.data;
                 })
             },
             checkedProp(prop, data, type) {
@@ -637,6 +637,8 @@
                     'full_url': this.item.full_url,
                     'sale_rule': this.item.sale_rule
                 }
+                // window.open('/cart#/settle?item=' + JSON.stringify(items))
+                localStorage.setItem('buyNowItem',JSON.stringify(items))
                 window.open('/cart#/settle?item=' + JSON.stringify(items))
             },
             validate() {
@@ -1089,6 +1091,8 @@
                     font-size: 14px;
                     color: white;
                     background-image: url('../../../assets/img/xqbjt.png');
+                    background-repeat: no-repeat;
+                    background-size: cover;
                     position: relative;
                     span.bold {
                         font-weight: bold;

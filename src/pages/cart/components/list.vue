@@ -379,7 +379,7 @@
         multipleSelection: [],
         totalPrice: 0,
         realTotal: 0,
-        selectedAll: false,
+        selectedAll: true,
         cart: {
           cartTotal: 0,
           cartPriceTotal: 0
@@ -518,7 +518,7 @@
           ]
             this.cartNum = data.datalist.length
           data.datalist.forEach((value) => {
-            value.checked = false
+            value.checked = true
             value.item_props.forEach((item) => {
               item.prop_value = JSON.parse(item.prop_value)
             })
@@ -550,7 +550,12 @@
                 this.tableData[3].others.push(value)
             }
             this.tableDataItem = data.datalist
-
+              if(data.datalist.length > 0){
+                  this.checkedItem = data.datalist
+                  this.calc(this.checkedItem)
+                  this.calcMinus(this.checkedItem)
+              }
+              console.log(this.checkedItem)
           })
         }, (msg) => {
           this.$ltsMessage.show({type: 'error', message: msg.errorMessage})

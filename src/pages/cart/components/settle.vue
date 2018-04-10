@@ -224,15 +224,17 @@
         <div class="someCount">
             <div class="count">
                 <p>{{ $t("main.cart.settle.mainCartSeShouldPay") }}： <span class="money"><span v-if="sum.amount"><lts-money :money="sum.amount"></lts-money></span><span v-else>$0.00</span></span></p>
-                <p>{{ $t("main.cart.settle.mainCartSeFright") }}： <span><span v-if="sum.express"><lts-money :money="sum.express"></lts-money></span><span v-else>+$0.00</span></span></p>
-                <p>{{ $t("main.cart.settle.mainCartSeTax") }}： <span><span v-if="sum.tax"><lts-money :money="sum.tax"></lts-money></span><span v-else>+$0.00</span></span></p>
+                <p>{{ $t("main.cart.settle.mainCartSeFright") }}： <span><i class="iconfont icon-jia11" ></i><span v-if="sum.express"><lts-money :money="sum.express"></lts-money></span><span v-else>$0.00</span></span></p>
+                <p>{{ $t("main.cart.settle.mainCartSeTax") }}： <span><i class="iconfont icon-jia11"></i><span v-if="sum.tax"><lts-money :money="sum.tax"></lts-money></span><span v-else>$0.00</span></span></p>
                 <p v-if="sum.promotion - minusPro">{{ $t("main.cart.list.mainCartliBenefit") }}：<span><span><i class="iconfont icon-jianquminus25"></i><lts-money :money="sum.promotion - minusPro"></lts-money></span></span></p>
                 <p v-if="minusPro">{{ $t("main.cart.settle.mainCartSeFullProm") }}： <span><span><i class="iconfont icon-jianquminus25"></i><lts-money :money="minusPro"></lts-money></span></span></p>
                 <p v-if="bonusId">{{$t("main.someinfo.mainSomeCoupon")}}：<span><i class="iconfont icon-jianquminus25"></i><lts-money :money="bonus"/></span></p>
-                <p class="result">{{ $t("main.cart.settle.mainCartSeMustPay") }}： <span>
-            <span v-if="totalPrice && !bonusId"><lts-money :money="totalPrice"></lts-money></span>
-            <span v-if="totalPrice && bonusId"><lts-money :money="totalPrice - bonus"></lts-money></span>
-        </span></p>
+                <p class="result">{{ $t("main.cart.settle.mainCartSeMustPay") }}：
+                    <span>
+                        <span v-if="totalPrice && !bonusId"><lts-money :money="totalPrice"></lts-money></span>
+                        <span v-if="totalPrice && bonusId"><lts-money :money="totalPrice - bonus"></lts-money></span>
+                    </span>
+                </p>
             </div>
         </div>
         <div class="allInfo">
@@ -364,7 +366,7 @@
                 if(item.length > 0){
                     item.forEach((value) => {
                         if(value.discount_type === 0){
-                            sum += value.price * value.num
+                            sum += value.price_real * value.num
                         }
                     })
                     if(this.fullrule.length > 0){
@@ -688,6 +690,16 @@
                 let items = JSON.parse(localStorage.getItem('buyNowItem'))
                 localStorage.removeItem('buyNowItem')
                 this.tableData.push(items)
+            }
+            let level = window.localStorage.getItem('userLevel')
+            if(level != 0){
+                this.tableData.forEach((item) => {
+                    for(let map in item.price_define_do.discount_map){
+                        if(map == level){
+                            item.price_real = item.price_real * item.price_define_do.discount_map[map] / 100
+                        }
+                    }
+                })
             }
 
             this.tableData.forEach((item) => {
@@ -1157,6 +1169,9 @@
             line-height: 40px;
             border-bottom: 1px solid #f2f2f2;
             .count {
+                .iconfont{
+                    font-size: 14px;
+                }
                 p {
                     text-align: right;
                     font-size: 14px;
@@ -1181,6 +1196,7 @@
                     }
                 }
             }
+
         }
         .allInfo {
             text-align: right;

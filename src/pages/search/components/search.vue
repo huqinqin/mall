@@ -70,21 +70,21 @@
                                 <!--</p>-->
                                 <p class="price" v-ltsLoginShow:true>
                                     <span class="realPrice">
-                                        <template v-if="item.discount_type ==1">
+                                        <template v-if="item.discount_type == 1">
                                             <lts-money :money="item.price * item.discount / 100"></lts-money>
                                         </template>
-                                        <template v-else-if="item.discount_type ==2">
+                                        <template v-else-if="item.discount_type == 2">
                                             <lts-money :money="item.price - item.discount"></lts-money>
                                         </template>
-                                        <template v-else-if="item.discount_type ==4">
+                                        <template v-else-if="item.discount_type == 4">
                                             <lts-money :money="item.sale_rule_do.price"></lts-money>
                                         </template>
                                         <template v-else>
-                                            <lts-money :money="item.price"></lts-money>
+                                            <lts-money :money="item.price_real"></lts-money>
                                         </template>
                                     </span>
                                     <span class="oldPrice">
-                                        <template v-if="item.discount_type != 0">
+                                        <template v-if="item.discount_type != 0 ||  item.price != item.price_real">
                                             <lts-money :money="item.price"></lts-money>
                                         </template>
                                     </span>
@@ -149,11 +149,10 @@
                 data:[],
                 rightTotal : 0,
                 closeProps : false,
-
                 errorImg : require('@/assets/img/error.png'),
-
                 isLoadEnding : false,
-                conditions:{}
+                conditions:{},
+                level:'1'
             }
 
         },
@@ -162,6 +161,7 @@
         },
         mounted(){
             $("html").attr('class','white')
+            this.level = window.localStorage.getItem('userLevel')
             this.tags = this.$route.query.tags ? this.$route.query.tags.split(',') : [];
             this.submit();
         },
@@ -201,6 +201,15 @@
                     this.data.forEach((item) => {
                         if(item.tag.indexOf('新品') != -1){
                             item.isNew = true
+                        }
+                        // this.level = '1'
+                        if(this.level != 0 && item.price_define_do){
+                            item.price_define_do.discount_map = {1:20}
+                            for(let map in item.price_define_do.discount_map){
+                                if(map == this.level){
+                                    item.price_real = item.price_real * item.price_define_do.discount_map[map] / 100
+                                }
+                            }
                         }
                     })
                     // TOOD 这里计算页数

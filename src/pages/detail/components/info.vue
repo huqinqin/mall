@@ -395,7 +395,8 @@
                 otherSpu: {},
                 recommondInfo:[],
                 historyIndex:0,
-                historyItems:[]
+                historyItems:[],
+                level:'0'
             }
         },
         methods: {
@@ -468,6 +469,15 @@
                     data.data.item.item_struct_props.forEach((value, index, array) => {
                         if (!value.sku) {
                             this.aboutDetail.push(value);
+                        }else{
+                            if(this.level != 0){
+                                for(let map in data.data.item.price_define_do.discount_map){
+                                    if(map == this.level){
+                                        value.price_real = value.price_real * data.data.item.price_define_do.discount_map[map] / 100
+                                        data.data.item.price_real = data.data.item.price_real * data.data.item.price_define_do.discount_map[map] / 100
+                                    }
+                                }
+                            }
                         }
                     })
                     this.otherGoods = data.data.item.package_item_list
@@ -481,6 +491,7 @@
                     this.item = data.data.item
                     this.activeImg = this.item.item_images[0]
                     this.hotSale = data.data.hot_recomment.items
+                    this.hotSale = (data.data && data.data.hot_recomment) ? data.data.hot_recomment.items : [];
                     this.hotSale.forEach((item) => {
                         if(item.tag.indexOf('新品') != -1){
                             item.isNew = true
@@ -495,6 +506,17 @@
                             }
                         })
                     }
+                    [this.hotSale,this.buyHistory].map(arr => {
+                        arr.forEach(val => {
+                            if(this.level != 0 && val.price_define_do){
+                                for(let map in val.price_define_do.discount_map){
+                                    if(map == this.level){
+                                        val.price = val.price * val.price_define_do.discount_map[map] / 100
+                                    }
+                                }
+                            }
+                        })
+                    })
                     this.historyItems = this.buyHistory.slice(0,2)
                     console.log(this.historyItems)
                     if (this.item.discount_type === 4) {
@@ -635,7 +657,8 @@
                     'tag': this.item.tag,
                     'url': this.item.url,
                     'full_url': this.item.full_url,
-                    'sale_rule': this.item.sale_rule
+                    'sale_rule': this.item.sale_rule,
+                    'price_define_do':this.item.price_define_do
                 }
                 // window.open('/cart#/settle?item=' + JSON.stringify(items))
                 localStorage.setItem('buyNowItem',JSON.stringify(items))
@@ -760,6 +783,7 @@
             },
         },
         mounted() {
+            this.level = window.localStorage.getItem('userLevel')
             this.hotRecommoned();
         },
     }

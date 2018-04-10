@@ -226,7 +226,7 @@ export default {
                 mainDetPiece:'Piece',
                 mainDetCheckedPackage:'Selected Items',
                 mainDetSure:'Confirm',
-                mainDetSelectModel:'Select Mode',
+                mainDetSelectModel:'Select Model',
                 mainDetCkeckedProp:'Selected Attribute',
                 mainDetNum:'Quantity',
                 mainDetSinglePrice:'Unit Price',

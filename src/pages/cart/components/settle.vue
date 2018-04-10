@@ -668,12 +668,15 @@
                     this.$confirm(msg.error_message, '', {
                         showCancelButton: false,
                         showConfirmButton: false,
+                        closeOnPressEscape: false,
                         type: 'warning',
                         center: true
                     }).then(() => {
 
                     }).catch(() => {
-
+                        this.$router.push({
+                            path: '/'
+                        })
                     });
                 })
             }

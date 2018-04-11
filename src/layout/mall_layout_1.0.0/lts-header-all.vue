@@ -326,6 +326,11 @@
             justify-content: space-between;
             .el-input{
                 flex-grow: 1;
+                .el-input{
+                    input::-webkit-input-placeholder{
+                        color:#333 !important;
+                    }
+                }
                 .el-input-group__append{
                     color:white;
                     border-radius:0;

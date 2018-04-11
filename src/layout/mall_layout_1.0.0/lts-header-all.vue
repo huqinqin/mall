@@ -5,8 +5,9 @@
                 <li v-for="value in menuList">
                     <div>
                         <a :href="value.link" v-if="value.type == 'logo'" class="header-logo"
-                           :style="{backgroundImage : 'url('+value.icon+')'}"> <span class="iconfont"
-                                                                                     :class="value.icon"></span></a>
+                           :style="{backgroundImage : 'url('+ logo +')'}">
+                            <!--<span class="iconfont" :class="value.icon"></span>-->
+                        </a>
                         <a :href="value.link" target="_blank" v-else-if="value.name === 'support center'">
                                 <div>
                                     <span class="iconfont" :class="value.icon"></span>
@@ -94,6 +95,7 @@
         name: "lts-header-all",
         data() {
             return {
+                logo:require('../../assets/img/LOGO_html.jpg'),
                 menuList: [
                     {
                         name: 'ip solution',
@@ -387,7 +389,8 @@
             width: 300px;
             height: 74px;
             background-position: center;
-            background-size: cover;
+            background-size: 140px 48px;
+            background-repeat: no-repeat;
             display: flex;
             text-align: center;
             align-items: center;

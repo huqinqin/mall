@@ -27,7 +27,7 @@
                         <button class="default" @click.stop="toggleDefault(defaultAddress)">{{
                             $t("main.cart.settle.mainCartSeFitDefault") }}
                         </button>
-                        <button class="delete" @click="deleteAddress(defaultAddress,0)">{{
+                        <button class="delete" @click.stop="deleteAddress(defaultAddress,0)">{{
                             $t("main.cart.settle.mainCartSeDel") }}
                         </button>
                         <button @click="editAddress(defaultAddress)">{{ $t("main.cart.settle.mainCartSeAlert") }}
@@ -51,7 +51,7 @@
                         <button class="default" @click.stop="toggleDefault(item)">{{
                             $t("main.cart.settle.mainCartSeFitDefault") }}
                         </button>
-                        <button class="delete" @click="deleteAddress(item,key)">{{ $t("main.cart.settle.mainCartSeDel") }}
+                        <button class="delete" @click.stop="deleteAddress(item,key)">{{ $t("main.cart.settle.mainCartSeDel") }}
                         </button>
                         <button @click="editAddress(item)">{{ $t("main.cart.settle.mainCartSeAlert") }}</button>
                         <button v-show="item.id === defaultId" class="defaultAdd">{{ $t("main.cart.settle.mainCartSeDefaultAdress") }}
@@ -548,9 +548,14 @@
             // 删除地址
             deleteAddress(item, key) {
                 this.addressData.splice(key, 1)
-                addressService.deleteItem(item).then((data) => {
-                    this.$ltsMessage.show({type: 'success', message: this.$t('main.cart.settle.mainCartSeHandleErr')})
-                })
+                if(this.addressData.length > 0){
+                    this.checkedId = this.addressData[0].id
+                    this.checkedAddress = this.addressData[0]
+                    addressService.deleteItem(item).then((data) => {
+                        this.$ltsMessage.show({type: 'success', message: this.$t('main.cart.settle.mainCartSeHandleErr')})
+                        this.simulateCreateTrade()
+                    })
+                }
             },
             settle() {
                 this.submitOrder()

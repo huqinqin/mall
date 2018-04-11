@@ -4,12 +4,12 @@
           <ul class="s-span-page">
             <li class="sign">
               <span class="login" v-login v-if="!userInfo">{{ $t("main.index.mainInImmeLogin") }}</span>
-              <a href="/someinfo" @click="toInfo"><span class="login"  v-if="userInfo">{{ $t("comHeader.headerWelcom") }}，{{userInfo.account.user_name}}</span></a>
-              <a href="/account#/register" v-if="!userInfo"><span class="register">{{ $t("comHeader.headerImmediatelySign") }}</span></a>
+              <a :href="'/someinfo?t=' + new Date().getTime() + '#/'" @click="toInfo"><span class="login"  v-if="userInfo">{{ $t("comHeader.headerWelcom") }}，{{userInfo.account.user_name}}</span></a>
+              <a :href="'/account?t=' + new Date().getTime() + '#/register'" v-if="!userInfo"><span class="register">{{ $t("comHeader.headerImmediatelySign") }}</span></a>
             </li>
             <li class="">
               <a href="/" class="news top-menu" v-if="showToIndex">{{ $t("comHeader.headerIndex") }}</a>
-              <a v-login href="/order" class="top-menu"  @click="toOrder">{{ $t("comHeader.headerMyOrder") }}</a>
+              <a v-login :href="'/order?t=' + new Date().getTime() + '#/'" class="top-menu"  @click="toOrder">{{ $t("comHeader.headerMyOrder") }}</a>
               <el-tooltip placement="top" effect="light" :visible-arrow="false">
                 <div slot="content"><myExperts></myExperts></div>
                 <a href="javascript:void(0)" class="top-menu" v-login v-if="showToIndex && userInfo">{{ $t("comHeader.headerMyExpert") }}</a>
@@ -39,7 +39,7 @@
                         <img src="@/assets/img/denglu.tou.png" :alt='$t("comHeader.headerTopPic")'>
                     </el-form-item>
                     <el-form-item :label='$t("comHeader.headerUserOrEmail")' prop="acount">
-                        <el-input name="test"  v-model="form.acount" :placeholder='$t("comHeader.headerInputUserOrEmail")' @input="checkCookie" @blur="checkCookie"></el-input>
+                        <el-input name="test"  v-model="form.acount" :placeholder='$t("comHeader.headerInputUserOrEmail")' @input="checkCookie" @blur="checkCookie" @keyup.enter.native="login"></el-input>
                     </el-form-item>
                     <el-form-item :label='$t("comHeader.headerPwd")' prop="password" class="password">
                         <el-input type="password" ref="password" v-model="form.password" :placeholder='$t("comHeader.headerInputPwd")' @keyup.enter.native="login">
@@ -72,6 +72,7 @@
     import userService from '@/services/UserService.js'
     import myExperts from '@/common/components/myExperts'
     import expertService from '@/services/MyexpertService.js'
+    import checkService from '@/services/CheckService.js'
     import md5 from 'md5'
     export default {
         name : "lts-header",
@@ -105,7 +106,6 @@
         methods:{
             closeDialog(){
               this.$refs.loginForm.resetFields()
-              console.log(this.$refs.loginForm)
             },
             // 登录时获取myExpert
             getExpert(){
@@ -164,15 +164,23 @@
                 if(cval!=null)
                     document.cookie= name + "=" + cval + ";expires=" + exp.toGMTString();
             },
+            // 查询工程商等级
+            getInfo() {
+                checkService.getInfo().then((data) => {
+                    window.localStorage.setItem('userLevel',data.data.vip)
+                }, (msg) => {
+                    this.$ltsMessage({type: 'error', message: msg.error_message})
+                })
+            },
             login(data){
                 if(this.form.checked){
                     this.setCookie(this.form.acount,this.form.password)
-                    console.log(this.getCookie(this.form.acount))
                 }else{
                     this.delCookie(this.form.acount)
                 }
                 userService.login(this.form.acount,this.form.password,this.hasMd5).then((data)=>{
                     this.getExpert();
+                    this.getInfo();
                     this.loginVisible = false;
                     this.getUserInfo();
                 },(msg)=>{

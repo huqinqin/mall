@@ -357,6 +357,7 @@
 
 <script>
   import cartService from '@/services/CartService.js'
+  import timeService from '@/services/TimeService.js'
   import Vue from 'vue'
   export default {
     name: 'list',
@@ -530,21 +531,36 @@
                 value.realPrice = value.item_props[0].price - value.discount
               this.tableData[1].reduce.push(value)
             } else if (value.discount_type === 4) {
-              value.rule = JSON.parse(value.sale_rule)
-              value.item_props[0].storage = value.rule.total
-              // value.rule.end = value.end_time
-              // value.rule.end = value.end_time
-              value.rule.end = Date.parse(new Date(value.rule.endTime))
-              value.rule.start = Date.parse(new Date(value.rule.startTime))
+                value.rule = JSON.parse(value.sale_rule)
+                value.item_props[0].storage = value.rule.total
                 value.realPrice = value.rule.price
-              let now = Date.parse(new Date())
-              if (value.rule.end > now) {
-                this.countdown(value)
-              } else {
-                // 活动结束，不显示了
-                value.rule.finished = true
-              }
-              this.tableData[2].limit.push([value])
+                let now
+                timeService.getUtcTime(value.rule.endTime).then(v1 => {
+                    value.rule.end = new Date(v1.time).getTime()
+                    timeService.getUtcTime(value.rule.startTime).then(v2 => {
+                        value.rule.start = new Date(v2.time).getTime()
+                        timeService.getTimeAndZone().then(v3 => {
+                            now = new Date(v3.current_time).getTime()
+                            if (value.rule.end > now) {
+                                this.countdown(value)
+                            } else {
+                                // 活动结束，不显示了
+                                this.finished = true
+                            }
+                            this.tableData[2].limit.push([value])
+                        })
+                    })
+                })
+                // value.rule.end = Date.parse(new Date(value.rule.endTime))
+                // value.rule.start = Date.parse(new Date(value.rule.startTime))
+                // let now = Date.parse(new Date())
+              // if (value.rule.end > now) {
+              //   this.countdown(value)
+              // } else {
+              //   // 活动结束，不显示了
+              //   value.rule.finished = true
+              // }
+
             } else {
                 value.realPrice = value.item_props[0].price
                 this.tableData[3].others.push(value)

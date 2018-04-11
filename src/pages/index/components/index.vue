@@ -21,7 +21,7 @@
       </div>
       <div class="login">
         <button v-login>{{$t("main.index.mainInImmeLogin")}}</button>
-        <a href='/account#/register'><button class="sign">{{$t("main.index.mainInFreeRegis")}}</button></a>
+        <a :href="'/account?t=' + new Date().getTime() +'#/register'"><button class="sign">{{$t("main.index.mainInFreeRegis")}}</button></a>
       </div>
     </div>
     <!-- poster -->
@@ -63,7 +63,25 @@
                       {{$t("main.detail.info.mainDetInfoLoginPrice")}}
                     </button>
                     <p v-ltsLoginShow:true class="price">
-                      <lts-money :money="item.price"></lts-money>
+                        <span class="realPrice">
+                            <template v-if="item.discount_type == 1">
+                                <lts-money :money="item.price * item.discount / 100"></lts-money>
+                            </template>
+                            <template v-else-if="item.discount_type == 2">
+                                <lts-money :money="item.price - item.discount"></lts-money>
+                            </template>
+                            <template v-else-if="item.discount_type == 4">
+                                <lts-money :money="item.sale_rule_do.price"></lts-money>
+                            </template>
+                            <template v-else>
+                                <lts-money :money="item.price_real"></lts-money>
+                            </template>
+                        </span>
+                        <span class="oldPrice">
+                            <template v-if="item.discount_type != 0 ||  item.price != item.price_real">
+                                <lts-money :money="item.price"></lts-money>
+                            </template>
+                        </span>
                     </p>
                   </div>
                 </div>
@@ -101,7 +119,25 @@
                           {{$t("main.detail.info.mainDetInfoLoginPrice")}}
                         </button>
                         <p v-ltsLoginShow:true="(itemlist.attribute | 4) == itemlist.attribute" class="price">
-                          <lts-money :money="item.price"></lts-money>
+                          <span class="realPrice">
+                            <template v-if="item.discount_type == 1">
+                                <lts-money :money="item.price * item.discount / 100"></lts-money>
+                            </template>
+                            <template v-else-if="item.discount_type == 2">
+                                <lts-money :money="item.price - item.discount"></lts-money>
+                            </template>
+                            <template v-else-if="item.discount_type == 4">
+                                <lts-money :money="item.sale_rule_do.price"></lts-money>
+                            </template>
+                            <template v-else>
+                                <lts-money :money="item.price_real"></lts-money>
+                            </template>
+                        </span>
+                            <span class="oldPrice">
+                            <template v-if="item.discount_type != 0 ||  item.price != item.price_real">
+                                <lts-money :money="item.price"></lts-money>
+                            </template>
+                        </span>
                         </p>
                       </div>
                     </div>
@@ -173,6 +209,7 @@
       getList () {
         homeService.getList().then((data) => {
           this.itemList = data.floor.datalist
+
             this.itemList.forEach((item) => {
                 item.items.forEach((val) => {
                     if(val.tag.indexOf('新品') != -1){
@@ -181,10 +218,33 @@
                 })
             })
           this.hotList = data.hot_buys.datalist[0].items
+            this.hotList.forEach(item => {
+                item.price_real = item.price
+                if(this.level != 0 && item.price_define_do){
+                    for(let map in item.price_define_do.discount_map){
+                        if(map == this.level){
+                            item.price_real = item.price_real * item.price_define_do.discount_map[map] / 100
+                        }
+                    }
+                }
+            })
+            this.itemList.forEach(value => {
+                value.items.forEach(item => {
+                    item.price_real = item.price
+                    if(this.level != 0 && item.price_define_do){
+                        for(let map in item.price_define_do.discount_map){
+                            if(map == this.level){
+                                item.price_real = item.price_real * item.price_define_do.discount_map[map] / 100
+                            }
+                        }
+                    }
+                })
+            })
 
           if(data.fix_pic && data.fix_pic.datalist.length > 0 && data.fix_pic.datalist[0] && data.fix_pic.datalist[0].content){
             data.fix_pic.datalist[0].content = JSON.parse(data.fix_pic.datalist[0].content)
             this.posterBig = data.fix_pic.datalist[0]
+              this.posterBig.content.link_url = this.posterBig.content.link_url.replace('#','?t=' + new Date().getTime() + '#')
           }else{
             this.posterBig = {
               name:'error_picture',
@@ -198,6 +258,7 @@
           if(data.fix_pic_right2 && data.fix_pic_right2.datalist.length > 0 && data.fix_pic_right2.datalist[0] && data.fix_pic_right2.datalist[0].content){
             data.fix_pic_right2.datalist[0].content = JSON.parse(data.fix_pic_right2.datalist[0].content)
             this.posterSmall.bottom = data.fix_pic_right2.datalist[0]
+              this.posterSmall.bottom.content.link_url = this.posterSmall.bottom.content.link_url.replace('#','?t=' + new Date().getTime() + '#')
           }else{
             this.posterSmall.bottom = {
               name:'error_picture',
@@ -211,6 +272,7 @@
           if(data.fix_pic_right1 && data.fix_pic_right1.datalist.length > 0 && data.fix_pic_right1.datalist[0] && data.fix_pic_right1.datalist[0].content){
             data.fix_pic_right1.datalist[0].content = JSON.parse(data.fix_pic_right1.datalist[0].content)
             this.posterSmall.top = data.fix_pic_right1.datalist[0]
+              this.posterSmall.top.content.link_url = this.posterSmall.top.content.link_url.replace('#','?t=' + new Date().getTime() + '#')
           }else{
             this.posterSmall.top = {
               name:'error_picture',
@@ -230,6 +292,9 @@
                     val.banner_url = 'http://ltsb2b.oss-us-west-1.aliyuncs.com/tmp/Retail%20Solution1.png'
                 }
               this.index_banner.push(JSON.parse(val.content))
+                this.index_banner.forEach(banner => {
+                    banner.link_url = banner.link_url.replace('#','?t=' + new Date().getTime() + '#')
+                })
             })
           }
         }, (msg) => {
@@ -239,6 +304,7 @@
     },
     mounted () {
       $("html").attr('class','gray')
+      this.level = window.localStorage.getItem('userLevel')
       this.getList()
     }
   }
@@ -558,6 +624,14 @@
             font-weight: bold;
             .price {
               color: #ff3b41;
+                position: relative;
+                .oldPrice{
+                    font-size: 14px;
+                    position: absolute;
+                    top:2px;
+                    text-decoration: line-through;
+                    color: #a3a3a3;
+                }
             }
           }
           button {

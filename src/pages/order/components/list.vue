@@ -167,6 +167,7 @@
     import {ltsSearchForm} from 'ui'
     import reverseApply from './reverse-apply'
     import orderService from '@/services/OrderService'
+    import timeService from '@/services/TimeService'
     import config from 'config'
     export default {
         components: {
@@ -278,7 +279,7 @@
                         // let return_url = '/customerorder#/finish';
                         // let fail_url = '/customerorder#/fail';
                         order = data.$vnode.data.attrs.data;
-                        window.open('/cart#/beforePay?tid=' + order.tid + '&orderpay=3' + '');
+                        window.open('/cart?t=' + new Date().getTime() + '#/beforePay?tid=' + order.tid + '&orderpay=3' + '');
                         break;
                     case "close":
                         this.$confirm(this.$t("main.order.list.mainOrLiIsDelOrder"), this.$t("main.order.list.mainOrLiIsDelTip"), {
@@ -338,25 +339,55 @@
                         param[key] = this.params[key];
                     }
                 }
-                orderService.getList(param, this.pagination.page, this.pagination.page_size, 'cdate desc').then((resp) => {
-                    this.loading = false;
-                    resp.datalist.forEach((value,index,array)=>{
-                        value.sell_order_list.forEach((sell,i,array)=>{
-                            sell.wholesale_order_items.forEach((item,key,array)=>{
-                                item.propValue = JSON.parse(item.props)
-                            })
+                var p = timeService.getLocalTime(JSON.stringify(new Date(param.start_time))).then((v) =>{
+                    param.start_time = v.time
+                    return timeService.getLocalTime(JSON.stringify(new Date(param.end_time))).then((v) =>{
+                        param.end_time = v.time
+                        orderService.getList(param, this.pagination.page, this.pagination.page_size, 'cdate desc').then((resp) => {
+                            this.loading = false;
+                            resp.datalist.forEach((value,index,array)=>{
+                                value.sell_order_list.forEach((sell,i,array)=>{
+                                    sell.wholesale_order_items.forEach((item,key,array)=>{
+                                        item.propValue = JSON.parse(item.props)
+                                    })
 //                            value.hd_status = sell.wholesale_order_items[0].hd_status;
 //                            value.hd_status_title = sell.wholesale_order_items[0].hd_status_title;
-                        })
+                                })
+                            })
+                            this.datalist = resp.datalist;
+                            this.pagination.total = resp.total;
+                        }, (err) => {
+                            this.loading = false;
+                            this.datalist = [];
+                            this.pagination.total = 0;
+                            this.$ltsMessage.show({type: 'error', message: this.$t("main.order.list.mainOrLiSearchError")+':' + err.error_message})
+                        });
+
                     })
-                    this.datalist = resp.datalist;
-                    this.pagination.total = resp.total;
-                }, (err) => {
-                    this.loading = false;
-                    this.datalist = [];
-                    this.pagination.total = 0;
-                    this.$ltsMessage.show({type: 'error', message: this.$t("main.order.list.mainOrLiSearchError")+':' + err.error_message})
-                });
+                })
+//                let self = this
+//                p = p.then(function (){
+//                    return orderService.getList(param, this.pagination.page, this.pagination.page_size, 'cdate desc').then((resp) => {
+//                        this.loading = false;
+//                        resp.datalist.forEach((value,index,array)=>{
+//                            value.sell_order_list.forEach((sell,i,array)=>{
+//                                sell.wholesale_order_items.forEach((item,key,array)=>{
+//                                    item.propValue = JSON.parse(item.props)
+//                                })
+////                            value.hd_status = sell.wholesale_order_items[0].hd_status;
+////                            value.hd_status_title = sell.wholesale_order_items[0].hd_status_title;
+//                            })
+//                        })
+//                        this.datalist = resp.datalist;
+//                        this.pagination.total = resp.total;
+//                    }, (err) => {
+//                        this.loading = false;
+//                        this.datalist = [];
+//                        this.pagination.total = 0;
+//                        this.$ltsMessage.show({type: 'error', message: this.$t("main.order.list.mainOrLiSearchError")+':' + err.error_message})
+//                    });
+//                })
+
             },
             getParameter (val) {
                 this.search()

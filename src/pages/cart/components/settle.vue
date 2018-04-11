@@ -51,12 +51,10 @@
                         <button class="default" @click.stop="toggleDefault(item)">{{
                             $t("main.cart.settle.mainCartSeFitDefault") }}
                         </button>
-                        <button class="delete" @click="deleteAddress(item,key)">{{ $t("main.cart.settle.mainCartSeDel")
-                            }}
+                        <button class="delete" @click="deleteAddress(item,key)">{{ $t("main.cart.settle.mainCartSeDel") }}
                         </button>
                         <button @click="editAddress(item)">{{ $t("main.cart.settle.mainCartSeAlert") }}</button>
-                        <button v-show="item.id === defaultId" class="defaultAdd">{{
-                            $t("main.cart.settle.mainCartSeDefaultAdress") }}
+                        <button v-show="item.id === defaultId" class="defaultAdd">{{ $t("main.cart.settle.mainCartSeDefaultAdress") }}
                         </button>
                     </footer>
                 </li>
@@ -99,8 +97,8 @@
                         </el-form>
                     </el-form-item>
                     <!--<el-form-item :label='$t("main.cart.settle.mainCartSeContact")'-->
-                    <!--:rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterContact'), trigger: 'blur' }]">-->
-                    <!--<el-input v-model="addForm.user_name"></el-input>-->
+                                  <!--:rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterContact'), trigger: 'blur' }]">-->
+                        <!--<el-input v-model="addForm.user_name"></el-input>-->
                     <!--</el-form-item>-->
                     <el-form-item :label='$t("main.cart.settle.mainCartSeContactPhone")'
                                   :rules="[{required: true, message: this.$t('main.cart.settle.mainCartSeEnterConPhone'), trigger: 'blur' }]">
@@ -137,12 +135,12 @@
                     {{$t("main.cart.settle.mainCartSeZitiAdress")}}：{{user.shop_address}}
                 </div>
                 <div class="selectExpress" v-if="deliveryType == 'SHSM'">
-                    <!--<div class="selectExpress" v-if="false">-->
+                <!--<div class="selectExpress" v-if="false">-->
                     <el-form label-position="top">
                         <el-form-item label="Logistics Company:">
                             <el-radio-group v-model="expressForm.express" @change="simulateCreateTrade">
                                 <el-radio label="UPS">UPS</el-radio>
-                                <el-radio label="FEDEX">FEDEX</el-radio>
+                                <el-radio label="FEDEX">Fedex</el-radio>
                             </el-radio-group>
                         </el-form-item>
                         <el-form-item label="Service:">
@@ -188,9 +186,7 @@
                 </el-table-column>
                 <el-table-column prop="" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center">
                     <template slot-scope="scope">
-                        <p class="oldPrice" v-if="scope.row.price != scope.row.price_real">
-                            <lts-money :money="scope.row.price"></lts-money>
-                        </p>
+                        <p class="oldPrice" v-if="scope.row.price != scope.row.price_real"><lts-money :money="scope.row.price"></lts-money></p>
                         <p class="red"><span><span><lts-money :money="scope.row.price_real"></lts-money></span></span>
                         </p>
                     </template>
@@ -200,9 +196,7 @@
                 <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="" align="center">
                     <template slot-scope="scope">
                         <div class="count" ref="count">
-                            <p class="red">
-                                <lts-money :money="(scope.row.price_real) * scope.row.num"></lts-money>
-                            </p>
+                            <p class="red"><lts-money :money="(scope.row.price_real) * scope.row.num"></lts-money></p>
                         </div>
                     </template>
                 </el-table-column>
@@ -229,23 +223,42 @@
         </div>
         <div class="someCount">
             <div class="count">
-                <p>{{ $t("main.cart.settle.mainCartSeShouldPay") }}： <span class="money"><span v-if="sum.amount"><lts-money
-                    :money="sum.amount"></lts-money></span><span v-else>$0.00</span></span></p>
-                <p>{{ $t("main.cart.settle.mainCartSeFright") }}： <span><span v-if="sum.express"><lts-money
-                    :money="sum.express"></lts-money></span><span v-else>+$0.00</span></span></p>
-                <p>{{ $t("main.cart.settle.mainCartSeTax") }}： <span><span v-if="sum.tax"><lts-money
-                    :money="sum.tax"></lts-money></span><span v-else>+$0.00</span></span></p>
-                <p v-if="sum.promotion - minusPro">{{ $t("main.cart.list.mainCartliBenefit") }}：<span><span><i
-                    class="iconfont icon-jianquminus25"></i><lts-money
-                    :money="sum.promotion - minusPro"></lts-money></span></span></p>
-                <p v-if="minusPro">{{ $t("main.cart.settle.mainCartSeFullProm") }}： <span><span><i
-                    class="iconfont icon-jianquminus25"></i><lts-money :money="minusPro"></lts-money></span></span></p>
-                <p v-if="bonusId">{{$t("main.someinfo.mainSomeCoupon")}}：<span><i
-                    class="iconfont icon-jianquminus25"></i><lts-money :money="bonus"/></span></p>
-                <p class="result">{{ $t("main.cart.settle.mainCartSeMustPay") }}： <span>
-            <span v-if="totalPrice && !bonusId"><lts-money :money="totalPrice"></lts-money></span>
-            <span v-if="totalPrice && bonusId"><lts-money :money="totalPrice - bonus"></lts-money></span>
-        </span></p>
+                <p>{{ $t("main.cart.settle.mainCartSeShouldPay") }}： <span class="money"><span v-if="sum.amount"><lts-money :money="sum.amount"></lts-money></span><span v-else>$0.00</span></span></p>
+                <p>{{ $t("main.cart.settle.mainCartSeFright") }}：
+                    <span>
+                        <i class="iconfont icon-jia11" ></i><span v-if="sum.express"><lts-money :money="sum.express"></lts-money></span><span v-else>$0.00</span>
+                    </span>
+                </p>
+                <p>{{ $t("main.cart.settle.mainCartSeTax") }}：
+                    <span>
+                        <i class="iconfont icon-jia11"></i><span v-if="sum.tax"><lts-money :money="sum.tax"></lts-money></span><span v-else>$0.00</span>
+                    </span>
+                </p>
+                <p v-if="sum.promotion - minusPro">{{ $t("main.cart.list.mainCartliBenefit") }}：
+                    <span>
+                        <span>
+                            <i class="iconfont icon-jianquminus25"></i><lts-money :money="sum.promotion - minusPro"></lts-money>
+                        </span>
+                    </span>
+                </p>
+                <p v-if="minusPro">{{ $t("main.cart.settle.mainCartSeFullProm") }}：
+                    <span>
+                        <span>
+                            <i class="iconfont icon-jianquminus25"></i><lts-money :money="minusPro"></lts-money>
+                        </span>
+                    </span>
+                </p>
+                <p v-if="bonusId">{{$t("main.someinfo.mainSomeCoupon")}}：
+                    <span>
+                        <i class="iconfont icon-jianquminus25"></i><lts-money :money="bonus"/>
+                    </span>
+                </p>
+                <p class="result">{{ $t("main.cart.settle.mainCartSeMustPay") }}：
+                    <span>
+                        <span v-if="totalPrice && !bonusId"><lts-money :money="totalPrice"></lts-money></span>
+                        <span v-if="totalPrice && bonusId"><lts-money :money="totalPrice - bonus"></lts-money></span>
+                    </span>
+                </p>
             </div>
         </div>
         <div class="allInfo">
@@ -289,7 +302,7 @@
                 user: {
                     name: '',
                     phone: '',
-                    shop_address: ''
+                    shop_address:''
                 },
                 canSubmit: true, // 刚进入页面等待运费税费计算
                 expressForm: {
@@ -344,26 +357,26 @@
                 selectedBonus: '',
                 bonusOption: [],
                 bonusArr: [],
-                editing: 0, // 正在编辑的地址id
-                minusPro: 0,
-                fullrule: [],
-                userAddr: ''
+                editing:0, // 正在编辑的地址id
+                minusPro:0,
+                fullrule:[],
+                userAddr:''
             }
         },
         methods: {
-            selectDilivery(value) {
-                if (value == 'ZITI') {
+            selectDilivery(value){
+                if(value == 'ZITI'){
                     this.userAddr = this.user.shop_address
                     this.simulateCreateTrade()
-                } else {
+                }else{
                     this.userAddr = this.checkedAddress.building ? this.checkedAddress.address + this.checkedAddress.building : this.checkedAddress.address
                     this.simulateCreateTrade()
                 }
             },
             // 查询是否有满减活动
-            minus() {
+            minus(){
                 cartService.getFullSetting().then((data) => {
-                    if (data.datalist.length > 0) {
+                    if(data.datalist.length > 0){
                         this.fullrule = data.datalist
                         this.calcMinus(this.tableData)
                     }
@@ -371,18 +384,18 @@
                     this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
                 })
             },
-            calcMinus(item) {
+            calcMinus(item){
                 let sum = 0
                 this.minusPro = 0
-                if (item.length > 0) {
+                if(item.length > 0){
                     item.forEach((value) => {
-                        if (value.discount_type === 0) {
-                            sum += value.price * value.num
+                        if(value.discount_type === 0){
+                            sum += value.price_real * value.num
                         }
                     })
-                    if (this.fullrule.length > 0) {
+                    if(this.fullrule.length > 0){
                         this.fullrule.forEach((value) => {
-                            if (sum >= value.start_v) {
+                            if(sum >= value.start_v){
                                 this.minusPro = value.value
                             }
                         })
@@ -460,20 +473,20 @@
                         // value.user_name = value.user_name.replace('-', ' ')
                         value.zipCode = value.zip_code
                         value.setDefault = false
-                        if (value.location_d_o) {
+                        if(value.location_d_o){
                             value.state = value.location_d_o.province
                         }
-                        if (this.editing) {
+                        if(this.editing){
                             if (value.status === 1) {
                                 value.setDefault = true
                                 this.defaultId = value.id
                                 this.defaultAddress = value
                             }
-                            if (this.editing == value.id) {
+                            if(this.editing == value.id){
                                 this.checkedId = value.id
                                 this.checkedAddress = value
                             }
-                        } else if (value.status === 1) {
+                        }else if (value.status === 1) {
                             value.setDefault = true
                             this.defaultId = value.id
                             this.checkedId = value.id
@@ -489,16 +502,16 @@
                         item.zipCode = item.postcode
                     })
                     this.certiAddress = data.data.distribute_certificate_d_o
-                    if (!this.defaultId) {
-                        if (this.addressData.length > 0) {
+                    if(!this.defaultId){
+                        if(this.addressData.length > 0){
                             this.checkedId = this.addressData[0].id
                             this.checkedAddress = this.addressData[0]
-                        } else if (this.certiAddress.length > 0) {
+                        }else if(this.certiAddress.length > 0){
                             this.checkedId = this.certiAddress[0].id
                             this.checkedAddress = this.certiAddress[0]
                         }
                     }
-                    if (this.checkedId) {
+                    if(this.checkedId){
                         this.simulateCreateTrade()
                     }
                 })
@@ -660,7 +673,7 @@
                         this.selectedBonus = this.$t('main.cart.settle.mainCartSeNoBonus')
                     }
                     let ZITI
-                    for (let key in resp.data.wholesale_delivery_info_map) {
+                    for(let key in resp.data.wholesale_delivery_info_map){
                         ZITI = resp.data.wholesale_delivery_info_map[key].wholesale_sell_order_list[0].shop
                         this.user.shop_address = ZITI.address
                     }
@@ -675,7 +688,7 @@
                     }).then(() => {
 
                     }).catch(() => {
-                        if (msg.error_code == 700037) {
+                        if(msg.error_code == 700037){
                             this.$router.push({
                                 path: '/'
                             })
@@ -693,7 +706,7 @@
                 item.price = item.item_props[0].price
                 item.price_real = item.item_props[0].price_real
                 this.tableData.push(item)
-            } else if (this.$route.params && this.$route.params.items) {
+            } else  if(this.$route.params && this.$route.params.items){
                 let items = this.$route.params.items
                 items.forEach((item) => {
                     item.item_props.forEach((val) => {
@@ -702,11 +715,22 @@
                 })
                 this.tableData = items
                 // this.user_id = this.$route.params.userId
-            } else {
+            }else{
                 let items = JSON.parse(localStorage.getItem('buyNowItem'))
                 localStorage.removeItem('buyNowItem')
                 this.tableData.push(items)
             }
+            console.log(this.tableData)
+            // let level = window.localStorage.getItem('userLevel')
+            // if(level != 0){
+            //     this.tableData.forEach((item) => {
+            //         for(let map in item.price_define_do.discount_map){
+            //             if(map == level){
+            //                 item.price_real = item.price_real * item.price_define_do.discount_map[map] / 100
+            //             }
+            //         }
+            //     })
+            // }
 
             this.tableData.forEach((item) => {
                 if (item.discount_type == 1) {
@@ -739,7 +763,6 @@
             width: 100%;
         }
     }
-
     .settle {
         tbody tr td:first-child {
             p {
@@ -911,7 +934,7 @@
                             visibility: hidden;
                             outline: none;
                         }
-                        button.defaultAdd {
+                        button.defaultAdd{
                             visibility: visible;
                         }
                     }
@@ -1023,17 +1046,17 @@
                             }
                         }
                     }
-                    .el-form--inline {
-                        .el-form-item {
+                    .el-form--inline{
+                        .el-form-item{
                             margin-right: 0;
-                            .el-input {
-                                width: 180px;
-                                input {
+                            .el-input{
+                                width:180px;
+                                input{
                                     border: 1px solid #dcdfe6;
                                 }
                             }
                         }
-                        .el-form-item:first-child {
+                        .el-form-item:first-child{
                             margin-right: 40px;
                         }
 
@@ -1141,7 +1164,7 @@
                     }
                 }
             }
-            .el-table thead, th {
+            .el-table thead,th{
                 background-color: #f6f6f6;
             }
         }
@@ -1176,6 +1199,9 @@
             line-height: 40px;
             border-bottom: 1px solid #f2f2f2;
             .count {
+                .iconfont{
+                    font-size: 14px;
+                }
                 p {
                     text-align: right;
                     font-size: 14px;
@@ -1200,6 +1226,7 @@
                     }
                 }
             }
+
         }
         .allInfo {
             text-align: right;

@@ -98,12 +98,19 @@
                     </el-form-item>
                     <el-form-item class="buttons" v-if="item.status == 1">
                         <lts-login display="inline-block">
-                            <el-button @click.stop="buyNow" type="button" :disabled="(item.discount_type == 4 && (!started) || (started && finished)) || item.num > checkedSpu.storage || (item.discount_type == 4 && (item.num > item.sale_rule_do.maxinum || item.num < item.sale_rule_do.minimum))">
+                            <el-button
+                                @click.stop="buyNow"
+                                type="button"
+                                :disabled="item.num > checkedSpu.storage || (item.discount_type == 4 && (item.num > item.sale_rule_do.maxinum || item.num < item.sale_rule_do.minimum))"
+                                :class="{'hidden':(item.discount_type == 4 && (!started) || (started && finished)) }">
                                 {{ $t("main.detail.info.mainDetInfoImme") }}
                             </el-button>
                         </lts-login>
                         <lts-login display="inline-block">
-                            <el-button @click.stop="addCart(item, checkedSpu)" type="button" class="addcart" :disabled="(item.discount_type == 4 && finished)">
+                            <el-button
+                                @click.stop="addCart(item, checkedSpu)"
+                                type="button" class="addcart"
+                                :disabled="(item.discount_type == 4 && finished) || item.num > checkedSpu.storage || (item.discount_type == 4 && (item.num > item.sale_rule_do.maxinum || item.num < item.sale_rule_do.minimum))">
                                 {{ $t("main.detail.info.mainDetInfoJoinCart") }}
                             </el-button>
                         </lts-login>
@@ -344,6 +351,7 @@
     import $ from 'jquery'
     import itemService from '@/services/ItemService'
     import cartService from '@/services/CartService'
+    import timeService from '@/services/TimeService.js'
     import addCartSuccess from 'ui/components/lts-addCartSuccess.vue'
 
     export default {
@@ -395,7 +403,8 @@
                 otherSpu: {},
                 recommondInfo:[],
                 historyIndex:0,
-                historyItems:[]
+                historyItems:[],
+                level:'0'
             }
         },
         methods: {
@@ -468,6 +477,15 @@
                     data.data.item.item_struct_props.forEach((value, index, array) => {
                         if (!value.sku) {
                             this.aboutDetail.push(value);
+                        }else{
+                            if(this.level != 0 && data.data.item.price_define_do){
+                                for(let map in data.data.item.price_define_do.discount_map){
+                                    if(map == this.level){
+                                        value.price_real = value.price_real * data.data.item.price_define_do.discount_map[map] / 100
+                                        data.data.item.price_real = data.data.item.price_real * data.data.item.price_define_do.discount_map[map] / 100
+                                    }
+                                }
+                            }
                         }
                     })
                     this.otherGoods = data.data.item.package_item_list
@@ -481,6 +499,7 @@
                     this.item = data.data.item
                     this.activeImg = this.item.item_images[0]
                     this.hotSale = data.data.hot_recomment.items
+                    this.hotSale = (data.data && data.data.hot_recomment) ? data.data.hot_recomment.items : [];
                     this.hotSale.forEach((item) => {
                         if(item.tag.indexOf('新品') != -1){
                             item.isNew = true
@@ -495,18 +514,39 @@
                             }
                         })
                     }
+                    [this.hotSale,this.buyHistory].map(arr => {
+                        arr.forEach(val => {
+                            if(this.level != 0 && val.price_define_do){
+                                for(let map in val.price_define_do.discount_map){
+                                    if(map == this.level){
+                                        val.price = val.price * val.price_define_do.discount_map[map] / 100
+                                    }
+                                }
+                            }
+                        })
+                    })
                     this.historyItems = this.buyHistory.slice(0,2)
-                    console.log(this.historyItems)
                     if (this.item.discount_type === 4) {
-                        this.end = Date.parse(new Date(this.item.sale_rule_do.end_time))
-                        this.start = Date.parse(new Date(this.item.sale_rule_do.start_time))
-                        let now = Date.parse(new Date())
-                        if (this.end > now) {
-                            this.countdown()
-                        } else {
-                            // 活动结束，不显示了
-                            this.finished = true
-                        }
+                        let now
+                        timeService.getUtcTime(this.item.sale_rule_do.end_time).then(v1 => {
+                            this.end = new Date(v1.time).getTime()
+                            timeService.getUtcTime(this.item.sale_rule_do.start_time).then(v2 => {
+                                this.start = new Date(v2.time).getTime()
+                                timeService.getTimeAndZone().then(v3 => {
+                                    now = new Date(v3.current_time).getTime()
+                                    if (this.end > now) {
+                                        this.countdown()
+                                    } else {
+                                        // 活动结束，不显示了
+                                        this.finished = true
+                                    }
+                                })
+                            })
+                        })
+                        // this.end = Date.parse(new Date(this.item.sale_rule_do.end_time))
+                        // this.start = Date.parse(new Date(this.item.sale_rule_do.start_time))
+                        // let now = Date.parse(new Date())
+
                     }
                 }, (msg) => {
                     this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
@@ -635,7 +675,8 @@
                     'tag': this.item.tag,
                     'url': this.item.url,
                     'full_url': this.item.full_url,
-                    'sale_rule': this.item.sale_rule
+                    'sale_rule': this.item.sale_rule,
+                    'price_define_do':this.item.price_define_do
                 }
                 // window.open('/cart#/settle?item=' + JSON.stringify(items))
                 localStorage.setItem('buyNowItem',JSON.stringify(items))
@@ -760,6 +801,7 @@
             },
         },
         mounted() {
+            this.level = window.localStorage.getItem('userLevel')
             this.hotRecommoned();
         },
     }
@@ -1315,6 +1357,8 @@
                     button.is-disabled{
                         background: #f3f3f3;
                         color: #bbb;
+                    }
+                    button.hidden{
                         display: none;
                     }
                     button.is-disabled:hover{

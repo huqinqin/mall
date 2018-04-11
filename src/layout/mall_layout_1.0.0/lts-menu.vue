@@ -30,15 +30,15 @@
         data() {
             return {
                 user: [
-                    {href: '/someinfo', title: this.$t("common.ltsMenu.commLtsPersonlPage")},
-                    {href: '/order', title: this.$t("common.ltsMenu.commLtsMyOrder")},
-                    {href: '/cart', title: this.$t("common.ltsMenu.commLtsCart")},
+                    {href: '/someinfo?t=' + new Date().getTime() +'#/', title: this.$t("common.ltsMenu.commLtsPersonlPage")},
+                    {href: '/order?t=' + new Date().getTime() +'#/', title: this.$t("common.ltsMenu.commLtsMyOrder")},
+                    {href: '/cart?t=' + new Date().getTime() +'#/', title: this.$t("common.ltsMenu.commLtsCart")},
                     // {href: 'javascript:void(0)', title: this.$t("common.ltsMenu.commLtsResolve")},
-                    {href: '/reverse', title: 'RMA'},
+                    {href: '/reverse?t=' + new Date().getTime() +'#/', title: 'RMA'},
                 ],
                 finance: [
-                    {href: '/finance', title: this.$t("common.ltsMenu.commLtsMyBalance"),show:true},
-                    {href: '/repayMent', title: this.$t("common.ltsMenu.commLtsWaitting"),show:true},
+                    {href: '/finance?t=' + new Date().getTime() +'#/', title: this.$t("common.ltsMenu.commLtsMyBalance"),show:true},
+                    {href: '/repayMent?t=' + new Date().getTime() +'#/', title: this.$t("common.ltsMenu.commLtsWaitting"),show:true},
                 ],
                 settings: [
                     {href: '/personal?t=' + new Date().getTime() + '#/personalMessage', title: this.$t("common.ltsMenu.commLtsPersonInfo")},

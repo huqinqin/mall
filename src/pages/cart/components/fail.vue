@@ -11,7 +11,7 @@
           }}：{{this.detailOrder.user_addr}}</p>
         <p>{{ $t("main.cart.fail.mainCartFaLogisticsMode") }}：{{method}}</p>
         <div class="button">
-          <a href="/order" @click="toOrder">
+          <a :href="'/order?t=' + new Date().getTime() + '#/'" @click="toOrder">
             <button class="go"><span>{{ $t("main.cart.fail.mainCartFaMyOrder") }}</span></button>
           </a>
           <a href="/">

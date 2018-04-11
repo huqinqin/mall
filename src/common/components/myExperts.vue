@@ -4,11 +4,11 @@
        <h3>Call Expert</h3>
        <div class="box">
            <ul>
-               <li><span>name：</span><span>{{someInfo.name}}</span></li>
-               <li><span>contact：</span><span>{{someInfo.mobile}}</span></li>
-               <li><span>email：</span><span>{{someInfo.email}}</span></li>
-               <li><span>store：</span><span>{{someInfo.p_shop_name}}</span></li>
-               <li><span>store Addr：</span><span>{{someInfo.p_shop_addr}}</span></li>
+               <li><span>Name：</span><span>{{someInfo.name}}</span></li>
+               <li><span>Contact：</span><span>{{someInfo.mobile}}</span></li>
+               <li><span>Email：</span><span>{{someInfo.email}}</span></li>
+               <li><span>Store：</span><span>{{someInfo.p_shop_name}}</span></li>
+               <li><span>Store Addr：</span><span>{{someInfo.p_shop_addr}}</span></li>
            </ul>
            <ul><img src="../../assets/img/expertIcon.png" alt=""></ul>
        </div>
@@ -25,7 +25,7 @@
           return{
               flag:false,
               someInfo:{
-                  name: 'kevin',
+                  name: 'Kevin',
                   mobile: '888-216-2812',
                   email: 'Support.SanFrancisco@LTSecurityinc.com',
                   p_shop_name:'San Francisco',

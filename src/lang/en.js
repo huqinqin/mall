@@ -87,7 +87,7 @@ export default {
                 mainCartBefInputCVV:'This field is required',
                 mainCartBefInputzipCode:'This field is required',
                 mainCartBefCreditNum:'Number',
-                mainCartBefCreditValid:'Valid though',
+                mainCartBefCreditValid:'Valid through',
                 mainCartBefTermInfo:'Appliable only when balance is sufficient',
             },
             fail: {
@@ -181,7 +181,7 @@ export default {
                 mainCartSeSubOrder: 'Place Your Order',
                 mainCartSeSetDefaultSuc: 'Default Address Has Been Set',
                 mainCartSeHandleSucc: 'Changes Have Been Made',
-                mainCartSeHandleErr: 'Failed to Delete',
+                mainCartSeHandleErr: 'Success to Delete',
                 mainCartSeNoBonus: 'Not Available',
             },
             other: {

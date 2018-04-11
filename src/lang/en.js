@@ -80,7 +80,7 @@ export default {
                 mainCartBefgoPay:'Pay',
                 mainCartBefExpress:'Express',
                 mainCartBefExpressInfo:'Delivery Info',
-                mainCartBefSelfFetch:'Pick Up',
+                mainCartBefSelfFetch:'Will Call',
                 mainCartBefCreditInfo:'Credit Card Info',
                 mainCartBefInputNum:'Enter credit card number',
                 mainCartBefInputDate:'This field is required',
@@ -99,7 +99,7 @@ export default {
                 mainCartFaLogisticsMode: 'Shipping Method',
                 mainCartFaMyOrder: 'My Order',
                 mainCartFaFirstPage: 'Go to Front Page',
-                mainCartFaSince: 'Pick Up'
+                mainCartFaSince: 'Will Call'
             },
             finish: {
                 mainCartFiSuccess: 'Congratulations, You Order Has Been Made！',
@@ -139,7 +139,7 @@ export default {
                 mainCartSePhone: 'Phone',
                 mainCartSeFitDefault: 'SetDefault',
                 mainCartSeDefaultAdress: 'Default',
-                mainCartSeZitiAdress: 'Pick Up Address',
+                mainCartSeZitiAdress: 'Will Call Address',
                 mainCartSeFullProm: 'Flash Sale',
                 mainCartSeDel: 'Delete',
                 mainCartSeAlert: 'Modify',

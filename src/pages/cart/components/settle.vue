@@ -140,7 +140,7 @@
                         <el-form-item label="Logistics Company:">
                             <el-radio-group v-model="expressForm.express" @change="simulateCreateTrade">
                                 <el-radio label="UPS">UPS</el-radio>
-                                <el-radio label="FEDEX">FEDEX</el-radio>
+                                <el-radio label="FEDEX">Fedex</el-radio>
                             </el-radio-group>
                         </el-form-item>
                         <el-form-item label="Service:">

@@ -14,7 +14,7 @@
                     <i  v-if="type === 2" class="iconfont icon-chenggong icon"></i>
                     <i  v-if="type === 3" class="iconfont icon-chenggong icon"></i>
                     <div class="title">{{$t("common.addCart.comAddCartSucc")}}</div>
-                    <a :href="'/cart#/'">
+                    <a :href="'/cart?t=' + new Date().getTime() +'#/'">
                        <el-button  class="addCart">{{$t("common.addCart.comAddCartSettle")}}</el-button>
                     </a>
                 </div>

@@ -43,29 +43,25 @@
                     {{order.pay_time | timestamp2str}}
                 </el-form-item>
                 <el-form-item :label='$t("main.order.detail.mainOrDePayInfo")' v-if="order.status == 1">
-                    <div>
+                    <div v-if="order.pay_info.pay_remark && order.pay_info.pay_remark.ANET_CREDIT_CARD > 0">
                         {{$t("main.order.detail.mainOrDeCard")}}
-                        <lts-money v-if="order.pay_info.pay_remark && order.pay_info.pay_remark.ANET_CREDIT_CARD > 0" :money="order.pay_info.pay_remark.ANET_CREDIT_CARD" ></lts-money>
-                        <span v-else>$0.00</span>
+                        <lts-money :money="order.pay_info.pay_remark.ANET_CREDIT_CARD" ></lts-money>
                     </div>
-                    <div>
+                    <div v-if="order.pay_info.pay_remark && order.pay_info.pay_remark.CREDIT > 0">
                         {{$t("main.order.detail.mainOrDeAccount")}}
-                        <lts-money v-if="order.pay_info.pay_remark && order.pay_info.pay_remark.CREDIT > 0" :money="order.pay_info.pay_remark.CREDIT" ></lts-money>
-                        <span v-else>$0.00</span>
+                        <lts-money :money="order.pay_info.pay_remark.CREDIT" ></lts-money>
                     </div>
-                    <div>
+                    <div v-if="order.pay_info.balance_pay && order.pay_info.balance_pay > 0">
                         {{$t("main.order.detail.mainOrDeYue")}}
-                        <lts-money v-if="order.pay_info.balance_pay && order.pay_info.balance_pay > 0" :money="order.pay_info.balance_pay" ></lts-money>
-                        <span v-else>$0.00</span>
+                        <lts-money :money="order.pay_info.balance_pay" ></lts-money>
                     </div>
-                    <div>
+                    <div v-if="order.pay_info.pay_remark.OFFLINE && order.pay_info.pay_remark.OFFLINE">
                         {{$t("main.order.detail.mainOrDeOffline")}}
-                        <lts-money v-if="order.pay_info.pay_remark.OFFLINE && order.pay_info.pay_remark.OFFLINE" :money="order.pay_info.pay_remark.OFFLINE"></lts-money>
+                        <lts-money :money="order.pay_info.pay_remark.OFFLINE"></lts-money>
                     </div>
-                    <div>
+                    <div v-if="order.pay_info.acc_bonus_pay && order.pay_info.acc_bonus_pay">
                         {{$t("main.order.detail.mainOrDeGouwu")}}
-                        <lts-money v-if="order.pay_info.acc_bonus_pay && order.pay_info.acc_bonus_pay" :money="order.pay_info.acc_bonus_pay" ></lts-money>
-                        <span v-else>$0.00</span>
+                        <lts-money :money="order.pay_info.acc_bonus_pay" ></lts-money>
                     </div>
                 </el-form-item>
                 <el-form-item :label='$t("main.order.detail.mainOrDePayStatus")'>
@@ -160,10 +156,10 @@
                 <label>{{$t("main.order.detail.mainOrDeGouwu")}}</label> <span><i class="iconfont icon-jianquminus25"></i><lts-money :money="order.pay_info.acc_bonus_pay"></lts-money></span>
             </div>
             <div class="text">
-                <label>{{$t("main.cart.settle.mainCartSeFright")}}</label> <span><lts-money :money="order.fee_hd_value.HD_ALL"></lts-money></span>
+                <label>{{$t("main.cart.settle.mainCartSeFright")}}</label> <span><i class="iconfont icon-jia11"></i><lts-money :money="order.fee_hd_value.HD_ALL"></lts-money></span>
             </div>
             <div class="text">
-                <label>{{$t("main.cart.settle.mainCartSeTax")}}</label> <span><lts-money :money="order.fee_hd_value.TAXES_ALL"></lts-money></span>
+                <label>{{$t("main.cart.settle.mainCartSeTax")}}</label> <span><i class="iconfont icon-jia11"></i><lts-money :money="order.fee_hd_value.TAXES_ALL"></lts-money></span>
             </div>
             <div class="text">
                 <label>{{$t("main.order.detail.mainOrDePayTotal")}}</label>
@@ -390,6 +386,9 @@
                     font-size: 20px;
                     font-weight: bold;
                 }
+            }
+            .iconfont{
+                font-size: 14px;
             }
         }
 

@@ -330,6 +330,7 @@
                     color:white;
                     border-radius:0;
                     background: #CE2127;
+                    border:1px;
                 }
                 .el-input-group__append:hover{
                     background: #D84D52;

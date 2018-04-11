@@ -21,7 +21,7 @@
       </div>
       <div class="login">
         <button v-login>{{$t("main.index.mainInImmeLogin")}}</button>
-        <a href='/account#/register'><button class="sign">{{$t("main.index.mainInFreeRegis")}}</button></a>
+        <a :href="'/account?t=' + new Date().getTime() +'#/register'"><button class="sign">{{$t("main.index.mainInFreeRegis")}}</button></a>
       </div>
     </div>
     <!-- poster -->
@@ -244,6 +244,7 @@
           if(data.fix_pic && data.fix_pic.datalist.length > 0 && data.fix_pic.datalist[0] && data.fix_pic.datalist[0].content){
             data.fix_pic.datalist[0].content = JSON.parse(data.fix_pic.datalist[0].content)
             this.posterBig = data.fix_pic.datalist[0]
+              this.posterBig.content.link_url = this.posterBig.content.link_url.replace('#','?t=' + new Date().getTime() + '#')
           }else{
             this.posterBig = {
               name:'error_picture',
@@ -257,6 +258,7 @@
           if(data.fix_pic_right2 && data.fix_pic_right2.datalist.length > 0 && data.fix_pic_right2.datalist[0] && data.fix_pic_right2.datalist[0].content){
             data.fix_pic_right2.datalist[0].content = JSON.parse(data.fix_pic_right2.datalist[0].content)
             this.posterSmall.bottom = data.fix_pic_right2.datalist[0]
+              this.posterSmall.bottom.content.link_url = this.posterSmall.bottom.content.link_url.replace('#','?t=' + new Date().getTime() + '#')
           }else{
             this.posterSmall.bottom = {
               name:'error_picture',
@@ -270,6 +272,7 @@
           if(data.fix_pic_right1 && data.fix_pic_right1.datalist.length > 0 && data.fix_pic_right1.datalist[0] && data.fix_pic_right1.datalist[0].content){
             data.fix_pic_right1.datalist[0].content = JSON.parse(data.fix_pic_right1.datalist[0].content)
             this.posterSmall.top = data.fix_pic_right1.datalist[0]
+              this.posterSmall.top.content.link_url = this.posterSmall.top.content.link_url.replace('#','?t=' + new Date().getTime() + '#')
           }else{
             this.posterSmall.top = {
               name:'error_picture',
@@ -289,6 +292,9 @@
                     val.banner_url = 'http://ltsb2b.oss-us-west-1.aliyuncs.com/tmp/Retail%20Solution1.png'
                 }
               this.index_banner.push(JSON.parse(val.content))
+                this.index_banner.forEach(banner => {
+                    banner.link_url = banner.link_url.replace('#','?t=' + new Date().getTime() + '#')
+                })
             })
           }
         }, (msg) => {

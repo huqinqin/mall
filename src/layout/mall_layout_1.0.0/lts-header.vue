@@ -4,12 +4,12 @@
           <ul class="s-span-page">
             <li class="sign">
               <span class="login" v-login v-if="!userInfo">{{ $t("main.index.mainInImmeLogin") }}</span>
-              <a href="/someinfo" @click="toInfo"><span class="login"  v-if="userInfo">{{ $t("comHeader.headerWelcom") }}，{{userInfo.account.user_name}}</span></a>
-              <a href="/account#/register" v-if="!userInfo"><span class="register">{{ $t("comHeader.headerImmediatelySign") }}</span></a>
+              <a :href="'/someinfo?t=' + new Date().getTime() + '#/'" @click="toInfo"><span class="login"  v-if="userInfo">{{ $t("comHeader.headerWelcom") }}，{{userInfo.account.user_name}}</span></a>
+              <a :href="'/account?t=' + new Date().getTime() + '#/register'" v-if="!userInfo"><span class="register">{{ $t("comHeader.headerImmediatelySign") }}</span></a>
             </li>
             <li class="">
               <a href="/" class="news top-menu" v-if="showToIndex">{{ $t("comHeader.headerIndex") }}</a>
-              <a v-login href="/order" class="top-menu"  @click="toOrder">{{ $t("comHeader.headerMyOrder") }}</a>
+              <a v-login :href="'/order?t=' + new Date().getTime() + '#/'" class="top-menu"  @click="toOrder">{{ $t("comHeader.headerMyOrder") }}</a>
               <el-tooltip placement="top" effect="light" :visible-arrow="false">
                 <div slot="content"><myExperts></myExperts></div>
                 <a href="javascript:void(0)" class="top-menu" v-login v-if="showToIndex && userInfo">{{ $t("comHeader.headerMyExpert") }}</a>

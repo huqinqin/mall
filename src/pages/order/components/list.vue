@@ -279,7 +279,7 @@
                         // let return_url = '/customerorder#/finish';
                         // let fail_url = '/customerorder#/fail';
                         order = data.$vnode.data.attrs.data;
-                        window.open('/cart#/beforePay?tid=' + order.tid + '&orderpay=3' + '');
+                        window.open('/cart?t=' + new Date().getTime() + '#/beforePay?tid=' + order.tid + '&orderpay=3' + '');
                         break;
                     case "close":
                         this.$confirm(this.$t("main.order.list.mainOrLiIsDelOrder"), this.$t("main.order.list.mainOrLiIsDelTip"), {

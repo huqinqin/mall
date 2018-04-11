@@ -98,12 +98,19 @@
                     </el-form-item>
                     <el-form-item class="buttons" v-if="item.status == 1">
                         <lts-login display="inline-block">
-                            <el-button @click.stop="buyNow" type="button" :disabled="(item.discount_type == 4 && (!started) || (started && finished)) || item.num > checkedSpu.storage || (item.discount_type == 4 && (item.num > item.sale_rule_do.maxinum || item.num < item.sale_rule_do.minimum))">
+                            <el-button
+                                @click.stop="buyNow"
+                                type="button"
+                                :disabled="item.num > checkedSpu.storage || (item.discount_type == 4 && (item.num > item.sale_rule_do.maxinum || item.num < item.sale_rule_do.minimum))"
+                                :class="{'hidden':(item.discount_type == 4 && (!started) || (started && finished)) }">
                                 {{ $t("main.detail.info.mainDetInfoImme") }}
                             </el-button>
                         </lts-login>
                         <lts-login display="inline-block">
-                            <el-button @click.stop="addCart(item, checkedSpu)" type="button" class="addcart" :disabled="(item.discount_type == 4 && finished)">
+                            <el-button
+                                @click.stop="addCart(item, checkedSpu)"
+                                type="button" class="addcart"
+                                :disabled="(item.discount_type == 4 && finished) || item.num > checkedSpu.storage || (item.discount_type == 4 && (item.num > item.sale_rule_do.maxinum || item.num < item.sale_rule_do.minimum))">
                                 {{ $t("main.detail.info.mainDetInfoJoinCart") }}
                             </el-button>
                         </lts-login>
@@ -471,7 +478,7 @@
                         if (!value.sku) {
                             this.aboutDetail.push(value);
                         }else{
-                            if(this.level != 0){
+                            if(this.level != 0 && data.data.item.price_define_do){
                                 for(let map in data.data.item.price_define_do.discount_map){
                                     if(map == this.level){
                                         value.price_real = value.price_real * data.data.item.price_define_do.discount_map[map] / 100
@@ -1350,6 +1357,8 @@
                     button.is-disabled{
                         background: #f3f3f3;
                         color: #bbb;
+                    }
+                    button.hidden{
                         display: none;
                     }
                     button.is-disabled:hover{

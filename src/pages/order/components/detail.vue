@@ -30,7 +30,7 @@
                     {{order.tid}}
                 </el-form-item>
                 <el-form-item :label='$t("main.cart.beforePay.mainCartBefExpressInfo")' v-if="order.attribute != 0">
-                    <span v-if="(order.attribute|8192) == order.attribute">{{$t('pages.store.order.pageStoreOrderByPickup')}}</span>
+                    <span v-if="(order.attribute|8192) == order.attribute">{{ $t("main.cart.beforePay.mainCartBefSelfFetch") }}</span>
                     <span v-if="(order.attribute|16384) == order.attribute">
                         <!--{{$t('pages.store.order.pageStoreOrderByExpress')}}-->
                         {{order.fee_hd_value.ship.logisticsCompany}}({{order.fee_hd_value.ship.serviceLabel}})

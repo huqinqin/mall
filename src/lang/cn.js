@@ -476,6 +476,7 @@ export default {
                 mainRePayNoPay: '未付款',
                 mainRePayNoRepay: '未还款',
                 mainRePayRepayed: '已还款',
+                mainRePayPay: '还款',
             }
         },
         reverse: {

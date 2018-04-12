@@ -480,7 +480,7 @@ export default {
                 mainRePayNoPay: 'To be paid',
                 mainRePayNoRepay: 'To be paid',
                 mainRePayRepayed: 'Paid',
-                mainRePayPay:'Pay'
+                mainRePayPay:'Pay',
             }
         },
         reverse: {

@@ -8,7 +8,7 @@ export default [
     {value: '12', label: '3 Day Select'},
     {value: '13', label: 'Next Day Air Saver'},
     {value: '14', label: 'UPS Next Day Air Early'},
-    {value: '59', label: '2nd Day Air A.M.Valid international values'},
+    {value: '59', label: '2nd Day Air A.M.'},
     {value: '07', label: 'Worldwide Express'},
     {value: '08', label: 'Worldwide Expedited'},
     {value: '11', label: 'Standard'},

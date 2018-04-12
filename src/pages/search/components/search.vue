@@ -71,10 +71,10 @@
                                 <p class="price" v-ltsLoginShow:true>
                                     <span class="realPrice">
                                         <template v-if="item.discount_type == 1">
-                                            <lts-money :money="item.price * item.discount / 100"></lts-money>
+                                            <lts-money :money="item.price_real * item.discount / 100"></lts-money>
                                         </template>
                                         <template v-else-if="item.discount_type == 2">
-                                            <lts-money :money="item.price - item.discount"></lts-money>
+                                            <lts-money :money="item.price_real - item.discount"></lts-money>
                                         </template>
                                         <template v-else-if="item.discount_type == 4">
                                             <lts-money :money="item.sale_rule_do.price"></lts-money>
@@ -205,7 +205,7 @@
                         if(this.level != 0 && item.price_define_do){
                             for(let map in item.price_define_do.discount_map){
                                 if(map == this.level){
-                                    item.price_real = item.price_real * item.price_define_do.discount_map[map] / 100
+                                    item.price_real = item.price * item.price_define_do.discount_map[map] / 100
                                 }
                             }
                         }

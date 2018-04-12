@@ -54,7 +54,7 @@
                     <template slot-scope="subscope">
                       <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">{{
                         $t("main.cart.list.mainCartliAvailable") }}</p>
-                      <p v-else>{{ $t("main.cart.list.mainCartliStockInsuff") }}</p>
+                      <p class="outOfStock" v-else>{{ $t("main.cart.list.mainCartliStockInsuff") }}</p>
                     </template>
                   </el-table-column>
                   <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="200" prop="num" align="center">
@@ -62,6 +62,7 @@
                       <div class="inputNumber">
                         <el-input-number :min='1' size="small" v-model="subscope.row.num"
                                          @change="inputNumeberChange(subscope.row)"
+                                         :class="{'outOfStock':(subscope.row.num > subscope.row.storage)}"
                                          :label='$t("main.cart.list.mainCartliDescWord")'></el-input-number>
                       </div>
                     </template>
@@ -125,7 +126,7 @@
                     <template slot-scope="subscope">
                       <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">{{
                         $t("main.cart.list.mainCartliAvailable") }}</p>
-                      <p v-else>{{ $t("main.cart.list.mainCartliStockInsuff") }}</p>
+                      <p class="outOfStock"  v-else>{{ $t("main.cart.list.mainCartliStockInsuff") }}</p>
                     </template>
                   </el-table-column>
                   <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="200" prop="num" align="center">
@@ -133,6 +134,7 @@
                       <div class="inputNumber">
                         <el-input-number :min='1' size="small" v-model="subscope.row.num"
                                          @change="inputNumeberChange(subscope.row)"
+                                         :class="{'outOfStock':(subscope.row.num > subscope.row.storage)}"
                                          :label='$t("main.cart.list.mainCartliDescWord")'></el-input-number>
                       </div>
                     </template>
@@ -179,7 +181,7 @@
                     style="width: 100%">
                     <el-table-column align="center" width="48">
                       <template slot-scope="subscope">
-                        <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)" :disabled="!(subscope.row.rule.started && !subscope.row.rule.finished)"></el-checkbox>
+                        <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)" :disabled="(!(subscope.row.rule.started && !subscope.row.rule.finished))"></el-checkbox>
                       </template>
                     </el-table-column>
                     <el-table-column align="center" width="600">
@@ -210,20 +212,23 @@
                     </el-table-column>
                     <el-table-column prop="" width="100" :label='$t("main.cart.list.mainCartliStock")' align="center">
                       <template slot-scope="subscope">
-                        <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">{{
+                        <p v-if="(subscope.row.item_props[0].storage >= subscope.row.num) && subscope.row.num >= subscope.row.rule.minimum && subscope.row.num <= subscope.row.rule.maxinum ">{{
                           $t("main.cart.list.mainCartliAvailable") }}</p>
-                        <p v-else>{{ $t("main.cart.list.mainCartliStockInsuff") }}</p>
+                        <p class="outOfStock"  v-else>{{ $t("main.cart.list.mainCartliStockInsuff") }}</p>
                       </template>
                     </el-table-column>
                     <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="200" prop="num" align="center">
                       <template slot-scope="subscope">
                         <div class="inputNumber">
-                          <el-input-number :min='subscope.row.mininum'
-                                           :max="subscope.row.item_props[0].storage > subscope.row.maxinum ? subscope.row.maxinum : subscope.row.item_props[0].storage"
-                                           size="small"
-                                           v-model="subscope.row.num"
-                                           @change="inputNumeberChange(subscope.row)"
-                                           :label='$t("main.cart.list.mainCartliDescWord")'></el-input-number>
+                            <!--:min='subscope.row.mininum'-->
+                            <!--:max="subscope.row.item_props[0].storage > subscope.row.maxinum ? subscope.row.maxinum : subscope.row.item_props[0].storage"-->
+                          <el-input-number
+                              :min="1"
+                              size="small"
+                              :class="{'outOfStock':(subscope.row.num > subscope.storage) || (subscope.row.num < subscope.row.rule.minimum || subscope.row.num > subscope.row.rule.maxinum)}"
+                              v-model="subscope.row.num"
+                              @change="inputNumeberChange(subscope.row)"
+                              :label='$t("main.cart.list.mainCartliDescWord")'></el-input-number>
                         </div>
                       </template>
                     </el-table-column>
@@ -283,7 +288,7 @@
                     <template slot-scope="subscope">
                       <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">{{
                         $t("main.cart.list.mainCartliAvailable") }}</p>
-                      <p v-else>{{ $t("main.cart.list.mainCartliStockInsuff") }}</p>
+                      <p class="outOfStock"  v-else>{{ $t("main.cart.list.mainCartliStockInsuff") }}</p>
                     </template>
                   </el-table-column>
                   <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="200" prop="num" align="center">
@@ -291,6 +296,7 @@
                       <div class="inputNumber">
                         <el-input-number :min='1' size="small" v-model="subscope.row.num"
                                          @change="inputNumeberChange(subscope.row)"
+                                         :class="{'outOfStock':(subscope.row.num > subscope.row.storage)}"
                                          :label='$t("main.cart.list.mainCartliDescWord")'></el-input-number>
                       </div>
                     </template>
@@ -339,7 +345,7 @@
                   :money="realTotal"></lts-money></span></div>
               </div>
             </div>
-            <el-button @click="check" :disabled="checkedItem.length <= 0 && tooManyItems">{{
+            <el-button @click="check" :disabled="checkedItem.length <= 0 || outStock">{{
               $t("main.cart.list.mainCartliImmeSettle") }}
             </el-button>
           </div>
@@ -367,8 +373,8 @@
         rending:1,
         expands: [], // 默认展开全部
         checked: false,
-        tooManyItems: true,
         chooseAll: false,
+          outStock:false,
         historyData: [],
         tableData: [
           {discount: []},
@@ -461,10 +467,9 @@
             Vue.set(this.tableData,index,this.tableData[index])
           })
         }
-
-
           this.calcMinus(this.checkedItem)
           this.calc(this.checkedItem)
+          this.canSubmit(this.checkedItem)
       },
       // 单选框
       selectChange (row) {
@@ -497,7 +502,20 @@
         } else {
           this.selectedAll = false
         }
+        this.canSubmit(this.checkedItem)
       },
+        // 计算是否可以提交
+        canSubmit(item){
+          let self = this
+            item.forEach(value => {
+                if((value.num > value.storage) || ((value.discount_type == 4)&& (value.num < value.rule.minimum || value.num > value.rule.maxinum) )){
+                    self.outStock = true
+                    return false
+                }else{
+                    self.outStock = false
+                }
+            })
+        },
       // 计算价格
       calc (checked) {
         let total = 0
@@ -519,10 +537,11 @@
           ]
             this.cartNum = data.datalist.length
           data.datalist.forEach((value) => {
-            value.checked = true
+              this.checkedItem.push(value)
             value.item_props.forEach((item) => {
               item.prop_value = JSON.parse(item.prop_value)
             })
+              value.checked = true
             value.oldPrice = value.item_props[0].price
             if (value.discount_type === 1) {
                 value.realPrice = value.item_props[0].price * value.discount / 100
@@ -533,7 +552,7 @@
             } else if (value.discount_type === 4) {
                 value.rule = JSON.parse(value.sale_rule)
                 value.item_props[0].storage = value.rule.total
-                value.realPrice = value.rule.price
+                value.price_real = value.rule.price
                 let now
                 timeService.getUtcTime(value.rule.endTime).then(v1 => {
                     value.rule.end = new Date(v1.time).getTime()
@@ -551,27 +570,17 @@
                         })
                     })
                 })
-                // value.rule.end = Date.parse(new Date(value.rule.endTime))
-                // value.rule.start = Date.parse(new Date(value.rule.startTime))
-                // let now = Date.parse(new Date())
-              // if (value.rule.end > now) {
-              //   this.countdown(value)
-              // } else {
-              //   // 活动结束，不显示了
-              //   value.rule.finished = true
-              // }
-
             } else {
                 value.realPrice = value.item_props[0].price
                 this.tableData[3].others.push(value)
             }
             this.tableDataItem = data.datalist
               if(data.datalist.length > 0){
-                  this.checkedItem = data.datalist
+                  // this.checkedItem = data.datalist
                   this.calc(this.checkedItem)
                   this.calcMinus(this.checkedItem)
               }
-              console.log(this.checkedItem)
+              this.canSubmit(this.checkedItem)
           })
         }, (msg) => {
           this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
@@ -600,7 +609,7 @@
         this.$nextTick(() => {
           this.putCartPlus(row).then((data) => {
               this.calcMinus(this.checkedItem)
-
+              this.canSubmit(this.checkedItem)
           }, (msg) => {
             this.$ltsMessage.show({type:'error',message:msg.error_message})
           })
@@ -865,6 +874,13 @@
       }
         .el-table.column.price{
             text-align: center;
+        }
+        p.outOfStock{
+            color:#ff3b41;
+        }
+        .el-input-number.outOfStock{
+            border:1px solid #ff3b41;
+            border-radius:4px;
         }
       .cart-delete {
         line-height: 40px;

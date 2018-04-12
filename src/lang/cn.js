@@ -178,7 +178,7 @@ export default {
                 mainCartSeSubOrder: '提交订单',
                 mainCartSeSetDefaultSuc: '设置默认地址成功',
                 mainCartSeHandleSucc: '操作成功',
-                mainCartSeHandleErr: '删除失败',
+                mainCartSeHandleErr: '删除成功',
                 mainCartSeNoBonus: '没有可用的优惠券',
             },
             other: {
@@ -476,6 +476,7 @@ export default {
                 mainRePayNoPay: '未付款',
                 mainRePayNoRepay: '未还款',
                 mainRePayRepayed: '已还款',
+                mainRePayPay: '还款',
             }
         },
         reverse: {

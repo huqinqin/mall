@@ -80,14 +80,14 @@ export default {
                 mainCartBefgoPay:'Pay',
                 mainCartBefExpress:'Express',
                 mainCartBefExpressInfo:'Delivery Info',
-                mainCartBefSelfFetch:'Pick Up',
+                mainCartBefSelfFetch:'Will Call',
                 mainCartBefCreditInfo:'Credit Card Info',
                 mainCartBefInputNum:'Enter credit card number',
                 mainCartBefInputDate:'This field is required',
                 mainCartBefInputCVV:'This field is required',
                 mainCartBefInputzipCode:'This field is required',
                 mainCartBefCreditNum:'Number',
-                mainCartBefCreditValid:'Valid though',
+                mainCartBefCreditValid:'Valid through',
                 mainCartBefTermInfo:'Appliable only when balance is sufficient',
             },
             fail: {
@@ -99,7 +99,7 @@ export default {
                 mainCartFaLogisticsMode: 'Shipping Method',
                 mainCartFaMyOrder: 'My Order',
                 mainCartFaFirstPage: 'Go to Front Page',
-                mainCartFaSince: 'Pick Up'
+                mainCartFaSince: 'Will Call'
             },
             finish: {
                 mainCartFiSuccess: 'Congratulations, You Order Has Been Made！',
@@ -139,7 +139,7 @@ export default {
                 mainCartSePhone: 'Phone',
                 mainCartSeFitDefault: 'SetDefault',
                 mainCartSeDefaultAdress: 'Default',
-                mainCartSeZitiAdress: 'Pick Up Address',
+                mainCartSeZitiAdress: 'Will Call Address',
                 mainCartSeFullProm: 'Flash Sale',
                 mainCartSeDel: 'Delete',
                 mainCartSeAlert: 'Modify',
@@ -181,7 +181,7 @@ export default {
                 mainCartSeSubOrder: 'Place Your Order',
                 mainCartSeSetDefaultSuc: 'Default Address Has Been Set',
                 mainCartSeHandleSucc: 'Changes Have Been Made',
-                mainCartSeHandleErr: 'Failed to Delete',
+                mainCartSeHandleErr: 'Success to Delete',
                 mainCartSeNoBonus: 'Not Available',
             },
             other: {
@@ -480,7 +480,7 @@ export default {
                 mainRePayNoPay: 'To be paid',
                 mainRePayNoRepay: 'To be paid',
                 mainRePayRepayed: 'Paid',
-                mainRePayPay:'Pay'
+                mainRePayPay:'Pay',
             }
         },
         reverse: {

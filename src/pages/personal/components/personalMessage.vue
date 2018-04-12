@@ -174,7 +174,6 @@
                 float: left;
                 width: 280px;
             }
-
             .avatar-uploader-icon {
                 border: 1px dashed #d9d9d9;
                 border-radius: 6px;
@@ -187,7 +186,8 @@
                 text-align: center;
             }
         }
-        margin-left: 60px;
+        overflow: hidden;
+        margin-left: 24px;
         .title {
             font-weight: bold;
             font-size: 16px;

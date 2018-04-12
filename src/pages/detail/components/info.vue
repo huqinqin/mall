@@ -354,6 +354,31 @@
     import timeService from '@/services/TimeService.js'
     import addCartSuccess from 'ui/components/lts-addCartSuccess.vue'
 
+    function getDefaultSkuItem(prod) {
+        const structProps = prod.item_struct_props
+        let propMap = null
+        let defaultSkuItem = {item: null, props: [], propMap: null}
+        structProps.forEach(v => {
+          if (v.sku) {
+              defaultSkuItem.item = v
+              defaultSkuItem.propMap = JSON.parse(v.prop_value)
+              propMap = defaultSkuItem.propMap
+          }
+        })
+        prod.item_prop_value_maps.forEach(x => {
+          let pvalue = propMap[x.prop_name]
+          if (pvalue !== undefined){
+              x.prop_values.forEach(prop => {
+                if (prop.value === pvalue) {
+                  x.checked_prop = pvalue
+                  defaultSkuItem.props.push(x)
+                }
+              })
+          }
+        })
+        return defaultSkuItem;
+    }
+
     export default {
         components: {addCartSuccess},
         name: 'detailInfo',
@@ -471,6 +496,7 @@
             },
             getItemDetail(id) {
                 itemService.getItemDetail(id).then((data) => {
+                    let skuItem=  getDefaultSkuItem(data.data.item)
                     data.data.item.item_struct_props.forEach((value, index, array) => {
                         value.propValues = JSON.parse(value.prop_value)
                     })
@@ -548,6 +574,10 @@
                         // let now = Date.parse(new Date())
 
                     }
+                    let self = this
+                    setTimeout(() => {
+                      self.skuMapEach(skuItem.props[0], self.item, 'checkedSku')
+                    }, 300)
                 }, (msg) => {
                     this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
                 })
@@ -558,6 +588,7 @@
                 })
             },
             checkedProp(prop, data, type) {
+              console.log(prop,data, type)
                 if (prop.checked_prop !== '') {
                     this.skuMapEach(prop, data, type)
                 }

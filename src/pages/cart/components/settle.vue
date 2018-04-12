@@ -41,7 +41,7 @@
                     :class="[{checked:item.id === checkedId},{default:item.id === defaultId}]"
                     @click="checkAddress(item)" v-if="item.id !== defaultId">
                     <header>
-                        <div><p>{{item.user_name}}({{item.address}}) </p></div>
+                        <div><p>{{item.user_name}}({{item.state}}) </p></div>
                     </header>
                     <main>
                         <p>{{item.building}}</p>
@@ -435,8 +435,8 @@
                 this.location.value = [this.addForm.lc_code]
                 this.addForm.first = this.addForm.user_name.split('-')[0]
                 this.addForm.last = this.addForm.user_name.split('-')[1]
-                this.addForm.city = this.addForm.building.split('-')[0]
-                this.addForm.street = this.addForm.building.split('-')[1]
+                this.addForm.city = this.addForm.city;
+                this.addForm.street = this.addForm.street;
                 this.editOrAdd = true
                 this.showAddAddress = true
                 if (item.status === 1) {

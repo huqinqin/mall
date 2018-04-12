@@ -1,6 +1,6 @@
 <template>
     <div class="reverse-detail" v-if="detail">
-        <div class="reverse-header">
+        <div class="reverse-header" v-if="detail.reverse.status">
             <p class="title" v-if="detail.reverse.status == 9">{{$t("main.order.list.mainOrLiClose")}}</p>
             <div class="remark" v-if="detail.reverse.status == 9">
                 <div>{{$t("main.reverse.detail.mainRevDeOverTime")}}:{{detail.reverse.end_time | timestamp2str}}</div>
@@ -235,7 +235,6 @@
                 font-size: 20px;
                 font-weight: bold;
                 color: #ff3b41;
-                margin-top: 24px;
             }
             .remark{
                 font-size: 14px;

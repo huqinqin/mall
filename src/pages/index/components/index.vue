@@ -45,7 +45,7 @@
       <div class="item-box">
         <div class="hot-item">
           <div class="item-list-title">
-            <div class="i">
+            <div class="i"><span class="border"></span>
               <span>{{$t("main.index.mainInHotSingle")}}</span>
             </div>
           </div>
@@ -93,6 +93,7 @@
             <a :href="itemlist.url">
               <div class="item-list-title">
                 <div class="i">
+                    <span class="border"></span>
                   <span>{{itemlist.name}}</span>
                 </div>
                 <div class="more">
@@ -150,7 +151,7 @@
       <!-- side -->
       <div class="side" v-if="hotList.length > 0">
         <div class="title">
-          <div class="i"><span>{{$t("main.index.mainInHotSingle")}}</span></div>
+          <div class="i"><span class="border"></span><span>{{$t("main.index.mainInHotSingle")}}</span></div>
         </div>
         <ul class="best-sellers">
           <li v-for="item in hotList" :key="item.id"
@@ -485,19 +486,19 @@
           align-items: center;
           color: #707070;
           .i {
-            position: relative;
             padding-left: 11px;
-            align-items: center;
-            display: flex;
-          }
-          .i::before {
-            content: '';
-            width: 3px;
-            height: 14px;
-            background: #3b85ff;
-            position: absolute;
-            left: 0px;
-            top: 4px;
+              display: flex;
+              align-items: center;
+              span.border{
+                  display: block;
+                  width:3px;
+                  height: 14px;
+                  background: #3b85ff;
+              }
+              span:last-child{
+                  display: block;
+                  margin-left: 12px;
+              }
           }
           .more {
             font-size: 14px;
@@ -534,21 +535,22 @@
         .title {
           margin-top: 14px;
           color: #737373;
-          .i {
-            position: relative;
-            padding-left: 11px;
-            align-items: center;
+        .i {
             display: flex;
-          }
-          .i::before {
-            content: '';
-            width: 3px;
-            height: 14px;
-            background: #3b85ff;
-            position: absolute;
-            left: 0px;
-          }
+            align-items: center;
+            padding-left: 11px;
+            span.border{
+                display: block;
+                width: 3px;
+                height: 14px;
+                background: #3b85ff;
+            }
+            span:last-child{
+                display: block;
+                margin-left: 12px;
+            }
         }
+      }
         .best-sellers {
           margin-top: 15px;
           li {

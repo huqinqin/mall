@@ -1,7 +1,7 @@
 <template>
   <div class="cart">
     <div class="header">
-      <a href="/"><img src="../../assets/img/LOGO_html.png" alt="LTS-logo"></a>
+      <a href="/"><img src="../../assets/img/LOGO_html.jpg" alt="LTS-logo"></a>
       <el-steps :active=active align-center finish-status="success">
         <el-step :title='$t("main.cart.other.mainCartOtCart")'></el-step>
         <el-step :title='$t("main.cart.other.mainCartOtConfimOrderInfo")'></el-step>

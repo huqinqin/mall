@@ -208,21 +208,20 @@
                                     item.price_real = item.price * item.price_define_do.discount_map[map] / 100
                                 }
                             }
+                        }else{
+                            item.price_real = item.price
                         }
                     })
                     // TOOD 这里计算页数
                     this.search.totalPage = rtn.data.total;
                     this.rightTotal = Math.ceil(this.search.totalPage/this.search.pageSize);
                     this.condition = rtn.data.aggregate_cate_prop_list;
-                    console.log(this.condition)
-                    console.log(this.conditions)
                     this.condition.forEach((item) => {
                         if(item.name in this.conditions){
                             let index = item.value.indexOf(this.conditions[item.name])
                             item.value.splice(index,1)
                         }
                     })
-                    console.log(this.condition)
                     this.isLoadEnding = true;
 //                    for(let val in rtn.data.aggregate_cate_prop_map){
 //                        let key = rtn.data.aggregate_cate_prop_map[val],Object = {};

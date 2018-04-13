@@ -19,7 +19,7 @@
                 </el-form-item>
                 <!--<el-form-item :label='$t("main.order.detail.mainOrDeMyAddr")'>-->
                 <el-form-item :label="dilivery">
-                    {{order.user_addr}}
+                    {{order.user_addr_detail}}
                 </el-form-item>
                 <el-form-item :label='$t("main.cart.settle.mainCartSeBuyersTalk")'>
                     <span v-for="(remark, index) in order.trade_remark_list" :key="index" v-if="remark.uid == order.customer.id">

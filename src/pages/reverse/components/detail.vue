@@ -105,7 +105,7 @@
             <el-form label-position="left" inline class="form-row">
                 <el-form-item :label='$t("main.reverse.detail.mainRevDeAcceptInfo")'>
                     <div>{{detail.wholesale_order.user_name}} {{detail.wholesale_order.receiver_mobile}}</div>
-                    <div>{{detail.wholesale_order.user_addr}}</div>
+                    <div>{{detail.wholesale_order.user_addr_detail}}</div>
                 </el-form-item>
                 <el-form-item :label='$t("main.order.detail.mainOrDePayInfo")' v-if="detail.wholesale_order.pay_info">
                     <div>

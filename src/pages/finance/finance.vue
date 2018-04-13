@@ -19,15 +19,14 @@
     <main>
       <el-form :inline="true">
         <el-form-item :label='$t("main.finance.mainfiAccountType")'>
-          <el-select v-model="searchForm.type" :placeholder='$t("main.finance.mainfiPleaseSel")' @change="getDetail">
+          <el-select v-model="searchForm.type" :placeholder='$t("main.finance.mainfiPleaseSel")'>
             <el-option :label='$t("main.finance.mainfiAccountBal")' value="2010101"></el-option>
             <el-option :label='$t("main.finance.mainfiAccBalance")' value="2010106"></el-option>
             <el-option :label='$t("main.finance.mainfiCoupon")' value="2010102"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item :label='$t("main.finance.mainfiBussiHandle")'>
-          <el-select clearable v-model="searchForm.handle" :placeholder='$t("main.finance.mainfiPleaseSel")'
-                     @change="getDetail">
+          <el-select clearable v-model="searchForm.handle" :placeholder='$t("main.finance.mainfiPleaseSel")'>
             <el-option v-for="item in handleData" :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
         </el-form-item>
@@ -36,9 +35,9 @@
             v-model="daterange"
             type="daterange"
             :format='$t("main.finance.mainfiYear")'
-            @change="getDetail"
             :picker-options="pickerOptions"
             range-separator="-"
+            format="MM-dd-yyyy"
             :start-placeholder='$t("main.finance.mainfiStartTime")'
             :end-placeholder='$t("main.finance.mainfiEndTime")'>
           </el-date-picker>

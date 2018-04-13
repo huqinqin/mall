@@ -58,8 +58,11 @@ export default class AddressService extends BaseService {
         let address = {
             mobile:form.mobile,
             userName:form.first+ '-' + form.last,
-            address:form.address,
-            building:form.city + '-' + form.street,
+            state:form.address,
+            /*address:form.address,*/
+            city:form.city,
+            street:form.street,
+            /*building:form.city + '-' + form.street,*/
             status: form.setDefault ? 1 : 0,
             rank: form.rank,
             zip_code: form.zipCode,
@@ -102,8 +105,11 @@ export default class AddressService extends BaseService {
         let address = {
             mobile:form.mobile,
             userName:form.first + '-' + form.last,
-            address:form.address,
-            building:form.city + '-' + form.street,
+            /*address:form.address,*/
+            state:form.address,
+            city:form.city,
+            street:form.street,
+            /*building:form.city + '-' + form.street,*/
             status: form.setDefault ? 1 : 0,
             rank: form.rank,
             zip_code: form.zipCode,

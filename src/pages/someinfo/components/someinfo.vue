@@ -49,7 +49,7 @@
         </div>
         <div class="history">
             <h2>{{$t("main.someinfo.mainSomeHistory")}}</h2>
-            <ul>
+            <ul v-if="historyData.length > 0">
                 <div>
                     <el-button class="el-icon-arrow-left icon" :disabled="this.pagination.page === 1" @click="pre" v-if="historyData.length > 0"></el-button>
                 </div>
@@ -65,6 +65,8 @@
                    <el-button class="el-icon-arrow-right icon" :disabled="this.pagination.page === this.pages" @click="next" v-if="historyData.length > 0"></el-button>
                 </div>
             </ul>
+            <div :style="{backgroundImage : 'url(' + img + ')'}" class="bg" v-if="historyData.length === 0"></div>
+            <div class="word" v-if="historyData.length === 0">No purchase history available</div>
         </div>
     </div>
 </template>
@@ -76,6 +78,7 @@
         name: "someinfo",
         data(){
             return{
+                img:require('../../../assets/img/nohistory.png'),
                 hasTerms:false,
                 tableData:[],
                 engineerInfo:{
@@ -93,7 +96,7 @@
                     pageSize: 4,
                     total: 0
                 },
-                historyData: {},
+                historyData: [],
                 historyLen: 0,
                 pages: 0,
                 discountData: [],
@@ -393,6 +396,19 @@
                         }
                     }
                 }
+            }
+            .bg{
+                min-width: 1000px;
+                height: 500px;
+                background-repeat: no-repeat;
+                background-size: auto auto;
+                background-position: center center;
+            }
+            .word{
+                min-width: 1000px;
+                font-size: 26px;
+                color: #AAA;
+                text-align: center;
             }
         }
     }

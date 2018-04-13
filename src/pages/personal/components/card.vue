@@ -173,7 +173,7 @@
                 width="140">
                 <template slot-scope="scope">
                     <el-dropdown @command="getDialog">
-                        <el-button class="el-dropdown-link">
+                        <el-button type="primary">
                             {{$t("main.order.list.mainOrLiHanlde")}}<i class="el-icon-arrow-down el-icon--right"></i>
                         </el-button>
                         <el-dropdown-menu slot="dropdown">

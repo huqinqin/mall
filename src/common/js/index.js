@@ -179,6 +179,16 @@ export default function (App, router = new Router()) {
                 name : 'lts-header-content',
                 template : ltsHeaderSimple
             }]
+        },
+        {
+            name:'registerPhone',
+            components:[{
+                name : 'lts-header',
+                template : ltsEmpty
+            },{
+                name : 'lts-footer',
+                template : ltsEmpty
+            }]
         }
     ]
 

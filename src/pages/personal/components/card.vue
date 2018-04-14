@@ -170,7 +170,7 @@
             <el-table-column
                 prop=""
                 label=""
-                width="140">
+                width="150">
                 <template slot-scope="scope">
                     <el-dropdown @command="getDialog">
                         <el-button type="primary">

@@ -1,89 +1,64 @@
 <template>
     <div class="product all-head" slot="header">
-        <div class="menu-list s-span-page">
-            <ul>
-                <li v-for="value in menuList">
-                    <div>
-                        <a :href="value.link" v-if="value.type == 'logo'" class="header-logo">
+       <div class="menu-list s-span-page">
+        <ul>
+            <li v-for="value in menuList">
+                <div>
+                    <a :href="value.link" v-if="value.type == 'logo'" class="header-logo"
+                       :style="{backgroundImage : 'url('+ logo +')'}">
+                        <!--<span class="iconfont" :class="value.icon"></span>-->
+                    </a>
+                    <a :href="value.link" target="_blank" v-else-if="value.name === 'support center'">
+                        <div>
                             <span class="iconfont" :class="value.icon"></span>
-                        </a>
-                        <a :href="value.link" target="_blank" v-else-if="value.name === 'support center'">
-                                <div>
-                                    <span class="iconfont" :class="value.icon"></span>
-                                    <p>{{value.first}}</p>
-                                    <p>{{value.last}}</p>
-                                </div>
-                        </a>
-                        <a :href="value.link" v-else-if="value.name === 'call experts'">
-                            <el-tooltip placement="top" effect="ligth" :visible-arrow="false">
-                                <div>
-                                    <span class="iconfont" :class="value.icon"></span>
-                                    <p>{{value.first}}</p>
-                                    <p>{{value.last}}</p>
-                                </div>
-                                <div slot="content">
-                                    <myExperts></myExperts>
-                                </div>
-                            </el-tooltip>
-                        </a>
-                        <el-popover
-                            v-else-if="value.name === 'shopby scenario'"
-                            placement="bottom"
-                            trigger="hover"
-                            content="Coming Soon">
-                            <a :href="value.link"  @click="menuHandle" slot="reference">
+                            <p>{{value.first}}</p>
+                            <p>{{value.last}}</p>
+                        </div>
+                    </a>
+                    <a :href="value.link" v-else-if="value.name === 'call experts'">
+                        <el-tooltip placement="top" effect="ligth" :visible-arrow="false">
+                            <div>
                                 <span class="iconfont" :class="value.icon"></span>
                                 <p>{{value.first}}</p>
                                 <p>{{value.last}}</p>
-                            </a>
-                        </el-popover>
-                        <a :href="value.link" v-else-if="!value.needLogin" @click="menuHandle" slot="reference" target="_blank">
+                            </div>
+                            <div slot="content">
+                                <myExperts></myExperts>
+                            </div>
+                        </el-tooltip>
+                    </a>
+                    <el-popover
+                        v-else-if="value.name === 'shopby scenario'"
+                        placement="bottom"
+                        trigger="hover"
+                        content="Coming Soon">
+                        <a :href="value.link"  @click="menuHandle" slot="reference">
                             <span class="iconfont" :class="value.icon"></span>
                             <p>{{value.first}}</p>
                             <p>{{value.last}}</p>
                         </a>
-                        <a :href="value.link" v-else v-login @click="menuHandle" target="_blank">
-                            <el-badge :value="cart_num" class="item" v-if="value.name == 'shopping center'"
-                                      :hidden="cart_num <= 0">
+                    </el-popover>
+                    <a :href="value.link" v-else-if="!value.needLogin" @click="menuHandle" slot="reference" target="_blank">
+                        <span class="iconfont" :class="value.icon"></span>
+                        <p>{{value.first}}</p>
+                        <p>{{value.last}}</p>
+                    </a>
+                    <a :href="value.link" v-else v-login @click="menuHandle" target="_blank">
+                        <el-badge :value="cart_num" class="item" v-if="value.name == 'shopping center'"
+                                  :hidden="cart_num <= 0">
                                 <span class="iconfont"
                                       :class="[value.icon,value.name == 'shopping center' ? 'cart' : '']">
                                 </span>
-                            </el-badge>
-                            <span class="iconfont" :class="[value.icon]" v-else>
+                        </el-badge>
+                        <span class="iconfont" :class="[value.icon]" v-else>
                             </span>
-                            <p>{{value.first}}</p>
-                            <p>{{value.last}}</p>
-                        </a>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <div class="s-span-page search-bar">
-            <el-input :placeholder="$t('comHeader.headerSearchGoods')" v-model="keywords" class="input-with-select"
-                      @keyup.native.enter='searchToHref'>
-                <el-cascader
-                    slot="prepend"
-                    :placeholder="select"
-                    expand-trigger="hover"
-                    :options="options"
-                    v-model="selectedOptions"
-                    :change-on-select="false"
-                    style="width: 240px"
-                    popper-class="cascader-class"
-                    @focus="focusSelect"
-                    @change="handleChange">
-                </el-cascader>
-                <el-button slot="append" icon="iconfont icon-sousuo2" @click="searchToHref"></el-button>
-                <!--<el-dropdown split-button type="primary"  slot="append" @click="searchToHref"  @command="handleCommand">-->
-                    <!--<i class="el-icon-search"></i><span>{{selectedItem}}</span>-->
-                    <!--<el-dropdown-menu slot="dropdown">-->
-                        <!--<el-dropdown-item command="name">Item Name</el-dropdown-item>-->
-                        <!--<el-dropdown-item command="sin">Model Name</el-dropdown-item>-->
-                    <!--</el-dropdown-menu>-->
-                <!--</el-dropdown>-->
-            </el-input>
-            <!--<el-checkbox class="el-checkbox" label="Model Number" v-model="model"></el-checkbox>-->
-        </div>
+                        <p>{{value.first}}</p>
+                        <p>{{value.last}}</p>
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </div>
     </div>
 </template>
 
@@ -91,13 +66,12 @@
     import categoryService from '@/services/CategoryService.js'
     import cartService from '@/services/CartService.js'
     import myExperts from '@/common/components/myExperts'
-    import jq from 'jquery'
 
     export default {
-        name: "lts-header-all",
+        name: "lts-header-notSearch",
         data() {
-
             return {
+                logo:require('../../assets/img/LOGO_html.jpg'),
                 menuList: [
                     {
                         name: 'ip solution',
@@ -133,7 +107,7 @@
                     },
                     {
                         name: 'logo',
-                        icon: 'icon-LTSLOGO',
+                        icon: 'icon-LTS-LOGO-',
                         type: 'logo',
                         link: '/',
                         needLogin: false
@@ -183,19 +157,7 @@
                 model:false
             }
         },
-        mounted(){
-
-        },
         methods: {
-            // 级联选择器选择父元素
-            focusSelect(){
-                alert(12345)
-                let pop = jq('cascader-class')[0]
-                console.log(pop)
-                pop.on('hover','li',()=>{
-                    alert('hover')
-                })
-            },
             // 选择关键字类型
             // handleCommand(value){
             //     if(value == 'name'){
@@ -227,6 +189,7 @@
                     this.ItemName = ''
                     this.sin = this.keywords
                 }
+                console.log(this.selectedOptions);
                 // location.href = '/search?t='+ new Date().getTime() + '#/detail?cateId=' + JSON.stringify(this.selectedOptions) + '&itemname=' + this.ItemName + '&tags=' + this.tags + '&sin=' + this.sin;
                 location.href = '/search?t='+ new Date().getTime() + '#/detail?cateId=' + JSON.stringify(this.selectedOptions) + '&itemname=' + this.ItemName + '&tags=' + this.tags;
                 this.selfContext.$emit('getItemList')
@@ -406,12 +369,10 @@
             background-repeat: no-repeat;
             display: flex;
             text-align: center;
-            overflow: hidden;
-            justify-content: center;
             align-items: center;
+            overflow: hidden;
             span {
-                display: block;
-                font-size: 200px !important;
+                font-size: 70px !important;
                 color: #cc242e !important;
             }
         }

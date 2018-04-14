@@ -185,11 +185,11 @@
                 input1:'',
                 options: [],
                 options1: [{
-                    value: this.$t("main.order.list.mainOrLiRealPay"),
-                    label: this.$t("main.order.list.mainOrLiRealPay")
+                    value: this.$t("main.repayMent.repayList.mainRePayRepayed"),
+                    label: this.$t("main.repayMent.repayList.mainRePayRepayed")
                 }, {
-                    value: this.$t("main.repayMent.repayList.mainRePayNoPay"),
-                    label: this.$t("main.repayMent.repayList.mainRePayNoPay"),
+                    value: this.$t("main.repayMent.repayList.mainRePayNoRepay"),
+                    label: this.$t("main.repayMent.repayList.mainRePayNoRepay"),
                 }, {
                     value: this.$t("comHeader.headerAll"),
                     label: this.$t("comHeader.headerAll"),

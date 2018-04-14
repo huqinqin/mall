@@ -360,7 +360,7 @@
         let propMap = null
         let defaultSkuItem = {item: null, props: [], propMap: null}
         structProps.forEach(v => {
-          if (v.sku) {
+          if (v.sku && v.storage > 0) {
               defaultSkuItem.item = v
               defaultSkuItem.propMap = JSON.parse(v.prop_value)
               propMap = defaultSkuItem.propMap

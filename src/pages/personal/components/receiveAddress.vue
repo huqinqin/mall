@@ -77,20 +77,20 @@
                 width="100">
             </el-table-column>
             <el-table-column
-                prop="address"
+                prop="street"
                 :label='$t("main.personal.card.mainPerCarAddress")'
                 width="200">
-                <template slot-scope="scope">
-                    {{scope.row.building.split('-')[1]}}
-                </template>
+                <!--<template slot-scope="scope">-->
+                    <!--{{scope.row.street}}-->
+                <!--</template>-->
             </el-table-column>
             <el-table-column
                 prop="city"
                 :label='$t("main.personal.card.mainPerCarCity")'
                 width="80">
-                <template slot-scope="scope">
-                    {{scope.row.building.split('-')[0]}}
-                </template>
+                <!--<template slot-scope="scope">-->
+                    <!--{{scope.row.building.split('-')[0]}}-->
+                <!--</template>-->
             </el-table-column>
             <el-table-column
                 prop="location_d_o.province"
@@ -118,7 +118,7 @@
                 width="140">
                 <template slot-scope="scope">
                     <el-dropdown @command="getDialog">
-                        <el-button class="el-dropdown-link">
+                        <el-button type="primary">
                             {{$t("main.order.list.mainOrLiHanlde")}}<i class="el-icon-arrow-down el-icon--right"></i>
                         </el-button>
                         <el-dropdown-menu slot="dropdown">
@@ -311,9 +311,10 @@
                             first: item.row.user_name.split('-')[0],
                             last: item.row.user_name.split('-')[1],
                             mobile: item.row.mobile,
-                            address: item.row.building.split('-')[1],
+                            address: item.row.street,
                             location: [item.row.lc_code],
-                            city: item.row.building.split('-')[0],
+                            state:item.row.state,
+                            city: item.row.city,
                             zipCode: item.row.zip_code,
                             setDefaultFlag: item.row.status == 1 ? true : false,
                             country: this.$t("main.personal.card.mainPerCarUsa"),

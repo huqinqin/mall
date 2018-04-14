@@ -9,7 +9,7 @@
                         <div><p class="icon">{{ $t("main.cart.settle.mainAddCertiAddress") }}</p></div>
                     </header>
                     <main>
-                        <p>{{item.city}}-{{item.address}}</p>
+                        <p>{{item.address}}-{{item.city}}</p>
                         <p>{{ $t("main.cart.settle.mainCartSePhone") }}：{{item.mobile}}</p>
                     </main>
                 </li>
@@ -17,10 +17,10 @@
                     v-show="defaultAddress.user_name"
                     @click="checkAddress(defaultAddress)">
                     <header>
-                        <div><p>{{defaultAddress.user_name}}({{defaultAddress.address}}) </p></div>
+                        <div><p>{{defaultAddress.user_name}}({{defaultAddress.state}}) </p></div>
                     </header>
                     <main>
-                        <p>{{defaultAddress.building}}</p>
+                        <p>{{defaultAddress.street}}-{{defaultAddress.city}}</p>
                         <p>{{ $t("main.cart.settle.mainCartSePhone") }}：{{defaultAddress.mobile}}</p>
                     </main>
                     <footer class="ship-footer">
@@ -44,7 +44,7 @@
                         <div><p>{{item.user_name}}({{item.state}}) </p></div>
                     </header>
                     <main>
-                        <p>{{item.building}}</p>
+                        <p>{{item.street}}-{{item.city}}</p>
                         <p>{{ $t("main.cart.settle.mainCartSePhone") }}：{{item.mobile}}</p>
                     </main>
                     <footer class="ship-footer">
@@ -571,7 +571,13 @@
             },
             // 正式下单
             submitOrder() {
-                this.userAddr = this.checkedAddress.building ? this.checkedAddress.address + this.checkedAddress.building : this.checkedAddress.address
+                // this.userAddr = this.checkedAddress.building ? this.checkedAddress.address + this.checkedAddress.building : this.checkedAddress.address
+                this.userAddr = {
+                    street:this.checkedAddress.street,
+                    city:this.checkedAddress.city,
+                    state:this.checkedAddress.state,
+                    zip_code:this.checkedAddress.zipCode
+                }
                 this.canSubmit = true
                 let items = []
                 this.tableData.forEach(function (value, index, array) {
@@ -594,7 +600,7 @@
                     hdMethod: this.deliveryType,
                     receiverMobile: this.checkedAddress.mobile,
                     userName: this.checkedAddress.user_name,
-                    userAddr: this.userAddr,
+                    userAddr: JSON.stringify(this.userAddr),
                     useBalance: false,
                     payMethod: 'online',
                     source: 'work.500mi.com.shop.pifa.market',

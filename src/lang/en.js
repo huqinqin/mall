@@ -238,7 +238,7 @@ export default {
             }
         },
         finance: {
-            mainfiAccountBal: 'Account Balance:',
+            mainfiAccountBal: 'Account Balance',
             mainficreditBal: 'Credit Terms Balance',
             mainfiNo: 'Null',
             mainfiUsedCredit: 'Credit Applied',

@@ -6,7 +6,7 @@
             <div class="line"></div>
         </header>
         <main>
-            <el-form label-position="top" :model="resetForm" :rules="rules" ref="form">
+            <el-form label-position="top" :model="resetForm" :rules="rules" ref="formA">
                 <el-form-item label="Email" prop="email">
                     <el-input v-model="resetForm.email" placeholder="Please Enter Email Address"></el-input>
                 </el-form-item>
@@ -25,7 +25,7 @@
                     <el-input v-model="resetForm.checkPass" placeholder="ENTER THE NEW PASSWORD AGAIN" type="password"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button class="confirm" @click="submitFrom" >RESET</el-button>
+                    <el-button class="confirm" @click="submitFrom('formA')" >RESET</el-button>
                 </el-form-item>
             </el-form>
         </main>
@@ -38,18 +38,29 @@
     export default {
         name: "forget",
         data(){
+            let self = this
             let checkPass = (rule,value,callback) => {
                 let reg =  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/;
                 if(!reg.test(value)){
                     callback(new Error(this.$t("main.accountNew.reset.mainAcResetSyncDigit")))
+                }else{
+                    callback();
                 }
             }
-            let checkCode = (rule,value,callback) => {
-                accountService.checkCode(value).then((data) => {
-                    this.$ltsMessage.show({type: 'success', message: this.$t("main.accountNew.register.mainAcReValidateSuccess")})
-                },(msg) => {
-                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
-                })
+            // let checkCode = (rule,value,callback) => {
+            //     accountService.checkCode(value).then((data) => {
+            //         this.$ltsMessage.show({type: 'success', message: this.$t("main.accountNew.register.mainAcReValidateSuccess")})
+            //     },(msg) => {
+            //         this.$ltsMessage.show({type: 'error', message: msg.error_message})
+            //     })
+            // }
+            let reCheckPass = (rule,value,callback) => {
+                debugger
+                if(self.resetForm.pass != self.resetForm.checkPass){
+                    callback(new Error(this.$t("main.accountNew.reset.mainAcResetTwo")))
+                }else{
+                    callback()
+                }
             }
             return{
                 send:true,
@@ -66,26 +77,29 @@
                     // pass: validatorConfig.password,
                     pass: [ { required: true, message:  this.$t("main.accountNew.register.mainAcReContentNotNull"), trigger: 'blur' },
                             {validator:checkPass,trigger: 'blur,change'}],
-                    checkPass: validatorConfig.passwordRepeat((rule, value, callback)=>{
-                        validatorConfig.validatePasswordRepeat(rule, this.resetForm.pass, value, callback)
-                    }),
+
+                    checkPass: [ { required: true, message:  this.$t("main.accountNew.register.mainAcReContentNotNull"), trigger: 'blur' },
+                        {validator:reCheckPass,trigger: 'blur,change'}],
+                    // checkPass: validatorConfig.passwordRepeat((rule, value, callback)=>{
+                    //     validatorConfig.validatePasswordRepeat(rule, this.resetForm.pass, value, callback)
+                    // }),
                     code: [
                         { required: true, message:  this.$t("main.accountNew.register.mainAcReContentNotNull"), trigger: 'blur' },
-                        {validator:checkCode,trigger: 'blur'}
+                        // {validator:checkCode,trigger: 'blur'}
                     ],
                 }
             }
         },
         methods: {
-            submitFrom(){
-                this.$refs['form'].validate((valid) => {
+            submitFrom(formName){
+                this.$refs[formName].validate((valid) => {
+                    console.log(valid)
                     if(valid){
                         accountService.resetPass(this.resetForm).then((data) => {
                             location.href = '/'
                         },(msg) => {
                             this.$ltsMessage.show({type: 'error', message: msg.error_message})
                         })
-                        console.log(this.resetForm)
                     }else{
                         return false
                     }

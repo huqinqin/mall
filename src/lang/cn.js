@@ -50,7 +50,8 @@ export default {
                 mainAcReCreateSuccess: '创建成功',
             },
             reset: {
-                mainAcResetSyncDigit: '密码必须同时包括大小写字母和数字!'
+                mainAcResetSyncDigit: '密码必须同时包括大小写字母和数字!',
+                mainAcResetTwo: '两次密码不一致!'
             }
         },
         address: {

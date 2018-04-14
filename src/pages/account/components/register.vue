@@ -6,7 +6,6 @@
             <div class="line"></div>
         </header>
         <main>
-
             <el-form label-position="top" :model="signupForm" :rules="rules" ref="form">
                 <el-form-item label="Email Address" prop="email">
                     <el-input v-model="signupForm.email" ></el-input>
@@ -57,6 +56,24 @@
                 <el-form-item label="Zip Code" prop="address">
                     <el-input v-model="signupForm.address" ></el-input>
                 </el-form-item>
+                <el-form-item label="Datail Addr" prop="detail">
+                    <el-input v-model="signupForm.detail" ></el-input>
+                </el-form-item>
+                <!--<el-form-item label="State" prop="state">
+                    <el-input v-model="signupForm.state" ></el-input>
+                </el-form-item>-->
+                <el-form-item label='state' prop="state">
+                    <el-cascader
+                        @change="selectCity"
+                        :options="cityOptions"
+                        popper-class="addressPopover"
+                        v-model="signupForm.state"
+                        placeholder='Please Select'>
+                    </el-cascader>
+                </el-form-item>
+                <el-form-item label="City" prop="city">
+                    <el-input v-model="signupForm.city" ></el-input>
+                </el-form-item>
                 <!--<el-form-item label="Federal Tax ID" prop="FTI">
                     <el-input v-model="signupForm.FTI" ></el-input>
                 </el-form-item>-->
@@ -97,6 +114,7 @@
     import accountService from '@/services/AccountService.js'
     import validatorConfig from '@/config/ValidatorConfig.js'
     import InputPhone from '@/common/components/lts-input-phone'
+    import locationConfig from '@/config/LocationConfig.js'
     export default {
         name: "signup",
         data(){
@@ -116,10 +134,12 @@
                 }
             }
             return{
+                lccode:[],
                 checked:false,
                 send:true,
                 sendAgain:false,
                 countdown:3,
+                cityOptions:locationConfig,
                 signupForm:{
                     pic:'',
                     companyName:'',
@@ -132,12 +152,24 @@
                     /*FTI:'',*/
                     Business:'',
                     url:[],
+                    city:'',
+                    detail:'',
+                    state:[]
                 },
                 rules:{
                     Business: [
                         { required: true, message: this.$t("main.accountNew.register.mainAcReContentNotNull"), trigger: 'blur' },
                     ],
                     companyName: [
+                        { required: true, message: this.$t("main.accountNew.register.mainAcReContentNotNull"), trigger: 'blur' },
+                    ],
+                    city: [
+                        { required: true, message: this.$t("main.accountNew.register.mainAcReContentNotNull"), trigger: 'blur' },
+                    ],
+                    detail: [
+                        { required: true, message: this.$t("main.accountNew.register.mainAcReContentNotNull"), trigger: 'blur' },
+                    ],
+                    state: [
                         { required: true, message: this.$t("main.accountNew.register.mainAcReContentNotNull"), trigger: 'blur' },
                     ],
                     /*FTI: [
@@ -194,6 +226,11 @@
                 /!*this.signupForm.phone = arg;
                 console.log(this.signupForm.phone);*!/
             },*/
+            selectCity (value) {
+                console.log(value);
+                /*let arr = value[0].split('-');*/
+                this.lccode = value;
+            },
             validted(){
                 if(this.signupForm.mobile){
                     let reg = /^[2-9][0-9]{2}[2-9][0-9]{2}[0-9]{4}$/;
@@ -229,7 +266,9 @@
                             zipCode: this.signupForm.address,
                             /*taxId: this.signupForm.FTI,*/
                             typeOfBusiness: this.signupForm.Business,
-                            urls: this.signupForm.url
+                            urls: this.signupForm.url,
+                            city:this.signupForm.city,
+                            lc_code: this.lccode,
                         };
                         let obj = {
                             email: this.signupForm.email,
@@ -238,7 +277,8 @@
                             /*mobile: this.signupForm.mobile ? "1-" + this.signupForm.mobile : '',*/
                             type: 3,
                             from: 'PC_WEB',
-                            ext: params
+                            ext: params,
+                            address:this.signupForm.detail,
                         }
                         if(this.signupForm.mobile){
                             obj.mobile = "1-" + this.signupForm.mobile;
@@ -393,6 +433,12 @@
                     border-radius: 50%;
                     margin-right: 10px;
                 }
+            }
+            .el-input--suffix .el-input__inner{
+                width: 400px;
+            }
+            .addressPopover{
+                width: 400px;
             }
         }
     }

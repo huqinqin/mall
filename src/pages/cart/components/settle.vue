@@ -365,13 +365,15 @@
         },
         methods: {
             selectDilivery(value){
-                if(value == 'ZITI'){
-                    this.userAddr = this.user.shop_address
-                    this.simulateCreateTrade()
-                }else{
-                    this.userAddr = this.checkedAddress.building ? this.checkedAddress.address + this.checkedAddress.building : this.checkedAddress.address
-                    this.simulateCreateTrade()
-                }
+                this.simulateCreateTrade()
+                // debugger
+                // if(value == 'ZITI'){
+                //     this.userAddr = this.user.shop_address
+                //     this.simulateCreateTrade()
+                // }else{
+                //     // this.userAddr = this.checkedAddress.building ? this.checkedAddress.address + this.checkedAddress.building : this.checkedAddress.address
+                //     this.simulateCreateTrade()
+                // }
             },
             // 查询是否有满减活动
             minus(){
@@ -572,11 +574,15 @@
             // 正式下单
             submitOrder() {
                 // this.userAddr = this.checkedAddress.building ? this.checkedAddress.address + this.checkedAddress.building : this.checkedAddress.address
-                this.userAddr = {
-                    street:this.checkedAddress.street,
-                    city:this.checkedAddress.city,
-                    state:this.checkedAddress.state,
-                    zip_code:this.checkedAddress.zipCode
+                if(this.deliveryType == 'ZITI'){
+                    this.userAddr = this.user.shop_address
+                }else{
+                    this.userAddr = {
+                        street:this.checkedAddress.street,
+                        city:this.checkedAddress.city,
+                        state:this.checkedAddress.state,
+                        zip_code:this.checkedAddress.zipCode
+                    }
                 }
                 this.canSubmit = true
                 let items = []

@@ -4,9 +4,8 @@
             <ul>
                 <li v-for="value in menuList">
                     <div>
-                        <a :href="value.link" v-if="value.type == 'logo'" class="header-logo"
-                           :style="{backgroundImage : 'url('+ logo +')'}">
-                            <!--<span class="iconfont" :class="value.icon"></span>-->
+                        <a :href="value.link" v-if="value.type == 'logo'" class="header-logo">
+                            <span class="iconfont" :class="value.icon"></span>
                         </a>
                         <a :href="value.link" target="_blank" v-else-if="value.name === 'support center'">
                                 <div>
@@ -70,6 +69,8 @@
                     v-model="selectedOptions"
                     :change-on-select="false"
                     style="width: 240px"
+                    popper-class="cascader-class"
+                    @focus="focusSelect"
                     @change="handleChange">
                 </el-cascader>
                 <el-button slot="append" icon="iconfont icon-sousuo2" @click="searchToHref"></el-button>
@@ -90,12 +91,13 @@
     import categoryService from '@/services/CategoryService.js'
     import cartService from '@/services/CartService.js'
     import myExperts from '@/common/components/myExperts'
+    import jq from 'jquery'
 
     export default {
         name: "lts-header-all",
         data() {
+
             return {
-                logo:require('../../assets/img/LOGO_html.jpg'),
                 menuList: [
                     {
                         name: 'ip solution',
@@ -131,7 +133,7 @@
                     },
                     {
                         name: 'logo',
-                        icon: 'icon-LTS-LOGO-',
+                        icon: 'icon-LTSLOGO',
                         type: 'logo',
                         link: '/',
                         needLogin: false
@@ -181,7 +183,19 @@
                 model:false
             }
         },
+        mounted(){
+
+        },
         methods: {
+            // 级联选择器选择父元素
+            focusSelect(){
+                alert(12345)
+                let pop = jq('cascader-class')[0]
+                console.log(pop)
+                pop.on('hover','li',()=>{
+                    alert('hover')
+                })
+            },
             // 选择关键字类型
             // handleCommand(value){
             //     if(value == 'name'){
@@ -213,7 +227,6 @@
                     this.ItemName = ''
                     this.sin = this.keywords
                 }
-                console.log(this.selectedOptions);
                 // location.href = '/search?t='+ new Date().getTime() + '#/detail?cateId=' + JSON.stringify(this.selectedOptions) + '&itemname=' + this.ItemName + '&tags=' + this.tags + '&sin=' + this.sin;
                 location.href = '/search?t='+ new Date().getTime() + '#/detail?cateId=' + JSON.stringify(this.selectedOptions) + '&itemname=' + this.ItemName + '&tags=' + this.tags;
                 this.selfContext.$emit('getItemList')
@@ -393,10 +406,12 @@
             background-repeat: no-repeat;
             display: flex;
             text-align: center;
-            align-items: center;
             overflow: hidden;
+            justify-content: center;
+            align-items: center;
             span {
-                font-size: 70px !important;
+                display: block;
+                font-size: 200px !important;
                 color: #cc242e !important;
             }
         }

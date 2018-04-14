@@ -139,8 +139,8 @@
                     {
                         name: 'call experts',
                         icon: 'icon-lianxixiaoshoukefu',
-                        first: 'Call',
-                        last: 'Experts',
+                        first: 'Contact',
+                        last: 'Sales',
                         link: 'javascript:void(0)',
                         needLogin: false
                     },

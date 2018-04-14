@@ -51,7 +51,8 @@ export default {
                 mainAcReCreateSuccess: 'Your Account Has Been Created',
             },
             reset: {
-                mainAcResetSyncDigit: 'The Password Must Contain Uppercase Characters,Lowercase Characters and Numbers!'
+                mainAcResetSyncDigit: 'The Password Must Contain Uppercase Characters,Lowercase Characters and Numbers!',
+                mainAcResetTwo: 'Two passwords do not match!'
             }
         },
         address: {
@@ -238,7 +239,7 @@ export default {
             }
         },
         finance: {
-            mainfiAccountBal: 'Account Balance:',
+            mainfiAccountBal: 'Account Balance',
             mainficreditBal: 'Credit Terms Balance',
             mainfiNo: 'Null',
             mainfiUsedCredit: 'Credit Applied',

@@ -19,7 +19,7 @@
                 </el-form-item>
                 <!--<el-form-item :label='$t("main.order.detail.mainOrDeMyAddr")'>-->
                 <el-form-item :label="dilivery">
-                    {{order.user_addr}}
+                    {{order.user_addr_detail}}
                 </el-form-item>
                 <el-form-item :label='$t("main.cart.settle.mainCartSeBuyersTalk")'>
                     <span v-for="(remark, index) in order.trade_remark_list" :key="index" v-if="remark.uid == order.customer.id">
@@ -146,8 +146,8 @@
                 <label>{{$t("main.cart.settle.mainCartSeMustPay")}}</label>
                 <span><lts-money :money="order.pay"></lts-money></span>
             </div>
-            <div class="text" v-if="order.discount - order.fee_promotion_manjian">
-                <label>{{$t("main.order.detail.mainOrDeActivity")}}</label> <span><i class="iconfont icon-jianquminus25"></i><lts-money :money="order.discount - order.fee_promotion_manjian"></lts-money></span>
+            <div class="text" v-if="order.fee_promotion_all - order.fee_promotion_manjian">
+                <label>{{$t("main.order.detail.mainOrDeActivity")}}</label> <span><i class="iconfont icon-jianquminus25"></i><lts-money :money="order.fee_promotion_all - order.fee_promotion_manjian"></lts-money></span>
             </div>
             <div class="text" v-if="order.fee_promotion_manjian">
                 <label>{{$t("main.order.detail.mainOrDeFullReduce")}}</label> <span><i class="iconfont icon-jianquminus25"></i><lts-money :money="order.fee_promotion_manjian"></lts-money></span>

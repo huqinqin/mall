@@ -267,9 +267,9 @@
             <p v-if="deliveryType == 'ZITI' ">{{$t("main.cart.settle.mainCartSeZitiAdress")}}：
                 <span>{{user.shop_address}}</span></p>
             <p v-else>{{ $t("main.address.mainAddReceivingAddress") }}：
-                <span>{{checkedAddress.address}}&nbsp;{{checkedAddress.building}}</span></p>
+                <span>{{checkedAddress.street}}{{checkedAddress.address}}&nbsp;{{checkedAddress.city}}</span></p>
             <p v-if="deliveryType != 'ZITI' && checkedAddress.valid_time">{{$t("main.cart.settle.mainCartSeQuaAddr")}}：
-                {{checkedAddress.address}}</p>
+                {{checkedAddress.address}}&nbsp;{{checkedAddress.city}}</p>
         </div>
         <div class="submit">
             <el-button @click="settle" :disabled="canSubmit || checkedId == 0">

@@ -1,61 +1,11 @@
 <template>
     <div class="search">
-        <div class="nav">
-            <el-breadcrumb separator-class="el-icon-arrow-right" v-if="data.length > 0">
-                <el-breadcrumb-item :to="{ path: '/' }">{{$t("main.search.mainSeaGoods")}}</el-breadcrumb-item>
-            </el-breadcrumb>
-            <div class="tags" v-if="JSON.stringify(conditions) != '{}'">
-                <el-tag  v-for="(tag,key) in conditions" :key="tag" type="danger" closable @close="delCondition(key)">{{tag}}</el-tag>
-            </div>
-        </div>
-
-        <div :class="{shown: minItem > 3}" v-if="condition.length > 0">
-            <el-form class="condition">
-                <el-form-item
-                    v-for="(propObj,index) in condition"
-                    :label="propObj.name"
-                    :key = "propObj.name"
-                    :class="{showAll: propObj.name === selectedItem }"
-                    label-width="200px"
-                    label-position="left">
-                    <ul>
-                        <li v-for="(subItem,index) in propObj.value" @click="searchWithText(propObj,subItem)" :key="subItem">
-                            {{subItem}}
-                        </li>
-                    </ul>
-                    <!--<div class="buttons" @click="showAllCondition" ref="buttons">-->
-                    <!--<button>更多</button><i class="iconfont icon-xianshigengduo"></i>-->
-                    <!--</div>-->
-                </el-form-item>
-
-            </el-form>
-            <div class="loadMore" @click="showMore" v-if="condition.length > 3">
-                <button>
-                    <span v-if="!closeProps">{{$t("main.search.mainSeaMoreSelect")}}</span>
-                    <span v-else="closeProps">{{$t("main.search.mainSeaUp")}}</span>
-                    <i class="iconfont icon-xianshigengduo" :class="[closeProps ? 'show' : '']"></i>
-                </button>
-            </div>
+        <div class="banner" :style="{backgroundImage : 'url(' + img + ')'}"></div>
+        <div class="navBar">
+            <p class="navBarSave">Save 50% on select IP products</p>
+            <p class="navBarDate"><span>This round ends in:</span><span>04</span><span>:</span><span>04</span><span>:</span><span>04</span></p>
         </div>
         <div class="content" v-if="data.length > 0">
-            <div class="header">
-                <div class="left">
-                    <div class="synth" @click="selectOrderBy" data-value='A' :class='{active:activeItem == $t("main.search.mainSeaCompre")}'>{{$t("main.search.mainSeaCompre")}}</div>
-                    <div class="price" @click="selectOrderBy" data-value='B' :class="[{active:activeItem == $t('main.search.mainSeaPrice'),isDesc:priceDesc}]">{{$t("main.search.mainSeaPrice")}}<i class="iconfont icon-shang1"></i></div>
-                    <div class="time" @click="selectOrderBy"  data-value='C' :class='[{active:activeItem == $t("main.search.mainSeaShelf"),isDesc:cdateDesc}]'>{{$t("main.search.mainSeaShelf")}}<i class="iconfont icon-shang1"></i></div>
-                    <!--<div class="input"><i class="iconfont icon-dingdanjine"></i><input type="text" class="lowest" @input="showRangeButton"></div>-->
-                    <!--<div class="hr"></div>-->
-                    <!--<div class="input"><i  class="iconfont icon-dingdanjine"></i><input type="text" class="highest" @input="showRangeButton"></div>-->
-                    <!--<button v-show="showRange">确定</button>-->
-                </div>
-                <div class="right">
-                    <div><span>{{search.page}}</span>/{{rightTotal}}</div>
-                    <div class="buttons">
-                        <el-button icon="el-icon-arrow-left" @click="prePage" :disabled="search.page === 1"></el-button>
-                        <el-button icon="el-icon-arrow-right" @click="nextPage" :disabled="search.page === rightTotal"></el-button>
-                    </div>
-                </div>
-            </div>
             <div class="search-result">
                 <ul class="result">
                     <li v-for="item in data" :key="item.id" v-bind:class="{'limit':item.discount_type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1,'newSeller': item.isNew}">
@@ -117,6 +67,7 @@
         name: "activity",
         data(){
             return{
+                img:require('../../../assets/img/five.png'),
                 activeLi: '',
                 activeOrderBy: '',
                 selectedItem: '',
@@ -160,11 +111,15 @@
             this.selfContext.$on("getItemList",this.submit)
         },
         mounted(){
+            this.getList();
             $("html").attr('class','white')
             this.tags = this.$route.query.tags ? this.$route.query.tags.split(',') : [];
             this.submit();
         },
         methods: {
+            getList(){
+                ItemService.searchItem().then((data) => {})
+            },
             changePage(currentPage){
                 this.search.page = currentPage;
                 this.searchWithText()
@@ -288,10 +243,11 @@
         }
     }
     .search{
+        font-family: "Microsoft YaHei";
         *{
             box-sizing: border-box;
         }
-
+        min-width: 1200px;
         li{
             box-sizing: border-box;
             position: relative;
@@ -739,6 +695,39 @@
                 height: 100%;
                 background-size: cover;
                 background-repeat: no-repeat;
+            }
+        }
+        .banner{
+            width: 100%;
+            height: 500px;
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            border: 1px solid #f6f6f6;
+        }
+        .navBar{
+            width: 100%;
+            background-color: #D82929;
+            box-sizing: border-box;
+            padding-left: 20px;
+            padding-right: 20px;
+            height: 60px;
+            line-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 20px 0;
+            .navBarSave{
+                color: #fff;
+                font-size: 24px;
+                font-weight: bold;
+            }
+            .navBarDate{
+                color: #fff;
+                font-size: 24px;
+                span:nth-child(2){
+                    margin-left: 10px;
+                }
             }
         }
     }

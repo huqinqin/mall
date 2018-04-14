@@ -63,7 +63,7 @@
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="creditFormVisible = false;$refs['form'].clearValidate();">{{$t("main.order.list.mainOrLiCanle")}}</el-button>
-          <el-button type="primary" @click="submitCreditForm">{{$t("main.order.list.mainOrLiConfirm")}}</el-button>
+          <el-button type="primary" @click="submitCreditForm" style="margin-right: 24px;">{{$t("main.order.list.mainOrLiConfirm")}}</el-button>
         </div>
       </el-dialog>
     </div>
@@ -218,6 +218,9 @@
 
 <style lang="less">
   .beforePay {
+      .el-dialog__body{
+          padding: 20px 20px 0 20px;
+      }
     color: #737373;
     .el-radio:focus:not(.is-focus):not(:active) .el-radio__inner {
       box-shadow: none;
@@ -332,7 +335,7 @@
       }
       .creditDialog{
         .el-dialog{
-          width:400px;
+          width:410px;
         }
         .el-dialog__header{
           text-align: left;

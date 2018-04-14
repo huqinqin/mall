@@ -7,8 +7,8 @@
         <p>{{ $t("main.cart.fail.mainCartFaOrderNum") }}：{{tid}}</p>
         <p>{{ $t("main.cart.fail.mainCartFaConsignee") }}：{{this.detailOrder.user_name}}
           {{this.detailOrder.receiver_mobile}}</p>
-        <p :title="this.detailOrder.user_addr">{{addr}}:{{ $t("main.cart.fail.mainCartFaReceivingAddress")
-          }}：{{this.detailOrder.user_addr}}</p>
+        <p :title="this.detailOrder.user_addr_detail">{{addr}}:{{ $t("main.cart.fail.mainCartFaReceivingAddress")
+          }}：{{this.detailOrder.user_addr_detail}}</p>
         <p>{{ $t("main.cart.fail.mainCartFaLogisticsMode") }}：{{method}}</p>
         <div class="button">
           <a :href="'/order?t=' + new Date().getTime() + '#/'" @click="toOrder">

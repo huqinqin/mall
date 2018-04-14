@@ -61,7 +61,7 @@
         <div class="content" v-if="data.length > 0">
             <div class="search-result">
                 <ul class="result">
-                    <li v-for="item in data" :key="item.id" class="fiveMan">
+                    <li v-for="item in data1" :key="item.id" class="fiveMan">
                         <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
                             <div class="img" :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}"></div>
                             <p class="name" :title="item.item_name">{{item.item_name}}</p>
@@ -159,6 +159,7 @@
                 },
                 tags: [],
                 data:[],
+                data1:[],
                 rightTotal : 0,
                 closeProps : false,
 
@@ -180,15 +181,22 @@
         },
         methods: {
             getList(){
-                let tags = [];
+                let tags = ["正价商品","测试测试"];
                 let search = {
                     page: this.search.page,
                     pageSize: this.search.pageSize,
                     orderBy: 'cdate desc'
                 }
                 ItemService.searchList(search,tags).then((resp) => {
-                    this.data = resp.data.item_d_o_list;
-                    console.log(this.data);
+                    resp.data.item_d_o_list.forEach((item) => {
+
+                        if(item.tag == "测试测试"){
+                            this.data.push(item);
+                        }else if(item.tag != "测试测试"){
+                            this.data1.push(item);
+                        }
+                    });
+                    console.log(this.data1);
                 })
             },
             changePage(currentPage){

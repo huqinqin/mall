@@ -366,7 +366,7 @@
               propMap = defaultSkuItem.propMap
           }
         })
-        prod.item_prop_value_maps.forEach(x => {
+        propMap && prod.item_prop_value_maps.forEach(x => {
           let pvalue = propMap[x.prop_name]
           if (pvalue !== undefined){
               x.prop_values.forEach(prop => {

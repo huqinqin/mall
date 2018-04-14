@@ -341,6 +341,7 @@
               <div class="bottomline">
                 <div><span>{{ $t("main.cart.list.mainCartliBenefit") }}：-</span> <lts-money :money="totalPrice - realTotal"></lts-money>
                 </div>
+                  <!--<div><span>满减：<lts-money :money="minusPro"></lts-money></span></div>-->
                 <div><span>{{ $t("main.cart.list.mainCartliShouldPay") }}：</span><span class="bold"><lts-money
                   :money="realTotal"></lts-money></span></div>
               </div>

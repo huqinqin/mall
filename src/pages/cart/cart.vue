@@ -1,7 +1,10 @@
 <template>
   <div class="cart">
     <div class="header">
-      <a href="/"><img src="../../assets/img/LOGO_html.jpg" alt="LTS-logo"></a>
+      <a href="/" class="img-wrapper">
+          <!--<img src="../../assets/img/LOGO_html.jpg" alt="LTS-logo">-->
+          <div class="img iconfont icon-LTSLOGO"></div>>
+      </a>
       <el-steps :active=active align-center finish-status="success">
         <el-step :title='$t("main.cart.other.mainCartOtCart")'></el-step>
         <el-step :title='$t("main.cart.other.mainCartOtConfimOrderInfo")'></el-step>
@@ -47,9 +50,11 @@
       justify-content: space-between;
       align-items: center;
       overflow: hidden;
-      img {
-        width: 140px;
-        height: 50px;
+      .img {
+          font-size: 160px;
+          color: #cc242e;
+          position: relative;
+          top: 20px;
       }
       .el-steps {
         width: 800px;

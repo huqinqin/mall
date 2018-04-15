@@ -413,6 +413,8 @@
                 display: block;
                 font-size: 200px !important;
                 color: #cc242e !important;
+                position: relative;
+                top: 10px;
             }
         }
         .el-select .el-input {

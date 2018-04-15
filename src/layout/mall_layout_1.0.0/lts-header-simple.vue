@@ -1,7 +1,9 @@
 <template>
     <div slot="header" class="simpleHead">
         <main class="s-span-page">
-            <a href="/"><img src="../../assets/img/LOGO_html.jpg" alt="LTS-logo"></a>
+            <a href="/">
+                <div class="img iconfont icon-LTSLOGO"></div>>
+            </a>
             <el-input :placeholder="$t('comHeader.headerSearchGoods')" v-model="keywords" @keyup.native.enter='searchToHref'>
               <el-button slot="append" type="primary" icon="el-icon-search" @click="searchToHref"></el-button>
             </el-input>
@@ -36,9 +38,11 @@
             justify-content: space-between;
             align-items: center;
             overflow: hidden;
-            img{
-                width:140px;
-                height: 50px;
+            .img {
+                font-size: 160px;
+                color: #cc242e;
+                position: relative;
+                top: 20px;
             }
             .el-input{
                 width:550px;

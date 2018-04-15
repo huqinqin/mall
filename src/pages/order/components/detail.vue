@@ -155,6 +155,9 @@
             <div class="text" v-if="order.pay_info.acc_bonus_pay">
                 <label>{{$t("main.order.detail.mainOrDeGouwu")}}</label> <span><i class="iconfont icon-jianquminus25"></i><lts-money :money="order.pay_info.acc_bonus_pay"></lts-money></span>
             </div>
+            <div class="text" v-if="order.discount">
+                <label>{{$t("main.order.detail.mainOrDeDiscount")}}</label> <span><i class="iconfont icon-jianquminus25"></i><lts-money :money="order.discount"></lts-money></span>
+            </div>
             <div class="text">
                 <label>{{$t("main.cart.settle.mainCartSeFright")}}</label> <span><i class="iconfont icon-jia11"></i><lts-money :money="order.fee_hd_value.HD_ALL"></lts-money></span>
             </div>

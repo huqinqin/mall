@@ -3,12 +3,12 @@
         <div class="banner" :style="{backgroundImage : 'url(' + img + ')'}"></div>
         <div class="navBar">
             <p class="navBarSave">Save 50% on select IP products</p>
-            <p class="navBarDate"><span>This round ends in:</span><span>04</span><span>:</span><span>04</span><span>:</span><span>04</span></p>
+            <p class="navBarDate"><span>This round ends in:</span><span class="timeBorder">04</span><span>:</span><span class="timeBorder">04</span><span>:</span><span class="timeBorder">04</span></p>
         </div>
         <div class="content" v-if="data.length > 0">
             <div class="search-result">
                 <ul class="result">
-                    <li v-for="item in data" :key="item.id" v-bind:class="{'limit':item.discount_type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1,'newSeller': item.isNew}">
+                    <li v-for="item in data" :key="item.id" class="fiveDis">
                         <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
                             <div class="img" :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}"></div>
                             <p class="name" :title="item.item_name">{{item.item_name}}</p>
@@ -40,9 +40,10 @@
                                 </p>
                             </div>
                         </a>
+                        <span class="iconfont icon-gouwuche-copy cart" v-ltsLoginShow:true></span>
                     </li>
                 </ul>
-                <el-pagination
+                <!--<el-pagination
                     background
                     layout="prev, pager, next"
                     :total= "search.totalPage"
@@ -50,13 +51,73 @@
                     :prev-text='$t("main.search.mainSeaPre")'
                     :next-text='$t("main.search.mainSeaNext")'
                     :current-page="search.page"
-                    @current-change="changePage"></el-pagination>
+                    @current-change="changePage"></el-pagination>-->
+            </div>
+        </div>
+        <div class="navBar" style="background-color: #F2AC31">
+            <p class="navBarSave">Save <span style="color: #D82929">$50</span>for every <span style="color: #D82929">$500</span>purchase on frequently bought together items</p>
+            <p class="navBarDate"><span>This round ends in:</span><span class="timeBorder">04</span><span>:</span><span class="timeBorder">04</span><span>:</span><span class="timeBorder">04</span></p>
+        </div>
+        <div class="content" v-if="data.length > 0">
+            <div class="search-result">
+                <ul class="result">
+                    <li v-for="item in data1" :key="item.id" class="fiveMan">
+                        <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
+                            <div class="img" :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}"></div>
+                            <p class="name" :title="item.item_name">{{item.item_name}}</p>
+                            <div class="item-price">
+                                <button v-ltsLoginShow:false v-login>{{$t("main.search.mainSeaLogin")}}</button>
+                                <!--<p class="price" v-ltsLoginShow:true v-if="item.activity_price">-->
+                                <!--<lts-money :money="item.activity_price"></lts-money>-->
+                                <!--</p>-->
+                                <p class="price" v-ltsLoginShow:true>
+                                    <span class="realPrice">
+                                        <template v-if="item.discount_type ==1">
+                                            <lts-money :money="item.price * item.discount / 100"></lts-money>
+                                        </template>
+                                        <template v-else-if="item.discount_type ==2">
+                                            <lts-money :money="item.price - item.discount"></lts-money>
+                                        </template>
+                                        <template v-else-if="item.discount_type ==4">
+                                            <lts-money :money="item.sale_rule_do.price"></lts-money>
+                                        </template>
+                                        <template v-else>
+                                            <lts-money :money="item.price"></lts-money>
+                                        </template>
+                                    </span>
+                                    <span class="oldPrice">
+                                        <template v-if="item.discount_type != 0">
+                                            <lts-money :money="item.price"></lts-money>
+                                        </template>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                        <span class="iconfont icon-gouwuche-copy cart" v-ltsLoginShow:true></span>
+                    </li>
+                </ul>
+               <!-- <el-pagination
+                    background
+                    layout="prev, pager, next"
+                    :total= "search.totalPage"
+                    :page-size= "search.pageSize"
+                    :prev-text='$t("main.search.mainSeaPre")'
+                    :next-text='$t("main.search.mainSeaNext")'
+                    :current-page="search.page"
+                    @current-change="changePage"></el-pagination>-->
             </div>
         </div>
         <div v-else-if="data.length <= 0 && isLoadEnding" class="error">
             <div :style="{backgroundImage: 'url('+errorImg+')'}">
             </div>
         </div>
+        <ul class="moreIcon">
+            <li><div class="iconfont icon-xinyongqia1"></div><p>Credit Card Checkout</p></li>
+            <li><div>30-DAY</div><p>Return Guarantee</p></li>
+            <li><div class="iconfont icon-dianhua1"></div><p>Free IP Consulting</p></li>
+            <li><div class="iconfont icon-LTS-LOGO-"></div><p>LTS Mall iOS & Andriod App</p></li>
+        </ul>
+        <div class="banner1" :style="{backgroundImage : 'url(' + img1 + ')'}"></div>
     </div>
 </template>
 
@@ -68,6 +129,7 @@
         data(){
             return{
                 img:require('../../../assets/img/five.png'),
+                img1:require('../../../assets/img/saleall.png'),
                 activeLi: '',
                 activeOrderBy: '',
                 selectedItem: '',
@@ -97,6 +159,7 @@
                 },
                 tags: [],
                 data:[],
+                data1:[],
                 rightTotal : 0,
                 closeProps : false,
 
@@ -107,22 +170,38 @@
             }
 
         },
-        created(){
+        /*created(){
             this.selfContext.$on("getItemList",this.submit)
-        },
+        },*/
         mounted(){
             this.getList();
             $("html").attr('class','white')
             this.tags = this.$route.query.tags ? this.$route.query.tags.split(',') : [];
-            this.submit();
+            /*this.submit();*/
         },
         methods: {
             getList(){
-                ItemService.searchItem().then((data) => {})
+                let tags = ["正价商品","测试测试"];
+                let search = {
+                    page: this.search.page,
+                    pageSize: this.search.pageSize,
+                    orderBy: 'cdate desc'
+                }
+                ItemService.searchList(search,tags).then((resp) => {
+                    resp.data.item_d_o_list.forEach((item) => {
+
+                        if(item.tag == "测试测试"){
+                            this.data.push(item);
+                        }else if(item.tag != "测试测试"){
+                            this.data1.push(item);
+                        }
+                    });
+                    console.log(this.data1);
+                })
             },
             changePage(currentPage){
                 this.search.page = currentPage;
-                this.searchWithText()
+                /*this.searchWithText()*/
             },
             // 上下一页
             prePage(){
@@ -131,96 +210,7 @@
             nextPage(){
                 this.search.page++
             },
-            searchWithText(spceList = {},item = ''){
-                if(item){
-                    this.search.condition = []
-                    this.conditions[spceList.name] = item
-                    for(let key in this.conditions){
-                        this.search.condition.push('' + key + ':' + this.conditions[key] + '')
-                    }
-                }
-                this.submit()
-            },
-            // 调接口
-            submit(){
-                this.search.itemName = this.$route.query.keywords;
-                if(this.$route.query.cateId == '-1000' || this.$route.query.cateId.length == ''){
-                    this.search.cateId = '';
-                }else{
-                    this.search.cateId = JSON.parse(this.$route.query.cateId);
-                }
-                ItemService.searchItem(this.search,this.tags).then((rtn)=>{
-                    this.data = rtn.data.item_d_o_list
-                    this.data.forEach((item) => {
-                        if(item.tag.indexOf('新品') != -1){
-                            item.isNew = true
-                        }
-                    })
-                    // TOOD 这里计算页数
-                    this.search.totalPage = rtn.data.total;
 
-                    this.rightTotal = Math.ceil(this.search.totalPage/this.search.pageSize);
-                    this.condition = rtn.data.aggregate_cate_prop_list;
-                    this.isLoadEnding = true;
-//                    for(let val in rtn.data.aggregate_cate_prop_map){
-//                        let key = rtn.data.aggregate_cate_prop_map[val],Object = {};
-//                        Object[key] = rtn.data.aggregate_cate_prop_map[val].split(',');
-//                        this.condition.push(Object);
-//                    }
-                })
-            },
-
-            // 关闭条件
-            delCondition(val) {
-                delete this.conditions[val]
-                this.search.condition = []
-                for(let key in this.conditions){
-                    this.search.condition.push('' + key + ':' + this.conditions[key] + '')
-                }
-                this.submit();
-            },
-            selected(selected){
-                this.activeLi = selected
-            },
-            selectOrderBy(e){
-                console.log(e.currentTarget.getAttribute("data-value"));
-                this.priceDesc = false
-                this.cdateDesc = false
-                switch (e.currentTarget.getAttribute("data-value")){
-                    case 'A':
-                        this.search.orderBy = ''
-                        this.activeItem = this.$t("main.search.mainSeaCompre");
-                        break
-                    case 'B':
-                        this.search.orderBy = this.search.orderBy === 'price asc' ? 'price desc' : 'price asc'
-                        this.activeItem = this.$t("main.search.mainSeaPrice");
-                        this.priceDesc = this.search.orderBy === 'price desc' ? true :false
-                        break
-                    case 'C':
-                        this.search.orderBy = this.search.orderBy === 'cdate asc' ? 'cdate desc' : 'cdate asc'
-                        this.activeItem = this.$t("main.search.mainSeaShelf");
-                        this.cdateDesc = this.search.orderBy === 'cdate desc' ? true :false
-                        break
-                }
-                this.submit()
-            },
-
-            // 点击更多按钮
-            showAllCondition(e){
-                this.selectedItem = this.selectedItem === e.path[3].childNodes[0].innerText ? '' : e.path[3].childNodes[0].innerText
-                console.log(this.selectedItem)
-
-            },
-            // 加载所有条件
-            showMore(){
-                this.closeProps = !this.closeProps;
-                this.minItem = this.minItem === 3 ? this.condition.length : 3
-            },
-
-            // 输入价格区间显示确定按钮
-            showRangeButton(){
-                this.showRange = true
-            }
         }
     }
 </script>
@@ -253,28 +243,22 @@
             position: relative;
             overflow: hidden;
         }
-        li.reduce::before,li.discount::before,li.limit::before,li.newSeller::before{
-            content:'';
-            width:100px;
-            height: 100px;
-            position: absolute;
-            top: 0px;
-            left: 0px;
-            background-position: 0 0;
-            background-repeat: no-repeat;
-            background-size: 100px 100px;
-        }
-        li.newSeller::before{
-            background-image:url('../../../assets/img/new.png');
-        }
-        li.reduce::before{
-            background-image:url('../../../assets/img/ONSALE.png');
-        }
-        li.discount::before{
-            background-image:url('../../../assets/img/Discount.png');
-        }
-        li.limit::before{
-            background-image:url('../../../assets/img/Doorbuster.png');
+        .moreIcon{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            li{
+                flex: 1;
+                color:#D31927;
+                text-align: center;
+                div{
+                    font-size: 24px;
+                };
+                p{
+                    color: #000;
+                    font-size: 14px;
+                }
+            }
         }
         button{
             cursor:pointer;
@@ -459,7 +443,7 @@
         }
         .content{
             margin-top: 22px;
-            padding-bottom: 100px;
+            /*padding-bottom: 100px;*/
             .header{
                 line-height: 40px;
                 height:40px;
@@ -670,6 +654,47 @@
                         left:15px;
 
                     }
+                    .fiveDis{
+                    }
+                    .cart{
+                        position: absolute;
+                        right: 8px;
+                        bottom: 30px;
+                        font-size: 20px;
+                        color: #FF3B41;
+                        width: 30px;
+                        height: 30px;
+                        border-radius: 50%;
+                        border: 1px solid #FF3B41;
+                        line-height: 30px;
+                    }
+                    /*.fiveDis{*/
+                        .fiveDis::before{
+                            content:'';
+                            width:50px;
+                            height: 50px;
+                            position: absolute;
+                            top: 0px;
+                            left: 0px;
+                            background-position: 0 0;
+                            background-repeat: no-repeat;
+                            background-size: 50px 50px;
+                            background-image:url('../../../assets/img/fiveIcon.png');
+                        }
+                    /*.fiveDis::after{
+                        content:'';
+                        width:40px;
+                        height: 40px;
+                        position: absolute;
+                        left: 81%;
+                        top: 81%;
+                        background-position: 0 0;
+                        background-repeat: no-repeat;
+                        background-size: 40px 40px;
+                        background-image:url('../../../assets/img/fiveIcon.png');
+                    }*/
+                    /*}*/
+
                 }
                 .el-pagination{
                     position: absolute;
@@ -705,6 +730,15 @@
             background-repeat: no-repeat;
             border: 1px solid #f6f6f6;
         }
+        .banner1{
+            width: 100%;
+            height: 300px;
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            border: 1px solid #f6f6f6;
+            margin-top: 20px;
+        }
         .navBar{
             width: 100%;
             background-color: #D82929;
@@ -727,6 +761,17 @@
                 font-size: 24px;
                 span:nth-child(2){
                     margin-left: 10px;
+                };
+                .timeBorder{
+                    width: 40px;
+                    height: 40px;
+                    line-height: 40px;
+                    background-color: #a91414;
+                    border: 1px solid #a91414;
+                    color: #fff;
+                    font-size: 24px;
+                    font-weight: bold;
+                    margin: 0 5px;
                 }
             }
         }

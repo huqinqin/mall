@@ -79,4 +79,16 @@ export default class ItemService extends BaseService {
         };
         return super.getRequest('/installer/item/get_item_with_props', params)
     }
+    static searchList(search,tags) {
+        let params = {
+            item_search: JSON.stringify({
+                tags: tags ? tags : [],
+                type: 0,
+            }),
+            page: search.page,
+            page_size: search.pageSize,
+            order_by: search.orderBy
+        };
+        return super.getRequest('/installer/item/get_item_with_aggregate', params)
+    }
 }

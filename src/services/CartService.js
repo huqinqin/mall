@@ -24,6 +24,7 @@ export default class CartService extends BaseService {
      * remark 添加购物车
      */
     static putCartPlus(param,checkedSpu){
+        debugger
         let params;
         checkedSpu.spuId = checkedSpu.spu_id;
         params = {

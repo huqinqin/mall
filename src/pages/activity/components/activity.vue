@@ -40,18 +40,9 @@
                                 </p>
                             </div>
                         </a>
-                        <span class="iconfont icon-gouwuche-copy cart" v-ltsLoginShow:true></span>
+                        <span class="iconfont icon-gouwuche-copy cart" v-ltsLoginShow:true @click="addCart(item,item.item_props[0])"></span>
                     </li>
                 </ul>
-                <!--<el-pagination
-                    background
-                    layout="prev, pager, next"
-                    :total= "search.totalPage"
-                    :page-size= "search.pageSize"
-                    :prev-text='$t("main.search.mainSeaPre")'
-                    :next-text='$t("main.search.mainSeaNext")'
-                    :current-page="search.page"
-                    @current-change="changePage"></el-pagination>-->
             </div>
         </div>
         <div class="navBar" style="background-color: #F2AC31">
@@ -93,7 +84,7 @@
                                 </p>
                             </div>
                         </a>
-                        <span class="iconfont icon-gouwuche-copy cart" v-ltsLoginShow:true></span>
+                        <span class="iconfont icon-gouwuche-copy cart" v-ltsLoginShow:true  @click="addCart(item,item.item_props[0])"></span>
                     </li>
                 </ul>
                <!-- <el-pagination
@@ -125,6 +116,7 @@
     import $ from 'jquery'
     import ItemService from '@/services/ItemService'
     import TimeService from '@/services/TimeService'
+    import cartService from '@/services/CartService'
     export default {
         name: "activity",
         data(){
@@ -179,6 +171,19 @@
             this.tags = this.$route.query.tags ? this.$route.query.tags.split(',') : [];
         },
         methods: {
+             addCart(item, spu) {
+                /* if (!this.validate()) {
+                     return false
+                 }*/
+                cartService.putCartPlus(item, spu).then((data) => {
+                    /*if (!this.showPropsError) {
+                        this.flag = true
+                    }*/
+                    this.$ltsMessage.show({type:'success',message:'加入购物车成功'})
+                }, (msg) => {
+                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                })
+            },
              add0(m){return m<10?'0'+m:m },
              formatDate(needTime)
               {
@@ -190,9 +195,6 @@
                 var h = time.getHours();
                 var mm = time.getMinutes();
                 var s = time.getSeconds();
-/*
-                return y+'-'+this.add0(m)+'-'+this.add0(d)+' '+this.add0(h)+':'+this.add0(mm)+':'+this.add0(s);
-*/
                   document.getElementsByClassName("time0")[0].innerHTML = this.add0(d) + "D"
                   document.getElementsByClassName("time1")[0].innerHTML = this.add0(h);
                   document.getElementsByClassName("time2")[0].innerHTML = this.add0(mm);
@@ -219,14 +221,6 @@
                     })
                 })
             },
-            /*getTimeService(){
-                let time = '2018-04-20 00:00:00'
-                TimeService.getUtcTime(time).then((data) =>{
-                    var date = new Date(data.time);
-                    let UCurrentTime = date.getTime();
-                    return UCurrentTime;
-                })
-            },*/
             getList(){
                 let tags = ["正价商品","测试测试"];
                 let search = {
@@ -236,11 +230,28 @@
                 }
                 ItemService.searchList(search,tags).then((resp) => {
                     resp.data.item_d_o_list.forEach((item) => {
-
                         if(item.tag == "测试测试"){
                             this.data.push(item);
+                            item.item_props = []
+                            item.item_struct_props.every((value) => {
+                                if(value.sku){
+                                    item.item_props.push(value);
+                                    item.spu_id = value.spu_id;
+                                    item.num = 1;
+                                    return false;
+                                }
+                            })
                         }else if(item.tag != "测试测试"){
                             this.data1.push(item);
+                            item.item_props = []
+                            item.item_struct_props.every((value) => {
+                                if(value.sku && value.storage > 0){
+                                    item.item_props.push(value);
+                                    item.spu_id = value.spu_id;
+                                    item.num = 1;
+                                    return false;
+                                }
+                            })
                         }
                     });
                     console.log(this.data1);

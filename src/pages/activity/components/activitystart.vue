@@ -14,9 +14,6 @@
                             <p class="name" :title="item.item_name">{{item.item_name}}</p>
                             <div class="item-price">
                                 <button v-ltsLoginShow:false v-login>{{$t("main.search.mainSeaLogin")}}</button>
-                                <!--<p class="price" v-ltsLoginShow:true v-if="item.activity_price">-->
-                                <!--<lts-money :money="item.activity_price"></lts-money>-->
-                                <!--</p>-->
                                 <p class="price" v-ltsLoginShow:true>
                                     <span class="realPrice">
                                         <template v-if="item.discount_type ==1">
@@ -40,25 +37,16 @@
                                 </p>
                             </div>
                         </a>
-                        <span class="iconfont icon-gouwuche-copy cart" v-ltsLoginShow:true></span>
+                        <span class="iconfont icon-gouwuche-copy cart" v-ltsLoginShow:true @click="addCart(item,item.item_props[0])"></span>
                     </li>
                 </ul>
-                <!--<el-pagination
-                    background
-                    layout="prev, pager, next"
-                    :total= "search.totalPage"
-                    :page-size= "search.pageSize"
-                    :prev-text='$t("main.search.mainSeaPre")'
-                    :next-text='$t("main.search.mainSeaNext")'
-                    :current-page="search.page"
-                    @current-change="changePage"></el-pagination>-->
             </div>
         </div>
         <div class="navBar" style="background-color: #F2AC31">
             <p class="navBarSave">Save <span style="color: #D82929">$50</span>for every <span style="color: #D82929">$500</span>purchase on frequently bought together items</p>
             <p class="navBarDate"><span>This round ends in:</span><span class="timeBorder time0" style="background-color: #000">04</span><span class="timeBorder time1">04</span><span>:</span><span class="timeBorder time2">04</span><span>:</span><span class="timeBorder time3">04</span></p>
         </div>
-        <div class="content" v-if="data.length > 0">
+        <div class="content" v-if="data1.length > 0">
             <div class="search-result">
                 <ul class="result">
                     <li v-for="item in data1" :key="item.id" class="fiveMan">
@@ -93,7 +81,7 @@
                                 </p>
                             </div>
                         </a>
-                        <span class="iconfont icon-gouwuche-copy cart" v-ltsLoginShow:true></span>
+                        <span class="iconfont icon-gouwuche-copy cart" v-ltsLoginShow:true  @click="addCart(item,item.item_props[0])"></span>
                     </li>
                 </ul>
                 <!-- <el-pagination
@@ -125,6 +113,7 @@
     import $ from 'jquery'
     import ItemService from '@/services/ItemService'
     import TimeService from '@/services/TimeService'
+    import cartService from '@/services/CartService'
     export default {
         name: "activity",
         data(){
@@ -167,21 +156,42 @@
                 errorImg : require('@/assets/img/error.png'),
 
                 isLoadEnding : false,
-                conditions:{}
+                conditions:{},
+                checkedSpu1:{},
+                checkedSpu2:{}
             }
 
         },
         mounted(){
             this.timeService();
-            /*this.getTimeService();*/
             this.getList();
             $("html").attr('class','white')
             this.tags = this.$route.query.tags ? this.$route.query.tags.split(',') : [];
         },
         methods: {
+            /*validate() {
+                if (!this.checkedSpu.spu_id) {
+                    this.showPropsError = true
+                    return false
+                } else {
+                    return true
+                }
+            },*/
+            addCart(item, spu) {
+               /* if (!this.validate()) {
+                    return false
+                }*/
+                cartService.putCartPlus(item, spu).then((data) => {
+                    /*if (!this.showPropsError) {
+                        this.flag = true
+                    }*/
+                    this.$ltsMessage.show({type:'success',message:'加入购物车成功'})
+                }, (msg) => {
+                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                })
+            },
             add0(m){return m<10?'0'+m:m },
-            formatDate(needTime)
-            {
+            formatDate(needTime) {
                 //needTime是整数，否则要parseInt转换
                 var time = new Date(needTime);
                 /*var y = time.getFullYear();*/
@@ -218,14 +228,6 @@
                     })
                 })
             },
-            /*getTimeService(){
-                let time = '2018-04-20 00:00:00'
-                TimeService.getUtcTime(time).then((data) =>{
-                    var date = new Date(data.time);
-                    let UCurrentTime = date.getTime();
-                    return UCurrentTime;
-                })
-            },*/
             getList(){
                 let tags = ["正价商品","测试测试"];
                 let search = {
@@ -235,11 +237,28 @@
                 }
                 ItemService.searchList(search,tags).then((resp) => {
                     resp.data.item_d_o_list.forEach((item) => {
-
                         if(item.tag == "测试测试"){
                             this.data.push(item);
+                            item.item_props = []
+                            item.item_struct_props.every((value) => {
+                                if(value.sku){
+                                    item.item_props.push(value);
+                                    item.spu_id = value.spu_id;
+                                    item.num = 1;
+                                    return false;
+                                }
+                            })
                         }else if(item.tag != "测试测试"){
                             this.data1.push(item);
+                            item.item_props = []
+                            item.item_struct_props.every((value) => {
+                                if(value.sku && value.storage > 0){
+                                    item.item_props.push(value);
+                                    item.spu_id = value.spu_id;
+                                    item.num = 1;
+                                    return false;
+                                }
+                            })
                         }
                     });
                     console.log(this.data1);
@@ -713,6 +732,7 @@
                         border-radius: 50%;
                         border: 1px solid #FF3B41;
                         line-height: 30px;
+                        cursor: pointer;
                     }
                     /*.fiveDis{*/
                     .fiveDis::before{

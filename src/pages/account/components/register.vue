@@ -58,7 +58,7 @@
                 <el-form-item label="Zip Code" prop="address">
                     <el-input v-model="signupForm.address" ></el-input>
                 </el-form-item>
-                <el-form-item label="Datail Addr" prop="detail">
+                <el-form-item label="Detail Address" prop="detail">
                     <el-input v-model="signupForm.detail" ></el-input>
                 </el-form-item>
                 <!--<el-form-item label="State" prop="state">

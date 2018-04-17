@@ -189,10 +189,13 @@
         methods: {
             // 级联选择器选择父元素
             focusSelect(){
-                let pop = jq('cascader-class')[0]
-                pop.on('hover','li',()=>{
-                    //alert('hover')
-                })
+              let dom = jq('cascader-class')
+              if (dom && dom[0] && dom[0].on){
+                  let pop = jq('cascader-class')[0]
+                  pop.on('hover','li',()=>{
+                      //alert('hover')
+                  })
+              }
             },
             // 选择关键字类型
             // handleCommand(value){

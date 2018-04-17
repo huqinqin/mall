@@ -103,7 +103,7 @@
                     <el-checkbox v-model="checked">Sign-up now for exclusive discounts and news</el-checkbox>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="submit" class="confirm" :class="{canClick:signupForm.agree === true}" @click="submitFrom" ><span>CREATE AN ACCOUNT</span></el-button>
+                    <el-button type="submit" class="confirm" :class="{canClick:signupForm.agree === true}" @click="submitFrom" ><span>Complete</span></el-button>
                 </el-form-item>
             </el-form>
         </main>

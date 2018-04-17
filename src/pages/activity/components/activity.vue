@@ -222,7 +222,7 @@
                 })
             },
             getList(){
-                let tags = ['5折','新品推荐'];
+                let tags = ['5折','关联商品'];
                 let search = {
                     page: this.search.page,
                     pageSize: this.search.pageSize,
@@ -243,7 +243,7 @@
                                     return false;
                                 }
                             })
-                        }else if(item.tag != "5折"){
+                        }else if(item.tag == "关联商品"){
                             this.data1.push(item);
                             item.item_props = []
                             item.item_struct_props.every((value) => {

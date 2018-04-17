@@ -35,7 +35,7 @@
         data(){
             return{
                 page:1,
-                pageSize:12,
+                pageSize:20,
                 totalPage:0,
                 data:[]
             }

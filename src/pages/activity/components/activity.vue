@@ -21,7 +21,7 @@
                                     <p class="price" v-ltsLoginShow:true>
                                     <span class="realPrice">
                                         <template v-if="item.discount_type ==1">
-                                            <lts-money :money="item.price * item.discount / 100"></lts-money>
+                                            <lts-money :money="item.item_props[0].price_real"></lts-money>
                                         </template>
                                         <template v-else-if="item.discount_type ==2">
                                             <lts-money :money="item.price - item.discount"></lts-money>
@@ -30,12 +30,12 @@
                                             <lts-money :money="item.sale_rule_do.price"></lts-money>
                                         </template>
                                         <template v-else>
-                                            <lts-money :money="item.price"></lts-money>
+                                            <lts-money :money="item.item_props[0].price_real"></lts-money>
                                         </template>
                                     </span>
                                         <span class="oldPrice">
                                         <template v-if="item.discount_type != 0">
-                                            <lts-money :money="item.price"></lts-money>
+                                            <lts-money :money="item.item_props[0].price"></lts-money>
                                         </template>
                                     </span>
                                     </p>
@@ -67,7 +67,7 @@
                                 <p class="price" v-ltsLoginShow:true>
                                     <span class="realPrice">
                                         <template v-if="item.discount_type ==1">
-                                            <lts-money :money="item.price * item.discount / 100"></lts-money>
+                                            <lts-money :money="item.item_props[0].price_real"></lts-money>
                                         </template>
                                         <template v-else-if="item.discount_type ==2">
                                             <lts-money :money="item.price - item.discount"></lts-money>
@@ -76,12 +76,12 @@
                                             <lts-money :money="item.sale_rule_do.price"></lts-money>
                                         </template>
                                         <template v-else>
-                                            <lts-money :money="item.price"></lts-money>
+                                            <lts-money :money="item.item_props[0].price_real"></lts-money>
                                         </template>
                                     </span>
                                     <span class="oldPrice">
                                         <template v-if="item.discount_type != 0">
-                                            <lts-money :money="item.price"></lts-money>
+                                            <lts-money :money="item.item_props[0].price"></lts-money>
                                         </template>
                                     </span>
                                 </p>
@@ -98,10 +98,10 @@
             </div>
         </div>
         <ul class="moreIcon">
-            <li><div class="iconfont icon-xinyongqia1"></div><p>Credit Card Checkout</p></li>
+            <li><div class="img2"><img :src= img3 alt=""></div><p>Credit Card Checkout</p></li>
             <li><div>30-DAY</div><p>Return Guarantee</p></li>
-            <li><div class="iconfont icon-dianhua1"></div><p>Free IP Consulting</p></li>
-            <li><div class="iconfont icon-LTS-LOGO-"></div><p>LTS Mall iOS & Andriod App</p></li>
+            <li><div class="img2"><img :src= img4 alt=""></div><p>Free IP Consulting</p></li>
+            <li><div class="img2"><img :src= img2 alt=""></div><p>LTS Mall iOS & Andriod App</p></li>
         </ul>
         <div class="banner1" :style="{backgroundImage : 'url(' + img1 + ')'}"></div>
     </div>
@@ -118,6 +118,9 @@
             return{
                 img:require('../../../assets/img/five.png'),
                 img1:require('../../../assets/img/saleall.png'),
+                img2:require('../../../assets/img/icon.png'),
+                img3:require('../../../assets/img/card.png'),
+                img4:require('../../../assets/img/music.png'),
                 activeLi: '',
                 activeOrderBy: '',
                 selectedItem: '',
@@ -219,7 +222,7 @@
                 })
             },
             getList(){
-                let tags = ['测试测试','新品推荐'];
+                let tags = ['5折','新品推荐'];
                 let search = {
                     page: this.search.page,
                     pageSize: this.search.pageSize,
@@ -227,7 +230,7 @@
                 }
                 ItemService.searchList(search,tags).then((resp) => {
                     resp.data.item_d_o_list.forEach((item) => {
-                        if(item.tag == "测试测试"){
+                        if(item.tag == "5折"){
                             this.data.push(item);
                             item.item_props = []
                             item.item_struct_props.every((value) => {
@@ -240,7 +243,7 @@
                                     return false;
                                 }
                             })
-                        }else if(item.tag != "测试测试"){
+                        }else if(item.tag != "5折"){
                             this.data1.push(item);
                             item.item_props = []
                             item.item_struct_props.every((value) => {
@@ -269,7 +272,6 @@
             nextPage(){
                 this.search.page++
             },
-
         },
     }
 </script>
@@ -814,12 +816,12 @@
             margin: 20px 0;
             .navBarSave{
                 color: #fff;
-                font-size: 24px;
+                font-size: 18px;
                 font-weight: bold;
             }
             .navBarDate{
                 color: #fff;
-                font-size: 24px;
+                font-size: 18px;
                 span:nth-child(2){
                     margin-left: 10px;
                 };
@@ -846,6 +848,15 @@
         }
         .error2{
             background-color: #333333;
+        }
+        .img2{
+            width: 40px;
+            height: 40px;
+            margin: 10px auto;
+            img{
+                width: 100%;
+                height: 100%;
+            }
         }
     }
 

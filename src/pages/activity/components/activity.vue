@@ -47,7 +47,7 @@
                 </ul>
             </div>
         </div>
-        <div class="navBar" style="background-color: #F2AC31">
+        <div class="navBar11" style="background-color: #F2AC31">
             <p class="navBarSave">Save <span style="color: #D82929">$50</span>for every <span style="color: #D82929">$500</span>purchase on frequently bought together items</p>
             <p class="navBarDate"><span>This round starts in:</span><span class="timeBorder time0" style="background-color: #000">04</span><span class="timeBorder time1">04</span><span>:</span><span class="timeBorder time2">04</span><span>:</span><span class="timeBorder time3">04</span></p>
         </div>
@@ -802,7 +802,7 @@
             border: 1px solid #f6f6f6;
             margin-top: 20px;
         }
-        .navBar{
+        .navBar11{
             width: 100%;
             background-color: #D82929;
             box-sizing: border-box;

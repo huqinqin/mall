@@ -3,7 +3,7 @@
         <div class="banner" :style="{backgroundImage : 'url(' + img + ')'}"></div>
         <div class="navBar">
             <p class="navBarSave">Save 50% on select IP products</p>
-            <p class="navBarDate"><span>This round starts in:</span><span class="timeBorder time0" style="background-color: #000">04<span>D</span></span><span class="timeBorder time1">04</span><span>:</span><span class="timeBorder time2">04</span><span>:</span><span class="timeBorder time3">04</span></p>
+            <p class="navBarDate"><span>This round ends in:</span><span class="timeBorder time0" style="background-color: #000">04<span>D</span></span><span class="timeBorder time1">04</span><span>:</span><span class="timeBorder time2">04</span><span>:</span><span class="timeBorder time3">04</span></p>
         </div>
         <div class="content" v-if="data.length > 0">
             <div class="search-result">
@@ -14,9 +14,6 @@
                             <p class="name" :title="item.item_name">{{item.item_name}}</p>
                             <div class="item-price">
                                 <button v-ltsLoginShow:false v-login>{{$t("main.search.mainSeaLogin")}}</button>
-                                <!--<p class="price" v-ltsLoginShow:true v-if="item.activity_price">-->
-                                    <!--<lts-money :money="item.activity_price"></lts-money>-->
-                                <!--</p>-->
                                 <p class="price" v-ltsLoginShow:true>
                                     <span class="realPrice">
                                         <template v-if="item.discount_type ==1">
@@ -47,9 +44,9 @@
         </div>
         <div class="navBar" style="background-color: #F2AC31">
             <p class="navBarSave">Save <span style="color: #D82929">$50</span>for every <span style="color: #D82929">$500</span>purchase on frequently bought together items</p>
-            <p class="navBarDate"><span>This round starts in:</span><span class="timeBorder time0" style="background-color: #000">04</span><span class="timeBorder time1">04</span><span>:</span><span class="timeBorder time2">04</span><span>:</span><span class="timeBorder time3">04</span></p>
+            <p class="navBarDate"><span>This round ends in:</span><span class="timeBorder time0" style="background-color: #000">04</span><span class="timeBorder time1">04</span><span>:</span><span class="timeBorder time2">04</span><span>:</span><span class="timeBorder time3">04</span></p>
         </div>
-        <div class="content" v-if="data.length > 0">
+        <div class="content" v-if="data1.length > 0">
             <div class="search-result">
                 <ul class="result">
                     <li v-for="item in data1" :key="item.id" class="fiveMan">
@@ -87,15 +84,15 @@
                         <span class="iconfont icon-gouwuche-copy cart" v-ltsLoginShow:true  @click="addCart(item,item.item_props[0])"></span>
                     </li>
                 </ul>
-               <!-- <el-pagination
-                    background
-                    layout="prev, pager, next"
-                    :total= "search.totalPage"
-                    :page-size= "search.pageSize"
-                    :prev-text='$t("main.search.mainSeaPre")'
-                    :next-text='$t("main.search.mainSeaNext")'
-                    :current-page="search.page"
-                    @current-change="changePage"></el-pagination>-->
+                <!-- <el-pagination
+                     background
+                     layout="prev, pager, next"
+                     :total= "search.totalPage"
+                     :page-size= "search.pageSize"
+                     :prev-text='$t("main.search.mainSeaPre")'
+                     :next-text='$t("main.search.mainSeaNext")'
+                     :current-page="search.page"
+                     @current-change="changePage"></el-pagination>-->
             </div>
         </div>
         <div v-else-if="data.length <= 0 && isLoadEnding" class="error">
@@ -159,22 +156,31 @@
                 errorImg : require('@/assets/img/error.png'),
 
                 isLoadEnding : false,
-                conditions:{}
+                conditions:{},
+                checkedSpu1:{},
+                checkedSpu2:{}
             }
 
         },
         mounted(){
             this.timeService();
-            /*this.getTimeService();*/
             this.getList();
             $("html").attr('class','white')
             this.tags = this.$route.query.tags ? this.$route.query.tags.split(',') : [];
         },
         methods: {
-             addCart(item, spu) {
-                /* if (!this.validate()) {
-                     return false
-                 }*/
+            /*validate() {
+                if (!this.checkedSpu.spu_id) {
+                    this.showPropsError = true
+                    return false
+                } else {
+                    return true
+                }
+            },*/
+            addCart(item, spu) {
+               /* if (!this.validate()) {
+                    return false
+                }*/
                 cartService.putCartPlus(item, spu).then((data) => {
                     /*if (!this.showPropsError) {
                         this.flag = true
@@ -184,9 +190,8 @@
                     this.$ltsMessage.show({type: 'error', message: msg.error_message})
                 })
             },
-             add0(m){return m<10?'0'+m:m },
-             formatDate(needTime)
-              {
+            add0(m){return m<10?'0'+m:m },
+            formatDate(needTime) {
                 //needTime是整数，否则要parseInt转换
                 var time = new Date(needTime);
                 /*var y = time.getFullYear();*/
@@ -195,27 +200,29 @@
                 var h = time.getHours();
                 var mm = time.getMinutes();
                 var s = time.getSeconds();
-                  document.getElementsByClassName("time0")[0].innerHTML = this.add0(d) + "D"
-                  document.getElementsByClassName("time1")[0].innerHTML = this.add0(h);
-                  document.getElementsByClassName("time2")[0].innerHTML = this.add0(mm);
-                  document.getElementsByClassName("time3")[0].innerHTML = this.add0(s);
-                  document.getElementsByClassName("time0")[1].innerHTML = this.add0(d) + "D";
-                  document.getElementsByClassName("time1")[1].innerHTML = this.add0(h);
-                  document.getElementsByClassName("time2")[1].innerHTML = this.add0(mm);
-                  document.getElementsByClassName("time3")[1].innerHTML = this.add0(s);
-                },
-             timeService(){
+                /*
+                                return y+'-'+this.add0(m)+'-'+this.add0(d)+' '+this.add0(h)+':'+this.add0(mm)+':'+this.add0(s);
+                */
+                document.getElementsByClassName("time0")[0].innerHTML = this.add0(d) + "D"
+                document.getElementsByClassName("time1")[0].innerHTML = this.add0(h);
+                document.getElementsByClassName("time2")[0].innerHTML = this.add0(mm);
+                document.getElementsByClassName("time3")[0].innerHTML = this.add0(s);
+                document.getElementsByClassName("time0")[1].innerHTML = this.add0(d) + "D";
+                document.getElementsByClassName("time1")[1].innerHTML = this.add0(h);
+                document.getElementsByClassName("time2")[1].innerHTML = this.add0(mm);
+                document.getElementsByClassName("time3")[1].innerHTML = this.add0(s);
+            },
+            timeService(){
                 TimeService.getTimeAndZone().then((data) =>{
                     var date = new Date(data.current_time);
                     let UCurrentTime = date.getTime();
-                    let time = '2018-04-20 00:00:00'
+                    let time = '2018-04-21 00:00:00'
                     TimeService.getUtcTime(time).then((data) =>{
                         var date = new Date(data.time);
                         let deadTime = date.getTime();
                         let diff = deadTime - UCurrentTime;
-                        console.log(diff);
                         setInterval(() =>{
-                             diff = diff - 1000;
+                            diff = diff - 1000;
                             this.formatDate(diff);
                         },1000)
                     })
@@ -659,8 +666,7 @@
                                 font-weight: bold;
                                 font-size: 12px;
                                 color: #ff3b41;
-                                background: #fff;
-                                box-shadow: 0px 2px 15px 2px #ebebeb;
+                                box-shadow: 0px 2px 15px 2px #e9e9e9;
                             }
                             .price{
                                 position: relative;
@@ -726,20 +732,21 @@
                         border-radius: 50%;
                         border: 1px solid #FF3B41;
                         line-height: 30px;
+                        cursor: pointer;
                     }
                     /*.fiveDis{*/
-                        .fiveDis::before{
-                            content:'';
-                            width:50px;
-                            height: 50px;
-                            position: absolute;
-                            top: 0px;
-                            left: 0px;
-                            background-position: 0 0;
-                            background-repeat: no-repeat;
-                            background-size: 50px 50px;
-                            background-image:url('../../../assets/img/fiveIcon.png');
-                        }
+                    .fiveDis::before{
+                        content:'';
+                        width:50px;
+                        height: 50px;
+                        position: absolute;
+                        top: 0px;
+                        left: 0px;
+                        background-position: 0 0;
+                        background-repeat: no-repeat;
+                        background-size: 50px 50px;
+                        background-image:url('../../../assets/img/fiveIcon.png');
+                    }
                     /*.fiveDis::after{
                         content:'';
                         width:40px;

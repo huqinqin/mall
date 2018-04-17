@@ -192,6 +192,16 @@ export default function (App, router = new Router()) {
             }]
         },
         {
+            name:'registerPhone',
+            components:[{
+                name : 'lts-header',
+                template : ltsEmpty
+            },{
+                name : 'lts-footer',
+                template : ltsEmpty
+            }]
+        },
+        {
             name:'activity',
             components:[
                 {
@@ -199,7 +209,7 @@ export default function (App, router = new Router()) {
                     template : ltsHeadNotsearch
                 }
             ]
-        },
+        }
     ]
 
     pages.forEach((value,index,array)=>{

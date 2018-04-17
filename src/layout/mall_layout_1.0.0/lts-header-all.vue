@@ -189,11 +189,9 @@
         methods: {
             // 级联选择器选择父元素
             focusSelect(){
-                alert(12345)
                 let pop = jq('cascader-class')[0]
-                console.log(pop)
                 pop.on('hover','li',()=>{
-                    alert('hover')
+                    //alert('hover')
                 })
             },
             // 选择关键字类型

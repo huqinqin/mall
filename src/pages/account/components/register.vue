@@ -5,6 +5,8 @@
             <div class="title">Register an Account</div>
             <div class="line"></div>
         </header>
+        <div :style="{backgroundImage: 'url('+activeRegBg1+')'}" class="activeBgDiv">
+        <img :src="activeReg1" alt="" class="activePic">
         <main>
             <el-form label-position="top" :model="signupForm" :rules="rules" ref="form">
                 <el-form-item label="Email Address" prop="email">
@@ -107,6 +109,7 @@
                 </el-form-item>
             </el-form>
         </main>
+        </div>
     </div>
 </template>
 
@@ -134,6 +137,8 @@
                 }
             }
             return{
+                activeRegBg1: require('@/assets/img/activeRegBg1.png'),
+                activeReg1: require('@/assets/img/activeReg1.png'),
                 lccode:[],
                 checked:false,
                 send:true,
@@ -325,9 +330,18 @@
 
 <style lang="less">
     .accRegister{
-        padding-top: 30px;
-        padding-bottom: 60px;
-        border-bottom: 1px solid #f6f6f6;
+        padding-top: 2px;
+        .activeBgDiv{
+            overflow: hidden;
+            background-size: 100% 100%;
+            padding-bottom: 60px;
+            border-bottom: 1px solid #f6f6f6;
+            margin-top: 24px;
+        }
+        .activePic{
+            width: 46%;
+            margin: 10% 0 0 8%;
+        }
         .el-form--label-top .el-form-item {
             margin-right: 0px!important;
         }
@@ -344,8 +358,12 @@
             }
         }
         main{
-            width:400px;
-            margin:40px auto;
+            float: right;
+            /*width:400px;*/
+            /*margin:40px auto;*/
+            margin: 4% 5% 0 0;
+            background-color: #fff;
+            padding: 30px 40px;
             .el-form{
                 .el-form-item__label{
                     line-height: 26px;

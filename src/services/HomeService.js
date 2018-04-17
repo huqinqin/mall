@@ -6,8 +6,7 @@ export default class HomeService extends BaseService {
      * return datalist
      * */
     static getList(){
-        // return super.getRequest('/indexarea/get_index')
-        return super.getRequest('https://ltsb2b.oss-us-west-1.aliyuncs.com/webres/mall_index.json')
+        return super.getRequest('/indexarea/get_index')
     }
 
 }

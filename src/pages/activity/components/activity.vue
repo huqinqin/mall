@@ -9,18 +9,19 @@
             <div class="search-result">
                 <ul class="result">
                     <li v-for="item in data" :key="item.id" class="fiveDis">
-                        <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
-                            <div class="img" :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}"></div>
-                            <p class="name" :title="item.item_name">{{item.item_name}}</p>
-                            <div class="item-price">
-                                <button v-ltsLoginShow:false v-login>{{$t("main.search.mainSeaLogin")}}</button>
-                                <!--<p class="price" v-ltsLoginShow:true v-if="item.activity_price">-->
+                        <div :class="checkedSpu1.storage > 0? '' : 'error1'">
+                            <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
+                                <div class="img" :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}"></div>
+                                <p class="name" :title="item.item_name">{{item.item_name}}</p>
+                                <div class="item-price">
+                                    <button v-ltsLoginShow:false v-login>{{$t("main.search.mainSeaLogin")}}</button>
+                                    <!--<p class="price" v-ltsLoginShow:true v-if="item.activity_price">-->
                                     <!--<lts-money :money="item.activity_price"></lts-money>-->
-                                <!--</p>-->
-                                <p class="price" v-ltsLoginShow:true>
+                                    <!--</p>-->
+                                    <p class="price" v-ltsLoginShow:true>
                                     <span class="realPrice">
                                         <template v-if="item.discount_type ==1">
-                                            <lts-money :money="item.price * item.discount / 100"></lts-money>
+                                            <lts-money :money="item.item_props[0].price_real"></lts-money>
                                         </template>
                                         <template v-else-if="item.discount_type ==2">
                                             <lts-money :money="item.price - item.discount"></lts-money>
@@ -29,29 +30,21 @@
                                             <lts-money :money="item.sale_rule_do.price"></lts-money>
                                         </template>
                                         <template v-else>
-                                            <lts-money :money="item.price"></lts-money>
+                                            <lts-money :money="item.item_props[0].price_real"></lts-money>
                                         </template>
                                     </span>
-                                    <span class="oldPrice">
+                                        <span class="oldPrice">
                                         <template v-if="item.discount_type != 0">
-                                            <lts-money :money="item.price"></lts-money>
+                                            <lts-money :money="item.item_props[0].price"></lts-money>
                                         </template>
                                     </span>
-                                </p>
-                            </div>
-                        </a>
-                        <span class="iconfont icon-gouwuche-copy cart" v-ltsLoginShow:true></span>
+                                    </p>
+                                </div>
+                            </a>
+                            <button class="iconfont icon-gouwuche-copy cart" v-ltsLoginShow:true @click="addCart(item,item.item_props[0])" v-if="checkedSpu1.storage > 0"></button>
+                        </div>
                     </li>
                 </ul>
-                <!--<el-pagination
-                    background
-                    layout="prev, pager, next"
-                    :total= "search.totalPage"
-                    :page-size= "search.pageSize"
-                    :prev-text='$t("main.search.mainSeaPre")'
-                    :next-text='$t("main.search.mainSeaNext")'
-                    :current-page="search.page"
-                    @current-change="changePage"></el-pagination>-->
             </div>
         </div>
         <div class="navBar" style="background-color: #F2AC31">
@@ -62,7 +55,8 @@
             <div class="search-result">
                 <ul class="result">
                     <li v-for="item in data1" :key="item.id" class="fiveMan">
-                        <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
+                        <div :class="checkedSpu2.storage > 0? '' : 'error1'">
+                           <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
                             <div class="img" :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}"></div>
                             <p class="name" :title="item.item_name">{{item.item_name}}</p>
                             <div class="item-price">
@@ -73,7 +67,7 @@
                                 <p class="price" v-ltsLoginShow:true>
                                     <span class="realPrice">
                                         <template v-if="item.discount_type ==1">
-                                            <lts-money :money="item.price * item.discount / 100"></lts-money>
+                                            <lts-money :money="item.item_props[0].price_real"></lts-money>
                                         </template>
                                         <template v-else-if="item.discount_type ==2">
                                             <lts-money :money="item.price - item.discount"></lts-money>
@@ -82,29 +76,21 @@
                                             <lts-money :money="item.sale_rule_do.price"></lts-money>
                                         </template>
                                         <template v-else>
-                                            <lts-money :money="item.price"></lts-money>
+                                            <lts-money :money="item.item_props[0].price_real"></lts-money>
                                         </template>
                                     </span>
                                     <span class="oldPrice">
                                         <template v-if="item.discount_type != 0">
-                                            <lts-money :money="item.price"></lts-money>
+                                            <lts-money :money="item.item_props[0].price"></lts-money>
                                         </template>
                                     </span>
                                 </p>
                             </div>
                         </a>
-                        <span class="iconfont icon-gouwuche-copy cart" v-ltsLoginShow:true></span>
+                           <button class="iconfont icon-gouwuche-copy cart" v-ltsLoginShow:true  @click="addCart(item,item.item_props[0])" v-if="checkedSpu2.storage > 0"></button>
+                        </div>
                     </li>
                 </ul>
-               <!-- <el-pagination
-                    background
-                    layout="prev, pager, next"
-                    :total= "search.totalPage"
-                    :page-size= "search.pageSize"
-                    :prev-text='$t("main.search.mainSeaPre")'
-                    :next-text='$t("main.search.mainSeaNext")'
-                    :current-page="search.page"
-                    @current-change="changePage"></el-pagination>-->
             </div>
         </div>
         <div v-else-if="data.length <= 0 && isLoadEnding" class="error">
@@ -112,10 +98,10 @@
             </div>
         </div>
         <ul class="moreIcon">
-            <li><div class="iconfont icon-xinyongqia1"></div><p>Credit Card Checkout</p></li>
+            <li><div class="img2"><img :src= img3 alt=""></div><p>Credit Card Checkout</p></li>
             <li><div>30-DAY</div><p>Return Guarantee</p></li>
-            <li><div class="iconfont icon-dianhua1"></div><p>Free IP Consulting</p></li>
-            <li><div class="iconfont icon-LTS-LOGO-"></div><p>LTS Mall iOS & Andriod App</p></li>
+            <li><div class="img2"><img :src= img4 alt=""></div><p>Free IP Consulting</p></li>
+            <li><div class="img2"><img :src= img2 alt=""></div><p>LTS Mall iOS & Andriod App</p></li>
         </ul>
         <div class="banner1" :style="{backgroundImage : 'url(' + img1 + ')'}"></div>
     </div>
@@ -125,12 +111,16 @@
     import $ from 'jquery'
     import ItemService from '@/services/ItemService'
     import TimeService from '@/services/TimeService'
+    import cartService from '@/services/CartService'
     export default {
         name: "activity",
         data(){
             return{
                 img:require('../../../assets/img/five.png'),
                 img1:require('../../../assets/img/saleall.png'),
+                img2:require('../../../assets/img/icon.png'),
+                img3:require('../../../assets/img/card.png'),
+                img4:require('../../../assets/img/music.png'),
                 activeLi: '',
                 activeOrderBy: '',
                 selectedItem: '',
@@ -167,7 +157,9 @@
                 errorImg : require('@/assets/img/error.png'),
 
                 isLoadEnding : false,
-                conditions:{}
+                conditions:{},
+                checkedSpu2:{},
+                checkedSpu1:{}
             }
 
         },
@@ -179,9 +171,22 @@
             this.tags = this.$route.query.tags ? this.$route.query.tags.split(',') : [];
         },
         methods: {
+             addCart(item, spu) {
+                /* if (!this.validate()) {
+                     return false
+                 }*/
+                cartService.putCartPlus(item, spu).then((data) => {
+                    /*if (!this.showPropsError) {
+                        this.flag = true
+                    }*/
+                    this.$ltsMessage.show({type:'success',message:'Join the shopping cart success'});
+                    location.reload();
+                }, (msg) => {
+                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                })
+            },
              add0(m){return m<10?'0'+m:m },
-             formatDate(needTime)
-              {
+             formatDate(needTime) {
                 //needTime是整数，否则要parseInt转换
                 var time = new Date(needTime);
                 /*var y = time.getFullYear();*/
@@ -190,9 +195,6 @@
                 var h = time.getHours();
                 var mm = time.getMinutes();
                 var s = time.getSeconds();
-/*
-                return y+'-'+this.add0(m)+'-'+this.add0(d)+' '+this.add0(h)+':'+this.add0(mm)+':'+this.add0(s);
-*/
                   document.getElementsByClassName("time0")[0].innerHTML = this.add0(d) + "D"
                   document.getElementsByClassName("time1")[0].innerHTML = this.add0(h);
                   document.getElementsByClassName("time2")[0].innerHTML = this.add0(mm);
@@ -219,16 +221,8 @@
                     })
                 })
             },
-            /*getTimeService(){
-                let time = '2018-04-20 00:00:00'
-                TimeService.getUtcTime(time).then((data) =>{
-                    var date = new Date(data.time);
-                    let UCurrentTime = date.getTime();
-                    return UCurrentTime;
-                })
-            },*/
             getList(){
-                let tags = ["正价商品","测试测试"];
+                let tags = ['5折','新品推荐'];
                 let search = {
                     page: this.search.page,
                     pageSize: this.search.pageSize,
@@ -236,11 +230,32 @@
                 }
                 ItemService.searchList(search,tags).then((resp) => {
                     resp.data.item_d_o_list.forEach((item) => {
-
-                        if(item.tag == "测试测试"){
+                        if(item.tag == "5折"){
                             this.data.push(item);
-                        }else if(item.tag != "测试测试"){
+                            item.item_props = []
+                            item.item_struct_props.every((value) => {
+                                if(value.sku && value.storage > 0){
+                                    this.flag = false;
+                                    item.item_props.push(value);
+                                    item.spu_id = value.spu_id;
+                                    item.num = 1;
+                                    this.checkedSpu1 = value;
+                                    return false;
+                                }
+                            })
+                        }else if(item.tag != "5折"){
                             this.data1.push(item);
+                            item.item_props = []
+                            item.item_struct_props.every((value) => {
+                                if(value.sku && value.storage > 0){
+                                    this.flag = false;
+                                    item.item_props.push(value);
+                                    item.spu_id = value.spu_id;
+                                    item.num = 1;
+                                    this.checkedSpu2 = value;
+                                    return false;
+                                }
+                            })
                         }
                     });
                     console.log(this.data1);
@@ -257,8 +272,7 @@
             nextPage(){
                 this.search.page++
             },
-
-        }
+        },
     }
 </script>
 
@@ -648,7 +662,8 @@
                                 font-weight: bold;
                                 font-size: 12px;
                                 color: #ff3b41;
-                                box-shadow: 0px 2px 15px 2px #e9e9e9;
+                                background: #fff;
+                                box-shadow: 0px 2px 15px 2px #ebebeb;
                             }
                             .price{
                                 position: relative;
@@ -707,13 +722,14 @@
                         position: absolute;
                         right: 8px;
                         bottom: 30px;
-                        font-size: 20px;
+                        font-size: 17px;
                         color: #FF3B41;
                         width: 30px;
                         height: 30px;
                         border-radius: 50%;
                         border: 1px solid #FF3B41;
                         line-height: 30px;
+                        background-color: white;
                     }
                     /*.fiveDis{*/
                         .fiveDis::before{
@@ -800,12 +816,12 @@
             margin: 20px 0;
             .navBarSave{
                 color: #fff;
-                font-size: 24px;
+                font-size: 18px;
                 font-weight: bold;
             }
             .navBarDate{
                 color: #fff;
-                font-size: 24px;
+                font-size: 18px;
                 span:nth-child(2){
                     margin-left: 10px;
                 };
@@ -820,6 +836,26 @@
                     font-weight: bold;
                     margin: 0 5px;
                 }
+            }
+        }
+        .error1{
+            background-color: #333333;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            z-index: 1000;
+            opacity: 0.6;
+        }
+        .error2{
+            background-color: #333333;
+        }
+        .img2{
+            width: 40px;
+            height: 40px;
+            margin: 10px auto;
+            img{
+                width: 100%;
+                height: 100%;
             }
         }
     }

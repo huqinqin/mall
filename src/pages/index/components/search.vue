@@ -661,7 +661,8 @@
                                 font-weight: bold;
                                 font-size: 12px;
                                 color: #ff3b41;
-                                box-shadow: 0px 2px 15px 2px #e9e9e9;
+                                background: #fff;
+                                box-shadow: 0px 2px 15px 2px #ebebeb;
                             }
                             .price{
                                 position: relative;

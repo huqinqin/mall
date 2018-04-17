@@ -144,7 +144,7 @@
         <div class="info-bottom" v-if="order.fee_hd_value">
             <div class="text">
                 <label>{{$t("main.cart.settle.mainCartSeMustPay")}}</label>
-                <span><lts-money :money="order.pay"></lts-money></span>
+                <span><lts-money :money="itemsTotal"></lts-money></span>
             </div>
             <div class="text" v-if="order.fee_promotion_all - order.fee_promotion_manjian">
                 <label>{{$t("main.order.detail.mainOrDeActivity")}}</label> <span><i class="iconfont icon-jianquminus25"></i><lts-money :money="order.fee_promotion_all - order.fee_promotion_manjian"></lts-money></span>
@@ -155,8 +155,8 @@
             <div class="text" v-if="order.pay_info.acc_bonus_pay">
                 <label>{{$t("main.order.detail.mainOrDeGouwu")}}</label> <span><i class="iconfont icon-jianquminus25"></i><lts-money :money="order.pay_info.acc_bonus_pay"></lts-money></span>
             </div>
-            <div class="text" v-if="order.discount">
-                <label>{{$t("main.order.detail.mainOrDeDiscount")}}</label> <span><i class="iconfont icon-jianquminus25"></i><lts-money :money="order.discount"></lts-money></span>
+            <div class="text" v-if="order.change_fee">
+                <label>{{$t("main.order.detail.mainOrDeDiscount")}}</label> <span><i class="iconfont icon-jianquminus25"></i><lts-money :money="order.change_fee"></lts-money></span>
             </div>
             <div class="text">
                 <label>{{$t("main.cart.settle.mainCartSeFright")}}</label> <span><i class="iconfont icon-jia11"></i><lts-money :money="order.fee_hd_value.HD_ALL"></lts-money></span>
@@ -193,6 +193,7 @@
                 stepActive : 0,
                 dilivery:'',
                 expressOptions: expressConfig,
+                itemsTotal:0
             }
         },
         methods: {
@@ -251,6 +252,12 @@
                             }
                         })
                     })
+                    if(this.order.sell_order_list.length > 0){
+                        this.itemsTotal = 0
+                        this.order.sell_order_list[0].wholesale_order_items.forEach(t => {
+                            this.itemsTotal += t.price_real * t.num
+                        })
+                    }
                     if (this.order.sell_order_list.length > 0 && this.order.sell_order_list[0].wholesale_order_items.length > 0 && this.order.sell_order_list[0].wholesale_order_items[0].s_h_s_m === true) {
                         this.dilivery = this.$t("main.address.mainAddReceivingAddress")
                     } else {

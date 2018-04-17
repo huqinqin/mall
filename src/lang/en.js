@@ -289,6 +289,7 @@ export default {
                 mainOrDeCard: 'Pay With Credit Card',
                 mainOrDeAccount: 'Pay by Terms',
                 mainOrDeGouwu: 'Coupon',
+                mainOrDeDiscount: 'Discount',
                 mainOrDeYue: 'Pay with Account Balance',
                 mainOrDeOffline: 'Offline payment',
                 mainOrDePayStatus: 'Payment Status',

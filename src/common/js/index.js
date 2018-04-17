@@ -87,6 +87,15 @@ export default function (App, router = new Router()) {
             ]
         },
         {
+            name:'flash',
+            components:[
+                {
+                    name : 'lts-header-content',
+                    template : ltsHeaderAll
+                },
+            ]
+        },
+        {
             name:'order',
             components:[
                 {

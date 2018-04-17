@@ -286,6 +286,7 @@ export default {
                 mainOrDeCard: '信用卡支付',
                 mainOrDeAccount: '账期支付',
                 mainOrDeGouwu: '购物券',
+                mainOrDeDiscount: '手动减免',
                 mainOrDeYue: '余额支付',
                 mainOrDeOffline: '线下支付',
                 mainOrDePayStatus: '支付状态',

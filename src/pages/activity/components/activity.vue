@@ -118,12 +118,14 @@
             <li><div class="iconfont icon-LTS-LOGO-"></div><p>LTS Mall iOS & Andriod App</p></li>
         </ul>
         <div class="banner1" :style="{backgroundImage : 'url(' + img1 + ')'}"></div>
+        <div id="timer"></div>
     </div>
 </template>
 
 <script>
     import $ from 'jquery'
     import ItemService from '@/services/ItemService'
+    import TimeService from '@/services/TimeService'
     export default {
         name: "activity",
         data(){
@@ -174,12 +176,74 @@
             this.selfContext.$on("getItemList",this.submit)
         },*/
         mounted(){
+            this.timeService();
+            this.getTimeService();
             this.getList();
             $("html").attr('class','white')
             this.tags = this.$route.query.tags ? this.$route.query.tags.split(',') : [];
             /*this.submit();*/
         },
         methods: {
+            /*leftTimer(year,month,day,hour,minute,second,UCurrentTime){
+                let leftTime = (new Date(year,month-1,day,hour,minute,second)) - UCurrentTime; //计算剩余的毫秒数
+                let days = parseInt(leftTime / 1000 / 60 / 60 / 24 , 10); //计算剩余的天数
+                let hours = parseInt(leftTime / 1000 / 60 / 60 % 24 , 10); //计算剩余的小时
+                let minutes = parseInt(leftTime / 1000 / 60 % 60, 10);//计算剩余的分钟
+                let seconds = parseInt(leftTime / 1000 % 60, 10);//计算剩余的秒数
+                days = this.checkTime(days);
+                hours = this.checkTime(hours);
+                minutes = this.checkTime(minutes);
+                seconds = this.checkTime(seconds);
+                setInterval(this.leftTimer(2018,4,20,0,0,0),1000);
+                document.getElementById("timer").innerHTML = days+"天" + hours+"小时" + minutes+"分"+seconds+"秒";
+            },
+            checkTime(i){ //将0-9的数字前面加上0，例1变为01
+                if(i<10)
+                {
+                    i = "0" + i;
+                }
+                return i;
+            },*/
+             add0(m){return m<10?'0'+m:m },
+             formatDate(needTime)
+             {
+                //needTime是整数，否则要parseInt转换
+                var time = new Date(needTime);
+                /*var y = time.getFullYear();*/
+                /*var m = time.getMonth()+1;*/
+                var d = time.getDate();
+                var h = time.getHours();
+                var mm = time.getMinutes();
+                var s = time.getSeconds();
+/*
+                return y+'-'+this.add0(m)+'-'+this.add0(d)+' '+this.add0(h)+':'+this.add0(mm)+':'+this.add0(s);
+*/
+                document.getElementById("timer").innerHTML = this.add0(d) +"天" + this.add0(h) +"小时" + this.add0(mm)+"分"+this.add0(s)+"秒";
+                },
+            timeService(){
+                TimeService.getTimeAndZone().then((data) =>{
+                    var date = new Date(data.current_time);
+                    let UCurrentTime = date.getTime();
+                    let time = '2018-04-20 00:00:00'
+                    TimeService.getUtcTime(time).then((data) =>{
+                        var date = new Date(data.time);
+                        let deadTime = date.getTime();
+                        let diff = deadTime - UCurrentTime;
+                        setInterval(() => {
+                            let currentDiff = diff - 1000;
+                            this.formatDate(diff);
+                        },1000)
+                    })
+                })
+            },
+            getTimeService(){
+                let time = '2018-04-20 00:00:00'
+                TimeService.getUtcTime(time).then((data) =>{
+                    var date = new Date(data.time);
+                    let UCurrentTime = date.getTime();
+                    return UCurrentTime;
+                })
+            },
             getList(){
                 let tags = ["正价商品","测试测试"];
                 let search = {
@@ -553,7 +617,7 @@
                     display: flex;
                     flex-wrap: wrap;
                     width:100%;
-                    margin-bottom: 80px;
+                    margin-bottom: 20px;
                     li:hover{
                         -webkit-box-shadow: 0 15px 30px rgba(0,0,0,0.1);
                         box-shadow: 0 15px 30px rgba(0,0,0,0.1);

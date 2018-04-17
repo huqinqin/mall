@@ -187,14 +187,18 @@
             },
              add0(m){return m<10?'0'+m:m },
              formatDate(needTime) {
-                //needTime是整数，否则要parseInt转换
-                var time = new Date(needTime);
-                /*var y = time.getFullYear();*/
-                /*var m = time.getMonth()+1;*/
-                var d = time.getDate();
-                var h = time.getHours();
-                var mm = time.getMinutes();
-                var s = time.getSeconds();
+                 var leftTime =   needTime /1000;
+                 leftTime = leftTime & leftTime
+                 var d = leftTime/60/60/24;
+                 d = d & d;
+                 leftTime = leftTime - d * 60 * 60 *24;
+                 var h = leftTime/60/60;
+                 h = h & h;
+                 leftTime = leftTime - h * 60 * 60;
+                 var mm = leftTime / 60 ;
+                 mm =  mm & mm;
+                 leftTime = leftTime - mm * 60 ;
+                 var s = leftTime;
                   document.getElementsByClassName("time0")[0].innerHTML = this.add0(d) + "D"
                   document.getElementsByClassName("time1")[0].innerHTML = this.add0(h);
                   document.getElementsByClassName("time2")[0].innerHTML = this.add0(mm);

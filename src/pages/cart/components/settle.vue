@@ -234,10 +234,10 @@
                         <i class="iconfont icon-jia11"></i><span v-if="sum.tax"><lts-money :money="sum.tax"></lts-money></span><span v-else>$0.00</span>
                     </span>
                 </p>
-                <p v-if="sum.promotion - minusPro">{{ $t("main.cart.list.mainCartliBenefit") }}：
+                <p v-if="sum.fee_promotion_all - minusPro">{{ $t("main.cart.list.mainCartliBenefit") }}：
                     <span>
                         <span>
-                            <i class="iconfont icon-jianquminus25"></i><lts-money :money="sum.promotion - minusPro"></lts-money>
+                            <i class="iconfont icon-jianquminus25"></i><lts-money :money="sum.fee_promotion_all - minusPro"></lts-money>
                         </span>
                     </span>
                 </p>
@@ -342,7 +342,8 @@
                     express: 0.00,
                     tax: 0.00,
                     benefit: 0.00,
-                    result: 0
+                    result: 0,
+                    taxesRate:0
                 },
                 data: {
                     link: '',
@@ -614,6 +615,7 @@
                     hdFee: this.sum.express,
                     taxesFeeCalculator: 1,
                     taxesFee: this.sum.tax,
+                    taxesRate:this.sum.taxesRate,
                     accBonusId: this.bonusId,
                     ship: {
                         logisticsCompany: this.expressForm.express,
@@ -673,6 +675,7 @@
                     this.canSubmit = false
                     this.sum.express = fee.HD_ALL
                     this.sum.tax = fee.TAXES_ALL
+                    this.sum.taxesRate = resp.data.wholesale_order.fee_hd_taxes_rate
                     this.sum.amount = resp.data.wholesale_order.pay
                     this.sum.promotion = resp.data.wholesale_order.discount
                     this.totalPrice = resp.data.wholesale_order.pay_info.pay_real

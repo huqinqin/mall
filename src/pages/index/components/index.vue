@@ -59,7 +59,7 @@
                   <p class="line-two" :title="item.item_name">{{item.item_name}}</p>
                   <p class="line-four"></p>
                   <div class="item-price">
-                    <button v-ltsLoginShow:false v-login>
+                    <button v-ltsLoginShow:false v-login class="login">
                       {{$t("main.detail.info.mainDetInfoLoginPrice")}}
                     </button>
                     <p v-ltsLoginShow:true class="price">
@@ -116,7 +116,7 @@
                       <p class="line-two" :title="item.item_name">{{item.item_name}}</p>
                       <p class="line-four"></p>
                       <div class="item-price">
-                        <button v-ltsLoginShow:false="(itemlist.attribute | 4) != itemlist.attribute" v-login>
+                        <button v-ltsLoginShow:false="(itemlist.attribute | 4) != itemlist.attribute" v-login class="login">
                           {{$t("main.detail.info.mainDetInfoLoginPrice")}}
                         </button>
                         <p v-ltsLoginShow:true="(itemlist.attribute | 4) == itemlist.attribute" class="price">
@@ -161,7 +161,7 @@
               <div class="item-spec">
                 <p class="line-two" :title="item.item_name">{{item.item_name}}</p>
                 <div class="item-price">
-                  <button v-ltsLoginShow:false v-login>
+                  <button v-ltsLoginShow:false v-login class="login">
                     {{$t("main.detail.info.mainDetInfoLoginPrice")}}
                   </button>
                   <p v-ltsLoginShow:true class="price">
@@ -312,6 +312,7 @@
 </script>
 <style src="@/assets/iconfont/iconfont.css"></style>
 <style lang="less" scoped>
+    button.login{}
   li {
     box-sizing: border-box;
     position: relative;
@@ -643,7 +644,8 @@
             font-weight: bold;
             font-size: 12px;
             color: #ff3b41;
-            box-shadow: 0px 2px 15px 2px #e9e9e9;
+            background: #fff;
+            box-shadow: 0px 2px 15px 2px #ebebeb;
           }
         }
       }

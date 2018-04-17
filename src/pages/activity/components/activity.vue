@@ -3,7 +3,7 @@
         <div class="banner" :style="{backgroundImage : 'url(' + img + ')'}"></div>
         <div class="navBar">
             <p class="navBarSave">Save 50% on select IP products</p>
-            <p class="navBarDate"><span>This round ends in:</span><span class="timeBorder">04</span><span>:</span><span class="timeBorder">04</span><span>:</span><span class="timeBorder">04</span></p>
+            <p class="navBarDate"><span>This round ends in:</span><span class="timeBorder time1">04</span><span>:</span><span class="timeBorder time2">04</span><span>:</span><span class="timeBorder time3">04</span></p>
         </div>
         <div class="content" v-if="data.length > 0">
             <div class="search-result">
@@ -56,7 +56,7 @@
         </div>
         <div class="navBar" style="background-color: #F2AC31">
             <p class="navBarSave">Save <span style="color: #D82929">$50</span>for every <span style="color: #D82929">$500</span>purchase on frequently bought together items</p>
-            <p class="navBarDate"><span>This round ends in:</span><span class="timeBorder">04</span><span>:</span><span class="timeBorder">04</span><span>:</span><span class="timeBorder">04</span></p>
+            <p class="navBarDate"><span>This round ends in:</span><span class="timeBorder time1">04</span><span>:</span><span class="timeBorder time2">04</span><span>:</span><span class="timeBorder time3">04</span></p>
         </div>
         <div class="content" v-if="data.length > 0">
             <div class="search-result">
@@ -124,6 +124,7 @@
 <script>
     import $ from 'jquery'
     import ItemService from '@/services/ItemService'
+    import TimeService from '@/services/TimeService'
     export default {
         name: "activity",
         data(){
@@ -170,16 +171,60 @@
             }
 
         },
-        /*created(){
-            this.selfContext.$on("getItemList",this.submit)
-        },*/
         mounted(){
+            this.timeService();
+            this.getTimeService();
             this.getList();
             $("html").attr('class','white')
             this.tags = this.$route.query.tags ? this.$route.query.tags.split(',') : [];
-            /*this.submit();*/
         },
         methods: {
+             add0(m){return m<10?'0'+m:m },
+             formatDate(needTime)
+              {
+                //needTime是整数，否则要parseInt转换
+                var time = new Date(needTime);
+                /*var y = time.getFullYear();*/
+                /*var m = time.getMonth()+1;*/
+                var d = time.getDate();
+                var h = time.getHours();
+                var mm = time.getMinutes();
+                var s = time.getSeconds();
+/*
+                return y+'-'+this.add0(m)+'-'+this.add0(d)+' '+this.add0(h)+':'+this.add0(mm)+':'+this.add0(s);
+*/
+                  document.getElementsByClassName("time1")[0].innerHTML = this.add0(d);
+                  document.getElementsByClassName("time2")[0].innerHTML = this.add0(h);
+                  document.getElementsByClassName("time3")[0].innerHTML = this.add0(mm);
+                  document.getElementsByClassName("time1")[1].innerHTML = this.add0(d);
+                  document.getElementsByClassName("time2")[1].innerHTML = this.add0(h);
+                  document.getElementsByClassName("time3")[1].innerHTML = this.add0(mm);
+                },
+             timeService(){
+                TimeService.getTimeAndZone().then((data) =>{
+                    var date = new Date(data.current_time);
+                    let UCurrentTime = date.getTime();
+                    let time = '2018-04-20 00:00:00'
+                    TimeService.getUtcTime(time).then((data) =>{
+                        var date = new Date(data.time);
+                        let deadTime = date.getTime();
+                        let diff = deadTime - UCurrentTime;
+                        console.log(diff);
+                        setInterval(() =>{
+                             diff = diff - 1000;
+                            this.formatDate(diff);
+                        },1000)
+                    })
+                })
+            },
+            getTimeService(){
+                let time = '2018-04-20 00:00:00'
+                TimeService.getUtcTime(time).then((data) =>{
+                    var date = new Date(data.time);
+                    let UCurrentTime = date.getTime();
+                    return UCurrentTime;
+                })
+            },
             getList(){
                 let tags = ["正价商品","测试测试"];
                 let search = {
@@ -553,7 +598,7 @@
                     display: flex;
                     flex-wrap: wrap;
                     width:100%;
-                    margin-bottom: 80px;
+                    margin-bottom: 20px;
                     li:hover{
                         -webkit-box-shadow: 0 15px 30px rgba(0,0,0,0.1);
                         box-shadow: 0 15px 30px rgba(0,0,0,0.1);

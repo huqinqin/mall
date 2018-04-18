@@ -19,7 +19,7 @@
                   style="width: 100%">
                   <el-table-column align="center" width="48">
                     <template slot-scope="subscope">
-                      <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)"></el-checkbox>
+                      <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)" :disabled="subscope.row.noChecked"></el-checkbox>
                     </template>
                   </el-table-column>
                   <el-table-column align="center" width="600">
@@ -43,7 +43,7 @@
                   <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center" class="price">
                     <template slot-scope="subscope">
                         <p class="oldPrice">
-                            <lts-money :money="subscope.row.item_props[0].price"></lts-money>
+                            <lts-money :money="subscope.row.price"></lts-money>
                         </p>
                         <p>
                             <lts-money :money="subscope.row.price_real"></lts-money>
@@ -93,7 +93,7 @@
                   style="width: 100%">
                   <el-table-column align="center" width="48">
                     <template slot-scope="subscope">
-                      <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)"></el-checkbox>
+                      <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)" :disabled="subscope.row.noChecked"></el-checkbox>
                     </template>
                   </el-table-column>
                   <el-table-column align="center" width="600">
@@ -115,7 +115,7 @@
                   <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center" class="price">
                     <template slot-scope="subscope">
                         <p class="oldPrice">
-                            <lts-money :money="subscope.row.item_props[0].price"></lts-money>
+                            <lts-money :money="subscope.row.price"></lts-money>
                         </p>
                         <p>
                             <lts-money :money="subscope.row.price_real"></lts-money>
@@ -181,7 +181,7 @@
                     style="width: 100%">
                     <el-table-column align="center" width="48">
                       <template slot-scope="subscope">
-                        <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)" :disabled="(!(subscope.row.rule.started && !subscope.row.rule.finished))"></el-checkbox>
+                        <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)" :disabled="(!(subscope.row.rule.started && !subscope.row.rule.finished) || subscope.row.noCheched)"></el-checkbox>
                       </template>
                     </el-table-column>
                     <el-table-column align="center" width="600">
@@ -203,7 +203,7 @@
                     <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center" class="price">
                       <template slot-scope="subscope">
                           <p class="oldPrice">
-                              <lts-money :money="subscope.row.item_props[0].price"></lts-money>
+                              <lts-money :money="subscope.row.price"></lts-money>
                           </p>
                           <p>
                               <lts-money :money="subscope.row.price_real"></lts-money>
@@ -259,7 +259,7 @@
                   style="width: 100%">
                   <el-table-column align="center" width="48">
                     <template slot-scope="subscope">
-                      <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)"></el-checkbox>
+                      <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)" :disabled="subscope.row.noChecked"></el-checkbox>
                     </template>
                   </el-table-column>
                   <el-table-column align="center" width="600">
@@ -280,7 +280,7 @@
                   </el-table-column>
                   <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center" class="price">
                     <template slot-scope="subscope">
-                        <p class="oldPrice" v-if="subscope.row.item_props[0].price != subscope.row.price_real"><lts-money :money="subscope.row.item_props[0].price"></lts-money></p>
+                        <p class="oldPrice" v-if="subscope.row.price != subscope.row.price_real"><lts-money :money="subscope.row.price"></lts-money></p>
                         <p><lts-money :money="subscope.row.price_real"></lts-money></p>
                     </template>
                   </el-table-column>
@@ -420,15 +420,18 @@
       // 全选框-改变每行数据的checked
       selectAll () {
         if (this.selectedAll) {
-          this.checkedItem = this.tableDataItem
-            this.checkedItem.forEach((item, index) => {
-                if(item.discount_type == 4){
-                    if(item.rule.started && !item.rule.finished){
-                    }else{
-                        this.checkedItem.splice(index, 1)
-                    }
-                }
-            })
+          this.checkedItem = JSON.parse(JSON.stringify(this.tableDataItem))
+          this.checkedItem.forEach((item, index) => {
+              if(item.discount_type == 4){
+                  if(item.rule.started && !item.rule.finished){
+                  }else{
+                      this.checkedItem.splice(index, 1)
+                  }
+              }
+              if(item.noChecked){
+                this.checkedItem.splice(index, 1)
+              }
+          })
           this.tableData.forEach((table,index,array) => {
             for(let key in table){
               this.tableData[index][key].forEach((item,count) => {
@@ -437,11 +440,15 @@
                          item[0].checked = true;
                          let cloneItem = item[0];
                          Vue.set(item,0,cloneItem);
+                       if(!item[0].noChecked){
                          item[0].checked = true;
+                       }
                      }else{
                      }
                  }else{
-                    item.checked = true;
+                   if(!item.noChecked){
+                     item.checked = true;
+                   }
                  }
                  Vue.set(this.tableData[index][key],count,item)
               })
@@ -471,6 +478,9 @@
           this.calcMinus(this.checkedItem)
           this.calc(this.checkedItem)
           this.canSubmit(this.checkedItem)
+        if(this.tableDataItem.length != this.checkedItem.length){
+          this.selectedAll = false
+        }
       },
       // 单选框
       selectChange (row) {
@@ -511,6 +521,8 @@
             item.forEach(value => {
                 if((value.num > value.storage) || ((value.discount_type == 4)&& (value.num < value.rule.minimum || value.num > value.rule.maxinum) )){
                     self.outStock = true
+                  value.noChecked = true
+                  value.checked = false
                     return false
                 }else{
                     self.outStock = false
@@ -536,53 +548,97 @@
             {limit: []},
             {others: []}
           ]
-            this.cartNum = data.datalist.length
-          data.datalist.forEach((value) => {
-              this.checkedItem.push(value)
+          this.cartNum = data.datalist.length
+          this.tableDataItem = data.datalist
+          this.tableDataItem.forEach((value) => {
+            this.checkedItem.push(value)
             value.item_props.forEach((item) => {
               item.prop_value = JSON.parse(item.prop_value)
             })
-              value.checked = true
-            value.oldPrice = value.item_props[0].price
+            value.noChecked = false
+            value.checked = true
+            // value.oldPrice = value.item_props[0].price
             if (value.discount_type === 1) {
-                value.realPrice = value.item_props[0].price * value.discount / 100
+              // value.realPrice = value.item_props[0].price * value.discount / 100
               this.tableData[0].discount.push(value)
-            } else if (value.discount_type === 2) {
-                value.realPrice = value.item_props[0].price - value.discount
-              this.tableData[1].reduce.push(value)
-            } else if (value.discount_type === 4) {
-                value.rule = JSON.parse(value.sale_rule)
-                value.item_props[0].storage = value.rule.total
-                value.price_real = value.rule.price
-                let now
-                timeService.getUtcTime(value.rule.endTime).then(v1 => {
-                    value.rule.end = new Date(v1.time).getTime()
-                    timeService.getUtcTime(value.rule.startTime).then(v2 => {
-                        value.rule.start = new Date(v2.time).getTime()
-                        timeService.getTimeAndZone().then(v3 => {
-                            now = new Date(v3.current_time).getTime()
-                            if (value.rule.end > now) {
-                                this.countdown(value)
-                            } else {
-                                // 活动结束，不显示了
-                                this.finished = true
-                            }
-                            this.tableData[2].limit.push([value])
-                        })
-                    })
-                })
-            } else {
-                value.realPrice = value.item_props[0].price
-                this.tableData[3].others.push(value)
             }
-            this.tableDataItem = data.datalist
-              if(data.datalist.length > 0){
-                  // this.checkedItem = data.datalist
-                  this.calc(this.checkedItem)
-                  this.calcMinus(this.checkedItem)
-              }
-              this.canSubmit(this.checkedItem)
+            if (value.discount_type === 2) {
+              // value.realPrice = value.item_props[0].price - value.discount
+              this.tableData[1].reduce.push(value)
+            }
+            if (value.discount_type === 4) {
+              value.rule = JSON.parse(value.sale_rule)
+              value.item_props[0].storage = value.rule.total
+              value.price_real = value.rule.price
+              let now
+              timeService.getUtcTime(value.rule.endTime).then(v1 => {
+                value.rule.end = new Date(v1.time).getTime()
+                timeService.getUtcTime(value.rule.startTime).then(v2 => {
+                  value.rule.start = new Date(v2.time).getTime()
+                  timeService.getTimeAndZone().then(v3 => {
+                    now = new Date(v3.current_time).getTime()
+                    if(value.rule.start > now){
+                      // 活动未开始
+                      value.noChecked = true
+                      value.started = false
+                      value.checked = false
+                      this.countdown(value,now)
+                    }else if (value.rule.end > now) {
+                        this.countdown(value,now)
+
+                      value.checked = true
+                    } else {
+                      // 活动结束，不显示了
+                      value.noChecked = true
+                      value.finished = true
+                      value.checked = false
+                    }
+                    this.tableData[2].limit.push([value])
+                  })
+                })
+              })
+            }
+            if (value.discount_type === 0){
+              value.realPrice = value.item_props[0].price
+              this.tableData[3].others.push(value)
+            }
+            if((value.tag.indexOf('5折') !== -1 ) || (value.tag.indexOf('关联商品') !== -1 )){
+              let now
+              timeService.getUtcTime('2018-04-20 00:00:00').then(v1 => {
+                value.start = new Date(v1.time).getTime()
+                timeService.getTimeAndZone().then(v3 => {
+                  now = new Date(v3.current_time).getTime()
+                  if(value.start > now){
+                    // 还没开始
+                    value.noChecked = true
+                    value.checked = false
+                    this.countdown2(value,now)
+                  }else{
+                    value.noChecked = false
+                    value.checked = true
+                    this.selectAll()
+                  }
+
+                })
+              })
+            }else{
+              this.selectAll()
+            }
           })
+
+          // if(data.datalist.length > 0){
+          //   data.datalist.forEach(t => {
+          //     if(!t.noChecked){
+          //       t.checked = true
+          //       this.checkedItem.push(t)
+          //     }
+          //   })
+          //   // this.checkedItem = data.datalist
+          //   this.calc(this.checkedItem)
+          //   this.calcMinus(this.checkedItem)
+          //   this.canSubmit(this.checkedItem)
+          // }
+
         }, (msg) => {
           this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
         })
@@ -608,11 +664,24 @@
       // 修改购物车数量
       inputNumeberChange (row) {
         this.$nextTick(() => {
+          if(row.num > row.item_props[0].storage){
+            row.noChecked = true
+            row.checked = false
+            this.selectedAll = false
+            this.checkedItem.forEach((t,index) => {
+              if(t.id === row.id){
+                this.checkedItem.splice(index,1)
+              }
+            })
+          }else{
+            row.noChecked = false
+          }
           this.putCartPlus(row).then((data) => {
-              this.calcMinus(this.checkedItem)
-              this.canSubmit(this.checkedItem)
+            this.calc(this.checkedItem)
+            this.calcMinus(this.checkedItem)
+            this.canSubmit(this.checkedItem)
           }, (msg) => {
-            this.$ltsMessage.show({type:'error',message:msg.error_message})
+            // this.$ltsMessage.show({type:'error',message:msg.error_message})
           })
         })
       },
@@ -625,12 +694,22 @@
           this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
         })
       },
+      countdown2(item,now){
+        let start = item.start
+        if(now >= start){
+          item.noChecked = false
+          item.checked = true
+        }
+        this.selectAll()
+        setTimeout(() => {
+          this.countdown2(item)
+        }, 1000)
+      },
       // 倒计时计算
-      countdown(value){
+      countdown(value,now){
         let item  = value.rule
         let start = item.start
         let end = item.end
-        let now = Date.parse(new Date())
         let date
         // 判断活动是否开始
         if (now < start) {
@@ -676,7 +755,7 @@
         // 倒计时开始
         if (msec >= 0) {
           setTimeout(() => {
-            this.countdown(value)
+            this.countdown(value,now + 1000)
           }, 1000)
         }
       },
@@ -806,7 +885,7 @@
                 display: flex;
                 div{
                   padding: 0 2px;
-                  margin:0 2px;
+                  margin:1px 2px;
                   border-radius: 4px;
                 }
               }

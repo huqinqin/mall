@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="search-result" v-if="data.length > 0">
+        <div class="search-result">
             <ul class="result">
                 <li v-for="item in data" :key="item.id">
                     <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
@@ -46,17 +46,25 @@
                     'order_by': 'cdate desc',
                     'page': this.page,
                     'page_size': this.pageSize,
-                    'wholesale_item_query': JSON.stringify({
+                    'item_search': JSON.stringify({
                         'type': 0,
-                        'discount_type':0
+                        'discountType':0
                     })
                 };
+                // let params = {
+                //     'order_by': 'cdate desc',
+                //     'page': this.page,
+                //     'page_size': this.pageSize,
+                //     'wholesale_item_query': JSON.stringify({
+                //         'type': 0,
+                //         'isActivities':0
+                //     })
+                // };
                 // 'isActivities':0,
                 // discount_type:0
-                itemService.getManageList(params).then((data) => {
-                    console.log(data)
-                    this.totalPage = data.total_page_count
-                    this.data = data.datalist
+                itemService.getNoList(params).then((data) => {
+                    this.totalPage = data.data.total
+                    this.data = data.data.item_d_o_list
                 }, (msg) => {
                     this.$ltsMessage.show({type: 'error', message: 'unknown error'});
                 });

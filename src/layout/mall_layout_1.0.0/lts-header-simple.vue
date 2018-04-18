@@ -2,7 +2,7 @@
     <div slot="header" class="simpleHead">
         <main class="s-span-page">
             <a href="/">
-                <div class="img iconfont icon-LTSLOGO"></div>
+                <div class="img iconfont icon-logo1"></div>
             </a>
             <el-input :placeholder="$t('comHeader.headerSearchGoods')" v-model="keywords" @keyup.native.enter='searchToHref'>
               <el-button slot="append" type="primary" icon="el-icon-search" @click="searchToHref"></el-button>

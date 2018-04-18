@@ -676,7 +676,7 @@
                     this.sum.express = fee.HD_ALL
                     this.sum.tax = fee.TAXES_ALL
                     this.sum.taxesRate = resp.data.wholesale_order.fee_hd_taxes_rate
-                    this.sum.amount = resp.data.wholesale_order.pay
+                    this.sum.amount = resp.data.wholesale_order.pay_real
                     this.sum.promotion = resp.data.wholesale_order.discount
                     this.totalPrice = resp.data.wholesale_order.pay_info.pay_real
                     if (resp.data.wholesale_order.pay_info.acc_bonus_list.length > 0) {

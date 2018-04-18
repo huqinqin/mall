@@ -49,7 +49,7 @@
                 line-height: 22px;
             }
             .line{
-                height: 1px;
+                height: 2px;
                 width:auto;
                 background: #f3bc39;
                 flex:1;

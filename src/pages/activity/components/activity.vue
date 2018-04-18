@@ -19,7 +19,7 @@
                                     <!--<lts-money :money="item.activity_price"></lts-money>-->
                                     <!--</p>-->
                                     <p class="price" v-ltsLoginShow:true>
-                                    <span class="realPrice" v-if="item.item_props[0].price > 0">
+                                    <span class="realPrice" v-if="item.item_props[0].price_real > 0">
                                         <template v-if="item.discount_type ==1">
                                             <lts-money :money="item.item_props[0].price_real"></lts-money>
                                         </template>
@@ -33,8 +33,8 @@
                                             <lts-money :money="item.item_props[0].price_real"></lts-money>
                                         </template>
                                     </span>
-                                        <span class="oldPrice">
-                                        <template v-if="item.discount_type != 0 && item.item_props[0].price != 0">
+                                    <span class="oldPrice" v-if="item.item_props[0].price > 0">
+                                        <template v-if="item.discount_type != 0">
                                             <lts-money :money="item.item_props[0].price"></lts-money>
                                         </template>
                                     </span>
@@ -65,7 +65,7 @@
                                 <!--<lts-money :money="item.activity_price"></lts-money>-->
                                 <!--</p>-->
                                 <p class="price" v-ltsLoginShow:true>
-                                    <span class="realPrice">
+                                    <span class="realPrice" v-if="item.item_props[0].price_real > 0">
                                         <template v-if="item.discount_type ==1">
                                             <lts-money :money="item.item_props[0].price_real"></lts-money>
                                         </template>
@@ -79,7 +79,7 @@
                                             <lts-money :money="item.item_props[0].price_real"></lts-money>
                                         </template>
                                     </span>
-                                    <span class="oldPrice">
+                                    <span class="oldPrice" v-if="item.item_props[0].price > 0">
                                         <template v-if="item.discount_type != 0">
                                             <lts-money :money="item.item_props[0].price"></lts-money>
                                         </template>
@@ -211,11 +211,13 @@
                         var date = new Date(data.time);
                         let deadTime = date.getTime();
                         let diff = deadTime - UCurrentTime;
-                        console.log(diff);
-                        setInterval(() =>{
+                        if(diff <= 0){
+                            clearInterval(timer);
+                        }
+                        var timer = setInterval(() =>{
                              diff = diff - 1000;
                             this.formatDate(diff);
-                        },1000)
+                        },1000);
                     })
                 })
             },

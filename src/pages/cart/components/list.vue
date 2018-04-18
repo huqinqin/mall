@@ -422,7 +422,7 @@
         if (this.selectedAll) {
           this.checkedItem = JSON.parse(JSON.stringify(this.tableDataItem))
           this.checkedItem.forEach((item, index) => {
-              if(item.discount_type == 4){
+              if(item.discount_type == 4 && item.rule){
                   if(item.rule.started && !item.rule.finished){
                   }else{
                       this.checkedItem.splice(index, 1)
@@ -478,19 +478,25 @@
           this.calcMinus(this.checkedItem)
           this.calc(this.checkedItem)
           this.canSubmit(this.checkedItem)
-        if(this.tableDataItem.length != this.checkedItem.length){
-          this.selectedAll = false
-        }
+        // if(this.tableDataItem.length != this.checkedItem.length){
+        //   this.selectedAll = false
+        // }
       },
       // 单选框
       selectChange (row) {
-        if (this.checkedItem.indexOf(row) !== -1) {
-          this.checkedItem.splice(this.checkedItem.indexOf(row), 1)
+        this.checkedItem.forEach((t,index) => {
+          if(t.id == row.id){
+            this.checkedItem.splice(index, 1)
             row.checked = false;
-        } else {
-          this.checkedItem.push(row)
-          row.checked  = true
-        }
+            this.selectedAll = false
+          }else {
+            this.checkedItem.push(row)
+            row.checked  = true
+          }
+        })
+        // if (this.checkedItem.indexOf(row) !== -1) {
+        //
+        // }
         this.tableData.forEach((table,index,array) => {
           for(let key in table){
               this.tableData[index][key].forEach((item,count) => {
@@ -510,8 +516,6 @@
         this.calc(this.checkedItem)
         if (this.checkedItem.length === this.tableDataItem.length) {
           this.selectedAll = true
-        } else {
-          this.selectedAll = false
         }
         this.canSubmit(this.checkedItem)
       },
@@ -519,7 +523,7 @@
         canSubmit(item){
           let self = this
             item.forEach(value => {
-                if((value.num > value.storage) || ((value.discount_type == 4)&& (value.num < value.rule.minimum || value.num > value.rule.maxinum) )){
+                if((value.num > value.storage) || ((value.discount_type == 4 && value.rule)&& (value.num < value.rule.minimum || value.num > value.rule.maxinum) )){
                     self.outStock = true
                   value.noChecked = true
                   value.checked = false
@@ -550,82 +554,92 @@
           ]
           this.cartNum = data.datalist.length
           this.tableDataItem = data.datalist
-          this.tableDataItem.forEach((value) => {
-            this.checkedItem.push(value)
-            value.item_props.forEach((item) => {
-              item.prop_value = JSON.parse(item.prop_value)
-            })
-            value.noChecked = false
-            value.checked = true
-            // value.oldPrice = value.item_props[0].price
-            if (value.discount_type === 1) {
-              // value.realPrice = value.item_props[0].price * value.discount / 100
-              this.tableData[0].discount.push(value)
-            }
-            if (value.discount_type === 2) {
-              // value.realPrice = value.item_props[0].price - value.discount
-              this.tableData[1].reduce.push(value)
-            }
-            if (value.discount_type === 4) {
-              value.rule = JSON.parse(value.sale_rule)
-              value.item_props[0].storage = value.rule.total
-              value.price_real = value.rule.price
-              let now
-              timeService.getUtcTime(value.rule.endTime).then(v1 => {
-                value.rule.end = new Date(v1.time).getTime()
-                timeService.getUtcTime(value.rule.startTime).then(v2 => {
-                  value.rule.start = new Date(v2.time).getTime()
-                  timeService.getTimeAndZone().then(v3 => {
-                    now = new Date(v3.current_time).getTime()
-                    if(value.rule.start > now){
-                      // 活动未开始
-                      value.noChecked = true
-                      value.started = false
-                      value.checked = false
-                      this.countdown(value,now)
-                    }else if (value.rule.end > now) {
-                        this.countdown(value,now)
+          let handle = new Promise((resolve,reject) => {
 
-                      value.checked = true
-                    } else {
-                      // 活动结束，不显示了
-                      value.noChecked = true
-                      value.finished = true
-                      value.checked = false
-                    }
-                    this.tableData[2].limit.push([value])
+            this.tableDataItem.forEach((value) => {
+              this.checkedItem.push(value)
+              value.item_props.forEach((item) => {
+                item.prop_value = JSON.parse(item.prop_value)
+              })
+              value.noChecked = false
+              value.checked = true
+              // value.oldPrice = value.item_props[0].price
+              if (value.discount_type === 1) {
+                // value.realPrice = value.item_props[0].price * value.discount / 100
+                this.tableData[0].discount.push(value)
+              }
+              if (value.discount_type === 2) {
+                // value.realPrice = value.item_props[0].price - value.discount
+                this.tableData[1].reduce.push(value)
+              }
+              if (value.discount_type === 0){
+                value.realPrice = value.item_props[0].price
+                this.tableData[3].others.push(value)
+              }
+              if (value.discount_type === 4) {
+                value.rule = JSON.parse(value.sale_rule)
+                value.item_props[0].storage = value.rule.total
+                value.price_real = value.rule.price
+                let now
+                timeService.getUtcTime(value.rule.endTime).then(v1 => {
+                  value.rule.end = new Date(v1.time).getTime()
+                  timeService.getUtcTime(value.rule.startTime).then(v2 => {
+                    value.rule.start = new Date(v2.time).getTime()
+                    timeService.getTimeAndZone().then(v3 => {
+                      now = new Date(v3.current_time).getTime()
+                      if(value.rule.start > now){
+                        // 活动未开始
+                        value.noChecked = true
+                        value.started = false
+                        value.checked = false
+                        this.countdown(value,now)
+                      }else if (value.rule.end > now) {
+                          this.countdown(value,now)
+
+                        value.checked = true
+                      } else {
+                        // 活动结束，不显示了
+                        value.noChecked = true
+                        value.finished = true
+                        value.checked = false
+                      }
+                      this.tableData[2].limit.push([value])
+                      resolve("成功!")
+                    })
                   })
                 })
-              })
-            }
-            if (value.discount_type === 0){
-              value.realPrice = value.item_props[0].price
-              this.tableData[3].others.push(value)
-            }
-            if((value.tag.indexOf('5折') !== -1 ) || (value.tag.indexOf('关联商品') !== -1 )){
-              let now
-              timeService.getUtcTime('2018-04-20 00:00:00').then(v1 => {
-                value.start = new Date(v1.time).getTime()
-                timeService.getTimeAndZone().then(v3 => {
-                  now = new Date(v3.current_time).getTime()
-                  if(value.start > now){
-                    // 还没开始
-                    value.noChecked = true
-                    value.checked = false
-                    this.countdown2(value,now)
-                  }else{
-                    value.noChecked = false
-                    value.checked = true
-                    this.selectAll()
-                  }
-
-                })
-              })
-            }else{
-              this.selectAll()
-            }
+              }
+            })
           })
+          handle.then(res => {
+            this.tableDataItem.forEach((value) => {
+              if ((value.tag.indexOf('5折') !== -1) || (value.tag.indexOf('关联商品') !== -1)) {
+                let now
+                value.noChecked = true
+                value.checked = false
+                timeService.getUtcTime('2018-04-20 00:00:00').then(v1 => {
+                  value.start = new Date(v1.time).getTime()
+                  timeService.getTimeAndZone().then(v3 => {
+                    now = new Date(v3.current_time).getTime()
+                    if (value.start > now) {
+                      // 还没开始
+                      value.noChecked = true
+                      value.checked = false
+                      this.countdown2(value, now)
+                    } else {
+                      value.noChecked = false
+                      value.checked = true
+                      this.selectAll()
+                    }
 
+                  })
+                })
+              } else {
+                this.selectAll()
+              }
+            })
+
+          })
           // if(data.datalist.length > 0){
           //   data.datalist.forEach(t => {
           //     if(!t.noChecked){
@@ -700,7 +714,7 @@
           item.noChecked = false
           item.checked = true
         }
-        this.selectAll()
+        // this.selectAll()
         setTimeout(() => {
           this.countdown2(item)
         }, 1000)

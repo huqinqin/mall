@@ -507,7 +507,7 @@
                         }else{
                             if(this.level != 0 && data.data.item.price_define_do){
                                 for(let map in data.data.item.price_define_do.discount_map){
-                                    if(map == this.level){
+                                    if(map == this.level && (data.data.item.price_define_do.discount_map[map]!= 100)){
                                         value.price_real = value.price_real * data.data.item.price_define_do.discount_map[map] / 100
                                         data.data.item.price_real = data.data.item.price_real * data.data.item.price_define_do.discount_map[map] / 100
                                         data.data.item.discount_type = data.data.item.discount_type ? data.data.item.discount_type : 9

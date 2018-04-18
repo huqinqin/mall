@@ -132,7 +132,7 @@
                     </el-radio-button>
                 </el-radio-group>
                 <div v-if="deliveryType == 'ZITI'" style="color: #666;">
-                    {{$t("main.cart.settle.mainCartSeZitiAdress")}}：{{checkedAddress.street}}
+                    {{$t("main.cart.settle.mainCartSeZitiAdress")}}：{{checkedAddress.street}}{{checkedAddress.address}}&nbsp;{{checkedAddress.city}}
                 </div>
                 <div class="selectExpress" v-if="deliveryType == 'SHSM'">
                 <!--<div class="selectExpress" v-if="false">-->
@@ -265,7 +265,7 @@
             <p>{{$t("main.cart.settle.mainCartSeContact")}}： {{checkedAddress.user_name}}</p>
             <p>{{$t("main.cart.settle.mainCartSeContactPhone")}}： {{checkedAddress.mobile}}</p>
             <p v-if="deliveryType == 'ZITI' ">{{$t("main.cart.settle.mainCartSeZitiAdress")}}：
-                <span>{{user.shop_address}}</span></p>
+                <span>{{checkedAddress.street}}{{checkedAddress.address}}&nbsp;{{checkedAddress.city}}</span></p>
             <p v-else>{{ $t("main.address.mainAddReceivingAddress") }}：
                 <span>{{checkedAddress.street}}{{checkedAddress.address}}&nbsp;{{checkedAddress.city}}</span></p>
             <p v-if="deliveryType != 'ZITI' && checkedAddress.valid_time">{{$t("main.cart.settle.mainCartSeQuaAddr")}}：
@@ -361,12 +361,20 @@
                 editing:0, // 正在编辑的地址id
                 minusPro:0,
                 fullrule:[],
-                userAddr:''
+                userAddr:'',
+                temp:''
             }
         },
         methods: {
             selectDilivery(value){
+              if(value == 'ZITI'){
+                this.temp = JSON.stringify(this.checkedAddress)
+              }
+              else{
+                this.checkedAddress = JSON.parse(this.temp)
+              }
                 this.simulateCreateTrade()
+
             },
             // 查询是否有满减活动
             minus(){
@@ -694,6 +702,8 @@
                             // this.user.shop_address = ZITI.addr.street + ',' + ZITI.addr.city + ',' + ZITI.addr.state + ',' + ZITI.addr.zipCode
                             this.user.shop_address = ZITI.addr.street
                         }
+                    }else{
+                      this.checkedAddress = JSON.parse(this.temp)
                     }
                     this.$emit('submit', 2)
                 }, (msg) => {

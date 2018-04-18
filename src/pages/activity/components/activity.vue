@@ -105,7 +105,7 @@
         </ul>
         <div class="banner1" :style="{backgroundImage : 'url(' + img1 + ')'}"></div>
         <el-dialog
-            title="提示"
+            title="Tooltip"
             :close-on-click-modal="false"
             :visible.sync="centerDialogVisible"
             @close="backPage"
@@ -255,7 +255,7 @@
                             var timer1;
                             timer1 = setInterval(() =>{
                                 diff1 = diff1 - 1000;
-                                if(diff1 <= 0){window.clearInterval(timer1);this.centerDialogVisible = true;}
+                                if(diff1 <= 0){window.clearInterval(timer1);location.reload();this.centerDialogVisible = true;}
                                 this.formatDate(diff1);
                             },1000);
                         }else{
@@ -356,6 +356,7 @@
             display: flex;
             align-items: center;
             height: 90px;
+            margin-top: 12px;
             li{
                 flex: 1;
                 color:#D31927;
@@ -552,7 +553,7 @@
             }
         }
         .content{
-            margin-top: 22px;
+            margin-top: 12px;
             /*padding-bottom: 100px;*/
             .header{
                 line-height: 40px;
@@ -663,7 +664,7 @@
                     display: flex;
                     flex-wrap: wrap;
                     width:100%;
-                    margin-bottom: 20px;
+                    /*margin-bottom: 20px;*/
                     li:hover{
                         -webkit-box-shadow: 0 15px 30px rgba(0,0,0,0.1);
                         box-shadow: 0 15px 30px rgba(0,0,0,0.1);
@@ -674,7 +675,7 @@
                         transition: all ease .2s;
                         width:290px;
                         overflow: hidden;
-                        margin-top: 36px;
+                        /*margin-top: 36px;*/
                         text-align: center;
                         border:1px  solid #f2f2f2;
                         .img{
@@ -786,8 +787,8 @@
                             width:50px;
                             height: 50px;
                             position: absolute;
-                            top: 0px;
-                            left: 0px;
+                            top: 12px;
+                            left: 12px;
                             background-position: 0 0;
                             background-repeat: no-repeat;
                             background-size: 50px 50px;
@@ -849,7 +850,7 @@
             background-position: center;
             background-repeat: no-repeat;
             border: 1px solid #f6f6f6;
-            margin-top: 20px;
+            margin-top: 12px;
         }
         .navBar11{
             width: 100%;
@@ -862,7 +863,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin: 20px 0;
+            margin: 12px 0;
             .navBarSave{
                 color: #fff;
                 font-size: 18px;

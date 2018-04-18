@@ -104,6 +104,18 @@
             <li><div class="img2"><img :src= img2 alt=""></div><p>Up to 3 Year Warranty</p></li>
         </ul>
         <div class="banner1" :style="{backgroundImage : 'url(' + img1 + ')'}"></div>
+        <el-dialog
+            title="提示"
+            :close-on-click-modal="false"
+            :visible.sync="centerDialogVisible"
+            @close="backPage"
+            width="30%"
+            center>
+            <span>Ugh oh. You are here too late. This offer is already over.</span>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="centerDialogVisible = false"><a href="/">Back to Home Page</a></el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
@@ -158,6 +170,7 @@
                 conditions:{},
                 checkedSpu2:{},
                 checkedSpu1:{},
+                centerDialogVisible: false
             }
 
         },
@@ -169,6 +182,9 @@
             this.tags = this.$route.query.tags ? this.$route.query.tags.split(',') : [];
         },
         methods: {
+            backPage(){
+                location.href = '/'
+            },
              addCart(item, spu) {
                 cartService.putCartPlus(item, spu).then((data) => {
                     item.flag = true;
@@ -206,7 +222,7 @@
                 TimeService.getTimeAndZone().then((data) =>{
                     let date = new Date(data.current_time);
                     let UCurrentTime = date.getTime();
-                    let time = '2018-04-18 00:00:00'
+                    let time = '2018-04-20 00:00:00'
                     TimeService.getUtcTime(time).then((data) =>{
                         let date = new Date(data.time);
                         let deadTime = date.getTime();
@@ -244,6 +260,7 @@
                             },1000);
                         }else{
                             window.clearInterval(timer1);
+                            this.centerDialogVisible = true;
                         }
                     })
                 })

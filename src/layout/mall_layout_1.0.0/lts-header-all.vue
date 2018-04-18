@@ -133,7 +133,7 @@
                     },
                     {
                         name: 'logo',
-                        icon: 'icon-LTSLOGO',
+                        icon: 'icon-logo1',
                         type: 'logo',
                         link: '/',
                         needLogin: false

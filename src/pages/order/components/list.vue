@@ -107,7 +107,8 @@
             </el-table-column>
             <el-table-column prop="pay_info.pay_type_title" :label='$t("main.order.list.mainOrLiReal")' align="left" width="80">
                 <template slot-scope="scope">
-                    <div><lts-money :money="scope.row.fee_total"></lts-money></div>
+                    <div v-if="scope.row.pay_info.acc_bonus_pay"><lts-money :money="scope.row.fee_total - scope.row.pay_info.acc_bonus_pay"></lts-money></div>
+                    <div v-else><lts-money :money="scope.row.fee_total"></lts-money></div>
                 </template>
             </el-table-column>
             <el-table-column prop="status_title" :label='$t("main.order.list.mainOrLiTransationSta")' align="left" width="160">

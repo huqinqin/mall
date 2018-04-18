@@ -48,10 +48,11 @@
                     'page_size': this.pageSize,
                     'wholesale_item_query': JSON.stringify({
                         'type': 0,
-                        discount_type:0
+                        'discount_type':0
                     })
                 };
                 // 'isActivities':0,
+                // discount_type:0
                 itemService.getManageList(params).then((data) => {
                     console.log(data)
                     this.totalPage = data.total_page_count

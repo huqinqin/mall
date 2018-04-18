@@ -3,15 +3,15 @@
         <div class="banner" :style="{backgroundImage : 'url(' + img + ')'}"></div>
         <div class="navBar11">
             <p class="navBarSave">Save 50% on selected items</p>
-            <p class="navBarDate"><span class="navBarDate1">This round starts in:</span><span class="timeBorder time0" style="background-color: #000">04<span>D</span></span><span class="timeBorder time1">04</span><span>:</span><span class="timeBorder time2">04</span><span>:</span><span class="timeBorder time3">04</span></p>
+            <p class="navBarDate"><span class="navBarDate1">This round starts in:</span><span class="timeBorder time0">04<span>D</span></span><span class="timeBorder time1">04</span><span>:</span><span class="timeBorder time2">04</span><span>:</span><span class="timeBorder time3">04</span></p>
         </div>
         <div class="content" v-if="data.length > 0">
             <div class="search-result">
                 <ul class="result">
                     <li v-for="item in data" :key="item.id" class="fiveDis">
-                        <div :class="checkedSpu1.storage > 0? '' : 'error1'">
+                        <div>
                             <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
-                                <div class="img" :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}"></div>
+                                <div class="img" :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}" :class="checkedSpu1.storage > 0? '' : 'error1'"></div>
                                 <p class="name" :title="item.item_name">{{item.item_name}}</p>
                                 <div class="item-price">
                                     <button v-ltsLoginShow:false v-login>{{$t("main.search.mainSeaLogin")}}</button>
@@ -49,7 +49,7 @@
         </div>
         <div class="navBar11" style="background-color: #F2AC31">
             <p class="navBarSave">Save <span style="color: #D82929">$50</span>for every <span style="color: #D82929">$500</span>purchase on frequently bought together items</p>
-            <p class="navBarDate"><span class="navBarDate1">This round starts in:</span><span class="timeBorder time0" style="background-color: #000">04</span><span class="timeBorder time1">04</span><span>:</span><span class="timeBorder time2">04</span><span>:</span><span class="timeBorder time3">04</span></p>
+            <p class="navBarDate"><span class="navBarDate1">This round starts in:</span><span class="timeBorder timeBorder1 time0">04</span><span class="timeBorder timeBorder1 time1">04</span><span>:</span><span class="timeBorder timeBorder1 time2">04</span><span>:</span><span class="timeBorder timeBorder1 time3">04</span></p>
         </div>
         <div class="content" v-if="data.length > 0">
             <div class="search-result">
@@ -111,7 +111,7 @@
             @close="backPage"
             width="30%"
             center>
-            <span>Ugh oh. You are here too late. This offer is already over.</span>
+            <span style="text-align: center">Ugh oh. You are here too late. This offer is already over.</span>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="centerDialogVisible = false"><a href="/">Back to Home Page</a></el-button>
             </span>
@@ -133,6 +133,7 @@
                 img2:require('../../../assets/img/icon.png'),
                 img3:require('../../../assets/img/card.png'),
                 img4:require('../../../assets/img/music.png'),
+                soldout:require('../../../assets/img/soldout.png'),
                 activeLi: '',
                 activeOrderBy: '',
                 selectedItem: '',
@@ -175,10 +176,10 @@
 
         },
         mounted(){
+            $("html").attr('class','gray !important');
             this.timeService();
             /*this.getTimeService();*/
             this.getList();
-            $("html").attr('class','white')
             this.tags = this.$route.query.tags ? this.$route.query.tags.split(',') : [];
         },
         methods: {
@@ -339,6 +340,7 @@
         }
     }
     .search{
+        background-color: #eee;
         font-family: "Microsoft YaHei";
         *{
             box-sizing: border-box;
@@ -348,15 +350,18 @@
             box-sizing: border-box;
             position: relative;
             overflow: hidden;
+            background-color: white;
         }
         .moreIcon{
             width: 100%;
             display: flex;
             align-items: center;
+            height: 90px;
             li{
                 flex: 1;
                 color:#D31927;
                 text-align: center;
+                height: 100%;
                 div{
                     font-size: 24px;
                 };
@@ -880,16 +885,17 @@
                     font-size: 24px;
                     font-weight: bold;
                     margin: 0 5px;
+                    border-radius: 4px;
                 }
             }
         }
         .error1{
-            background-color: #333333;
             width: 100%;
             height: 100%;
             position: relative;
             z-index: 1000;
             opacity: 0.6;
+            background-image: url("../../../assets/img/soldout.png") !important;
         }
         .error2{
             background-color: #333333;
@@ -908,12 +914,23 @@
             right: 8px;
             bottom: 30px;
             font-size: 24px;
-            color: #FF3B41;
+            color: #f2ac31;
             width: 30px;
             height: 30px;
             border-radius: 50%;
             border: 1px solid white;
             background-color: white;
+        }
+        .price{
+            text-align: left;
+            margin-left: 24px;
+        }
+        .realPrice{
+            margin-right: 6px;
+        }
+        .timeBorder1{
+            background-color: #e67409 !important;
+            border: 1px solid #e67409 !important;
         }
     }
 

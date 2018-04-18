@@ -73,7 +73,7 @@
                     checkPass:'',
                 },
                 rules:{
-                    email: validatorConfig.email(),
+                    email: validatorConfig.emailReset(),
                     // pass: validatorConfig.password,
                     pass: [ { required: true, message:  this.$t("main.accountNew.register.mainAcReContentNotNull"), trigger: 'blur' },
                             {validator:checkPass,trigger: 'blur,change'}],

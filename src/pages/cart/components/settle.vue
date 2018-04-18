@@ -132,7 +132,7 @@
                     </el-radio-button>
                 </el-radio-group>
                 <div v-if="deliveryType == 'ZITI'" style="color: #666;">
-                    {{$t("main.cart.settle.mainCartSeZitiAdress")}}：{{user.shop_address}}
+                    {{$t("main.cart.settle.mainCartSeZitiAdress")}}：{{checkedAddress.street}}
                 </div>
                 <div class="selectExpress" v-if="deliveryType == 'SHSM'">
                 <!--<div class="selectExpress" v-if="false">-->
@@ -367,14 +367,6 @@
         methods: {
             selectDilivery(value){
                 this.simulateCreateTrade()
-                // debugger
-                // if(value == 'ZITI'){
-                //     this.userAddr = this.user.shop_address
-                //     this.simulateCreateTrade()
-                // }else{
-                //     // this.userAddr = this.checkedAddress.building ? this.checkedAddress.address + this.checkedAddress.building : this.checkedAddress.address
-                //     this.simulateCreateTrade()
-                // }
             },
             // 查询是否有满减活动
             minus(){
@@ -574,16 +566,11 @@
             },
             // 正式下单
             submitOrder() {
-                // this.userAddr = this.checkedAddress.building ? this.checkedAddress.address + this.checkedAddress.building : this.checkedAddress.address
-                if(this.deliveryType == 'ZITI'){
-                    this.userAddr = this.user.shop_address
-                }else{
-                    this.userAddr = {
-                        street:this.checkedAddress.street,
-                        city:this.checkedAddress.city,
-                        state:this.checkedAddress.state,
-                        zip_code:this.checkedAddress.zipCode
-                    }
+                this.userAddr = {
+                    street:this.checkedAddress.street,
+                    city:this.checkedAddress.city,
+                    state:this.checkedAddress.state,
+                    zip_code:this.checkedAddress.zipCode
                 }
                 this.canSubmit = true
                 let items = []
@@ -692,10 +679,21 @@
                     } else {
                         this.selectedBonus = this.$t('main.cart.settle.mainCartSeNoBonus')
                     }
-                    let ZITI
-                    for(let key in resp.data.wholesale_delivery_info_map){
-                        ZITI = resp.data.wholesale_delivery_info_map[key].wholesale_sell_order_list[0].shop
-                        this.user.shop_address = ZITI.address
+                    if(this.deliveryType == 'ZITI'){
+                        let ZITI = {}
+                        for(let key in resp.data.wholesale_delivery_info_map){
+                            ZITI = resp.data.wholesale_delivery_info_map[key].wholesale_sell_order_list[0].shop.spot
+                            ZITI.addr = {}
+                            ZITI.addr.street = ZITI.address
+                            ZITI.addr.city = ZITI.city
+                            ZITI.addr.state = ZITI.province
+                            ZITI.addr.zipCode = ZITI.zip_code
+                            ZITI.addr.user_name = this.user.name
+                            ZITI.addr.mobile = this.user.phone
+                            this.checkedAddress = ZITI.addr
+                            // this.user.shop_address = ZITI.addr.street + ',' + ZITI.addr.city + ',' + ZITI.addr.state + ',' + ZITI.addr.zipCode
+                            this.user.shop_address = ZITI.addr.street
+                        }
                     }
                     this.$emit('submit', 2)
                 }, (msg) => {

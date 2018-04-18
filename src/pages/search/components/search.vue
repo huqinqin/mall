@@ -198,8 +198,10 @@
                 }
                 if(this.$route.query.discountype !== undefined){
                     this.search.discountType = 0;
+                    console.log('discount_type')
                 }else{
                     this.search.discountType = '';
+                    console.log('discount_type')
                 }
                 console.log(this.$route.query)
                 ItemService.searchItem(this.search,this.tags).then((rtn)=>{

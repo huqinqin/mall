@@ -1,7 +1,7 @@
 <template>
     <div class="search">
         <div class="banner" :style="{backgroundImage : 'url(' + img + ')'}"></div>
-        <div class="navBar">
+        <div class="navBar11">
             <p class="navBarSave">Save 50% on select IP products</p>
             <p class="navBarDate"><span>This round starts in:</span><span class="timeBorder time0" style="background-color: #000">04<span>D</span></span><span class="timeBorder time1">04</span><span>:</span><span class="timeBorder time2">04</span><span>:</span><span class="timeBorder time3">04</span></p>
         </div>
@@ -19,7 +19,7 @@
                                     <!--<lts-money :money="item.activity_price"></lts-money>-->
                                     <!--</p>-->
                                     <p class="price" v-ltsLoginShow:true>
-                                    <span class="realPrice">
+                                    <span class="realPrice" v-if="item.item_props[0].price > 0">
                                         <template v-if="item.discount_type ==1">
                                             <lts-money :money="item.item_props[0].price_real"></lts-money>
                                         </template>
@@ -34,14 +34,14 @@
                                         </template>
                                     </span>
                                         <span class="oldPrice">
-                                        <template v-if="item.discount_type != 0">
+                                        <template v-if="item.discount_type != 0 && item.item_props[0].price != 0">
                                             <lts-money :money="item.item_props[0].price"></lts-money>
                                         </template>
                                     </span>
                                     </p>
                                 </div>
                             </a>
-                            <button class="iconfont icon-gouwuche-copy cart" v-ltsLoginShow:true @click="addCart(item,item.item_props[0])" v-if="checkedSpu1.storage > 0"></button>
+                            <button class="iconfont" v-ltsLoginShow:true @click="addCart(item,item.item_props[0])" v-if="checkedSpu1.storage > 0" :class="item.flag ? 'icon-chenggong1 cart1':'icon-gouwuche-copy cart'"></button>
                         </div>
                     </li>
                 </ul>
@@ -87,7 +87,7 @@
                                 </p>
                             </div>
                         </a>
-                           <button class="iconfont icon-gouwuche-copy cart" v-ltsLoginShow:true  @click="addCart(item,item.item_props[0])" v-if="checkedSpu2.storage > 0"></button>
+                           <button class="iconfont icon-gouwuche-copy" v-ltsLoginShow:true  @click="addCart(item,item.item_props[0])" v-if="checkedSpu2.storage > 0" :class="item.flag ? 'icon-chenggong1 cart1':'icon-gouwuche-copy cart'"></button>
                         </div>
                     </li>
                 </ul>
@@ -99,9 +99,9 @@
         </div>
         <ul class="moreIcon">
             <li><div class="img2"><img :src= img3 alt=""></div><p>Credit Card Checkout</p></li>
-            <li><div>30-DAY</div><p>Return Guarantee</p></li>
+            <li><div style="margin: 10px auto;">30-DAY</div><p>Return Guarantee</p></li>
             <li><div class="img2"><img :src= img4 alt=""></div><p>Free IP Consulting</p></li>
-            <li><div class="img2"><img :src= img2 alt=""></div><p>LTS Mall iOS & Andriod App</p></li>
+            <li><div class="img2"><img :src= img2 alt=""></div><p>Up to 3 Year Warranty</p></li>
         </ul>
         <div class="banner1" :style="{backgroundImage : 'url(' + img1 + ')'}"></div>
     </div>
@@ -116,7 +116,7 @@
         name: "activity",
         data(){
             return{
-                img:require('../../../assets/img/five.png'),
+                img:require('../../../assets/img/img.jpg'),
                 img1:require('../../../assets/img/saleall.png'),
                 img2:require('../../../assets/img/icon.png'),
                 img3:require('../../../assets/img/card.png'),
@@ -153,13 +153,11 @@
                 data1:[],
                 rightTotal : 0,
                 closeProps : false,
-
                 errorImg : require('@/assets/img/error.png'),
-
                 isLoadEnding : false,
                 conditions:{},
                 checkedSpu2:{},
-                checkedSpu1:{}
+                checkedSpu1:{},
             }
 
         },
@@ -172,15 +170,11 @@
         },
         methods: {
              addCart(item, spu) {
-                /* if (!this.validate()) {
-                     return false
-                 }*/
                 cartService.putCartPlus(item, spu).then((data) => {
-                    /*if (!this.showPropsError) {
-                        this.flag = true
-                    }*/
+                    item.flag = true;
+                    console.log(item);
+                    this.selfContext.$emit('addCartSuccess');
                     this.$ltsMessage.show({type:'success',message:'Join the shopping cart success'});
-                    location.reload();
                 }, (msg) => {
                     this.$ltsMessage.show({type: 'error', message: msg.error_message})
                 })
@@ -234,6 +228,7 @@
                 }
                 ItemService.searchList(search,tags).then((resp) => {
                     resp.data.item_d_o_list.forEach((item) => {
+                        item.flag = false;
                         if(item.tag == "5折"){
                             this.data.push(item);
                             item.item_props = []
@@ -276,7 +271,7 @@
             nextPage(){
                 this.search.page++
             },
-        },
+        }
     }
 </script>
 
@@ -861,6 +856,18 @@
                 width: 100%;
                 height: 100%;
             }
+        }
+        .cart1{
+            position: absolute;
+            right: 8px;
+            bottom: 30px;
+            font-size: 24px;
+            color: #FF3B41;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 1px solid white;
+            background-color: white;
         }
     }
 

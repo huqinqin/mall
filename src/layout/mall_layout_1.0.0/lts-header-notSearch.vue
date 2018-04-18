@@ -282,7 +282,7 @@
             },
         },
         created() {
-            this.selfContext.$on('addCartSuccess', this.getCartNum)
+            this.selfContext.$on('addCartSuccess', this.getCartNum);
             this.getParamas()
             this.getLocalStorage()
             this.getCartNum();

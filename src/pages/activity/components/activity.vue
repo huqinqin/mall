@@ -231,7 +231,7 @@
                             var timer;
                             timer = setInterval(() =>{
                                 diff = diff - 1000;
-                                if(diff <= 0){window.clearInterval(timer);}
+                                if(diff <= 0){window.clearInterval(timer);location.reload();}
                                 this.formatDate(diff);
                             },1000);
                         }else{
@@ -255,7 +255,7 @@
                             var timer1;
                             timer1 = setInterval(() =>{
                                 diff1 = diff1 - 1000;
-                                if(diff1 <= 0){window.clearInterval(timer1);}
+                                if(diff1 <= 0){window.clearInterval(timer1);this.centerDialogVisible = true;}
                                 this.formatDate(diff1);
                             },1000);
                         }else{

@@ -80,7 +80,7 @@ export default {
         return [
             {required: true, message: 'Required field', trigger: 'blur'},
             {type: 'email', message: 'Email has a wrong format', trigger: 'blur'},
-            // {validator: cb, trigger: 'blur'}
+            {validator: cb, trigger: 'blur'}
         ]
     },
     validateEmailEdit(rule, value, callback, oldVal){

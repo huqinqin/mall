@@ -67,7 +67,7 @@
                     </el-form-item>-->
                 </el-form>
                 <el-form label-position="top" :model="signupForm" :rules="rules" ref="form" class="formRight">
-                    <el-form-item label='state' prop="state">
+                    <el-form-item label='State' prop="state">
                         <el-cascader
                             @change="selectCity"
                             :options="cityOptions"
@@ -372,9 +372,10 @@
 
 <style lang="less">
     .accRegister {
-        width: 1500px;
+        width: 1200px;
         overflow: hidden;
         padding-top: 2px;
+        margin: 0 auto;
         .activeBgDiv {
             overflow: hidden;
             background-size: 100% 100%;
@@ -384,13 +385,13 @@
         }
         .activeLogo {
             display: block;
-            width: 120px;
-            margin: 10px 0 0 84px;
+            width: 100px;
+            margin: 10px 0 0 0;
         }
         .activePic {
             float: left;
-            width: 470px;
-            margin: 4px 0 0 70px;
+            width: 310px;
+            margin: 4px 0 0 0;
         }
         .formLeft {
             width: 400px;

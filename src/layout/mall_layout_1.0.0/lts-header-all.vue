@@ -434,7 +434,7 @@
                     width: 100% !important;
                 }
                 .el-input__inner {
-                    border-right: none;
+                    //border-right: none;
                 }
             }
             .iconfont {

@@ -99,7 +99,8 @@ export default class ItemService extends BaseService {
      * wholesale_item_query: JSON
      * remark store_item_query 查询商品列表
      */
-    static getManageList(params) {
-        return super.getRequest('/store/item/get_manage_list', params)
+    static getNoList(params) {
+        // return super.getRequest('/store/item/get_manage_list', params)
+        return super.getRequest('/installer/item/get_item_with_aggregate', params)
     }
 }

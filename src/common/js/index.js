@@ -42,11 +42,11 @@ Vue.use(Element, {
 })
 export default function (App, router = new Router()) {
   let isIndex = false,isCart = true
+  App.name && App.name == 'activity' ? isIndex = true : isIndex = false;
   // App.name && App.name == 'index' ? isIndex = true : isIndex = false;
   // App.name && (App.name == 'cart' || App.name == 'order') ? isCart = true : isCart = false;
   config.isWhite = isIndex
   config.isCart = isCart
-
     Layout.components = {
         'lts-content': App,
         'lts-header': ltsHeader,

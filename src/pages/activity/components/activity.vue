@@ -3,15 +3,15 @@
         <div class="banner" :style="{backgroundImage : 'url(' + img + ')'}"></div>
         <div class="navBar11">
             <p class="navBarSave">Save 50% on selected items</p>
-            <p class="navBarDate"><span class="navBarDate1">This round starts in:</span><span class="timeBorder time0" style="background-color: #000">04<span>D</span></span><span class="timeBorder time1">04</span><span>:</span><span class="timeBorder time2">04</span><span>:</span><span class="timeBorder time3">04</span></p>
+            <p class="navBarDate"><span class="navBarDate1">This round starts in:</span><span class="timeBorder time0">04<span>D</span></span><span class="timeBorder time1">04</span><span>:</span><span class="timeBorder time2">04</span><span>:</span><span class="timeBorder time3">04</span></p>
         </div>
         <div class="content" v-if="data.length > 0">
             <div class="search-result">
                 <ul class="result">
                     <li v-for="item in data" :key="item.id" class="fiveDis">
-                        <div :class="checkedSpu1.storage > 0? '' : 'error1'">
+                        <div>
                             <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
-                                <div class="img" :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}"></div>
+                                <div class="img" :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}" :class="checkedSpu1.storage > 0? '' : 'error1'"></div>
                                 <p class="name" :title="item.item_name">{{item.item_name}}</p>
                                 <div class="item-price">
                                     <button v-ltsLoginShow:false v-login>{{$t("main.search.mainSeaLogin")}}</button>
@@ -49,7 +49,7 @@
         </div>
         <div class="navBar11" style="background-color: #F2AC31">
             <p class="navBarSave">Save <span style="color: #D82929">$50</span>for every <span style="color: #D82929">$500</span>purchase on frequently bought together items</p>
-            <p class="navBarDate"><span class="navBarDate1">This round starts in:</span><span class="timeBorder time0" style="background-color: #000">04</span><span class="timeBorder time1">04</span><span>:</span><span class="timeBorder time2">04</span><span>:</span><span class="timeBorder time3">04</span></p>
+            <p class="navBarDate"><span class="navBarDate1">This round starts in:</span><span class="timeBorder timeBorder1 time0">04</span><span class="timeBorder timeBorder1 time1">04</span><span>:</span><span class="timeBorder timeBorder1 time2">04</span><span>:</span><span class="timeBorder timeBorder1 time3">04</span></p>
         </div>
         <div class="content" v-if="data.length > 0">
             <div class="search-result">
@@ -57,7 +57,7 @@
                     <li v-for="item in data1" :key="item.id" class="fiveMan">
                         <div :class="checkedSpu2.storage > 0? '' : 'error1'">
                            <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
-                            <div class="img" :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}"></div>
+                            <div class="img" :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}" :class="checkedSpu1.storage > 0? '' : 'error1'"></div>
                             <p class="name" :title="item.item_name">{{item.item_name}}</p>
                             <div class="item-price">
                                 <button v-ltsLoginShow:false v-login>{{$t("main.search.mainSeaLogin")}}</button>
@@ -105,13 +105,13 @@
         </ul>
         <div class="banner1" :style="{backgroundImage : 'url(' + img1 + ')'}"></div>
         <el-dialog
-            title="提示"
+            title="Tooltip"
             :close-on-click-modal="false"
             :visible.sync="centerDialogVisible"
             @close="backPage"
             width="30%"
             center>
-            <span>Ugh oh. You are here too late. This offer is already over.</span>
+            <span style="text-align: center">Ugh oh. You are here too late. This offer is already over.</span>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="centerDialogVisible = false"><a href="/">Back to Home Page</a></el-button>
             </span>
@@ -133,6 +133,7 @@
                 img2:require('../../../assets/img/icon.png'),
                 img3:require('../../../assets/img/card.png'),
                 img4:require('../../../assets/img/music.png'),
+                soldout:require('../../../assets/img/soldout.png'),
                 activeLi: '',
                 activeOrderBy: '',
                 selectedItem: '',
@@ -175,10 +176,10 @@
 
         },
         mounted(){
+            $("html").attr('class','gray !important');
             this.timeService();
             /*this.getTimeService();*/
             this.getList();
-            $("html").attr('class','white')
             this.tags = this.$route.query.tags ? this.$route.query.tags.split(',') : [];
         },
         methods: {
@@ -188,7 +189,6 @@
              addCart(item, spu) {
                 cartService.putCartPlus(item, spu).then((data) => {
                     item.flag = true;
-                    console.log(item);
                     this.selfContext.$emit('addCartSuccess');
                     this.$ltsMessage.show({type:'success',message:'Join the shopping cart success'});
                 }, (msg) => {
@@ -231,7 +231,7 @@
                             var timer;
                             timer = setInterval(() =>{
                                 diff = diff - 1000;
-                                if(diff <= 0){window.clearInterval(timer);}
+                                if(diff <= 0){window.clearInterval(timer);location.reload();}
                                 this.formatDate(diff);
                             },1000);
                         }else{
@@ -255,7 +255,7 @@
                             var timer1;
                             timer1 = setInterval(() =>{
                                 diff1 = diff1 - 1000;
-                                if(diff1 <= 0){window.clearInterval(timer1);}
+                                if(diff1 <= 0){window.clearInterval(timer1);location.reload();this.centerDialogVisible = true;}
                                 this.formatDate(diff1);
                             },1000);
                         }else{
@@ -339,6 +339,7 @@
         }
     }
     .search{
+        background-color: #eee;
         font-family: "Microsoft YaHei";
         *{
             box-sizing: border-box;
@@ -348,15 +349,19 @@
             box-sizing: border-box;
             position: relative;
             overflow: hidden;
+            background-color: white;
         }
         .moreIcon{
             width: 100%;
             display: flex;
             align-items: center;
+            height: 90px;
+            margin-top: 12px;
             li{
                 flex: 1;
                 color:#D31927;
                 text-align: center;
+                height: 100%;
                 div{
                     font-size: 24px;
                 };
@@ -548,7 +553,7 @@
             }
         }
         .content{
-            margin-top: 22px;
+            margin-top: 12px;
             /*padding-bottom: 100px;*/
             .header{
                 line-height: 40px;
@@ -659,7 +664,7 @@
                     display: flex;
                     flex-wrap: wrap;
                     width:100%;
-                    margin-bottom: 20px;
+                    /*margin-bottom: 20px;*/
                     li:hover{
                         -webkit-box-shadow: 0 15px 30px rgba(0,0,0,0.1);
                         box-shadow: 0 15px 30px rgba(0,0,0,0.1);
@@ -670,7 +675,7 @@
                         transition: all ease .2s;
                         width:290px;
                         overflow: hidden;
-                        margin-top: 36px;
+                        /*margin-top: 36px;*/
                         text-align: center;
                         border:1px  solid #f2f2f2;
                         .img{
@@ -782,8 +787,8 @@
                             width:50px;
                             height: 50px;
                             position: absolute;
-                            top: 0px;
-                            left: 0px;
+                            top: 12px;
+                            left: 12px;
                             background-position: 0 0;
                             background-repeat: no-repeat;
                             background-size: 50px 50px;
@@ -845,7 +850,7 @@
             background-position: center;
             background-repeat: no-repeat;
             border: 1px solid #f6f6f6;
-            margin-top: 20px;
+            margin-top: 12px;
         }
         .navBar11{
             width: 100%;
@@ -858,7 +863,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin: 20px 0;
+            margin: 12px 0;
             .navBarSave{
                 color: #fff;
                 font-size: 18px;
@@ -880,16 +885,17 @@
                     font-size: 24px;
                     font-weight: bold;
                     margin: 0 5px;
+                    border-radius: 4px;
                 }
             }
         }
         .error1{
-            background-color: #333333;
             width: 100%;
             height: 100%;
             position: relative;
             z-index: 1000;
             opacity: 0.6;
+            background-image: url("../../../assets/img/soldout.png") !important;
         }
         .error2{
             background-color: #333333;
@@ -908,12 +914,23 @@
             right: 8px;
             bottom: 30px;
             font-size: 24px;
-            color: #FF3B41;
+            color: #f2ac31;
             width: 30px;
             height: 30px;
             border-radius: 50%;
             border: 1px solid white;
             background-color: white;
+        }
+        .price{
+            text-align: left;
+            margin-left: 24px;
+        }
+        .realPrice{
+            margin-right: 6px;
+        }
+        .timeBorder1{
+            background-color: #e67409 !important;
+            border: 1px solid #e67409 !important;
         }
     }
 

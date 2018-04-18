@@ -1,12 +1,11 @@
 <template>
-    <div class="product all-head" slot="header">
+    <div class="product all-head-not" slot="header">
        <div class="menu-list s-span-page">
         <ul>
             <li v-for="value in menuList">
                 <div>
-                    <a :href="value.link" v-if="value.type == 'logo'" class="header-logo"
-                       :style="{backgroundImage : 'url('+ logo +')'}">
-                        <!--<span class="iconfont" :class="value.icon"></span>-->
+                    <a :href="value.link" v-if="value.type == 'logo'" class="header-logo">
+                        <span class="iconfont" :class="value.icon"></span>
                     </a>
                     <a :href="value.link" target="_blank" v-else-if="value.name === 'support center'">
                         <div>
@@ -107,7 +106,7 @@
                     },
                     {
                         name: 'logo',
-                        icon: 'icon-LTS-LOGO-',
+                        icon: 'icon-LTSLOGO',
                         type: 'logo',
                         link: '/',
                         needLogin: false
@@ -296,7 +295,7 @@
 </script>
 
 <style lang="less">
-    .all-head {
+    .all-head-not {
         background-color: white;
         .search-bar {
             display: flex;
@@ -369,11 +368,15 @@
             background-repeat: no-repeat;
             display: flex;
             text-align: center;
-            align-items: center;
             overflow: hidden;
+            justify-content: center;
+            align-items: center;
             span {
-                font-size: 70px !important;
+                font-size: 200px !important;
+                display: block;
                 color: #cc242e !important;
+                position: relative;
+                top: 10px;
             }
         }
         .el-select .el-input {

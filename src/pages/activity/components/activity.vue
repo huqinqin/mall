@@ -57,7 +57,7 @@
                     <li v-for="item in data1" :key="item.id" class="fiveMan">
                         <div :class="checkedSpu2.storage > 0? '' : 'error1'">
                            <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
-                            <div class="img" :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}"></div>
+                            <div class="img" :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}" :class="checkedSpu1.storage > 0? '' : 'error1'"></div>
                             <p class="name" :title="item.item_name">{{item.item_name}}</p>
                             <div class="item-price">
                                 <button v-ltsLoginShow:false v-login>{{$t("main.search.mainSeaLogin")}}</button>
@@ -189,7 +189,6 @@
              addCart(item, spu) {
                 cartService.putCartPlus(item, spu).then((data) => {
                     item.flag = true;
-                    console.log(item);
                     this.selfContext.$emit('addCartSuccess');
                     this.$ltsMessage.show({type:'success',message:'Join the shopping cart success'});
                 }, (msg) => {

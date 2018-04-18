@@ -2,8 +2,8 @@
     <div class="search">
         <div class="banner" :style="{backgroundImage : 'url(' + img + ')'}"></div>
         <div class="navBar11">
-            <p class="navBarSave">Save 50% on select IP products</p>
-            <p class="navBarDate"><span>This round starts in:</span><span class="timeBorder time0" style="background-color: #000">04<span>D</span></span><span class="timeBorder time1">04</span><span>:</span><span class="timeBorder time2">04</span><span>:</span><span class="timeBorder time3">04</span></p>
+            <p class="navBarSave">Save 50% on selected items</p>
+            <p class="navBarDate"><span class="navBarDate1">This round starts in:</span><span class="timeBorder time0" style="background-color: #000">04<span>D</span></span><span class="timeBorder time1">04</span><span>:</span><span class="timeBorder time2">04</span><span>:</span><span class="timeBorder time3">04</span></p>
         </div>
         <div class="content" v-if="data.length > 0">
             <div class="search-result">
@@ -49,7 +49,7 @@
         </div>
         <div class="navBar11" style="background-color: #F2AC31">
             <p class="navBarSave">Save <span style="color: #D82929">$50</span>for every <span style="color: #D82929">$500</span>purchase on frequently bought together items</p>
-            <p class="navBarDate"><span>This round starts in:</span><span class="timeBorder time0" style="background-color: #000">04</span><span class="timeBorder time1">04</span><span>:</span><span class="timeBorder time2">04</span><span>:</span><span class="timeBorder time3">04</span></p>
+            <p class="navBarDate"><span class="navBarDate1">This round starts in:</span><span class="timeBorder time0" style="background-color: #000">04</span><span class="timeBorder time1">04</span><span>:</span><span class="timeBorder time2">04</span><span>:</span><span class="timeBorder time3">04</span></p>
         </div>
         <div class="content" v-if="data.length > 0">
             <div class="search-result">
@@ -104,6 +104,18 @@
             <li><div class="img2"><img :src= img2 alt=""></div><p>Up to 3 Year Warranty</p></li>
         </ul>
         <div class="banner1" :style="{backgroundImage : 'url(' + img1 + ')'}"></div>
+        <el-dialog
+            title="提示"
+            :close-on-click-modal="false"
+            :visible.sync="centerDialogVisible"
+            @close="backPage"
+            width="30%"
+            center>
+            <span>Ugh oh. You are here too late. This offer is already over.</span>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="centerDialogVisible = false"><a href="/">Back to Home Page</a></el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
@@ -116,7 +128,7 @@
         name: "activity",
         data(){
             return{
-                img:require('../../../assets/img/img.jpg'),
+                img:require('../../../assets/img/newbanner.png'),
                 img1:require('../../../assets/img/saleall.png'),
                 img2:require('../../../assets/img/icon.png'),
                 img3:require('../../../assets/img/card.png'),
@@ -158,6 +170,7 @@
                 conditions:{},
                 checkedSpu2:{},
                 checkedSpu1:{},
+                centerDialogVisible: false
             }
 
         },
@@ -169,6 +182,9 @@
             this.tags = this.$route.query.tags ? this.$route.query.tags.split(',') : [];
         },
         methods: {
+            backPage(){
+                location.href = '/'
+            },
              addCart(item, spu) {
                 cartService.putCartPlus(item, spu).then((data) => {
                     item.flag = true;
@@ -204,20 +220,48 @@
                 },
              timeService(){
                 TimeService.getTimeAndZone().then((data) =>{
-                    var date = new Date(data.current_time);
+                    let date = new Date(data.current_time);
                     let UCurrentTime = date.getTime();
                     let time = '2018-04-20 00:00:00'
                     TimeService.getUtcTime(time).then((data) =>{
-                        var date = new Date(data.time);
+                        let date = new Date(data.time);
                         let deadTime = date.getTime();
                         let diff = deadTime - UCurrentTime;
-                        if(diff <= 0){
-                            clearInterval(timer);
+                        if(diff > 0){
+                            var timer;
+                            timer = setInterval(() =>{
+                                diff = diff - 1000;
+                                if(diff <= 0){window.clearInterval(timer);}
+                                this.formatDate(diff);
+                            },1000);
+                        }else{
+                            window.clearInterval(timer);
+                            this.timeService1();
+                            $('.navBarDate1').html("This round ends in:");
                         }
-                        var timer = setInterval(() =>{
-                             diff = diff - 1000;
-                            this.formatDate(diff);
-                        },1000);
+                    })
+                })
+            },
+            timeService1(){
+                TimeService.getTimeAndZone().then((data) =>{
+                    let date1 = new Date(data.current_time);
+                    let UCurrentTime1 = date1.getTime();
+                    let time1 = '2018-04-21 00:00:00'
+                    TimeService.getUtcTime(time1).then((data) =>{
+                        let date1 = new Date(data.time);
+                        let deadTime1 = date1.getTime();
+                        let diff1 = deadTime1 - UCurrentTime1;
+                        if(diff1 > 0){
+                            var timer1;
+                            timer1 = setInterval(() =>{
+                                diff1 = diff1 - 1000;
+                                if(diff1 <= 0){window.clearInterval(timer1);}
+                                this.formatDate(diff1);
+                            },1000);
+                        }else{
+                            window.clearInterval(timer1);
+                            this.centerDialogVisible = true;
+                        }
                     })
                 })
             },

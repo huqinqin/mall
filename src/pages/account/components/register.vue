@@ -290,6 +290,9 @@
                             })
                             this.$router.push('/waitAuthing')
                         }, (msg) => {
+                            if(msg.error_code == 100318){
+                                msg.error_message = 'Mobile phone: Format error'
+                            }
                             this.$ltsMessage.show({type: 'error', message: msg.error_message})
                         })
                     }

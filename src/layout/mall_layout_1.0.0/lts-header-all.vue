@@ -189,7 +189,6 @@
         methods: {
             // 级联选择器选择父元素
             focusSelect(){
-                alert(12345)
                 let pop = jq('cascader-class')[0]
                 console.log(pop)
                 pop.on('hover','li',()=>{
@@ -410,8 +409,8 @@
             justify-content: center;
             align-items: center;
             span {
-                display: block;
                 font-size: 200px !important;
+                display: block;
                 color: #cc242e !important;
                 position: relative;
                 top: 10px;

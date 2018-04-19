@@ -364,7 +364,7 @@
 <style lang="less">
     .b1200 .search-result{
         li{
-            margin-right: 10px;
+            margin-right: 13px;
         }
         li:nth-child(4n){
             margin-right: 0;
@@ -372,7 +372,7 @@
     }
     .b1500 .search-result{
         li{
-            margin-right: 10px;
+            margin-right: 12px;
         }
         li:nth-child(5n){
             margin-right: 0;
@@ -718,6 +718,7 @@
                         /*margin-top: 36px;*/
                         text-align: center;
                         border:1px  solid #f2f2f2;
+                        margin-bottom: 12px;
                         .img{
                             width:100%;
                             height: 222px;
@@ -903,7 +904,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin: 12px 0;
+            margin-top: 12px;
             .navBarSave{
                 color: #fff;
                 font-size: 18px;

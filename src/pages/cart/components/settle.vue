@@ -647,7 +647,7 @@
                     }
                     items.push(Obj)
                 })
-              
+
                 let params = {
                     user_id: this.user_id,
                     items: JSON.stringify(items),
@@ -705,7 +705,9 @@
                             this.user.shop_address = ZITI.addr.street
                         }
                     }else{
-                      this.checkedAddress = JSON.parse(this.temp)
+                      if(this.temp.length){
+                        this.checkedAddress = JSON.parse(this.temp)
+                      }
                     }
                     this.$emit('submit', 2)
                 }, (msg) => {

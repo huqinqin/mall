@@ -132,7 +132,7 @@
                     </el-radio-button>
                 </el-radio-group>
                 <div v-if="deliveryType == 'ZITI'" style="color: #666;">
-                    {{$t("main.cart.settle.mainCartSeZitiAdress")}}：{{user.shop_address}}
+                    {{$t("main.cart.settle.mainCartSeZitiAdress")}}：{{checkedAddress.street}}{{checkedAddress.address}}&nbsp;{{checkedAddress.city}}
                 </div>
                 <div class="selectExpress" v-if="deliveryType == 'SHSM'">
                 <!--<div class="selectExpress" v-if="false">-->
@@ -265,7 +265,7 @@
             <p>{{$t("main.cart.settle.mainCartSeContact")}}： {{checkedAddress.user_name}}</p>
             <p>{{$t("main.cart.settle.mainCartSeContactPhone")}}： {{checkedAddress.mobile}}</p>
             <p v-if="deliveryType == 'ZITI' ">{{$t("main.cart.settle.mainCartSeZitiAdress")}}：
-                <span>{{user.shop_address}}</span></p>
+                <span>{{checkedAddress.street}}{{checkedAddress.address}}&nbsp;{{checkedAddress.city}}</span></p>
             <p v-else>{{ $t("main.address.mainAddReceivingAddress") }}：
                 <span>{{checkedAddress.street}}{{checkedAddress.address}}&nbsp;{{checkedAddress.city}}</span></p>
             <p v-if="deliveryType != 'ZITI' && checkedAddress.valid_time">{{$t("main.cart.settle.mainCartSeQuaAddr")}}：
@@ -361,20 +361,20 @@
                 editing:0, // 正在编辑的地址id
                 minusPro:0,
                 fullrule:[],
-                userAddr:''
+                userAddr:'',
+                temp:''
             }
         },
         methods: {
             selectDilivery(value){
+              if(value == 'ZITI'){
+                this.temp = JSON.stringify(this.checkedAddress)
+              }
+              else{
+                this.checkedAddress = JSON.parse(this.temp)
+              }
                 this.simulateCreateTrade()
-                // debugger
-                // if(value == 'ZITI'){
-                //     this.userAddr = this.user.shop_address
-                //     this.simulateCreateTrade()
-                // }else{
-                //     // this.userAddr = this.checkedAddress.building ? this.checkedAddress.address + this.checkedAddress.building : this.checkedAddress.address
-                //     this.simulateCreateTrade()
-                // }
+
             },
             // 查询是否有满减活动
             minus(){
@@ -574,16 +574,11 @@
             },
             // 正式下单
             submitOrder() {
-                // this.userAddr = this.checkedAddress.building ? this.checkedAddress.address + this.checkedAddress.building : this.checkedAddress.address
-                if(this.deliveryType == 'ZITI'){
-                    this.userAddr = this.user.shop_address
-                }else{
-                    this.userAddr = {
-                        street:this.checkedAddress.street,
-                        city:this.checkedAddress.city,
-                        state:this.checkedAddress.state,
-                        zip_code:this.checkedAddress.zipCode
-                    }
+                this.userAddr = {
+                    street:this.checkedAddress.street,
+                    city:this.checkedAddress.city,
+                    state:this.checkedAddress.state,
+                    zip_code:this.checkedAddress.zipCode
                 }
                 this.canSubmit = true
                 let items = []
@@ -623,7 +618,8 @@
                         // 0代表收货地址，1代表分销证地址，1免税费
                         toStates: this.checkedAddress.state,
                         toZipCode: this.checkedAddress.zipCode,
-                        serviceCode: this.expressForm.service
+                        serviceCode: this.expressForm.service,
+                        needSignature: this.expressForm.self,
                     }
                 }
                 orderService.createTrade(params, this.remark).then((data) => {
@@ -651,6 +647,7 @@
                     }
                     items.push(Obj)
                 })
+
                 let params = {
                     user_id: this.user_id,
                     items: JSON.stringify(items),
@@ -692,10 +689,25 @@
                     } else {
                         this.selectedBonus = this.$t('main.cart.settle.mainCartSeNoBonus')
                     }
-                    let ZITI
-                    for(let key in resp.data.wholesale_delivery_info_map){
-                        ZITI = resp.data.wholesale_delivery_info_map[key].wholesale_sell_order_list[0].shop
-                        this.user.shop_address = ZITI.address
+                    if(this.deliveryType == 'ZITI'){
+                        let ZITI = {}
+                        for(let key in resp.data.wholesale_delivery_info_map){
+                            ZITI = resp.data.wholesale_delivery_info_map[key].wholesale_sell_order_list[0].shop.spot
+                            ZITI.addr = {}
+                            ZITI.addr.street = ZITI.address
+                            ZITI.addr.city = ZITI.city
+                            ZITI.addr.state = ZITI.province
+                            ZITI.addr.zipCode = ZITI.zip_code
+                            ZITI.addr.user_name = this.user.name
+                            ZITI.addr.mobile = this.user.phone
+                            this.checkedAddress = ZITI.addr
+                            // this.user.shop_address = ZITI.addr.street + ',' + ZITI.addr.city + ',' + ZITI.addr.state + ',' + ZITI.addr.zipCode
+                            this.user.shop_address = ZITI.addr.street
+                        }
+                    }else{
+                      if(this.temp.length){
+                        this.checkedAddress = JSON.parse(this.temp)
+                      }
                     }
                     this.$emit('submit', 2)
                 }, (msg) => {

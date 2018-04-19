@@ -401,7 +401,7 @@
                 min-width: 1000px;
                 height: 500px;
                 background-repeat: no-repeat;
-                background-size: auto auto;
+                background-size: 400px auto;
                 background-position: center center;
             }
             .word{

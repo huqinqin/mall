@@ -25,6 +25,7 @@
                 <div class="slogan" :class="{ isFinished: finished }">
                     <span v-if="item.discount_type == 1" class="bold">{{ $t("main.detail.info.mainDetInfoDisGoods") }}</span>
                     <span v-if="item.discount_type == 9" class="bold">{{ $t("main.detail.info.mainDetInfoDisGoods") }}</span>
+                    <span v-if="item.discount_type == 0" class="bold">{{ $t("main.detail.info.mainDetInfoNoDis") }}</span>
                     <span v-else-if="item.discount_type == 2" class="bold">{{ $t("main.detail.info.mainDetInfoDepriceGoods") }}</span>
                     <span v-else-if="item.discount_type == 4" class="bold">{{ $t("main.detail.info.mainDetInfoLimit") }}</span>
                     <div class="count" style="margin-right:24px;" v-if="finished">{{ $t("main.detail.info.mainDetInLimitOver") }} </div>
@@ -507,7 +508,7 @@
                         }else{
                             if(this.level != 0 && data.data.item.price_define_do){
                                 for(let map in data.data.item.price_define_do.discount_map){
-                                    if(map == this.level){
+                                    if(map == this.level && (data.data.item.price_define_do.discount_map[map]!= 100)){
                                         value.price_real = value.price_real * data.data.item.price_define_do.discount_map[map] / 100
                                         data.data.item.price_real = data.data.item.price_real * data.data.item.price_define_do.discount_map[map] / 100
                                         data.data.item.discount_type = data.data.item.discount_type ? data.data.item.discount_type : 9

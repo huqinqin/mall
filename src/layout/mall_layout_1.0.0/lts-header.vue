@@ -36,13 +36,13 @@
                 <el-form :model="form" :rules="loginRules" ref="loginForm">
                     <el-form-item class="head">
                         <i class="iconfont icon-turnoff" @click="loginVisible = false"></i>
-                        <img src="@/assets/img/denglu.tou.png" :alt='$t("comHeader.headerTopPic")'>
+                        <img src="@/assets/img/loginImg.png" :alt='$t("comHeader.headerTopPic")'>
                     </el-form-item>
                     <el-form-item :label='$t("comHeader.headerUserOrEmail")' prop="acount">
-                        <el-input name="test"  v-model="form.acount" :placeholder='$t("comHeader.headerInputUserOrEmail")' @input="checkCookie" @blur="checkCookie" @keyup.enter.native="login"></el-input>
+                        <el-input name="test"  v-model="form.acount" :placeholder='$t("comHeader.headerInputUserOrEmail")' @input="checkCookie" @blur="checkCookie" @keyup.enter.native="submit"></el-input>
                     </el-form-item>
                     <el-form-item :label='$t("comHeader.headerPwd")' prop="password" class="password">
-                        <el-input type="password" ref="password" v-model="form.password" :placeholder='$t("comHeader.headerInputPwd")' @keyup.enter.native="login">
+                        <el-input type="password" ref="password" v-model="form.password" :placeholder='$t("comHeader.headerInputPwd")' @keyup.enter.native="submit">
                         </el-input>
                         <i class="iconfont icon-yanjing" @click="showPassword" ref="eye"></i>
                     </el-form-item>
@@ -53,7 +53,7 @@
                         </div>
                     </el-form-item>
                     <el-form-item>
-                        <button type="button" @click="login">{{$t("comHeader.headerLog")}}</button>
+                        <button type="button" @click="submit">{{$t("comHeader.headerLog")}}</button>
                     </el-form-item>
                     <el-form-item>
                         <button type="button" class="signup" @click="signup">{{$t("comHeader.headerRegis")}}</button>
@@ -86,8 +86,10 @@
               form: {
                   acount:'',
                   password:'',
+                  passwordMD5:'',
                   checked: false,
                   radio: '',
+                  omsPassword:''
               },
               loginRules:{
                   acount:[{required: true, message: this.$t("comHeader.headerInputUserOrEmail")}],
@@ -104,6 +106,17 @@
            this.language = store.getItem('language') ?  store.getItem('language') : this.language
         },
         methods:{
+            submit(){
+                userService.checkLogin(this.form.acount).then(t => {
+                    console.log(t)
+                    if(t.data){
+                        this.form.omsPassword = md5(t.data + this.form.password) + ":" + t.data
+                    }else{
+                        this.form.omsPassword = ''
+                    }
+                    this.login()
+                })
+            },
             closeDialog(){
               this.$refs.loginForm.resetFields()
             },
@@ -136,11 +149,9 @@
                 if(password){
                     this.form.checked = true
                     this.form.password = password
-                    this.hasMd5 = true
                 }else{
                     this.form.checked = false
                     this.form.password = ''
-                    this.hasMd5 = false
                 }
             },
             setCookie(name,value){
@@ -178,7 +189,7 @@
                 }else{
                     this.delCookie(this.form.acount)
                 }
-                userService.login(this.form.acount,this.form.password,this.hasMd5).then((data)=>{
+                userService.login(this.form).then((data)=>{
                     this.getExpert();
                     this.getInfo();
                     this.loginVisible = false;

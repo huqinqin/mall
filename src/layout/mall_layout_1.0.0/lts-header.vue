@@ -36,7 +36,7 @@
                 <el-form :model="form" :rules="loginRules" ref="loginForm">
                     <el-form-item class="head">
                         <i class="iconfont icon-turnoff" @click="loginVisible = false"></i>
-                        <img src="@/assets/img/denglu.tou.png" :alt='$t("comHeader.headerTopPic")'>
+                        <img src="@/assets/img/loginImg.png" :alt='$t("comHeader.headerTopPic")'>
                     </el-form-item>
                     <el-form-item :label='$t("comHeader.headerUserOrEmail")' prop="acount">
                         <el-input name="test"  v-model="form.acount" :placeholder='$t("comHeader.headerInputUserOrEmail")' @input="checkCookie" @blur="checkCookie" @keyup.enter.native="submit"></el-input>

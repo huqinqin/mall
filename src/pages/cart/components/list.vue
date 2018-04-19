@@ -455,6 +455,7 @@
             }
             Vue.set(this.tableData,index,this.tableData[index])
           })
+          this.selectedAll = true
         }else {
           this.checkedItem = []
           this.tableData.forEach((table,index) => {
@@ -476,27 +477,37 @@
           })
         }
           this.calcMinus(this.checkedItem)
-          this.calc(this.checkedItem)
           this.canSubmit(this.checkedItem)
-        // if(this.tableDataItem.length != this.checkedItem.length){
-        //   this.selectedAll = false
-        // }
       },
       // 单选框
       selectChange (row) {
-        this.checkedItem.forEach((t,index) => {
-          if(t.id == row.id){
-            this.checkedItem.splice(index, 1)
+        if(this.checkedItem.length == 0){
+          this.checkedItem.push(row)
+          this.calcMinus(this.checkedItem)
+          if (this.checkedItem.length === this.tableDataItem.length) {
+            this.selectedAll = true
+          }
+          this.canSubmit(this.checkedItem)
+        }else{
+          let ids = []
+          this.checkedItem.forEach((t,index) => {
+            ids.push(t.id)
+          })
+          if(ids.indexOf(row.id) != -1){
+            this.checkedItem.splice(ids.indexOf(row.id), 1)
             row.checked = false;
             this.selectedAll = false
           }else {
             this.checkedItem.push(row)
             row.checked  = true
           }
-        })
-        // if (this.checkedItem.indexOf(row) !== -1) {
-        //
-        // }
+          this.calcMinus(this.checkedItem)
+          if (this.checkedItem.length === this.tableDataItem.length) {
+            this.selectedAll = true
+          }
+          this.canSubmit(this.checkedItem)
+        }
+
         this.tableData.forEach((table,index,array) => {
           for(let key in table){
               this.tableData[index][key].forEach((item,count) => {
@@ -512,12 +523,7 @@
           Vue.set(this.tableData,index,this.tableData[index])
          })
         Vue.set(this.tableData)
-        this.calcMinus(this.checkedItem)
-        this.calc(this.checkedItem)
-        if (this.checkedItem.length === this.tableDataItem.length) {
-          this.selectedAll = true
-        }
-        this.canSubmit(this.checkedItem)
+
       },
         // 计算是否可以提交
         canSubmit(item){
@@ -532,20 +538,17 @@
                     self.outStock = false
                 }
             })
-          if(item.length){
-            this.selectedAll = false
-          }
         },
       // 计算价格
       calc (checked) {
-        let total = 0
-        let realTotal = 0
+        this.totalPrice = 0
+        this.realTotal = 0
+        let _this = this
         checked.forEach((item) => {
-          total += item.num * item.price
-          realTotal += item.num * item.price_real
+          _this.totalPrice += item.num * item.price
+          _this.realTotal = _this.realTotal + item.num * item.price_real
         })
-        this.totalPrice = total
-        this.realTotal = realTotal - this.minusPro
+        _this.realTotal = _this.realTotal - _this.minusPro
       },
       queryCartList () {
         cartService.queryCartList().then((data) => {
@@ -693,9 +696,13 @@
             })
           }else{
             row.noChecked = false
+            this.checkedItem.forEach((t,index) => {
+              if(t.id === row.id){
+                t.num = row.num
+              }
+            })
           }
           this.putCartPlus(row).then((data) => {
-            this.calc(this.checkedItem)
             this.calcMinus(this.checkedItem)
             this.canSubmit(this.checkedItem)
           }, (msg) => {

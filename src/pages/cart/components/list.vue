@@ -431,6 +431,7 @@
               if(item.noChecked){
                 this.checkedItem.splice(index, 1)
               }
+              // this.inputNumeberChange(item)
           })
           this.tableData.forEach((table,index,array) => {
             for(let key in table){
@@ -530,7 +531,7 @@
           let self = this
             item.forEach(value => {
                 if((value.num > value.storage) || ((value.discount_type == 4 && value.rule)&& (value.num < value.rule.minimum || value.num > value.rule.maxinum) )){
-                    self.outStock = true
+                  self.outStock = true
                   value.noChecked = true
                   value.checked = false
                     return false
@@ -560,27 +561,28 @@
           ]
           this.cartNum = data.datalist.length
           this.tableDataItem = data.datalist
-          // let handle = new Promise((resolve,reject) => {
-
             this.tableDataItem.forEach((value) => {
-              // this.checkedItem.push(value)
               value.item_props.forEach((item) => {
                 item.prop_value = JSON.parse(item.prop_value)
               })
-              value.noChecked = false
-              value.checked = true
-              // value.oldPrice = value.item_props[0].price
+              // value.noChecked = false
+              // value.checked = true
+              if(value.num > value.item_props[0].storage){
+                value.noChecked = true
+                value.checked = false
+              }else{
+                value.noChecked = false
+                value.checked = true
+              }
+              if (value.discount_type === 0){
+                // value.realPrice = value.item_props[0].price
+                this.tableData[3].others.push(value)
+              }
               if (value.discount_type === 1) {
-                // value.realPrice = value.item_props[0].price * value.discount / 100
                 this.tableData[0].discount.push(value)
               }
               if (value.discount_type === 2) {
-                // value.realPrice = value.item_props[0].price - value.discount
                 this.tableData[1].reduce.push(value)
-              }
-              if (value.discount_type === 0){
-                value.realPrice = value.item_props[0].price
-                this.tableData[3].others.push(value)
               }
               if (value.discount_type === 4) {
                 value.rule = JSON.parse(value.sale_rule)
@@ -618,48 +620,6 @@
                 this.selectAll()
               }
             })
-          // })
-          // handle.then(res => {
-            // this.tableDataItem.forEach((value) => {
-            //   if ((value.tag.indexOf('5折') !== -1)) {
-            //     let now
-            //     value.noChecked = true
-            //     value.checked = false
-            //     timeService.getUtcTime('2018-04-20 00:00:00').then(v1 => {
-            //       value.start = new Date(v1.time).getTime()
-            //       timeService.getTimeAndZone().then(v3 => {
-            //         now = new Date(v3.current_time).getTime()
-            //         if (value.start > now) {
-            //           // 还没开始
-            //           value.noChecked = true
-            //           value.checked = false
-            //           this.countdown2(value, now)
-            //         } else {
-            //           value.noChecked = false
-            //           value.checked = true
-            //           this.selectAll()
-            //         }
-            //       })
-            //     })
-            //   } else {
-            //     this.selectAll()
-            //   }
-            // })
-
-          // })
-          // if(data.datalist.length > 0){
-          //   data.datalist.forEach(t => {
-          //     if(!t.noChecked){
-          //       t.checked = true
-          //       this.checkedItem.push(t)
-          //     }
-          //   })
-          //   // this.checkedItem = data.datalist
-          //   this.calc(this.checkedItem)
-          //   this.calcMinus(this.checkedItem)
-          //   this.canSubmit(this.checkedItem)
-          // }
-
         }, (msg) => {
           this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
         })
@@ -688,7 +648,7 @@
           if(row.num > row.item_props[0].storage){
             row.noChecked = true
             row.checked = false
-            this.selectedAll = false
+            // this.selectedAll = false
             this.checkedItem.forEach((t,index) => {
               if(t.id === row.id){
                 this.checkedItem.splice(index,1)
@@ -718,17 +678,6 @@
         }, (msg) => {
           this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
         })
-      },
-      countdown2(item,now){
-        let start = item.start
-        if(now >= start){
-          item.noChecked = false
-          item.checked = true
-        }
-        // this.selectAll()
-        setTimeout(() => {
-          this.countdown2(item)
-        }, 1000)
       },
       // 倒计时计算
       countdown(value,now){
@@ -767,7 +716,6 @@
         }
         let msec = date - now
         this.rending++
-
         // 计算时分秒数
         item.day = parseInt(msec / 1000 / 60 / 60 / 24)
         item.hr = parseInt(msec / 1000 / 60 / 60 % 24)

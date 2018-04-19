@@ -11,7 +11,8 @@
                     <li v-for="item in data" :key="item.id" class="fiveDis">
                         <div>
                             <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
-                                <div class="img" :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}" :class="item.item_props[0]&&checkedSpu1.storage > 0? '' : 'error1'"></div>
+                                <div :class="item.item_props[0]&&checkedSpu1.storage > 0? '' : 'error1'"></div>
+                                <div class="img" :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}"></div>
                                 <p class="name" :title="item.item_name">{{item.item_name}}</p>
                                 <div class="item-price">
                                     <button v-ltsLoginShow:false v-login>{{$t("main.search.mainSeaLogin")}}</button>
@@ -76,14 +77,15 @@
                     <li v-for="item in data1" :key="item.id" class="fiveMan">
                         <div>
                            <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
-                            <div class="img" :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}" :class="item.item_props[0]&&checkedSpu2.storage > 0? '' : 'error1'"></div>
-                            <p class="name" :title="item.item_name">{{item.item_name}}</p>
-                            <div class="item-price">
-                                <button v-ltsLoginShow:false v-login>{{$t("main.search.mainSeaLogin")}}</button>
+                               <div :class="item.item_props[0]&&checkedSpu1.storage > 0? '' : 'error1'"></div>
+                               <div class="img" :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}"></div>
+                               <p class="name" :title="item.item_name">{{item.item_name}}</p>
+                               <div class="item-price">
+                                  <button v-ltsLoginShow:false v-login>{{$t("main.search.mainSeaLogin")}}</button>
                                 <!--<p class="price" v-ltsLoginShow:true v-if="item.activity_price">-->
                                 <!--<lts-money :money="item.activity_price"></lts-money>-->
                                 <!--</p>-->
-                                <p class="price" v-ltsLoginShow:true>
+                                 <p class="price" v-ltsLoginShow:true>
                                     <span class="realPrice" v-if="item.item_props[0] &&item.item_props[0].price_real > 0">
                                         <template v-if="item.discount_type ==1">
                                             <lts-money :money="item.item_props[0].price_real"></lts-money>
@@ -122,9 +124,9 @@
                                             <lts-money :money="item.price"></lts-money>
                                         </template>
                                     </span>
-                                </p>
-                            </div>
-                        </a>
+                                 </p>
+                               </div>
+                           </a>
                            <button class="iconfont icon-gouwuche-copy" v-ltsLoginShow:true  @click="addCart(item,item.item_props[0])" v-if="item.item_props[0]&&checkedSpu2.storage > 0" :class="item.flag ? 'icon-chenggong1 cart1':'icon-gouwuche-copy cart'"></button>
                         </div>
                     </li>
@@ -929,11 +931,13 @@
         }
         .error1{
             width: 100%;
-            height: 100%;
+            height: 222px;
             position: relative;
             z-index: 1000;
-            opacity: 0.6;
+            opacity: 0.9;
             background-image: url("../../../assets/img/soldout.png") !important;
+            background-size: 100% 100%;
+            float: left;
         }
         .error2{
             background-color: #333333;

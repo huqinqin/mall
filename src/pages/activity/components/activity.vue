@@ -11,7 +11,7 @@
                     <li v-for="item in data" :key="item.id" class="fiveDis">
                         <div>
                             <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
-                                <div class="img" :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}" :class="checkedSpu1.storage > 0? '' : 'error1'"></div>
+                                <div class="img" :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}" :class="item.item_props[0]&&checkedSpu1.storage > 0? '' : 'error1'"></div>
                                 <p class="name" :title="item.item_name">{{item.item_name}}</p>
                                 <div class="item-price">
                                     <button v-ltsLoginShow:false v-login>{{$t("main.search.mainSeaLogin")}}</button>

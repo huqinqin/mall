@@ -1,5 +1,8 @@
 <template>
     <div class="search">
+        <div class="navBar11" style="background-color: #F2AC31" v-if="search.discountType === 0">
+            <p class="navBarSave">Save <span style="color: #D82929">$50</span>for every <span style="color: #D82929">$500</span>purchase on frequently bought together items</p>
+        </div>
         <div class="nav">
             <el-breadcrumb separator-class="el-icon-arrow-right" v-if="data.length > 0">
                 <el-breadcrumb-item :to="{ path: '/' }">{{$t("main.search.mainSeaGoods")}}</el-breadcrumb-item>
@@ -152,7 +155,8 @@
                 errorImg : require('@/assets/img/error.png'),
                 isLoadEnding : false,
                 conditions:{},
-                level:'1'
+                level:'1',
+                discounttype:''
             }
 
         },
@@ -763,6 +767,43 @@
                 height: 100%;
                 background-size: cover;
                 background-repeat: no-repeat;
+            }
+        }
+        .navBar11{
+            width: 100%;
+            background-color: #D82929;
+            box-sizing: border-box;
+            padding-left: 20px;
+            padding-right: 20px;
+            height: 60px;
+            line-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 12px 0;
+            .navBarSave{
+                color: #fff;
+                font-size: 18px;
+                font-weight: bold;
+            }
+            .navBarDate{
+                color: #fff;
+                font-size: 18px;
+                span:nth-child(2){
+                    margin-left: 10px;
+                };
+                .timeBorder{
+                    width: 40px;
+                    height: 40px;
+                    line-height: 40px;
+                    background-color: #a91414;
+                    border: 1px solid #a91414;
+                    color: #fff;
+                    font-size: 24px;
+                    font-weight: bold;
+                    margin: 0 5px;
+                    border-radius: 4px;
+                }
             }
         }
     }

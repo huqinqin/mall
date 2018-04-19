@@ -59,7 +59,7 @@
             </div>
             <div class="search-result">
                 <ul class="result">
-                    <li v-for="item in data" :key="item.id" v-bind:class="{'limit':item.discount_type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1,'newSeller': item.isNew}">
+                    <li v-for="item in data" :key="item.id" v-bind:class="{'limit':item.discount_type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1,'flashSale':item.discount_type == 0,'newSeller': item.isNew}">
                         <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
                             <div class="img" :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}"></div>
                             <p class="name" :title="item.item_name">{{item.item_name}}</p>
@@ -319,7 +319,7 @@
             position: relative;
             overflow: hidden;
         }
-        li.reduce::before,li.discount::before,li.limit::before,li.newSeller::before{
+        li.reduce::before,li.discount::before,li.limit::before,li.newSeller::before,li.flashSale::before{
             content:'';
             width:100px;
             height: 100px;
@@ -342,6 +342,15 @@
         li.limit::before{
             background-image:url('../../../assets/img/Doorbuster.png');
         }
+        li.flashSale::before{
+            top: 12px;
+            left: 12px;
+            width: 50px;
+            height: 50px;
+            background-size: 100% 100%;
+            background-image:url('../../../assets/img/flashSale.png');
+        }
+
         button{
             cursor:pointer;
         }

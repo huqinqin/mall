@@ -51,7 +51,7 @@
           </div>
           <ul class="item-list-box">
             <li v-for="item in hotList" :key="item.sin"
-                v-bind:class="{'limit':item.type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1}">
+                v-bind:class="{'limit':item.type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1,'flashSale':item.discount_type == 0}">
                 <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
                 <div class="img" :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}"></div>
                   <!--:style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/' + item.url + ')'}"></div>-->
@@ -106,7 +106,7 @@
             </a>
           <ul class="item-list-box">
             <li v-for="item in itemlist.items" :key="item.sin"
-                v-bind:class="{'limit':item.type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1,'newSeller': item.isNew}">
+                v-bind:class="{'limit':item.type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1,'flashSale':item.discount_type == 0,'newSeller': item.isNew}">
                 <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
                 <!--<a :href="'/detail#/?id=' + item.id" target="_blank">-->
                   <!--<div @click="href(item.id)" >-->
@@ -155,7 +155,7 @@
         </div>
         <ul class="best-sellers">
           <li v-for="item in hotList" :key="item.id"
-              v-bind:class="{'limit':item.type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1,'newSeller': item.isNew}">
+              v-bind:class="{'limit':item.type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1,'flashSale':item.discount_type == 0,'newSeller': item.isNew}">
               <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
               <div class="img" :style="{backgroundImage : 'url(' + item.image_value +'!item_middle)'}"></div>
               <div class="item-spec">
@@ -319,7 +319,7 @@
     overflow: hidden;
   }
 
-  li.reduce::before,li.discount::before,li.limit::before,li.newSeller::before{
+  li.reduce::before,li.discount::before,li.limit::before,li.newSeller::before,li.flashSale::before{
       content:'';
       width:100px;
       height: 100px;
@@ -342,6 +342,14 @@
   li.limit::before{
       background-image:url('../../../assets/img/Doorbuster.png');
   }
+    li.flashSale::before{
+        top: 12px;
+        left: 12px;
+        width: 50px;
+        height: 50px;
+        background-size: 100% 100%;
+        background-image:url('../../../assets/img/flashSale.png');
+    }
 
   .b1200 {
     .side {

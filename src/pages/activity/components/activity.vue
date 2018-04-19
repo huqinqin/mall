@@ -812,7 +812,7 @@
                         position: absolute;
                         right: 8px;
                         bottom: 30px;
-                        font-size: 17px;
+                        font-size: 16px;
                         color: #FF3B41;
                         width: 30px;
                         height: 30px;

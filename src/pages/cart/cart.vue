@@ -54,7 +54,7 @@
           font-size: 160px;
           color: #cc242e;
           position: relative;
-          top: 20px;
+          top: 0;
       }
       .el-steps {
         width: 800px;

@@ -532,6 +532,9 @@
                     self.outStock = false
                 }
             })
+          if(item.length){
+            this.selectedAll = false
+          }
         },
       // 计算价格
       calc (checked) {
@@ -554,10 +557,10 @@
           ]
           this.cartNum = data.datalist.length
           this.tableDataItem = data.datalist
-          let handle = new Promise((resolve,reject) => {
+          // let handle = new Promise((resolve,reject) => {
 
             this.tableDataItem.forEach((value) => {
-              this.checkedItem.push(value)
+              // this.checkedItem.push(value)
               value.item_props.forEach((item) => {
                 item.prop_value = JSON.parse(item.prop_value)
               })
@@ -604,42 +607,43 @@
                         value.checked = false
                       }
                       this.tableData[2].limit.push([value])
-                      resolve("成功!")
+                      this.selectAll()
                     })
                   })
                 })
-              }
-            })
-          })
-          handle.then(res => {
-            this.tableDataItem.forEach((value) => {
-              if ((value.tag.indexOf('5折') !== -1) || (value.tag.indexOf('关联商品') !== -1)) {
-                let now
-                value.noChecked = true
-                value.checked = false
-                timeService.getUtcTime('2018-04-20 00:00:00').then(v1 => {
-                  value.start = new Date(v1.time).getTime()
-                  timeService.getTimeAndZone().then(v3 => {
-                    now = new Date(v3.current_time).getTime()
-                    if (value.start > now) {
-                      // 还没开始
-                      value.noChecked = true
-                      value.checked = false
-                      this.countdown2(value, now)
-                    } else {
-                      value.noChecked = false
-                      value.checked = true
-                      this.selectAll()
-                    }
-
-                  })
-                })
-              } else {
+              }else{
                 this.selectAll()
               }
             })
+          // })
+          // handle.then(res => {
+            // this.tableDataItem.forEach((value) => {
+            //   if ((value.tag.indexOf('5折') !== -1)) {
+            //     let now
+            //     value.noChecked = true
+            //     value.checked = false
+            //     timeService.getUtcTime('2018-04-20 00:00:00').then(v1 => {
+            //       value.start = new Date(v1.time).getTime()
+            //       timeService.getTimeAndZone().then(v3 => {
+            //         now = new Date(v3.current_time).getTime()
+            //         if (value.start > now) {
+            //           // 还没开始
+            //           value.noChecked = true
+            //           value.checked = false
+            //           this.countdown2(value, now)
+            //         } else {
+            //           value.noChecked = false
+            //           value.checked = true
+            //           this.selectAll()
+            //         }
+            //       })
+            //     })
+            //   } else {
+            //     this.selectAll()
+            //   }
+            // })
 
-          })
+          // })
           // if(data.datalist.length > 0){
           //   data.datalist.forEach(t => {
           //     if(!t.noChecked){

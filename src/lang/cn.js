@@ -195,6 +195,7 @@ export default {
         detail: {
             info: {
                 mainDetInfoDisGoods: '折扣商品',
+                mainDetInfoNoDis: '满减优惠',
                 mainDetInfoDepriceGoods: '降价商品',
                 mainDetInfoLimit: '限时限量',
                 mainDetInfoDown: '开始倒计时',

@@ -1,5 +1,5 @@
 <template>
-    <div class="search">
+    <div class="activity11">
         <div class="banner" :style="{backgroundImage : 'url(' + img + ')'}"></div>
         <div class="navBar11">
             <p class="navBarSave">Save 50% on selected items</p>
@@ -378,7 +378,7 @@
             margin-right: 0;
         }
     }
-    .search{
+    .activity11{
         background-color: #eee;
         font-family: "Microsoft YaHei";
         *{

@@ -76,7 +76,7 @@
                     <li v-for="item in data1" :key="item.id" class="fiveMan">
                         <div>
                            <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
-                            <div class="img" :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}" :class="checkedSpu2.storage > 0? '' : 'error1'"></div>
+                            <div class="img" :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}" :class="item.item_props[0]&&checkedSpu2.storage > 0? '' : 'error1'"></div>
                             <p class="name" :title="item.item_name">{{item.item_name}}</p>
                             <div class="item-price">
                                 <button v-ltsLoginShow:false v-login>{{$t("main.search.mainSeaLogin")}}</button>
@@ -84,7 +84,7 @@
                                 <!--<lts-money :money="item.activity_price"></lts-money>-->
                                 <!--</p>-->
                                 <p class="price" v-ltsLoginShow:true>
-                                    <span class="realPrice" v-if="item.item_props[0].price_real > 0">
+                                    <span class="realPrice" v-if="item.item_props[0] &&item.item_props[0].price_real > 0">
                                         <template v-if="item.discount_type ==1">
                                             <lts-money :money="item.item_props[0].price_real"></lts-money>
                                         </template>
@@ -98,9 +98,28 @@
                                             <lts-money :money="item.item_props[0].price_real"></lts-money>
                                         </template>
                                     </span>
-                                    <span class="oldPrice" v-if="item.item_props[0].price > 0">
+                                    <span class="realPrice" v-else>
+                                        <template v-if="item.discount_type ==1">
+                                            <lts-money :money="item.price_real"></lts-money>
+                                        </template>
+                                        <template v-else-if="item.discount_type ==2">
+                                            <lts-money :money="item.price - item.discount"></lts-money>
+                                        </template>
+                                        <template v-else-if="item.discount_type ==4">
+                                            <lts-money :money="item.sale_rule_do.price"></lts-money>
+                                        </template>
+                                        <template v-else>
+                                            <lts-money :money="item.price_real"></lts-money>
+                                        </template>
+                                    </span>
+                                    <span class="oldPrice" v-if="item.item_props[0] &&item.item_props[0].price > 0">
                                         <template v-if="item.discount_type != 0">
                                             <lts-money :money="item.item_props[0].price"></lts-money>
+                                        </template>
+                                    </span>
+                                    <span class="oldPrice" v-else>
+                                        <template v-if="item.discount_type != 0">
+                                            <lts-money :money="item.price"></lts-money>
                                         </template>
                                     </span>
                                 </p>

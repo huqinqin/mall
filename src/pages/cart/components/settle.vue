@@ -618,7 +618,8 @@
                         // 0代表收货地址，1代表分销证地址，1免税费
                         toStates: this.checkedAddress.state,
                         toZipCode: this.checkedAddress.zipCode,
-                        serviceCode: this.expressForm.service
+                        serviceCode: this.expressForm.service,
+                        needSignature: this.expressForm.self,
                     }
                 }
                 orderService.createTrade(params, this.remark).then((data) => {
@@ -646,6 +647,7 @@
                     }
                     items.push(Obj)
                 })
+              
                 let params = {
                     user_id: this.user_id,
                     items: JSON.stringify(items),

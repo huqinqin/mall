@@ -61,7 +61,7 @@
                                     </p>
                                 </div>
                             </a>
-                            <button class="iconfont" v-ltsLoginShow:true @click="addCart(item,item.item_props[0])" v-if="item.item_props[0]&&checkedSpu1.storage > 0" :class="item.flag ? 'icon-chenggong1 cart1':'icon-gouwuche-copy cart'"></button>
+                            <button class="iconfont" v-ltsLoginShow:true @click="addCart(item,item.item_props[0])" v-if="item.item_props[0]&&checkedSpu1.storage > 0" :class="item.flag ? 'icon-chenggong1 cart1':'icon-gouwuche2 cart'"></button>
                         </div>
                     </li>
                 </ul>
@@ -127,7 +127,7 @@
                                  </p>
                                </div>
                            </a>
-                           <button class="iconfont icon-gouwuche-copy" v-ltsLoginShow:true  @click="addCart(item,item.item_props[0])" v-if="item.item_props[0]&&checkedSpu2.storage > 0" :class="item.flag ? 'icon-chenggong1 cart1':'icon-gouwuche-copy cart'"></button>
+                           <button class="iconfont icon-gouwuche-copy" v-ltsLoginShow:true  @click="addCart(item,item.item_props[0])" v-if="item.item_props[0]&&checkedSpu2.storage > 0" :class="item.flag ? 'icon-chenggong1 cart1':'icon-gouwuche2 cart'"></button>
                         </div>
                     </li>
                 </ul>
@@ -139,7 +139,7 @@
         </div>
         <ul class="moreIcon">
             <li><div class="img2"><img :src= img3 alt=""></div><p>Credit Card Checkout</p></li>
-            <li><div style="margin: 10px auto;">30-DAY</div><p>Return Guarantee</p></li>
+            <li><div style="margin: 10px auto;height: 40px;font-weight: bold;line-height: 40px">30-DAY</div><p>Return Guarantee</p></li>
             <li><div class="img2"><img :src= img4 alt=""></div><p>Free IP Consulting</p></li>
             <li><div class="img2"><img :src= img2 alt=""></div><p>Up to 3 Year Warranty</p></li>
         </ul>

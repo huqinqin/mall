@@ -1,5 +1,6 @@
 import BaseService from "./abstract/BaseService";
 import md5 from 'md5'
+
 export default class UserService extends BaseService {
     static login(form){
         let param = {

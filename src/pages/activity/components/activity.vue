@@ -122,7 +122,7 @@
             <li><div class="img2"><img :src= img4 alt=""></div><p>Free IP Consulting</p></li>
             <li><div class="img2"><img :src= img2 alt=""></div><p>Up to 3 Year Warranty</p></li>
         </ul>
-        <div class="banner1" :style="{backgroundImage : 'url(' + img1 + ')'}"></div>
+        <a href="/search/#/detail?cateId=%5B%5D&discountype=0"><div class="banner1" :style="{backgroundImage : 'url(' + img1 + ')'}"></div></a>
         <el-dialog
             title="Tooltip"
             :close-on-click-modal="false"
@@ -811,7 +811,7 @@
                             background-position: 0 0;
                             background-repeat: no-repeat;
                             background-size: 50px 50px;
-                            background-image:url('../../../assets/img/fiveIcon.png');
+                            background-image:url('../../../assets/img/five.png');
                         }
                     /*.fiveDis::after{
                         content:'';

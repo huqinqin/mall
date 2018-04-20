@@ -2,7 +2,14 @@
    <div class="wrapperExperts">
        <div class="el-icon-close" @click="close" style=""></div>
        <h3>Contact Sales</h3>
-       <div class="box">
+       <div class="box" v-ltsLoginShow:false>
+           <ul >
+               <li><span>Contact：</span><span>831-250-1292</span></li>
+               <li><span>Email：</span><span>mall@ltsecurityinc.com</span></li>
+           </ul>
+           <ul><img src="../../assets/img/expertIcon.png" alt=""></ul>
+       </div>
+       <div class="box" v-ltsLoginShow:true>
            <ul>
                <li><span>Name：</span><span>{{someInfo.name}}</span></li>
                <li><span>Contact：</span><span>{{someInfo.mobile}}</span></li>
@@ -26,8 +33,8 @@
               flag:false,
               someInfo:{
                   name: 'Kevin',
-                  mobile: '888-216-2812',
-                  email: 'Support.SanFrancisco@LTSecurityinc.com',
+                  mobile: '6264352872',
+                  email: 'mall@ltsecurityinc.com',
                   p_shop_name:'San Francisco',
                   p_shop_addr:'38507 Cherry St. Suite GNewark, CA 94560'
               }

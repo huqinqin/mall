@@ -437,7 +437,7 @@
         methods: {
             // 购买历史左右选择
             handleHistory(index){
-                console.log(this.historyIndex)
+                // console.log(this.historyIndex)
                 if(index > 0){
                     if(this.historyIndex == Math.floor(this.buyHistory.length / 2)){
                         this.historyIndex = 0
@@ -454,11 +454,12 @@
                 this.historyItems = this.buyHistory.slice(this.historyIndex * 2, this.historyIndex * 2 + 2)
             },
             // 倒计时
-            countdown() {
+            countdown(time) {
                 let self = this
                 let start = this.start
                 let end = this.end
-                let now = Date.parse(new Date())
+                let now = time
+                // let now = Date.parse(new Date())
                 let date
                 // 判断活动是否开始
                 if (now < start) {
@@ -489,7 +490,7 @@
                 // 倒计时开始
                 if (msec >= 0) {
                     setTimeout(function () {
-                        self.countdown()
+                        self.countdown(now + 1000)
                     }, 1000)
                 }
             },
@@ -564,7 +565,7 @@
                                 timeService.getTimeAndZone().then(v3 => {
                                     now = new Date(v3.current_time).getTime()
                                     if (this.end > now) {
-                                        this.countdown()
+                                        this.countdown(now)
                                     } else {
                                         // 活动结束，不显示了
                                         this.finished = true
@@ -593,7 +594,7 @@
                 })
             },
             checkedProp(prop, data, type) {
-              console.log(prop,data, type)
+              // console.log(prop,data, type)
                 if (prop.checked_prop !== '') {
                     this.skuMapEach(prop, data, type)
                 }
@@ -812,7 +813,7 @@
             }
         },
         created() {
-            console.log(this.$route);
+            // console.log(this.$route);
             let id = this.$route.query.id
             this.getItemDetail(id)
         },

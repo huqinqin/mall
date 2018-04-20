@@ -128,7 +128,7 @@
                       }
                   }*/
                   /*this.someInfo = data;*/
-                  if(data.name == data.p_shop_name){
+                  if(data.name != ''){
                       this.storeinfo.forEach( (item) => {
                           if(item.p_shop_name === data.p_shop_name){
                               this.someInfo = item;

@@ -36,7 +36,7 @@
           <!--<img :src="posterSmall.top.content.fix_url" :alt="posterSmall.top.name">-->
         <!--</a>-->
         <div class="app" :style="{backgroundImage : 'url(' + appDown +')'}">
-          <div class="wrapper">
+          <div class="wrapper" v-show="showDownload">
             <a href="//itunes.apple.com/cn/app/lts-mall/id1366927490?mt=8" target="_blank"><img src="@/assets/img/andro.png" alt=""></a>
             <a href="//play.google.com/store/apps/details?id=io.dcloud.H5782589E" target="_blank"><img src="@/assets/img/ios.png" alt=""></a>
           </div>
@@ -190,6 +190,7 @@
     data () {
       return {
         isAuto: false,
+        showDownload:false,
         appDown:require('@/assets/img/download.png'),
         index_banner: [],
         posterSmall: {},
@@ -219,6 +220,7 @@
         homeService.getList().then((data) => {
           this.itemList = data.floor.datalist
 
+          this.showDownload = true
             this.itemList.forEach((item) => {
                 item.items.forEach((val) => {
                     if(val.tag.indexOf('新品') != -1){

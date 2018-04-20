@@ -159,7 +159,7 @@
                         icon: 'icon-yewushouce',
                         first: 'Product',
                         last: 'Catalog',
-                        link: '/catelog',
+                        link: '/catelog?t='+ new Date().getTime() + '',
                         needLogin: true
                     },
                     {
@@ -167,7 +167,7 @@
                         icon: 'icon-gouwuche2',
                         first: 'Shopping',
                         last: 'Cart',
-                        link: '/cart',
+                        link: '/cart?t='+ new Date().getTime() + '',
                         needLogin: true
                     }
                 ],

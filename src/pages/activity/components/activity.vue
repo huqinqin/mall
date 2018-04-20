@@ -310,7 +310,6 @@
                 let search = {
                     page: this.search.page,
                     pageSize: this.search.pageSize,
-                    orderBy: 'rank desc'
                 }
                 ItemService.searchList(search,tags).then((resp) => {
                     resp.data.item_d_o_list.forEach((item) => {

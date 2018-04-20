@@ -578,9 +578,11 @@
 
                     }
                     let self = this
-                    setTimeout(() => {
-                      self.skuMapEach(skuItem.props[0], self.item, 'checkedSku')
-                    }, 300)
+                    if(skuItem.props[0]) {
+                        setTimeout(() => {
+                            self.skuMapEach(skuItem.props[0], self.item, 'checkedSku')
+                        }, 300)
+                    }
                 }, (msg) => {
                     this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
                 })

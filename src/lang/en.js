@@ -198,7 +198,7 @@ export default {
         detail: {
             info: {
                 mainDetInfoDisGoods: 'On Sale Items',
-                mainDetInfoNoDis: 'Flash Sale',
+                mainDetInfoNoDis: 'Save $50 for every $500 purchase',
                 mainDetInfoDepriceGoods: 'On Sale Items',
                 mainDetInfoLimit: 'Doorbuster',
                 mainDetInfoDown: 'Deals starts in',

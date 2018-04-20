@@ -1,7 +1,7 @@
 <template>
     <div class="search">
         <div class="navBar11" style="background-color: #F2AC31" v-if="search.discountType === 0">
-            <p class="navBarSave">Save <span style="color: #D82929">$50</span>for every <span style="color: #D82929">$500</span>purchase on frequently bought together items</p>
+            <p class="navBarSave">Save <span style="color: #D82929">$50</span> for every <span style="color: #D82929">$500</span> purchase</p>
         </div>
         <div class="nav">
             <el-breadcrumb separator-class="el-icon-arrow-right" v-if="data.length > 0">

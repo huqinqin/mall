@@ -314,7 +314,7 @@
                     this.selectedOptions = JSON.parse(this.$route.query.cateId);
                 }
                 if (this.$route && this.$route.query.itemname) {
-                    this.keywords = this.$route.query.itemname.trim()
+                    this.keywords = this.$route.query.itemname ? this.$route.query.itemname.trim() : ''
                     this.model = false
                 }
                 if (this.$route && this.$route.query.sin) {

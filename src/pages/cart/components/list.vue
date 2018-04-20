@@ -648,7 +648,6 @@
           if(row.num > row.item_props[0].storage){
             row.noChecked = true
             row.checked = false
-            // this.selectedAll = false
             this.checkedItem.forEach((t,index) => {
               if(t.id === row.id){
                 this.checkedItem.splice(index,1)

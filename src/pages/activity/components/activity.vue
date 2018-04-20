@@ -77,7 +77,7 @@
                     <li v-for="item in data1" :key="item.id" class="fiveMan">
                         <div>
                            <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
-                               <div :class="item.item_props[0]&&checkedSpu1.storage > 0? '' : 'error1'"></div>
+                               <div :class="item.item_props[0]&&checkedSpu1.storage > 0? '' : 'error1'" v-ltsLoginShow:true></div>
                                <div class="img" :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}"></div>
                                <p class="name" :title="item.item_name">{{item.item_name}}</p>
                                <div class="item-price">

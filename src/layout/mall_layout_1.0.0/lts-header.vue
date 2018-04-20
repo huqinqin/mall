@@ -107,14 +107,15 @@
         },
         methods:{
             submit(){
-                userService.checkLogin(this.form.acount).then(t => {
-                    console.log(t)
+                userService.checkLogin(this.form.acount).then((t) => {
                     if(t.data){
                         this.form.omsPassword = md5(t.data + this.form.password) + ":" + t.data
                     }else{
                         this.form.omsPassword = ''
                     }
                     this.login()
+                },(err) => {
+                    this.$ltsMessage.show({type: "error", message: err.error_message});
                 })
             },
             closeDialog(){

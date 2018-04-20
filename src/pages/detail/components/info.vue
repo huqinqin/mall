@@ -717,7 +717,7 @@
                 }
                 // window.open('/cart#/settle?item=' + JSON.stringify(items))
                 localStorage.setItem('buyNowItem',JSON.stringify(items))
-                window.open('/cart#/settle?item=' + JSON.stringify(items))
+                window.open('/cart?t=' + new Date().getTime() + '#/settle?item=' + JSON.stringify(items))
             },
             validate() {
                 if (!this.checkedSpu.spu_id) {

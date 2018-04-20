@@ -68,7 +68,7 @@
             </div>
         </div>
         <div class="navBar11" style="background-color: #F2AC31">
-            <p class="navBarSave">Save <span style="color: #D82929">$50</span>for every <span style="color: #D82929">$500</span>purchase on frequently bought together items</p>
+            <p class="navBarSave">Save <span style="color: #D82929">$50</span>for every <span style="color: #D82929;margin: 0 10px;">$500</span>purchase</p>
             <p class="navBarDate"><span class="navBarDate1">This round starts in:</span><span class="timeBorder timeBorder1 time0">04</span><span class="timeBorder timeBorder1 time1">04</span><span>:</span><span class="timeBorder timeBorder1 time2">04</span><span>:</span><span class="timeBorder timeBorder1 time3">04</span></p>
         </div>
         <div class="content" v-if="data.length > 0">
@@ -821,6 +821,9 @@
                         border: 1px solid #FF3B41;
                         line-height: 30px;
                         background-color: white;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
                     }
                     /*.fiveDis{*/
                         .fiveDis::before{

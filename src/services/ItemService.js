@@ -49,7 +49,7 @@ export default class ItemService extends BaseService {
         let params = {
             item_search: JSON.stringify({
                 puserIds: search.puserIds,
-                itemName: search.itemName.trim(),
+                itemName: search.itemName ? search.itemName.trim() : '',
                 brand: search.brand,
                 cateId: search.cateId[search.cateId.length - 1],
                 attribute_1: search.attribute_1,

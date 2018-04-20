@@ -31,14 +31,14 @@
       data() {
           return {
               flag: false,
-              someInfo: {},
-              /*someInfo: {
+              /*someInfo: {},*/
+              someInfo: {
                   name: 'Kevin',
                   mobile: '6264352872',
                   email: 'mall@ltsecurityinc.com',
                   p_shop_name: 'San Francisco',
                   p_shop_addr: '38507 Cherry St. Suite GNewark, CA 94560'
-              },*/
+              },
               storeinfo: [{
                   name: 'San Jose Ave.',
                   mobile: '626-435-2838',
@@ -122,13 +122,13 @@
           getExpert() {
               let data = store.getItem('expert');
               if (data) {
-                  /*for (var value in data) {
+                  for (var value in data) {
                       if (data[value] === '' || data[value] === 'null' || data[value] === 'undefined') {
                           return false;
                       }
-                  }*/
-                  /*this.someInfo = data;*/
-                  if(data.name != ''){
+                  }
+                  this.someInfo = data;
+                  /*if(data.name != ''){
                       this.storeinfo.forEach( (item) => {
                           if(item.p_shop_name === data.p_shop_name){
                               this.someInfo = item;
@@ -136,7 +136,7 @@
                       })
                   }else {
                       this.someInfo = data;
-                  }
+                  }*/
               }
           },
       },

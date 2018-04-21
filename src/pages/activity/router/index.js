@@ -1,7 +1,7 @@
 import Router from 'vue-router'
 import Vue from 'vue'
 import activity from '../components/activity.vue'
-import activitystart from '../components/activitystart.vue'
+import activity0421 from '../components/activity0421.vue'
 import config from 'config'
 import $ from 'jquery'
 Vue.use(Router)
@@ -13,9 +13,9 @@ export default new Router({
       component: activity
     },
       {
-          path: '/activitystart',
-          name: 'activitystart',
-          component: activitystart
+          path: '/activity0421',
+          name: 'activity0421',
+          component: activity0421
       }
   ]
 })

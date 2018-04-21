@@ -61,7 +61,7 @@
                     <template slot-scope="subscope">
                       <div class="inputNumber">
                         <el-input-number :min='1' size="small" v-model="subscope.row.num"
-                                         @change="inputNumeberChange(subscope.row)"
+                                         @change="inputNumeberChange(subscope.row,scope.$index,subscope.$index)"
                                          :class="{'outOfStock':(subscope.row.num > subscope.row.storage)}"
                                          :label='$t("main.cart.list.mainCartliDescWord")'></el-input-number>
                       </div>
@@ -133,7 +133,7 @@
                     <template slot-scope="subscope">
                       <div class="inputNumber">
                         <el-input-number :min='1' size="small" v-model="subscope.row.num"
-                                         @change="inputNumeberChange(subscope.row)"
+                                         @change="inputNumeberChange(subscope.row,scope.$index,subscope.$index)"
                                          :class="{'outOfStock':(subscope.row.num > subscope.row.storage)}"
                                          :label='$t("main.cart.list.mainCartliDescWord")'></el-input-number>
                       </div>
@@ -227,7 +227,7 @@
                               size="small"
                               :class="{'outOfStock':(subscope.row.num > subscope.storage) || (subscope.row.num < subscope.row.rule.minimum || subscope.row.num > subscope.row.rule.maxinum)}"
                               v-model="subscope.row.num"
-                              @change="inputNumeberChange(subscope.row)"
+                              @change="inputNumeberChange(subscope.row,scope.$index,subscope.$index)"
                               :label='$t("main.cart.list.mainCartliDescWord")'></el-input-number>
                         </div>
                       </template>
@@ -295,7 +295,7 @@
                     <template slot-scope="subscope">
                       <div class="inputNumber">
                         <el-input-number :min='1' size="small" v-model="subscope.row.num"
-                                         @change="inputNumeberChange(subscope.row)"
+                                         @change="inputNumeberChange(subscope.row,scope.$index,subscope.$index)"
                                          :class="{'outOfStock':(subscope.row.num > subscope.row.storage)}"
                                          :label='$t("main.cart.list.mainCartliDescWord")'></el-input-number>
                       </div>
@@ -426,33 +426,41 @@
                   if(item.rule.started && !item.rule.finished){
                   }else{
                       this.checkedItem.splice(index, 1)
+                    if(this.checkedItem.length == 0){
+                      this.selectedAll = false
+                    }
                   }
               }
               if(item.noChecked){
                 this.checkedItem.splice(index, 1)
+                if(this.checkedItem.length == 0){
+                  this.selectedAll = false
+                }
               }
               // this.inputNumeberChange(item)
           })
           this.tableData.forEach((table,index,array) => {
             for(let key in table){
-              this.tableData[index][key].forEach((item,count) => {
-                 if(item.length > 0){
-                     if(item[0].rule.started && !item[0].rule.finished){
-                         item[0].checked = true;
-                         let cloneItem = item[0];
-                         Vue.set(item,0,cloneItem);
-                       if(!item[0].noChecked){
-                         item[0].checked = true;
-                       }
-                     }else{
-                     }
-                 }else{
-                   if(!item.noChecked){
-                     item.checked = true;
-                   }
-                 }
-                 Vue.set(this.tableData[index][key],count,item)
-              })
+              if(key != 'undefined'){
+                this.tableData[index][key].forEach((item,count) => {
+                  if(item.length > 0){
+                    if(item[0].rule.started && !item[0].rule.finished){
+                      item[0].checked = true;
+                      let cloneItem = item[0];
+                      Vue.set(item,0,cloneItem);
+                      if(!item[0].noChecked){
+                        item[0].checked = true;
+                      }
+                    }else{
+                    }
+                  }else{
+                    if(!item.noChecked){
+                      item.checked = true;
+                    }
+                  }
+                  Vue.set(this.tableData[index][key],count,item)
+                })
+              }
             }
             Vue.set(this.tableData,index,this.tableData[index])
           })
@@ -460,19 +468,21 @@
         }else {
           this.checkedItem = []
           this.tableData.forEach((table,index) => {
-            for(let key in table){
-              table[key].forEach((item,count) => {
-                if(item.length > 0){
-                    if(item.length > 0) {
-                        item[0].checked = false;
-                        let cloneItem = item[0];
-                        Vue.set(item,0,cloneItem);
+            for(let key in table) {
+              if (key != 'undefined') {
+                table[key].forEach((item, count) => {
+                  if (item.length > 0) {
+                    if (item.length > 0) {
+                      item[0].checked = false;
+                      let cloneItem = item[0];
+                      Vue.set(item, 0, cloneItem);
                     }
-                }else{
+                  } else {
                     item.checked = false;
-                }
-                Vue.set(this.tableData[index][key],count,item)
-              })
+                  }
+                  Vue.set(this.tableData[index][key], count, item)
+                })
+              }
             }
             Vue.set(this.tableData,index,this.tableData[index])
           })
@@ -496,6 +506,9 @@
           })
           if(ids.indexOf(row.id) != -1){
             this.checkedItem.splice(ids.indexOf(row.id), 1)
+            if(this.checkedItem.length == 0){
+              this.selectedAll = false
+            }
             row.checked = false;
             this.selectedAll = false
           }else {
@@ -511,15 +524,17 @@
 
         this.tableData.forEach((table,index,array) => {
           for(let key in table){
-              this.tableData[index][key].forEach((item,count) => {
-                  if(item.length > 0 && item[0].id == row.id && JSON.stringify(item[0].item_props[0].prop_value) == JSON.stringify(row.item_props[0].prop_value)){
-                      Vue.set(item,0,row);
-                      Vue.set(this.tableData[index][key],count,item)
-                  }else if(item.id == row.id && JSON.stringify(item.item_props[0].prop_value) == JSON.stringify(row.item_props[0].prop_value)){
-                      Vue.set(this.tableData[index][key],count,row)
-                  }
-                  Vue.set(this.tableData[index][key],count,item)
+            if(key != 'undefined') {
+              this.tableData[index][key].forEach((item, count) => {
+                if (item.length > 0 && item[0].id == row.id && JSON.stringify(item[0].item_props[0].prop_value) == JSON.stringify(row.item_props[0].prop_value)) {
+                  Vue.set(item, 0, row);
+                  Vue.set(this.tableData[index][key], count, item)
+                } else if (item.id == row.id && JSON.stringify(item.item_props[0].prop_value) == JSON.stringify(row.item_props[0].prop_value)) {
+                  Vue.set(this.tableData[index][key], count, row)
+                }
+                Vue.set(this.tableData[index][key], count, item)
               })
+            }
           }
           Vue.set(this.tableData,index,this.tableData[index])
          })
@@ -620,6 +635,7 @@
                 this.selectAll()
               }
             })
+
         }, (msg) => {
           this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
         })
@@ -643,31 +659,53 @@
         })
       },
       // 修改购物车数量
-      inputNumeberChange (row) {
-        this.$nextTick(() => {
+      inputNumeberChange (row,index,subIndex) {
+        let _this = this
+        // this.$nextTick(() => {
+        setTimeout(() => {
           if(row.num > row.item_props[0].storage){
             row.noChecked = true
             row.checked = false
-            this.checkedItem.forEach((t,index) => {
+              for(let key in _this.tableData[index]){
+                if(key != 'undefined') {
+                  _this.$set(_this.tableData[index][key], subIndex, row)
+                  _this.$set(_this.tableData[index][key])
+                  _this.$set(_this.tableData[index])
+                  _this.$set(_this.tableData)
+                }
+              }
+            _this.checkedItem.forEach((t,index) => {
               if(t.id === row.id){
-                this.checkedItem.splice(index,1)
+                _this.checkedItem.splice(index,1)
+                if(this.checkedItem.length == 0){
+                  this.selectedAll = false
+                }
               }
             })
           }else{
             row.noChecked = false
-            this.checkedItem.forEach((t,index) => {
+            _this.checkedItem.forEach((t,index) => {
               if(t.id === row.id){
                 t.num = row.num
               }
             })
+            for(let key in _this.tableData[index]){
+              if(key != 'undefined') {
+                _this.$set(_this.tableData[index][key], subIndex, row)
+                _this.$set(_this.tableData[index][key])
+                _this.$set(_this.tableData[index])
+                _this.$set(_this.tableData)
+              }
+            }
           }
-          this.putCartPlus(row).then((data) => {
-            this.calcMinus(this.checkedItem)
-            this.canSubmit(this.checkedItem)
+          _this.putCartPlus(row).then((data) => {
+            _this.calcMinus(_this.checkedItem)
+            _this.canSubmit(_this.checkedItem)
           }, (msg) => {
             // this.$ltsMessage.show({type:'error',message:msg.error_message})
           })
-        })
+        },100)
+        // })
       },
       // 删除购物车条目
       deleteHandle (index, row) {

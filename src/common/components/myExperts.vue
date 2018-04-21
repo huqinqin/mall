@@ -121,24 +121,25 @@
           },
           getExpert() {
               let data = store.getItem('expert');
-              /*if (data) {
-                  for (var value in data) {
+              if (data) {
+                  /*for (var value in data) {
                       if (data[value] === '' || data[value] === 'null' || data[value] === 'undefined') {
                           return false;
                       }
                   }
                   this.someInfo = data;*/
                   this.someInfo = data;
-                  if(data.name === 'LTS Headquarters'){
-                      this.storeinfo.forEach( (item) => {
-                          if(item.p_shop_name === data.p_shop_name){
+                  if (data.name === 'LTS Headquarters') {
+                      this.storeinfo.forEach((item) => {
+                          if (item.p_shop_name === data.p_shop_name) {
                               this.someInfo = item;
                           }
                       })
-                  }else {
+                  } else {
                       this.someInfo = data;
                   }
               }
+            }
           },
       mounted () {
           this.getExpert();

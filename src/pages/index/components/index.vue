@@ -205,7 +205,6 @@
       href(id){
           let winOpen = window.open("", "_blank"); //首先打开一个新页面
           winOpen.location = "/detail#/info/?id=" + id;
-//          winOpen.location = "http://www.baidu.com/#/?id=" + id;
       },
       getList () {
         homeService.getList().then((data) => {

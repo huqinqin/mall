@@ -8,7 +8,7 @@
         <div class="content" v-if="data.length > 0">
             <div class="search-result">
                 <ul class="result">
-                    <li v-for="item in data" :key="item.id">
+                    <li v-for="item in data" :key="item.id" class="fiveDis">
                         <div>
                             <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
                                 <div :class="item.item_props[0]&&checkedSpu1.storage > 0? '' : 'error1'" v-ltsLoginShow:true></div>
@@ -168,7 +168,7 @@
         name: "activity0421",
         data(){
             return{
-                img:require('../../../assets/img/newbanner.png'),
+                img:require('../../../assets/img/activity8.png'),
                 img1:require('../../../assets/img/saleall.png'),
                 img2:require('../../../assets/img/icon.png'),
                 img3:require('../../../assets/img/card.png'),
@@ -272,7 +272,7 @@
                             var timer;
                             timer = setInterval(() =>{
                                 diff = diff - 1000;
-                                if(diff <= 0){window.clearInterval(timer);location.reload();}
+                                if(diff <= 0){this.centerDialogVisible = true; window.clearInterval(timer);location.reload();}
                                 this.formatDate(diff);
                             },1000);
                         }/*else{
@@ -852,7 +852,7 @@
                         background-position: 0 0;
                         background-repeat: no-repeat;
                         background-size: 50px 50px;
-                        background-image:url('../../../assets/img/five.png');
+                        background-image:url('../../../assets/img/20off.png');
                     }
                     /*.fiveDis::after{
                         content:'';

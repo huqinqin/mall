@@ -32,9 +32,16 @@
         </a>
       </div>
       <div class="two">
-        <a  v-if="posterSmall.top" :href="posterSmall.top.content.link_url" class="top">
-          <img :src="posterSmall.top.content.fix_url" :alt="posterSmall.top.name">
-        </a>
+        <!--<a  v-if="posterSmall.top" :href="posterSmall.top.content.link_url" class="top">-->
+          <!--<img :src="posterSmall.top.content.fix_url" :alt="posterSmall.top.name">-->
+        <!--</a>-->
+        <div class="app" :style="{backgroundImage : 'url(' + appDown +')'}">
+          <div class="wrapper" v-show="showDownload">
+            <a href="//itunes.apple.com/cn/app/lts-mall/id1366927490?mt=8" target="_blank"><img src="@/assets/img/ios.png" alt=""></a>
+            <a href="//play.google.com/store/apps/details?id=io.dcloud.H5782589E" target="_blank"><img src="@/assets/img/andro.png" alt=""></a>
+          </div>
+        </div>
+        <!--<img src="" alt="">-->
         <a  v-if="posterSmall.bottom" :href="posterSmall.bottom.content.link_url" class="top">
           <img :src="posterSmall.bottom.content.fix_url" :alt="posterSmall.bottom.name">
         </a>
@@ -183,6 +190,8 @@
     data () {
       return {
         isAuto: false,
+        showDownload:false,
+        appDown:require('@/assets/img/download.png'),
         index_banner: [],
         posterSmall: {},
         posterBig: {},
@@ -210,6 +219,9 @@
         homeService.getList().then((data) => {
           this.itemList = data.floor.datalist
 
+          setTimeout(()=> {
+            this.showDownload = true
+          },100)
             this.itemList.forEach((item) => {
                 item.items.forEach((val) => {
                     if(val.tag.indexOf('新品') != -1){
@@ -475,6 +487,28 @@
           display: block;
           margin-bottom: 12px;
           height : 169px;
+        }
+        .app{
+          position: relative;
+          height: 169px;
+          margin-bottom: 12px;
+          background-size: 100% 169px;
+          background-repeat: no-repeat;
+          .wrapper{
+            position: absolute;
+            display: flex;
+            justify-content: space-between;
+            top: 70%;
+            left: 19%;
+            width: 40%;
+            a{
+              display: block;
+            }
+            img{
+              width: 76px;
+              height: 26px;
+            }
+          }
         }
       }
       img {

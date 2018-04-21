@@ -11,7 +11,7 @@
                     <li v-for="item in data" :key="item.id" class="fiveDis">
                         <div>
                             <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
-                                <div :class="item.item_props[0]&&checkedSpu1.storage > 0? '' : 'error1'"></div>
+                                <div :class="item.item_props[0]&&checkedSpu1.storage > 0? '' : 'error1'" v-ltsLoginShow:true></div>
                                 <div class="img" :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}"></div>
                                 <p class="name" :title="item.item_name">{{item.item_name}}</p>
                                 <div class="item-price">
@@ -68,7 +68,7 @@
             </div>
         </div>
         <div class="navBar11" style="background-color: #F2AC31">
-            <p class="navBarSave">Save <span style="color: #D82929">$50</span>for every <span style="color: #D82929">$500</span>purchase on frequently bought together items</p>
+            <p class="navBarSave">Save <span style="color: #D82929">$50</span>for every <span style="color: #D82929;margin: 0 10px;">$500</span>purchase</p>
             <p class="navBarDate"><span class="navBarDate1">This round starts in:</span><span class="timeBorder timeBorder1 time0">04</span><span class="timeBorder timeBorder1 time1">04</span><span>:</span><span class="timeBorder timeBorder1 time2">04</span><span>:</span><span class="timeBorder timeBorder1 time3">04</span></p>
         </div>
         <div class="content" v-if="data.length > 0">
@@ -310,7 +310,7 @@
                 let search = {
                     page: this.search.page,
                     pageSize: this.search.pageSize,
-                    orderBy: 'cdate desc'
+                    orderBy: 'edate desc'
                 }
                 ItemService.searchList(search,tags).then((resp) => {
                     resp.data.item_d_o_list.forEach((item) => {
@@ -821,6 +821,9 @@
                         border: 1px solid #FF3B41;
                         line-height: 30px;
                         background-color: white;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
                     }
                     /*.fiveDis{*/
                         .fiveDis::before{

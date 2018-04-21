@@ -619,7 +619,7 @@
                         toStates: this.checkedAddress.state,
                         toZipCode: this.checkedAddress.zipCode,
                         serviceCode: this.expressForm.service,
-                        needSignature: this.expressForm.self,
+                        needSignature: this.expressForm.self ? 1 : 0,
                     }
                 }
                 orderService.createTrade(params, this.remark).then((data) => {

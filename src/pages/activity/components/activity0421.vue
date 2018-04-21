@@ -2,8 +2,8 @@
     <div class="activity11">
         <div class="banner" :style="{backgroundImage : 'url(' + img + ')'}"></div>
         <div class="navBar11">
-            <p class="navBarSave">Save 50% on selected items</p>
-            <p class="navBarDate"><span class="navBarDate1">This round starts in:</span><span class="timeBorder time0">04<span>D</span></span><span class="timeBorder time1">04</span><span>:</span><span class="timeBorder time2">04</span><span>:</span><span class="timeBorder time3">04</span></p>
+            <p class="navBarSave">Save 20% on selected items</p>
+            <p class="navBarDate"><span class="navBarDate1">This round ends in:</span><span class="timeBorder time0">04<span>D</span></span><span class="timeBorder time1">04</span><span>:</span><span class="timeBorder time2">04</span><span>:</span><span class="timeBorder time3">04</span></p>
         </div>
         <div class="content" v-if="data.length > 0">
             <div class="search-result">

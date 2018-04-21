@@ -188,7 +188,7 @@
                     condition:[],
                     text:'',
                     page:1,
-                    pageSize:30,
+                    pageSize:20,
                     totalPage:1,
                     cateId:'',
                     itemName:'',
@@ -315,8 +315,7 @@
                 ItemService.searchList(search,tags).then((resp) => {
                     resp.data.item_d_o_list.forEach((item) => {
                         item.flag = false;
-                        if(item.discount_type === 4 || item.discount_type === '4'){
-                            if (this.data.length >= 10) return
+                        if(item.tag == "5折"){
                             this.data.push(item);
                             item.item_props = []
                             item.item_struct_props.every((value) => {
@@ -329,8 +328,7 @@
                                     return false;
                                 }
                             })
-                        }else if(item.discount_type === "0" ||item.discount_type === 0){
-                            if (this.data1.length >= 10) return
+                        }else if(item.tag == "关联商品"){
                             this.data1.push(item);
                             item.item_props = []
                             item.item_struct_props.every((value) => {

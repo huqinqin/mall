@@ -7,8 +7,8 @@
         </div>
         <div class="content" v-if="data.length > 0">
             <div class="search-result">
-                <ul class="result">
-                    <li v-for="item in data" :key="item.id" class="fiveDis">
+                <ul class="result" v-for="arr in data">
+                    <li v-for="item in arr" :key="item.id" class="fiveDis">
                         <div>
                             <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
                                 <div :class="item.item_props[0]&&checkedSpu1.storage > 0? '' : 'error1'" v-ltsLoginShow:true></div>
@@ -168,7 +168,7 @@
         name: "activity0421",
         data(){
             return{
-                img:require('../../../assets/img/activity8.png'),
+                img:require('../../../assets/img/active.png'),
                 img1:require('../../../assets/img/saleall.png'),
                 img2:require('../../../assets/img/icon.png'),
                 img3:require('../../../assets/img/card.png'),
@@ -307,7 +307,8 @@
                 })
             },*/
             getList(){
-                let tags = ['20off2018421'];
+                let tags = [''];
+                this.search.pageSize = 8
                 let search = {
                     page: this.search.page,
                     pageSize: this.search.pageSize,
@@ -317,7 +318,6 @@
                     resp.data.item_d_o_list.forEach((item) => {
                         item.flag = false;
                        /* if(item.tag == "5折"){*/
-                            this.data.push(item);
                             item.item_props = []
                             item.item_struct_props.every((value) => {
                                 if(value.sku && value.storage > 0){
@@ -331,7 +331,9 @@
                             })
                         /*}*/
                     });
-                    console.log(this.data1);
+                    this.data.push(resp.data.item_d_o_list.slice(0,4));
+                    this.data.push(resp.data.item_d_o_list.slice(4,8));
+                    console.log(this.data)
                 })
             },
             /*getList1(){
@@ -380,19 +382,19 @@
 <style lang="less">
     .b1200 .search-result{
         li{
-            margin-right: 13px;
+            width:290px
         }
-        li:nth-child(4n){
-            margin-right: 0;
-        }
+        /*li:nth-child(4n){*/
+            /*margin-right: 0;*/
+        /*}*/
     }
     .b1500 .search-result{
         li{
-            margin-right: 12px;
+            width:320px
         }
-        li:nth-child(5n){
-            margin-right: 0;
-        }
+        /*li:nth-child(5n){*/
+            /*margin-right: 0;*/
+        /*}*/
     }
     .activity11{
         background-color: #eee;
@@ -720,6 +722,7 @@
                     display: flex;
                     flex-wrap: wrap;
                     width:100%;
+                    justify-content: space-between;
                     /*margin-bottom: 20px;*/
                     li:hover{
                         -webkit-box-shadow: 0 15px 30px rgba(0,0,0,0.1);
@@ -729,7 +732,7 @@
                     }
                     li{
                         transition: all ease .2s;
-                        width:290px;
+                        /*width:290px;*/
                         overflow: hidden;
                         /*margin-top: 36px;*/
                         text-align: center;
@@ -869,6 +872,9 @@
                     /*}*/
 
                 }
+                ul:first-child{
+                    margin-bottom: 32px;
+                }
                 .el-pagination{
                     position: absolute;
                     right:0;
@@ -898,7 +904,7 @@
         .banner{
             width: 100%;
             height: 500px;
-            background-size: 100% 100%;
+            background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             border: 1px solid #f6f6f6;

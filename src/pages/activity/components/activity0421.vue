@@ -307,8 +307,7 @@
                 })
             },*/
             getList(){
-                let tags = [''];
-                this.search.pageSize = 8
+                let tags = ['20off2018421'];
                 let search = {
                     page: this.search.page,
                     pageSize: this.search.pageSize,
@@ -904,7 +903,7 @@
         .banner{
             width: 100%;
             height: 500px;
-            background-size: cover;
+            background-size: 100% 100%;
             background-position: center;
             background-repeat: no-repeat;
             border: 1px solid #f6f6f6;

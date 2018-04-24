@@ -141,7 +141,7 @@
             <li><div class="img2"><img :src= img3 alt=""></div><p>Credit Card Checkout</p></li>
             <li><div style="margin: 10px auto;height: 40px;font-weight: bold;line-height: 40px">30-DAY</div><p>Return Guarantee</p></li>
             <li><div class="img2"><img :src= img4 alt=""></div><p>Free IP Consulting</p></li>
-            <li><div class="img2"><img :src= img2 alt=""></div><p>Up to 3 Year Warranty</p></li>
+            <li><div class="img2"><img :src= img2 alt=""></div><p>Up to 3 Year's Warranty</p></li>
         </ul>
         <a href="/search/#/detail?cateId=%5B%5D&discountype=0"><div class="banner1" :style="{backgroundImage : 'url(' + img1 + ')'}"></div></a>
         <el-dialog

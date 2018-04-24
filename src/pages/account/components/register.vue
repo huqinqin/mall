@@ -2,13 +2,19 @@
     <div class="accRegister">
         <header>
             <!--<div class="line"></div>-->
-            <div class="title" style="color: #d31f28;margin: 0 auto;">Sign up for an Online Account</div>
             <!--<div class="line"></div>-->
         </header>
-        <div>
-            <img :src="activeRegLogo1" alt="" class="activeLogo">
-            <img :src="activeRegBg1" alt="" class="activePic">
+        <div style="overflow: hidden;">
+            <div style="float: left;width: 310px;">
+                <img :src="activeRegLogo1" alt="" class="activeLogo">
+                <img :src="activeRegBg1" alt="" class="activePic">
+            </div>
             <main>
+                <div class="title">Sign up for an Online Account</div>
+                <div class="tips">
+                    <div class="el-message-box__status el-icon-warning"></div>
+                    <div style="margin-left: 20px;">NOTE: If you already have an account at www.ltsecurityinc.com, you may login with the same account and password on this site.</div>
+                </div>
                 <el-form label-position="top" :model="signupForm" :rules="rules" ref="form" class="formLeft">
                     <el-form-item label="Email Address" prop="email">
                         <el-input v-model="signupForm.email"></el-input>
@@ -386,12 +392,29 @@
         .activeLogo {
             display: block;
             width: 100px;
-            margin: 10px 0 0 0;
+            margin-bottom: 10px;
         }
         .activePic {
             float: left;
             width: 310px;
             margin: 4px 0 0 0;
+        }
+        .title{
+            color: #d31f28;
+            padding:0 45px;
+            font-weight: bold;
+            font-size: 18px;
+            line-height: 22px;
+            text-align: center;
+        }
+        .tips{
+            position: relative;
+            margin: 12px auto;
+            color: #606266;
+            .el-message-box__status {
+                top: 8px;
+                font-size: 14px !important;
+            }
         }
         .formLeft {
             width: 400px;
@@ -427,7 +450,7 @@
             /*margin:40px auto;*/
             .el-form {
                 .el-form-item__label {
-                    line-height: 26px;
+                    line-height: 16px;
                     margin-left: 10px;
                     position: relative;
                     padding: 0;
@@ -473,10 +496,10 @@
                     }
                 }
                 .upload-demo .el-upload-dragger {
-                    height: 240px;
+                    height: 215px;
                     width: 400px !important;
                     .el-icon-upload{
-                        margin: 70px 0 16px;
+                        margin: 58px 0 16px;
                     }
                 }
                 .el-select .el-input {
@@ -490,7 +513,7 @@
                     margin-left: 34px;
                 }
                 .el-button.confirm {
-                    margin-top: 36px;
+                    margin-top: 16px;
                     background: #ff3b41;
                     width: 400px;
                     margin-left: -210px;

@@ -42,7 +42,7 @@
                     <el-input v-model="signupForm.phone" ></el-input>
                 </el-form-item>-->
                 <el-form-item label="Mobile Phone" prop="mobile" class="num">
-                    <el-select v-model="num" placeholder="请选择">
+                    <!--<el-select v-model="num" placeholder="请选择">
                         <el-option
                             width="50px"
                             v-for="item in globlaNum"
@@ -51,7 +51,8 @@
                             :value="item.value">
                         </el-option>
                     </el-select>
-                    <el-input v-model="signupForm.mobile" @blur="validted"></el-input>
+                    <el-input v-model="signupForm.mobile" @blur="validted"></el-input>-->
+                    <InputPhone v-model="signupForm.mobile"></InputPhone>
                 </el-form-item>
                 <el-form-item label="Zip Code" prop="address">
                     <el-input v-model="signupForm.address" ></el-input>
@@ -397,9 +398,18 @@
     .registerPhone{
         width: 80% !important;
         margin: 0 5%;
-        font-size: 5rem;
+        font-size: 4rem;
+        .title{
+            margin: 0 auto;
+        }
         .el-form--label-top input {
-            height: 3rem;
+            height: 6rem;
+        }
+        .el-form--label-top .el-form-item__label{
+            font-size: 3rem;
+        }
+        .el-input{
+            font-size: 2.5rem;
         }
     }
     /*.registerPhone{

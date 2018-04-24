@@ -23,7 +23,7 @@
 </template>
 
 <script>
- // import expertService from '@/services/MyexpertService.js'
+  import expertService from '@/services/MyexpertService.js'
  import {store} from 'ltsutil'
  import $ from 'jquery'
   export default {
@@ -140,9 +140,16 @@
                   }
               }
             }
+          /*getExpert(){
+              expertService.getExpert().then((data) => {
+                  if(data.data){
+                     this.someInfo = data.data;
+                  }
+              })
+           }*/
           },
       mounted () {
-          this.getExpert();
+          /*this.getExpert();*/
       }
   };
 </script>

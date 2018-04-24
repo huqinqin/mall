@@ -38,7 +38,20 @@
                         <i class="iconfont icon-turnoff" @click="loginVisible = false"></i>
                         <img src="@/assets/img/loginImg.png" :alt='$t("comHeader.headerTopPic")'>
                     </el-form-item>
-                    <el-form-item :label='$t("comHeader.headerUserOrEmail")' prop="acount">
+                    <el-form-item  prop="acount">
+                        <div>
+                            <el-popover
+                                popper-class="loginNNote"
+                                ref="popover1"
+                                placement="bottom"
+                                title=""
+                                width="200"
+                                trigger="hover"
+                                :content='$t("comHeader.loginNote")'>
+                            </el-popover>
+                            <label for="test" >{{$t("comHeader.headerUserOrEmail")}}</label>
+                            <el-button v-popover:popover1 class="accountInput"><span class="iconfont icon-yiwen"></span></el-button>
+                        </div>
                         <el-input name="test"  v-model="form.acount" :placeholder='$t("comHeader.headerInputUserOrEmail")' @input="checkCookie" @blur="checkCookie" @keyup.enter.native="submit"></el-input>
                     </el-form-item>
                     <el-form-item :label='$t("comHeader.headerPwd")' prop="password" class="password">
@@ -49,7 +62,7 @@
                     <el-form-item>
                         <div class="aboutPassword">
                             <el-checkbox v-model="form.checked">{{$t("comHeader.headerRemerberPsw")}}</el-checkbox>
-                            <div @click="forgetPass" style="cursor: pointer">{{$t("comHeader.headerForgetPsw")}}</div>
+                            <div @click="forgetPass" class="forgetButton">{{$t("comHeader.headerForgetPsw")}}</div>
                         </div>
                     </el-form-item>
                     <el-form-item>
@@ -103,7 +116,7 @@
           }
         },
         mounted(){
-           this.language = store.getItem('language') ?  store.getItem('language') : this.language
+            this.language = store.getItem('language') ?  store.getItem('language') : this.language
         },
         methods:{
             submit(){
@@ -196,7 +209,11 @@
                     this.loginVisible = false;
                     this.getUserInfo();
                 },(msg)=>{
-                    this.$ltsMessage.show({type:'error',message:msg.error_message})
+                    if(msg.error_code == 10100062){
+                        this.$ltsMessage.show({type:'error',message:this.$t("comHeader.passErrorNote"),class:'errorMess'})
+                    }else{
+                        this.$ltsMessage.show({type:'error',message:msg.error_message})
+                    }
                 })
             },
             getUserInfo(){
@@ -250,8 +267,17 @@
     .el-loading-mask{
         z-index: 1000;
     }
+    .loginNNote{
+        text-align: left;
+        width:220px !important;
+    }
+    .el-message.errorMess{
+        width:520px;
+        p{
+            line-height: 1.3;
+        }
+    }
     .mall-header{
-
         a{
             color:inherit;
             text-decoration: none;
@@ -331,7 +357,6 @@
             .el-dialog{
                 width:380px;
                 border-radius: 4px;
-
                 .el-dialog__header{
                     padding:0;
                     position: relative;
@@ -371,7 +396,6 @@
                                 font-size: 14px;
                                 line-height: 18px;
                                 color: rgba(0,0,0,0.7);
-                                font-family: MicrosoftYaHei;
                                 margin-bottom: 6px;
                                 margin-top: 38px;
                                 margin-left: 5px;
@@ -425,6 +449,13 @@
                                     text-decoration: none;
                                     color:inherit;
                                 }
+                            }
+                            .forgetButton{
+                                color:#3d98ff;
+                                cursor: pointer;
+                                text-decoration: underline;
+                                position: relative;
+                                top: 2px;
                             }
                             button:focus{
                                 outline: none;
@@ -489,10 +520,8 @@
                                     display: block;
                                     width: 30px;
                                     height: 30px;
-
                                 }
                             }
-
                         }
                         .el-form-item:nth-child(1){
                             height: 80px;
@@ -523,8 +552,23 @@
                                 border-color:#409EFF;
                             }
                         }
-
-
+                        .el-button.accountInput{
+                            width:0;
+                            height: 0;
+                            background: #fff;
+                            color: #ffa03b;
+                            font-size: 12px;
+                            padding: 0;
+                            border:none;
+                            position: relative;
+                            top: 12px;
+                            left: 12px;
+                            .icon-yiwen{
+                                position: absolute;
+                                top: -18px;
+                                left: -9px;
+                            }
+                        }
                     }
                 }
                 .el-dialog__footer{

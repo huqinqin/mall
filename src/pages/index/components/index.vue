@@ -189,7 +189,7 @@
   export default {
     data () {
       return {
-        isAuto: false,
+        isAuto: true,
         showDownload:false,
         appDown:require('@/assets/img/download.png'),
         index_banner: [],

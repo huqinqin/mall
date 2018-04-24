@@ -51,19 +51,6 @@
                         <div v-ltsLoginShow:true class="detail_price" v-else>
                             <lts-money :money="checkedSpu.price_real"></lts-money>
                             <span class="oldPrice" v-if="checkedSpu.price_real != checkedSpu.price"><lts-money :money="checkedSpu.price"/></span>
-                            <!--<span v-if="item.discount_type === 1">-->
-                                <!--<lts-money :money="checkedSpu.price * item.discount / 100"/>-->
-                                <!--<span class="oldPrice"><lts-money :money="checkedSpu.price"/></span>-->
-                            <!--</span>-->
-                            <!--<span v-else-if="item.discount_type === 2">-->
-                                <!--<lts-money :money="checkedSpu.price - item.discount"/>-->
-                                <!--<span class="oldPrice"><lts-money :money="checkedSpu.price"/></span>-->
-                            <!--</span>-->
-                            <!--<span v-else-if="item.discount_type === 4">-->
-                                <!--<lts-money :money="item.sale_rule_do.price"/>-->
-                                <!--<span class="oldPrice"><lts-money :money="checkedSpu.price"/></span>-->
-                            <!--</span>-->
-                            <!--<span v-else><lts-money :money="checkedSpu.price"></lts-money></span>-->
                         </div>
                     </el-form-item>
                     <div :class="[showPropsError ? 'error' : '']" class="error_box" @click="closeError">
@@ -180,105 +167,19 @@
                     </div>
                 </div>
                 <div class="icon-handle"><i class="iconfont icon-jiahaocu"></i></div>
-                <el-button class="handlePage" @click="pre" disabled><i class="el-icon-caret-left"></i></el-button>
                 <ul class="others">
-                    <li v-for="(value,index) in otherGoods" :key="value.id" class="othersItem">
+                    <li v-for="(value,index) in otherGoods" :key="value.id" class="othersItem briefInfo">
                         <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
                             <div class="img" :style="'background-image: url(' + value.image_value + ')'"></div>
                         </a>
-                        <!--<el-tooltip class="item" effect="dark" :content="value.item_name" placement="top">-->
-                            <div class="name" :title="value.item_name">{{value.item_name}}</div>
-                        <!--</el-tooltip>-->
-                        <el-popover placement="bottom" popper-class="othersPopover" ref="popover">
-                            <el-form label-width="120px" label-position="left">
-                                <el-form-item v-for="prop in otherGoodsItem.item_prop_value_maps" :key="prop.prop_name"
-                                              :label="prop.prop_name" class="radio sku_prop">
-                                    <el-radio-group v-model="prop.checked_prop"
-                                                    @change="checkedProp(prop,value,'otherSku')">
-                                        <el-radio v-for="propValue in prop.prop_values"
-                                                  :disabled="!propValue.can_checked" :label="propValue.value"
-                                                  :key="propValue.value">
-                                            {{propValue.value}}<i class="iconfont icon-duihao"></i>
-                                        </el-radio>
-                                    </el-radio-group>
-                                </el-form-item>
-                                <el-form-item :label=' $t("main.detail.info.mainDetInfoPrice")' class="price">
-                                    <div class="tips" v-ltsLoginShow:false>{{ $t("main.detail.info.mainDetInfoComp")
-                                        }}
-                                    </div>
-                                    <div v-ltsLoginShow:true class="detail_price" v-if="!otherSpu.price">
-                                        <lts-money :money="value.price"></lts-money>
-                                    </div>
-                                    <div v-ltsLoginShow:true class="detail_price" v-else>
-                                        <span v-if="value.discount_type === 1">
-                                            <lts-money :money="otherSpu.price * value.discount / 100"/>
-                                            <span class="oldPrice"><lts-money :money="otherSpu.price"/></span>
-                                        </span>
-                                                    <span v-else-if="value.discount_type === 2">
-                                            <lts-money :money="otherSpu.price - value.discount"/>
-                                            <span class="oldPrice"><lts-money :money="otherSpu.price"/></span>
-                                        </span>
-                                                    <span v-else-if="value.discount_type === 4">
-                                            <lts-money :money="value.sale_rule_do.price"/>
-                                            <span class="oldPrice"><lts-money :money="otherSpu.price"/></span>
-                                        </span>
-                                        <span v-else><lts-money :money="otherSpu.price"></lts-money></span>
-                                    </div>
-                                </el-form-item>
-                                <el-form-item :label='$t("main.detail.info.mainDetInfoAmount")' class="num">
-                                    <el-input-number v-model="value.num" size="mini" :min="1"
-                                                     :max="otherSpu.storage"></el-input-number>
-                                    <span v-if="otherSpu.storage > 0" class="storage_spec">{{ $t("main.detail.info.mainDetInfoStock") }}</span>
-                                    <span v-else-if="otherSpu && otherSpu.storage <= 0" class="storage_spec">{{ $t("main.detail.info.mainDetInfoNoStock") }}</span>
-                                    <!--<div v-if="value.num > otherSpu.storage"  class="el-form-item__error">{{ $t("main.detail.info.mainDetInfoExceed") }}！</div>-->
-                                </el-form-item>
-                                <el-form-item>
-                                    <!--:disabled="otherGoodsItem.storage <= 0"-->
-                                    <el-button @click="addOthers(value,index)" type="primary" :disabled="!otherSpu.storage">{{
-                                        $t("main.detail.info.mainDetSure") }}
-                                    </el-button>
-                                </el-form-item>
-                            </el-form>
-                            <el-button class="model" slot="reference" @click="selectModel(value.id)">{{
-                                $t("main.detail.info.mainDetSelectModel") }}
-                            </el-button>
-                        </el-popover>
-
+                        <div class="name" :title="value.item_name">{{value.item_name}}</div>
+                        <div class="price">
+                            <span class="red" v-if="value.price_real"><lts-money :money="value.price_real"></lts-money></span>
+                            <!--<el-button @click="addPackage(value)">++</el-button>-->
+                            <el-button class="icon" :disabled="value.checked"><i class="iconfont" v-ltsLoginShow:true  @click="addPackage(value)" :class="value.checked ? 'icon-chenggong1':'icon-gouwuche-copy'"></i></el-button>
+                        </div>
                     </li>
                 </ul>
-                <el-button class="handlePage" disabled @click="next"><i class="el-icon-caret-right"></i></el-button>
-                <div class="icon-handle"><i class="iconfont icon-dengyu"></i></div>
-                <div class="package">
-                    <p>
-                        {{ $t("main.detail.info.mainDetCheckedPackage") }}<span class="red bold">{{checkedOthers.length}}</span>{{
-                        $t("main.detail.info.mainDetPiece") }}
-                        <el-popover placement="left-start" popper-class="checkedOthersList" trigger="hover">
-                            <ul v-if="checkedOthers.length > 0">
-                                <li v-for="item in checkedOthers">
-                                    <div class="img" :style="'background-image:url(' + item.item.img + ');'"></div>
-                                    <div class="content">
-                                        <div class="name">{{item.item.name}}</div>
-                                        <div class="props">{{ $t("main.detail.info.mainDetCkeckedProp")
-                                            }}：{{item.otherProp.newProps}}
-                                        </div>
-                                        <div class="about">
-                                            <div class="num">{{ $t("main.detail.info.mainDetNum") }}：{{item.item.num}}
-                                            </div>
-                                            <div class="price">{{ $t("main.detail.info.mainDetSinglePrice") }}：<span
-                                                class="bold red" v-if="item.otherProp.price"><lts-money
-                                                :money="item.otherProp.price"></lts-money></span></div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                            <span v-else>{{ $t("main.detail.info.mainDetNoAnyPackage") }}</span>
-                            <i class="el-icon-warning" slot="reference"></i>
-                        </el-popover>
-                    </p>
-                    <p>{{ $t("main.detail.info.mainDetPackagePrice") }}：<span class="red bold"><lts-money
-                        :money="packagePrice"/></span></p>
-                    <el-button @click="addPackage" :disabled="!(checkedSpu.id || checkedOthers.length > 0)">{{ $t("main.detail.info.mainDetInfoJoinCart") }}</el-button>
-                </div>
             </div>
         </div>
         <!-- bottom -->
@@ -518,6 +419,18 @@
                             }
                         }
                     })
+                    if(data.data.item.package_item_list.length > 0){
+                        data.data.item.package_item_list.forEach(t => {
+                            t.checked = false
+                            t.item_struct_props.forEach(prop => {
+                                if(prop.sku && prop.storage){
+                                    t.otherCheckedProp = prop
+                                    t.price_real = prop.price_real
+                                    return false
+                                }
+                            })
+                        })
+                    }
                     this.otherGoods = data.data.item.package_item_list
                     if(data.data.item.item_images.length == 0){
                         data.data.item.item_images.push(
@@ -573,10 +486,6 @@
                                 })
                             })
                         })
-                        // this.end = Date.parse(new Date(this.item.sale_rule_do.end_time))
-                        // this.start = Date.parse(new Date(this.item.sale_rule_do.start_time))
-                        // let now = Date.parse(new Date())
-
                     }
                     let self = this
                     if(skuItem.props[0]) {
@@ -676,7 +585,6 @@
                         this.flag = true
                     }
                     this.selfContext.$emit('addCartSuccess')
-                    // this.$ltsMessage.show({type:'success',message:'加入购物车成功'})
                 }, (msg) => {
                     this.$ltsMessage.show({type: 'error', message: msg.error_message})
                 })
@@ -742,78 +650,19 @@
             next() {
                 console.log('next')
             },
-            selectModel(id) {
-                this.otherSpu = {}
-                itemService.getItemProps(id).then((data) => {
-                    this.packVisible = true
-                    this.otherGoodsItem = data.data
-                    if (this.otherGoods) {
-                        this.otherGoods.forEach((item) => {
-                            if (item.id === data.data.id) {
-                                item.item_prop_value_maps = data.data.item_prop_value_maps
-                                item.item_struct_props = data.data.item_struct_props
-                            }
-                        })
-                    }
-                }, (msg) => {
-                    this.$ltsMessage({type: 'error', message: msg.error_message})
-                })
-            },
-            addOthers(value,index) {
-                this.$refs.popover[index].showPopper = false
-                this.otherSpu.newProps = this.otherSpu.props.split(',').join('/')
-                let obj = {
-                    item: {
-                        id: value.id,
-                        num: value.num,
-                        img: value.image_value,
-                        name: value.item_name
-                    },
-                    otherProp: this.otherSpu
-                }
-                if (this.checkedOthers.length > 0) {
-                    if (JSON.stringify(this.checkedOthers).indexOf(value.id) !== -1) {
-                        this.checkedOthers.forEach((val) => {
-                            if (val.item.id == value.id ) {
-                                if(val.otherProp.newProps.indexOf(this.otherSpu.newProps) != -1){
-                                    val.item.num = value.num
-                                }else {
-                                    this.checkedOthers.push(obj)
-                                }
-                            }
-                        })
-                    } else {
-                        this.checkedOthers.push(obj)
-                    }
-                } else {
-                    this.checkedOthers.push(obj)
-                }
-            },
-            otherItemNum(row, value) {
-                console.log(row, value)
-            },
             // 添加套餐到购物车
-            addPackage() {
-                if (this.checkedSpu.id) {
-                    this.addCart(this.item, this.checkedSpu)
-                }
-                if (this.checkedOthers.length > 0) {
-                    this.checkedOthers.forEach((item) => {
-                        // this.addCart (item.item, item.otherProp)
-                        cartService.putCartPlus(item.item, item.otherProp).then((data) => {
-                            if (!this.showPropsError) {
-                                this.flag = true
-                            }
-                            this.selfContext.$emit('addCartSuccess')
-                        }, (msg) => {
-                            this.$ltsMessage.show({type: 'error', message: msg.error_message})
-                        })
+            addPackage(obj) {
+                if(!obj.checked){
+                    cartService.putCartPlus({id: obj.id,num: 1,}, obj.otherCheckedProp).then((data) => {
+                        this.selfContext.$emit('addCartSuccess')
+                        obj.checked = true
+                    }, (msg) => {
+                        this.$ltsMessage.show({type: 'error', message: msg.error_message})
                     })
                 }
             }
         },
         created() {
-            // console.log(this.$route);
             let id = this.$route.query.id
             this.getItemDetail(id)
         },
@@ -845,194 +694,6 @@
 </script>
 
 <style lang="less">
-    .othersPopover {
-        padding: 12px;
-        min-width: 300px;
-        .el-form-item {
-            margin-bottom: 0;
-            .detail_price {
-                font-size: 14px;
-            }
-            .el-button {
-                width: 80px;
-                height: 24px;
-                padding: 0;
-                line-height: 22px;
-            }
-        }
-        .price {
-            margin-top: 7px;
-        }
-        span.oldPrice {
-            color: #9a9a9a;
-            text-decoration: line-through;
-            font-size: 12px;
-        }
-
-        .tips {
-            border: 1px solid #ff3b41;
-            line-height: 21px;
-            width: 210px;
-            margin-top: 10px;
-            font-size: 12px;
-            padding-left: 6px;
-            color: #ff3b41;
-        }
-        .detail_price {
-            color: #ff3b41;
-            font-size: 18px;
-            font-weight: bold;
-
-        }
-        .radio {
-            .el-radio {
-                height: 28px;
-                padding: 0;
-                border-radius: 0;
-                line-height: 28px;
-                font-size: 14px;
-                width: auto !important;
-                border: 1px solid #b8b7bd;
-                color: red;
-                .el-radio__input {
-                    display: none;
-                }
-                .el-radio__label {
-                    text-align: center;
-                    font-size: 14px;
-                    color: #606266;
-                    line-height: 19px;
-                    padding: 0 9px;
-                }
-            }
-            .iconfont {
-
-            }
-            .el-radio:hover {
-                border: 1px solid #FF0036
-            }
-            .el-radio.is-checked {
-                border: 1px solid #ff3b41;
-                position: relative;
-                span {
-                    color: rgba(0, 0, 0, 0.5);
-                }
-            }
-            .el-radio.is-disabled {
-                border: 1px dashed #a3a3a3;
-            }
-            .el-radio.is-disabled .el-radio__label {
-                color: #a3a3a3;
-            }
-            .el-radio.is-checked::after {
-                content: '';
-                width: 0;
-                height: 0;
-                border-right: 4px solid red;
-                border-bottom: 4px solid red;
-                border-top: 4px solid transparent;
-                border-left: 4px solid transparent;
-                position: absolute;
-                bottom: 0;
-                right: 0;
-            }
-            .el-radio.is-bordered + .el-radio.is-bordered {
-                margin-left: 0px;
-            }
-        }
-        .num {
-            margin-bottom: -2px;
-            .el-input-number--mini {
-                line-height: 24px;
-            }
-            .el-input-number {
-                width: 84px;
-                margin-left: 0px;
-                margin-bottom: 12px;
-                border: 1px solid rgba(0, 0, 0, 0.2);
-                border-radius: 0;
-                .el-input__inner {
-                    border-radius: 0px;
-                    border: none;
-                    height: 20px;
-                    padding: 0 15px;
-                }
-                span {
-                    width: 22px;
-                    line-height: 18px;
-                    background: rgb(238, 238, 238);
-                    border: 1px solid #dcdfe6;
-                    margin-left: -2px;
-                    margin-top: -2px;
-                    i {
-                        font-size: 18px;
-                        color: rgba(0, 0, 0, 0.7);
-                        font-weight: bolder;
-                        margin-top: 3px;
-                    }
-                }
-                span.el-input-number__increase {
-                    margin-right: -2px;
-                }
-                span.el-input-number__decrease {
-                    i {
-                        color: rgba(0, 0, 0, 0.7);
-                    }
-                }
-
-            }
-            .storage_spec {
-                font-size: 12px;
-                margin-left: 20px;
-            }
-        }
-    }
-
-    .checkedOthersList {
-        ul {
-            span.red {
-                color: #ff3b41;
-            }
-            span.bold {
-                font-weight: bold;
-            }
-            li {
-                border-bottom: 1px solid #ddd;
-                display: flex;
-                padding: 6px 0;
-                .img {
-                    width: 80px;
-                    height: 80px;
-                    background-size: cover;
-                    border: 1px solid #ddd;
-                }
-                .content {
-                    margin-left: 12px;
-                    & > div {
-                        line-height: 22px;
-                    }
-                    .name {
-                        width: 320px;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        display: -webkit-box;
-                        -webkit-line-clamp: 2;
-                        -webkit-box-orient: vertical;
-                    }
-                    .about {
-                        display: flex;
-                        .num {
-                            width: 100px;
-                        }
-                    }
-                }
-            }
-            li:last-child {
-                border-bottom: none;
-            }
-        }
-    }
-
     .detail {
 
         li {
@@ -1426,15 +1087,45 @@
                 padding: 12px 0;
                 width: 100%;
                 display: flex;
-                justify-content: space-around;
                 align-items: center;
-                .briefInfo {
-                    .price {
-                        span {
-                            font-size: 16px;
-                            font-weight: bold;
-                            line-height: 28px;
-                        }
+                &>div{
+                  margin-right: 24px;
+                }
+                .price {
+                    display: flex;
+                    justify-content: space-between;
+                    span {
+                        font-size: 16px;
+                        font-weight: bold;
+                        line-height: 28px;
+                        display: block;
+                    }
+                    .el-button.icon{
+                        border: none;
+                        display: block;
+                        padding: 0;
+                    }
+                    .el-button.icon:hover{
+                        background: none;
+                    }
+                    .icon-gouwuche-copy{
+                        color: #ff3b41;
+                        border:2px solid #ff3b41;
+                        border-radius:50%;
+                        height: 20px;
+                        width: 20px;
+                        font-weight: normal;
+                        padding: 1px;
+                        display: inline-block;
+                    }
+                    .icon-gouwuche-copy:before{
+                        position: relative;
+                        top: -2px;
+                        left: 0px;
+                    }
+                    .icon-chenggong1{
+                        color: #f2ac31;
+                        font-size: 22px;
                     }
                 }
                 span.red {
@@ -1451,7 +1142,7 @@
                 }
                 .name {
                     width: 100px;
-                    line-height: 26px;
+                    line-height: 22px;
                     height: 48px;
                     overflow: hidden;
                     text-overflow: ellipsis;
@@ -1459,57 +1150,17 @@
                     -webkit-line-clamp: 2;
                     -webkit-box-orient: vertical;
                 }
+                .icon-handle{
+                    position: relative;
+                    top: -30px;
+                }
                 ul.others {
-                    padding: 0 24px;
-                    width: 640px;
                     display: flex;
                     li.othersItem {
-                        margin-left: 24px;
-                        .el-button {
-                            width: 100px;
-                            height: 24px;
-                            padding: 0;
-                            color: #ff3b41;
-                        }
-                        .el-button.model {
-                            margin-top: 6px;
-                        }
-                    }
-                }
-                .icon-handle {
-
-                }
-                .el-button.handlePage {
-                    padding: 0;
-                    border: 0;
-                    width: 20px;
-                    height: 80px;
-                    background: #f2f2f2;
-                    i {
-                        color: #fff;
-                        font-size: 18px;
-                    }
-                }
-                .el-button.handlePage:hover {
-                    background: #828282;
-                }
-                .package {
-                    p {
-                        line-height: 28px;
-                    }
-                    .el-button {
-                        background: #ff3b41;
-                        color: #fff;
-                        width: 120px;
-                        height: 30px;
-                        padding: 0;
-                    }
-                    .el-icon-warning {
-                        display: inline-block;
+                        margin-right: 24px;
                     }
                 }
             }
-
         }
         .detail-bottom {
             margin-top: 12px;
@@ -1518,7 +1169,6 @@
                 justify-content: space-between;
                 .detail_side_img {
                     margin-right: 48px;
-
                 }
                 .detail_goods {
                     flex: 1;
@@ -1544,7 +1194,6 @@
                                 background-color: #fff;
                                 border-bottom: 1px solid #fff;
                                 border-right: 1px solid #e3e3e3;
-
                             }
                         }
                         .el-tabs__content {
@@ -1578,7 +1227,6 @@
                                     font-size: 14px;
                                     position: relative;
                                     top: -2px;
-
                                 }
                             }
                         }
@@ -1601,7 +1249,6 @@
                                 background-size: contain;
                                 background-position: center;
                             }
-
                         }
                     }
                     .item_detail {
@@ -1612,7 +1259,6 @@
                 }
             }
         }
-
         .detail-buy-history, .detail_side_img {
             width: 290px;
             background: #fff;
@@ -1640,16 +1286,9 @@
                             font-size: 14px;
                         }
                     }
-                    .icon-right {
-                        /*i{*/
-                            /*margin-bottom: -2px;*/
-                        /*}*/
-                    }
                 }
             }
-
             li {
-
                 text-align: center;
                 background: #ffffff;
                 margin: 0 15px;

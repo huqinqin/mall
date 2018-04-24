@@ -7,8 +7,8 @@
         </div>
         <div class="content" v-if="data.length > 0">
             <div class="search-result">
-                <ul class="result">
-                    <li v-for="item in data" :key="item.id">
+                <ul class="result" v-for="arr in data">
+                    <li v-for="item in arr" :key="item.id" class="fiveDis">
                         <div>
                             <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
                                 <div :class="item.item_props[0]&&checkedSpu1.storage > 0? '' : 'error1'" v-ltsLoginShow:true></div>
@@ -141,7 +141,7 @@
             <li><div class="img2"><img :src= img3 alt=""></div><p>Credit Card Checkout</p></li>
             <li><div style="margin: 10px auto;height: 40px;font-weight: bold;line-height: 40px">30-DAY</div><p>Return Guarantee</p></li>
             <li><div class="img2"><img :src= img4 alt=""></div><p>Free IP Consulting</p></li>
-            <li><div class="img2"><img :src= img2 alt=""></div><p>Up to 3 Year Warranty</p></li>
+            <li><div class="img2"><img :src= img2 alt=""></div><p>Up to 3 Year's Warranty</p></li>
         </ul>
         <a href="/search/#/detail?cateId=%5B%5D&discountype=0"><div class="banner1" :style="{backgroundImage : 'url(' + img1 + ')'}"></div></a>
         <el-dialog
@@ -168,7 +168,7 @@
         name: "activity0421",
         data(){
             return{
-                img:require('../../../assets/img/newbanner.png'),
+                img:require('../../../assets/img/active.png'),
                 img1:require('../../../assets/img/saleall.png'),
                 img2:require('../../../assets/img/icon.png'),
                 img3:require('../../../assets/img/card.png'),
@@ -272,7 +272,7 @@
                             var timer;
                             timer = setInterval(() =>{
                                 diff = diff - 1000;
-                                if(diff <= 0){window.clearInterval(timer);location.reload();}
+                                if(diff <= 0){this.centerDialogVisible = true; window.clearInterval(timer);location.reload();}
                                 this.formatDate(diff);
                             },1000);
                         }/*else{
@@ -317,7 +317,6 @@
                     resp.data.item_d_o_list.forEach((item) => {
                         item.flag = false;
                        /* if(item.tag == "5折"){*/
-                            this.data.push(item);
                             item.item_props = []
                             item.item_struct_props.every((value) => {
                                 if(value.sku && value.storage > 0){
@@ -331,7 +330,9 @@
                             })
                         /*}*/
                     });
-                    console.log(this.data1);
+                    this.data.push(resp.data.item_d_o_list.slice(0,4));
+                    this.data.push(resp.data.item_d_o_list.slice(4,8));
+                    console.log(this.data)
                 })
             },
             /*getList1(){
@@ -380,19 +381,19 @@
 <style lang="less">
     .b1200 .search-result{
         li{
-            margin-right: 13px;
+            width:290px
         }
-        li:nth-child(4n){
-            margin-right: 0;
-        }
+        /*li:nth-child(4n){*/
+            /*margin-right: 0;*/
+        /*}*/
     }
     .b1500 .search-result{
         li{
-            margin-right: 12px;
+            width:320px
         }
-        li:nth-child(5n){
-            margin-right: 0;
-        }
+        /*li:nth-child(5n){*/
+            /*margin-right: 0;*/
+        /*}*/
     }
     .activity11{
         background-color: #eee;
@@ -720,6 +721,7 @@
                     display: flex;
                     flex-wrap: wrap;
                     width:100%;
+                    justify-content: space-between;
                     /*margin-bottom: 20px;*/
                     li:hover{
                         -webkit-box-shadow: 0 15px 30px rgba(0,0,0,0.1);
@@ -729,7 +731,7 @@
                     }
                     li{
                         transition: all ease .2s;
-                        width:290px;
+                        /*width:290px;*/
                         overflow: hidden;
                         /*margin-top: 36px;*/
                         text-align: center;
@@ -852,7 +854,7 @@
                         background-position: 0 0;
                         background-repeat: no-repeat;
                         background-size: 50px 50px;
-                        background-image:url('../../../assets/img/five.png');
+                        background-image:url('../../../assets/img/20off.png');
                     }
                     /*.fiveDis::after{
                         content:'';
@@ -868,6 +870,9 @@
                     }*/
                     /*}*/
 
+                }
+                ul:first-child{
+                    margin-bottom: 32px;
                 }
                 .el-pagination{
                     position: absolute;

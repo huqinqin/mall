@@ -40,6 +40,24 @@
                   p_shop_addr: '38507 Cherry St. Suite GNewark, CA 94560'
               },*/
               storeinfo: [{
+                  name: 'test',
+                  mobile: '965-562-2838',
+                  email: 'Support.testStore@LTSecurityinc.com',
+                  p_shop_name: 'test store',
+                  p_shop_addr: 'City of Industry, CA 91748'
+              },{
+                  name: '22222',
+                  mobile: '123-435-2838',
+                  email: 'Support.LosAngeles@LTSecurityinc.com',
+                  p_shop_name: 'Los Angeles001',
+                  p_shop_addr: 'City of Industry, CA 91748'
+              },{
+                  name: '11111',
+                  mobile: '626-435-2838',
+                  email: 'Support.SanFrancisco@LTSecurityinc.com',
+                  p_shop_name: 'San Francisco001',
+                  p_shop_addr: 'City of Industry, CA 91748'
+              },{
                   name: 'San Jose Ave.',
                   mobile: '626-435-2838',
                   email: 'Support.LosAngeles@LTSecurityinc.com',
@@ -129,7 +147,7 @@
                   }
                   this.someInfo = data;*/
                   this.someInfo = data;
-                  if (data.name === 'LTS Headquarters') {
+                  if (data.name === '') {
                       this.storeinfo.forEach((item) => {
                           if (item.p_shop_name === data.p_shop_name) {
                               this.someInfo = item;
@@ -149,7 +167,7 @@
            }*/
           },
       mounted () {
-          /*this.getExpert();*/
+          this.getExpert();
       }
   };
 </script>

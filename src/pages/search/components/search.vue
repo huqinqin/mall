@@ -73,23 +73,22 @@
                                 <!--</p>-->
                                 <p class="price" v-ltsLoginShow:true>
                                     <span class="realPrice">
-                                        <template v-if="item.discount_type == 1">
-                                            <lts-money :money="item.price_real * item.discount / 100"></lts-money>
-                                        </template>
-                                        <template v-else-if="item.discount_type == 2">
-                                            <lts-money :money="item.price_real - item.discount"></lts-money>
-                                        </template>
-                                        <template v-else-if="item.discount_type == 4">
-                                            <lts-money :money="item.sale_rule_do.price"></lts-money>
-                                        </template>
-                                        <template v-else>
-                                            <lts-money :money="item.price_real"></lts-money>
-                                        </template>
+                                        <!--<template v-if="item.discount_type == 1">-->
+                                            <!--<lts-money :money="item.price_real * item.discount / 100"></lts-money>-->
+                                        <!--</template>-->
+                                        <!--<template v-else-if="item.discount_type == 2">-->
+                                            <!--<lts-money :money="item.price_real - item.discount"></lts-money>-->
+                                        <!--</template>-->
+                                        <!--<template v-else-if="item.discount_type == 4">-->
+                                            <!--<lts-money :money="item.sale_rule_do.price"></lts-money>-->
+                                        <!--</template>-->
+                                        <!--<template v-else>-->
+                                            <!--<lts-money :money="item.price_real"></lts-money>-->
+                                        <!--</template>-->
+                                        <lts-money :money="item.price_real"></lts-money>
                                     </span>
-                                    <span class="oldPrice">
-                                        <template v-if="item.discount_type != 0 ||  item.price != item.price_real">
-                                            <lts-money :money="item.price"></lts-money>
-                                        </template>
+                                    <span class="oldPrice" v-if="item.discount_type || (item.price != item.price_real)">
+                                        <lts-money :money="item.price"></lts-money>
                                     </span>
                                 </p>
                             </div>
@@ -214,15 +213,15 @@
                         if(item.tag.indexOf('新品') != -1){
                             item.isNew = true
                         }
-                        if(this.level != 0 && item.price_define_do){
-                            for(let map in item.price_define_do.discount_map){
-                                if(map == this.level){
-                                    item.price_real = item.price * item.price_define_do.discount_map[map] / 100
-                                }
-                            }
-                        }else{
-                            item.price_real = item.price
-                        }
+                        // if(this.level != 0 && item.price_define_do){
+                        //     for(let map in item.price_define_do.discount_map){
+                        //         if(map == this.level){
+                        //             item.price_real = item.price * item.price_define_do.discount_map[map] / 100
+                        //         }
+                        //     }
+                        // }else{
+                        //     item.price_real = item.price
+                        // }
                     })
                     // TOOD 这里计算页数
                     this.search.totalPage = rtn.data.total;

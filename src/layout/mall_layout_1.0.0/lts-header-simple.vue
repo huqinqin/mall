@@ -42,7 +42,7 @@
                 font-size: 160px;
                 color: #cc242e;
                 position: relative;
-                top: 20px;
+                top: 0px;
             }
             .el-input{
                 width:550px;

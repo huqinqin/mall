@@ -50,7 +50,7 @@
     <!-- main -->
     <div class="content">
       <div class="item-box">
-        <div class="hot-item">
+        <div class="hot-item" v-if="hotList.length > 0">
           <div class="item-list-title">
             <div class="i"><span class="border"></span>
               <span>{{$t("main.index.mainInHotSingle")}}</span>

@@ -426,7 +426,7 @@
                 display: block;
                 color: #cc242e !important;
                 position: relative;
-                top: 10px;
+                top: 5px;
             }
         }
         .el-select .el-input {

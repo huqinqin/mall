@@ -144,7 +144,7 @@
         <div class="info-bottom" v-if="order.fee_hd_value">
             <div class="text">
                 <label>{{$t("main.cart.settle.mainCartSeMustPay")}}</label>
-                <span><lts-money :money="itemsTotal"></lts-money></span>
+                <span><lts-money :money="order.pay - order.discount"></lts-money></span>
             </div>
             <div class="text" v-if="order.fee_promotion_all - order.fee_promotion_manjian">
                 <label>{{$t("main.order.detail.mainOrDeActivity")}}</label> <span><i class="iconfont icon-jianquminus25"></i><lts-money :money="order.fee_promotion_all - order.fee_promotion_manjian"></lts-money></span>
@@ -252,12 +252,12 @@
                             }
                         })
                     })
-                    if(this.order.sell_order_list.length > 0){
-                        this.itemsTotal = 0
-                        this.order.sell_order_list[0].wholesale_order_items.forEach(t => {
-                            this.itemsTotal += t.price_real * t.num
-                        })
-                    }
+                    // if(this.order.sell_order_list.length > 0){
+                    //     this.itemsTotal = 0
+                    //     this.order.sell_order_list[0].wholesale_order_items.forEach(t => {
+                    //         this.itemsTotal += t.price_real * t.num
+                    //     })
+                    // }
                     if (this.order.sell_order_list.length > 0 && this.order.sell_order_list[0].wholesale_order_items.length > 0 && this.order.sell_order_list[0].wholesale_order_items[0].s_h_s_m === true) {
                         this.dilivery = this.$t("main.address.mainAddReceivingAddress")
                     } else {

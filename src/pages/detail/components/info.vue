@@ -169,7 +169,7 @@
                 <div class="icon-handle"><i class="iconfont icon-jiahaocu"></i></div>
                 <ul class="others">
                     <li v-for="(value,index) in otherGoods" :key="value.id" class="othersItem briefInfo">
-                        <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
+                        <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + value.id" target="_blank">
                             <div class="img" :style="'background-image: url(' + value.image_value + ')'"></div>
                         </a>
                         <div class="name" :title="value.item_name">{{value.item_name}}</div>
@@ -407,17 +407,19 @@
                     data.data.item.item_struct_props.forEach((value, index, array) => {
                         if (!value.sku) {
                             this.aboutDetail.push(value);
-                        }else{
-                            if(this.level != 0 && data.data.item.price_define_do){
-                                for(let map in data.data.item.price_define_do.discount_map){
-                                    if(map == this.level && (data.data.item.price_define_do.discount_map[map]!= 100)){
-                                        value.price_real = value.price_real * data.data.item.price_define_do.discount_map[map] / 100
-                                        data.data.item.price_real = data.data.item.price_real * data.data.item.price_define_do.discount_map[map] / 100
-                                        data.data.item.discount_type = data.data.item.discount_type ? data.data.item.discount_type : 9
-                                    }
-                                }
-                            }
                         }
+                        // 计算会员等级
+                        // else{
+                        //     if(this.level != 0 && data.data.item.price_define_do){
+                        //         for(let map in data.data.item.price_define_do.discount_map){
+                        //             if(map == this.level && (data.data.item.price_define_do.discount_map[map]!= 100)){
+                        //                 value.price_real = value.price_real * data.data.item.price_define_do.discount_map[map] / 100
+                        //                 data.data.item.price_real = data.data.item.price_real * data.data.item.price_define_do.discount_map[map] / 100
+                        //                 data.data.item.discount_type = data.data.item.discount_type ? data.data.item.discount_type : 9
+                        //             }
+                        //         }
+                        //     }
+                        // }
                     })
                     if(data.data.item.package_item_list.length > 0){
                         data.data.item.package_item_list.forEach(t => {

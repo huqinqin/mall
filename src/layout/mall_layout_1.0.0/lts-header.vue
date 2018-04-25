@@ -326,7 +326,6 @@
             span.register{
               font-weight:bold;
             }
-
             .news{
               /*margin-right: 14px;*/
             }
@@ -390,7 +389,6 @@
                                 width:381px;
                                 height: 80px;
                                 margin-left: -41px;
-
                             }
                             label{
                                 font-size: 14px;
@@ -444,7 +442,6 @@
                                         left: 2px;
                                     }
                                 }
-
                                 a{
                                     text-decoration: none;
                                     color:inherit;
@@ -454,8 +451,6 @@
                                 color:#3d98ff;
                                 cursor: pointer;
                                 text-decoration: underline;
-                                position: relative;
-                                top: 2px;
                             }
                             button:focus{
                                 outline: none;
@@ -545,7 +540,6 @@
                         .el-form-item.password.is-error{
                             margin-bottom: 12px;
                             transition: all ease .2s;
-
                         }
                         .el-form-item.is-success{
                             input{
@@ -576,6 +570,5 @@
                 }
             }
         }
-
     }
 </style>

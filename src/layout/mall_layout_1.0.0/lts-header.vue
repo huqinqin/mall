@@ -10,10 +10,21 @@
             <li class="">
               <a href="/" class="news top-menu" v-if="showToIndex">{{ $t("comHeader.headerIndex") }}</a>
               <a v-login :href="'/order?t=' + new Date().getTime() + '#/'" class="top-menu"  @click="toOrder">{{ $t("comHeader.headerMyOrder") }}</a>
-              <el-tooltip placement="top" effect="light" :visible-arrow="false">
+              <!--<el-tooltip placement="top" effect="light" :visible-arrow="false" v-login v-if="showToIndex && userInfo">
                 <div slot="content"><myExperts></myExperts></div>
                 <a href="javascript:void(0)" class="top-menu" v-login v-if="showToIndex && userInfo">{{ $t("comHeader.headerMyExpert") }}</a>
-              </el-tooltip>
+              </el-tooltip>-->
+                <el-popover
+                    ref="popover1"
+                    width="450"
+                    trigger="hover"
+                    placement="top"
+                    @show="show"
+                    popper-class="expert"
+                    >
+                    <myExperts></myExperts>
+                </el-popover>
+                <a href="javascript:void(0)" class="top-menu" v-login v-if="showToIndex && userInfo" v-popover:popover1>{{ $t("comHeader.headerMyExpert") }}</a>
               <a href="javascript:void(0)" class="top-menu"><i class="iconfont icon-shouji"></i>{{ $t("comHeader.headerPhoneOrder") }}</a>
               <a href="javascript:void(0)" class="top-menu" @click="logout" v-if="userInfo">{{ $t("comHeader.headerLogin") }}</a>
               <el-dropdown @command="handleCommand">
@@ -91,6 +102,7 @@
         name : "lts-header",
         data(){
           return{
+              flag:true,
               showToIndex:true,
               userInfo : {},
               //登录
@@ -135,13 +147,13 @@
               this.$refs.loginForm.resetFields()
             },
             // 登录时获取myExpert
-            getExpert(){
+            /*getExpert(){
                 expertService.getExpert().then((data) => {
                     if(data.data){
                         session.expert(data.data);
                     }
                 });
-            },
+            },*/
             signup(){
                 location.href = '/account#/register';
                 this.loginVisible = false;
@@ -204,7 +216,7 @@
                     this.delCookie(this.form.acount)
                 }
                 userService.login(this.form).then((data)=>{
-                    this.getExpert();
+                    /*this.getExpert();*/
                     this.getInfo();
                     this.loginVisible = false;
                     this.getUserInfo();
@@ -250,13 +262,24 @@
                 store.setItem('language', command);
                 location.reload();
             },
-
+            show(){
+                if(this.flag){
+                    expertService.getExpert().then((data) => {
+                        this.flag = false;
+                        this.selfContext.$emit('checkExpert', data.data,this.flag);
+                    })
+                }
+            },
+            checkExpert(val,flag){
+                this.flag = flag;
+            }
         },
         created(){
             this.selfContext.$on("showLogin",this.showLogin);
             this.isShowMenu = config.isCart;
             this.getLocalUser()
             this.showToIndex = !config.isWhite
+            this.selfContext.$on('checkExpert',this.checkExpert)
         },
         components: {
             myExperts
@@ -264,6 +287,9 @@
     }
 </script>
 <style lang="less">
+    .expert{
+        padding: 0 !important;
+    }
     .el-loading-mask{
         z-index: 1000;
     }

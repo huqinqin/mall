@@ -14,7 +14,7 @@
                                     <p>{{value.last}}</p>
                                 </div>
                         </a>
-                        <a :href="value.link" v-else-if="value.name === 'call experts'">
+                       <!-- <a :href="value.link" v-else-if="value.name === 'call experts'">
                             <el-tooltip placement="top" effect="ligth" :visible-arrow="false">
                                 <div>
                                     <span class="iconfont" :class="value.icon"></span>
@@ -25,7 +25,21 @@
                                     <myExperts></myExperts>
                                 </div>
                             </el-tooltip>
-                        </a>
+                        </a>-->
+                        <el-popover
+                            v-else-if="value.name === 'call experts'"
+                            placement="top"
+                            trigger="hover"
+                            @show="show"
+                            popper-class="expert"
+                            >
+                            <a :href="value.link"  slot="reference">
+                                <span class="iconfont" :class="value.icon"></span>
+                                <p>{{value.first}}</p>
+                                <p>{{value.last}}</p>
+                            </a>
+                            <myExperts></myExperts>
+                        </el-popover>
                         <el-popover
                             v-else-if="value.name === 'shopby scenario'"
                             placement="bottom"
@@ -90,6 +104,7 @@
 <script>
     import categoryService from '@/services/CategoryService.js'
     import cartService from '@/services/CartService.js'
+    import expertService from '@/services/MyexpertService.js'
     import myExperts from '@/common/components/myExperts'
     import jq from 'jquery'
 
@@ -181,7 +196,8 @@
                 sin:'',
                 itemName:'',
                 discountType:'',
-                model:false
+                model:false,
+                flag:true
             }
         },
         mounted(){
@@ -330,12 +346,24 @@
                     this.$ltsMessage.show({type: 'error', message: msg.error_message})
                 })
             },
+            show(){
+                if(this.flag){
+                    expertService.getExpert().then((data) => {
+                        this.flag = false;
+                        this.selfContext.$emit('checkExpert', data.data,this.flag);
+                    })
+                }
+            },
+            checkExpert(val,flag){
+                this.flag = flag;
+            }
         },
         created() {
             this.selfContext.$on('addCartSuccess', this.getCartNum)
             this.getParamas()
             this.getLocalStorage()
             this.getCartNum();
+            this.selfContext.$on('checkExpert',this.checkExpert)
         },
         components: {
             myExperts
@@ -345,6 +373,9 @@
 </script>
 
 <style lang="less">
+    .expert{
+        padding: 0 !important;
+    }
     .all-head {
         background-color: white;
         .search-bar {
@@ -408,7 +439,7 @@
 
                     }
                 }
-            }
+            };
         }
         .header-logo {
             width: 300px;

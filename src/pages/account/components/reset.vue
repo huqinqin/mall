@@ -93,12 +93,12 @@
         methods: {
             submitFrom(formName){
                 this.$refs[formName].validate((valid) => {
-                    console.log(valid)
                     if(valid){
                         accountService.resetPass(this.resetForm).then((data) => {
+                            this.$ltsMessage.show({type: 'success', message: 'Reset the password success'});
                             location.href = '/'
                         },(msg) => {
-                            this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                            this.$ltsMessage.show({type: 'error', message: msg.error_message});
                         })
                     }else{
                         return false

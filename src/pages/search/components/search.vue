@@ -1,7 +1,7 @@
 <template>
     <div class="search">
         <div class="navBar11" style="background-color: #F2AC31" v-if="search.discountType === 0">
-            <p class="navBarSave">Save <span style="color: #D82929">$50</span> for every <span style="color: #D82929">$500</span> purchase</p>
+            <p class="navBarSave">Spend <span style="color: #D82929">$1000</span>&nbsp;&nbsp;save an extra<span style="color: #D82929">20%</span>&nbsp;&nbsp;|&nbsp;&nbsp;Spend <span style="color: #D82929">$500</span>&nbsp;&nbsp;save an extra<span style="color: #D82929">15%</span>&nbsp;&nbsp;|&nbsp;&nbsp;Spend <span style="color: #D82929">$300</span>&nbsp;&nbsp;save an extra<span style="color: #D82929">10%</span> </p>
         </div>
         <div class="nav">
             <el-breadcrumb separator-class="el-icon-arrow-right" v-if="data.length > 0">

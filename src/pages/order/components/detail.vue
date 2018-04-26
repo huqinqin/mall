@@ -167,8 +167,8 @@
             <div class="text">
                 <label>{{$t("main.order.detail.mainOrDePayTotal")}}</label>
                 <span class="large">
-                    <span v-if="order.pay_info.acc_bonus_pay"><lts-money :money="order.fee_total - order.pay_info.acc_bonus_pay"></lts-money></span>
-                    <span v-else><lts-money :money="order.fee_total"></lts-money></span>
+                    <span v-if="order.pay_info.acc_bonus_pay"><lts-money :money="order.pay_info.pay_real - order.pay_info.acc_bonus_pay"></lts-money></span>
+                    <span v-else><lts-money :money="order.pay_info.pay_real"></lts-money></span>
                 </span>
             </div>
         </div>

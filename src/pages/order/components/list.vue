@@ -540,14 +540,11 @@
                             margin-left: 10px;
                         }
                     }
-
                 }
                 i{
                     font-style:normal
                 }
             }
         }
-
     }
-
 </style>

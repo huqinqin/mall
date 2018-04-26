@@ -107,8 +107,8 @@
             </el-table-column>
             <el-table-column prop="pay_info.pay_type_title" :label='$t("main.order.list.mainOrLiReal")' align="left" width="80">
                 <template slot-scope="scope">
-                    <div v-if="scope.row.pay_info.acc_bonus_pay"><lts-money :money="scope.row.fee_total - scope.row.pay_info.acc_bonus_pay"></lts-money></div>
-                    <div v-else><lts-money :money="scope.row.fee_total"></lts-money></div>
+                    <div v-if="scope.row.pay_info.acc_bonus_pay"><lts-money :money="scope.row.pay_info.pay_real - scope.row.pay_info.acc_bonus_pay"></lts-money></div>
+                    <div v-else><lts-money :money="scope.row.pay_info.pay_real"></lts-money></div>
                 </template>
             </el-table-column>
             <el-table-column prop="status_title" :label='$t("main.order.list.mainOrLiTransationSta")' align="left" width="160">
@@ -540,14 +540,11 @@
                             margin-left: 10px;
                         }
                     }
-
                 }
                 i{
                     font-style:normal
                 }
             }
         }
-
     }
-
 </style>

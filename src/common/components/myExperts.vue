@@ -41,8 +41,8 @@
                   p_shop_addr: '38507 Cherry St. Suite GNewark, CA 94560'
               },*/
               storeinfo: [{
-                  name: 'test',
-                  mobile: '965-562-2838',
+                  name: '抹茶',
+                  mobile: '6017832223',
                   email: 'Support.testStore@LTSecurityinc.com',
                   p_shop_name: 'test store',
                   p_shop_addr: 'City of Industry, CA 91748'

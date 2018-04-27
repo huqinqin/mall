@@ -1,5 +1,5 @@
 <template>
-    <div class="activity11">
+    <div class="activity0426">
         <div class="banner" :style="{backgroundImage : 'url(' + img + ')'}"></div>
         <div class="navBar11">
             <p class="navBarSave">Save 36% on selected items</p>
@@ -352,23 +352,33 @@
 </script>
 
 <style lang="less">
-    .b1200 .search-result{
-        li{
-            margin-right: 13px;
+    .b1200{
+        .search-result{
+            li{
+                margin-right: 13px;
+            }
+            li:nth-child(4n){
+                margin-right: 0;
+            }
         }
-        li:nth-child(4n){
-            margin-right: 0;
-        }
-    }
-    .b1500 .search-result{
-        li{
-            margin-right: 12px;
-        }
-        li:nth-child(5n){
-            margin-right: 0;
+        .banner{
+            height: 400px;
         }
     }
-    .activity11{
+    .b1500{
+        .search-result{
+            li{
+                margin-right: 12px;
+            }
+            li:nth-child(5n){
+                margin-right: 0;
+            }
+        }
+        .banner{
+            height: 500px;
+        }
+    }
+    .activity0426{
         background-color: #eee;
         font-family: "Microsoft YaHei";
         *{
@@ -894,8 +904,7 @@
         }
         .banner{
             width: 100%;
-            height: 500px;
-            background-size: 100% 100%;
+            background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             border: 1px solid #f6f6f6;
@@ -903,7 +912,7 @@
         .banner1{
             width: 100%;
             height: 300px;
-            background-size: 100% 100%;
+            background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             border: 1px solid #f6f6f6;

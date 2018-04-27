@@ -25,7 +25,7 @@
                 <div class="slogan" :class="{ isFinished: finished }">
                     <span v-if="item.discount_type == 1" class="bold">{{ $t("main.detail.info.mainDetInfoDisGoods") }}</span>
                     <span v-if="item.discount_type == 9" class="bold">{{ $t("main.detail.info.mainDetInfoDisGoods") }}</span>
-                    <span v-if="item.discount_type == 0" class="bold">{{ $t("main.detail.info.mainDetInfoNoDis") }}</span>
+                    <span v-if="item.discount_type == 0" class="bold">Save $200 with $1000+ purchase&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;Save $75 with $500 - $999 purchase&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;Save $30 with $300 - $499 purchase</span>
                     <span v-else-if="item.discount_type == 2" class="bold">{{ $t("main.detail.info.mainDetInfoDepriceGoods") }}</span>
                     <span v-else-if="item.discount_type == 4" class="bold">{{ $t("main.detail.info.mainDetInfoLimit") }}</span>
                     <div class="count" style="margin-right:24px;" v-if="finished">{{ $t("main.detail.info.mainDetInLimitOver") }} </div>

@@ -31,4 +31,9 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
         }
     }
 }
+.slider{
+    .el-carousel__container{
+        height:100%;
+    }
+}
 

@@ -368,9 +368,6 @@
     }
       .slider{
           height: 400px;
-          .el-carousel__item{
-              height: 400px;
-          }
           .img{
               height: 400px;
           }
@@ -394,9 +391,6 @@
     }
       .slider{
          height: 500px;
-          .el-carousel__item{
-              height: 500px;
-          }
           .img{
               height: 500px;
           }

@@ -1,5 +1,5 @@
 <template>
-    <div class="activity11">
+    <div class="activity0421">
         <div class="banner" :style="{backgroundImage : 'url(' + img + ')'}"></div>
         <div class="navBar11">
             <p class="navBarSave">Save 20% on selected items</p>
@@ -395,7 +395,7 @@
             /*margin-right: 0;*/
         /*}*/
     }
-    .activity11{
+    .activity0421{
         background-color: #eee;
         font-family: "Microsoft YaHei";
         *{

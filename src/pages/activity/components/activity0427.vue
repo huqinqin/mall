@@ -244,14 +244,14 @@
                                 if(value.sku && value.storage > 0){
                                     this.flag = false;
                                     item.item_props.push(value);
+                                    item.spu_id = value.spu_id;
+                                    item.num = 1;
+                                    this.checkedSpu1 = value;
                                     if(item.discount_type === 1){
                                         item.discount1 = 100 - item.discount;
                                     }else if(item.discount_type === 4){
                                         item.discount1 = 100 - (item.sale_rule_do.price / value.price)
                                     }
-                                    item.spu_id = value.spu_id;
-                                    item.num = 1;
-                                    this.checkedSpu1 = value;
                                     return false;
                                 }
                             })

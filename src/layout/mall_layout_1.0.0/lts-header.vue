@@ -60,10 +60,10 @@
                                 trigger="hover"
                                 :content='$t("comHeader.loginNote")'>
                             </el-popover>
-                            <label for="test" >{{$t("comHeader.headerUserOrEmail")}}</label>
+                            <label>{{$t("comHeader.headerUserOrEmail")}}</label>
                             <el-button v-popover:popover1 class="accountInput"><span class="iconfont icon-yiwen"></span></el-button>
                         </div>
-                        <el-input name="test"  v-model="form.acount" :placeholder='$t("comHeader.headerInputUserOrEmail")' @input="checkCookie" @blur="checkCookie" @keyup.enter.native="submit"></el-input>
+                        <el-input type="text"  v-model="form.acount" :placeholder='$t("comHeader.headerInputUserOrEmail")' @input="checkCookie" @blur="checkCookie" @keyup.enter.native="submit"></el-input>
                     </el-form-item>
                     <el-form-item :label='$t("comHeader.headerPwd")' prop="password" class="password">
                         <el-input type="password" ref="password" v-model="form.password" :placeholder='$t("comHeader.headerInputPwd")' @keyup.enter.native="submit">

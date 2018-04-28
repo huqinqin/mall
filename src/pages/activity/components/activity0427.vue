@@ -91,7 +91,7 @@
         name: "activity",
         data(){
             return{
-                img:require('../../../assets/img/banner36.png'),
+                img:require('../../../assets/img/banner036.png'),
                 img1:require('../../../assets/img/saleall.png'),
                 img2:require('../../../assets/img/icon.png'),
                 img3:require('../../../assets/img/card.png'),

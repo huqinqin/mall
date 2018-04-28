@@ -686,6 +686,7 @@
                                 value: item.id
                             })
                         })
+                        this.selectedBonus = this.bonusOption[this.bonusOption.length - 1].value
                     } else {
                         this.selectedBonus = this.$t('main.cart.settle.mainCartSeNoBonus')
                     }
@@ -738,6 +739,7 @@
                 item.price = item.item_props[0].price
                 item.price_real = item.item_props[0].price_real
                 this.tableData.push(item)
+                localStorage.removeItem('buyNowItem')
             } else  if(this.$route.params && this.$route.params.items){
                 let items = this.$route.params.items
                 items.forEach((item) => {

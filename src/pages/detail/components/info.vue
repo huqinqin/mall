@@ -606,7 +606,7 @@
                     'discount':this.item.discount,
                     'discount_type': this.item.discount_type,
                     'id': this.item.id,
-                    'item_name': this.item.item_name,
+                    'item_name': this.item.item_name.replace('%','%25'),
                     'item_props': [this.checkedSpu],
                     'maxinum': this.item.maxinum,
                     'mininum': this.item.mininum,
@@ -832,13 +832,14 @@
                     line-height: 40px;
                     font-size: 14px;
                     color: white;
+                    padding-left: 12px;
                     background-image: url('../../../assets/img/xqbjt.png');
                     background-repeat: no-repeat;
                     background-size: cover;
                     position: relative;
                     span.bold {
                         font-weight: bold;
-                        margin: 0 6px 0 12px;
+                        margin: 0 6px 0 0;
                     }
                     .count {
                         position: absolute;

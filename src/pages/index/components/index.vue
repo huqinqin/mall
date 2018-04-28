@@ -2,7 +2,7 @@
   <div class="_index">
     <!-- banner -->
     <div class="banner" v-if="index_banner.length > 0">
-      <el-carousel height="500px" :autoplay=isAuto>
+      <el-carousel class="slider" :autoplay=isAuto>
         <el-carousel-item v-for="banner in index_banner" :key="banner.banner_url" :autoplay="isAuto">
           <a :href="banner.link_url">
             <div class="img" :style="{backgroundImage : 'url(' + banner.banner_url +')'}"></div>
@@ -366,6 +366,12 @@
     .side {
       display: none;
     }
+      .slider{
+          height: 400px;
+          .img{
+              height: 400px;
+          }
+      }
     .hot-item {
       display: block;
     }
@@ -378,12 +384,17 @@
       }
     }
   }
-
   .b1500 {
     .side {
       margin-left: 30px;
       display: block;
     }
+      .slider{
+         height: 500px;
+          .img{
+              height: 500px;
+          }
+     }
     .hot-item {
       display: none;
     }
@@ -403,10 +414,10 @@
     .banner {
       .img {
         width: 100%;
-        background-size: cover;
+        background-size: contain;
         background-position: center center;
         background-repeat: no-repeat;
-        height: 500px;
+        /*height: 500px;*/
       }
     }
 

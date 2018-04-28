@@ -1,9 +1,9 @@
 <template>
-    <div class="activity11">
+    <div class="activity0426">
         <div class="banner" :style="{backgroundImage : 'url(' + img + ')'}"></div>
         <div class="navBar11">
-            <p class="navBarSave">Save 50% on selected items</p>
-            <p class="navBarDate"><span class="navBarDate1">This round starts in:</span><span class="timeBorder time0">04<span>D</span></span><span class="timeBorder time1">04</span><span>:</span><span class="timeBorder time2">04</span><span>:</span><span class="timeBorder time3">04</span></p>
+            <p class="navBarSave">Save 36% on selected items</p>
+            <p class="navBarDate"><span class="navBarDate1">Goods through:</span><span class="">04/01/18</span><span>-</span><span>04/30/18</span></p>
         </div>
         <div class="content" v-if="data.length > 0">
             <div class="search-result">
@@ -63,15 +63,16 @@
                             </a>
                             <button class="iconfont" v-ltsLoginShow:true @click="addCart(item,item.item_props[0])" v-if="item.item_props[0]&&checkedSpu1.storage > 0" :class="item.flag ? 'icon-chenggong1 cart1':'icon-gouwuche2 cart'"></button>
                         </div>
+                        <div class="num">{{100 - item.discount}}</div>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="navBar11" style="background-color: #F2AC31">
-            <p class="navBarSave">Save <span style="color: #D82929">$50</span>for every <span style="color: #D82929;margin: 0 10px;">$500</span>purchase</p>
-            <p class="navBarDate"><span class="navBarDate1">This round starts in:</span><span class="timeBorder timeBorder1 time0">04</span><span class="timeBorder timeBorder1 time1">04</span><span>:</span><span class="timeBorder timeBorder1 time2">04</span><span>:</span><span class="timeBorder timeBorder1 time3">04</span></p>
+            <p class="navBarSave">On sale items</p>
+            <p class="navBarDate"><span class="navBarDate1">Goods through:</span><span class="">04/16/18</span><span>-</span><span>04/30/18</span></p>
         </div>
-        <div class="content" v-if="data.length > 0">
+        <div class="content" v-if="data1.length > 0">
             <div class="search-result">
                 <ul class="result">
                     <li v-for="item in data1" :key="item.id" class="fiveMan">
@@ -127,7 +128,7 @@
                                  </p>
                                </div>
                            </a>
-                           <button class="iconfont icon-gouwuche-copy" v-ltsLoginShow:true  @click="addCart(item,item.item_props[0])" v-if="item.item_props[0]&&checkedSpu2.storage > 0" :class="item.flag ? 'icon-chenggong1 cart1':'icon-gouwuche2 cart'"></button>
+                           <button class="iconfont icon-gouwuche-copy" v-ltsLoginShow:true  @click="addCart(item,item.item_props[0])" v-if="item.item_props[0]&&checkedSpu1.storage > 0" :class="item.flag ? 'icon-chenggong1 cart1':'icon-gouwuche2 cart'"></button>
                         </div>
                     </li>
                 </ul>
@@ -144,7 +145,7 @@
             <li><div class="img2"><img :src= img2 alt=""></div><p>Up to 3 Year Warranty</p></li>
         </ul>
         <a href="/search/#/detail?cateId=%5B%5D&discountype=0"><div class="banner1" :style="{backgroundImage : 'url(' + img1 + ')'}"></div></a>
-        <el-dialog
+        <!--<el-dialog
             title="Tooltip"
             :close-on-click-modal="false"
             :visible.sync="centerDialogVisible"
@@ -155,7 +156,7 @@
             <span slot="footer" class="dialog-footer">
                 <el-button @click="centerDialogVisible = false"><a href="/">Back to Home Page</a></el-button>
             </span>
-        </el-dialog>
+        </el-dialog>-->
     </div>
 </template>
 
@@ -168,7 +169,7 @@
         name: "activity",
         data(){
             return{
-                img:require('../../../assets/img/newbanner.png'),
+                img:require('../../../assets/img/banner36.png'),
                 img1:require('../../../assets/img/saleall.png'),
                 img2:require('../../../assets/img/icon.png'),
                 img3:require('../../../assets/img/card.png'),
@@ -217,9 +218,10 @@
         },
         mounted(){
             $("html").attr('class','gray !important');
-            this.timeService();
+            /*this.timeService();*/
             /*this.getTimeService();*/
-            this.getList();
+            this.getList('36off2018426');
+            this.getList('onsale2018426',1);
             this.tags = this.$route.query.tags ? this.$route.query.tags.split(',') : [];
         },
         methods: {
@@ -258,7 +260,7 @@
                   document.getElementsByClassName("time2")[1].innerHTML = this.add0(mm);
                   document.getElementsByClassName("time3")[1].innerHTML = this.add0(s);
                 },
-             timeService(){
+            /* timeService(){
                 TimeService.getTimeAndZone().then((data) =>{
                     let date = new Date(data.current_time);
                     let UCurrentTime = date.getTime();
@@ -304,9 +306,9 @@
                         }
                     })
                 })
-            },
-            getList(){
-                let tags = ['5折','关联商品'];
+            },*/
+            getList(tag,num){
+                let tags = [tag];
                 let search = {
                     page: this.search.page,
                     pageSize: this.search.pageSize,
@@ -314,9 +316,12 @@
                 }
                 ItemService.searchList(search,tags).then((resp) => {
                     resp.data.item_d_o_list.forEach((item) => {
-                        item.flag = false;
-                        if(item.tag == "5折"){
-                            this.data.push(item);
+                            item.flag = false;
+                            if(num === 1){
+                                this.data1.push(item);
+                            }else{
+                                this.data.push(item);
+                            }
                             item.item_props = []
                             item.item_struct_props.every((value) => {
                                 if(value.sku && value.storage > 0){
@@ -328,22 +333,7 @@
                                     return false;
                                 }
                             })
-                        }else if(item.tag == "关联商品"){
-                            this.data1.push(item);
-                            item.item_props = []
-                            item.item_struct_props.every((value) => {
-                                if(value.sku && value.storage > 0){
-                                    this.flag = false;
-                                    item.item_props.push(value);
-                                    item.spu_id = value.spu_id;
-                                    item.num = 1;
-                                    this.checkedSpu2 = value;
-                                    return false;
-                                }
-                            })
-                        }
                     });
-                    console.log(this.data1);
                 })
             },
             changePage(currentPage){
@@ -388,7 +378,7 @@
             height: 500px;
         }
     }
-    .activity11{
+    .activity0426{
         background-color: #eee;
         font-family: "Microsoft YaHei";
         *{
@@ -806,6 +796,17 @@
                                 border:none;
                             }
                         }
+                        .num{
+                            width: 20px;
+                            height: 20px;
+                            /* background: #ddd; */
+                            position: absolute;
+                            top: 22px;
+                            left: 21px;
+                            z-index: 9000;
+                            font-weight: bold;
+                            color: white;
+                        }
                     }
                     li::after{
                         content:'';
@@ -846,8 +847,20 @@
                             background-position: 0 0;
                             background-repeat: no-repeat;
                             background-size: 50px 50px;
-                            background-image:url('../../../assets/img/five.png');
+                            background-image:url('../../../assets/img/36off.png');
                         }
+                    .fiveMan::before{
+                        content:'';
+                        width:50px;
+                        height: 50px;
+                        position: absolute;
+                        top: 12px;
+                        left: 12px;
+                        background-position: 0 0;
+                        background-repeat: no-repeat;
+                        background-size: 50px 50px;
+                        background-image:url('../../../assets/img/onsale1.png');
+                    }
                     /*.fiveDis::after{
                         content:'';
                         width:40px;

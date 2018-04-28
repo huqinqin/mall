@@ -1,9 +1,9 @@
 <template>
-    <div class="activity11">
+    <div class="activity0427">
         <div class="banner" :style="{backgroundImage : 'url(' + img + ')'}"></div>
         <div class="navBar11">
-            <p class="navBarSave">Save 50% on selected items</p>
-            <p class="navBarDate"><span class="navBarDate1">This round starts in:</span><span class="timeBorder time0">04<span>D</span></span><span class="timeBorder time1">04</span><span>:</span><span class="timeBorder time2">04</span><span>:</span><span class="timeBorder time3">04</span></p>
+            <p class="navBarSave">Save up to 50% on selected items</p>
+            <p class="navBarDate"><span class="navBarDate1">Goods Through:</span><span class="">04/28/18</span><span>-</span><span>05/05/18</span></p>
         </div>
         <div class="content" v-if="data.length > 0">
             <div class="search-result">
@@ -63,72 +63,7 @@
                             </a>
                             <button class="iconfont" v-ltsLoginShow:true @click="addCart(item,item.item_props[0])" v-if="item.item_props[0]&&checkedSpu1.storage > 0" :class="item.flag ? 'icon-chenggong1 cart1':'icon-gouwuche2 cart'"></button>
                         </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="navBar11" style="background-color: #F2AC31">
-            <p class="navBarSave">Save <span style="color: #D82929">$50</span>for every <span style="color: #D82929;margin: 0 10px;">$500</span>purchase</p>
-            <p class="navBarDate"><span class="navBarDate1">This round starts in:</span><span class="timeBorder timeBorder1 time0">04</span><span class="timeBorder timeBorder1 time1">04</span><span>:</span><span class="timeBorder timeBorder1 time2">04</span><span>:</span><span class="timeBorder timeBorder1 time3">04</span></p>
-        </div>
-        <div class="content" v-if="data.length > 0">
-            <div class="search-result">
-                <ul class="result">
-                    <li v-for="item in data1" :key="item.id" class="fiveMan">
-                        <div>
-                           <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
-                               <div :class="item.item_props[0]&&checkedSpu1.storage > 0? '' : 'error1'" v-ltsLoginShow:true></div>
-                               <div class="img" :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}"></div>
-                               <p class="name" :title="item.item_name">{{item.item_name}}</p>
-                               <div class="item-price">
-                                  <button v-ltsLoginShow:false v-login>{{$t("main.search.mainSeaLogin")}}</button>
-                                <!--<p class="price" v-ltsLoginShow:true v-if="item.activity_price">-->
-                                <!--<lts-money :money="item.activity_price"></lts-money>-->
-                                <!--</p>-->
-                                 <p class="price" v-ltsLoginShow:true>
-                                    <span class="realPrice" v-if="item.item_props[0] &&item.item_props[0].price_real > 0">
-                                        <template v-if="item.discount_type ==1">
-                                            <lts-money :money="item.item_props[0].price_real"></lts-money>
-                                        </template>
-                                        <template v-else-if="item.discount_type ==2">
-                                            <lts-money :money="item.price - item.discount"></lts-money>
-                                        </template>
-                                        <template v-else-if="item.discount_type ==4">
-                                            <lts-money :money="item.sale_rule_do.price"></lts-money>
-                                        </template>
-                                        <template v-else>
-                                            <lts-money :money="item.item_props[0].price_real"></lts-money>
-                                        </template>
-                                    </span>
-                                    <span class="realPrice" v-else>
-                                        <template v-if="item.discount_type ==1">
-                                            <lts-money :money="item.price_real"></lts-money>
-                                        </template>
-                                        <template v-else-if="item.discount_type ==2">
-                                            <lts-money :money="item.price - item.discount"></lts-money>
-                                        </template>
-                                        <template v-else-if="item.discount_type ==4">
-                                            <lts-money :money="item.sale_rule_do.price"></lts-money>
-                                        </template>
-                                        <template v-else>
-                                            <lts-money :money="item.price_real"></lts-money>
-                                        </template>
-                                    </span>
-                                    <span class="oldPrice" v-if="item.item_props[0] &&item.item_props[0].price > 0">
-                                        <template v-if="item.discount_type != 0">
-                                            <lts-money :money="item.item_props[0].price"></lts-money>
-                                        </template>
-                                    </span>
-                                    <span class="oldPrice" v-else>
-                                        <template v-if="item.discount_type != 0">
-                                            <lts-money :money="item.price"></lts-money>
-                                        </template>
-                                    </span>
-                                 </p>
-                               </div>
-                           </a>
-                           <button class="iconfont icon-gouwuche-copy" v-ltsLoginShow:true  @click="addCart(item,item.item_props[0])" v-if="item.item_props[0]&&checkedSpu2.storage > 0" :class="item.flag ? 'icon-chenggong1 cart1':'icon-gouwuche2 cart'"></button>
-                        </div>
+                        <div class="num">{{item.discount1}}</div>
                     </li>
                 </ul>
             </div>
@@ -144,18 +79,6 @@
             <li><div class="img2"><img :src= img2 alt=""></div><p>Up to 3 Year Warranty</p></li>
         </ul>
         <a href="/search/#/detail?cateId=%5B%5D&discountype=0"><div class="banner1" :style="{backgroundImage : 'url(' + img1 + ')'}"></div></a>
-        <el-dialog
-            title="Tooltip"
-            :close-on-click-modal="false"
-            :visible.sync="centerDialogVisible"
-            @close="backPage"
-            width="30%"
-            center>
-            <span style="text-align: center">Ugh oh. You are here too late. This offer is already over.</span>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="centerDialogVisible = false"><a href="/">Back to Home Page</a></el-button>
-            </span>
-        </el-dialog>
     </div>
 </template>
 
@@ -168,7 +91,7 @@
         name: "activity",
         data(){
             return{
-                img:require('../../../assets/img/newbanner.png'),
+                img:require('../../../assets/img/banner36.png'),
                 img1:require('../../../assets/img/saleall.png'),
                 img2:require('../../../assets/img/icon.png'),
                 img3:require('../../../assets/img/card.png'),
@@ -217,9 +140,9 @@
         },
         mounted(){
             $("html").attr('class','gray !important');
-            this.timeService();
+            /*this.timeService();*/
             /*this.getTimeService();*/
-            this.getList();
+            this.getList(['36off2018426', 'onsale2018426']);
             this.tags = this.$route.query.tags ? this.$route.query.tags.split(',') : [];
         },
         methods: {
@@ -258,7 +181,7 @@
                   document.getElementsByClassName("time2")[1].innerHTML = this.add0(mm);
                   document.getElementsByClassName("time3")[1].innerHTML = this.add0(s);
                 },
-             timeService(){
+            /* timeService(){
                 TimeService.getTimeAndZone().then((data) =>{
                     let date = new Date(data.current_time);
                     let UCurrentTime = date.getTime();
@@ -304,9 +227,9 @@
                         }
                     })
                 })
-            },
-            getList(){
-                let tags = ['5折','关联商品'];
+            },*/
+            getList(tag){
+                let tags = tag;
                 let search = {
                     page: this.search.page,
                     pageSize: this.search.pageSize,
@@ -314,9 +237,8 @@
                 }
                 ItemService.searchList(search,tags).then((resp) => {
                     resp.data.item_d_o_list.forEach((item) => {
-                        item.flag = false;
-                        if(item.tag == "5折"){
-                            this.data.push(item);
+                            item.flag = false
+                           this.data.push(item)
                             item.item_props = []
                             item.item_struct_props.every((value) => {
                                 if(value.sku && value.storage > 0){
@@ -325,25 +247,15 @@
                                     item.spu_id = value.spu_id;
                                     item.num = 1;
                                     this.checkedSpu1 = value;
+                                    if(item.discount_type === 1){
+                                        item.discount1 = 100 - item.discount;
+                                    }else if(item.discount_type === 4){
+                                        item.discount1 = 100 - (item.sale_rule_do.price / value.price)
+                                    }
                                     return false;
                                 }
                             })
-                        }else if(item.tag == "关联商品"){
-                            this.data1.push(item);
-                            item.item_props = []
-                            item.item_struct_props.every((value) => {
-                                if(value.sku && value.storage > 0){
-                                    this.flag = false;
-                                    item.item_props.push(value);
-                                    item.spu_id = value.spu_id;
-                                    item.num = 1;
-                                    this.checkedSpu2 = value;
-                                    return false;
-                                }
-                            })
-                        }
                     });
-                    console.log(this.data1);
                 })
             },
             changePage(currentPage){
@@ -388,7 +300,7 @@
             height: 500px;
         }
     }
-    .activity11{
+    .activity0427{
         background-color: #eee;
         font-family: "Microsoft YaHei";
         *{
@@ -806,6 +718,17 @@
                                 border:none;
                             }
                         }
+                        .num{
+                            width: 10px;
+                            height: 10px;
+                            position: absolute;
+                            top: 24px;
+                            left: 18px;
+                            z-index: 9000;
+                            font-weight: bold;
+                            color: white;
+                            font-size: 13px;
+                        }
                     }
                     li::after{
                         content:'';
@@ -846,8 +769,20 @@
                             background-position: 0 0;
                             background-repeat: no-repeat;
                             background-size: 50px 50px;
-                            background-image:url('../../../assets/img/five.png');
+                            background-image:url('../../../assets/img/off.png');
                         }
+                    .fiveMan::before{
+                        content:'';
+                        width:50px;
+                        height: 50px;
+                        position: absolute;
+                        top: 12px;
+                        left: 12px;
+                        background-position: 0 0;
+                        background-repeat: no-repeat;
+                        background-size: 50px 50px;
+                        background-image:url('../../../assets/img/onsale1.png');
+                    }
                     /*.fiveDis::after{
                         content:'';
                         width:40px;

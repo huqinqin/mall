@@ -23,13 +23,14 @@
 </template>
 
 <script>
-  import expertService from '@/services/MyexpertService.js'
+ import expertService from '@/services/MyexpertService.js'
  import {store} from 'ltsutil'
  import $ from 'jquery'
   export default {
      name: 'expert',
       data () {
           return {
+              show1:false,
               flag: false,
               someInfo: {},
               /*someInfo: {
@@ -40,8 +41,8 @@
                   p_shop_addr: '38507 Cherry St. Suite GNewark, CA 94560'
               },*/
               storeinfo: [{
-                  name: 'test',
-                  mobile: '965-562-2838',
+                  name: '抹茶',
+                  mobile: '6017832223',
                   email: 'Support.testStore@LTSecurityinc.com',
                   p_shop_name: 'test store',
                   p_shop_addr: 'City of Industry, CA 91748'
@@ -134,18 +135,18 @@
       },
       methods: {
           close(){
-              this.$emit('close',this.flag);
-              $('.el-tooltip__popper').css('display','none');
+              this.$emit('close',this.show1);
+              $('.el-popover').css('display','none');
           },
-          getExpert() {
+          /*getExpert() {
               let data = store.getItem('expert');
               if (data) {
-                  /*for (var value in data) {
+                  /!*for (var value in data) {
                       if (data[value] === '' || data[value] === 'null' || data[value] === 'undefined') {
                           return false;
                       }
                   }
-                  this.someInfo = data;*/
+                  this.someInfo = data;*!/
                   this.someInfo = data;
                   if (data.name === '') {
                       this.storeinfo.forEach((item) => {
@@ -157,17 +158,45 @@
                       this.someInfo = data;
                   }
               }
-            }
-          /*getExpert(){
-              expertService.getExpert().then((data) => {
+            }*/
+          getExpert(val){
+              /*expertService.getExpert().then((data) => {
+                  /!*this.show++;*!/
                   if(data.data){
-                     this.someInfo = data.data;
+                      this.someInfo = data.data;
+                      if (this.someInfo.name === '') {
+                          this.storeinfo.forEach((item) => {
+                              if (item.p_shop_name === this.someInfo.p_shop_name) {
+                                  this.someInfo = item;
+                              }
+                          })
+                      } else {
+                          this.someInfo = data.data;
+                      }
                   }
-              })
-           }*/
+              })*/
+              /*console.log(val);*/
+              if(val){
+                  this.someInfo = val;
+                  if (this.someInfo.name === '') {
+                      this.storeinfo.forEach((item) => {
+                          if (item.p_shop_name === this.someInfo.p_shop_name) {
+                              this.someInfo = item;
+                          }
+                      })
+                  } else {
+                      this.someInfo = val;
+                  }
+              }
+           }
           },
       mounted () {
-          this.getExpert();
+         /*if(this.show === 1){*/
+             this.getExpert();
+         /*}*/
+      },
+      created(){
+         this.selfContext.$on('checkExpert',this.getExpert)
       }
   };
 </script>

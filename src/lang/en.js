@@ -295,7 +295,7 @@ export default {
                 mainOrDeDiscount: 'Discount',
                 mainOrDeManual: 'Discount',
                 mainOrDeYue: 'Pay with Account Balance',
-                mainOrDeOffline: 'Offline payment',
+                mainOrDeOffline: 'Offline Payment',
                 mainOrDePayStatus: 'Payment Status',
                 mainOrDeBag: 'Package',
                 mainOrDeLogiInfo: 'Order Tracking',

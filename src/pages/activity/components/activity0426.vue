@@ -63,7 +63,6 @@
                             </a>
                             <button class="iconfont" v-ltsLoginShow:true @click="addCart(item,item.item_props[0])" v-if="item.item_props[0]&&checkedSpu1.storage > 0" :class="item.flag ? 'icon-chenggong1 cart1':'icon-gouwuche2 cart'"></button>
                         </div>
-                        <div class="num">{{100 - item.discount}}</div>
                     </li>
                 </ul>
             </div>
@@ -796,17 +795,17 @@
                                 border:none;
                             }
                         }
-                        .num{
+                        /*.num{
                             width: 20px;
                             height: 20px;
-                            /* background: #ddd; */
+                            !* background: #ddd; *!
                             position: absolute;
                             top: 22px;
                             left: 21px;
                             z-index: 9000;
                             font-weight: bold;
                             color: white;
-                        }
+                        }*/
                     }
                     li::after{
                         content:'';

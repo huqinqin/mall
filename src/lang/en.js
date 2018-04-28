@@ -635,20 +635,20 @@ export default {
             commMyEmail: 'Email'
         },
         ltsMenu: {
-            commLtsUserConter: 'User Center',
+            commLtsUserConter: 'User Dashboard',
             commLtsMyMoney: 'My Wallet',
-            commLtsAccountSet: 'Account Settings',
+            commLtsAccountSet: 'Settings',
             commLtsPersonlPage: 'Account Home Page',
             commLtsMyOrder: 'My Orders',
             commLtsCart: 'Shopping Cart',
             commLtsResolve: 'Shop By Scenario',
             commLtsMyBalance: 'Account Balance',
             commLtsWaitting: 'Account Payable',
-            commLtsPersonInfo: 'Account Details',
-            commLtsEmailAlert: 'Change Email Address',
-            commLtsAnth: 'Resale Certificate',
-            commLtsPwdSet: 'Password Settings',
-            commLtsAddress: 'Shipping Address'
+            commLtsPersonInfo: 'My Profile',
+            commLtsEmailAlert: 'Email Preference',
+            commLtsAnth: 'Verify Certificate',
+            commLtsPwdSet: ' My Password',
+            commLtsAddress: 'Shipping'
         }
     },
     validate: {

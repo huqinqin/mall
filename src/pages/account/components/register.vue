@@ -15,7 +15,7 @@
                     <div class="el-message-box__status el-icon-warning"></div>
                     <div style="margin-left: 20px;">NOTE: If you already have an account at www.ltsecurityinc.com, you may login with the same account and password on this site.</div>
                 </div>
-                <el-form label-position="top" :model="signupForm" :rules="rules" ref="form" class="formLeft">
+                <el-form label-position="top" :model="signupForm" :rules="rules" ref="form1" class="formLeft">
                     <el-form-item label="Email Address" prop="email">
                         <el-input v-model="signupForm.email"></el-input>
                     </el-form-item>
@@ -51,7 +51,7 @@
                         <el-input v-model="signupForm.phone" ></el-input>
                     </el-form-item>-->
                     <el-form-item label="Mobile Phone" prop="mobile" class="num">
-                        <el-select v-model="num" placeholder="请选择">
+                        <el-select v-model="num" placeholder="Please Select">
                             <el-option
                                 width="50px"
                                 v-for="item in globlaNum"
@@ -72,7 +72,7 @@
                         <el-input v-model="signupForm.state" ></el-input>
                     </el-form-item>-->
                 </el-form>
-                <el-form label-position="top" :model="signupForm" :rules="rules" ref="form" class="formRight">
+                <el-form label-position="top" :model="signupForm" :rules="rules" ref="form2" class="formRight">
                     <el-form-item label='State' prop="state">
                         <el-cascader
                             @change="selectCity"
@@ -85,12 +85,8 @@
                     <el-form-item label="City" prop="city">
                         <el-input v-model="signupForm.city"></el-input>
                     </el-form-item>
-                    <!--<el-form-item label="Federal Tax ID" prop="FTI">
-                        <el-input v-model="signupForm.FTI" ></el-input>
-                    </el-form-item>-->
-                    <el-form-item label="Type of Business" prop="Business">
-                        <!--<el-input v-model="signupForm.checkPass" ></el-input>-->
-                        <el-select v-model="signupForm.Business"
+                    <el-form-item label="Type of Business (unapplicable for enduser)" prop="Business">
+                         <el-select v-model="signupForm.Business"
                                    :placeholder='$t("main.accountNew.register.mainAcReSelect")'>
                             <el-option
                                 v-for="item in options"
@@ -100,10 +96,11 @@
                             </el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="Upload Resale Certificate Photo" prop="pic">
+                    <el-form-item label="Upload Resale Certificate Photo" prop="pic" class="picture">
                         <el-upload
                             :limit=1
                             :on-success="urlFileList"
+                            :before-remove="clearList"
                             class="upload-demo"
                             drag
                             action="/cgi/upload/file/misc/image">
@@ -111,12 +108,8 @@
                             <div class="el-upload__text">{{ $t("main.accountNew.register.mainAcReFileDragHere") }}</div>
                         </el-upload>
                     </el-form-item>
-                    <el-form-item>
-                        <el-checkbox v-model="checked">Sign-up now for exclusive discounts and news</el-checkbox>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button type="submit" class="confirm" :class="{canClick:signupForm.agree === true}"
-                                   @click="submitFrom"><span>Complete</span></el-button>
+                    <el-form-item class="confirm">
+                        <el-button type="submit" @click="submitFrom"><span>Complete</span></el-button>
                     </el-form-item>
                 </el-form>
             </main>
@@ -161,7 +154,6 @@
                 countdown: 3,
                 cityOptions: locationConfig,
                 signupForm: {
-                    pic: '',
                     companyName: '',
                     fisrtName: '',
                     lastName: '',
@@ -169,74 +161,42 @@
                     phone: '',
                     mobile: '',
                     address: '',
-                    /*FTI:'',*/
                     Business: '',
                     url: [],
+                    pic:'',
                     city: '',
                     detail: '',
                     state: []
                 },
                 rules: {
                     Business: [
-                        {
-                            required: true,
-                            message: this.$t("main.accountNew.register.mainAcReContentNotNull"),
-                            trigger: 'blur'
-                        },
+                        {required: true,message: this.$t("main.accountNew.register.mainAcReContentNotNull"),trigger: 'blur'},
                     ],
                     companyName: [
-                        {
-                            required: true,
-                            message: this.$t("main.accountNew.register.mainAcReContentNotNull"),
-                            trigger: 'blur'
-                        },
+                        {required: true,message: this.$t("main.accountNew.register.mainAcReContentNotNull"),trigger: 'blur'},
                     ],
                     city: [
-                        {
-                            required: true,
-                            message: this.$t("main.accountNew.register.mainAcReContentNotNull"),
-                            trigger: 'blur'
-                        },
+                        {required: true,message: this.$t("main.accountNew.register.mainAcReContentNotNull"),trigger: 'blur'},
                     ],
                     detail: [
-                        {
-                            required: true,
-                            message: this.$t("main.accountNew.register.mainAcReContentNotNull"),
-                            trigger: 'blur'
-                        },
+                        {required: true,message: this.$t("main.accountNew.register.mainAcReContentNotNull"),trigger: 'blur'},
                     ],
                     state: [
-                        {
-                            required: true,
-                            message: this.$t("main.accountNew.register.mainAcReContentNotNull"),
-                            trigger: 'blur'
-                        },
+                        {required: true,message: this.$t("main.accountNew.register.mainAcReContentNotNull"),trigger: 'blur'},
                     ],
-                    /*FTI: [
-                        { required: true, message: this.$t("main.accountNew.register.mainAcReContentNotNull"), trigger: 'blur' },
-                    ],*/
                     fisrtName: [
-                        {
-                            required: true,
-                            message: this.$t("main.accountNew.register.mainAcReContentNotNull"),
-                            trigger: 'blur'
-                        },
+                        {required: true,message: this.$t("main.accountNew.register.mainAcReContentNotNull"),trigger: 'blur'},
                     ],
                     lastName: [
-                        {
-                            required: true,
-                            message: this.$t("main.accountNew.register.mainAcReContentNotNull"),
-                            trigger: 'blur'
-                        },
+                        {required: true,message: this.$t("main.accountNew.register.mainAcReContentNotNull"),trigger: 'blur'},
                     ],
                     email: validatorConfig.email(),
                     phone: [
                         {required: true, message: "Required field", trigger: 'blur'}
                     ],
-                    /* mobile: [
-                         { required: false, message:  "Phone Number Can't Be Empty", trigger: 'blur' },
-                         {required: false,validator:checkMobile,trigger: 'blur,change'}
-                     ],*/
+                    pic: [
+                        {required: true, message: "Required field", trigger: 'blur'}
+                    ],
                     address: validatorConfig.address,
                 },
                 globlaNum: [{
@@ -290,63 +250,58 @@
                 } else {
                 }
             },
+            clearList(file, fileList){
+                this.signupForm.pic = ''
+            },
             urlFileList(response, file, fileList) {
                 if (response.data) {
                     this.signupForm.url.push(response.data.url);
+                    this.signupForm.pic = '123'
                 } else {
-                    console.log("000");
+                    this.signupForm.pic = ''
                 }
             },
             submitFrom() {
-                this.$refs.form.validate((valid) => {
-                    /*if(this.signupForm.mobile){
-                        let reg = /^[2-9][0-9]{2}[2-9][0-9]{2}[0-9]{4}$/;
-                        if(!reg.test(this.signupForm.mobile)){
-                            this.$ltsMessage.show({type: "error", message: "Mobile phone: Format error"});
-                            /!*callback(new Error("Mobile Phone Format Error"));*!/
-                            return false;
-                        }else{
-                            callback();
-                        }
-                    }else{}*/
-                    if (valid) {
-                        let params = {
-                            businessPhone: this.signupForm.phone,
-                            zipCode: this.signupForm.address,
-                            /*taxId: this.signupForm.FTI,*/
-                            typeOfBusiness: this.signupForm.Business,
-                            urls: this.signupForm.url,
-                            city: this.signupForm.city,
-                            lc_code: this.lccode,
-                        };
-                        let obj = {
-                            email: this.signupForm.email,
-                            contractName: this.signupForm.fisrtName + '-' + this.signupForm.lastName,
-                            companyName: this.signupForm.companyName,
-                            /*mobile: this.signupForm.mobile ? "1-" + this.signupForm.mobile : '',*/
-                            type: 3,
-                            from: 'PC_WEB',
-                            ext: params,
-                            address: this.signupForm.detail,
-                        }
-                        if (this.signupForm.mobile) {
-                            obj.mobile = "1-" + this.signupForm.mobile;
-                        } else {
-                        }
-                        accountService.creatAccount(obj).then((data) => {
-                            this.$ltsMessage.show({
-                                type: 'success',
-                                message: this.$t("main.accountNew.register.mainAcReCreateSuccess")
-                            })
-                            this.$router.push('/waitAuthing')
-                        }, (msg) => {
-                            if (msg.error_code == 100318) {
-                                msg.error_message = 'Mobile phone: Format error'
+                this.$refs.form1.validate((valid1) => {
+                    this.$refs.form2.validate((valid2)=>{
+                        if (valid1 && valid2) {
+                            let params = {
+                                businessPhone: this.signupForm.phone,
+                                zipCode: this.signupForm.address,
+                                /*taxId: this.signupForm.FTI,*/
+                                typeOfBusiness: this.signupForm.Business,
+                                urls: this.signupForm.url,
+                                city: this.signupForm.city,
+                                lc_code: this.lccode,
+                            };
+                            let obj = {
+                                email: this.signupForm.email,
+                                contractName: this.signupForm.fisrtName + '-' + this.signupForm.lastName,
+                                companyName: this.signupForm.companyName,
+                                /*mobile: this.signupForm.mobile ? "1-" + this.signupForm.mobile : '',*/
+                                type: 3,
+                                from: 'PC_WEB',
+                                ext: params,
+                                address: this.signupForm.detail,
                             }
-                            this.$ltsMessage.show({type: 'error', message: msg.error_message})
-                        })
-                    }
-
+                            if (this.signupForm.mobile) {
+                                obj.mobile = "1-" + this.signupForm.mobile;
+                            } else {
+                            }
+                            accountService.creatAccount(obj).then((data) => {
+                                this.$ltsMessage.show({
+                                    type: 'success',
+                                    message: this.$t("main.accountNew.register.mainAcReCreateSuccess")
+                                })
+                                this.$router.push('/waitAuthing')
+                            }, (msg) => {
+                                if (msg.error_code == 100318) {
+                                    msg.error_message = 'Mobile phone: Format error'
+                                }
+                                this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                            })
+                        }
+                    })
                 })
             },
             getCode() {
@@ -446,8 +401,8 @@
         }
         main {
             float: right;
-            /*width:400px;*/
-            /*margin:40px auto;*/
+            height: 620px;
+            position: relative;
             .el-form {
                 .el-form-item__label {
                     line-height: 16px;
@@ -495,11 +450,20 @@
                         }
                     }
                 }
-                .upload-demo .el-upload-dragger {
-                    height: 215px;
-                    width: 400px !important;
-                    .el-icon-upload{
-                        margin: 58px 0 16px;
+                .el-form-item.picture{
+                    margin-top: 2px;
+                }
+                .upload-demo{
+                    .el-upload-dragger {
+                        height: 215px;
+                        margin-top: 4px;
+                        width: 400px !important;
+                        .el-icon-upload{
+                            margin: 58px 0 16px;
+                        }
+                    }
+                    .el-upload-list{
+                        margin-top: -8px;
                     }
                 }
                 .el-select .el-input {
@@ -512,17 +476,20 @@
                 .el-form-item.name + .el-form-item.name {
                     margin-left: 34px;
                 }
-                .el-button.confirm {
-                    margin-top: 16px;
-                    background: #ff3b41;
-                    width: 400px;
-                    margin-left: -210px;
-                    span {
-                        line-height: 30px;
+                .el-form-item.confirm{
+                    position: absolute;
+                    bottom:0;
+                    right: 260px;
+                    .el-button {
+                        background: #ff3b41;
+                        width: 400px;
+                        span {
+                            line-height: 30px;
+                        }
                     }
-                }
-                .el-button.canClick {
-                    background: #ff3b41;
+                    .el-button.canClick {
+                        background: #ff3b41;
+                    }
                 }
                 .el-checkbox__input.is-checked .el-checkbox__inner {
                     border-radius: 50%;

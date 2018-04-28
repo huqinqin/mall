@@ -1,21 +1,5 @@
 import BaseService from "./abstract/BaseService";
 export default class AddressService extends BaseService {
-    // /**
-    //  * return data 地址数组
-    //  * param address JSON
-    //  * param orderby 排序
-    //  * @autor taohua
-    //  * remark 查询地址列表
-    //  */
-    // static getList(){
-    //     let params = {
-    //         address:'',
-    //         page:1,
-    //         pagesize:20,
-    //         orderby:'status desc'
-    //     }
-    //     return super.getRequest('/installer/consumer_address/get_list',params)
-    // }
     /**
      * return data 地址数组
      * param address JSON

@@ -47,14 +47,14 @@ export default class AddressService extends BaseService {
             city:form.city,
             street:form.street,
             /*building:form.city + '-' + form.street,*/
-            status: form.setDefault ? 1 : 0,
             rank: form.rank,
             zip_code: form.zipCode,
-            lc_code: form.lcCode
+            lc_code: form.lcCode,
+            status: form.setDefault ? 1 : 0,
         };
         let params = {
             address:JSON.stringify(address)
-        }
+        };
         return super.getRequest('/installer/consumer_address/add',params)
     }
 

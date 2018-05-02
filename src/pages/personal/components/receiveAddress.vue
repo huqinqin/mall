@@ -231,7 +231,7 @@
                     last: this.ruleForm.last,
                     //state: this.locationLabel[0],
                     setDefault: this.ruleForm.setDefaultFlag,
-                    status: this.setDefaultFlag ? 1 : 0,//1设为默认，0有效
+                    status: this.ruleForm.setDefaultFlag ? 1 : 0,//1设为默认，0有效
                     zipCode: this.ruleForm.zipCode,
                     lcCode: this.ruleForm.location[0],
                 };
@@ -264,7 +264,7 @@
                     last: this.ruleForm.last,
                     //state: this.locationLabel[0],
                     setDefault: this.ruleForm.setDefaultFlag,
-                    status: this.setDefaultFlag ? 1 : 0,//1设为默认，0有效
+                    status: this.ruleForm.setDefaultFlag ? 1 : 0,//1设为默认，0有效
                     zipCode: this.ruleForm.zipCode,
                     lcCode: this.ruleForm.location[0],
                 };

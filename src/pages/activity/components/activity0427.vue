@@ -91,8 +91,8 @@
         name: "activity",
         data(){
             return{
-                img:require('../../../assets/img/banner0502.png'),
-                img1:require('../../../assets/img/sale0502.png'),
+                img:require('../../../assets/img/banner05021.png'),
+                img1:require('../../../assets/img/saleall.png'),
                 img2:require('../../../assets/img/icon.png'),
                 img3:require('../../../assets/img/card.png'),
                 img4:require('../../../assets/img/music.png'),
@@ -134,7 +134,8 @@
                 conditions:{},
                 checkedSpu2:{},
                 checkedSpu1:{},
-                centerDialogVisible: false
+                centerDialogVisible: false,
+                sortid:''
             }
 
         },
@@ -142,8 +143,14 @@
             $("html").attr('class','gray !important');
             /*this.timeService();*/
             /*this.getTimeService();*/
-            this.getList(['May01week']);
+            this.getList(['may01week']);
+            let sorttemp = location.hash.substring(location.hash.indexOf('?') + 1);
+            let arrtemp = sorttemp.split('&');
+            this.sortid = decodeURI(arrtemp[1].split('=')[1]).slice(1,-1);
+            console.log(this.sortid);
+            /*this.sortid = '10810-10811-10120';*/
             this.tags = this.$route.query.tags ? this.$route.query.tags.split(',') : [];
+           /* this.sortbyid(this.sortid);*/
         },
         methods: {
             backPage(){
@@ -239,7 +246,8 @@
                     resp.data.item_d_o_list.forEach((item) => {
                             item.flag = false
                            this.data.push(item)
-                            item.item_props = []
+                            item.item_props = [];
+                        /*console.log(this.data);*/
                             item.item_struct_props.every((value) => {
                                 if(value.sku && value.storage > 0){
                                     this.flag = false;
@@ -256,6 +264,16 @@
                                 }
                             })
                     });
+                    let temp = this.data;
+                    this.data = [];
+                    let arr = this.sortid.split('-');
+                    for (var i = 0; i < arr.length; i++) {
+                        for (var j = 0; j < temp.length; j++) {
+                            if (arr[i] == temp[j].id) {
+                                this.data.push(temp[j]);
+                            }
+                        }
+                    }
                 })
             },
             changePage(currentPage){
@@ -269,6 +287,23 @@
             nextPage(){
                 this.search.page++
             },
+           /* sortbyid(id){
+                let arr = [];
+                arr = id.split('-');
+                setTimeout(() => {
+                    /!*debugger;*!/
+                    let temp = this.data;
+                    this.data = [];
+                    for (var i = 0; i < arr.length; i++) {
+                        for (var j = 0; j < temp.length; j++) {
+                            if (arr[i] == temp[j].id) {
+                                this.data.push(temp[j]);
+                            }
+                        }
+                    }
+                },20);
+                console.log(this.data);
+            }*/
         }
     }
 </script>
@@ -833,7 +868,7 @@
         }
         .banner1{
             width: 100%;
-            height: 500px;
+            height: 300px;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;

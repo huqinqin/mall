@@ -346,15 +346,23 @@
                         param.end_time = v.time
                         orderService.getList(param, this.pagination.page, this.pagination.page_size, 'cdate desc').then((resp) => {
                             this.loading = false;
-                            resp.datalist.forEach((value,index,array)=>{
-                                value.sell_order_list.forEach((sell,i,array)=>{
-                                    sell.wholesale_order_items.forEach((item,key,array)=>{
-                                        item.propValue = JSON.parse(item.props)
-                                    })
+                            if(resp.datalist.length){
+                                resp.datalist.forEach((value,index,array)=>{
+                                    if(value.sell_order_list.length){
+                                        value.sell_order_list.forEach((sell,i,array)=>{
+                                            if(sell.wholesale_order_items.length){
+                                                sell.wholesale_order_items.forEach((item,key,array)=>{
+                                                    if(item.props.length){
+                                                        item.propValue = JSON.parse(item.props)
+                                                    }
+                                                })
+                                            }
+                                        })
+                                    }
+                                })
+                            }
 //                            value.hd_status = sell.wholesale_order_items[0].hd_status;
 //                            value.hd_status_title = sell.wholesale_order_items[0].hd_status_title;
-                                })
-                            })
                             this.datalist = resp.datalist;
                             this.pagination.total = resp.total;
                         }, (err) => {

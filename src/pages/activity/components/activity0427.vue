@@ -144,12 +144,13 @@
             /*this.timeService();*/
             /*this.getTimeService();*/
             this.getList(['may01week']);
-            let sorttemp = location.hash.substring(location.hash.indexOf('?') + 1);
-            let arrtemp = sorttemp.split('&');
-            this.sortid = decodeURI(arrtemp[1].split('=')[1]);
-            console.log(this.sortid);
-            /*this.sortid = '10810-10811-10120';*/
+            // let sorttemp = location.hash.substring(location.hash.indexOf('?') + 1);
+            // let arrtemp = sorttemp.split('&');
+            // this.sortid = decodeURI(arrtemp[1].split('=')[1]);
+            // this.sortid = '10810-10811-10120';
             this.tags = this.$route.query.tags ? this.$route.query.tags.split(',') : [];
+            this.sortid = this.$route.query.sortid;
+            console.log(this.sortid);
            /* this.sortbyid(this.sortid);*/
         },
         methods: {

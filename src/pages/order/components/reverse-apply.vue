@@ -62,6 +62,7 @@
                     <el-upload
                         action="/cgi/upload/file/item/image"
                         list-type="picture-card"
+                        :before-upload="beforeUpload"
                         :on-preview="handlePictureCardPreview"
                         :on-change="handleUrlChange"
                         :on-remove="handleRemove">
@@ -162,7 +163,6 @@
             onSubmitRefund(){
                 this.$refs['form'].validate((valid) => {
                     if(valid){
-                        debugger;
                         let imagesUrl = '';
                         this.fileList.forEach(function (value, index, array) {
                             imagesUrl = (imagesUrl == "") ? value.response.data.url : imagesUrl + "," + value.response.data.url;
@@ -193,6 +193,13 @@
                 },(err) => {
                     this.$ltsMessage.show({type:'error',message:err.error_message})
                 });
+            },
+            beforeUpload(file){
+                const isJPG = file.type === "image/png";
+                if (!isJPG) {
+                    this.$ltsMessage.show({type:'error', message:'Only picture!'});
+                }
+                return isJPG
             },
             handleRemove(file, fileList) {
                 console.log(file, fileList);

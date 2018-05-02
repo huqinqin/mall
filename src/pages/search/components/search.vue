@@ -85,10 +85,10 @@
                                         <!--<template v-else>-->
                                             <!--<lts-money :money="item.price_real"></lts-money>-->
                                         <!--</template>-->
-                                        <lts-money :money="item.price_real"></lts-money>
+                                        <lts-money :money="item.item_struct_props[0].price_real"></lts-money>
                                     </span>
                                     <span class="oldPrice" v-if="item.discount_type || (item.price != item.price_real)">
-                                        <lts-money :money="item.price"></lts-money>
+                                        <lts-money :money="item.item_struct_props[0].price"></lts-money>
                                     </span>
                                 </p>
                             </div>

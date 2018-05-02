@@ -42,7 +42,7 @@
                     <el-input-number v-model.number="form.num" @change="changeMoney" size="small" controls-position="right" :min="1" :max="form.maxRefund" />
                 </el-form-item>
                 <el-form-item :label='$t("main.order.reverse.mainOrReRejectTotalPay")' prop="refund" >
-                    <el-input-number v-model="form.refund"  size="small" controls-position="right" :min="0" :max="orderItem.pay_real/100" />
+                    <el-input-number v-model="form.refund"  size="small" controls-position="right" :min="0" :max="orderItem.price_real * form.num / 100" />
                     <!--<lts-money :money="form.refund"></lts-money>-->
                 </el-form-item>
                 <el-form-item :label='$t("main.order.reverse.mainOrReRejectReason")' prop="reason">
@@ -62,6 +62,7 @@
                     <el-upload
                         action="/cgi/upload/file/item/image"
                         list-type="picture-card"
+                        :before-upload="beforeUpload"
                         :on-preview="handlePictureCardPreview"
                         :on-change="handleUrlChange"
                         :on-remove="handleRemove">
@@ -162,7 +163,6 @@
             onSubmitRefund(){
                 this.$refs['form'].validate((valid) => {
                     if(valid){
-                        debugger;
                         let imagesUrl = '';
                         this.fileList.forEach(function (value, index, array) {
                             imagesUrl = (imagesUrl == "") ? value.response.data.url : imagesUrl + "," + value.response.data.url;
@@ -193,6 +193,13 @@
                 },(err) => {
                     this.$ltsMessage.show({type:'error',message:err.error_message})
                 });
+            },
+            beforeUpload(file){
+                const isJPG = file.type === "image/png";
+                if (!isJPG) {
+                    this.$ltsMessage.show({type:'error', message:'Only picture!'});
+                }
+                return isJPG
             },
             handleRemove(file, fileList) {
                 console.log(file, fileList);

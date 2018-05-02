@@ -42,7 +42,7 @@
                     <el-input-number v-model.number="form.num" @change="changeMoney" size="small" controls-position="right" :min="1" :max="form.maxRefund" />
                 </el-form-item>
                 <el-form-item :label='$t("main.order.reverse.mainOrReRejectTotalPay")' prop="refund" >
-                    <el-input-number v-model="form.refund"  size="small" controls-position="right" :min="0" :max="orderItem.pay_real/100" />
+                    <el-input-number v-model="form.refund"  size="small" controls-position="right" :min="0" :max="orderItem.price_real * form.num / 100" />
                     <!--<lts-money :money="form.refund"></lts-money>-->
                 </el-form-item>
                 <el-form-item :label='$t("main.order.reverse.mainOrReRejectReason")' prop="reason">

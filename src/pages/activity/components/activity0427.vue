@@ -3,7 +3,7 @@
         <div class="banner" :style="{backgroundImage : 'url(' + img + ')'}"></div>
         <div class="navBar11">
             <p class="navBarSave">Save up to 50% on selected items</p>
-            <p class="navBarDate"><span class="navBarDate1">Goods Through:</span><span class="">04/28/18</span><span>-</span><span>05/05/18</span></p>
+            <p class="navBarDate"><span class="navBarDate1">Goods Through:</span><span class="">05/03/18</span><span>-</span><span>05/12/18</span></p>
         </div>
         <div class="content" v-if="data.length > 0">
             <div class="search-result">
@@ -91,8 +91,8 @@
         name: "activity",
         data(){
             return{
-                img:require('../../../assets/img/banner036.png'),
-                img1:require('../../../assets/img/saleall.png'),
+                img:require('../../../assets/img/banner0502.png'),
+                img1:require('../../../assets/img/sale0502.png'),
                 img2:require('../../../assets/img/icon.png'),
                 img3:require('../../../assets/img/card.png'),
                 img4:require('../../../assets/img/music.png'),
@@ -142,7 +142,7 @@
             $("html").attr('class','gray !important');
             /*this.timeService();*/
             /*this.getTimeService();*/
-            this.getList(['36off2018426', 'onsale2018426']);
+            this.getList(['May01week']);
             this.tags = this.$route.query.tags ? this.$route.query.tags.split(',') : [];
         },
         methods: {
@@ -833,7 +833,7 @@
         }
         .banner1{
             width: 100%;
-            height: 300px;
+            height: 500px;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;

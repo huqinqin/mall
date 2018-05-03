@@ -735,14 +735,17 @@
             }
         },
         mounted() {
-            if (this.$route.query && this.$route.query.item) {
-                let item = JSON.parse(this.$route.query.item)
-                item.item_props.forEach(function (val, key, array) {
-                    val.propValue = JSON.parse(val.prop_value)
+            if (this.$route.query && this.$route.query.items) {
+                let items = JSON.parse(this.$route.query.items)
+                items.forEach(item => {
+                    item.item_props.forEach(function (val, key, array) {
+                        val.propValue = JSON.parse(val.prop_value)
+                    })
+                    item.price = item.item_props[0].price
+                    item.price_real = item.item_props[0].price_real
                 })
-                item.price = item.item_props[0].price
-                item.price_real = item.item_props[0].price_real
-                this.tableData.push(item)
+
+                this.tableData = items
                 localStorage.removeItem('buyNowItem')
             } else  if(this.$route.params && this.$route.params.items){
                 let items = this.$route.params.items
@@ -756,7 +759,7 @@
             }else{
                 let items = JSON.parse(localStorage.getItem('buyNowItem'))
                 localStorage.removeItem('buyNowItem')
-                this.tableData.push(items)
+                this.tableData = items
             }
             console.log(this.tableData)
             // let level = window.localStorage.getItem('userLevel')

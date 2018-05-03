@@ -90,7 +90,7 @@
                             <el-button
                                 @click.stop="buyNow"
                                 type="button"
-                                :disabled="item.num > checkedSpu.storage || (item.discount_type == 4 && (item.num > item.sale_rule_do.maxinum || item.num < item.sale_rule_do.minimum))"
+                                :disabled="item.num > checkedSpu.storage || (item.discount_type == 4 && item.num < item.sale_rule_do.minimum)"
                                 :class="{'hidden':(item.discount_type == 4 && (!started) || (started && finished)) }">
                                 {{ $t("main.detail.info.mainDetInfoImme") }}
                             </el-button>
@@ -99,7 +99,7 @@
                             <el-button
                                 @click.stop="addCart(item, checkedSpu)"
                                 type="button" class="addcart"
-                                :disabled="(item.discount_type == 4 && finished) || item.num > checkedSpu.storage || (item.discount_type == 4 && (item.num > item.sale_rule_do.maxinum || item.num < item.sale_rule_do.minimum))">
+                                :disabled="(item.discount_type == 4 && finished) || item.num > checkedSpu.storage || (item.discount_type == 4 && item.num < item.sale_rule_do.minimum)">
                                 {{ $t("main.detail.info.mainDetInfoJoinCart") }}
                             </el-button>
                         </lts-login>
@@ -332,7 +332,8 @@
                 recommondInfo:[],
                 historyIndex:0,
                 historyItems:[],
-                level:'0'
+                level:'0',
+                otherItemSpu:{}
             }
         },
         methods: {
@@ -472,6 +473,16 @@
                     })
                     this.historyItems = this.buyHistory.slice(0,2)
                     if (this.item.discount_type === 4) {
+                        this.item.item_struct_props.forEach(t => {
+                            if(t.sku){
+                                t.storage = this.item.sale_rule_do.total
+                            }
+                        })
+                        if(this.item.parent_id) {
+                            itemService.getItemDetail(this.item.parent_id).then((resp) => {
+                                this.otherGoodsItem = resp.data.item
+                            })
+                        }
                         let now
                         timeService.getUtcTime(this.item.sale_rule_do.end_time).then(v1 => {
                             this.end = new Date(v1.time).getTime()
@@ -582,9 +593,25 @@
                 if (!this.validate()) {
                     return false
                 }
+                // 判断限时限量商品购买数量是否超过限额
+                if(this.item.parent_id && this.item.sale_rule_do.maxinum && (this.item.num > this.item.sale_rule_do.maxinum)){
+                    this.otherGoodsItem.num = this.item.num - this.item.sale_rule_do.maxinum
+                    this.item.num = this.item.sale_rule_do.maxinum
+                }
                 cartService.putCartPlus(item, spu).then((data) => {
                     if (!this.showPropsError) {
                         this.flag = true
+                    }
+                    if(JSON.stringify(this.otherGoodsItem) != '{}'){
+                        this.otherGoodsItem.item_struct_props.forEach(t => {
+                            if(this.checkedSpu.prop_value == t.prop_value){
+                                cartService.putCartPlus(this.otherGoodsItem,t).then(data => {
+
+                                }, err => {
+                                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                                })
+                            }
+                        })
                     }
                     this.selfContext.$emit('addCartSuccess')
                 }, (msg) => {
@@ -598,7 +625,19 @@
                 if (!this.validate()) {
                     return false
                 }
-                let items = {
+                // 判断限时限量商品购买数量是否超过限额
+                if(this.item.parent_id && this.item.sale_rule_do.maxinum && (this.item.num > this.item.sale_rule_do.maxinum)){
+                    this.otherGoodsItem.num = this.item.num - this.item.sale_rule_do.maxinum
+                    this.item.num = this.item.sale_rule_do.maxinum
+                    if(JSON.stringify(this.otherGoodsItem) != '{}'){
+                        this.otherGoodsItem.item_struct_props.forEach(t => {
+                            if(this.checkedSpu.prop_value == t.prop_value){
+                                this.otherItemSpu = t
+                            }
+                        })
+                    }
+                }
+                let item = {
                     'activity_id': null,
                     'attribute': this.item.attribute,
                     'brand': this.item.brand,
@@ -625,9 +664,40 @@
                     'sale_rule': this.item.sale_rule,
                     'price_define_do':this.item.price_define_do
                 }
+                let otherItem
+                if(JSON.stringify(this.otherGoodsItem) != '{}') {
+                    otherItem = {
+                        'activity_id': null,
+                        'attribute': this.otherGoodsItem.attribute,
+                        'brand': this.otherGoodsItem.brand,
+                        'category_id': this.otherGoodsItem.category_id,
+                        'discount': this.otherGoodsItem.discount,
+                        'discount_type': this.otherGoodsItem.discount_type,
+                        'id': this.otherGoodsItem.id,
+                        'item_name': this.otherGoodsItem.item_name.replace('%', '%25'),
+                        'item_props': [this.otherItemSpu],
+                        'maxinum': this.otherGoodsItem.maxinum,
+                        'mininum': this.otherGoodsItem.mininum,
+                        'num': this.otherGoodsItem.num,
+                        'price': this.otherGoodsItem.price,
+                        'price_real': this.otherGoodsItem.price_real,
+                        'proxy_distribute_num': this.otherGoodsItem.proxy_distribute_num,
+                        'puser_id': this.otherGoodsItem.puser_id,
+                        'spec_unit': this.otherGoodsItem.spec_unit,
+                        'spu_id': this.otherItemSpu.spu_id,
+                        'status': this.otherGoodsItem.status,
+                        'storage': this.otherGoodsItem.storage,
+                        'tag': this.otherGoodsItem.tag,
+                        'url': this.otherGoodsItem.url,
+                        'full_url': this.otherGoodsItem.full_url,
+                        'sale_rule': this.otherGoodsItem.sale_rule,
+                        'price_define_do': this.otherGoodsItem.price_define_do
+                    }
+                }
+                let items = JSON.stringify(this.otherGoodsItem) != '{}' ? [item, otherItem] : [item]
                 // window.open('/cart#/settle?item=' + JSON.stringify(items))
                 localStorage.setItem('buyNowItem',JSON.stringify(items))
-                window.open('/cart?t=' + new Date().getTime() + '#/settle?item=' + JSON.stringify(items))
+                window.open('/cart?t=' + new Date().getTime() + '#/settle?items=' + JSON.stringify(items))
             },
             validate() {
                 if (!this.checkedSpu.spu_id) {
@@ -1360,7 +1430,7 @@
                     div.content{
                         height: 38px;
                         p{
-                            height: 38px;
+                            height: 36px;
                             -webkit-box-orient: vertical;
                         }
                     }

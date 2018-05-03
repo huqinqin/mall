@@ -51,7 +51,7 @@ export default class ItemService extends BaseService {
                 puserIds: search.puserIds,
                 itemName: search.itemName ? search.itemName.trim() : '',
                 brand: search.brand,
-                cateId: search.cateId[search.cateId.length - 1],
+                cateId: search.cateId && search.cateId.length ? search.cateId[search.cateId.length - 1] : '',
                 attribute_1: search.attribute_1,
                 discountType: search.discountType,
                 allStatus: search.allStatus,

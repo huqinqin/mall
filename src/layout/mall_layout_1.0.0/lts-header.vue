@@ -26,18 +26,18 @@
                 </el-popover>
                 <a href="javascript:void(0)" class="top-menu" v-login v-if="showToIndex && userInfo" v-popover:popover1>{{ $t("comHeader.headerMyExpert") }}</a>
               <a href="javascript:void(0)" class="top-menu"><i class="iconfont icon-shouji"></i>{{ $t("comHeader.headerPhoneOrder") }}</a>
-              <a href="javascript:void(0)" class="top-menu" @click="logout" v-if="userInfo">{{ $t("comHeader.headerLogin") }}</a>
-              <el-dropdown @command="handleCommand">
-                  <span class="el-dropdown-link">
-                     <span v-if="language == 'cn'">中文</span>
-                     <span v-else>English</span>
-                     <i class="el-icon-arrow-down el-icon--right"></i>
-                  </span>
-                  <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item command="cn">中文</el-dropdown-item>
-                        <el-dropdown-item command="en">English</el-dropdown-item>
-                  </el-dropdown-menu>
-              </el-dropdown>
+              <a href="javascript:void(0)"  @click="logout" v-if="userInfo">{{ $t("comHeader.headerLogin") }}</a>
+              <!--<el-dropdown @command="handleCommand">-->
+                  <!--<span class="el-dropdown-link">-->
+                     <!--<span v-if="language == 'cn'">中文</span>-->
+                     <!--<span v-else>English</span>-->
+                     <!--<i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>-->
+                  <!--</span>-->
+                  <!--<el-dropdown-menu slot="dropdown">-->
+                        <!--<el-dropdown-item command="cn">中文</el-dropdown-item>-->
+                        <!--<el-dropdown-item command="en">English</el-dropdown-item>-->
+                  <!--</el-dropdown-menu>-->
+              <!--</el-dropdown>-->
             </li>
           </ul>
         </div>

@@ -94,7 +94,7 @@
         name: "activity",
         data(){
             return{
-                img:require('../../../assets/img/banner05021.png'),
+                img:require('../../../assets/img/banner0503.png'),
                 img1:require('../../../assets/img/saleall.png'),
                 img2:require('../../../assets/img/icon.png'),
                 img3:require('../../../assets/img/card.png'),
@@ -114,7 +114,7 @@
                     condition:[],
                     text:'',
                     page:1,
-                    pageSize:20,
+                    pageSize:1000,
                     totalPage:1,
                     cateId:'',
                     itemName:'',

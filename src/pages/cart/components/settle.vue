@@ -157,7 +157,7 @@
                             </el-select>
                         </el-form-item>
                         <el-form-item>
-                            <el-checkbox v-model="expressForm.self">{{ $t("main.cart.settle.mainCartSeSelfSign") }}
+                            <el-checkbox v-model="expressForm.self" @change="simulateCreateTrade">{{ $t("main.cart.settle.mainCartSeSelfSign") }}
                             </el-checkbox>
                         </el-form-item>
                     </el-form>
@@ -663,7 +663,8 @@
                         // 0代表收货地址，1代表分销证地址，1免税费
                         toStates: this.checkedAddress.state,
                         toZipCode: this.checkedAddress.zipCode,
-                        serviceCode: this.expressForm.service
+                        serviceCode: this.expressForm.service,
+                        needSignature: this.expressForm.self ? 1 : 0,
                     }
                 }
                 this.canSubmit = true
@@ -673,7 +674,7 @@
                     this.sum.express = fee.HD_ALL
                     this.sum.tax = fee.TAXES_ALL
                     this.sum.taxesRate = resp.data.wholesale_order.fee_hd_taxes_rate
-                    this.sum.amount = resp.data.wholesale_order.pay_real
+                    this.sum.amount = resp.data.wholesale_order.pay_real + resp.data.wholesale_order.fee_promotion_manjian
                     this.sum.promotion = resp.data.wholesale_order.discount
                     this.totalPrice = resp.data.wholesale_order.pay_info.pay_real
                     if (resp.data.wholesale_order.pay_info.acc_bonus_list.length > 0) {
@@ -686,7 +687,10 @@
                                 value: item.id
                             })
                         })
-                        this.selectedBonus = this.bonusOption[this.bonusOption.length - 1].value
+                        this.$nextTick(() => {
+                            this.selectedBonus = this.bonusOption[this.bonusOption.length - 1].value
+                            this.selectBonus(this.selectedBonus)
+                        })
                     } else {
                         this.selectedBonus = this.$t('main.cart.settle.mainCartSeNoBonus')
                     }

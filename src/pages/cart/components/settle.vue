@@ -687,7 +687,10 @@
                                 value: item.id
                             })
                         })
-                        this.selectedBonus = this.bonusOption[this.bonusOption.length - 1].value
+                        this.$nextTick(() => {
+                            this.selectedBonus = this.bonusOption[this.bonusOption.length - 1].value
+                            this.selectBonus(this.selectedBonus)
+                        })
                     } else {
                         this.selectedBonus = this.$t('main.cart.settle.mainCartSeNoBonus')
                     }

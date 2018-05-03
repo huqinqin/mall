@@ -3,7 +3,7 @@
         <div class="banner" :style="{backgroundImage : 'url(' + img + ')'}"></div>
         <div class="navBar11">
             <p class="navBarSave">Save up to 50% on selected items</p>
-            <p class="navBarDate"><span class="navBarDate1">Goods Through:</span><span class="">05/03/18</span><span>-</span><span>05/12/18</span></p>
+            <p class="navBarDate"><span class="navBarDate1">Good Through:</span><span class="">05/03/18</span><span>-</span><span>05/12/18</span></p>
         </div>
         <div class="content" v-if="data.length > 0">
             <div class="search-result">
@@ -63,7 +63,10 @@
                             </a>
                             <button class="iconfont" v-ltsLoginShow:true @click="addCart(item,item.item_props[0])" v-if="item.item_props[0]&&checkedSpu1.storage > 0" :class="item.flag ? 'icon-chenggong1 cart1':'icon-gouwuche2 cart'"></button>
                         </div>
-                        <div class="num">{{item.discount1}}</div>
+                        <div class="num">
+                            <span v-if="item.discount_type === 1">{{100 - item.discount}}</span>
+                            <span  v-if="item.discount_type === 4">50</span>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -144,12 +147,13 @@
             /*this.timeService();*/
             /*this.getTimeService();*/
             this.getList(['may01week']);
-            let sorttemp = location.hash.substring(location.hash.indexOf('?') + 1);
-            let arrtemp = sorttemp.split('&');
-            this.sortid = decodeURI(arrtemp[1].split('=')[1]).slice(1,-1);
-            console.log(this.sortid);
-            /*this.sortid = '10810-10811-10120';*/
+            // let sorttemp = location.hash.substring(location.hash.indexOf('?') + 1);
+            // let arrtemp = sorttemp.split('&');
+            // this.sortid = decodeURI(arrtemp[1].split('=')[1]);
+            // this.sortid = '10810-10811-10120';
             this.tags = this.$route.query.tags ? this.$route.query.tags.split(',') : [];
+            this.sortid = this.$route.query.sortid;
+            console.log(this.sortid);
            /* this.sortbyid(this.sortid);*/
         },
         methods: {
@@ -255,11 +259,11 @@
                                     item.spu_id = value.spu_id;
                                     item.num = 1;
                                     this.checkedSpu1 = value;
-                                    if(item.discount_type === 1){
-                                        item.discount1 = 100 - item.discount;
-                                    }else if(item.discount_type === 4){
-                                        item.discount1 = 100 - (item.sale_rule_do.price / value.price)
-                                    }
+                                    // if(item.discount_type === 1){
+                                    //     item.discount1 = 100 - item.discount;
+                                    // }else if(item.discount_type === 4){
+                                    //     item.discount1 = 100 - (item.sale_rule_do.price / value.price)
+                                    // }
                                     return false;
                                 }
                             })
@@ -754,8 +758,8 @@
                             }
                         }
                         .num{
-                            width: 10px;
-                            height: 10px;
+                            width: 16px;
+                            height: 16px;
                             position: absolute;
                             top: 24px;
                             left: 18px;

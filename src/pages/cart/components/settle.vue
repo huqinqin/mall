@@ -564,11 +564,12 @@
                 this.submitOrder()
             },
             // 选择红包
-            selectBonus(value) {
-                this.bonusId = value
-                this.bonusArr.forEach((val) => {
-                    if (val.id == value) {
-                        this.bonus = val.realRule.value
+            selectBonus(id) {
+                this.bonusId = id
+                this.bonusOption.forEach((val) => {
+                    if (val.value == id) {
+                        this.bonus = val.data
+                        this.selectedBonus = val.label
                     }
                 })
             },
@@ -678,18 +679,26 @@
                     this.sum.promotion = resp.data.wholesale_order.discount
                     this.totalPrice = resp.data.wholesale_order.pay_info.pay_real
                     if (resp.data.wholesale_order.pay_info.acc_bonus_list.length > 0) {
-                        this.bonusOption = [{label: this.$t("main.someinfo.mainSomeNoBonus"), value: ''}]
+                        this.bonusOption = [{label: this.$t("main.someinfo.mainSomeNoBonus"), value: '',data:0}]
                         this.bonusArr = resp.data.wholesale_order.pay_info.acc_bonus_list
                         this.bonusArr.forEach((item) => {
                             item.realRule = JSON.parse(item.rule)[0]
                             this.bonusOption.push({
                                 label: this.$t("main.someinfo.mainSomeCoupon") + '：' + this.$t("main.someinfo.mainSomeFull") + ' ' + (item.realRule.startV / 100).toFixed(2) + ' ' + this.$t("main.someinfo.mainSomeMinus") + ' ' + (item.realRule.value / 100).toFixed(2),
-                                value: item.id
+                                value: item.id,
+                                data:parseInt(item.realRule.value)
                             })
                         })
                         this.$nextTick(() => {
-                            this.selectedBonus = this.bonusOption[this.bonusOption.length - 1].value
-                            this.selectBonus(this.selectedBonus)
+                            let maxId = ''
+                            let maxData = 0
+                            this.bonusOption.forEach(t => {
+                                if(t.data > maxData){
+                                    maxData = t.data
+                                    maxId = t.value
+                                }
+                            })
+                            this.selectBonus(maxId)
                         })
                     } else {
                         this.selectedBonus = this.$t('main.cart.settle.mainCartSeNoBonus')
@@ -761,7 +770,6 @@
                 localStorage.removeItem('buyNowItem')
                 this.tableData = items
             }
-            console.log(this.tableData)
             // let level = window.localStorage.getItem('userLevel')
             // if(level != 0){
             //     this.tableData.forEach((item) => {

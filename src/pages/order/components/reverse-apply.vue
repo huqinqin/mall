@@ -195,7 +195,7 @@
                 });
             },
             beforeUpload(file){
-                const isJPG = file.type === "image/png";
+                const isJPG = (file.type === "image/png" || file.type === "image/jpg" || file.type === "image/jpeg");
                 if (!isJPG) {
                     this.$ltsMessage.show({type:'error', message:'Only picture!'});
                 }

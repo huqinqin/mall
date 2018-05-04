@@ -147,6 +147,7 @@
                 </div>
             </div>
         </div>
+        <a href="/search/#/detail?cateId=%5B%5D&discountype=0"><div class="detailDiscount" :style="{backgroundImage : 'url(' + img + ')'}"></div></a>
         <!--configure-->
         <div class="detail-configure" v-if="otherGoods.length > 0" v-ltsLoginShow:true>
             <div class="h5">{{ $t("main.detail.info.mainDetConfigure") }}</div>
@@ -288,6 +289,7 @@
         props: {},
         data() {
             return {
+                img: require('../../../assets/img/detail0504.png'),
                 packVisible: false,
                 activeName: 'first',
                 sku_1: '',
@@ -767,6 +769,15 @@
 
 <style lang="less">
     .detail {
+        .detailDiscount{
+            width: 100%;
+            height: 100px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border: 1px solid #f6f6f6;
+            margin:24px 0;
+        }
 
         li {
             box-sizing: border-box;

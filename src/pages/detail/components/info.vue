@@ -478,11 +478,11 @@
                                 t.storage = this.item.sale_rule_do.total
                             }
                         })
-                        if(this.item.parent_id) {
-                            itemService.getItemDetail(this.item.parent_id).then((resp) => {
-                                this.otherGoodsItem = resp.data.item
-                            })
-                        }
+                        itemService.searchItem({discountType:0,sin:this.item.sin}).then((resp) => {
+                            if(resp.data.item_d_o_list.length > 0){
+                                this.otherGoodsItem = resp.data.item_d_o_list[0]
+                            }
+                        })
                         let now
                         timeService.getUtcTime(this.item.sale_rule_do.end_time).then(v1 => {
                             this.end = new Date(v1.time).getTime()
@@ -608,7 +608,7 @@
                                 cartService.putCartPlus(this.otherGoodsItem,t).then(data => {
 
                                 }, err => {
-                                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                                    this.$ltsMessage.show({type: 'error', message: err.error_message})
                                 })
                             }
                         })

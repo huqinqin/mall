@@ -1,5 +1,5 @@
 <template>
-  <div class="_index">
+  <div class="_index" >
     <!-- banner -->
     <div class="banner" v-if="index_banner.length > 0">
       <el-carousel class="slider" :autoplay=isAuto>
@@ -35,8 +35,8 @@
         <!--<a  v-if="posterSmall.top" :href="posterSmall.top.content.link_url" class="top">-->
           <!--<img :src="posterSmall.top.content.fix_url" :alt="posterSmall.top.name">-->
         <!--</a>-->
-        <div class="app" :style="{backgroundImage : 'url(' + appDown +')'}">
-          <div class="wrapper" v-show="showDownload">
+        <div class="app" :style="{backgroundImage : 'url(' + appDown +')'}" v-show="showDownload">
+          <div class="wrapper">
             <a href="//itunes.apple.com/cn/app/lts-mall/id1366927490?mt=8" target="_blank"><img src="@/assets/img/ios.png" alt=""></a>
             <a href="//play.google.com/store/apps/details?id=io.dcloud.H5782589E" target="_blank"><img src="@/assets/img/andro.png" alt=""></a>
           </div>
@@ -221,7 +221,7 @@
 
           setTimeout(()=> {
             this.showDownload = true
-          },100)
+          },400)
             this.itemList.forEach((item) => {
                 item.items.forEach((val) => {
                     if(val.tag.indexOf('新品') != -1){
@@ -323,7 +323,6 @@
 </script>
 <style src="@/assets/iconfont/iconfont.css"></style>
 <style lang="less" scoped>
-    button.login{}
   li {
     box-sizing: border-box;
     position: relative;

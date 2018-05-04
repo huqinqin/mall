@@ -1,1149 +1,1270 @@
 <template>
-  <div class="cartlist">
-      <div v-if="cartNum">
-        <el-table
-          :data="tableData"
-          :default-expand-all="true"
-          :stripe="false"
-          tooltip-effect="dark"
-          style="width: 100%" align="right">
-          <el-table-column type="expand">
-            <template slot-scope="scope">
-              <div v-if="scope.row.discount && scope.row.discount.length>0" class="discountTable subtable">
-                <div class="popover">
-                  <div class="popTitle">{{ $t("main.cart.list.mainCartliDisGoods") }}</div>
+    <div class="cartlist">
+        <div v-if="cartNum">
+            <el-table
+                :data="tableData"
+                :default-expand-all="true"
+                :stripe="false"
+                tooltip-effect="dark"
+                style="width: 100%" align="right">
+                <el-table-column type="expand">
+                    <template slot-scope="scope">
+                        <div v-if="scope.row.discount && scope.row.discount.length>0" class="discountTable subtable">
+                            <div class="popover">
+                                <div class="popTitle">{{ $t("main.cart.list.mainCartliDisGoods") }}</div>
+                            </div>
+                            <el-table
+                                :data="scope.row.discount"
+                                :show-header="false"
+                                style="width: 100%">
+                                <el-table-column align="center" width="48">
+                                    <template slot-scope="subscope">
+                                        <el-checkbox v-model="subscope.row.checked" @change="selectChange(subscope.row)"
+                                                     :disabled="subscope.row.noChecked"></el-checkbox>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column align="center" width="600">
+                                    <template slot-scope="subscope">
+                                        <!--<router-link :to="{name:'info',query:{id : subscope.row.id}}" target="_blank">-->
+                                        <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + subscope.row.id"
+                                           target="_blank">
+                                            <div class="item-img"
+                                                 :style="{backgroundImage : 'url(' + subscope.row.full_url + '!item_small)'}"></div>
+                                            <div class="content">
+                                                <p :title="subscope.row.item_name">{{subscope.row.item_name}}</p>
+                                            </div>
+                                            <ul class="other">
+                                                <li v-for="(item,index) in subscope.row.item_props">
+                                                    <p v-for="(val,key) in item.prop_value" :title="val">
+                                                        {{key}}:{{val}}</p>
+                                                </li>
+                                            </ul>
+                                            <!--</router-link>-->
+                                        </a>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")'
+                                                 align="center" class="price">
+                                    <template slot-scope="subscope">
+                                        <p class="oldPrice">
+                                            <lts-money :money="subscope.row.price"></lts-money>
+                                        </p>
+                                        <p>
+                                            <lts-money :money="subscope.row.price_real"></lts-money>
+                                        </p>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column prop="" width="100" :label='$t("main.cart.list.mainCartliStock")'
+                                                 align="center">
+                                    <template slot-scope="subscope">
+                                        <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">{{
+                                            $t("main.cart.list.mainCartliAvailable") }}</p>
+                                        <p class="outOfStock" v-else>{{ $t("main.cart.list.mainCartliStockInsuff")
+                                            }}</p>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="200" prop="num"
+                                                 align="center">
+                                    <template slot-scope="subscope">
+                                        <div class="inputNumber">
+                                            <el-input-number :min='1' size="small" v-model="subscope.row.num"
+                                                             @change="inputNumeberChange(subscope.row,scope.$index,subscope.$index)"
+                                                             :class="{'outOfStock':(subscope.row.num > subscope.row.storage)}"
+                                                             :label='$t("main.cart.list.mainCartliDescWord")'></el-input-number>
+                                        </div>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="90"
+                                                 align="center">
+                                    <template slot-scope="subscope">
+                                        <div class="count">
+                                            <lts-money :money="subscope.row.num * subscope.row.price_real"></lts-money>
+                                        </div>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column :label='$t("main.cart.list.mainCartliOpera")' width="" align="center">
+                                    <template slot-scope="subscope">
+                                        <div class="cart-delete" @click="deleteHandle(subscope.$index, subscope.row)">
+                                            <i class="iconfont icon-shanchu"></i>
+                                        </div>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                        </div>
+                        <div v-else-if="scope.row.reduce && scope.row.reduce.length>0" class="reduceTable subtable">
+                            <div class="popover">
+                                <div class="popTitle">{{ $t("main.cart.list.mainCartliOnsaleGoods") }}</div>
+                            </div>
+                            <el-table
+                                :data="scope.row.reduce"
+                                :show-header="false"
+                                style="width: 100%">
+                                <el-table-column align="center" width="48">
+                                    <template slot-scope="subscope">
+                                        <el-checkbox v-model="subscope.row.checked" @change="selectChange(subscope.row)"
+                                                     :disabled="subscope.row.noChecked"></el-checkbox>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column align="center" width="600">
+                                    <template slot-scope="subscope">
+                                        <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + subscope.row.id"
+                                           target="_blank">
+                                            <div class="item-img"
+                                                 :style="{backgroundImage : 'url(' + subscope.row.full_url + '!item_small)'}"></div>
+                                            <div class="content">
+                                                <p :title="subscope.row.item_name">{{subscope.row.item_name}}</p>
+                                            </div>
+                                            <ul class="other">
+                                                <li v-for="(item,index) in subscope.row.item_props">
+                                                    <p v-for="(val,key) in item.prop_value" :title="val">
+                                                        {{key}}:{{val}}</p>
+                                                </li>
+                                            </ul>
+                                        </a>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")'
+                                                 align="center" class="price">
+                                    <template slot-scope="subscope">
+                                        <p class="oldPrice">
+                                            <lts-money :money="subscope.row.price"></lts-money>
+                                        </p>
+                                        <p>
+                                            <lts-money :money="subscope.row.price_real"></lts-money>
+                                        </p>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column prop="" width="100" :label='$t("main.cart.list.mainCartliStock")'
+                                                 align="center">
+                                    <template slot-scope="subscope">
+                                        <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">{{
+                                            $t("main.cart.list.mainCartliAvailable") }}</p>
+                                        <p class="outOfStock" v-else>{{ $t("main.cart.list.mainCartliStockInsuff")
+                                            }}</p>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="200" prop="num"
+                                                 align="center">
+                                    <template slot-scope="subscope">
+                                        <div class="inputNumber">
+                                            <el-input-number :min='1' size="small" v-model="subscope.row.num"
+                                                             @change="inputNumeberChange(subscope.row,scope.$index,subscope.$index)"
+                                                             :class="{'outOfStock':(subscope.row.num > subscope.row.storage)}"
+                                                             :label='$t("main.cart.list.mainCartliDescWord")'></el-input-number>
+                                        </div>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="90"
+                                                 align="center">
+                                    <template slot-scope="subscope">
+                                        <div class="count">
+                                            <lts-money :money="subscope.row.num * subscope.row.price_real"></lts-money>
+                                        </div>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column :label='$t("main.cart.list.mainCartliOpera")' width="" align="center">
+                                    <template slot-scope="subscope">
+                                        <div class="cart-delete" @click="deleteHandle(subscope.$index, subscope.row)">
+                                            <i class="iconfont icon-shanchu"></i>
+                                        </div>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                        </div>
+                        <div v-else-if="scope.row.limit && scope.row.limit.length>0">
+                            <div v-for="limitItem in scope.row.limit" :key="limitItem.id" class="limitTable subtable">
+                                <div class="popover">
+                                    <div class="popTitle" :class="{ 'noStart': !limitItem[0].rule.started }">{{
+                                        $t("main.cart.list.mainCartliOnsaleLimits") }} <span
+                                            v-show="false">{{rending}}</span></div>
+                                    <div class="popDetail"
+                                         :class="[{ 'noStart': !limitItem[0].rule.started }, {'started': limitItem[0].rule.started}]">
+                                        <div v-if="!limitItem[0].rule.finished">
+                                            <span v-if="limitItem[0].rule.started">{{$t("main.cart.list.mainCartliEndCountdown")}}</span>
+                                            <span v-else>{{$t("main.cart.list.mainCartliStartCountdown")}}</span>：
+                                            <span v-if="limitItem[0].rule.day">{{limitItem[0].rule.day}}{{$t("main.detail.info.mainDetInfoDay")}}</span>
+                                        </div>
+                                        <div v-else-if="limitItem[0].rule.finished">
+                                            <span>{{$t("main.detail.info.mainDetInLimitOver")}}</span>
+                                        </div>
+                                        <div class="timeDown" v-if="!limitItem[0].rule.finished">
+                                            <div>{{limitItem[0].rule.hr}}</div>
+                                            :
+                                            <div>{{limitItem[0].rule.min}}</div>
+                                            :
+                                            <div>{{limitItem[0].rule.sec}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <el-table
+                                    :data="limitItem"
+                                    :show-header="false"
+                                    style="width: 100%">
+                                    <el-table-column align="center" width="48">
+                                        <template slot-scope="subscope">
+                                            <el-checkbox v-model="subscope.row.checked"
+                                                         @change="selectChange(subscope.row)"
+                                                         :disabled="(!(subscope.row.rule.started && !subscope.row.rule.finished) || subscope.row.noChecked)"></el-checkbox>
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column align="center" width="600">
+                                        <template slot-scope="subscope">
+                                            <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + subscope.row.id"
+                                               target="_blank">
+                                                <div class="item-img"
+                                                     :style="{backgroundImage : 'url(' + subscope.row.full_url + '!item_small)'}"></div>
+                                                <div class="content">
+                                                    <p :title="subscope.row.item_name">{{subscope.row.item_name}}</p>
+                                                </div>
+                                                <ul class="other">
+                                                    <li v-for="(item,index) in subscope.row.item_props">
+                                                        <p v-for="(val,key) in item.prop_value" :title="val">
+                                                            {{key}}:{{val}}</p>
+                                                    </li>
+                                                </ul>
+                                            </a>
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column prop="price" width=""
+                                                     :label='$t("main.cart.list.mainCartliUnitPrice")' align="center"
+                                                     class="price">
+                                        <template slot-scope="subscope">
+                                            <p class="oldPrice">
+                                                <lts-money :money="subscope.row.price"></lts-money>
+                                            </p>
+                                            <p>
+                                                <lts-money :money="subscope.row.price_real"></lts-money>
+                                            </p>
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column prop="" width="100" :label='$t("main.cart.list.mainCartliStock")'
+                                                     align="center">
+                                        <template slot-scope="subscope">
+                                            <p v-if="(subscope.row.item_props[0].storage >= subscope.row.num) && subscope.row.num >= subscope.row.rule.minimum && subscope.row.num <= subscope.row.rule.maxinum ">
+                                                {{
+                                                $t("main.cart.list.mainCartliAvailable") }}</p>
+                                            <p class="outOfStock" v-else>{{ $t("main.cart.list.mainCartliStockInsuff")
+                                                }}</p>
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="200" prop="num"
+                                                     align="center">
+                                        <template slot-scope="subscope">
+                                            <div class="inputNumber">
+                                                <!--:min='subscope.row.mininum'-->
+                                                <!--:max="subscope.row.item_props[0].storage > subscope.row.maxinum ? subscope.row.maxinum : subscope.row.item_props[0].storage"-->
+                                                <el-input-number
+                                                    :min="1"
+                                                    size="small"
+                                                    :class="{'outOfStock':(subscope.row.num > subscope.storage) || (subscope.row.num < subscope.row.rule.minimum)}"
+                                                    v-model="subscope.row.num"
+                                                    @change="inputNumeberChange(subscope.row,scope.$index,subscope.$index)"
+                                                    :label='$t("main.cart.list.mainCartliDescWord")'></el-input-number>
+                                            </div>
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="90"
+                                                     align="center">
+                                        <template slot-scope="subscope">
+                                            <div class="count">
+                                                <lts-money
+                                                    :money="subscope.row.num * subscope.row.price_real"></lts-money>
+                                            </div>
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column :label='$t("main.cart.list.mainCartliOpera")' width=""
+                                                     align="center">
+                                        <template slot-scope="subscope">
+                                            <div class="cart-delete"
+                                                 @click="deleteHandle(subscope.$index, subscope.row)">
+                                                <i class="iconfont icon-shanchu"></i>
+                                            </div>
+                                        </template>
+                                    </el-table-column>
+                                </el-table>
+                            </div>
+                        </div>
+                        <div v-else-if="scope.row.others && scope.row.others.length>0" class="otherTable subtable">
+                            <div class="popover">
+                                <div class="popTitle">{{ $t("main.cart.list.mainCartliOnsaleFull") }}</div>
+                            </div>
+                            <el-table
+                                :data="scope.row.others"
+                                :show-header="false"
+                                style="width: 100%">
+                                <el-table-column align="center" width="48">
+                                    <template slot-scope="subscope">
+                                        <el-checkbox v-model="subscope.row.checked" @change="selectChange(subscope.row)"
+                                                     :disabled="subscope.row.noChecked"></el-checkbox>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column align="center" width="600">
+                                    <template slot-scope="subscope">
+                                        <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + subscope.row.id"
+                                           target="_blank">
+                                            <div class="item-img"
+                                                 :style="{backgroundImage : 'url(' + subscope.row.full_url + '!item_small)'}"></div>
+                                            <div class="content">
+                                                <p :title="subscope.row.item_name">{{subscope.row.item_name}}</p>
+                                            </div>
+                                            <ul class="other">
+                                                <li v-for="(item,index) in subscope.row.item_props">
+                                                    <p v-for="(val,key) in item.prop_value" :title="val">
+                                                        {{key}}:{{val}}</p>
+                                                </li>
+                                            </ul>
+                                        </a>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")'
+                                                 align="center" class="price">
+                                    <template slot-scope="subscope">
+                                        <p class="oldPrice" v-if="subscope.row.price != subscope.row.price_real">
+                                            <lts-money :money="subscope.row.price"></lts-money>
+                                        </p>
+                                        <p>
+                                            <lts-money :money="subscope.row.price_real"></lts-money>
+                                        </p>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column prop="" width="100" :label='$t("main.cart.list.mainCartliStock")'
+                                                 align="center">
+                                    <template slot-scope="subscope">
+                                        <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">{{
+                                            $t("main.cart.list.mainCartliAvailable") }}</p>
+                                        <p class="outOfStock" v-else>{{ $t("main.cart.list.mainCartliStockInsuff")
+                                            }}</p>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="200" prop="num"
+                                                 align="center">
+                                    <template slot-scope="subscope">
+                                        <div class="inputNumber">
+                                            <el-input-number :min='1' size="small" v-model="subscope.row.num"
+                                                             @change="inputNumeberChange(subscope.row,scope.$index,subscope.$index)"
+                                                             :class="{'outOfStock':(subscope.row.num > subscope.row.storage)}"
+                                                             :label='$t("main.cart.list.mainCartliDescWord")'></el-input-number>
+                                        </div>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="90"
+                                                 align="center">
+                                    <template slot-scope="subscope">
+                                        <div class="count">
+                                            <p>
+                                                <lts-money
+                                                    :money="subscope.row.num * subscope.row.price_real"></lts-money>
+                                            </p>
+                                        </div>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column :label='$t("main.cart.list.mainCartliOpera")' width="" align="center">
+                                    <template slot-scope="subscope">
+                                        <div class="cart-delete" @click="deleteHandle(subscope.$index, subscope.row)">
+                                            <i class="iconfont icon-shanchu"></i>
+                                        </div>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column :label='$t("main.cart.list.mainCartliGoodsInfo")' width="600"></el-table-column>
+                <el-table-column width="" :label='$t("main.cart.list.mainCartliPrice")'
+                                 align="center"></el-table-column>
+                <el-table-column width="100" :label='$t("main.cart.list.mainCartliStock")'
+                                 align="center"></el-table-column>
+                <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="200" prop="num"
+                                 align="center"></el-table-column>
+                <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="90"
+                                 align="center"></el-table-column>
+                <el-table-column :label='$t("main.cart.list.mainCartliOpera")' width=""
+                                 align="center"></el-table-column>
+            </el-table>
+            <div class="table-footer">
+                <div class="choose">
+                    <el-checkbox :label='$t("main.cart.list.mainCartliCheckedAll")' v-model="selectedAll"
+                                 @change="selectAll"></el-checkbox>
+                    <span>{{checkedItem.length}} {{ $t("main.cart.other.mainCartUnit") }} {{ $t("main.cart.list.mainCartliCheckedItem") }}</span>
                 </div>
-                <el-table
-                  :data="scope.row.discount"
-                  :show-header="false"
-                  style="width: 100%">
-                  <el-table-column align="center" width="48">
-                    <template slot-scope="subscope">
-                      <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)" :disabled="subscope.row.noChecked"></el-checkbox>
-                    </template>
-                  </el-table-column>
-                  <el-table-column align="center" width="600">
-                    <template slot-scope="subscope">
-                      <!--<router-link :to="{name:'info',query:{id : subscope.row.id}}" target="_blank">-->
-                        <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + subscope.row.id" target="_blank">
-                        <div class="item-img"
-                             :style="{backgroundImage : 'url(' + subscope.row.full_url + '!item_small)'}"></div>
-                        <div class="content">
-                          <p :title="subscope.row.item_name">{{subscope.row.item_name}}</p>
-                        </div>
-                        <ul class="other">
-                          <li v-for="(item,index) in subscope.row.item_props">
-                            <p v-for="(val,key) in item.prop_value" :title="val">{{key}}:{{val}}</p>
-                          </li>
-                        </ul>
-                      <!--</router-link>-->
-                        </a>
-                    </template>
-                  </el-table-column>
-                  <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center" class="price">
-                    <template slot-scope="subscope">
-                        <p class="oldPrice">
-                            <lts-money :money="subscope.row.price"></lts-money>
-                        </p>
-                        <p>
-                            <lts-money :money="subscope.row.price_real"></lts-money>
-                        </p>
-                    </template>
-                  </el-table-column>
-                  <el-table-column prop="" width="100" :label='$t("main.cart.list.mainCartliStock")' align="center">
-                    <template slot-scope="subscope">
-                      <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">{{
-                        $t("main.cart.list.mainCartliAvailable") }}</p>
-                      <p class="outOfStock" v-else>{{ $t("main.cart.list.mainCartliStockInsuff") }}</p>
-                    </template>
-                  </el-table-column>
-                  <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="200" prop="num" align="center">
-                    <template slot-scope="subscope">
-                      <div class="inputNumber">
-                        <el-input-number :min='1' size="small" v-model="subscope.row.num"
-                                         @change="inputNumeberChange(subscope.row,scope.$index,subscope.$index)"
-                                         :class="{'outOfStock':(subscope.row.num > subscope.row.storage)}"
-                                         :label='$t("main.cart.list.mainCartliDescWord")'></el-input-number>
-                      </div>
-                    </template>
-                  </el-table-column>
-                  <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="90" align="center">
-                    <template slot-scope="subscope">
-                      <div class="count" >
-                        <lts-money :money="subscope.row.num * subscope.row.price_real"></lts-money>
-                      </div>
-                    </template>
-                  </el-table-column>
-                  <el-table-column :label='$t("main.cart.list.mainCartliOpera")' width="" align="center">
-                    <template slot-scope="subscope">
-                      <div class="cart-delete" @click="deleteHandle(subscope.$index, subscope.row)">
-                        <i class="iconfont icon-shanchu"></i>
-                      </div>
-                    </template>
-                  </el-table-column>
-                </el-table>
-              </div>
-              <div v-else-if="scope.row.reduce && scope.row.reduce.length>0" class="reduceTable subtable">
-                <div class="popover">
-                  <div class="popTitle">{{ $t("main.cart.list.mainCartliOnsaleGoods") }}</div>
-                </div>
-                <el-table
-                  :data="scope.row.reduce"
-                  :show-header="false"
-                  style="width: 100%">
-                  <el-table-column align="center" width="48">
-                    <template slot-scope="subscope">
-                      <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)" :disabled="subscope.row.noChecked"></el-checkbox>
-                    </template>
-                  </el-table-column>
-                  <el-table-column align="center" width="600">
-                    <template slot-scope="subscope">
-                      <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + subscope.row.id" target="_blank">
-                        <div class="item-img"
-                             :style="{backgroundImage : 'url(' + subscope.row.full_url + '!item_small)'}"></div>
-                        <div class="content">
-                          <p :title="subscope.row.item_name">{{subscope.row.item_name}}</p>
-                        </div>
-                        <ul class="other">
-                          <li v-for="(item,index) in subscope.row.item_props">
-                            <p v-for="(val,key) in item.prop_value" :title="val">{{key}}:{{val}}</p>
-                          </li>
-                        </ul>
-                      </a>
-                    </template>
-                  </el-table-column>
-                  <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center" class="price">
-                    <template slot-scope="subscope">
-                        <p class="oldPrice">
-                            <lts-money :money="subscope.row.price"></lts-money>
-                        </p>
-                        <p>
-                            <lts-money :money="subscope.row.price_real"></lts-money>
-                        </p>
-                    </template>
-                  </el-table-column>
-                  <el-table-column prop="" width="100" :label='$t("main.cart.list.mainCartliStock")' align="center">
-                    <template slot-scope="subscope">
-                      <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">{{
-                        $t("main.cart.list.mainCartliAvailable") }}</p>
-                      <p class="outOfStock"  v-else>{{ $t("main.cart.list.mainCartliStockInsuff") }}</p>
-                    </template>
-                  </el-table-column>
-                  <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="200" prop="num" align="center">
-                    <template slot-scope="subscope">
-                      <div class="inputNumber">
-                        <el-input-number :min='1' size="small" v-model="subscope.row.num"
-                                         @change="inputNumeberChange(subscope.row,scope.$index,subscope.$index)"
-                                         :class="{'outOfStock':(subscope.row.num > subscope.row.storage)}"
-                                         :label='$t("main.cart.list.mainCartliDescWord")'></el-input-number>
-                      </div>
-                    </template>
-                  </el-table-column>
-                  <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="90" align="center">
-                    <template slot-scope="subscope">
-                      <div class="count">
-                        <lts-money :money="subscope.row.num * subscope.row.price_real"></lts-money>
-                      </div>
-                    </template>
-                  </el-table-column>
-                  <el-table-column :label='$t("main.cart.list.mainCartliOpera")' width="" align="center">
-                    <template slot-scope="subscope">
-                      <div class="cart-delete" @click="deleteHandle(subscope.$index, subscope.row)">
-                        <i class="iconfont icon-shanchu"></i>
-                      </div>
-                    </template>
-                  </el-table-column>
-                </el-table>
-              </div>
-              <div v-else-if="scope.row.limit && scope.row.limit.length>0" >
-                <div v-for="limitItem in scope.row.limit" :key="limitItem.id" class="limitTable subtable">
-                  <div class="popover">
-                    <div class="popTitle" :class="{ 'noStart': !limitItem[0].rule.started }">{{ $t("main.cart.list.mainCartliOnsaleLimits") }} <span v-show="false">{{rending}}</span></div>
-                    <div class="popDetail" :class="[{ 'noStart': !limitItem[0].rule.started }, {'started': limitItem[0].rule.started}]">
-                      <div v-if="!limitItem[0].rule.finished">
-                        <span v-if="limitItem[0].rule.started">{{$t("main.cart.list.mainCartliEndCountdown")}}</span>
-                        <span v-else>{{$t("main.cart.list.mainCartliStartCountdown")}}</span>：
-                        <span v-if="limitItem[0].rule.day">{{limitItem[0].rule.day}}{{$t("main.detail.info.mainDetInfoDay")}}</span>
-                      </div>
-                      <div v-else-if="limitItem[0].rule.finished">
-                        <span>{{$t("main.detail.info.mainDetInLimitOver")}}</span>
-                      </div>
-                      <div class="timeDown" v-if="!limitItem[0].rule.finished">
-                        <div>{{limitItem[0].rule.hr}}</div>:
-                        <div>{{limitItem[0].rule.min}}</div>:
-                        <div>{{limitItem[0].rule.sec}}</div>
-                      </div>
-                    </div>
-                  </div>
-                  <el-table
-                    :data="limitItem"
-                    :show-header="false"
-                    style="width: 100%">
-                    <el-table-column align="center" width="48">
-                      <template slot-scope="subscope">
-                        <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)" :disabled="(!(subscope.row.rule.started && !subscope.row.rule.finished) || subscope.row.noCheched)"></el-checkbox>
-                      </template>
-                    </el-table-column>
-                    <el-table-column align="center" width="600">
-                      <template slot-scope="subscope">
-                        <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + subscope.row.id" target="_blank">
-                          <div class="item-img"
-                               :style="{backgroundImage : 'url(' + subscope.row.full_url + '!item_small)'}"></div>
-                          <div class="content">
-                            <p :title="subscope.row.item_name">{{subscope.row.item_name}}</p>
-                          </div>
-                          <ul class="other">
-                            <li v-for="(item,index) in subscope.row.item_props">
-                              <p v-for="(val,key) in item.prop_value" :title="val">{{key}}:{{val}}</p>
-                            </li>
-                          </ul>
-                        </a>
-                      </template>
-                    </el-table-column>
-                    <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center" class="price">
-                      <template slot-scope="subscope">
-                          <p class="oldPrice">
-                              <lts-money :money="subscope.row.price"></lts-money>
-                          </p>
-                          <p>
-                              <lts-money :money="subscope.row.price_real"></lts-money>
-                          </p>
-                      </template>
-                    </el-table-column>
-                    <el-table-column prop="" width="100" :label='$t("main.cart.list.mainCartliStock")' align="center">
-                      <template slot-scope="subscope">
-                        <p v-if="(subscope.row.item_props[0].storage >= subscope.row.num) && subscope.row.num >= subscope.row.rule.minimum && subscope.row.num <= subscope.row.rule.maxinum ">{{
-                          $t("main.cart.list.mainCartliAvailable") }}</p>
-                        <p class="outOfStock"  v-else>{{ $t("main.cart.list.mainCartliStockInsuff") }}</p>
-                      </template>
-                    </el-table-column>
-                    <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="200" prop="num" align="center">
-                      <template slot-scope="subscope">
-                        <div class="inputNumber">
-                            <!--:min='subscope.row.mininum'-->
-                            <!--:max="subscope.row.item_props[0].storage > subscope.row.maxinum ? subscope.row.maxinum : subscope.row.item_props[0].storage"-->
-                          <el-input-number
-                              :min="1"
-                              size="small"
-                              :class="{'outOfStock':(subscope.row.num > subscope.storage) || (subscope.row.num < subscope.row.rule.minimum || subscope.row.num > subscope.row.rule.maxinum)}"
-                              v-model="subscope.row.num"
-                              @change="inputNumeberChange(subscope.row,scope.$index,subscope.$index)"
-                              :label='$t("main.cart.list.mainCartliDescWord")'></el-input-number>
-                        </div>
-                      </template>
-                    </el-table-column>
-                    <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="90" align="center">
-                      <template slot-scope="subscope">
-                        <div class="count">
-                          <lts-money :money="subscope.row.num * subscope.row.price_real"></lts-money>
-                        </div>
-                      </template>
-                    </el-table-column>
-                    <el-table-column :label='$t("main.cart.list.mainCartliOpera")' width="" align="center">
-                      <template slot-scope="subscope">
-                        <div class="cart-delete" @click="deleteHandle(subscope.$index, subscope.row)">
-                          <i class="iconfont icon-shanchu"></i>
-                        </div>
-                      </template>
-                    </el-table-column>
-                  </el-table>
-                </div>
-              </div>
-              <div v-else-if="scope.row.others && scope.row.others.length>0" class="otherTable subtable">
-                <div class="popover">
-                  <div class="popTitle">{{ $t("main.cart.list.mainCartliOnsaleFull") }}</div>
-                </div>
-                <el-table
-                  :data="scope.row.others"
-                  :show-header="false"
-                  style="width: 100%">
-                  <el-table-column align="center" width="48">
-                    <template slot-scope="subscope">
-                      <el-checkbox v-model="subscope.row.checked"  @change="selectChange(subscope.row)" :disabled="subscope.row.noChecked"></el-checkbox>
-                    </template>
-                  </el-table-column>
-                  <el-table-column align="center" width="600">
-                    <template slot-scope="subscope">
-                      <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + subscope.row.id" target="_blank">
-                        <div class="item-img"
-                             :style="{backgroundImage : 'url(' + subscope.row.full_url + '!item_small)'}"></div>
-                        <div class="content">
-                          <p :title="subscope.row.item_name">{{subscope.row.item_name}}</p>
-                        </div>
-                        <ul class="other">
-                          <li v-for="(item,index) in subscope.row.item_props">
-                            <p v-for="(val,key) in item.prop_value" :title="val">{{key}}:{{val}}</p>
-                          </li>
-                        </ul>
-                      </a>
-                    </template>
-                  </el-table-column>
-                  <el-table-column prop="price" width="" :label='$t("main.cart.list.mainCartliUnitPrice")' align="center" class="price">
-                    <template slot-scope="subscope">
-                        <p class="oldPrice" v-if="subscope.row.price != subscope.row.price_real"><lts-money :money="subscope.row.price"></lts-money></p>
-                        <p><lts-money :money="subscope.row.price_real"></lts-money></p>
-                    </template>
-                  </el-table-column>
-                  <el-table-column prop="" width="100" :label='$t("main.cart.list.mainCartliStock")' align="center">
-                    <template slot-scope="subscope">
-                      <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">{{
-                        $t("main.cart.list.mainCartliAvailable") }}</p>
-                      <p class="outOfStock"  v-else>{{ $t("main.cart.list.mainCartliStockInsuff") }}</p>
-                    </template>
-                  </el-table-column>
-                  <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="200" prop="num" align="center">
-                    <template slot-scope="subscope">
-                      <div class="inputNumber">
-                        <el-input-number :min='1' size="small" v-model="subscope.row.num"
-                                         @change="inputNumeberChange(subscope.row,scope.$index,subscope.$index)"
-                                         :class="{'outOfStock':(subscope.row.num > subscope.row.storage)}"
-                                         :label='$t("main.cart.list.mainCartliDescWord")'></el-input-number>
-                      </div>
-                    </template>
-                  </el-table-column>
-                  <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="90" align="center">
-                    <template slot-scope="subscope">
-                      <div class="count">
-                        <p><lts-money :money="subscope.row.num * subscope.row.price_real"></lts-money></p>
-                      </div>
-                    </template>
-                  </el-table-column>
-                  <el-table-column :label='$t("main.cart.list.mainCartliOpera")' width="" align="center">
-                    <template slot-scope="subscope">
-                      <div class="cart-delete" @click="deleteHandle(subscope.$index, subscope.row)">
-                        <i class="iconfont icon-shanchu"></i>
-                      </div>
-                    </template>
-                  </el-table-column>
-                </el-table>
-              </div>
-            </template>
-          </el-table-column>
-          <el-table-column :label='$t("main.cart.list.mainCartliGoodsInfo")' width="600"></el-table-column>
-          <el-table-column width="" :label='$t("main.cart.list.mainCartliPrice")' align="center"></el-table-column>
-          <el-table-column width="100" :label='$t("main.cart.list.mainCartliStock")' align="center"></el-table-column>
-          <el-table-column :label='$t("main.cart.list.mainCartliNum")' width="200" prop="num" align="center"></el-table-column>
-          <el-table-column :label='$t("main.cart.list.mainCartliSubtotal")' width="90" align="center"></el-table-column>
-          <el-table-column :label='$t("main.cart.list.mainCartliOpera")' width="" align="center"></el-table-column>
-        </el-table>
-        <div class="table-footer">
-          <div class="choose">
-            <el-checkbox :label='$t("main.cart.list.mainCartliCheckedAll")' v-model="selectedAll"
-                         @change="selectAll"></el-checkbox>
-              <span>{{checkedItem.length}} {{ $t("main.cart.other.mainCartUnit") }} {{ $t("main.cart.list.mainCartliCheckedItem") }}</span>
-          </div>
-          <div class="check">
-            <div class="info">
-              <div class="topline">
+                <div class="check">
+                    <div class="info">
+                        <div class="topline">
                 <span>{{ $t("main.cart.list.mainCartliAllPrice") }} ({{ $t("main.cart.other.mainCartNo") }} {{ $t("main.cart.settle.mainCartSeTax") }}, {{ $t("main.cart.settle.mainCartSeFright") }})：<lts-money
-                  :money="totalPrice"></lts-money></span>
-              </div>
-              <div class="bottomline">
-                <div><span>{{ $t("main.cart.list.mainCartliBenefit") }}：-</span> <lts-money :money="totalPrice - realTotal"></lts-money>
+                    :money="totalPrice"></lts-money></span>
+                        </div>
+                        <div class="bottomline">
+                            <div><span>{{ $t("main.cart.list.mainCartliBenefit") }}：-</span>
+                                <lts-money :money="totalPrice - realTotal"></lts-money>
+                            </div>
+                            <!--<div><span>满减：<lts-money :money="minusPro"></lts-money></span></div>-->
+                            <div><span>{{ $t("main.cart.list.mainCartliShouldPay") }}：</span><span class="bold"><lts-money
+                                :money="realTotal"></lts-money></span></div>
+                        </div>
+                    </div>
+                    <el-button @click="check" :disabled="checkedItem.length <= 0 || outStock">{{
+                        $t("main.cart.list.mainCartliImmeSettle") }}
+                    </el-button>
                 </div>
-                  <!--<div><span>满减：<lts-money :money="minusPro"></lts-money></span></div>-->
-                <div><span>{{ $t("main.cart.list.mainCartliShouldPay") }}：</span><span class="bold"><lts-money
-                  :money="realTotal"></lts-money></span></div>
-              </div>
             </div>
-            <el-button @click="check" :disabled="checkedItem.length <= 0 || outStock">{{
-              $t("main.cart.list.mainCartliImmeSettle") }}
-            </el-button>
-          </div>
         </div>
-      </div>
-      <div v-else class="cartNull">
-          <div class="img" :style="'backgroundImage: url(' + nullImg + ')'"></div>
-          <div class="text">
-              <p>{{$t("main.cart.list.mainCartliTextOne")}}</p>
-              <p>{{$t("main.cart.list.mainCartliTextTwo")}}<a href="/">{{$t("main.cart.list.mainCartliTextThree")}}</a>{{$t("main.cart.list.mainCartliTextFour")}}</p>
-          </div>
-      </div>
-  </div>
+        <div v-else class="cartNull">
+            <div class="img" :style="'backgroundImage: url(' + nullImg + ')'"></div>
+            <div class="text">
+                <p>{{$t("main.cart.list.mainCartliTextOne")}}</p>
+                <p>{{$t("main.cart.list.mainCartliTextTwo")}}<a
+                    href="/">{{$t("main.cart.list.mainCartliTextThree")}}</a>{{$t("main.cart.list.mainCartliTextFour")}}
+                </p>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
-  import cartService from '@/services/CartService.js'
-  import timeService from '@/services/TimeService.js'
-  import Vue from 'vue'
-  export default {
-    name: 'list',
-    data () {
-      return {
-        nullImg: require('@/assets/img/cartNull.png'),
-        rending:1,
-        expands: [], // 默认展开全部
-        checked: false,
-        chooseAll: false,
-          outStock:false,
-        historyData: [],
-        tableData: [
-          {discount: []},
-          {reduce: []},
-          {limit: []},
-          {others: []}
-        ],
-        tableDataItem: {}, // 购物车所有数据
-        multipleSelection: [],
-        totalPrice: 0,
-        realTotal: 0,
-        selectedAll: true,
-        cart: {
-          cartTotal: 0,
-          cartPriceTotal: 0
+    import cartService from '@/services/CartService.js'
+    import timeService from '@/services/TimeService.js'
+    import itemService from '@/services/ItemService'
+    import Vue from 'vue'
+
+    export default {
+        name: 'list',
+        data() {
+            return {
+                nullImg: require('@/assets/img/cartNull.png'),
+                rending: 1,
+                expands: [], // 默认展开全部
+                checked: false,
+                chooseAll: false,
+                outStock: false,
+                historyData: [],
+                tableData: [
+                    {discount: []},
+                    {reduce: []},
+                    {limit: []},
+                    {others: []}
+                ],
+                tableDataItem: {}, // 购物车所有数据
+                multipleSelection: [],
+                totalPrice: 0,
+                realTotal: 0,
+                selectedAll: true,
+                cart: {
+                    cartTotal: 0,
+                    cartPriceTotal: 0
+                },
+                checkedItem: [], // 已选商品
+                cartNum: 1,
+                fullrule: [], // 满减规则
+                minusPro: 0, // 满减
+            }
         },
-        checkedItem: [], // 已选商品
-        cartNum:1,
-        fullrule:[], // 满减规则
-        minusPro:0, // 满减
-      }
-    },
-    mounted () {
-      setTimeout(() => {
-        this.queryCartList()
-        this.minus()
-        // this.putCartPlus()
-      }, 20)
-    },
-    methods: {
-      // 删除选中商品
-      deleteChecked () {
-        this.checkedItem.forEach((item) => {
-          this.tableData.forEach((value) => {
-          })
-        })
-      },
-      // 删除失效商品
-      deleteInvalid () {
-
-      },
-      // 全选框-改变每行数据的checked
-      selectAll () {
-        if (this.selectedAll) {
-          this.checkedItem = JSON.parse(JSON.stringify(this.tableDataItem))
-          this.checkedItem.forEach((item, index) => {
-              if(item.discount_type == 4 && item.rule){
-                  if(item.rule.started && !item.rule.finished){
-                  }else{
-                      this.checkedItem.splice(index, 1)
-                    if(this.checkedItem.length == 0){
-                      this.selectedAll = false
-                    }
-                  }
-              }
-              if(item.noChecked){
-                this.checkedItem.splice(index, 1)
-                if(this.checkedItem.length == 0){
-                  this.selectedAll = false
-                }
-              }
-              // this.inputNumeberChange(item)
-          })
-          this.tableData.forEach((table,index,array) => {
-            for(let key in table){
-              if(key != 'undefined'){
-                this.tableData[index][key].forEach((item,count) => {
-                  if(item.length > 0){
-                    if(item[0].rule.started && !item[0].rule.finished){
-                      item[0].checked = true;
-                      let cloneItem = item[0];
-                      Vue.set(item,0,cloneItem);
-                      if(!item[0].noChecked){
-                        item[0].checked = true;
-                      }
-                    }else{
-                    }
-                  }else{
-                    if(!item.noChecked){
-                      item.checked = true;
-                    }
-                  }
-                  Vue.set(this.tableData[index][key],count,item)
-                })
-              }
-            }
-            Vue.set(this.tableData,index,this.tableData[index])
-          })
-          this.selectedAll = true
-        }else {
-          this.checkedItem = []
-          this.tableData.forEach((table,index) => {
-            for(let key in table) {
-              if (key != 'undefined') {
-                table[key].forEach((item, count) => {
-                  if (item.length > 0) {
-                    if (item.length > 0) {
-                      item[0].checked = false;
-                      let cloneItem = item[0];
-                      Vue.set(item, 0, cloneItem);
-                    }
-                  } else {
-                    item.checked = false;
-                  }
-                  Vue.set(this.tableData[index][key], count, item)
-                })
-              }
-            }
-            Vue.set(this.tableData,index,this.tableData[index])
-          })
-        }
-          this.calcMinus(this.checkedItem)
-          this.canSubmit(this.checkedItem)
-      },
-      // 单选框
-      selectChange (row) {
-        if(this.checkedItem.length == 0){
-          this.checkedItem.push(row)
-          this.calcMinus(this.checkedItem)
-          if (this.checkedItem.length === this.tableDataItem.length) {
-            this.selectedAll = true
-          }
-          this.canSubmit(this.checkedItem)
-        }else{
-          let ids = []
-          this.checkedItem.forEach((t,index) => {
-            ids.push(t.id)
-          })
-          if(ids.indexOf(row.id) != -1){
-            this.checkedItem.splice(ids.indexOf(row.id), 1)
-            if(this.checkedItem.length == 0){
-              this.selectedAll = false
-            }
-            row.checked = false;
-            this.selectedAll = false
-          }else {
-            this.checkedItem.push(row)
-            row.checked  = true
-          }
-          this.calcMinus(this.checkedItem)
-          if (this.checkedItem.length === this.tableDataItem.length) {
-            this.selectedAll = true
-          }
-          this.canSubmit(this.checkedItem)
-        }
-
-        this.tableData.forEach((table,index,array) => {
-          for(let key in table){
-            if(key != 'undefined') {
-              this.tableData[index][key].forEach((item, count) => {
-                if (item.length > 0 && item[0].id == row.id && JSON.stringify(item[0].item_props[0].prop_value) == JSON.stringify(row.item_props[0].prop_value)) {
-                  Vue.set(item, 0, row);
-                  Vue.set(this.tableData[index][key], count, item)
-                } else if (item.id == row.id && JSON.stringify(item.item_props[0].prop_value) == JSON.stringify(row.item_props[0].prop_value)) {
-                  Vue.set(this.tableData[index][key], count, row)
-                }
-                Vue.set(this.tableData[index][key], count, item)
-              })
-            }
-          }
-          Vue.set(this.tableData,index,this.tableData[index])
-         })
-        Vue.set(this.tableData)
-
-      },
-        // 计算是否可以提交
-        canSubmit(item){
-          let self = this
-            item.forEach(value => {
-                if((value.num > value.storage) || ((value.discount_type == 4 && value.rule)&& (value.num < value.rule.minimum || value.num > value.rule.maxinum) )){
-                  self.outStock = true
-                  value.noChecked = true
-                  value.checked = false
-                    return false
-                }else{
-                    self.outStock = false
-                }
-            })
+        mounted() {
+            setTimeout(() => {
+                this.queryCartList()
+                this.minus()
+                // this.putCartPlus()
+            }, 20)
         },
-      // 计算价格
-      calc (checked) {
-        this.totalPrice = 0
-        this.realTotal = 0
-        let _this = this
-        checked.forEach((item) => {
-          _this.totalPrice += item.num * item.price
-          _this.realTotal = _this.realTotal + item.num * item.price_real
-        })
-        _this.realTotal = _this.realTotal - _this.minusPro
-      },
-      queryCartList () {
-        cartService.queryCartList().then((data) => {
-          this.tableData = [
-            {discount: []},
-            {reduce: []},
-            {limit: []},
-            {others: []}
-          ]
-          this.cartNum = data.datalist.length
-          this.tableDataItem = data.datalist
-            this.tableDataItem.forEach((value) => {
-              value.item_props.forEach((item) => {
-                item.prop_value = JSON.parse(item.prop_value)
-              })
-              // value.noChecked = false
-              // value.checked = true
-              if(value.num > value.item_props[0].storage){
-                value.noChecked = true
-                value.checked = false
-              }else{
-                value.noChecked = false
-                value.checked = true
-              }
-              if (value.discount_type === 0){
-                // value.realPrice = value.item_props[0].price
-                this.tableData[3].others.push(value)
-              }
-              if (value.discount_type === 1) {
-                this.tableData[0].discount.push(value)
-              }
-              if (value.discount_type === 2) {
-                this.tableData[1].reduce.push(value)
-              }
-              if (value.discount_type === 4) {
-                value.rule = JSON.parse(value.sale_rule)
-                value.item_props[0].storage = value.rule.total
-                value.price_real = value.rule.price
-                let now
-                timeService.getUtcTime(value.rule.endTime).then(v1 => {
-                  value.rule.end = new Date(v1.time).getTime()
-                  timeService.getUtcTime(value.rule.startTime).then(v2 => {
-                    value.rule.start = new Date(v2.time).getTime()
-                    timeService.getTimeAndZone().then(v3 => {
-                      now = new Date(v3.current_time).getTime()
-                      if(value.rule.start > now){
-                        // 活动未开始
-                        value.noChecked = true
-                        value.started = false
-                        value.checked = false
-                        this.countdown(value,now)
-                      }else if (value.rule.end > now) {
-                          this.countdown(value,now)
-
-                        value.checked = true
-                      } else {
-                        // 活动结束，不显示了
-                        value.noChecked = true
-                        value.finished = true
-                        value.checked = false
-                      }
-                      this.tableData[2].limit.push([value])
-                      this.selectAll()
+        methods: {
+            // 删除选中商品
+            deleteChecked() {
+                this.checkedItem.forEach((item) => {
+                    this.tableData.forEach((value) => {
                     })
-                  })
                 })
-              }else{
-                this.selectAll()
-              }
-            })
+            },
+            // 删除失效商品
+            deleteInvalid() {
 
-        }, (msg) => {
-          this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
-        })
-      },
-      putCartPlus (item) {
-        return new Promise((resolve, reject) => {
-          cartService.putCartPlus(item, item.item_props[0]).then((data) => {
-            resolve(data)
-          }, (msg) => {
-            this.$ltsMessage.show({type: 'error', message: msg.error_message})
-            reject(msg)
-          })
-        })
-      },
-      // 购物车结算
-      check () {
-        this.$emit('submit', 1)
-        this.$router.push({
-          name: 'settle',
-          params: {'items': this.checkedItem, 'cartItems': this.cartItemList, 'cartTotal': this.cart}
-        })
-      },
-      // 修改购物车数量
-      inputNumeberChange (row,index,subIndex) {
-        let _this = this
-        // this.$nextTick(() => {
-        setTimeout(() => {
-          if(row.num > row.item_props[0].storage){
-            row.noChecked = true
-            row.checked = false
-              for(let key in _this.tableData[index]){
-                if(key != 'undefined') {
-                  _this.$set(_this.tableData[index][key], subIndex, row)
-                  _this.$set(_this.tableData[index][key])
-                  _this.$set(_this.tableData[index])
-                  _this.$set(_this.tableData)
+            },
+            // 全选框-改变每行数据的checked
+            selectAll() {
+                if (this.selectedAll) {
+                    this.checkedItem = JSON.parse(JSON.stringify(this.tableDataItem))
+                    this.checkedItem.forEach((item, index) => {
+                        if (item.discount_type == 4 && item.rule) {
+                            if (item.rule.started && !item.rule.finished) {
+                            } else {
+                                this.checkedItem.splice(index, 1)
+                                if (this.checkedItem.length == 0) {
+                                    this.selectedAll = false
+                                }
+                            }
+                        }
+                        if (item.noChecked) {
+                            this.checkedItem.splice(index, 1)
+                            if (this.checkedItem.length == 0) {
+                                this.selectedAll = false
+                            }
+                        }
+                        // this.inputNumeberChange(item)
+                    })
+                    this.tableData.forEach((table, index, array) => {
+                        for (let key in table) {
+                            if (key != 'undefined') {
+                                this.tableData[index][key].forEach((item, count) => {
+                                    if (item.length > 0) {
+                                        if (item[0].rule.started && !item[0].rule.finished) {
+                                            item[0].checked = true;
+                                            let cloneItem = item[0];
+                                            Vue.set(item, 0, cloneItem);
+                                            if (!item[0].noChecked) {
+                                                item[0].checked = true;
+                                            }else{
+                                                item[0].checked = false;
+                                            }
+                                        } else {
+                                            item[0].checked = false;
+                                        }
+                                    } else {
+                                        if (!item.noChecked) {
+                                            item.checked = true;
+                                        }else{
+                                            item.checked = false;
+                                        }
+                                    }
+                                    Vue.set(this.tableData[index][key], count, item)
+                                })
+                            }
+                        }
+                        Vue.set(this.tableData, index, this.tableData[index])
+                    })
+                    this.selectedAll = true
+                } else {
+                    this.checkedItem = []
+                    this.tableData.forEach((table, index) => {
+                        for (let key in table) {
+                            if (key != 'undefined') {
+                                table[key].forEach((item, count) => {
+                                    if (item.length > 0) {
+                                        if (item.length > 0) {
+                                            item[0].checked = false;
+                                            let cloneItem = item[0];
+                                            Vue.set(item, 0, cloneItem);
+                                        }
+                                    } else {
+                                        item.checked = false;
+                                    }
+                                    Vue.set(this.tableData[index][key], count, item)
+                                })
+                            }
+                        }
+                        Vue.set(this.tableData, index, this.tableData[index])
+                    })
                 }
-              }
-            _this.checkedItem.forEach((t,index) => {
-              if(t.id === row.id){
-                _this.checkedItem.splice(index,1)
-                if(this.checkedItem.length == 0){
-                  this.selectedAll = false
+                this.calcMinus(this.checkedItem)
+                this.canSubmit(this.checkedItem)
+            },
+            // 单选框
+            selectChange(row) {
+                if (this.checkedItem.length == 0) {
+                    this.checkedItem.push(row)
+                    this.calcMinus(this.checkedItem)
+                    if (this.checkedItem.length === this.tableDataItem.length) {
+                        this.selectedAll = true
+                    }
+                    this.canSubmit(this.checkedItem)
+                } else {
+                    let ids = []
+                    this.checkedItem.forEach((t, index) => {
+                        ids.push(t.id)
+                    })
+                    if (ids.indexOf(row.id) != -1) {
+                        this.checkedItem.splice(ids.indexOf(row.id), 1)
+                        if (this.checkedItem.length == 0) {
+                            this.selectedAll = false
+                        }
+                        row.checked = false;
+                        this.selectedAll = false
+                    } else {
+                        this.checkedItem.push(row)
+                        row.checked = true
+                    }
+                    this.calcMinus(this.checkedItem)
+                    if (this.checkedItem.length === this.tableDataItem.length) {
+                        this.selectedAll = true
+                    }
+                    this.canSubmit(this.checkedItem)
                 }
-              }
-            })
-          }else{
-            row.noChecked = false
-            _this.checkedItem.forEach((t,index) => {
-              if(t.id === row.id){
-                t.num = row.num
-              }
-            })
-            for(let key in _this.tableData[index]){
-              if(key != 'undefined') {
-                _this.$set(_this.tableData[index][key], subIndex, row)
-                _this.$set(_this.tableData[index][key])
-                _this.$set(_this.tableData[index])
-                _this.$set(_this.tableData)
-              }
-            }
-          }
-          _this.putCartPlus(row).then((data) => {
-            _this.calcMinus(_this.checkedItem)
-            _this.canSubmit(_this.checkedItem)
-          }, (msg) => {
-            // this.$ltsMessage.show({type:'error',message:msg.error_message})
-          })
-        },100)
-        // })
-      },
-      // 删除购物车条目
-      deleteHandle (index, row) {
-        row.num = 0
-        this.putCartPlus(row).then((data) => {
-          this.queryCartList()
-        }, (msg) => {
-          this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
-        })
-      },
-      // 倒计时计算
-      countdown(value,now){
-        let item  = value.rule
-        let start = item.start
-        let end = item.end
-        let date
-        // 判断活动是否开始
-        if (now < start) {
-          // 还没开始
-          item.started = false
-          item.finished = false
-          date = item.start
-            if(this.tableDataItem.length){
-                this.tableDataItem.forEach((val,index) => {
-                    if(val.id === value.id){
-                        this.tableDataItem.splice(index, 1)
+
+                this.tableData.forEach((table, index, array) => {
+                    for (let key in table) {
+                        if (key != 'undefined') {
+                            this.tableData[index][key].forEach((item, count) => {
+                                if (item.length > 0 && item[0].id == row.id && JSON.stringify(item[0].item_props[0].prop_value) == JSON.stringify(row.item_props[0].prop_value)) {
+                                    Vue.set(item, 0, row);
+                                    Vue.set(this.tableData[index][key], count, item)
+                                } else if (item.id == row.id && JSON.stringify(item.item_props[0].prop_value) == JSON.stringify(row.item_props[0].prop_value)) {
+                                    Vue.set(this.tableData[index][key], count, row)
+                                }
+                                Vue.set(this.tableData[index][key], count, item)
+                            })
+                        }
+                    }
+                    Vue.set(this.tableData, index, this.tableData[index])
+                })
+                Vue.set(this.tableData)
+
+            },
+            // 计算是否可以提交
+            canSubmit(item) {
+                let self = this
+                item.forEach(value => {
+                    if ((value.num > value.storage) || ((value.discount_type == 4 && value.rule) && (value.num < value.rule.minimum || value.num > value.rule.maxinum))) {
+                        self.outStock = true
+                        value.noChecked = true
+                        value.checked = false
+                        return false
+                    } else {
+                        self.outStock = false
                     }
                 })
-            }
-
-        } else if (start <= now <= end) {
-          // 开始了还没结束
-          item.started = true
-          item.finished = false
-          date = item.end
-        } else {
-          item.started = true
-          item.finished = true
-          this.tableDataItem.forEach((val,index) => {
-            if(val.id === value.id){
-              this.tableDataItem.splice(index, 1)
-            }
-          })
-          return false
-        }
-        let msec = date - now
-        this.rending++
-        // 计算时分秒数
-        item.day = parseInt(msec / 1000 / 60 / 60 / 24)
-        item.hr = parseInt(msec / 1000 / 60 / 60 % 24)
-        item.min = parseInt(msec / 1000 / 60 % 60)
-        item.sec = parseInt(msec / 1000 % 60)
-        // 个位数前补零
-        item.hr = item.hr > 9 ? item.hr : '0' + item.hr
-        item.min = item.min > 9 ? item.min : '0' + item.min
-        item.sec = item.sec > 9 ? item.sec : '0' + item.sec
-        // 倒计时开始
-        if (msec >= 0) {
-          setTimeout(() => {
-            this.countdown(value,now + 1000)
-          }, 1000)
-        }
-      },
-        // 查询是否有满减活动
-        minus(){
-          cartService.getFullSetting().then((data) => {
-              if(data.datalist.length >0 ){
-                  this.fullrule = data.datalist
-              }
-          }, (msg) => {
-              this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
-          })
-        },
-        calcMinus(item){
-            let sum = 0
-            this.minusPro = 0
-            if(item.length > 0){
-                item.forEach((value) => {
-                    if(value.discount_type === 0){
-                        sum += value.price * value.num
-                    }
+            },
+            // 计算价格
+            calc(checked) {
+                this.totalPrice = 0
+                this.realTotal = 0
+                let _this = this
+                checked.forEach((item) => {
+                    _this.totalPrice += item.num * item.price
+                    _this.realTotal = _this.realTotal + item.num * item.price_real
                 })
-                if(this.fullrule.length > 0){
-                    this.fullrule.forEach((value) => {
-                        if(sum >= value.start_v){
-                            this.minusPro = value.value
+                _this.realTotal = _this.realTotal - _this.minusPro
+            },
+            queryCartList() {
+                cartService.queryCartList().then((data) => {
+                    this.tableData = [
+                        {discount: []},
+                        {reduce: []},
+                        {limit: []},
+                        {others: []}
+                    ]
+                    this.cartNum = data.datalist.length
+                    this.tableDataItem = data.datalist
+                    this.tableDataItem.forEach((value) => {
+                        value.item_props.forEach((item) => {
+                            item.propValue = JSON.parse(item.prop_value)
+                            item.prop_value = JSON.parse(item.prop_value)
+                        })
+                        // value.noChecked = false
+                        // value.checked = true
+                        if (value.num > value.item_props[0].storage) {
+                            value.noChecked = true
+                            value.checked = false
+                        } else {
+                            value.noChecked = false
+                            value.checked = true
+                        }
+                        if (value.discount_type === 0) {
+                            // value.realPrice = value.item_props[0].price
+                            this.tableData[3].others.push(value)
+                        }
+                        if (value.discount_type === 1) {
+                            this.tableData[0].discount.push(value)
+                        }
+                        if (value.discount_type === 2) {
+                            this.tableData[1].reduce.push(value)
+                        }
+                        if (value.discount_type === 4) {
+                            value.rule = JSON.parse(value.sale_rule)
+                            value.item_props[0].storage = value.rule.total
+                            value.price_real = value.rule.price
+                            let now
+                            timeService.getUtcTime(value.rule.endTime).then(v1 => {
+                                value.rule.end = new Date(v1.time).getTime()
+                                timeService.getUtcTime(value.rule.startTime).then(v2 => {
+                                    value.rule.start = new Date(v2.time).getTime()
+                                    timeService.getTimeAndZone().then(v3 => {
+                                        now = new Date(v3.current_time).getTime()
+                                        if (value.rule.start > now) {
+                                            // 活动未开始
+                                            value.noChecked = true
+                                            value.started = false
+                                            value.checked = false
+                                            this.countdown(value, now)
+                                        } else if (value.rule.end > now) {
+                                            this.countdown(value, now)
+
+                                            value.checked = true
+                                        } else {
+                                            // 活动结束，不显示了
+                                            value.noChecked = true
+                                            value.finished = true
+                                            value.checked = false
+                                        }
+                                        this.tableData[2].limit.push([value])
+                                        this.selectAll()
+                                    })
+                                })
+                            })
+                        } else {
+                            this.selectAll()
                         }
                     })
+
+                }, (msg) => {
+                    this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
+                })
+            },
+            putCartPlus(item) {
+                return new Promise((resolve, reject) => {
+                    cartService.putCartPlus(item, item.item_props[0]).then((data) => {
+                        resolve(data)
+                    }, (msg) => {
+                        this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                        reject(msg)
+                    })
+                })
+            },
+            // 购物车结算
+            check() {
+                this.$emit('submit', 1)
+                this.$router.push({
+                    name: 'settle',
+                    params: {'items': this.checkedItem, 'cartItems': this.cartItemList, 'cartTotal': this.cart}
+                })
+            },
+            // 修改购物车数量
+            inputNumeberChange(row, index, subIndex) {
+                let _this = this
+                // this.$nextTick(() => {
+                setTimeout(() => {
+                    if ((row.num > row.item_props[0].storage) || (row.rule && row.num > row.rule.maxinum) || (row.rule && row.num > row.rule.total)) {
+                        row.noChecked = true
+                        row.checked = false
+                        for (let key in _this.tableData[index]) {
+                            if (key != 'undefined') {
+                                if(row.discount_type == 4){
+                                    itemService.searchItem({discountType:0,sin:row.sin}).then((resp) => {
+                                        let otherGoodsItem
+                                        if(resp.data.item_d_o_list.length > 0){
+                                            otherGoodsItem = resp.data.item_d_o_list[0]
+                                            otherGoodsItem.num = row.num - row.rule.maxinum
+                                            otherGoodsItem.item_struct_props.forEach(t => {
+                                                if(JSON.stringify(row.item_props[0].prop_value) == t.prop_value){
+                                                    cartService.putCartPlus({id:otherGoodsItem.id, num:otherGoodsItem.num},t).then(data => {
+                                                        location.reload()
+                                                    }, err => {
+                                                        this.$ltsMessage.show({type: 'error', message: err.error_message})
+                                                    })
+                                                }
+                                            })
+                                        }
+                                    })
+                                    _this.$set(_this.tableData[index][key][subIndex], 0, row)
+                                    _this.$set(_this.tableData[index][key][subIndex])
+                                }
+                                else{
+                                    _this.$set(_this.tableData[index][key], subIndex, row)
+                                }
+                                _this.$set(_this.tableData[index][key])
+                                _this.$set(_this.tableData[index])
+                                _this.$set(_this.tableData)
+                            }
+                        }
+                        _this.checkedItem.forEach((t, index) => {
+                            if (t.id === row.id) {
+                                _this.checkedItem.splice(index, 1)
+                                if (this.checkedItem.length == 0) {
+                                    this.selectedAll = false
+                                }
+                            }
+                        })
+                    } else {
+                        row.noChecked = false
+                        _this.checkedItem.forEach((t, index) => {
+                            if (t.id === row.id) {
+                                t.num = row.num
+                            }
+                        })
+                        for (let key in _this.tableData[index]) {
+                            if (key != 'undefined') {
+                                if(row.discount_type == 4){
+                                    _this.$set(_this.tableData[index][key][subIndex], 0, row)
+                                    _this.$set(_this.tableData[index][key][subIndex])
+                                }
+                                else{
+                                    _this.$set(_this.tableData[index][key], subIndex, row)
+                                }
+                                _this.$set(_this.tableData[index][key])
+                                _this.$set(_this.tableData[index])
+                                _this.$set(_this.tableData)
+                            }
+                        }
+                    }
+                    if (row.parent_id && row.sale_rule_do.maxinum && (row.num > row.sale_rule_do.maxinum)) {
+                        itemService.getItemDetail(this.item.parent_id).then((resp) => {
+                            this.otherGoodsItem = resp.data.item
+                            this.otherGoodsItem.num = row.num - row.sale_rule_do.maxinum
+                            row.num = row.sale_rule_do.maxinum
+                            if (JSON.stringify(this.otherGoodsItem) != '{}') {
+                                this.otherGoodsItem.item_struct_props.forEach(t => {
+                                    if (JSON.stringify(row.item_props[0].prop_value) == t.prop_value) {
+                                        this.otherItemSpu = t
+                                        _this.putCartPlus(row).then((data) => {
+                                            _this.calcMinus(_this.checkedItem)
+                                            _this.canSubmit(_this.checkedItem)
+                                            cartService.putCartPlus(this.otherGoodsItem, this.otherItemSpu).then((data) => {
+                                                location.reload()
+                                            }, (msg) => {
+                                                this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                                            })
+                                        }, (msg) => {
+                                            // this.$ltsMessage.show({type:'error',message:msg.error_message})
+                                        })
+                                    }
+                                })
+                            }
+                        })
+                    } else {
+                        _this.putCartPlus(row).then((data) => {
+                            _this.calcMinus(_this.checkedItem)
+                            _this.canSubmit(_this.checkedItem)
+                        }, (msg) => {
+                            // this.$ltsMessage.show({type:'error',message:msg.error_message})
+                        })
+                    }
+                }, 100)
+                // })
+            },
+            // 删除购物车条目
+            deleteHandle(index, row) {
+                row.num = 0
+                this.putCartPlus(row).then((data) => {
+                    this.queryCartList()
+                }, (msg) => {
+                    this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
+                })
+            },
+            // 倒计时计算
+            countdown(value, now) {
+                let item = value.rule
+                let start = item.start
+                let end = item.end
+                let date
+                // 判断活动是否开始
+                if (now < start) {
+                    // 还没开始
+                    item.started = false
+                    item.finished = false
+                    date = item.start
+                    if (this.tableDataItem.length) {
+                        this.tableDataItem.forEach((val, index) => {
+                            if (val.id === value.id) {
+                                this.tableDataItem.splice(index, 1)
+                            }
+                        })
+                    }
+
+                } else if (start <= now <= end) {
+                    // 开始了还没结束
+                    item.started = true
+                    item.finished = false
+                    date = item.end
+                } else {
+                    item.started = true
+                    item.finished = true
+                    this.tableDataItem.forEach((val, index) => {
+                        if (val.id === value.id) {
+                            this.tableDataItem.splice(index, 1)
+                        }
+                    })
+                    return false
+                }
+                let msec = date - now
+                this.rending++
+                // 计算时分秒数
+                item.day = parseInt(msec / 1000 / 60 / 60 / 24)
+                item.hr = parseInt(msec / 1000 / 60 / 60 % 24)
+                item.min = parseInt(msec / 1000 / 60 % 60)
+                item.sec = parseInt(msec / 1000 % 60)
+                // 个位数前补零
+                item.hr = item.hr > 9 ? item.hr : '0' + item.hr
+                item.min = item.min > 9 ? item.min : '0' + item.min
+                item.sec = item.sec > 9 ? item.sec : '0' + item.sec
+                // 倒计时开始
+                if (msec >= 0) {
+                    setTimeout(() => {
+                        this.countdown(value, now + 1000)
+                    }, 1000)
+                }
+            },
+            // 查询是否有满减活动
+            minus() {
+                cartService.getFullSetting().then((data) => {
+                    if (data.datalist.length > 0) {
+                        this.fullrule = data.datalist
+                    }
+                }, (msg) => {
+                    this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
+                })
+            },
+            calcMinus(item) {
+                let sum = 0
+                this.minusPro = 0
+                if (item.length > 0) {
+                    item.forEach((value) => {
+                        if (value.discount_type === 0) {
+                            sum += value.price * value.num
+                        }
+                    })
+                    if (this.fullrule.length > 0) {
+                        this.fullrule.forEach((value) => {
+                            if (sum >= value.start_v) {
+                                this.minusPro = value.value
+                            }
+                        })
+                    }
+                }
+                this.calc(this.checkedItem)
+            }
+        },
+        watch: {
+            tableData: {
+                deep: true,
+                handler(newval, oldval) {
+                    this.cart.cartTotal = 0
+                    this.cart.cartPriceTotal = 0
+                    newval.forEach((value, index, array) => {
+                        if (value.num === 0) {
+                            array.splice(index, 1)
+                        }
+                        this.cart.cartTotal = parseInt(value.num) + parseInt(this.cart.cartTotal)
+                        this.cart.cartPriceTotal += parseInt(value.num) * parseInt(value.price)
+                    })
                 }
             }
-            this.calc(this.checkedItem)
         }
-    },
-    watch: {
-      tableData: {
-        deep: true,
-        handler (newval, oldval) {
-          this.cart.cartTotal = 0
-          this.cart.cartPriceTotal = 0
-          newval.forEach((value, index, array) => {
-            if (value.num === 0) {
-              array.splice(index, 1)
-            }
-            this.cart.cartTotal = parseInt(value.num) + parseInt(this.cart.cartTotal)
-            this.cart.cartPriceTotal += parseInt(value.num) * parseInt(value.price)
-          })
-        }
-      }
     }
-  }
 </script>
 
 <style lang="less">
-  .cartlist {
+    .cartlist {
 
-    .el-table__header-wrapper {
-      height: 40px;
-    }
-    thead {
-      tr {
-        th {
-          background-color: #f2f2f2;
-          .el-checkbox {
-            margin-left: -16px;
-          }
-          .cell {
-            margin-top: -4px;
-          }
-        }
-        th:nth-child(2) {
-          .cell {
-            text-align: left;
-          }
-        }
-      }
-    }
-    .el-table {
-      font-size: 14px;
-      tbody tr td:nth-child(2) {
-        p {
-          line-height: 30px;
-          text-align: center;
-        }
-      }
-      .el-table__row.expanded {
-        display: none;
-      }
-      .el-table__expanded-cell {
-        padding: 0;
-        border-bottom:none;
-        .subtable {
-          margin-top: 40px;
-          border: 1px solid #ddd;
-          position: relative;
-          .popover {
-            position: absolute;
-            top: -40px;
+        .el-table__header-wrapper {
             height: 40px;
-            left: 20px;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            .popTitle {
-              padding: 4px;
-              background: #f48719;
-              color: white;
-              border-radius: 4px 4px 4px 0;
-            }
-            .popTitle::before {
-              content: '';
-              position: absolute;
-              top: 75%;
-              left: 0;
-              width: 0;
-              height: 0;
-              border-top: 8px solid #f48719;
-              border-right: 8px solid transparent;
-            }
-            .popDetail {
-              margin-left: 10px;
-              display: flex;
-              padding: 4px;
-              color: white;
-              border-radius: 4px 4px 4px 0;
-              .timeDown{
-                margin-left: 4px;
-                display: flex;
-                div{
-                  padding: 0 2px;
-                  margin:1px 2px;
-                  border-radius: 4px;
+        }
+        thead {
+            tr {
+                th {
+                    background-color: #f2f2f2;
+                    .el-checkbox {
+                        margin-left: -16px;
+                    }
+                    .cell {
+                        margin-top: -4px;
+                    }
                 }
-              }
+                th:nth-child(2) {
+                    .cell {
+                        text-align: left;
+                    }
+                }
             }
-            .noStart{
-              background: #a7a7a7;
-              .timeDown div{
-                background: #6d6d6d;
-              }
-            }.noStart::before {
-                 border-top: 8px solid #a7a7a7;
-             }
-            .popDetail.started{
-              background: #f48719;
-              .timeDown div{
-                background: #E94740;
-              }
+        }
+        .el-table {
+            font-size: 14px;
+            tbody tr td:nth-child(2) {
+                p {
+                    line-height: 30px;
+                    text-align: center;
+                }
             }
-          }
-          tbody {
-            tr:last-child {
-              td {
+            .el-table__row.expanded {
+                display: none;
+            }
+            .el-table__expanded-cell {
+                padding: 0;
                 border-bottom: none;
-              }
-            }
-          }
-        }
-        .otherTable.subtable{
-        }
-        .dicount {
-        }
-        .reduce {
-        }
-        .others {
+                .subtable {
+                    margin-top: 40px;
+                    border: 1px solid #ddd;
+                    position: relative;
+                    .popover {
+                        position: absolute;
+                        top: -40px;
+                        height: 40px;
+                        left: 20px;
+                        font-size: 12px;
+                        display: flex;
+                        align-items: center;
+                        .popTitle {
+                            padding: 4px;
+                            background: #f48719;
+                            color: white;
+                            border-radius: 4px 4px 4px 0;
+                        }
+                        .popTitle::before {
+                            content: '';
+                            position: absolute;
+                            top: 75%;
+                            left: 0;
+                            width: 0;
+                            height: 0;
+                            border-top: 8px solid #f48719;
+                            border-right: 8px solid transparent;
+                        }
+                        .popDetail {
+                            margin-left: 10px;
+                            display: flex;
+                            padding: 4px;
+                            color: white;
+                            border-radius: 4px 4px 4px 0;
+                            .timeDown {
+                                margin-left: 4px;
+                                display: flex;
+                                div {
+                                    padding: 0 2px;
+                                    margin: 1px 2px;
+                                    border-radius: 4px;
+                                }
+                            }
+                        }
+                        .noStart {
+                            background: #a7a7a7;
+                            .timeDown div {
+                                background: #6d6d6d;
+                            }
+                        }
+                        .noStart::before {
+                            border-top: 8px solid #a7a7a7;
+                        }
+                        .popDetail.started {
+                            background: #f48719;
+                            .timeDown div {
+                                background: #E94740;
+                            }
+                        }
+                    }
+                    tbody {
+                        tr:last-child {
+                            td {
+                                border-bottom: none;
+                            }
+                        }
+                    }
+                }
+                .otherTable.subtable {
+                }
+                .dicount {
+                }
+                .reduce {
+                }
+                .others {
 
-        }
-        a {
-          width: 100%;
-          display: flex;
-          align-items: center;
-        }
-        .item-img {
-          width: 80px;
-          height: 80px;
-          border: 1px solid #ddd;
-          background-position: center;
-          background-size: cover;
-          flex: 0 0 80px;
-        }
-        .content {
-          width: 300px;
-          margin-left: 24px;
-        }
-        .other {
-          padding: 0 6px;
-          margin-left: 24px;
-          width: auto;
+                }
+                a {
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                }
+                .item-img {
+                    width: 80px;
+                    height: 80px;
+                    border: 1px solid #ddd;
+                    background-position: center;
+                    background-size: cover;
+                    flex: 0 0 80px;
+                }
+                .content {
+                    width: 300px;
+                    margin-left: 24px;
+                }
+                .other {
+                    padding: 0 6px;
+                    margin-left: 24px;
+                    width: auto;
 
-        }
-        p.oldPrice {
-          text-decoration: line-through;
-        }
-      }
-      .el-table__expanded-cell:hover {
-        background-color: #fff !important;
-      }
-        .el-table.column.price{
-            text-align: center;
-        }
-        p.outOfStock{
-            color:#ff3b41;
-        }
-        .el-input-number.outOfStock{
-            border:1px solid #ff3b41;
-            border-radius:4px;
-        }
-      .cart-delete {
-        line-height: 40px;
-        font-size: 22px;
-        color: #cecece;
-        cursor: pointer;
-        i {
-          font-size: 18px;
-        }
-      }
-      .count {
-        color: red;
-        font-size: 16px;
-      }
-      .el-input-number--small {
-        width: 128px;
-      }
-    }
-    .table-footer {
-      margin-top: 24px;
-      display: flex;
-      border-radius: 0 4px 4px 0;
-      justify-content: space-between;
-      line-height: 40px;
-      background: #F6F6F6;
-      border:solid 1px #F6F6F6;
-      span {
-        font-size: 14px;
-        color: #999;
-      }
-      .choose {
-        margin-left: 16px;
-        .el-checkbox {
-          color: #777;
-          margin-right: 12px;
-        }
-        span.span-delete {
-          margin-left: 12px;
-          color: #b1b1b1;
-          cursor: pointer;
-        }
-        span.delete-invalid {
-          color: #ff3b41;
-        }
-      }
-      .check {
-        display: flex;
-        .info {
-          margin-right: 24px;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          div {
-            line-height: 21px;
-          }
-          .bottomline {
-            display: flex;
-            justify-content: flex-end;
-              div:first-child{
-                  margin-right: 24px;
-              }
-            span.bold span {
-              color: #ff3b41;
-              font-weight: bold;
-              font-size: 18px;
+                }
+                p.oldPrice {
+                    text-decoration: line-through;
+                }
             }
-          }
-        }
-        .el-button {
-          background-color: #ff3b41;
-          width: 160px;
-          border-radius: 0;
-          border:1px solid #ff3b41;
-          span {
-            color: #fff;
-            font-size: 18px;
-            font-weight: bold;
-          }
-        }
-
-      }
-    }
-    .history {
-      h5 {
-        line-height: 49px;
-        color: #777;
-        margin-left: 24px;
-      }
-      .items {
-        display: flex;
-        justify-content: flex-start;
-        flex-wrap: wrap;
-        padding-left: 4px;
-        li {
-          width: 290px;
-          background-color: #ffffff;
-          border: 1px solid #eee;
-          border-top: 2px solid #3d98ff;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          margin-bottom: 12px;
-          margin-right: 8px;
-          img {
-            margin: 150px 0 96px;
-          }
-          p {
-            line-height: 18px;
-            font-weight: bold;
-            font-size: 18px;
-            margin-top: 12px;
-            color: rgba(0, 0, 0, 0.7);
-            text-align: center;
-            span {
-              font-size: 14px;
-              color: rgba(0, 0, 0, 0.5);
-              font-weight: normal;
+            .el-table__expanded-cell:hover {
+                background-color: #fff !important;
             }
-          }
-          .price {
-            color: #ce2127;
-            font-size: 26px;
-            width: 266px;
-            line-height: 75px;
-            height: 75px;
-            border-top: 1px solid rgba(0, 0, 0, 0.05);
-            text-align: center;
+            .el-table.column.price {
+                text-align: center;
+            }
+            p.outOfStock {
+                color: #ff3b41;
+            }
+            .el-input-number.outOfStock {
+                border: 1px solid #ff3b41;
+                border-radius: 4px;
+            }
+            .cart-delete {
+                line-height: 40px;
+                font-size: 22px;
+                color: #cecece;
+                cursor: pointer;
+                i {
+                    font-size: 18px;
+                }
+            }
+            .count {
+                color: red;
+                font-size: 16px;
+            }
+            .el-input-number--small {
+                width: 128px;
+            }
+        }
+        .table-footer {
             margin-top: 24px;
-            margin-left: 12px;
-          }
+            display: flex;
+            border-radius: 0 4px 4px 0;
+            justify-content: space-between;
+            line-height: 40px;
+            background: #F6F6F6;
+            border: solid 1px #F6F6F6;
+            span {
+                font-size: 14px;
+                color: #999;
+            }
+            .choose {
+                margin-left: 16px;
+                .el-checkbox {
+                    color: #777;
+                    margin-right: 12px;
+                }
+                span.span-delete {
+                    margin-left: 12px;
+                    color: #b1b1b1;
+                    cursor: pointer;
+                }
+                span.delete-invalid {
+                    color: #ff3b41;
+                }
+            }
+            .check {
+                display: flex;
+                .info {
+                    margin-right: 24px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    div {
+                        line-height: 21px;
+                    }
+                    .bottomline {
+                        display: flex;
+                        justify-content: flex-end;
+                        div:first-child {
+                            margin-right: 24px;
+                        }
+                        span.bold span {
+                            color: #ff3b41;
+                            font-weight: bold;
+                            font-size: 18px;
+                        }
+                    }
+                }
+                .el-button {
+                    background-color: #ff3b41;
+                    width: 160px;
+                    border-radius: 0;
+                    border: 1px solid #ff3b41;
+                    span {
+                        color: #fff;
+                        font-size: 18px;
+                        font-weight: bold;
+                    }
+                }
+
+            }
         }
-        li:hover {
-          animation: floats 0.3s ease forwards;
+        .history {
+            h5 {
+                line-height: 49px;
+                color: #777;
+                margin-left: 24px;
+            }
+            .items {
+                display: flex;
+                justify-content: flex-start;
+                flex-wrap: wrap;
+                padding-left: 4px;
+                li {
+                    width: 290px;
+                    background-color: #ffffff;
+                    border: 1px solid #eee;
+                    border-top: 2px solid #3d98ff;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    margin-bottom: 12px;
+                    margin-right: 8px;
+                    img {
+                        margin: 150px 0 96px;
+                    }
+                    p {
+                        line-height: 18px;
+                        font-weight: bold;
+                        font-size: 18px;
+                        margin-top: 12px;
+                        color: rgba(0, 0, 0, 0.7);
+                        text-align: center;
+                        span {
+                            font-size: 14px;
+                            color: rgba(0, 0, 0, 0.5);
+                            font-weight: normal;
+                        }
+                    }
+                    .price {
+                        color: #ce2127;
+                        font-size: 26px;
+                        width: 266px;
+                        line-height: 75px;
+                        height: 75px;
+                        border-top: 1px solid rgba(0, 0, 0, 0.05);
+                        text-align: center;
+                        margin-top: 24px;
+                        margin-left: 12px;
+                    }
+                }
+                li:hover {
+                    animation: floats 0.3s ease forwards;
+                }
+            }
+            padding-bottom: 96px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
-      }
-      padding-bottom: 96px;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    }
-      .cartNull{
-          display: flex;
-          padding-top:48px;
-          padding-left: 20%;
-        .img{
-            width:268px;
-            height: 224px;
-            margin-right: 36px;
-        }
-        .text{
-            padding-top: 24px;
-            p{
-                font-size: 18px;
-                line-height: 42px;
-                color:#282828;
-                vertical-align: middle;
-                a{
-                    text-decoration: none;
-                    color: #7ec1e7;
+        .cartNull {
+            display: flex;
+            padding-top: 48px;
+            padding-left: 20%;
+            .img {
+                width: 268px;
+                height: 224px;
+                margin-right: 36px;
+            }
+            .text {
+                padding-top: 24px;
+                p {
+                    font-size: 18px;
+                    line-height: 42px;
+                    color: #282828;
+                    vertical-align: middle;
+                    a {
+                        text-decoration: none;
+                        color: #7ec1e7;
+                    }
                 }
             }
         }
-      }
-  }
+    }
 
-  @keyframes floats {
-    from {
-      border: 1px solid #eee;
-      border-top: 2px solid #3d98ff;
+    @keyframes floats {
+        from {
+            border: 1px solid #eee;
+            border-top: 2px solid #3d98ff;
+        }
+        to {
+            border: 1px solid #fff;
+            border-top: 2px solid #3d98ff;
+            box-shadow: 0px 6px 18px 6px rgba(0, 0, 0, 0.05);
+        }
     }
-    to {
-      border: 1px solid #fff;
-      border-top: 2px solid #3d98ff;
-      box-shadow: 0px 6px 18px 6px rgba(0, 0, 0, 0.05);
-    }
-  }
 
 </style>

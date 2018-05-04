@@ -59,13 +59,18 @@
             if (this.checkMobile()) {
               // 如果是移动端
               var redirectUrl = this.rootUrl
+              var flag = false
               this.rules.forEach(function (rule) {
                 var result = rule(url)
                 console.log('result', result)
                 if (result) {
+                  flag = true
                   redirectUrl += result
                 }
               })
+              if (!flag) {
+                  redirectUrl += 'index.html'
+              }  
               redirectUrl = '/mobile/' + redirectUrl
               location.href = redirectUrl.replace(/\/\//g,'/')
             }

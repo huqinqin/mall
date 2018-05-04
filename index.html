@@ -29,7 +29,7 @@
     </script>
     <script>
         var agent = {
-          rootUrl: 'http://localhost:8188/',
+          rootUrl: '/',
           rules: [],
           checkMobile: function () {
             var flag = false
@@ -40,7 +40,8 @@
             if (!(agent.indexOf('windows nt') > -1) || (agent.indexOf('windows nt') > -1 && agent.indexOf('compatible; msie 9.0;') > -1)) {
               // 排除苹果桌面系统
               if (!(agent.indexOf('windows nt') > -1) && !agent.indexOf('macintosh') > -1) {
-                for (var item in keywords) {
+                for (var k =0; k<keywords.length ;k++) {
+                  var item = keywords[k]
                   if (agent.indexOf(item) > -1) {
                     flag = true
                     break
@@ -65,7 +66,8 @@
                   redirectUrl += result
                 }
               })
-              location.href = redirectUrl
+              redirectUrl = '/mobile/' + redirectUrl
+              location.href = redirectUrl.replace(/\/\//g,'/')
             }
           }
         }

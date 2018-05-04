@@ -13,7 +13,7 @@
                     <span>{{$t("main.someinfo.mainSomeAccountBala")}}:<span class="name">${{engineerInfo.cash}}</span></span>
                     <span v-show="hasTerms" style="margin-left: 23px">{{$t("main.someinfo.mainSomePayBalance")}}:<span class="name">${{account}}</span><span>({{$t("main.someinfo.mainSomeUsed")}}<span>${{usedAcc}}</span>)</span></span>
                     <span style="margin-left: 23px">{{$t("main.someinfo.mainSomeShopCoupon")}}:
-                        <el-tooltip placement="top" effect="light">
+                        <!--<el-tooltip placement="top" effect="light">
                             <div slot="content" v-if="len>0">
                                 <div class="bgDiscount">
                                     <div class="el-icon-close iconClose" @click="closeAll"></div>
@@ -42,7 +42,38 @@
                                 </div>
                             </div>
                             <span class="name">{{len}}{{$t("main.someinfo.mainSomeEvery")}}</span>
-                        </el-tooltip>
+                        </el-tooltip>-->
+                          <el-popover
+                            placement="top"
+                            trigger="hover"
+                          >
+                              <div class="bgDiscount" v-if="len>0">
+                                    <div class="el-icon-close iconClose" @click="closeAll"></div>
+                                    <h2>{{$t("main.someinfo.mainSomeCoupon")}}</h2>
+                                    <div class="sale" v-for="item in discountData" style="margin-top: 20px">
+                                        <div class="saleTop">
+                                            <div class="saleTopTop">
+                                                <div class="saleTopLeft">
+                                                    <div class="dollar">
+                                                      <span>$</span><span>{{item.balance}}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="saleTopRight">
+                                                    <div style="color: #ff3b41">{{$t("main.someinfo.mainSomeFullCoupon")}}</div>
+                                                    <div>{{item.remark}}</div>
+                                                    <div>{{$t("main.someinfo.mainSomeFull")}}<span>{{item.startMoney}}</span>{{$t("main.someinfo.mainSomeDollar")}}（{{$t("main.someinfo.mainSomeFull")}}<span>{{item.startMoney}}</span> - <span>{{item.value}}</span>）</div>
+                                                </div>
+                                            </div>
+                                            <div class="saleBottomBottom">
+                                                <span style="margin-right: 10px">{{$t("main.someinfo.mainSomeUsedTime")}}:</span><span>{{item.startTime}}</span><span>{{$t("main.someinfo.mainSomeRange")}}</span><span>{{item.endTime}}</span>
+                                            </div>
+                                        </div>
+                                        <hr class="dosh">
+                                        <div class="saleBottom"></div>
+                                    </div>
+                                </div>
+                              <span slot="reference"><span class="name">{{len}}{{$t("main.someinfo.mainSomeEvery")}}</span></span>
+                            </el-popover>
                     </span>
                 </div>
             </div>

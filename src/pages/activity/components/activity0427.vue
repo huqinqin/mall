@@ -3,7 +3,7 @@
         <div class="banner" :style="{backgroundImage : 'url(' + img + ')'}"></div>
         <div class="navBar11">
             <p class="navBarSave">Save up to 50% on selected items</p>
-            <p class="navBarDate"><span class="navBarDate1">Good Through:</span><span class="">05/03/18</span><span>-</span><span>05/12/18</span></p>
+            <p class="navBarDate"><span class="navBarDate1">Good Through:</span><span class="">05/04/18</span><span>-</span><span>05/12/18</span></p>
         </div>
         <div class="content" v-if="data.length > 0">
             <div class="search-result">
@@ -94,7 +94,7 @@
         name: "activity",
         data(){
             return{
-                img:require('../../../assets/img/banner05021.png'),
+                img:require('../../../assets/img/banner0503.png'),
                 img1:require('../../../assets/img/saleall.png'),
                 img2:require('../../../assets/img/icon.png'),
                 img3:require('../../../assets/img/card.png'),
@@ -114,7 +114,7 @@
                     condition:[],
                     text:'',
                     page:1,
-                    pageSize:20,
+                    pageSize:1000,
                     totalPage:1,
                     cateId:'',
                     itemName:'',

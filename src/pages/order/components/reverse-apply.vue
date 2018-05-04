@@ -42,7 +42,7 @@
                     <el-input-number v-model.number="form.num" @change="changeMoney" size="small" controls-position="right" :min="1" :max="form.maxRefund" />
                 </el-form-item>
                 <el-form-item :label='$t("main.order.reverse.mainOrReRejectTotalPay")' prop="refund" >
-                    <el-input-number v-model="form.refund"  size="small" controls-position="right" :min="0" :max="orderItem.price_real * form.num / 100" />
+                    <el-input v-model="form.refund"  size="small" :min="0" />
                     <!--<lts-money :money="form.refund"></lts-money>-->
                 </el-form-item>
                 <el-form-item :label='$t("main.order.reverse.mainOrReRejectReason")' prop="reason">
@@ -195,7 +195,7 @@
                 });
             },
             beforeUpload(file){
-                const isJPG = file.type === "image/png";
+                const isJPG = ("'image/png'-'image/jpeg'-'image/jpg'".indexOf(file.type) !== -1);
                 if (!isJPG) {
                     this.$ltsMessage.show({type:'error', message:'Only picture!'});
                 }
@@ -221,7 +221,7 @@
                 }
             },
             getRefund(){
-                this.form.refund = (this.form.num * this.form.refundMoney/100).toFixed(2);
+                this.form.refund = (this.form.num * this.form.refundMoney / 100).toFixed(2);
             },
             changeMoney(){
                 this.$nextTick(()=>{

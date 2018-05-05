@@ -403,7 +403,8 @@
             },
             getItemDetail(id) {
                 itemService.getItemDetail(id).then((data) => {
-                    let skuItem=  getDefaultSkuItem(data.data.item)
+                    data.data.item.num = 1
+                    let skuItem = getDefaultSkuItem(data.data.item)
                     data.data.item.item_struct_props.forEach((value, index, array) => {
                         value.propValues = JSON.parse(value.prop_value)
                     })
@@ -596,7 +597,7 @@
                     return false
                 }
                 // 判断限时限量商品购买数量是否超过限额
-                if(this.item.parent_id && this.item.sale_rule_do.maxinum && (this.item.num > this.item.sale_rule_do.maxinum)){
+                if((JSON.stringify(this.otherGoodsItem) != '{}') && this.item.sale_rule_do.maxinum && (this.item.num > this.item.sale_rule_do.maxinum)){
                     this.otherGoodsItem.num = this.item.num - this.item.sale_rule_do.maxinum
                     this.item.num = this.item.sale_rule_do.maxinum
                 }
@@ -628,7 +629,7 @@
                     return false
                 }
                 // 判断限时限量商品购买数量是否超过限额
-                if(this.item.parent_id && this.item.sale_rule_do.maxinum && (this.item.num > this.item.sale_rule_do.maxinum)){
+                if((JSON.stringify(this.otherGoodsItem) != '{}') && this.item.sale_rule_do.maxinum && (this.item.num > this.item.sale_rule_do.maxinum)){
                     this.otherGoodsItem.num = this.item.num - this.item.sale_rule_do.maxinum
                     this.item.num = this.item.sale_rule_do.maxinum
                     if(JSON.stringify(this.otherGoodsItem) != '{}'){
@@ -651,7 +652,7 @@
                     'item_props': [this.checkedSpu],
                     'maxinum': this.item.maxinum,
                     'mininum': this.item.mininum,
-                    'num': this.item.num,
+                    'num': this.item.num ? this.item.num : 1,
                     'price': this.item.price,
                     'price_real': this.item.price_real,
                     'proxy_distribute_num': this.item.proxy_distribute_num,

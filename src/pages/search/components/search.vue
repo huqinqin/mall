@@ -55,8 +55,8 @@
                 <div class="right">
                     <div><span>{{search.page}}</span>/{{rightTotal}}</div>
                     <div class="buttons">
-                        <el-button icon="el-icon-arrow-left" @click="prePage" :disabled="search.page === 1"></el-button>
-                        <el-button icon="el-icon-arrow-right" @click="nextPage" :disabled="search.page === rightTotal"></el-button>
+                        <el-button icon="el-icon-arrow-left" @click="changePage(--search.page)" :disabled="search.page === 1"></el-button>
+                        <el-button icon="el-icon-arrow-right" @click="changePage(++search.page)" :disabled="search.page === rightTotal"></el-button>
                     </div>
                 </div>
             </div>
@@ -175,10 +175,10 @@
             },
             // 上下一页
             prePage(){
-                this.search.page--
+                this.search.page--;
             },
             nextPage(){
-                this.search.page++
+                this.search.page++;
             },
             searchWithText(spceList = {},item = ''){
                 if(item){

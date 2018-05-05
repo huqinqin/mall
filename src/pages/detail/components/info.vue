@@ -773,6 +773,7 @@
         .detailDiscount{
             width: 100%;
             height: 100px;
+            box-sizing: border-box;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -1228,7 +1229,7 @@
                 .name {
                     width: 100px;
                     line-height: 22px;
-                    height: 48px;
+                    height: 46px;
                     overflow: hidden;
                     text-overflow: ellipsis;
                     display: -webkit-box;

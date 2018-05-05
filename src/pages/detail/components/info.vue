@@ -691,8 +691,8 @@
                         'status': this.otherGoodsItem.status,
                         'storage': this.otherGoodsItem.storage,
                         'tag': this.otherGoodsItem.tag,
-                        'url': this.otherGoodsItem.url,
-                        'full_url': this.otherGoodsItem.full_url,
+                        'url': this.otherGoodsItem.image_value,
+                        'full_url': this.otherGoodsItem.image_value,
                         'sale_rule': this.otherGoodsItem.sale_rule,
                         'price_define_do': this.otherGoodsItem.price_define_do
                     }

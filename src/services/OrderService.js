@@ -124,7 +124,7 @@ export default class OrderService extends BaseService {
             pay_bank: form.payBank,
             pay_source: form.payBank,
             use_balance: form.useBalance,
-            balance_pay: form.used,
+            balance_pay: Math.round(form.used),
         };
         return super.postRequest('/trade_pay/pay_confirm',params);
     }

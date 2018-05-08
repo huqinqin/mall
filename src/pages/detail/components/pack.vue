@@ -2,9 +2,36 @@
     <div class="detail">
         <!-- top -->
         <div class="detail-top">
-            <el-table :data="">
-
+            <el-table :data="items">
+                <el-table-column prop="" label="Product Info" width="760">
+                    <template slot-scope="scope">
+                        <div class="content">
+                            <div class="img" :style="{backgroundImage:'url(' + scope.row.image_value +')'}"></div>
+                            <div class="description">
+                                <div class="name">{{scope.row.item_name}}</div>
+                                <div class="sin">{{scope.row.sin}}</div>
+                            </div>
+                            <div class="props">
+                                <p v-for="(prop,key) in scope.row.prop_value">{{key}}:{{prop}}</p>
+                            </div>
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="" label="Price" align="center">
+                    <template slot-scope="scope">
+                        <p class="red"><lts-money :money="scope.row.price_real"></lts-money></p>
+                        <p class="old" v-if="scope.row.price !== scope.row.price_real"><lts-money :money="scope.row.price"></lts-money></p>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="num" label="Quantity"  align="center"></el-table-column>
             </el-table>
+            <div class="check">
+                <div class="price">
+                    <p>Kit Price: <span class="red"><lts-money :money="140000"></lts-money></span></p>
+                    <p class="old"><lts-money :money="2100000"></lts-money></p>
+                </div>
+                <el-button tyep="primary">Buy Now</el-button>
+            </div>
         </div>
         <!-- bottom -->
         <div class="detail-bottom">
@@ -79,19 +106,34 @@
     import cartService from '@/services/CartService'
 
     export default {
-        components: {addCartSuccess},
-        name: 'detailInfo',
+        name: 'pack',
         props: {},
         data() {
             return {
-                item:[],
-                hotSale:{}
+                item: {},
+                items: [],
+                hotSale: {},
+                activeName: 'first',
+                aboutDetail: [],
+                showPropDetail: false,
             }
         },
         methods: {
             getItemDetail(id) {
                 itemService.getItemDetail(id).then((data) => {
+                    this.item = data.data.item
+                    data.data.item.package_item_list.forEach((t,index) => {
+                        t.num = 2 + Math.pow(2,index * 2)
+                        t.item_struct_props.forEach(prop => {
+                            if(prop.sku)t.prop_value = JSON.parse(prop.prop_value)
+                        })
+                    })
                     this.items = data.data.item.package_item_list
+                    data.data.item.item_struct_props.forEach((value, index, array) => {
+                        if (!value.sku) {
+                            this.aboutDetail.push(value);
+                        }
+                    })
                     this.hotSale = (data.data && data.data.hot_recomment) ? data.data.hot_recomment.items : [];
                     this.hotSale.forEach((item) => {
                         if(item.tag.indexOf('新品') != -1){
@@ -102,34 +144,17 @@
                     this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
                 })
             },
+            handleClick(tab, event) {
+                console.log(tab, event)
+            },
             addCart(item, spu) {
                 cartService.putCartPlus(item, spu).then((data) => {
-                    if (!this.showPropsError) {
-                        this.flag = true
-                    }
-                    if(JSON.stringify(this.otherGoodsItem) != '{}'){
-                        this.otherGoodsItem.item_struct_props.forEach(t => {
-                            if(this.checkedSpu.prop_value == t.prop_value){
-                                cartService.putCartPlus(this.otherGoodsItem,t).then(data => {
-                                }, err => {
-                                    this.$ltsMessage.show({type: 'error', message: err.error_message})
-                                })
-                            }
-                        })
-                    }
-                    this.selfContext.$emit('addCartSuccess')
+
                 }, (msg) => {
                     this.$ltsMessage.show({type: 'error', message: msg.error_message})
                 })
             },
             buyNow() {
-                if(JSON.stringify(this.otherGoodsItem) != '{}'){
-                    this.otherGoodsItem.item_struct_props.forEach(t => {
-                        if(this.checkedSpu.prop_value == t.prop_value){
-                            this.otherItemSpu = t
-                        }
-                    })
-                }
                 let item = {
                     'activity_id': null,
                     'attribute': this.item.attribute,
@@ -157,6 +182,7 @@
                     'sale_rule': this.item.sale_rule,
                     'price_define_do':this.item.price_define_do
                 }
+
                 let items = JSON.stringify(this.otherGoodsItem) != '{}' ? [item, otherItem] : [item]
                 localStorage.removeItem('buyNowItem')
                 localStorage.setItem('buyNowItem',JSON.stringify(items))
@@ -214,7 +240,69 @@
         .el-breadcrumb {
             font-size: 14px;
         }
+        .detail-top{
+            .el-table th{
+                background: #ff3b41;
+                font-size: 16px;
+                color: #fff;
+            }
+            .content{
+                display: flex;
+                .img{
+                    width: 80px;
+                    height: 80px;
+                    background-size: contain;
+                }
+                .description{
+                    margin-left: 24px;
+                    padding: 12px 0;
+                    width: 400px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    .name{
+                        height: 42px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 2;
+                        -webkit-box-orient: vertical;
+                    }
+                    .sin{
 
+                    }
+                }
+                .props{
+                    margin-left: 24px;
+                    padding:12px 0;
+                }
+            }
+            .old{
+                text-decoration: line-through;
+                font-size: 12px;
+                color:#e3e3e3;
+            }
+            .red{
+                color:#ff3b41;
+                font-size: 14px;
+            }
+            .check{
+                display: flex;
+                margin-top: 24px;
+                margin-bottom: 36px;
+                justify-content: flex-end;
+                .price{
+                    p{
+                        text-align: right;
+                    }
+                }
+                .el-button{
+                    background: #ff3b41;
+                    color:#fff;
+                }
+
+            }
+        }
         .detail-bottom {
             margin-top: 12px;
             .detail_side {

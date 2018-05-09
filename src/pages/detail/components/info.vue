@@ -77,7 +77,10 @@
                                 <span v-if="checkedSpu.storage > 0" class="storage_spec">{{ $t("main.detail.info.mainDetInfoStock") }}</span>
                                 <span v-else-if="checkedSpu && checkedSpu.storage <= 0" class="storage_spec">{{ $t("main.detail.info.mainDetInfoNoStock") }}</span>
                                 <div class="el-form-item__error">{{ $t("main.detail.info.mainDetInfoExceed") }}！</div>
-                                <div class="limit-red" v-if="item.discount_type == 4">{{$t("main.detail.info.mainDetPackageMin")}} {{item.sale_rule_do.minimum}}, {{$t("main.detail.info.mainDetPackageMax")}} {{item.sale_rule_do.maxinum}}</div>
+                                <div class="limit-red" v-if="item.discount_type == 4">
+                                    <span v-if="item.num <= item.sale_rule_do.maxinum">{{$t("main.detail.info.mainDetPackageMin")}} {{item.sale_rule_do.minimum}}, {{$t("main.detail.info.mainDetPackageMax")}} {{item.sale_rule_do.maxinum}}</span>
+                                    <span v-else-if="item.num > item.sale_rule_do.maxinum">Exceeds maximum quality by {{item.sale_rule_do.maxinum}} piece, promotion doesn't apply to exceed quantity</span>
+                                </div>
                             </template>
                         </el-form-item>
                     </div>
@@ -147,7 +150,7 @@
                 </div>
             </div>
         </div>
-        <a href="/search/#/detail?cateId=%5B%5D&discountype=0"><div class="detailDiscount" :style="{backgroundImage : 'url(' + img + ')'}"></div></a>
+        <a href="/activity/#/activity0427?tags=may01week&sortid=11686-11705-11706-11697-10064-11698-11699-11716-11694-11695-11696-11700-11701-11702-11690-11689-11688-11713-11703-11707-11708-11681-11682-11299-11240-11266-11287-11709-11710-11711"><div class="detailDiscount" :style="{backgroundImage : 'url(' + img + ')'}"></div></a>
         <!--configure-->
         <div class="detail-configure" v-if="otherGoods.length > 0" v-ltsLoginShow:true>
             <div class="h5">{{ $t("main.detail.info.mainDetConfigure") }}</div>
@@ -289,7 +292,7 @@
         props: {},
         data() {
             return {
-                img: require('../../../assets/img/detail0504.png'),
+                img: require('../../../assets/img/detail0508.png'),
                 packVisible: false,
                 activeName: 'first',
                 sku_1: '',
@@ -777,7 +780,7 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            border: 1px solid #f6f6f6;
+            border: 1px solid #ececec;
             margin:24px 0;
         }
 
@@ -1093,7 +1096,7 @@
                 }
                 .limit-red{
                     font-size: 12px;
-                    color:#f56c6c;
+                    /*color:#eee;*/
                     line-height: 1;
                     margin-bottom: 12px;
                 }

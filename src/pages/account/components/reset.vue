@@ -29,6 +29,9 @@
                 </el-form-item>
             </el-form>
         </main>
+        <div class="remark">
+            <span class="red">Web support:</span><span>1 83-250-1292</span><span>Support.Newjersey@ltsecurityinc.com</span>
+        </div>
     </div>
 </template>
 
@@ -136,8 +139,8 @@
     .forgotPsw{
         main{
             width:800px;
-            margin: 45px auto;
-            padding:48px 200px;
+            margin: 45px auto 0;
+            padding:48px 200px 24px;
             box-shadow: 0px 6px 30px 0px #d6d6d6;
             border:1px solid #ccc;
             .el-form{
@@ -188,6 +191,17 @@
                     background: #ff3b41;
                     width:116px;
                 }
+            }
+        }
+        .remark{
+            width:800px;
+            margin: 12px auto;
+            text-align: center;
+            span{
+                margin-right: 6px;
+            }
+            .red{
+                color:#FF3B41;
             }
         }
     }

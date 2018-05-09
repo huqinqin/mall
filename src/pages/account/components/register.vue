@@ -8,6 +8,7 @@
             <div style="float: left;width: 310px;">
                 <img :src="activeRegLogo1" alt="" class="activeLogo">
                 <img :src="activeRegBg1" alt="" class="activePic">
+                <img :src="toolsImg" alt="" class="toolPic">
             </div>
             <main>
                 <div class="title">Sign up for an Online Account</div>
@@ -147,6 +148,7 @@
             return {
                 activeRegBg1: require('@/assets/img/activeRegBg1.png'),
                 activeRegLogo1: require('@/assets/img/activeRegLogo1.png'),
+                toolsImg: require('@/assets/img/tools.png'),
                 lccode: [],
                 checked: false,
                 send: true,
@@ -350,6 +352,11 @@
             margin-bottom: 10px;
         }
         .activePic {
+            float: left;
+            width: 310px;
+            margin: 4px 0 0 0;
+        }
+        .toolPic {
             float: left;
             width: 310px;
             margin: 4px 0 0 0;

@@ -77,7 +77,10 @@
                                 <span v-if="checkedSpu.storage > 0" class="storage_spec">{{ $t("main.detail.info.mainDetInfoStock") }}</span>
                                 <span v-else-if="checkedSpu && checkedSpu.storage <= 0" class="storage_spec">{{ $t("main.detail.info.mainDetInfoNoStock") }}</span>
                                 <div class="el-form-item__error">{{ $t("main.detail.info.mainDetInfoExceed") }}！</div>
-                                <div class="limit-red" v-if="item.discount_type == 4">{{$t("main.detail.info.mainDetPackageMin")}} {{item.sale_rule_do.minimum}}, {{$t("main.detail.info.mainDetPackageMax")}} {{item.sale_rule_do.maxinum}}</div>
+                                <div class="limit-red" v-if="item.discount_type == 4">
+                                    <span v-if="item.num <= item.sale_rule_do.maxinum">{{$t("main.detail.info.mainDetPackageMin")}} {{item.sale_rule_do.minimum}}, {{$t("main.detail.info.mainDetPackageMax")}} {{item.sale_rule_do.maxinum}}</span>
+                                    <span v-else-if="item.num > item.sale_rule_do.maxinum">Exceeds maximum quality by {{item.sale_rule_do.maxinum}} piece, promotion doesn't apply to exceed quantity</span>
+                                </div>
                             </template>
                         </el-form-item>
                     </div>
@@ -1093,7 +1096,7 @@
                 }
                 .limit-red{
                     font-size: 12px;
-                    color:#f56c6c;
+                    /*color:#eee;*/
                     line-height: 1;
                     margin-bottom: 12px;
                 }

@@ -28,6 +28,7 @@
                     <el-button class="confirm" @click="submitFrom('formA')" >RESET</el-button>
                 </el-form-item>
             </el-form>
+            <button @click="test">测试</button>
         </main>
         <div class="remark">
             <span class="red">Web support:</span><span>1 83-250-1292</span><span>Support.Newjersey@ltsecurityinc.com</span>
@@ -94,12 +95,22 @@
             }
         },
         methods: {
+            test(){
+                this.$ltsMessage.show({type: 'success', message: 'Reset the password success'});
+                /*location.href = '/'*/
+                setTimeout(() => {
+                    this.$router.go(-1);
+                },1000)
+            },
             submitFrom(formName){
                 this.$refs[formName].validate((valid) => {
                     if(valid){
                         accountService.resetPass(this.resetForm).then((data) => {
                             this.$ltsMessage.show({type: 'success', message: 'Reset the password success'});
-                            location.href = '/'
+                            /*location.href = '/'*/
+                            setTimeout(() => {
+                                this.$router.go(-1);
+                            },2000)
                         },(msg) => {
                             this.$ltsMessage.show({type: 'error', message: msg.error_message});
                         })

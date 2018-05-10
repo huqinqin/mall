@@ -113,7 +113,7 @@
         }
         .list{
             background: #F6F6F6;
-            padding: 0 16px 16px;
+            padding: 0 16px 16px ;
             header{
                 display: flex;
                 justify-content: space-between;

@@ -57,7 +57,7 @@
                                 <el-table-column prop="" width="100" :label='$t("main.cart.list.mainCartliStock")'
                                                  align="center">
                                     <template slot-scope="subscope">
-                                        <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">{{
+                                        <p v-if="(subscope.row.item_props[0].storage >= subscope.row.num) && (subscope.row.num <= subscope.row.storage)">{{
                                             $t("main.cart.list.mainCartliAvailable") }}</p>
                                         <p class="outOfStock" v-else>{{ $t("main.cart.list.mainCartliStockInsuff")
                                             }}</p>
@@ -137,7 +137,7 @@
                                 <el-table-column prop="" width="100" :label='$t("main.cart.list.mainCartliStock")'
                                                  align="center">
                                     <template slot-scope="subscope">
-                                        <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">{{
+                                        <p v-if="(subscope.row.item_props[0].storage >= subscope.row.num) && (subscope.row.num <= subscope.row.storage)">{{
                                             $t("main.cart.list.mainCartliAvailable") }}</p>
                                         <p class="outOfStock" v-else>{{ $t("main.cart.list.mainCartliStockInsuff")
                                             }}</p>
@@ -240,7 +240,7 @@
                                     <el-table-column prop="" width="100" :label='$t("main.cart.list.mainCartliStock")'
                                                      align="center">
                                         <template slot-scope="subscope">
-                                            <p v-if="(subscope.row.item_props[0].storage >= subscope.row.num) && subscope.row.num >= subscope.row.rule.minimum && subscope.row.num <= subscope.row.rule.maxinum ">
+                                            <p v-if="(subscope.row.item_props[0].storage >= subscope.row.num) && subscope.row.num >= subscope.row.rule.minimum && subscope.row.num <= subscope.row.rule.maxinum  && (subscope.row.num <= subscope.row.storage)">
                                                 {{
                                                 $t("main.cart.list.mainCartliAvailable") }}</p>
                                             <p class="outOfStock" v-else>{{ $t("main.cart.list.mainCartliStockInsuff")
@@ -328,7 +328,7 @@
                                 <el-table-column prop="" width="100" :label='$t("main.cart.list.mainCartliStock")'
                                                  align="center">
                                     <template slot-scope="subscope">
-                                        <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">{{
+                                        <p v-if="subscope.row.item_props[0].storage >= subscope.row.num && (subscope.row.num <= subscope.row.storage)">{{
                                             $t("main.cart.list.mainCartliAvailable") }}</p>
                                         <p class="outOfStock" v-else>{{ $t("main.cart.list.mainCartliStockInsuff")
                                             }}</p>

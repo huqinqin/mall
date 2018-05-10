@@ -648,7 +648,7 @@
                         })
                         // value.noChecked = false
                         // value.checked = true
-                        if (value.num > value.item_props[0].storage) {
+                        if (value.num > value.item_props[0].storage || value.num > value.storage) {
                             value.noChecked = true
                             value.checked = false
                         } else {

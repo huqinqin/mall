@@ -30,7 +30,7 @@
                     <p>Kit Price: <span class="red"><lts-money :money="140000"></lts-money></span></p>
                     <p class="old"><lts-money :money="2100000"></lts-money></p>
                 </div>
-                <el-button tyep="primary">Buy Now</el-button>
+                <el-button tyep="primary" @click="buyAll">Buy Now</el-button>
             </div>
         </div>
         <!-- bottom -->
@@ -103,7 +103,6 @@
 </template>
 <script>
     import itemService from '@/services/ItemService'
-    import cartService from '@/services/CartService'
 
     export default {
         name: 'pack',
@@ -147,46 +146,35 @@
             handleClick(tab, event) {
                 console.log(tab, event)
             },
-            addCart(item, spu) {
-                cartService.putCartPlus(item, spu).then((data) => {
-
-                }, (msg) => {
-                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
+            buyAll(){
+                let allItems = []
+                this.items.forEach(t => {
+                    let sku = {}
+                    t.item_struct_props.forEach(p => {
+                        if(p.sku){
+                            sku = p
+                            return
+                        }
+                    })
+                    let item = {
+                        'discount':t.discount,
+                        'discount_type': t.discount_type,
+                        'id': t.id,
+                        'item_name': t.item_name.replace('%','%25'),
+                        'item_props': [sku],
+                        'num': t.num,
+                        'price': t.price,
+                        'price_real': t.price_real,
+                        'puser_id': t.puser_id,
+                        'spec_unit': t.spec_unit,
+                        'spu_id': sku.spu_id,
+                        'storage': t.storage,
+                        'full_url': t.image_value,
+                        'sale_rule': t.sale_rule,
+                    }
+                    allItems.push(item)
                 })
-            },
-            buyNow() {
-                let item = {
-                    'activity_id': null,
-                    'attribute': this.item.attribute,
-                    'brand': this.item.brand,
-                    'category_id': this.item.category_id,
-                    'discount':this.item.discount,
-                    'discount_type': this.item.discount_type,
-                    'id': this.item.id,
-                    'item_name': this.item.item_name.replace('%','%25'),
-                    'item_props': [this.checkedSpu],
-                    'maxinum': this.item.maxinum,
-                    'mininum': this.item.mininum,
-                    'num': this.item.num ? this.item.num : 1,
-                    'price': this.item.price,
-                    'price_real': this.item.price_real,
-                    'proxy_distribute_num': this.item.proxy_distribute_num,
-                    'puser_id': this.item.puser_id,
-                    'spec_unit': this.item.spec_unit,
-                    'spu_id': this.checkedSpu.spu_id,
-                    'status': this.item.status,
-                    'storage': this.item.storage,
-                    'tag': this.item.tag,
-                    'url': this.item.url,
-                    'full_url': this.item.full_url,
-                    'sale_rule': this.item.sale_rule,
-                    'price_define_do':this.item.price_define_do
-                }
-
-                let items = JSON.stringify(this.otherGoodsItem) != '{}' ? [item, otherItem] : [item]
-                localStorage.removeItem('buyNowItem')
-                localStorage.setItem('buyNowItem',JSON.stringify(items))
-                window.open('/cart?t=' + new Date().getTime() + '#/settle?items=' + JSON.stringify(items))
+                window.open('/cart?t=' + new Date().getTime() + '#/settle?items=' + JSON.stringify(allItems))
             },
         },
         mounted() {
@@ -280,7 +268,7 @@
             .old{
                 text-decoration: line-through;
                 font-size: 12px;
-                color:#e3e3e3;
+                color:#a3a3a3;
             }
             .red{
                 color:#ff3b41;
@@ -292,13 +280,22 @@
                 margin-bottom: 36px;
                 justify-content: flex-end;
                 .price{
+                    font-weight: bold;
+                    color:#737373;
+                    margin-right: 12px;
                     p{
                         text-align: right;
+                        line-height: 20px;
+                    }
+                    .old{
+                        text-decoration: line-through;
+                        color:#a3a3a3;
                     }
                 }
                 .el-button{
                     background: #ff3b41;
                     color:#fff;
+                    font-weight: bold;
                 }
 
             }

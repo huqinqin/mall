@@ -61,6 +61,9 @@
                                             <span v-else-if="subscope.row.last_refund_status == 2">
                                                  {{$t("main.order.list.mainOrLiSure")}}
                                             </span>
+                                            <span v-else-if="subscope.row.last_refund_status == 6">
+                                                {{$t("main.order.list.mainOrLiRealOrderReceiving")}}
+                                            </span>
                                             <span v-else-if="subscope.row.last_refund_status == 3">
                                                  {{$t("main.order.list.mainOrLiReject")}}
                                             </span>
@@ -118,6 +121,9 @@
                     </span>
                     <span v-else-if="scope.row.status == 1">
                         {{$t("main.order.list.mainOrLiRealPay")}}
+                    </span>
+                    <span v-else-if="scope.row.status == 6">
+                        {{$t("main.order.list.mainOrLiRealOrderReceiving")}}
                     </span>
                     <span v-else-if="scope.row.status == 7">
                         {{$t("main.order.list.mainOrLiRealComp")}}
@@ -216,7 +222,8 @@
                                         {label: this.$t("main.order.list.mainOrLiRealPay"), bindValue: "1"},
                                         {label: this.$t("main.order.list.mainOrLiAlreadyDeliAll"), bindValue: "2"},
                                         {label: this.$t("main.order.list.mainOrLiRealComp"), bindValue: "7"},
-                                        {label: this.$t("main.order.list.mainOrLiRealClose"), bindValue: "9"}
+                                        {label: this.$t("main.order.list.mainOrLiRealClose"), bindValue: "9"},
+                                        {label: this.$t("main.order.list.mainOrLiRealOrderReceiving"), bindValue: "6"}
                                     ]
                                 },
                                 search: {bindValue: this.$t("main.order.list.mainOrLiSearch"), type: "submitbutton"}

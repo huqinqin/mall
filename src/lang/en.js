@@ -334,6 +334,7 @@ export default {
                 mainOrLiRealPay: 'Paid',
                 mainOrLiRealComp: 'Completed',
                 mainOrLiRealClose: 'Closed',
+                mainOrLiRealOrderReceiving: 'Order Receiving',
                 mainOrLiSearch: 'Search',
                 mainOrLiAcceptSuccess: 'Proceed',
                 mainOrLiAccessFail: 'Failed to Process',

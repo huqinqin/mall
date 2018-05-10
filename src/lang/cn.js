@@ -330,6 +330,7 @@ export default {
                 mainOrLiRealPay: '已付款',
                 mainOrLiRealComp: '已完成',
                 mainOrLiRealClose: '已关闭',
+                mainOrLiRealOrderReceiving: '已接单',
                 mainOrLiSearch: '搜索',
                 mainOrLiAcceptSuccess: '受理成功',
                 mainOrLiAccessFail: '受理失败',

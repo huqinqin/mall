@@ -165,6 +165,9 @@
                 <label>{{$t("main.cart.settle.mainCartSeTax")}}</label> <span><i class="iconfont icon-jia11"></i><lts-money :money="order.fee_hd_value.TAXES_ALL"></lts-money></span>
             </div>
             <div class="text">
+                <label>Handling</label> <span><i class="iconfont icon-jia11"></i><lts-money :money="order.fee_hd_value.HANDLE_ALL"></lts-money></span>
+            </div>
+            <div class="text">
                 <label>{{$t("main.order.detail.mainOrDePayTotal")}}</label>
                 <span class="large">
                     <span v-if="order.pay_info.acc_bonus_pay"><lts-money :money="order.pay_info.pay_real - order.pay_info.acc_bonus_pay"></lts-money></span>

@@ -2,7 +2,7 @@
     <div class="packlist">
         <div class="banner" :style="{backgroundImage:'url(' + banner + ')'}"></div>
         <main class="list">
-            <div v-for="pack in datalist">
+            <div v-for="pack in datalist" class="packItem">
                 <a :href="'/detail?t=' + new Date().getTime() +'#/pack?id=' + pack.id">
                     <header>
                         <div>{{pack.item_name}}</div>
@@ -105,12 +105,15 @@
     .packlist{
         color:#737373;
         font-size: 16px;
+        background: #F6F6F6;
         .banner{
             width:100%;
             background-size: contain;
             margin-bottom: 24px;
         }
         .list{
+            background: #F6F6F6;
+            padding: 0 16px;
             header{
                 display: flex;
                 justify-content: space-between;
@@ -155,6 +158,7 @@
                 justify-content: space-around;
                 padding:0 24px;
                 align-items: center;
+                background: #fff;
                 li{
                     width: 315px;
                     height: 125px;
@@ -194,7 +198,15 @@
                         top:105px;
                     }
                 }
+
+            }
+            .packItem{
+                margin-bottom: 24px;
+            }
+            .packItem:hover{
+                box-shadow: 0 0 40px #BABABA;
             }
         }
+
     }
 </style>

@@ -4,8 +4,11 @@
             <ul>
                 <li v-for="value in menuList">
                     <div>
-                        <a :href="value.link" v-if="value.type == 'logo'" class="header-logo">
-                            <span class="iconfont" :class="value.icon"></span>
+                        <!--<a :href="value.link" v-if="value.type == 'logo'" class="header-logo">-->
+                            <!--<span class="iconfont" :class="value.icon"></span>-->
+                        <!--</a>-->
+                        <a :href="value.link" v-if="value.type == 'logo'" class="header-logo-img"
+                           :style="{backgroundImage : 'url('+ logo +')'}">
                         </a>
                         <a :href="value.link" target="_blank" v-else-if="value.name === 'support center'">
                                 <div>
@@ -14,18 +17,6 @@
                                     <p>{{value.last}}</p>
                                 </div>
                         </a>
-                       <!-- <a :href="value.link" v-else-if="value.name === 'call experts'">
-                            <el-tooltip placement="top" effect="ligth" :visible-arrow="false">
-                                <div>
-                                    <span class="iconfont" :class="value.icon"></span>
-                                    <p>{{value.first}}</p>
-                                    <p>{{value.last}}</p>
-                                </div>
-                                <div slot="content">
-                                    <myExperts></myExperts>
-                                </div>
-                            </el-tooltip>
-                        </a>-->
                         <el-popover
                             v-else-if="value.name === 'call experts'"
                             placement="top"
@@ -88,15 +79,7 @@
                     @change="handleChange">
                 </el-cascader>
                 <el-button slot="append" icon="iconfont icon-sousuo2" @click="searchToHref"></el-button>
-                <!--<el-dropdown split-button type="primary"  slot="append" @click="searchToHref"  @command="handleCommand">-->
-                    <!--<i class="el-icon-search"></i><span>{{selectedItem}}</span>-->
-                    <!--<el-dropdown-menu slot="dropdown">-->
-                        <!--<el-dropdown-item command="name">Item Name</el-dropdown-item>-->
-                        <!--<el-dropdown-item command="sin">Model Name</el-dropdown-item>-->
-                    <!--</el-dropdown-menu>-->
-                <!--</el-dropdown>-->
             </el-input>
-            <!--<el-checkbox class="el-checkbox" label="Model Number" v-model="model"></el-checkbox>-->
         </div>
     </div>
 </template>
@@ -197,7 +180,8 @@
                 itemName:'',
                 discountType:'',
                 model:false,
-                flag:true
+                flag:true,
+                logo:require('@/assets/img/regis_logo.jpg')
             }
         },
         mounted(){
@@ -458,6 +442,21 @@
                 color: #cc242e !important;
                 position: relative;
                 top: 5px;
+            }
+        }
+        .header-logo-img{
+            width: 300px;
+            height: 74px;
+            background-position: center;
+            background-size: 140px 48px;
+            background-repeat: no-repeat;
+            display: flex;
+            text-align: center;
+            align-items: center;
+            overflow: hidden;
+            span {
+                font-size: 70px !important;
+                color: #cc242e !important;
             }
         }
         .el-select .el-input {

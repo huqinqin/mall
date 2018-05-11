@@ -147,7 +147,8 @@
             }
             return {
                 activeRegBg1: require('@/assets/img/activeRegBg1.png'),
-                activeRegLogo1: require('@/assets/img/activeRegLogo1.png'),
+                // activeRegLogo1: require('@/assets/img/activeRegLogo1.png'),
+                activeRegLogo1: require('@/assets/img/regis_logo.jpg'),
                 toolsImg: require('@/assets/img/tools.png'),
                 lccode: [],
                 checked: false,

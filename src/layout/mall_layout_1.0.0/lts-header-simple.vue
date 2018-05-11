@@ -2,7 +2,8 @@
     <div slot="header" class="simpleHead">
         <main class="s-span-page">
             <a href="/">
-                <div class="img iconfont icon-logo1"></div>
+                <!--<div class="img iconfont icon-logo1"></div>-->
+                <div class="img_logo" :style="{backgroundImage:'url(' + logo +')'}"></div>
             </a>
             <el-input :placeholder="$t('comHeader.headerSearchGoods')" v-model="keywords" @keyup.native.enter='searchToHref'>
               <el-button slot="append" type="primary" icon="el-icon-search" @click="searchToHref"></el-button>
@@ -18,6 +19,7 @@
         data(){
             return{
                 keywords:'',
+                logo:require('@/assets/img/regis_logo.jpg'),
             }
         },
 
@@ -41,6 +43,14 @@
             .img {
                 font-size: 160px;
                 color: #cc242e;
+                position: relative;
+                top: 0px;
+            }
+            .img_logo{
+                width:160px;
+                height: 74px;
+                background-size: contain;
+                background-repeat: no-repeat;
                 position: relative;
                 top: 0px;
             }

@@ -164,7 +164,7 @@
             <div class="text">
                 <label>{{$t("main.cart.settle.mainCartSeTax")}}</label> <span><i class="iconfont icon-jia11"></i><lts-money :money="order.fee_hd_value.TAXES_ALL"></lts-money></span>
             </div>
-            <div class="text" v-if="order.fee_hd_value.HANDLE_ALL">
+            <div class="text" >
                 <label>Handling</label> <span><i class="iconfont icon-jia11"></i><lts-money :money="order.fee_hd_value.HANDLE_ALL"></lts-money></span>
             </div>
             <div class="text">

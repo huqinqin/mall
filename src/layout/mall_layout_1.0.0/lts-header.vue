@@ -223,7 +223,6 @@
                 //     this.form.password = md5(this.form.password)
                 // }
                 userService.login(this.form).then((data)=>{
-                    debugger
                     /*this.getExpert();*/
                     this.getInfo();
                     this.loginVisible = false;

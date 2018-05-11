@@ -59,7 +59,6 @@
             //     })
             // }
             let reCheckPass = (rule,value,callback) => {
-                debugger
                 if(self.resetForm.pass != self.resetForm.checkPass){
                     callback(new Error(this.$t("main.accountNew.reset.mainAcResetTwo")))
                 }else{

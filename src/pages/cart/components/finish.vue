@@ -1,8 +1,10 @@
 <template>
   <div class="finish">
-    <div class="mark"><p>{{ $t("main.cart.finish.mainCartFiSuccess") }}</p></div>
+    <!--<div class="mark"><p>{{ $t("main.cart.finish.mainCartFiSuccess") }}</p></div>-->
     <div class="result">
-      <div class="content">
+        <div class="resultSucc">
+           <div class="iconSuccess iconfont icon-chenggong1"></div>
+           <div class="content">
         <h3>{{ $t("main.cart.finish.mainCartFiPaySuccess") }}</h3>
         <p>{{ $t("main.cart.fail.mainCartFaOrderNum") }}：{{tid}}</p>
         <p>{{ $t("main.cart.fail.mainCartFaConsignee") }}：{{this.detailOrder.user_name}}
@@ -18,7 +20,14 @@
           </a>
         </div>
       </div>
+        </div>
     </div>
+    <div class="splitTotal">
+        <div class="split" :style="{backgroundImage : 'url(' + img + ')'}"></div>
+        <div class="word" style="">Now On Sale</div>
+        <div class="split" :style="{backgroundImage : 'url(' + img1 + ')'}"></div>
+    </div>
+      <a href="/search/#/detail?cateId=%5B%5D&discountype=0"><div class="banner1" :style="{backgroundImage : 'url(' + img2 + ')'}"></div></a>
   </div>
 </template>
 <script>
@@ -28,10 +37,13 @@
     name: 'finish',
     data () {
       return {
-        tid: 0,
-        detailOrder: {},
-        method: this.$t('main.cart.beforePay.mainCartBefExpress'),
-        addr:this.$t("main.cart.fail.mainCartFaReceivingAddress")
+            img: require('../../../assets/img/splitL.png'),
+            img1: require('../../../assets/img/splitR.png'),
+            img2:require('../../../assets/img/saleall.png'),
+            tid: 0,
+            detailOrder: {},
+            method: this.$t('main.cart.beforePay.mainCartBefExpress'),
+            addr:this.$t("main.cart.fail.mainCartFaReceivingAddress")
       }
     },
     methods: {
@@ -76,9 +88,17 @@
       }
     }
     .result {
-      height: 243px;
-      margin: 100px auto;
-      width: 330px;
+        width:100%;
+        height:320px;
+        background:rgba(248,248,248,1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .resultSucc{
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
       img {
         width: 237px;
         height: 216px;
@@ -124,6 +144,35 @@
           }
         }
       }
+      .iconSuccess{
+          color: #67C23A;
+          font-size: 80px;
+          margin-right: 30px;
+      }
     }
+      .splitTotal{
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          .split{
+              width: 127px;
+              height: 100px;
+              background-repeat: no-repeat;
+              background-position: center center;
+          }
+          .word{
+              line-height: 100px;
+              margin: 0 10px;
+          }
+      }
+      .banner1 {
+          width: 100%;
+          height: 300px;
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+          border: 1px solid #f6f6f6;
+      }
   }
 </style>

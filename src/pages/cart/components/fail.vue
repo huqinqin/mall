@@ -1,24 +1,27 @@
 <template>
   <div class="finish">
-    <div class="mark"><p>{{ $t("main.cart.fail.mainCartFaProblem") }}</p></div>
+    <!--<div class="mark"><p>{{ $t("main.cart.fail.mainCartFaProblem") }}</p></div>-->
     <div class="result">
-      <div class="content">
-        <h3>{{ $t("main.cart.fail.mainCartFaPayFail") }}</h3>
-        <p>{{ $t("main.cart.fail.mainCartFaOrderNum") }}：{{tid}}</p>
-        <p>{{ $t("main.cart.fail.mainCartFaConsignee") }}：{{this.detailOrder.user_name}}
-          {{this.detailOrder.receiver_mobile}}</p>
-        <p :title="this.detailOrder.user_addr_detail">{{addr}}:{{ $t("main.cart.fail.mainCartFaReceivingAddress")
-          }}：{{this.detailOrder.user_addr_detail}}</p>
-        <p>{{ $t("main.cart.fail.mainCartFaLogisticsMode") }}：{{method}}</p>
-        <div class="button">
-          <a :href="'/order?t=' + new Date().getTime() + '#/'" @click="toOrder">
-            <button class="go"><span>{{ $t("main.cart.fail.mainCartFaMyOrder") }}</span></button>
-          </a>
-          <a href="/">
-            <button class="back"><span>{{ $t("main.cart.fail.mainCartFaFirstPage") }}</span></button>
-          </a>
+        <div class="resultFail">
+            <div class="iconError iconfont icon-tishi"></div>
+            <div class="content">
+                <h3>{{ $t("main.cart.fail.mainCartFaPayFail") }}</h3>
+                <p>{{ $t("main.cart.fail.mainCartFaOrderNum") }}：{{tid}}</p>
+                <p>{{ $t("main.cart.fail.mainCartFaConsignee") }}：{{this.detailOrder.user_name}}
+                    {{this.detailOrder.receiver_mobile}}</p>
+                <p :title="this.detailOrder.user_addr_detail">{{addr}}:{{ $t("main.cart.fail.mainCartFaReceivingAddress")
+                    }}：{{this.detailOrder.user_addr_detail}}</p>
+                <p>{{ $t("main.cart.fail.mainCartFaLogisticsMode") }}：{{method}}</p>
+                <div class="button">
+                    <a :href="'/order?t=' + new Date().getTime() + '#/'" @click="toOrder">
+                        <button class="go"><span>{{ $t("main.cart.fail.mainCartFaMyOrder") }}</span></button>
+                    </a>
+                    <a href="/">
+                        <button class="back"><span>{{ $t("main.cart.fail.mainCartFaFirstPage") }}</span></button>
+                    </a>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
   </div>
 </template>
@@ -78,28 +81,34 @@
   }
 
   .result {
-    width: 649px;
-    height: 243px;
-    margin: 100px auto;
-    display: flex;
-    justify-content: space-between;
-    img {
+      width:100%;
+      height:320px;
+      background:rgba(248,248,248,1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+     .resultFail{
+         display: flex;
+         align-items: flex-start;
+         justify-content: center;
+     }
+     img {
       width: 237px;
       height: 216px;
     }
-    .content {
+     .content {
       width: 330px;
       text-align: left;
-      margin: 0 auto;
+      /*margin: 0 auto;*/
       h3 {
-        font-size: 36px;
+        font-size: 48px;
         color: #f13a40;
         line-height: 50px;
       }
       p {
         line-height: 24px;
-        font-size: 14px;
-        color: rgba(0, 0, 0, 0.5);
+        font-size: 16px;
+        color: #000;
       }
 
       .button {
@@ -127,6 +136,11 @@
         }
       }
 
+    }
+     .iconError{
+        color: #FF3B41;
+        font-size: 80px;
+        margin-right: 30px;
     }
   }
 </style>

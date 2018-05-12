@@ -39,7 +39,7 @@
       return {
             img: require('../../../assets/img/splitL.png'),
             img1: require('../../../assets/img/splitR.png'),
-            img2:require('../../../assets/img/saleall.png'),
+            img2:require('../../../assets/img/banner0512.png'),
             tid: 0,
             detailOrder: {},
             method: this.$t('main.cart.beforePay.mainCartBefExpress'),

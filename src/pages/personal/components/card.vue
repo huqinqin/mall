@@ -402,8 +402,17 @@
                 this.ruleForm.cardPicUrl = res.data.url;
             },
             beforeAvatarUpload(file) {
+                const isJPG = (file.type === 'image/jpeg'|| file.type === 'image/jpg' || file.type === 'image/png'|| file.type === 'image/bpm' || file.type === 'image/gif');
+                const isLt2M = file.size / 1024 / 1024 < 2;
 
-            },
+                if (!isJPG) {
+                    this.$message.error('Uploads only jpg,jpeg,png,bmp,gif!');
+                }
+                if (!isLt2M) {
+                    this.$message.error('size no more than 2MB!');
+                }
+                return isJPG && isLt2M;
+               },
             emptyData() {
                 this.ruleForm = {
                     id: '',

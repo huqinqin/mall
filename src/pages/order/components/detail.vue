@@ -164,6 +164,9 @@
             <div class="text">
                 <label>{{$t("main.cart.settle.mainCartSeTax")}}</label> <span><i class="iconfont icon-jia11"></i><lts-money :money="order.fee_hd_value.TAXES_ALL"></lts-money></span>
             </div>
+            <div class="text" >
+                <label>Handling</label> <span><i class="iconfont icon-jia11"></i><lts-money :money="order.fee_hd_value.HANDLE_ALL"></lts-money></span>
+            </div>
             <div class="text">
                 <label>{{$t("main.order.detail.mainOrDePayTotal")}}</label>
                 <span class="large">
@@ -213,6 +216,8 @@
                         this.order.status_title = this.$t("main.order.list.mainOrLiRealPay");
                     }else if(this.order.status == 2) {
                         this.order.status_title = this.$t("main.order.list.mainOrLiAlreadyDeli");
+                    }else if(this.order.status == 6) {
+                        this.order.status_title = this.$t("main.order.list.mainOrLiRealOrderReceiving");
                     }else if(this.order.status == 7) {
                         this.order.status_title = "Transaction Finished";
                     }else if(this.order.status == 8) {
@@ -243,6 +248,8 @@
                                 value.status_title = this.$t("main.order.list.mainOrLiRealPay");
                             }else if(value.status == 2){
                                 value.status_title = this.$t("main.order.list.mainOrLiAlreadyDeli");
+                            }else if(value.status == 6){
+                                value.status_title = this.$t("main.order.list.mainOrLiRealOrderReceiving");
                             }else if(value.status == 7){
                                 value.status_title = "Transaction Finished";
                             }else if(value.status == 8){

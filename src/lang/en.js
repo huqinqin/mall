@@ -105,7 +105,7 @@ export default {
                 mainCartFaSince: 'Will Call'
             },
             finish: {
-                mainCartFiSuccess: 'Congratulations, You Order Has Been Made！',
+                mainCartFiSuccess: 'Congratulations, Your Order Has Been Made！',
                 mainCartFiPaySuccess: 'Payment Has been Received',
             },
             list: {
@@ -334,6 +334,7 @@ export default {
                 mainOrLiRealPay: 'Paid',
                 mainOrLiRealComp: 'Completed',
                 mainOrLiRealClose: 'Closed',
+                mainOrLiRealOrderReceiving: 'Order Receiving',
                 mainOrLiSearch: 'Search',
                 mainOrLiAcceptSuccess: 'Proceed',
                 mainOrLiAccessFail: 'Failed to Process',

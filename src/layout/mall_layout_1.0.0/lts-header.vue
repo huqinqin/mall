@@ -4,7 +4,7 @@
           <ul class="s-span-page">
             <li class="sign">
               <span class="login" v-login v-if="!userInfo">{{ $t("main.index.mainInImmeLogin") }}</span>
-              <a :href="'/someinfo?t=' + new Date().getTime() + '#/'" @click="toInfo"><span class="login"  v-if="userInfo">{{ $t("comHeader.headerWelcom") }}，{{userInfo.account.user_name}}</span></a>
+              <a :href="'/someinfo?t=' + new Date().getTime() + '#/'" @click="toInfo"><span class="login"  v-if="userInfo && userInfo.account">{{ $t("comHeader.headerWelcom") }}，{{userInfo.account.user_name}}</span></a>
               <a :href="'/account?t=' + new Date().getTime() + '#/register'" v-if="!userInfo"><span class="register">{{ $t("comHeader.headerImmediatelySign") }}</span></a>
             </li>
             <li class="">
@@ -63,10 +63,11 @@
                             <label>{{$t("comHeader.headerUserOrEmail")}}</label>
                             <el-button v-popover:popover1 class="accountInput"><span class="iconfont icon-yiwen"></span></el-button>
                         </div>
-                        <el-input type="text"  v-model="form.acount" :placeholder='$t("comHeader.headerInputUserOrEmail")' @input="checkCookie" @blur="checkCookie" @keyup.enter.native="submit"></el-input>
+                        <!--<el-input type="text"  v-model="form.acount" :placeholder='$t("comHeader.headerInputUserOrEmail")' @input="checkCookie" @blur="checkCookie" @keyup.enter.native="submit"></el-input>-->
+                        <el-input type="text"  v-model="form.acount" :placeholder='$t("comHeader.headerInputUserOrEmail")' @keyup.enter.native="submit"></el-input>
                     </el-form-item>
                     <el-form-item :label='$t("comHeader.headerPwd")' prop="password" class="password">
-                        <el-input type="password" ref="password" v-model="form.password" :placeholder='$t("comHeader.headerInputPwd")' @keyup.enter.native="submit">
+                        <el-input type="password" ref="password" v-model="form.password" :placeholder='$t("comHeader.headerInputPwd")' @keyup.enter.native="submit" @change="alert(123)">
                         </el-input>
                         <i class="iconfont icon-yanjing" @click="showPassword" ref="eye"></i>
                     </el-form-item>
@@ -124,7 +125,8 @@
               cart_num : -1,
               language : 'en',
               test:0,
-              hasMd5: false
+              hasMd5: false,
+              hasPass: false
           }
         },
         mounted(){
@@ -173,9 +175,11 @@
             checkCookie(){
                 let password = this.getCookie(this.form.acount)
                 if(password){
+                    this.hasPass = true
                     this.form.checked = true
                     this.form.password = password
                 }else{
+                    this.hasPass = false
                     this.form.checked = false
                     this.form.password = ''
                 }
@@ -184,7 +188,7 @@
                 let Days = 30;
                 let exp = new Date();
                 exp.setTime(exp.getTime() + Days*24*60*60*1000);
-                document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+                document.cookie = name + "="+ escape (md5(value)) + ";expires=" + exp.toGMTString();
             },
             getCookie(name){
                 let arr,reg=new RegExp("(^| )" + name + "=([^;]*)(;|$)");
@@ -210,11 +214,14 @@
                 })
             },
             login(data){
-                if(this.form.checked){
-                    this.setCookie(this.form.acount,this.form.password)
-                }else{
-                    this.delCookie(this.form.acount)
-                }
+                // if(this.form.checked){
+                //     this.setCookie(this.form.acount,this.form.password)
+                // }else{
+                //     this.delCookie(this.form.acount)
+                // }
+                // if(!this.hasPass){
+                //     this.form.password = md5(this.form.password)
+                // }
                 userService.login(this.form).then((data)=>{
                     /*this.getExpert();*/
                     this.getInfo();

@@ -4,8 +4,11 @@
         <ul>
             <li v-for="value in menuList">
                 <div>
-                    <a :href="value.link" v-if="value.type == 'logo'" class="header-logo">
-                        <span class="iconfont" :class="value.icon"></span>
+                    <!--<a :href="value.link" v-if="value.type == 'logo'" class="header-logo">-->
+                        <!--<span class="iconfont" :class="value.icon"></span>-->
+                    <!--</a>-->
+                    <a :href="value.link" v-if="value.type == 'logo'" class="header-logo-img"
+                       :style="{backgroundImage : 'url('+ logo +')'}">
                     </a>
                     <a :href="value.link" target="_blank" v-else-if="value.name === 'support center'">
                         <div>
@@ -70,7 +73,7 @@
         name: "lts-header-notSearch",
         data() {
             return {
-                logo:require('../../assets/img/LOGO_html.jpg'),
+                logo:require('@/assets/img/regis_logo.jpg'),
                 menuList: [
                     {
                         name: 'ip solution',
@@ -377,6 +380,21 @@
                 color: #cc242e !important;
                 position: relative;
                 top: 10px;
+            }
+        }
+        .header-logo-img{
+            width: 300px;
+            height: 74px;
+            background-position: center;
+            background-size: 140px 48px;
+            background-repeat: no-repeat;
+            display: flex;
+            text-align: center;
+            align-items: center;
+            overflow: hidden;
+            span {
+                font-size: 70px !important;
+                color: #cc242e !important;
             }
         }
         .el-select .el-input {

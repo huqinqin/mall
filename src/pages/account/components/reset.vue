@@ -29,6 +29,9 @@
                 </el-form-item>
             </el-form>
         </main>
+        <div class="remark">
+            <span class="red">Web support:</span><span>1 831-250-1292</span><span>Support.Newjersey@ltsecurityinc.com</span>
+        </div>
     </div>
 </template>
 
@@ -55,7 +58,6 @@
             //     })
             // }
             let reCheckPass = (rule,value,callback) => {
-                debugger
                 if(self.resetForm.pass != self.resetForm.checkPass){
                     callback(new Error(this.$t("main.accountNew.reset.mainAcResetTwo")))
                 }else{
@@ -96,7 +98,10 @@
                     if(valid){
                         accountService.resetPass(this.resetForm).then((data) => {
                             this.$ltsMessage.show({type: 'success', message: 'Reset the password success'});
-                            location.href = '/'
+                            /*location.href = '/'*/
+                            setTimeout(() => {
+                                this.$router.go(-1);
+                            },2000)
                         },(msg) => {
                             this.$ltsMessage.show({type: 'error', message: msg.error_message});
                         })
@@ -136,8 +141,8 @@
     .forgotPsw{
         main{
             width:800px;
-            margin: 45px auto;
-            padding:48px 200px;
+            margin: 45px auto 0;
+            padding:48px 200px 24px;
             box-shadow: 0px 6px 30px 0px #d6d6d6;
             border:1px solid #ccc;
             .el-form{
@@ -188,6 +193,17 @@
                     background: #ff3b41;
                     width:116px;
                 }
+            }
+        }
+        .remark{
+            width:800px;
+            margin: 12px auto;
+            text-align: center;
+            span{
+                margin-right: 6px;
+            }
+            .red{
+                color:#FF3B41;
             }
         }
     }

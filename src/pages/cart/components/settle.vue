@@ -362,7 +362,9 @@
                 minusPro:0,
                 fullrule:[],
                 userAddr:'',
-                temp:''
+                temp:'',
+                zitiState:'',
+                zitiZipCode:''
             }
         },
         methods: {
@@ -617,8 +619,8 @@
                         logisticsCompany: this.expressForm.express,
                         userAddrIdType: this.checkedAddress.valid_time ? 1 : 0,
                         // 0代表收货地址，1代表分销证地址，1免税费
-                        toStates: this.checkedAddress.state,
-                        toZipCode: this.checkedAddress.zipCode,
+                        toStates: this.deliveryType === 'SHSM' ? this.checkedAddress.state : this.zitiState,
+                        toZipCode: this.deliveryType === 'SHSM' ? this.checkedAddress.zipCode : this.zitiZipCode,
                         serviceCode: this.expressForm.service,
                         needSignature: this.expressForm.self ? 1 : 0,
                     }
@@ -662,8 +664,8 @@
                         logisticsCompany: this.expressForm.express,
                         userAddrIdType: this.checkedAddress.valid_time ? 1 : 0,
                         // 0代表收货地址，1代表分销证地址，1免税费
-                        toStates: this.checkedAddress.state,
-                        toZipCode: this.checkedAddress.zipCode,
+                        toStates: this.deliveryType === 'SHSM' ? this.checkedAddress.state : this.zitiState,
+                        toZipCode: this.deliveryType === 'SHSM' ? this.checkedAddress.zipCode : this.zitiZipCode,
                         serviceCode: this.expressForm.service,
                         needSignature: this.expressForm.self ? 1 : 0,
                     }
@@ -715,13 +717,19 @@
                             ZITI.addr.user_name = this.user.name
                             ZITI.addr.mobile = this.user.phone
                             this.checkedAddress = ZITI.addr
-                            // this.user.shop_address = ZITI.addr.street + ',' + ZITI.addr.city + ',' + ZITI.addr.state + ',' + ZITI.addr.zipCode
+                            this.zitiState = ZITI.province
+                            this.zitiZipCode = ZITI.zip_code
                             this.user.shop_address = ZITI.addr.street
                         }
                     }else{
-                      if(this.temp.length){
-                        this.checkedAddress = JSON.parse(this.temp)
-                      }
+                        for(let key in resp.data.wholesale_delivery_info_map){
+                            let ZITI = resp.data.wholesale_delivery_info_map[key].wholesale_sell_order_list[0].shop.spot
+                            this.zitiState = ZITI.province
+                            this.zitiZipCode = ZITI.zip_code
+                        }
+                        if(this.temp.length){
+                            this.checkedAddress = JSON.parse(this.temp)
+                        }
                     }
                     this.$emit('submit', 2)
                 }, (msg) => {

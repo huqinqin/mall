@@ -57,7 +57,7 @@
                                 <el-table-column prop="" width="100" :label='$t("main.cart.list.mainCartliStock")'
                                                  align="center">
                                     <template slot-scope="subscope">
-                                        <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">{{
+                                        <p v-if="(subscope.row.item_props[0].storage >= subscope.row.num) && (subscope.row.num <= subscope.row.storage)">{{
                                             $t("main.cart.list.mainCartliAvailable") }}</p>
                                         <p class="outOfStock" v-else>{{ $t("main.cart.list.mainCartliStockInsuff")
                                             }}</p>
@@ -137,7 +137,7 @@
                                 <el-table-column prop="" width="100" :label='$t("main.cart.list.mainCartliStock")'
                                                  align="center">
                                     <template slot-scope="subscope">
-                                        <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">{{
+                                        <p v-if="(subscope.row.item_props[0].storage >= subscope.row.num) && (subscope.row.num <= subscope.row.storage)">{{
                                             $t("main.cart.list.mainCartliAvailable") }}</p>
                                         <p class="outOfStock" v-else>{{ $t("main.cart.list.mainCartliStockInsuff")
                                             }}</p>
@@ -172,7 +172,7 @@
                             </el-table>
                         </div>
                         <div v-else-if="scope.row.limit && scope.row.limit.length>0">
-                            <div v-for="limitItem in scope.row.limit" :key="limitItem.id" class="limitTable subtable">
+                            <div v-for="(limitItem, limitIndex) in scope.row.limit" :key="limitItem.id" class="limitTable subtable">
                                 <div class="popover">
                                     <div class="popTitle" :class="{ 'noStart': !limitItem[0].rule.started }">{{
                                         $t("main.cart.list.mainCartliOnsaleLimits") }} <span
@@ -240,7 +240,7 @@
                                     <el-table-column prop="" width="100" :label='$t("main.cart.list.mainCartliStock")'
                                                      align="center">
                                         <template slot-scope="subscope">
-                                            <p v-if="(subscope.row.item_props[0].storage >= subscope.row.num) && subscope.row.num >= subscope.row.rule.minimum && subscope.row.num <= subscope.row.rule.maxinum ">
+                                            <p v-if="(subscope.row.item_props[0].storage >= subscope.row.num) && subscope.row.num >= subscope.row.rule.minimum && subscope.row.num <= subscope.row.rule.maxinum  && (subscope.row.num <= subscope.row.storage)">
                                                 {{
                                                 $t("main.cart.list.mainCartliAvailable") }}</p>
                                             <p class="outOfStock" v-else>{{ $t("main.cart.list.mainCartliStockInsuff")
@@ -251,14 +251,12 @@
                                                      align="center">
                                         <template slot-scope="subscope">
                                             <div class="inputNumber">
-                                                <!--:min='subscope.row.mininum'-->
-                                                <!--:max="subscope.row.item_props[0].storage > subscope.row.maxinum ? subscope.row.maxinum : subscope.row.item_props[0].storage"-->
                                                 <el-input-number
                                                     :min="1"
                                                     size="small"
                                                     :class="{'outOfStock':(subscope.row.num > subscope.storage) || (subscope.row.num < subscope.row.rule.minimum)}"
                                                     v-model="subscope.row.num"
-                                                    @change="inputNumeberChange(subscope.row,scope.$index,subscope.$index)"
+                                                    @change="inputNumeberChange(subscope.row,scope.$index,limitIndex)"
                                                     :label='$t("main.cart.list.mainCartliDescWord")'></el-input-number>
                                             </div>
                                         </template>
@@ -330,7 +328,7 @@
                                 <el-table-column prop="" width="100" :label='$t("main.cart.list.mainCartliStock")'
                                                  align="center">
                                     <template slot-scope="subscope">
-                                        <p v-if="subscope.row.item_props[0].storage >= subscope.row.num">{{
+                                        <p v-if="subscope.row.item_props[0].storage >= subscope.row.num && (subscope.row.num <= subscope.row.storage)">{{
                                             $t("main.cart.list.mainCartliAvailable") }}</p>
                                         <p class="outOfStock" v-else>{{ $t("main.cart.list.mainCartliStockInsuff")
                                             }}</p>
@@ -648,7 +646,7 @@
                         })
                         // value.noChecked = false
                         // value.checked = true
-                        if (value.num > value.item_props[0].storage) {
+                        if (value.num > value.item_props[0].storage || value.num > value.storage) {
                             value.noChecked = true
                             value.checked = false
                         } else {
@@ -735,31 +733,31 @@
                         for (let key in _this.tableData[index]) {
                             if (key != 'undefined') {
                                 if(row.discount_type == 4){
-                                    itemService.searchItem({discountType:0,sin:row.sin}).then((resp) => {
-                                        let otherGoodsItem
-                                        if(resp.data.item_d_o_list.length > 0){
-                                            otherGoodsItem = resp.data.item_d_o_list[0]
-                                            otherGoodsItem.num = row.num - row.rule.maxinum
-                                            otherGoodsItem.item_struct_props.forEach(t => {
-                                                if(JSON.stringify(row.item_props[0].prop_value) == t.prop_value){
-                                                    cartService.putCartPlus({id:otherGoodsItem.id, num:otherGoodsItem.num},t).then(data => {
-                                                        location.reload()
-                                                    }, err => {
-                                                        this.$ltsMessage.show({type: 'error', message: err.error_message})
-                                                    })
-                                                }
-                                            })
-                                        }
-                                    })
+                                    // itemService.searchItem({discountType:0,sin:row.sin}).then((resp) => {
+                                    //     let otherGoodsItem
+                                    //     if(resp.data.item_d_o_list.length > 0){
+                                    //         otherGoodsItem = resp.data.item_d_o_list[0]
+                                    //         otherGoodsItem.num = row.num - row.rule.maxinum
+                                    //         otherGoodsItem.item_struct_props.forEach(t => {
+                                    //             if(JSON.stringify(row.item_props[0].prop_value) == t.prop_value){
+                                    //                 cartService.putCartPlus({id:otherGoodsItem.id, num:otherGoodsItem.num},t).then(data => {
+                                    //                     location.reload()
+                                    //                 }, err => {
+                                    //                     this.$ltsMessage.show({type: 'error', message: err.error_message})
+                                    //                 })
+                                    //             }
+                                    //         })
+                                    //     }
+                                    // })
                                     _this.$set(_this.tableData[index][key][subIndex], 0, row)
-                                    _this.$set(_this.tableData[index][key][subIndex])
+                                    // _this.$set(_this.tableData[index][key][subIndex])
                                 }
                                 else{
                                     _this.$set(_this.tableData[index][key], subIndex, row)
                                 }
-                                _this.$set(_this.tableData[index][key])
-                                _this.$set(_this.tableData[index])
-                                _this.$set(_this.tableData)
+                                // _this.$set(_this.tableData[index][key])
+                                // _this.$set(_this.tableData[index])
+                                // _this.$set(_this.tableData)
                             }
                         }
                         _this.checkedItem.forEach((t, index) => {
@@ -781,39 +779,41 @@
                             if (key != 'undefined') {
                                 if(row.discount_type == 4){
                                     _this.$set(_this.tableData[index][key][subIndex], 0, row)
-                                    _this.$set(_this.tableData[index][key][subIndex])
+                                    // _this.$set(_this.tableData[index][key][subIndex])
                                 }
                                 else{
                                     _this.$set(_this.tableData[index][key], subIndex, row)
                                 }
-                                _this.$set(_this.tableData[index][key])
-                                _this.$set(_this.tableData[index])
-                                _this.$set(_this.tableData)
+                                // _this.$set(_this.tableData[index][key])
+                                // _this.$set(_this.tableData[index])
+                                // _this.$set(_this.tableData)
                             }
                         }
                     }
-                    if (row.parent_id && row.sale_rule_do.maxinum && (row.num > row.sale_rule_do.maxinum)) {
-                        itemService.getItemDetail(this.item.parent_id).then((resp) => {
-                            this.otherGoodsItem = resp.data.item
-                            this.otherGoodsItem.num = row.num - row.sale_rule_do.maxinum
-                            row.num = row.sale_rule_do.maxinum
-                            if (JSON.stringify(this.otherGoodsItem) != '{}') {
-                                this.otherGoodsItem.item_struct_props.forEach(t => {
-                                    if (JSON.stringify(row.item_props[0].prop_value) == t.prop_value) {
-                                        this.otherItemSpu = t
-                                        _this.putCartPlus(row).then((data) => {
-                                            _this.calcMinus(_this.checkedItem)
-                                            _this.canSubmit(_this.checkedItem)
-                                            cartService.putCartPlus(this.otherGoodsItem, this.otherItemSpu).then((data) => {
-                                                location.reload()
+                    if (row.discount_type == 4 && row.rule.maxinum && (row.num > row.rule.maxinum)) {
+                        itemService.searchItem({discountType:0,sin:row.sin}).then((resp) => {
+                            if(resp.data.item_d_o_list.length > 0) {
+                                this.otherGoodsItem = resp.data.item_d_o_list[0]
+                                this.otherGoodsItem.num = row.num - row.rule.maxinum
+                                row.num = row.rule.maxinum
+                                if (JSON.stringify(this.otherGoodsItem) != '{}') {
+                                    this.otherGoodsItem.item_struct_props.forEach(t => {
+                                        if (JSON.stringify(row.item_props[0].prop_value) == t.prop_value) {
+                                            this.otherItemSpu = t
+                                            _this.putCartPlus(row).then((data) => {
+                                                _this.calcMinus(_this.checkedItem)
+                                                _this.canSubmit(_this.checkedItem)
+                                                cartService.putCartPlus(this.otherGoodsItem, this.otherItemSpu).then((data) => {
+                                                    location.reload()
+                                                }, (msg) => {
+                                                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                                                })
                                             }, (msg) => {
-                                                this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                                                this.$ltsMessage.show({type:'error',message:msg.error_message})
                                             })
-                                        }, (msg) => {
-                                            // this.$ltsMessage.show({type:'error',message:msg.error_message})
-                                        })
-                                    }
-                                })
+                                        }
+                                    })
+                                }
                             }
                         })
                     } else {
@@ -821,7 +821,7 @@
                             _this.calcMinus(_this.checkedItem)
                             _this.canSubmit(_this.checkedItem)
                         }, (msg) => {
-                            // this.$ltsMessage.show({type:'error',message:msg.error_message})
+                            this.$ltsMessage.show({type:'error',message:msg.error_message})
                         })
                     }
                 }, 100)

@@ -4,9 +4,9 @@ import md5 from 'md5'
 export default class UserService extends BaseService {
     static login(form){
         let param = {
-            account : form.acount,
-            password: md5(form.password),
-            oms_password: form.omsPassword,
+            account : form.acount.trim(),
+            password: md5(form.password.trim()),
+            oms_password: form.omsPassword.trim(),
             source: 'PC'
         };
         return super.getRequest('/user/installer/login', param);
@@ -22,7 +22,7 @@ export default class UserService extends BaseService {
     }
     static checkLogin(account){
         let param = {
-            account:account
+            account:account.trim()
         }
         return super.getRequest('/user/installer/salt',param)
     }

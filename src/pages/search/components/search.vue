@@ -1,7 +1,7 @@
 <template>
     <div class="search">
         <div class="navBar11" style="background-color: #F2AC31" v-if="search.discountType === 0">
-            <p class="navBarSave">Save <span style="color: #D82929"> $200 </span>with<span style="color: #D82929"> $1000+ </span>purchase&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;Save <span style="color: #D82929"> $75 </span>with<span style="color: #D82929"> $500 - $999 </span>purchase&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;Save <span style="color: #D82929"> $30 </span>with<span style="color: #D82929"> $300 - $499 </span>purchase</p>
+            <p class="navBarSave">Save <span style="color: #D82929"> $200 </span>every<span style="color: #D82929"> $1000+ </span>purchase&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;Save <span style="color: #D82929"> $75 </span>with<span style="color: #D82929"> $500 - $999 </span>purchase&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;Save <span style="color: #D82929"> $30 </span>with<span style="color: #D82929"> $300 - $499 </span>purchase</p>
         </div>
         <div class="nav">
             <el-breadcrumb separator-class="el-icon-arrow-right" v-if="data.length > 0">
@@ -55,8 +55,8 @@
                 <div class="right">
                     <div><span>{{search.page}}</span>/{{rightTotal}}</div>
                     <div class="buttons">
-                        <el-button icon="el-icon-arrow-left" @click="prePage" :disabled="search.page === 1"></el-button>
-                        <el-button icon="el-icon-arrow-right" @click="nextPage" :disabled="search.page === rightTotal"></el-button>
+                        <el-button icon="el-icon-arrow-left" @click="changePage(--search.page)" :disabled="search.page === 1"></el-button>
+                        <el-button icon="el-icon-arrow-right" @click="changePage(++search.page)" :disabled="search.page === rightTotal"></el-button>
                     </div>
                 </div>
             </div>
@@ -175,10 +175,10 @@
             },
             // 上下一页
             prePage(){
-                this.search.page--
+                this.search.page--;
             },
             nextPage(){
-                this.search.page++
+                this.search.page++;
             },
             searchWithText(spceList = {},item = ''){
                 if(item){

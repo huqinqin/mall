@@ -12,10 +12,10 @@
        <div class="box" v-ltsLoginShow:true>
            <ul>
                <li><span>Name：</span><span>{{someInfo.name}}</span></li>
-               <li><span>Contact：</span><span>{{someInfo.mobile}}</span></li>
+               <li><span>Phone：</span><span>{{someInfo.mobile}}</span></li>
                <li><span>Email：</span><span>{{someInfo.email}}</span></li>
-               <li><span>Store：</span><span>{{someInfo.p_shop_name}}</span></li>
-               <li><span>Store Addr：</span><span>{{someInfo.p_shop_addr}}</span></li>
+               <li><span>Location：</span><span>{{someInfo.p_shop_name}}</span></li>
+               <li><span>Address：</span><span>{{someInfo.p_shop_addr}}</span></li>
            </ul>
            <ul><img src="../../assets/img/expertIcon.png" alt=""></ul>
        </div>

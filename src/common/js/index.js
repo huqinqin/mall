@@ -15,6 +15,7 @@ import ltsHeaderAll from '@/layout/mall_layout_1.0.0/lts-header-all.vue'
 import ltsHeaderSimple from '@/layout/mall_layout_1.0.0/lts-header-simple.vue'
 import ltsFooter from '@/layout/mall_layout_1.0.0/lts-footer.vue'
 import ltsMenu from '@/layout/mall_layout_1.0.0/lts-menu.vue'
+import ltsOutMenu from '@/layout/mall_layout_1.0.0/lts-out-menu.vue'
 import ltsEmpty from '@/layout/mall_layout_1.0.0/lts-empty.vue'
 import ltsHeadNotsearch from '@/layout/mall_layout_1.0.0/lts-header-notSearch.vue'
 import ltsMoney from '../components/lts-money.js'
@@ -53,6 +54,7 @@ export default function (App, router = new Router()) {
         'lts-footer':ltsFooter,
         'lts-header-content':ltsEmpty,
         'lts-menu':ltsEmpty,
+        'lts-out-menu':ltsEmpty,
         'lts-head-notSearch':ltsHeadNotsearch
     }
     let showHeadAll = ['index','search','detail']
@@ -65,7 +67,7 @@ export default function (App, router = new Router()) {
                 {
                     name : 'lts-header-content',
                     template : ltsHeaderAll
-                },
+                }
             ]
         },
         {

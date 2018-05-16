@@ -129,7 +129,7 @@ export default {
                     }
                     let errorResult = this.parseErrorResult(url, xhr, type, error);
                     reject(errorResult);
-                }
+            }
             });
         })
     }

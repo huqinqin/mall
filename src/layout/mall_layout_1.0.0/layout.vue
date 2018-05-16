@@ -6,6 +6,7 @@
         <el-container class="lts-main">
             <lts-header-content class="lts-head-bottom"></lts-header-content>
             <el-container class="s-span-page lts-content">
+                <lts-out-menu class="nav-index"></lts-out-menu>
                 <lts-menu class="lts-menu"/>
                 <el-container>
                     <el-main class="s-span-page">
@@ -48,13 +49,22 @@
             resize();
           });
           function resize(){
-            var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-            // $('body').attr('class','fullscreen');
-            if(width <= 1500){
-              $('body').attr('class','b1200');
-            }else{
-              $('body').attr('class','b1500');
-            }
+              var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                // $('body').attr('class','fullscreen');
+              if(width <= 1500){
+                $('body').attr('class','b1200');
+              }else{
+                $('body').attr('class','b1500');
+              }
+              if(width >= 1500){
+                  $('.nav-index').css('left', (width - 1500) / 2 - 120 + 'px')
+                  $('.nav-index').css('display', 'block')
+              }else if((width >= 1200) && (width < 1500)){
+                  $('.nav-index').css('left', (width - 1200) / 2 - 120 + 'px')
+                  $('.nav-index').css('display', 'block')
+              }else{
+                  $('.nav-index').css('display', 'none')
+              }
           }
         },
     }
@@ -135,6 +145,7 @@
     .el-header {
         padding: 0 !important;
     }
+
     .lts-main {
         .el-main{
           padding: 0;
@@ -158,6 +169,11 @@
         }
         .lts-content{
             margin-top: 12px;
+            .nav-index{
+                position: fixed;
+                top: 25%;
+                left: 80px;
+            }
         }
     }
 </style>

@@ -96,7 +96,7 @@
             </li>
           </ul>
         </div>
-        <div v-for="itemlist in itemList" :key="itemlist.name" class="item-level">
+        <div v-for="itemlist in itemList" :key="itemlist.name" class="item-level" :id="itemlist.name">
             <a :href="itemlist.url">
               <div class="item-list-title">
                 <div class="i">

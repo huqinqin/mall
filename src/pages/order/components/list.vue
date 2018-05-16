@@ -1,7 +1,7 @@
 <template>
     <div class="orderList">
         <el-tabs v-model="orderStatus" type="card" @tab-click="toggleStatus">
-            <el-tab-pane :label='$t("comHeader.headerMyOrder")' name="all"></el-tab-pane>
+            <el-tab-pane label='My Orders' name="all"></el-tab-pane>
             <el-tab-pane :label='$t("main.order.list.mainOrLiWaitPay")' name="noPay"></el-tab-pane>
             <el-tab-pane :label='$t("main.order.list.mainOrLiWaitDeli")' name="noDeliver"></el-tab-pane>
             <el-tab-pane :label='$t("main.order.list.mainOrLiAlreadyDeli")' name="delivered"></el-tab-pane>

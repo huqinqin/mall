@@ -11,7 +11,7 @@
                 <img :src="toolsImg" alt="" class="toolPic">
             </div>
             <main>
-                <div class="title">Sign up for an Online Account</div>
+                <div class="title">Sign Up for an Online Account</div>
                 <div class="tips">
                     <div class="el-message-box__status el-icon-warning"></div>
                     <div style="margin-left: 20px;">NOTE: If you already have an account at www.ltsecurityinc.com, you may login with the same account and password on this site.</div>
@@ -227,7 +227,7 @@
                     label: 'Online Store'
                 }, {
                     value: 'Others',
-                    label: 'Others'
+                    label: 'Other'
                 }],
                 value: ''
             }

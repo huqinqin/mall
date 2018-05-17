@@ -46,6 +46,7 @@
                     {href: '/personal?t=' + new Date().getTime() + '#/card', title: this.$t("common.ltsMenu.commLtsAnth")},
                     {href: '/personal?t=' + new Date().getTime() + '#/password', title: this.$t("common.ltsMenu.commLtsPwdSet")},
                     {href: '/personal?t=' + new Date().getTime() + '#/receiveAddress', title: this.$t("common.ltsMenu.commLtsAddress")},
+                    // {href: '/someinfo?t=' + new Date().getTime() + '#/coupon', title: 'Coupon'},
                 ],
                 selected: '',
             }

@@ -56,12 +56,14 @@
               }else{
                 $('body').attr('class','b1500');
               }
-              if(width >= 1500){
+              if(width >= 1740){
                   $('.nav-index').css('left', (width - 1500) / 2 - 120 + 'px')
-                  $('.nav-index').css('display', 'block')
-              }else if((width >= 1200) && (width < 1500)){
+                  //$('.nav-index').css('display', 'block')
+              }else if((width >= 1440) && (width < 1500)){
                   $('.nav-index').css('left', (width - 1200) / 2 - 120 + 'px')
-                  $('.nav-index').css('display', 'block')
+                 // $('.nav-index').css('display', 'block')
+              }else if((width >= 1500) && (width < 1740)){
+                  $('.nav-index').css('display', 'none')
               }else{
                   $('.nav-index').css('display', 'none')
               }
@@ -172,7 +174,7 @@
             .nav-index{
                 position: fixed;
                 top: 25%;
-                left: 80px;
+                left: 180px;
             }
         }
     }

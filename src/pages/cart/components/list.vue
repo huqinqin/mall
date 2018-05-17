@@ -388,16 +388,12 @@
                 <div class="check">
                     <div class="info">
                         <div class="topline">
-                <span>{{ $t("main.cart.list.mainCartliAllPrice") }} ({{ $t("main.cart.other.mainCartNo") }} {{ $t("main.cart.settle.mainCartSeTax") }}, {{ $t("main.cart.settle.mainCartSeFright") }})：<lts-money
-                    :money="totalPrice"></lts-money></span>
+                            <div><span>{{ $t("main.cart.list.mainCartliShouldPay") }}：</span><lts-money :money="totalPrice"></lts-money></div>
+                            <div><span>Flash Sale：-</span><lts-money :money="minusPro"></lts-money></div>
+                            <div><span>Discount：-</span><lts-money :money="totalPrice - realTotal - minusPro"></lts-money></div>
                         </div>
                         <div class="bottomline">
-                            <div><span>{{ $t("main.cart.list.mainCartliBenefit") }}：-</span>
-                                <lts-money :money="totalPrice - realTotal"></lts-money>
-                            </div>
-                            <!--<div><span>满减：<lts-money :money="minusPro"></lts-money></span></div>-->
-                            <div><span>{{ $t("main.cart.list.mainCartliShouldPay") }}：</span><span class="bold"><lts-money
-                                :money="realTotal"></lts-money></span></div>
+                            <span>{{ $t("main.cart.list.mainCartliAllPrice") }} ({{ $t("main.cart.other.mainCartNo") }} {{ $t("main.cart.settle.mainCartSeTax") }}, {{ $t("main.cart.settle.mainCartSeFright") }})：<span class="bold"><lts-money :money="realTotal"></lts-money></span></span>
                         </div>
                     </div>
                     <el-button @click="check" :disabled="checkedItem.length <= 0 || outStock">{{
@@ -1147,12 +1143,18 @@
                     div {
                         line-height: 21px;
                     }
-                    .bottomline {
+                    .topline {
                         display: flex;
                         justify-content: flex-end;
-                        div:first-child {
-                            margin-right: 24px;
+                        div{
+                            margin-right: 12px;
                         }
+                        div:last-child{
+                            margin-right: 0;
+                        }
+                    }
+                    .bottomline{
+                        text-align: right;
                         span.bold span {
                             color: #ff3b41;
                             font-weight: bold;

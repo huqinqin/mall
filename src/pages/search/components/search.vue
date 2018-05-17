@@ -5,7 +5,7 @@
         </div>
         <div class="nav">
             <el-breadcrumb separator-class="el-icon-arrow-right" v-if="data.length > 0">
-                <el-breadcrumb-item :to="{ path: '/' }">{{$t("main.search.mainSeaGoods")}}</el-breadcrumb-item>
+                <el-breadcrumb-item :to="{ path: '/detail?cateId=[]&itemname=&tags=' }">{{$t("main.search.mainSeaGoods")}}</el-breadcrumb-item>
             </el-breadcrumb>
             <div class="tags" v-if="JSON.stringify(conditions) != '{}'">
                 <el-tag  v-for="(tag,key) in conditions" :key="tag" type="danger" closable @close="delCondition(key)">{{tag}}</el-tag>
@@ -201,12 +201,9 @@
                 }
                 if(this.$route.query.discountype !== undefined){
                     this.search.discountType = 0;
-                    console.log('discount_type == 0')
                 }else{
                     this.search.discountType = '';
-                    console.log('discount_type == ""')
                 }
-                console.log(this.$route.query)
                 ItemService.searchItem(this.search,this.tags).then((rtn)=>{
                     this.data = rtn.data.item_d_o_list
                     this.data.forEach((item) => {

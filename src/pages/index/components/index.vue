@@ -57,7 +57,7 @@
             </div>
           </div>
           <ul class="item-list-box">
-            <li v-for="item in hotList" :key="item.sin"
+            <li v-for="item in hotList" :key="item.id"
                 v-bind:class="{'limit':item.type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1,'flashSale':item.discount_type == 0}">
                 <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
                 <div class="img" :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}"></div>
@@ -112,7 +112,7 @@
               </div>
             </a>
           <ul class="item-list-box">
-            <li v-for="item in itemlist.items" :key="item.sin"
+            <li v-for="item in itemlist.items" :key="item.id"
                 v-bind:class="{'limit':item.type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1,'flashSale':item.discount_type == 0,'newSeller': item.isNew}">
                 <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
                 <!--<a :href="'/detail#/?id=' + item.id" target="_blank">-->

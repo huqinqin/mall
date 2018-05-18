@@ -37,6 +37,7 @@
                     {href: '/reverse?t=' + new Date().getTime() +'#/', title: 'RMA'},
                 ],
                 finance: [
+                    {href: '/someinfo?t=' + new Date().getTime() + '#/coupon', title: 'Coupon',show:true},
                     {href: '/finance?t=' + new Date().getTime() +'#/', title: this.$t("common.ltsMenu.commLtsMyBalance"),show:true},
                     {href: '/repayMent?t=' + new Date().getTime() +'#/', title: this.$t("common.ltsMenu.commLtsWaitting"),show:true},
                 ],
@@ -46,7 +47,6 @@
                     {href: '/personal?t=' + new Date().getTime() + '#/card', title: this.$t("common.ltsMenu.commLtsAnth")},
                     {href: '/personal?t=' + new Date().getTime() + '#/password', title: this.$t("common.ltsMenu.commLtsPwdSet")},
                     {href: '/personal?t=' + new Date().getTime() + '#/receiveAddress', title: this.$t("common.ltsMenu.commLtsAddress")},
-                    // {href: '/someinfo?t=' + new Date().getTime() + '#/coupon', title: 'Coupon'},
                 ],
                 selected: '',
             }
@@ -58,10 +58,10 @@
             },
             checkInfo(){
                 checkService.checkInfo().then((data) => {
-                    this.finance[1].show = false
+                    this.finance[2].show = false
                     data.data.acc_books.forEach((item) => {
                         if(item.subject === 2010106){
-                            this.finance[1].show = true
+                            this.finance[2].show = true
                         }
                     });
                 },(msg) => {

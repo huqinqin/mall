@@ -85,7 +85,7 @@
                     <el-button class="el-icon-arrow-left icon" :disabled="this.pagination.page === 1" @click="pre" v-if="historyData.length > 0"></el-button>
                 </div>
                <li v-for="item in historyData">
-                   <a :href=" '/detail?t=' + new Date().getTime() + '#/?id=' + item.id">
+                   <a :href=" '/detail?t=' + new Date().getTime() + '#/info?id=' + item.id">
                        <div class="pic"><img :src="item.image_value" alt=""></div>
                        <div class="decs">{{item.item_name}}</div>
                        <hr>

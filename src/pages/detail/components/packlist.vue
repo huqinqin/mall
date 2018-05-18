@@ -49,16 +49,31 @@
         },
         methods:{
             getList(){
+                // itemService.searchItem({cateId:[91]}).then(resp => {
+                //     console.log(resp)
+                //     resp.data.item_d_o_list.forEach(pack => {
+                //         pack.package_item_list.forEach((t,index) => {
+                //             t.num = 2 + Math.pow(2,index * 2)
+                //             t.item_struct_props.forEach(prop => {
+                //                 if(prop.sku) t.props = JSON.parse(prop.prop_value)
+                //             })
+                //         })
+                //     })
+                //     this.datalist = resp.data.item_d_o_list
+                // }, err => {
+                //     this.$ltsMessage({type:'error',message:err.error_message})
+                // })
                 itemService.getItemDetail(10240).then((data) => {
                     data.data.item.package_item_list.forEach((t,index) => {
                         t.num = 2 + Math.pow(2,index * 2)
                         t.item_struct_props.forEach(prop => {
                             if(prop.sku) t.props = JSON.parse(prop.prop_value)
                         })
+                        t.total = t.num * t.price
+                        t.total_real = t.num * t.price_real
                     })
                     let item = data.data.item
                     this.datalist = [item, item, item, item]
-                    console.log(this.datalist)
                 })
             },
             buyItem(items){

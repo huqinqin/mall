@@ -63,7 +63,7 @@
             <div class="search-result">
                 <ul class="result">
                     <li v-for="item in data" :key="item.id" v-bind:class="{'limit':item.discount_type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1,'flashSale':item.discount_type == 0,'newSeller': item.isNew}">
-                        <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
+                        <a :href="item.category_id === 91 ? '/detail?t=' + new Date().getTime() +'#/pack?id=' + item.id : '/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
                             <div class="img" :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}"></div>
                             <p class="name" :title="item.item_name">{{item.item_name}}</p>
                             <div class="item-price">

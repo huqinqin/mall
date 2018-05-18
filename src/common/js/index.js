@@ -211,6 +211,19 @@ export default function (App, router = new Router()) {
                     template : ltsHeadNotsearch
                 }
             ]
+        },
+        {
+            name:'flooractivity',
+            components:[
+                {
+                    name : 'lts-header-content',
+                    template : ltsHeadNotsearch
+                },
+                {
+                    name : 'lts-out-menu',
+                    template : ltsOutMenu
+                }
+            ]
         }
     ]
 

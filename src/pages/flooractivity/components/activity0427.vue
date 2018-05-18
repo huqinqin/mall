@@ -121,8 +121,7 @@
                 ],
                 itemList: [],
                 hotList: [],
-                flag: false,
-
+                flag: false
             }
         },
         methods: {

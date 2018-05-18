@@ -14,7 +14,7 @@
                     trigger="hover"
                 >
                     <a :href="'/someinfo?t=' + new Date().getTime() + '#/'" class="top-menu" slot="reference"><i class="iconfont icon-youhuijuan couponicon"></i>COUPON</a>
-                    <div style="font-weight: bold;">you have 7 coupon</div>
+                    <div style="font-weight: bold;">you have {{len}} coupon</div>
                 </el-popover>
               <a href="/" class="news top-menu" v-if="showToIndex">{{ $t("comHeader.headerIndex") }}</a>
               <a v-login :href="'/order?t=' + new Date().getTime() + '#/'" class="top-menu"  @click="toOrder">{{ $t("comHeader.headerMyOrder") }}</a>
@@ -111,6 +111,7 @@
         name : "lts-header",
         data(){
           return{
+              len: 0,
               flag:true,
               showToIndex:true,
               userInfo : {},
@@ -138,9 +139,21 @@
           }
         },
         mounted(){
-            this.language = store.getItem('language') ?  store.getItem('language') : this.language
+            this.language = store.getItem('language') ?  store.getItem('language') : this.language;
+            this.checkInfo();
         },
         methods:{
+            checkInfo(){
+                checkService.checkInfo().then((data) => {
+                    data.data.acc_books.forEach( (item) => {
+                        if(item.subject === 2010102 && item.bonus){
+                            item.bonus.datalist.forEach((item) => {
+                                this.len++;
+                            })
+                        }
+                    });
+                })
+            },
             submit(){
                 userService.checkLogin(this.form.acount).then((t) => {
                     if(t.data){

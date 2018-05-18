@@ -19,9 +19,14 @@
         name: "lts-out-menu",
         methods: {
              scrollto(val) {
+                 let valnum = parseInt(val);
+                 console.log(valnum);
+                 $(".out-menu ul li").attr("class","");
                  $("html,body").stop().animate({scrollTop: $("#" + val).offset().top}, 1000);
+                 $(".out-menu ul li").eq(valnum).attr("class","active");
              },
             scrollOne() {
+                $(".out-menu ul li").eq(0).attr("class","active")
                  $(".out-menu").css("display","none !important")
                 $(window).scroll(function () {
                         if($(window).scrollTop() > 400) {
@@ -51,9 +56,10 @@
         //width: 180px;
         //height: 300px;
         margin-left: -58px;
-        padding: 20px 10px;
+        padding: 20px 0px;
         box-sizing: border-box;
         font-family: 'Arial-BoldMT';
+        box-shadow: 0 0 15px 2px #ccc;
         ul{
             li{
                 font-weight: bold;
@@ -61,11 +67,15 @@
                 cursor: pointer;
                 line-height: 36px;
                 height: 36px;
+                padding: 0 10px;
             }
             .backtop{
                 font-size: 24px;
                 height: 24px;
                 text-align: center;
+            }
+            .active{
+                background-color: #FFA000;
             }
         }
 

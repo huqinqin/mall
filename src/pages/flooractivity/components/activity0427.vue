@@ -30,52 +30,6 @@
         <!-- main -->
         <div class="content">
             <div class="item-box">
-                <div class="hot-item" v-if="hotList.length > 0">
-                    <div class="item-list-title">
-                        <div class="i"><span class="border"></span>
-                            <span>{{$t("main.index.mainInHotSingle")}}</span>
-                        </div>
-                    </div>
-                    <ul class="item-list-box">
-                        <li v-for="item in hotList" :key="item.sin"
-                            v-bind:class="{'limit':item.type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1,'flashSale':item.discount_type == 0}">
-                            <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
-                                <div class="img" :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}"></div>
-                                <!--:style="{backgroundImage : 'url(' + 'http://res.500mi.com/item/' + item.url + ')'}"></div>-->
-                                <div class="item-spec">
-                                    <p class="line-two" :title="item.item_name">{{item.item_name}}</p>
-                                    <p class="line-four"></p>
-                                    <div class="item-price">
-                                        <button v-ltsLoginShow:false v-login class="login">
-                                            {{$t("main.detail.info.mainDetInfoLoginPrice")}}
-                                        </button>
-                                        <p v-ltsLoginShow:true class="price">
-                        <span class="realPrice">
-                            <template v-if="item.discount_type == 1">
-                                <lts-money :money="item.price * item.discount / 100"></lts-money>
-                            </template>
-                            <template v-else-if="item.discount_type == 2">
-                                <lts-money :money="item.price - item.discount"></lts-money>
-                            </template>
-                            <template v-else-if="item.discount_type == 4">
-                                <lts-money :money="item.sale_rule_do.price"></lts-money>
-                            </template>
-                            <template v-else>
-                                <lts-money :money="item.price_real"></lts-money>
-                            </template>
-                        </span>
-                                            <span class="oldPrice">
-                            <template v-if="item.discount_type != 0 ||  item.price != item.price_real">
-                                <lts-money :money="item.price"></lts-money>
-                            </template>
-                        </span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
                 <div v-for="(itemlist,index) in itemList" :key="itemlist.name" class="item-level" :id="index">
                     <a :href="itemlist.url">
                         <div class="item-list-title">
@@ -94,7 +48,7 @@
                                 <div class="img"
                                      :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}"></div>
                                 <div class="item-spec">
-                                    <p class="line-two" :title="item.item_name">{{item.item_name}}</p>
+                                    <p class="line-two" :title="item.item_name"><span class="coupon">COUPON</span>{{item.item_name}}</p>
                                     <p class="line-four"></p>
                                     <div class="item-price">
                                         <button v-ltsLoginShow:false="(itemlist.attribute | 4) != itemlist.attribute" v-login class="login">
@@ -125,20 +79,32 @@
                                 </div>
                                 <!--</div>-->
                             </a>
+                            <button class="iconfont" v-ltsLoginShow:true @click="addCart()"  :class="flag ? 'icon-chenggong1 cart1':'icon-gouwuche2 cart'"></button>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
+        <ul class="moreIcon">
+            <li><div class="img2"><img :src= img3 alt=""></div><p>Credit Card Checkout</p></li>
+            <li><div style="margin: 10px auto;height: 40px;font-weight: bold;line-height: 40px">30-DAY</div><p>Return Guarantee</p></li>
+            <li><div class="img2"><img :src= img4 alt=""></div><p>Free IP Consulting</p></li>
+            <li><div class="img2"><img :src= img2 alt=""></div><p>Up to 3 Year Warranty</p></li>
+        </ul>
     </div>
 </template>
 <script>
     import homeService from '@/services/HomeService.js'
+    import ItemService from '@/services/ItemService.js'
+    import {floorNum} from '@/const/floorNumConst.js';
     import $ from 'jquery'
     export default {
         data () {
             return {
                 img:require('../../../assets/img/banner0504.png'),
+                img2:require('../../../assets/img/icon.png'),
+                img3:require('../../../assets/img/card.png'),
+                img4:require('../../../assets/img/music.png'),
                 isAuto: true,
                 showDownload:false,
                 appDown:require('@/assets/img/download.png'),
@@ -154,10 +120,15 @@
                     {link: 'static/image/BANNERTU.png'}
                 ],
                 itemList: [],
-                hotList: []
+                hotList: [],
+                flag: false,
+
             }
         },
         methods: {
+            addCart(){
+                console.log("000");
+            },
             login () {
                 this.$emit('showLogin', 2)
             },
@@ -262,12 +233,56 @@
                 }, (msg) => {
                     this.$ltsMessage.show({type: 'error', message: msg.error_message})
                 })
+            },
+            getList11 () {
+                let id = [10810,10811,10120,10780,10776,10774,10216];
+                let params = {
+                    ids: '10810,10811,10120'
+                };
+                ItemService.getActivityItemList(params).then((data) => {
+                    let floor = data.datalist.length / floorNum;
+                    let arr = ["NVR","ACCESSORIES","DVR","IP CAMERA","HD-TVI CAMERA","ACCESS CONTROL","TEST"]
+                    for(var i = 0;i < arr.length; i++ ){
+                        let obj = {};
+                        obj.name = arr[i];
+                        if(obj.name === "NVR"){
+                            obj.id = 12
+                        }else if(obj.name === "ACCESSORIES"){
+                            obj.id = 14
+                        }else if(obj.name === "DVR"){
+                            obj.id = 15
+                        }else if(obj.name === "IP CAMERA"){
+                            obj.id = 11
+                        }else if(obj.name === "HD-TVI CAMERA"){
+                            obj.id = 13
+                        }else if(obj.name === "ACCESS CONTROL"){
+                            obj.id = 16
+                        }else if(obj.name === "TEST"){
+                            obj.id = 27
+                        }
+                        obj.items = [];
+                        this.itemList.push(obj)
+                    }
+                    data.datalist.forEach( (item) => {
+                        this.itemList.forEach( (val,index) => {
+                            let itemsArr = [];
+                            if(item.category_id === val.id) {
+                                val.items.push(item);
+                            }
+                        })
+                    });
+                    console.log(this.itemList);
+                    console.log(floor);
+                }, (msg) => {
+                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                })
             }
         },
         mounted () {
             $("html").attr('class','gray')
             this.level = window.localStorage.getItem('userLevel')
-            this.getList()
+            //this.getList()
+            this.getList11()
         }
     }
 </script>
@@ -293,15 +308,15 @@
     li.newSeller::before{
         background-image:url('../../../assets/img/new.png');
     }
-    li.reduce::before{
+    /*li.reduce::before{
         background-image:url('../../../assets/img/ONSALE.png');
-    }
-    li.discount::before{
+    }*/
+    /*li.discount::before{
         background-image:url('../../../assets/img/Discount.png');
-    }
-    li.limit::before{
+    }*/
+    /*li.limit::before{
         background-image:url('../../../assets/img/Doorbuster.png');
-    }
+    }*/
     li.flashSale::before{
         top: 12px;
         left: 12px;
@@ -531,6 +546,48 @@
                     li:nth-child(4n) {
                         margin-right: 0%;
                     }
+                    .coupon{
+                        width: 79px;
+                        height: 24px;
+                        background-color: #FFA000;
+                        padding: 2px;
+                        line-height: 24px;
+                        display: inline-block;
+                        box-sizing: border-box;
+                        font-size: 14px;
+                        text-align: center;
+                        margin-right: 2px;
+                        font-weight: bold;
+                        color: #000;
+                    }
+                    .cart1{
+                        position: absolute;
+                        right: 8px;
+                        bottom: 30px;
+                        font-size: 24px;
+                        color: #f2ac31;
+                        width: 30px;
+                        height: 30px;
+                        border-radius: 50%;
+                        border: 1px solid white;
+                        background-color: white;
+                    }
+                    .cart{
+                        position: absolute;
+                        right: 8px;
+                        bottom: 30px;
+                        font-size: 16px;
+                        color: #FF3B41;
+                        width: 30px;
+                        height: 30px;
+                        border-radius: 50%;
+                        border: 1px solid #FF3B41;
+                        line-height: 30px;
+                        background-color: white;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
                 }
             }
             .side {
@@ -653,7 +710,35 @@
             }
 
         }
-
+        .moreIcon{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            height: 90px;
+            margin-top: 12px;
+            li{
+                flex: 1;
+                color:#D31927;
+                text-align: center;
+                height: 100%;
+                div{
+                    font-size: 24px;
+                };
+                p{
+                    color: #000;
+                    font-size: 14px;
+                }
+            }
+        }
+        .img2{
+            width: 40px;
+            height: 40px;
+            margin: 10px auto;
+            img{
+                width: 100%;
+                height: 100%;
+            }
+        }
     }
 
 </style>

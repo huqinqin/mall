@@ -103,4 +103,11 @@ export default class ItemService extends BaseService {
         // return super.getRequest('/store/item/get_manage_list', params)
         return super.getRequest('/installer/item/get_item_with_aggregate', params)
     }
+    /**
+     * 查询活动楼层页面的商品
+     **/
+    static getActivityItemList(params) {
+        // return super.getRequest('/store/item/get_manage_list', params)
+        return super.getRequest('/installer/item/get_activity_item_list', params)
+    }
 }

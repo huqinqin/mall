@@ -9,16 +9,16 @@
                             <div class="header" :style="{backgroundImage: 'url(' + ableHeadImg + ')'}"></div>
                             <div class="content">
                                 <div class="topline">
-                                    <div class="amount"><i class="iconfont icon-ziyuanjrit"></i><span class="num">{{bonus.rule_value[0].value / 100}}</span></div>
+                                    <div class="amount"><i class="iconfont icon-ziyuanjrit"></i><span class="num">{{bonus.rule_value[0].value / 100}}</span><span>off</span></div>
                                     <div class="lts-logo"><i class="iconfont icon-logo1"></i></div>
                                 </div>
                                 <div class="descript">
-                                    <p>Coupon off ${{bonus.rule_value[0].startV / 100}}</p>
+                                    <p>${{bonus.rule_value[0].startV / 100}} purchase</p>
                                     <p>{{bonus.start}} to {{bonus.end}}</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="recommend"><i class="iconfont icon-tuijiansuode1"></i></div>
+                        <!--<div class="recommend"><i class="iconfont icon-tuijiansuode1"></i></div>-->
                     </li>
                 </ul>
             </el-tab-pane>
@@ -33,12 +33,12 @@
                                     <div class="lts-logo"><i class="iconfont icon-logo1"></i></div>
                                 </div>
                                 <div class="descript">
-                                    <p>Coupon off ${{bonus.rule_value[0].startV / 100}}</p>
+                                    <p>${{bonus.rule_value[0].startV / 100}} purchase</p>
                                     <p>{{bonus.start}} to {{bonus.end}}</p>
                                 </div>
                             </div>
-                            <div class="recommend"><i class="iconfont icon-tuijiansuode1"></i></div>
                         </div>
+                        <!--<div class="recommend"><i class="iconfont icon-tuijiansuode1"></i></div>-->
                     </li>
                 </ul>
             </el-tab-pane>
@@ -83,18 +83,16 @@
                                 item.rule_value = JSON.parse(item.rule)
                                 item.end = dateUtils.format(new Date(parseInt(item.end_time)), 'MM-dd-yyyy')
                                 item.start = dateUtils.format(new Date(parseInt(item.start_time)), 'MM-dd-yyyy')
-                                if(item.end_time < this.now){
-                                    this.unableBonusList.push(item)
-                                }else{
-                                    this.ableBonusList.push(item)
-                                    this.unableBonusList.push(item)
-                                }
-                                if((item.end_time - this.now) / 1000 / 24 > 5){
+                                if((item.end_time - this.now) / 1000 / 3600 / 24 > 5){
                                     item.expire = false
                                 }else{
                                     item.expire = true
                                 }
-
+                                if(item.end_time < this.now){
+                                    this.unableBonusList.push(item)
+                                }else{
+                                    this.ableBonusList.push(item)
+                                }
                             })
                         }
                     })
@@ -161,6 +159,9 @@
                     .amount{
                         color:#4B8CFF;
                         font-weight: bold;
+                        span{
+                            font-weight: bold;
+                        }
                     }
                     .icon-ziyuanjrit{
                         font-size: 20px;
@@ -168,6 +169,7 @@
                         top: -10px;
                     }
                     .num{
+                        margin-right: 4px;
                         font-size: 40px;
                     }
                     .icon-logo1{

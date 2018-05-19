@@ -13,8 +13,8 @@
                     width="200"
                     trigger="hover"
                 >
-                    <a :href="'/someinfo?t=' + new Date().getTime() + '#/coupon'" class="top-menu" slot="reference"><i class="iconfont icon-youhuijuan couponicon"></i>COUPON</a>
-                    <div style="font-weight: bold;">you have 7 coupon</div>
+                    <a :href="'/someinfo?t=' + new Date().getTime() + '#/coupon'" class="top-menu" slot="reference"><i class="iconfont icon-youhuijuan couponicon"></i>Coupon</a>
+                    <div style="font-weight: bold;">you have {{len}} coupon</div>
                 </el-popover>
               <a href="/" class="news top-menu" v-if="showToIndex">{{ $t("comHeader.headerIndex") }}</a>
               <a v-login :href="'/order?t=' + new Date().getTime() + '#/'" class="top-menu"  @click="toOrder">{{ $t("comHeader.headerMyOrder") }}</a>
@@ -81,7 +81,7 @@
                 </div>
             </el-dialog>
         </div>
-        <coupon-shade v-if="showShade"></coupon-shade>
+        <coupon-shade v-if="showShade" :dataList="bonusList"></coupon-shade>
     </div>
 </template>
 <script>
@@ -91,6 +91,8 @@
     import userService from '@/services/UserService.js'
     import expertService from '@/services/MyexpertService.js'
     import checkService from '@/services/CheckService.js'
+    import dateUtils from '@/utils/DateUtils.js'
+    import timeService from '@/services/TimeService'
     import {couponShade, myExperts} from 'ui'
     import md5 from 'md5'
     export default {
@@ -98,6 +100,7 @@
         data(){
           return{
               showShade:true,
+              len: 0,
               flag:true,
               showToIndex:true,
               userInfo : {},
@@ -121,14 +124,65 @@
               language : 'en',
               test:0,
               hasMd5: false,
-              hasPass: false
+              hasPass: false,
+              bonusList:[],
+              now:'',
+              firstLogin:false,
           }
         },
         mounted(){
             this.language = store.getItem('language') ?  store.getItem('language') : this.language
             this.selfContext.$on('closeShade',this.closeTheShade)
+            this.showShade = store.getItem('hasShownShade') === 1 ? true : false
+            this.getBonusList();
+        },
+        beforeDestroy() {
+            window.removeEventListener('beforeunload', e => this.beforeunloadHandler())
         },
         methods:{
+            getNowTime(){
+                timeService.getTimeAndZone().then(time => {
+                    this.now = new Date(time.current_time).getTime()
+                    this.getBonusList()
+                },err => {
+                    this.$ltsMessage({type:'error',message:err.error_message})
+                })
+            },
+            getBonusList(){
+                checkService.checkInfo().then((data) => {
+                    data.data.acc_books.forEach( t => {
+                        if(t.subject === 2010102 && t.bonus) {
+                            t.bonus.datalist.forEach(v => {
+                                this.len++;
+                            })
+                            if(this.showShade){
+                                t.bonus.datalist.forEach(item => {
+                                    item.rule_value = JSON.parse(item.rule)
+                                    item.end = dateUtils.format(new Date(parseInt(item.end_time)), 'MM-dd-yyyy')
+                                    item.start = dateUtils.format(new Date(parseInt(item.start_time)), 'MM-dd-yyyy')
+                                    if((item.end_time - this.now) / 1000 / 3600 / 24 > 5){
+                                        item.expire = false
+                                    }else{
+                                        item.expire = true
+                                    }
+                                    // if(item.end_time < this.now){
+                                    //     this.unableBonusList.push(item)
+                                    // }else{
+                                    //     this.ableBonusList.push(item)
+                                    // }
+                                })
+                                this.bonusList = t.bonus.datalist.slice(0,6)
+                            }
+                        }
+                    })
+                    window.addEventListener('beforeunload', e => this.beforeunloadHandler())
+                })
+            },
+            beforeunloadHandler(){
+                if(!this.firstLogin){
+                    store.setItem('hasShownShade', 2)
+                }
+            },
             closeTheShade(){
                 this.showShade = !this.showShade
             },
@@ -222,6 +276,13 @@
                 //     this.form.password = md5(this.form.password)
                 // }
                 userService.login(this.form).then((data)=>{
+                    if(true){
+                        this.firstLogin = true
+                        // 测试暂时取消
+                        store.setItem('hasShownShade', 2)
+                    }else{
+                        store.setItem('hasShownShade', 2)
+                    }
                     this.getInfo();
                     this.loginVisible = false;
                     this.getUserInfo();

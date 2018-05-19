@@ -117,6 +117,7 @@
             position: relative;
             margin-bottom: 12px;
             margin-right: 24px;
+            border-bottom: 2px solid #4B8CFF;
             .expiring{
                 position: absolute;
                 top:0;
@@ -151,7 +152,6 @@
             .content{
                 margin:0 20px;
                 padding:8px 0 0 0;
-                border-bottom: 1px dashed #ddd;
                 .topline{
                     display: flex;
                     justify-content: space-between;
@@ -174,7 +174,7 @@
                     }
                     .icon-logo1{
                         font-size: 40px;
-                        color:#CC232D;
+                        color:#d02128;
                         position: relative;
                         top:-10px;
                     }

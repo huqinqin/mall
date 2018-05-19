@@ -1,17 +1,7 @@
 <template>
     <div class="_index" >
         <!-- banner -->
-        <div class="banner" :style="{backgroundImage : 'url(' + img + ')'}">
-            <!--<el-carousel class="slider" :autoplay=isAuto>
-                <el-carousel-item v-for="banner in index_banner" :key="banner.banner_url" :autoplay="isAuto">
-                    <a :href="banner.link_url">
-                        <div class="img" :style="{backgroundImage : 'url(' + banner.banner_url +')'}"></div>
-                    </a>
-                </el-carousel-item>
-            </el-carousel>-->
-
-        </div>
-        <!--<div class="banner" :style="{backgroundImage : 'url(' + img + ')'}"></div>-->
+        <div class="banner" :style="{backgroundImage : 'url(' + img + ')'}"></div>
         <!-- publicity -->
         <div class="publicity" v-ltsLoginShow:false>
             <div class="welcome">
@@ -30,7 +20,7 @@
         <!-- main -->
         <div class="content">
             <div class="item-box">
-                <div v-for="(itemlist,index) in itemList" :key="itemlist.name" class="item-level" :id="index">
+                <div v-for="(itemlist,index) in itemList" :key="itemlist.name" class="item-level" :id="index" v-if="itemList.length > 0">
                     <a :href="itemlist.url">
                         <div class="item-list-title">
                             <div class="i">
@@ -40,7 +30,7 @@
                         </div>
                     </a>
                     <ul class="item-list-box">
-                        <li v-for="item in itemlist.items" :key="item.sin"
+                        <li v-for="item in itemlist.items" :key="item.sin" v-if="itemlist.items.length > 0"
                             v-bind:class="{'limit':item.type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1,'flashSale':item.discount_type == 0,'newSeller': item.isNew}">
                             <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
                                 <!--<a :href="'/detail#/?id=' + item.id" target="_blank">-->
@@ -79,7 +69,7 @@
                                 </div>
                                 <!--</div>-->
                             </a>
-                            <button class="iconfont" v-ltsLoginShow:true @click="addCart()"  :class="flag ? 'icon-chenggong1 cart1':'icon-gouwuche2 cart'"></button>
+                            <button class="iconfont" v-ltsLoginShow:true @click="addCart(item)"  :class="flag ? 'icon-chenggong1 cart1':'icon-gouwuche2 cart'"></button>
                         </li>
                     </ul>
                 </div>
@@ -97,6 +87,7 @@
     import homeService from '@/services/HomeService.js'
     import ItemService from '@/services/ItemService.js'
     import {floorNum} from '@/const/floorNumConst.js';
+    import cartService from '@/services/CartService'
     import $ from 'jquery'
     export default {
         data () {
@@ -121,13 +112,27 @@
                 ],
                 itemList: [],
                 hotList: [],
-                flag: false,
-
+                flag: false
             }
         },
         methods: {
-            addCart(){
-                console.log("000");
+            addCart(val){
+                ItemService.getItemDetail(val.id).then((item) => {
+                    let props = item.data.item.item_struct_props;
+                   /* for(var i = 0;i < props.length;i++){
+                        if(props[i].sku === true && props[i].storage > 0){
+                            return i;
+                        }
+                    }*/
+                   val.num = 1;
+                    cartService.putCartPlus(val, props[0]).then((data) => {
+                        item.flag = true;
+                        this.selfContext.$emit('addCartSuccess');
+                        this.$ltsMessage.show({type:'success',message:'Successfully added to your shopping cart'});
+                    }, (msg) => {
+                        this.$ltsMessage.show({type: 'error', message: msg.error_message})
+                    })
+                });
             },
             login () {
                 this.$emit('showLogin', 2)
@@ -271,8 +276,8 @@
                             }
                         })
                     });
-                    console.log(this.itemList);
-                    console.log(floor);
+                    //console.log(this.itemList);
+                    //console.log(floor);
                 }, (msg) => {
                     this.$ltsMessage.show({type: 'error', message: msg.error_message})
                 })

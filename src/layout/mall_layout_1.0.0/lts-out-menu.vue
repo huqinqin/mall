@@ -20,7 +20,6 @@
         methods: {
              scrollto(val) {
                  let valnum = parseInt(val);
-                 console.log(valnum);
                  $(".out-menu ul li").attr("class","");
                  $("html,body").stop().animate({scrollTop: $("#" + val).offset().top}, 1000);
                  $(".out-menu ul li").eq(valnum).attr("class","active");
@@ -30,7 +29,6 @@
                  $(".out-menu").css("display","none !important")
                 $(window).scroll(function () {
                         if($(window).scrollTop() > 400) {
-                            //$(".out-menu").css("display" , "block");
                             $(".out-menu").show();
                         } else {
                             $(".out-menu").css("display" , "none");
@@ -40,7 +38,6 @@
             },
             scrolltoTop(){
                  $("html,body").stop().animate({scrollTop: 0},1000);
-                /*$(window).scrollTop(0)*/
             }
         },
         mounted(){

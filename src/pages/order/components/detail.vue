@@ -159,14 +159,14 @@
                 <label>{{$t("main.order.detail.mainOrDeDiscount")}}</label> <span><i class="iconfont icon-jianquminus25"></i><lts-money :money="order.change_fee"></lts-money></span>
             </div>
             <div class="text">
-                <label>{{$t("main.cart.settle.mainCartSeFright")}}</label> <span><i class="iconfont icon-jia11"></i><lts-money :money="order.fee_hd_value.HD_ALL"></lts-money></span>
+                <label>Shipping & Handling</label> <span><i class="iconfont icon-jia11"></i><lts-money :money="order.fee_hd_value.HD_ALL + order.fee_hd_value.TAXES_ALL"></lts-money></span>
             </div>
             <div class="text">
                 <label>{{$t("main.cart.settle.mainCartSeTax")}}</label> <span><i class="iconfont icon-jia11"></i><lts-money :money="order.fee_hd_value.TAXES_ALL"></lts-money></span>
             </div>
-            <div class="text" >
-                <label>Handling</label> <span><i class="iconfont icon-jia11"></i><lts-money :money="order.fee_hd_value.HANDLE_ALL"></lts-money></span>
-            </div>
+            <!--<div class="text" >-->
+                <!--<label>Handling</label> <span><i class="iconfont icon-jia11"></i><lts-money :money="order.fee_hd_value.HANDLE_ALL"></lts-money></span>-->
+            <!--</div>-->
             <div class="text">
                 <label>{{$t("main.order.detail.mainOrDePayTotal")}}</label>
                 <span class="large">

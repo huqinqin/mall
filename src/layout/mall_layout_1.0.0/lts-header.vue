@@ -13,15 +13,11 @@
                     width="200"
                     trigger="hover"
                 >
-                    <a :href="'/someinfo?t=' + new Date().getTime() + '#/'" class="top-menu" slot="reference"><i class="iconfont icon-youhuijuan couponicon"></i>COUPON</a>
+                    <a :href="'/someinfo?t=' + new Date().getTime() + '#/coupon'" class="top-menu" slot="reference"><i class="iconfont icon-youhuijuan couponicon"></i>Coupon</a>
                     <div style="font-weight: bold;">you have {{len}} coupon</div>
                 </el-popover>
               <a href="/" class="news top-menu" v-if="showToIndex">{{ $t("comHeader.headerIndex") }}</a>
               <a v-login :href="'/order?t=' + new Date().getTime() + '#/'" class="top-menu"  @click="toOrder">{{ $t("comHeader.headerMyOrder") }}</a>
-              <!--<el-tooltip placement="top" effect="light" :visible-arrow="false" v-login v-if="showToIndex && userInfo">
-                <div slot="content"><myExperts></myExperts></div>
-                <a href="javascript:void(0)" class="top-menu" v-login v-if="showToIndex && userInfo">{{ $t("comHeader.headerMyExpert") }}</a>
-              </el-tooltip>-->
                 <el-popover
                     ref="popover1"
                     width="450"
@@ -35,17 +31,6 @@
                 <a href="javascript:void(0)" class="top-menu" v-login v-if="showToIndex && userInfo" v-popover:popover1>{{ $t("comHeader.headerMyExpert") }}</a>
               <a href="javascript:void(0)" class="top-menu"><i class="iconfont icon-shouji"></i>{{ $t("comHeader.headerPhoneOrder") }}</a>
               <a href="javascript:void(0)"  @click="logout" v-if="userInfo">{{ $t("comHeader.headerLogin") }}</a>
-              <!--<el-dropdown @command="handleCommand">-->
-                  <!--<span class="el-dropdown-link">-->
-                     <!--<span v-if="language == 'cn'">中文</span>-->
-                     <!--<span v-else>English</span>-->
-                     <!--<i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>-->
-                  <!--</span>-->
-                  <!--<el-dropdown-menu slot="dropdown">-->
-                        <!--<el-dropdown-item command="cn">中文</el-dropdown-item>-->
-                        <!--<el-dropdown-item command="en">English</el-dropdown-item>-->
-                  <!--</el-dropdown-menu>-->
-              <!--</el-dropdown>-->
             </li>
           </ul>
         </div>
@@ -96,6 +81,7 @@
                 </div>
             </el-dialog>
         </div>
+        <coupon-shade v-if="showShade" :dataList="bonusList"></coupon-shade>
     </div>
 </template>
 <script>
@@ -103,14 +89,17 @@
     import config from 'config'
     import session from '@/library/Session'
     import userService from '@/services/UserService.js'
-    import myExperts from '@/common/components/myExperts'
     import expertService from '@/services/MyexpertService.js'
     import checkService from '@/services/CheckService.js'
+    import dateUtils from '@/utils/DateUtils.js'
+    import timeService from '@/services/TimeService'
+    import {couponShade, myExperts} from 'ui'
     import md5 from 'md5'
     export default {
         name : "lts-header",
         data(){
           return{
+              showShade:true,
               len: 0,
               flag:true,
               showToIndex:true,
@@ -135,24 +124,67 @@
               language : 'en',
               test:0,
               hasMd5: false,
-              hasPass: false
+              hasPass: false,
+              bonusList:[],
+              now:'',
+              firstLogin:false,
           }
         },
         mounted(){
-            this.language = store.getItem('language') ?  store.getItem('language') : this.language;
-            this.checkInfo();
+            this.language = store.getItem('language') ?  store.getItem('language') : this.language
+            this.selfContext.$on('closeShade',this.closeTheShade)
+            this.showShade = store.getItem('hasShownShade') === 1 ? true : false
+            this.getBonusList();
+        },
+        beforeDestroy() {
+            window.removeEventListener('beforeunload', e => this.beforeunloadHandler())
         },
         methods:{
-            checkInfo(){
+            getNowTime(){
+                timeService.getTimeAndZone().then(time => {
+                    this.now = new Date(time.current_time).getTime()
+                    this.getBonusList()
+                },err => {
+                    this.$ltsMessage({type:'error',message:err.error_message})
+                })
+            },
+            getBonusList(){
                 checkService.checkInfo().then((data) => {
-                    data.data.acc_books.forEach( (item) => {
-                        if(item.subject === 2010102 && item.bonus){
-                            item.bonus.datalist.forEach((item) => {
+                    data.data.acc_books.forEach( t => {
+                        if(t.subject === 2010102 && t.bonus) {
+                            t.bonus.datalist.forEach(v => {
                                 this.len++;
                             })
+                            if(this.showShade){
+                                t.bonus.datalist.forEach(item => {
+                                    item.rule_value = JSON.parse(item.rule)
+                                    item.end = dateUtils.format(new Date(parseInt(item.end_time)), 'MM-dd-yyyy')
+                                    item.start = dateUtils.format(new Date(parseInt(item.start_time)), 'MM-dd-yyyy')
+                                    if((item.end_time - this.now) / 1000 / 3600 / 24 > 5){
+                                        item.expire = false
+                                    }else{
+                                        item.expire = true
+                                    }
+                                    // if(item.end_time < this.now){
+                                    //     this.unableBonusList.push(item)
+                                    // }else{
+                                    //     this.ableBonusList.push(item)
+                                    // }
+                                })
+                                this.bonusList = t.bonus.datalist.slice(0,6)
+                            }
                         }
-                    });
+                    })
+                    window.addEventListener('beforeunload', e => this.beforeunloadHandler())
                 })
+            },
+            beforeunloadHandler(){
+                if(!this.firstLogin){
+                    store.setItem('hasShownShade', 2)
+                }
+            },
+            closeTheShade(){
+                this.showShade = !this.showShade
             },
             submit(){
                 userService.checkLogin(this.form.acount).then((t) => {
@@ -244,6 +276,13 @@
                 //     this.form.password = md5(this.form.password)
                 // }
                 userService.login(this.form).then((data)=>{
+                    if(true){
+                        this.firstLogin = true
+                        // 测试暂时取消
+                        store.setItem('hasShownShade', 2)
+                    }else{
+                        store.setItem('hasShownShade', 2)
+                    }
                     this.getInfo();
                     this.loginVisible = false;
                     this.getUserInfo();
@@ -309,7 +348,7 @@
             this.selfContext.$on('checkExpert',this.checkExpert)
         },
         components: {
-            myExperts
+            myExperts,couponShade
         }
     }
 </script>

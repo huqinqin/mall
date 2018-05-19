@@ -3,7 +3,7 @@
     <h5>{{ $t("main.cart.beforePay.mainCartBefPay") }}</h5>
     <div class="info">
       <p>{{ $t("main.cart.beforePay.mainCartBefOrderNum") }}：{{tid}}</p>
-      <p>{{ $t("main.cart.beforePay.mainCartBefWaitPay") }}：<span class="red"><lts-money :money="form.moneyPay"/></span>
+      <p>{{ $t("main.cart.beforePay.mainCartBefWaitPay") }}：<span class="red" v-if="form.moneyPay"><lts-money :money="form.moneyPay"/></span>
       </p>
       <div v-if="!frozened">
         <el-checkbox

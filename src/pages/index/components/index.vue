@@ -171,9 +171,27 @@
                   <button v-ltsLoginShow:false v-login class="login">
                     {{$t("main.detail.info.mainDetInfoLoginPrice")}}
                   </button>
-                  <p v-ltsLoginShow:true class="price">
-                    <lts-money :money="item.price"></lts-money>
-                  </p>
+                    <p v-ltsLoginShow:true class="price">
+                        <span class="realPrice">
+                            <template v-if="item.discount_type == 1">
+                                <lts-money :money="item.price * item.discount / 100"></lts-money>
+                            </template>
+                            <template v-else-if="item.discount_type == 2">
+                                <lts-money :money="item.price - item.discount"></lts-money>
+                            </template>
+                            <template v-else-if="item.discount_type == 4">
+                                <lts-money :money="item.sale_rule_do.price"></lts-money>
+                            </template>
+                            <template v-else>
+                                <lts-money :money="item.price_real"></lts-money>
+                            </template>
+                        </span>
+                        <span class="oldPrice">
+                            <template v-if="item.discount_type != 0 ||  item.price != item.price_real">
+                                <lts-money :money="item.price"></lts-money>
+                            </template>
+                        </span>
+                    </p>
                 </div>
               </div>
               </a>

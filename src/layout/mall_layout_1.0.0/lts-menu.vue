@@ -55,23 +55,11 @@
             selectChange(value) {
                 store.setItem('selected', value.currentTarget.textContent);
                 this.selected = value.currentTarget.textContent;
-            },
-            checkInfo(){
-                checkService.checkInfo().then((data) => {
-                    this.finance[2].show = false
-                    data.data.acc_books.forEach((item) => {
-                        if(item.subject === 2010106){
-                            this.finance[2].show = true
-                        }
-                    });
-                },(msg) => {
-                    this.$ltsMessage.show({type:'error',message:msg.error_message})
-                })
             }
         },
         mounted() {
             this.selected = store.getItem("selected") ? store.getItem("selected") : this.$t("common.ltsMenu.commLtsPersonlPage")
-            this.checkInfo()
+            this.finance[2].show = store.getItem('hasCreditTerm') ? true : false
         }
     }
 </script>

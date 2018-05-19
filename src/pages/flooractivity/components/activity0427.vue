@@ -1,5 +1,5 @@
 <template>
-    <div class="_index" >
+    <div class="_index">
         <!-- banner -->
         <div class="banner" :style="{backgroundImage : 'url(' + img + ')'}"></div>
         <!-- publicity -->
@@ -13,14 +13,17 @@
             </div>
             <div class="login">
                 <button v-login>{{$t("main.index.mainInImmeLogin")}}</button>
-                <a :href="'/account?t=' + new Date().getTime() +'#/register'"><button class="sign">{{$t("main.index.mainInFreeRegis")}}</button></a>
+                <a :href="'/account?t=' + new Date().getTime() +'#/register'">
+                    <button class="sign">{{$t("main.index.mainInFreeRegis")}}</button>
+                </a>
             </div>
         </div>
         <!-- poster -->
         <!-- main -->
         <div class="content">
             <div class="item-box">
-                <div v-for="(itemlist,index) in itemList" :key="itemlist.name" class="item-level" :id="index" v-if="itemList.length > 0">
+                <div v-for="(itemlist,index) in itemList" :key="itemlist.name" class="item-level" :id="index"
+                     v-if="itemList.length > 0">
                     <a :href="itemlist.url">
                         <div class="item-list-title">
                             <div class="i">
@@ -38,48 +41,60 @@
                                 <div class="img"
                                      :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}"></div>
                                 <div class="item-spec">
-                                    <p class="line-two" :title="item.item_name"><span class="coupon">COUPON</span>{{item.item_name}}</p>
+                                    <p class="line-two" :title="item.item_name"><span class="coupon" v-if="item.unable_bonus_flag">COUPON</span>{{item.item_name}}
+                                    </p>
                                     <p class="line-four"></p>
                                     <div class="item-price">
-                                        <button v-ltsLoginShow:false="(itemlist.attribute | 4) != itemlist.attribute" v-login class="login">
+                                        <button v-ltsLoginShow:false="(itemlist.attribute | 4) != itemlist.attribute"
+                                                v-login class="login">
                                             {{$t("main.detail.info.mainDetInfoLoginPrice")}}
                                         </button>
-                                        <p v-ltsLoginShow:true="(itemlist.attribute | 4) == itemlist.attribute" class="price">
-                          <span class="realPrice">
-                            <template v-if="item.discount_type == 1">
-                                <lts-money :money="item.price * item.discount / 100"></lts-money>
-                            </template>
-                            <template v-else-if="item.discount_type == 2">
-                                <lts-money :money="item.price - item.discount"></lts-money>
-                            </template>
-                            <template v-else-if="item.discount_type == 4">
-                                <lts-money :money="item.sale_rule_do.price"></lts-money>
-                            </template>
-                            <template v-else>
-                                <lts-money :money="item.price_real"></lts-money>
-                            </template>
-                        </span>
-                                            <span class="oldPrice">
-                            <template v-if="item.discount_type != 0 ||  item.price != item.price_real">
-                                <lts-money :money="item.price"></lts-money>
-                            </template>
-                        </span>
+                                        <p v-ltsLoginShow:true="(itemlist.attribute | 4) == itemlist.attribute"
+                                           class="price">
+                                            <span class="realPrice">
+                                              <template v-if="item.discount_type == 1">
+                                                  <lts-money :money="item.price * item.discount / 100"></lts-money>
+                                              </template>
+                                              <template v-else-if="item.discount_type == 2">
+                                                  <lts-money :money="item.price - item.discount"></lts-money>
+                                              </template>
+                                              <template v-else-if="item.discount_type == 4">
+                                                  <lts-money :money="JSON.parse(item.sale_rule).price"></lts-money>
+                                              </template>
+                                              <template v-else>
+                                                  <lts-money :money="item.price_real"></lts-money>
+                                              </template>
+                                          </span>
+                                          <span class="oldPrice">
+                                              <template v-if="item.discount_type != 0 ||  item.price != item.price_real">
+                                                  <lts-money :money="item.price"></lts-money>
+                                              </template>
+                                          </span>
                                         </p>
                                     </div>
                                 </div>
                                 <!--</div>-->
                             </a>
-                            <button class="iconfont" v-ltsLoginShow:true @click="addCart(item)"  :class="flag ? 'icon-chenggong1 cart1':'icon-gouwuche2 cart'"></button>
+                            <button class="iconfont" v-ltsLoginShow:true @click="addCart(item)"
+                                    :class="flag ? 'icon-chenggong1 cart1':'icon-gouwuche2 cart'"></button>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
         <ul class="moreIcon">
-            <li><div class="img2"><img :src= img3 alt=""></div><p>Credit Card Checkout</p></li>
-            <li><div style="margin: 10px auto;height: 40px;font-weight: bold;line-height: 40px">30-DAY</div><p>Return Guarantee</p></li>
-            <li><div class="img2"><img :src= img4 alt=""></div><p>Free IP Consulting</p></li>
-            <li><div class="img2"><img :src= img2 alt=""></div><p>Up to 3 Year Warranty</p></li>
+            <li>
+                <div class="img2"><img :src=img3 alt=""></div>
+                <p>Credit Card Checkout</p></li>
+            <li>
+                <div style="margin: 10px auto;height: 40px;font-weight: bold;line-height: 40px">30-DAY</div>
+                <p>Return Guarantee</p></li>
+            <li>
+                <div class="img2"><img :src=img4 alt=""></div>
+                <p>Free IP Consulting</p></li>
+            <li>
+                <div class="img2"><img :src=img2 alt=""></div>
+                <p>Up to 3 Year Warranty</p></li>
         </ul>
     </div>
 </template>
@@ -89,16 +104,17 @@
     import {floorNum} from '@/const/floorNumConst.js';
     import cartService from '@/services/CartService'
     import $ from 'jquery'
+
     export default {
-        data () {
+        data() {
             return {
-                img:require('../../../assets/img/banner0504.png'),
-                img2:require('../../../assets/img/icon.png'),
-                img3:require('../../../assets/img/card.png'),
-                img4:require('../../../assets/img/music.png'),
+                img: require('../../../assets/img/banner0504.png'),
+                img2: require('../../../assets/img/icon.png'),
+                img3: require('../../../assets/img/card.png'),
+                img4: require('../../../assets/img/music.png'),
                 isAuto: true,
-                showDownload:false,
-                appDown:require('@/assets/img/download.png'),
+                showDownload: false,
+                appDown: require('@/assets/img/download.png'),
                 index_banner: [],
                 posterSmall: {},
                 posterBig: {},
@@ -116,177 +132,76 @@
             }
         },
         methods: {
-            addCart(val){
+            addCart(val) {
                 ItemService.getItemDetail(val.id).then((item) => {
                     let props = item.data.item.item_struct_props;
-                   /* for(var i = 0;i < props.length;i++){
-                        if(props[i].sku === true && props[i].storage > 0){
-                            return i;
+                    for (var i = 0; i < props.length; i++) {
+                        if (props[i].sku === true && props[i].storage > 0) {
+                            break;
                         }
-                    }*/
-                   val.num = 1;
-                    cartService.putCartPlus(val, props[0]).then((data) => {
+                    }
+                    val.num = 1;
+                    cartService.putCartPlus(val, props[i]).then((data) => {
                         item.flag = true;
                         this.selfContext.$emit('addCartSuccess');
-                        this.$ltsMessage.show({type:'success',message:'Successfully added to your shopping cart'});
+                        this.$ltsMessage.show({type: 'success', message: 'Successfully added to your shopping cart'});
                     }, (msg) => {
                         this.$ltsMessage.show({type: 'error', message: msg.error_message})
                     })
                 });
             },
-            login () {
+            login() {
                 this.$emit('showLogin', 2)
             },
-            href(id){
+            href(id) {
                 let winOpen = window.open("", "_blank"); //首先打开一个新页面
                 winOpen.location = "/detail#/info/?id=" + id;
             },
-            getList () {
-                homeService.getList().then((data) => {
-                    this.itemList = data.floor.datalist
-
-                    setTimeout(()=> {
-                        this.showDownload = true
-                    },400)
-                    this.itemList.forEach((item) => {
-                        item.items.forEach((val) => {
-                            if(val.tag.indexOf('新品') != -1){
-                                val.isNew = true
-                            }
-                        })
-                    })
-                    this.hotList = data.hot_buys.datalist[0].items
-                    this.hotList.forEach(item => {
-                        item.price_real = item.price
-                        if(this.level != 0 && item.price_define_do){
-                            for(let map in item.price_define_do.discount_map){
-                                if(map == this.level){
-                                    item.price_real = item.price_real * item.price_define_do.discount_map[map] / 100
-                                }
-                            }
-                        }
-                    })
-                    this.itemList.forEach(value => {
-                        value.items.forEach(item => {
-                            item.price_real = item.price
-                            if(this.level != 0 && item.price_define_do){
-                                for(let map in item.price_define_do.discount_map){
-                                    if(map == this.level){
-                                        item.price_real = item.price_real * item.price_define_do.discount_map[map] / 100
-                                    }
-                                }
-                            }
-                        })
-                    })
-
-                    if(data.fix_pic && data.fix_pic.datalist.length > 0 && data.fix_pic.datalist[0] && data.fix_pic.datalist[0].content){
-                        data.fix_pic.datalist[0].content = JSON.parse(data.fix_pic.datalist[0].content)
-                        this.posterBig = data.fix_pic.datalist[0]
-                        this.posterBig.content.link_url = this.posterBig.content.link_url.replace('#','?t=' + new Date().getTime() + '#')
-                    }else{
-                        this.posterBig = {
-                            name:'error_picture',
-                            content: {
-                                link_url:'javascript:void(0)',
-                                fix_url:'http://ltsb2b.oss-us-west-1.aliyuncs.com/tmp/Retail%20Solution1.png'
-                            }
-                        }
-                    }
-
-                    if(data.fix_pic_right2 && data.fix_pic_right2.datalist.length > 0 && data.fix_pic_right2.datalist[0] && data.fix_pic_right2.datalist[0].content){
-                        data.fix_pic_right2.datalist[0].content = JSON.parse(data.fix_pic_right2.datalist[0].content)
-                        this.posterSmall.bottom = data.fix_pic_right2.datalist[0]
-                        this.posterSmall.bottom.content.link_url = this.posterSmall.bottom.content.link_url.replace('#','?t=' + new Date().getTime() + '#')
-                    }else{
-                        this.posterSmall.bottom = {
-                            name:'error_picture',
-                            content: {
-                                link_url:'javascript:void(0)',
-                                fix_url:'http://ltsb2b.oss-us-west-1.aliyuncs.com/tmp/Retail%20Solution1.png'
-                            }
-                        }
-                    }
-
-                    if(data.fix_pic_right1 && data.fix_pic_right1.datalist.length > 0 && data.fix_pic_right1.datalist[0] && data.fix_pic_right1.datalist[0].content){
-                        data.fix_pic_right1.datalist[0].content = JSON.parse(data.fix_pic_right1.datalist[0].content)
-                        this.posterSmall.top = data.fix_pic_right1.datalist[0]
-                        this.posterSmall.top.content.link_url = this.posterSmall.top.content.link_url.replace('#','?t=' + new Date().getTime() + '#')
-                    }else{
-                        this.posterSmall.top = {
-                            name:'error_picture',
-                            content: {
-                                link_url:'javascript:void(0)',
-                                fix_url:'http://ltsb2b.oss-us-west-1.aliyuncs.com/tmp/Retail%20Solution1.png'
-                            }
-                        }
-                    }
-
-                    if(data.banner){
-                        data.banner.datalist.forEach((val, index) => {
-                            if(val.link_url){
-
-                            }else{
-                                val.link_url = 'javascript:void(0)',
-                                    val.banner_url = 'http://ltsb2b.oss-us-west-1.aliyuncs.com/tmp/Retail%20Solution1.png'
-                            }
-                            this.index_banner.push(JSON.parse(val.content))
-                            this.index_banner.forEach(banner => {
-                                banner.link_url = banner.link_url.replace('#','?t=' + new Date().getTime() + '#')
-                            })
-                        })
-                    }
-                }, (msg) => {
-                    this.$ltsMessage.show({type: 'error', message: msg.error_message})
-                })
-            },
-            getList11 () {
-                let id = [10810,10811,10120,10780,10776,10774,10216];
+            getList11() {
+                let id = [10810, 10811, 10120, 10780, 10776, 10774, 10216];
                 let params = {
-                    ids: '10810,10811,10120'
+                    ids: '10810,10811,10120,10368,10798'
                 };
                 ItemService.getActivityItemList(params).then((data) => {
                     let floor = data.datalist.length / floorNum;
-                    let arr = ["NVR","ACCESSORIES","DVR","IP CAMERA","HD-TVI CAMERA","ACCESS CONTROL","TEST"]
-                    for(var i = 0;i < arr.length; i++ ){
+                    let arr = ["NVR", "ACCESSORIES", "DVR", "IP CAMERA", "HD-TVI CAMERA", "ACCESS CONTROL", "TEST"]
+                    for (var i = 0; i < arr.length; i++) {
                         let obj = {};
                         obj.name = arr[i];
-                        if(obj.name === "NVR"){
+                        if (obj.name === "NVR") {
                             obj.id = 12
-                        }else if(obj.name === "ACCESSORIES"){
+                        } else if (obj.name === "ACCESSORIES") {
                             obj.id = 14
-                        }else if(obj.name === "DVR"){
+                        } else if (obj.name === "DVR") {
                             obj.id = 15
-                        }else if(obj.name === "IP CAMERA"){
+                        } else if (obj.name === "IP CAMERA") {
                             obj.id = 11
-                        }else if(obj.name === "HD-TVI CAMERA"){
+                        } else if (obj.name === "HD-TVI CAMERA") {
                             obj.id = 13
-                        }else if(obj.name === "ACCESS CONTROL"){
+                        } else if (obj.name === "ACCESS CONTROL") {
                             obj.id = 16
-                        }else if(obj.name === "TEST"){
+                        } else if (obj.name === "TEST") {
                             obj.id = 27
                         }
                         obj.items = [];
                         this.itemList.push(obj)
                     }
-                    data.datalist.forEach( (item) => {
-                        this.itemList.forEach( (val,index) => {
-                            let itemsArr = [];
-                            if(item.category_id === val.id) {
+                    data.datalist.forEach((item) => {
+                        this.itemList.forEach((val, index) => {
+                            if (item.category_id === val.id) {
                                 val.items.push(item);
                             }
                         })
                     });
-                    //console.log(this.itemList);
-                    //console.log(floor);
+                    console.log(this.itemList);
                 }, (msg) => {
                     this.$ltsMessage.show({type: 'error', message: msg.error_message})
                 })
             }
         },
-        mounted () {
-            $("html").attr('class','gray')
+        mounted() {
+            $("html").attr('class', 'gray')
             this.level = window.localStorage.getItem('userLevel')
-            //this.getList()
             this.getList11()
         }
     }
@@ -299,9 +214,9 @@
         overflow: hidden;
     }
 
-    li.reduce::before,li.discount::before,li.limit::before,li.newSeller::before,li.flashSale::before{
-        content:'';
-        width:100px;
+    li.reduce::before, li.discount::before, li.limit::before, li.newSeller::before, li.flashSale::before {
+        content: '';
+        width: 100px;
         height: 100px;
         position: absolute;
         top: 0px;
@@ -310,9 +225,11 @@
         background-repeat: no-repeat;
         background-size: 100px 100px;
     }
-    li.newSeller::before{
-        background-image:url('../../../assets/img/new.png');
+
+    li.newSeller::before {
+        background-image: url('../../../assets/img/new.png');
     }
+
     /*li.reduce::before{
         background-image:url('../../../assets/img/ONSALE.png');
     }*/
@@ -322,22 +239,22 @@
     /*li.limit::before{
         background-image:url('../../../assets/img/Doorbuster.png');
     }*/
-    li.flashSale::before{
+    li.flashSale::before {
         top: 12px;
         left: 12px;
         width: 50px;
         height: 50px;
         background-size: 100% 100%;
-        background-image:url('../../../assets/img/flashSale.png');
+        background-image: url('../../../assets/img/flashSale.png');
     }
 
     .b1200 {
         .side {
             display: none;
         }
-        .slider{
+        .slider {
             height: 400px;
-            .img{
+            .img {
                 height: 400px;
             }
         }
@@ -353,14 +270,15 @@
             }
         }
     }
+
     .b1500 {
         .side {
             margin-left: 30px;
             display: block;
         }
-        .slider{
+        .slider {
             height: 500px;
-            .img{
+            .img {
                 height: 500px;
             }
         }
@@ -467,25 +385,25 @@
                 .top {
                     display: block;
                     margin-bottom: 12px;
-                    height : 169px;
+                    height: 169px;
                 }
-                .app{
+                .app {
                     position: relative;
                     height: 169px;
                     margin-bottom: 12px;
                     background-size: 100% 169px;
                     background-repeat: no-repeat;
-                    .wrapper{
+                    .wrapper {
                         position: absolute;
                         display: flex;
                         justify-content: space-between;
                         top: 70%;
                         left: 19%;
                         width: 40%;
-                        a{
+                        a {
                             display: block;
                         }
-                        img{
+                        img {
                             width: 76px;
                             height: 26px;
                         }
@@ -512,13 +430,13 @@
                         padding-left: 11px;
                         display: flex;
                         align-items: center;
-                        span.border{
+                        span.border {
                             display: block;
-                            width:3px;
+                            width: 3px;
                             height: 14px;
                             background: #3b85ff;
                         }
-                        span:last-child{
+                        span:last-child {
                             display: block;
                             margin-left: 12px;
                         }
@@ -544,14 +462,14 @@
                         text-align: left;
                         width: 290px;
                         margin-bottom: 12px;
-                        a{
+                        a {
                             display: block;
                         }
                     }
                     li:nth-child(4n) {
                         margin-right: 0%;
                     }
-                    .coupon{
+                    .coupon {
                         width: 79px;
                         height: 24px;
                         background-color: #FFA000;
@@ -565,7 +483,7 @@
                         font-weight: bold;
                         color: #000;
                     }
-                    .cart1{
+                    .cart1 {
                         position: absolute;
                         right: 8px;
                         bottom: 30px;
@@ -577,7 +495,7 @@
                         border: 1px solid white;
                         background-color: white;
                     }
-                    .cart{
+                    .cart {
                         position: absolute;
                         right: 8px;
                         bottom: 30px;
@@ -604,13 +522,13 @@
                         display: flex;
                         align-items: center;
                         padding-left: 11px;
-                        span.border{
+                        span.border {
                             display: block;
                             width: 3px;
                             height: 14px;
                             background: #3b85ff;
                         }
-                        span:last-child{
+                        span:last-child {
                             display: block;
                             margin-left: 12px;
                         }
@@ -692,10 +610,10 @@
                         .price {
                             color: #ff3b41;
                             position: relative;
-                            .oldPrice{
+                            .oldPrice {
                                 font-size: 14px;
                                 position: absolute;
-                                top:2px;
+                                top: 2px;
                                 text-decoration: line-through;
                                 color: #a3a3a3;
                             }
@@ -715,31 +633,33 @@
             }
 
         }
-        .moreIcon{
+        .moreIcon {
             width: 100%;
             display: flex;
             align-items: center;
             height: 90px;
             margin-top: 12px;
-            li{
+            background-color: white;
+            li {
                 flex: 1;
-                color:#D31927;
+                color: #D31927;
                 text-align: center;
                 height: 100%;
-                div{
+                div {
                     font-size: 24px;
-                };
-                p{
+                }
+            ;
+                p {
                     color: #000;
                     font-size: 14px;
                 }
             }
         }
-        .img2{
+        .img2 {
             width: 40px;
             height: 40px;
             margin: 10px auto;
-            img{
+            img {
                 width: 100%;
                 height: 100%;
             }

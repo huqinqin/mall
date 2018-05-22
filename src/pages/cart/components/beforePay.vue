@@ -62,7 +62,7 @@
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="creditFormVisible = false;$refs['form'].clearValidate();">{{$t("main.order.list.mainOrLiCanle")}}</el-button>
+          <el-button @click="creditFormVisible = false;$refs['form'].clearValidate();$refs['form'].resetFields();">{{$t("main.order.list.mainOrLiCanle")}}</el-button>
           <el-button type="primary" @click="submitCreditForm" style="margin-right: 24px;">{{$t("main.order.list.mainOrLiConfirm")}}</el-button>
         </div>
       </el-dialog>

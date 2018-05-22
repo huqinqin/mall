@@ -41,7 +41,7 @@
         },
         data(){
             return{
-                ableHeadImg:require('@/assets/img/ableCoupon.png'),
+                ableHeadImg:require('@/assets/img/able-coupon.png'),
                 bgImg:require('@/assets/img/coupon-shade-img.png'),
             }
         },

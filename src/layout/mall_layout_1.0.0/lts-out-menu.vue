@@ -19,21 +19,22 @@
         name: "lts-out-menu",
         methods: {
              scrollto(val) {
+                 $(window).off('scroll',this.scrollOne);
                  let valnum = parseInt(val);
                  $(".out-menu ul li").attr("class","");
-                 $("html,body").stop().animate({scrollTop: $("#" + val).offset().top}, 100);
+                 $("html,body").stop().animate({scrollTop: $("#" + valnum).offset().top}, 100);
                  $(".out-menu ul li").eq(valnum).attr("class","active");
              },
             scrollOne() {
-                $(".out-menu ul li").eq(0).attr("class","active")
+                 $(".out-menu ul li").eq(0).attr("class","active")
                  $(".out-menu").css("display","none !important")
                 $(window).scroll(function () {
-                        if($(window).scrollTop() > 400) {
-                            $(".out-menu").show();
-                        } else {
-                            $(".out-menu").css("display" , "none");
-                        }
-                    })
+                    if($(window).scrollTop() > $("#0").offset().top - 30) {
+                        $(".out-menu").show();
+                    } else {
+                        $(".out-menu").css("display" , "none");
+                    }
+                });
                 setTimeout( () => {
                     $(window).scroll(function () {
                         var top = $(document).scrollTop();
@@ -54,7 +55,7 @@
                             $(".out-menu ul li").eq(0).attr("class","active");
                         }
                     })
-                },2000)
+                },2000);
             },
             scrolltoTop(){
                  $("html,body").stop().animate({scrollTop: 0},100);

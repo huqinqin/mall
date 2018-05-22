@@ -173,6 +173,8 @@
                                 })
                                 this.bonusList = t.bonus.datalist.slice(0,6)
                             }
+                        }else if(t.subject === 2010106){
+                            store.setItem('hasCreditTerm', true)
                         }
                     })
                     window.addEventListener('beforeunload', e => this.beforeunloadHandler())

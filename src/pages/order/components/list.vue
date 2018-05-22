@@ -425,7 +425,7 @@
                 this.pagination.page = val;
                 this.search()
             },
-            reveresApply(data){debugger;
+            reveresApply(data){
               this.$router.push({name:'reverseApply',parmas:{order : data}})
             },
         },

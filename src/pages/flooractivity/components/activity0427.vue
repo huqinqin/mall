@@ -165,6 +165,7 @@
                 ItemService.getActivityItemList(params).then((data) => {
                     let floor = data.datalist.length / floorNum;
                     let arr = ["NVR", "ACCESSORIES", "DVR", "IP CAMERA", "HD-TVI CAMERA", "ACCESS CONTROL", "TEST"]
+                    let j = 0;
                     for (var i = 0; i < arr.length; i++) {
                         let obj = {};
                         obj.name = arr[i];
@@ -186,17 +187,23 @@
                         obj.items = [];
                         this.itemList.push(obj)
                     }
-                    data.datalist.forEach((item) => {
+                    /*data.datalist.forEach((item) => {
                         this.itemList.forEach((val, index) => {
                             if (item.category_id === val.id) {
                                 val.items.push(item);
                             }
                         })
-                    });
-                    console.log(this.itemList);
+                    });*/
+                    for (var i = 0; i < data.datalist.length; i+=3){
+                        if( i%3 === 0){
+                            j = i/3;
+                        }
+                        this.itemList[j].items.push(...(data.datalist.slice(i,i+3)))
+                    }
                 }, (msg) => {
                     this.$ltsMessage.show({type: 'error', message: msg.error_message})
-                })
+                });
+                console.log(this.itemList);
             }
         },
         mounted() {

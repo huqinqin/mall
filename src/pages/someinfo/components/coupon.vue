@@ -190,6 +190,9 @@
             .icon-ziyuanjrit,.num,.icon-logo1,p,.icon-tuijiansuode1{
                 color:#8E8E8E !important;
             }
+            li{
+                border-bottom: 2px solid #8E8E8E;
+            }
         }
     }
 </style>

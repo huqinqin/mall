@@ -230,9 +230,9 @@
                     this.ItemName = ''
                     this.sin = this.keywords
                 }
-                // if(JSON.stringify(this.selectedOptions).indexOf('91') !== -1){
-                //     location.href = '/detail?t='+ new Date().getTime() + '#/packlist';
-                // }else{
+                if(JSON.stringify(this.selectedOptions).indexOf('91') !== -1){
+                    location.href = '/detail?t='+ new Date().getTime() + '#/packlist';
+                }else{
                     if(this.$route.query.discountype !== undefined){
                         this.discountType = 0;
                         location.href = '/search?t='+ new Date().getTime() + '#/detail?cateId=' + JSON.stringify(this.selectedOptions) + '&itemname=' + this.ItemName + '&tags=' + this.tags + '&discountype=0';
@@ -241,7 +241,7 @@
                         location.href = '/search?t='+ new Date().getTime() + '#/detail?cateId=' + JSON.stringify(this.selectedOptions) + '&itemname=' + this.ItemName + '&tags=' + this.tags;
                     }
                     this.selfContext.$emit('getItemList')
-                // }
+                }
             },
             getCategoryList() {
                 categoryService.getList().then((data) => {

@@ -23,12 +23,17 @@
                 <h3>{{item.item_name}}</h3>
                 <!-- 商品属性-->
                 <div class="slogan" :class="{ isFinished: finished }">
-                    <span v-if="item.discount_type == 1" class="bold">{{ $t("main.detail.info.mainDetInfoDisGoods") }}</span>
-                    <span v-if="item.discount_type == 9" class="bold">{{ $t("main.detail.info.mainDetInfoDisGoods") }}</span>
+                    <span v-if="item.discount_type == 1"
+                          class="bold">{{ $t("main.detail.info.mainDetInfoDisGoods") }}</span>
+                    <span v-if="item.discount_type == 9"
+                          class="bold">{{ $t("main.detail.info.mainDetInfoDisGoods") }}</span>
                     <span v-if="item.discount_type == 0" class="bold">Save $200 every $1000+ purchase&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;Save $75 with $500 - $999 purchase&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;Save $30 with $300 - $499 purchase</span>
                     <span v-else-if="item.discount_type == 2" class="bold">{{ $t("main.detail.info.mainDetInfoDepriceGoods") }}</span>
-                    <span v-else-if="item.discount_type == 4" class="bold">{{ $t("main.detail.info.mainDetInfoLimit") }}</span>
-                    <div class="count" style="margin-right:24px;" v-if="finished">{{ $t("main.detail.info.mainDetInLimitOver") }} </div>
+                    <span v-else-if="item.discount_type == 4"
+                          class="bold">{{ $t("main.detail.info.mainDetInfoLimit") }}</span>
+                    <div class="count" style="margin-right:24px;" v-if="finished">{{
+                        $t("main.detail.info.mainDetInLimitOver") }}
+                    </div>
                     <div class="count" v-if="(item.discount_type == 4) && (!finished) && item.status == 1">
                         <span v-if="!started" class="bold">{{ $t("main.detail.info.mainDetInfoDown") }}</span>
                         <span v-if="started" class="bold">{{ $t("main.detail.info.mainDetInfoEnd") }}</span>
@@ -42,7 +47,8 @@
                         <div v-ltsLoginShow:true class="detail_price" v-if="!checkedSpu.price">
                             <span v-if="item.price_real">
                                 <lts-money :money="item.price_real"></lts-money>
-                                <span class="oldPrice" v-if="item.price_real != item.price"><lts-money :money="item.price"/></span>
+                                <span class="oldPrice" v-if="item.price_real != item.price"><lts-money
+                                    :money="item.price"/></span>
                             </span>
                             <span v-else>
                                 <lts-money :money="item.price"/>
@@ -50,7 +56,8 @@
                         </div>
                         <div v-ltsLoginShow:true class="detail_price" v-else>
                             <lts-money :money="checkedSpu.price_real"></lts-money>
-                            <span class="oldPrice" v-if="checkedSpu.price_real != checkedSpu.price"><lts-money :money="checkedSpu.price"/></span>
+                            <span class="oldPrice" v-if="checkedSpu.price_real != checkedSpu.price"><lts-money
+                                :money="checkedSpu.price"/></span>
                         </div>
                     </el-form-item>
                     <div :class="[showPropsError ? 'error' : '']" class="error_box" @click="closeError">
@@ -84,7 +91,8 @@
                             </template>
                         </el-form-item>
                     </div>
-                    <el-form-item :label='$t("main.detail.info.mainDetInfoCozyTip")' class="mark" v-if="(item.attribute&16384) == 16384">
+                    <el-form-item :label='$t("main.detail.info.mainDetInfoCozyTip")' class="mark"
+                                  v-if="(item.attribute&16384) == 16384">
                         <p v-if="(item.attribute&16384) == 16384">{{ $t("main.detail.info.mainDetInfoNoCoupon") }}</p>
                     </el-form-item>
                     <el-form-item class="buttons" v-if="item.status == 1">
@@ -122,18 +130,21 @@
                 <div class="header">
                     <div>{{ $t("main.detail.info.mainDetInfoBuy") }}</div>
                     <div class="icons">
-                        <div class="icon-left" @click="handleHistory(-1)"><i class="iconfont  icon-iconfontzuo"></i></div>
-                        <div class="icon-right" @click="handleHistory(+1)"><i class="iconfont  icon-iconfontyou-copy"></i></div>
+                        <div class="icon-left" @click="handleHistory(-1)"><i class="iconfont  icon-iconfontzuo"></i>
+                        </div>
+                        <div class="icon-right" @click="handleHistory(+1)"><i
+                            class="iconfont  icon-iconfontyou-copy"></i></div>
                     </div>
                 </div>
                 <ul v-if="buyHistory.length > 0">
                     <li v-for="item in historyItems"
                         :class="{ limit: item.discount_type == 4, reduce:item.discount_type == 2, discount:item.discount_type == 1,'newSeller': item.isNew}">
                         <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
-                            <div class="img" :style="{backgroundImage : 'url(' + item.image_value +'!item_middle)'}"></div>
+                            <div class="img"
+                                 :style="{backgroundImage : 'url(' + item.image_value +'!item_middle)'}"></div>
                             <div class="content" :title="item.item_name">
                                 <!--<el-tooltip class="item" effect="dark" :content="item.item_name" placement="top">-->
-                                    <p class="name">{{item.item_name}}</p>
+                                <p class="name">{{item.item_name}}</p>
                                 <!--</el-tooltip>-->
                             </div>
                             <div class="item-price">
@@ -149,7 +160,9 @@
                 </div>
             </div>
         </div>
-        <a href="/activity/#/activity0427?tags=may01week&sortid=11686-11705-11706-11697-10064-11698-11699-11716-11694-11695-11696-11700-11701-11702-11690-11689-11688-11713-11703-11707-11708-11681-11682-11299-11240-11266-11287-11709-11710-11711"><div class="detailDiscount" :style="{backgroundImage : 'url(' + img + ')'}"></div></a>
+        <a href="/activity/#/activity0427?tags=may01week&sortid=11686-11705-11706-11697-10064-11698-11699-11716-11694-11695-11696-11700-11701-11702-11690-11689-11688-11713-11703-11707-11708-11681-11682-11299-11240-11266-11287-11709-11710-11711">
+            <div class="detailDiscount" :style="{backgroundImage : 'url(' + img + ')'}"></div>
+        </a>
         <!--configure-->
         <div class="detail-configure" v-if="otherGoods.length > 0" v-ltsLoginShow:true>
             <div class="h5">{{ $t("main.detail.info.mainDetConfigure") }}</div>
@@ -157,15 +170,18 @@
                 <div class="briefInfo">
                     <div class="img" :style="'background-image: url(' + item.image_value + ')'"></div>
                     <!--<el-tooltip class="item" effect="dark" :content="item.item_name" placement="top">-->
-                        <div class="name" :title="item.item_name">{{item.item_name}}</div>
+                    <div class="name" :title="item.item_name">{{item.item_name}}</div>
                     <!--</el-tooltip>-->
                     <div class="price" v-if="!checkedSpu.price"><span class="red" style="font-size: 14px;">{{ $t("main.detail.info.mainDetInfoNoChoose") }}</span>
                     </div>
                     <div class="price" v-if="checkedSpu.price">
                         <span class="red">
-                            <span v-if="item.discount_type === 1"><lts-money :money="checkedSpu.price * item.discount / 100"></lts-money></span>
-                            <span v-else-if="item.discount_type === 2"><lts-money :money="checkedSpu.price - item.discount"></lts-money></span>
-                            <span v-else-if="item.discount_type === 4"><lts-money :money="item.sale_rule_do.price"></lts-money></span>
+                            <span v-if="item.discount_type === 1"><lts-money
+                                :money="checkedSpu.price * item.discount / 100"></lts-money></span>
+                            <span v-else-if="item.discount_type === 2"><lts-money
+                                :money="checkedSpu.price - item.discount"></lts-money></span>
+                            <span v-else-if="item.discount_type === 4"><lts-money
+                                :money="item.sale_rule_do.price"></lts-money></span>
                         </span>
                     </div>
                 </div>
@@ -179,7 +195,10 @@
                         <div class="price">
                             <span class="red" v-if="value.price_real"><lts-money :money="value.price_real"></lts-money></span>
                             <!--<el-button @click="addPackage(value)">++</el-button>-->
-                            <el-button class="icon" :disabled="value.checked"><i class="iconfont" v-ltsLoginShow:true  @click="addPackage(value)" :class="value.checked ? 'icon-chenggong1':'icon-gouwuche-copy'"></i></el-button>
+                            <el-button class="icon" :disabled="value.checked"><i class="iconfont" v-ltsLoginShow:true
+                                                                                 @click="addPackage(value)"
+                                                                                 :class="value.checked ? 'icon-chenggong1':'icon-gouwuche-copy'"></i>
+                            </el-button>
                         </div>
                     </li>
                 </ul>
@@ -200,10 +219,11 @@
                         <li v-for="item in hotSale" :key="item.id"
                             :class="{ limit: item.discount_type == 4, reduce:item.discount_type == 2, discount:item.discount_type == 1,'newSeller': item.isNew}">
                             <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
-                                <div class="img" :style="{backgroundImage : 'url(' + item.image_value +'!item_middle)'}"></div>
-                                <div class="content" >
+                                <div class="img"
+                                     :style="{backgroundImage : 'url(' + item.image_value +'!item_middle)'}"></div>
+                                <div class="content">
                                     <!--<el-tooltip class="item" effect="dark" :content="item.item_name" placement="top">-->
-                                        <p class="name" :title="item.item_name">{{item.item_name}}</p>
+                                    <p class="name" :title="item.item_name">{{item.item_name}}</p>
                                     <!--</el-tooltip>-->
                                 </div>
                                 <div class="item-price">
@@ -222,7 +242,8 @@
                 <div class="detail_goods">
                     <el-tabs v-model="activeName" @tab-click="handleClick" type="border-card">
                         <el-tab-pane :label='$t("main.detail.info.mainDetInfoGoodsInfo")' name="first">
-                            <ul class="aboutDetail" :class="[showPropDetail ? 'propOpen' : 'propClose']" v-if="aboutDetail.length > 0">
+                            <ul class="aboutDetail" :class="[showPropDetail ? 'propOpen' : 'propClose']"
+                                v-if="aboutDetail.length > 0">
                                 <li v-for="(value,index) in aboutDetail" v-if="!value.sku">
                                     <span v-for="(val,key) in value.propValues">
                                         {{key}}: {{val}}
@@ -265,22 +286,22 @@
         let propMap = null
         let defaultSkuItem = {item: null, props: [], propMap: null}
         structProps.forEach(v => {
-          if (!propMap && v.sku && v.storage > 0) {
-              defaultSkuItem.item = v
-              defaultSkuItem.propMap = JSON.parse(v.prop_value)
-              propMap = defaultSkuItem.propMap
-          }
+            if (!propMap && v.sku && v.storage > 0) {
+                defaultSkuItem.item = v
+                defaultSkuItem.propMap = JSON.parse(v.prop_value)
+                propMap = defaultSkuItem.propMap
+            }
         })
         propMap && prod.item_prop_value_maps.forEach(x => {
-          let pvalue = propMap[x.prop_name]
-          if (pvalue !== undefined){
-              x.prop_values.forEach(prop => {
-                if (prop.value === pvalue) {
-                  x.checked_prop = pvalue
-                  defaultSkuItem.props.push(x)
-                }
-              })
-          }
+            let pvalue = propMap[x.prop_name]
+            if (pvalue !== undefined) {
+                x.prop_values.forEach(prop => {
+                    if (prop.value === pvalue) {
+                        x.checked_prop = pvalue
+                        defaultSkuItem.props.push(x)
+                    }
+                })
+            }
         })
         return defaultSkuItem;
     }
@@ -333,27 +354,27 @@
                 showSelectModel: true,
                 checkedOthers: [],
                 otherSpu: {},
-                recommondInfo:[],
-                historyIndex:0,
-                historyItems:[],
-                level:'0',
-                otherItemSpu:{}
+                recommondInfo: [],
+                historyIndex: 0,
+                historyItems: [],
+                level: '0',
+                otherItemSpu: {}
             }
         },
         methods: {
             // 购买历史左右选择
-            handleHistory(index){
+            handleHistory(index) {
                 // console.log(this.historyIndex)
-                if(index > 0){
-                    if(this.historyIndex == Math.floor(this.buyHistory.length / 2)){
+                if (index > 0) {
+                    if (this.historyIndex == Math.floor(this.buyHistory.length / 2)) {
                         this.historyIndex = 0
-                    }else {
+                    } else {
                         this.historyIndex += index
                     }
-                }else{
-                    if(this.historyIndex == 0){
+                } else {
+                    if (this.historyIndex == 0) {
                         this.historyIndex = Math.floor(this.buyHistory.length / 2)
-                    }else{
+                    } else {
                         this.historyIndex += index
                     }
                 }
@@ -403,8 +424,18 @@
             handleClick(tab, event) {
                 console.log(tab, event)
             },
+            productDetail(id, item) {
+                ga('ec:addProduct', {
+                    'id': id,
+                    'name': item.item_name,
+                    'category': item.category_id,
+                    'variant': 'detail'
+                });
+                ga('ec:setAction', 'detail');
+            },
             getItemDetail(id) {
                 itemService.getItemDetail(id).then((data) => {
+                    this.productDetail(id, data.data.item);
                     data.data.item.num = 1
                     let skuItem = getDefaultSkuItem(data.data.item)
                     data.data.item.item_struct_props.forEach((value, index, array) => {
@@ -427,11 +458,11 @@
                         //     }
                         // }
                     })
-                    if(data.data.item.package_item_list.length > 0){
+                    if (data.data.item.package_item_list.length > 0) {
                         data.data.item.package_item_list.forEach(t => {
                             t.checked = false
                             t.item_struct_props.forEach(prop => {
-                                if(prop.sku && prop.storage){
+                                if (prop.sku && prop.storage) {
                                     t.otherCheckedProp = prop
                                     t.price_real = prop.price_real
                                     return false
@@ -440,10 +471,10 @@
                         })
                     }
                     this.otherGoods = data.data.item.package_item_list
-                    if(data.data.item.item_images.length == 0){
+                    if (data.data.item.item_images.length == 0) {
                         data.data.item.item_images.push(
                             {
-                                url : data.data.item.image_value
+                                url: data.data.item.image_value
                             }
                         )
                     }
@@ -452,39 +483,39 @@
                     this.hotSale = data.data.hot_recomment.items
                     this.hotSale = (data.data && data.data.hot_recomment) ? data.data.hot_recomment.items : [];
                     this.hotSale.forEach((item) => {
-                        if(item.tag.indexOf('新品') != -1){
+                        if (item.tag.indexOf('新品') != -1) {
                             item.isNew = true
                         }
                     })
                     this.buyHistory = (data.data && data.data.user_order_history) ? data.data.user_order_history : [];
                     // console.log(this.buyHistory)
-                    if(this.buyHistory.length > 0){
+                    if (this.buyHistory.length > 0) {
                         this.buyHistory.forEach((item) => {
-                            if(item.tag.indexOf('新品') != -1){
+                            if (item.tag.indexOf('新品') != -1) {
                                 item.isNew = true
                             }
                         })
                     }
-                    [this.hotSale,this.buyHistory].map(arr => {
+                    [this.hotSale, this.buyHistory].map(arr => {
                         arr.forEach(val => {
-                            if(this.level != 0 && val.price_define_do){
-                                for(let map in val.price_define_do.discount_map){
-                                    if(map == this.level){
+                            if (this.level != 0 && val.price_define_do) {
+                                for (let map in val.price_define_do.discount_map) {
+                                    if (map == this.level) {
                                         val.price = val.price * val.price_define_do.discount_map[map] / 100
                                     }
                                 }
                             }
                         })
                     })
-                    this.historyItems = this.buyHistory.slice(0,2)
+                    this.historyItems = this.buyHistory.slice(0, 2)
                     if (this.item.discount_type === 4) {
                         this.item.item_struct_props.forEach(t => {
-                            if(t.sku){
+                            if (t.sku) {
                                 t.storage = this.item.sale_rule_do.total
                             }
                         })
-                        itemService.searchItem({discountType:0,sin:this.item.sin}).then((resp) => {
-                            if(resp.data.item_d_o_list.length > 0){
+                        itemService.searchItem({discountType: 0, sin: this.item.sin}).then((resp) => {
+                            if (resp.data.item_d_o_list.length > 0) {
                                 this.otherGoodsItem = resp.data.item_d_o_list[0]
                             }
                         })
@@ -506,22 +537,22 @@
                         })
                     }
                     let self = this
-                    if(skuItem.props[0]) {
+                    if (skuItem.props[0]) {
                         setTimeout(() => {
                             self.skuMapEach(skuItem.props[0], self.item, 'checkedSku')
                         }, 300)
                     }
                 }, (msg) => {
-                    this.$ltsMessage.show({type: 'error', message: msg.errorMessage})
+                    this.$ltsMessage.show({type: 'error', message: msg.errorMessage});
                 })
             },
-            hotRecommoned(){
+            hotRecommoned() {
                 cartService.hotRecommond().then((data) => {
-                   this.recommondInfo = data.data;
+                    this.recommondInfo = data.data;
                 })
             },
             checkedProp(prop, data, type) {
-              // console.log(prop,data, type)
+                // console.log(prop,data, type)
                 if (prop.checked_prop !== '') {
                     this.skuMapEach(prop, data, type)
                 }
@@ -594,12 +625,25 @@
                     return false
                 }
             },
+            addToCart(product) {
+                ga('ec:addProduct', {
+                    'id': product.id,
+                    'name': product.item_name,
+                    'category': product.category_id,
+                    'price': product.price,
+                    'quantity': product.num
+                });
+                ga('ec:setAction', 'add');
+                ga('send', 'event', 'UX', 'click', 'add to cart');     // Send data using an event.
+            },
             addCart(item, spu) {
+                console.log(item);
+                this.addToCart(item);
                 if (!this.validate()) {
                     return false
                 }
                 // 判断限时限量商品购买数量是否超过限额
-                if((JSON.stringify(this.otherGoodsItem) != '{}') && this.item.sale_rule_do.maxinum && (this.item.num > this.item.sale_rule_do.maxinum)){
+                if ((JSON.stringify(this.otherGoodsItem) != '{}') && this.item.sale_rule_do.maxinum && (this.item.num > this.item.sale_rule_do.maxinum)) {
                     this.otherGoodsItem.num = this.item.num - this.item.sale_rule_do.maxinum
                     this.item.num = this.item.sale_rule_do.maxinum
                 }
@@ -607,10 +651,10 @@
                     if (!this.showPropsError) {
                         this.flag = true
                     }
-                    if(JSON.stringify(this.otherGoodsItem) != '{}'){
+                    if (JSON.stringify(this.otherGoodsItem) != '{}') {
                         this.otherGoodsItem.item_struct_props.forEach(t => {
-                            if(this.checkedSpu.prop_value == t.prop_value){
-                                cartService.putCartPlus(this.otherGoodsItem,t).then(data => {
+                            if (this.checkedSpu.prop_value == t.prop_value) {
+                                cartService.putCartPlus(this.otherGoodsItem, t).then(data => {
 
                                 }, err => {
                                     this.$ltsMessage.show({type: 'error', message: err.error_message})
@@ -626,17 +670,35 @@
             hide() {
                 this.flag = false
             },
+            checkout(cart) {
+                for(var i = 0; i < cart.length; i++) {
+                    var product = cart[i];
+                    ga('ec:addProduct', {
+                        'id': product.id,
+                        'name': product.item_name,
+                        'category': product.category_id,
+                        'price': product.price,
+                        'quantity': product.num,
+                        'brand': product.brand
+                    });
+                }
+                ga('ec:setAction','checkout', {
+                    'step': 1,            // A value of 1 indicates this action is first checkout step.
+                    'option': 'Visa'      // Used to specify additional info about a checkout stage, e.g. payment method.
+                });
+                ga('send', 'pageview');
+            },
             buyNow() {
                 if (!this.validate()) {
                     return false
                 }
                 // 判断限时限量商品购买数量是否超过限额
-                if((JSON.stringify(this.otherGoodsItem) != '{}') && this.item.sale_rule_do.maxinum && (this.item.num > this.item.sale_rule_do.maxinum)){
+                if ((JSON.stringify(this.otherGoodsItem) != '{}') && this.item.sale_rule_do.maxinum && (this.item.num > this.item.sale_rule_do.maxinum)) {
                     this.otherGoodsItem.num = this.item.num - this.item.sale_rule_do.maxinum
                     this.item.num = this.item.sale_rule_do.maxinum
-                    if(JSON.stringify(this.otherGoodsItem) != '{}'){
+                    if (JSON.stringify(this.otherGoodsItem) != '{}') {
                         this.otherGoodsItem.item_struct_props.forEach(t => {
-                            if(this.checkedSpu.prop_value == t.prop_value){
+                            if (this.checkedSpu.prop_value == t.prop_value) {
                                 this.otherItemSpu = t
                             }
                         })
@@ -647,10 +709,10 @@
                     'attribute': this.item.attribute,
                     'brand': this.item.brand,
                     'category_id': this.item.category_id,
-                    'discount':this.item.discount,
+                    'discount': this.item.discount,
                     'discount_type': this.item.discount_type,
                     'id': this.item.id,
-                    'item_name': this.item.item_name.replace('%','%25'),
+                    'item_name': this.item.item_name.replace('%', '%25'),
                     'item_props': [this.checkedSpu],
                     'maxinum': this.item.maxinum,
                     'mininum': this.item.mininum,
@@ -667,10 +729,10 @@
                     'url': this.item.url,
                     'full_url': this.item.full_url,
                     'sale_rule': this.item.sale_rule,
-                    'price_define_do':this.item.price_define_do
+                    'price_define_do': this.item.price_define_do
                 }
                 let otherItem
-                if(JSON.stringify(this.otherGoodsItem) != '{}') {
+                if (JSON.stringify(this.otherGoodsItem) != '{}') {
                     otherItem = {
                         'activity_id': null,
                         'attribute': this.otherGoodsItem.attribute,
@@ -701,9 +763,12 @@
                 }
                 let items = JSON.stringify(this.otherGoodsItem) != '{}' ? [item, otherItem] : [item]
                 // window.open('/cart#/settle?item=' + JSON.stringify(items))
-                localStorage.setItem('buyNowItem',JSON.stringify(items))
+                localStorage.setItem('buyNowItem', JSON.stringify(items));
+                console.log(items);
+                this.checkout(items);
                 window.open('/cart?t=' + new Date().getTime() + '#/settle?items=' + JSON.stringify(items))
-            },
+            }
+            ,
             validate() {
                 if (!this.checkedSpu.spu_id) {
                     this.showPropsError = true
@@ -711,26 +776,31 @@
                 } else {
                     return true
                 }
-            },
+            }
+            ,
             showImage(prc, e) {
                 $(e.currentTarget).addClass('is_active')
                 $(e.currentTarget).siblings().removeClass('is_active')
                 this.activeImg = prc
-            },
+            }
+            ,
             closeError() {
                 this.showPropsError = false
-            },
+            }
+            ,
             // 套餐搭配
             pre() {
                 console.log('pre')
-            },
+            }
+            ,
             next() {
                 console.log('next')
-            },
+            }
+            ,
             // 添加套餐到购物车
             addPackage(obj) {
-                if(!obj.checked){
-                    cartService.putCartPlus({id: obj.id,num: 1,}, obj.otherCheckedProp).then((data) => {
+                if (!obj.checked) {
+                    cartService.putCartPlus({id: obj.id, num: 1,}, obj.otherCheckedProp).then((data) => {
                         this.selfContext.$emit('addCartSuccess')
                         obj.checked = true
                     }, (msg) => {
@@ -742,7 +812,8 @@
         created() {
             let id = this.$route.query.id
             this.getItemDetail(id)
-        },
+        }
+        ,
         computed: {
             packagePrice: function () {
                 let price = 0
@@ -761,18 +832,21 @@
                     })
                 }
                 return price
-            },
-        },
+            }
+            ,
+        }
+        ,
         mounted() {
             this.level = window.localStorage.getItem('userLevel')
             this.hotRecommoned();
-        },
+        }
+        ,
     }
 </script>
 
 <style lang="less">
     .detail {
-        .detailDiscount{
+        .detailDiscount {
             width: 100%;
             height: 100px;
             box-sizing: border-box;
@@ -780,7 +854,7 @@
             background-position: center;
             background-repeat: no-repeat;
             border: 1px solid #ececec;
-            margin:24px 0;
+            margin: 24px 0;
         }
 
         li {
@@ -788,9 +862,9 @@
             position: relative;
             overflow: hidden;
         }
-        li.reduce::before,li.discount::before,li.limit::before,li.newSeller::before{
-            content:'';
-            width:100px;
+        li.reduce::before, li.discount::before, li.limit::before, li.newSeller::before {
+            content: '';
+            width: 100px;
             height: 100px;
             position: absolute;
             top: 0px;
@@ -799,17 +873,17 @@
             background-repeat: no-repeat;
             background-size: 100px 100px;
         }
-        li.newSeller::before{
-            background-image:url('../../../assets/img/new.png');
+        li.newSeller::before {
+            background-image: url('../../../assets/img/new.png');
         }
-        li.reduce::before{
-            background-image:url('../../../assets/img/ONSALE.png');
+        li.reduce::before {
+            background-image: url('../../../assets/img/ONSALE.png');
         }
-        li.discount::before{
-            background-image:url('../../../assets/img/Discount.png');
+        li.discount::before {
+            background-image: url('../../../assets/img/Discount.png');
         }
-        li.limit::before{
-            background-image:url('../../../assets/img/Doorbuster.png');
+        li.limit::before {
+            background-image: url('../../../assets/img/Doorbuster.png');
         }
         .el-breadcrumb {
             font-size: 14px;
@@ -871,8 +945,8 @@
                             color: #48a2ff;
                             line-height: 14px;
                         }
-                        div.disabled{
-                            cursor:not-allowed;
+                        div.disabled {
+                            cursor: not-allowed;
                         }
                     }
                 }
@@ -892,7 +966,7 @@
                     display: block;
                 }
             }
-            .error_box{
+            .error_box {
                 margin-bottom: 12px;
             }
             .el-form-item__error {
@@ -1085,7 +1159,7 @@
                             }
                         }
                     }
-                    .el-form-item__content{
+                    .el-form-item__content {
                         margin-bottom: 10px;
                     }
                     .storage_spec {
@@ -1093,7 +1167,7 @@
                         margin-left: 20px;
                     }
                 }
-                .limit-red{
+                .limit-red {
                     font-size: 12px;
                     /*color:#eee;*/
                     line-height: 1;
@@ -1101,7 +1175,7 @@
                 }
                 .mark {
                     margin-bottom: 8px;
-                    label{
+                    label {
                         /*margin-left: -120px;*/
                     }
                     p {
@@ -1140,14 +1214,14 @@
                     button:focus {
                         outline: none;
                     }
-                    button.is-disabled{
+                    button.is-disabled {
                         background: #f3f3f3;
                         color: #bbb;
                     }
-                    button.hidden{
+                    button.hidden {
                         display: none;
                     }
-                    button.is-disabled:hover{
+                    button.is-disabled:hover {
                         cursor: not-allowed;
                     }
                 }
@@ -1176,8 +1250,8 @@
                 width: 100%;
                 display: flex;
                 align-items: center;
-                &>div{
-                  margin-right: 24px;
+                & > div {
+                    margin-right: 24px;
                 }
                 .price {
                     display: flex;
@@ -1188,30 +1262,30 @@
                         line-height: 28px;
                         display: block;
                     }
-                    .el-button.icon{
+                    .el-button.icon {
                         border: none;
                         display: block;
                         padding: 0;
                     }
-                    .el-button.icon:hover{
+                    .el-button.icon:hover {
                         background: none;
                     }
-                    .icon-gouwuche-copy{
+                    .icon-gouwuche-copy {
                         color: #ff3b41;
-                        border:2px solid #ff3b41;
-                        border-radius:50%;
+                        border: 2px solid #ff3b41;
+                        border-radius: 50%;
                         height: 20px;
                         width: 20px;
                         font-weight: normal;
                         padding: 1px;
                         display: inline-block;
                     }
-                    .icon-gouwuche-copy:before{
+                    .icon-gouwuche-copy:before {
                         position: relative;
                         top: -2px;
                         left: 0px;
                     }
-                    .icon-chenggong1{
+                    .icon-chenggong1 {
                         color: #f2ac31;
                         font-size: 22px;
                     }
@@ -1238,7 +1312,7 @@
                     -webkit-line-clamp: 2;
                     -webkit-box-orient: vertical;
                 }
-                .icon-handle{
+                .icon-handle {
                     position: relative;
                     top: -30px;
                 }
@@ -1441,10 +1515,10 @@
             ul {
                 overflow: hidden;
                 height: 434px;
-                li{
-                    div.content{
+                li {
+                    div.content {
                         height: 38px;
-                        p{
+                        p {
                             height: 36px;
                             -webkit-box-orient: vertical;
                         }
@@ -1452,8 +1526,8 @@
                 }
             }
         }
-        .detail_side_img{
-            ul li{
+        .detail_side_img {
+            ul li {
                 p.name {
                     margin: 10px 0 0;
                     font-size: 14px;
@@ -1465,7 +1539,7 @@
                     -webkit-line-clamp: 3;
                     -webkit-box-orient: vertical;
                 }
-                p.price{
+                p.price {
                     line-height: 2;
                 }
             }

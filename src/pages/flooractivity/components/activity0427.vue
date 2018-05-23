@@ -108,7 +108,7 @@
     export default {
         data() {
             return {
-                img: require('../../../assets/img/banner0504.png'),
+                img: require('../../../assets/img/banner0523.png'),
                 img2: require('../../../assets/img/icon.png'),
                 img3: require('../../../assets/img/card.png'),
                 img4: require('../../../assets/img/music.png'),
@@ -290,7 +290,7 @@
         overflow: hidden;
         background-color: #eee;
         .banner {
-            height: 400px;
+            height: 500px;
             .img {
                 width: 100%;
                 background-size: contain;

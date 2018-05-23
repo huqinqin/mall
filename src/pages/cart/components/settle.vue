@@ -368,6 +368,25 @@
             }
         },
         methods: {
+            /*埋点*/
+            checkout(cart) {
+                for(var i = 0; i < cart.length; i++) {
+                    var product = cart[i];
+                    ga('ec:addProduct', {
+                        'id': product.id,
+                        'name': product.item_name,
+                        'category': product.category_id,
+                        'price': product.price,
+                        'quantity': product.num,
+                        'brand': product.brand
+                    });
+                }
+                ga('ec:setAction','checkout', {
+                    'step': 3,            // A value of 1 indicates this action is first checkout step.
+                    'option': 'Visa'      // Used to specify additional info about a checkout stage, e.g. payment method.
+                });
+                ga('send', 'pageview');
+            },
             selectDilivery(value){
               if(value == 'ZITI'){
                 this.temp = JSON.stringify(this.checkedAddress)
@@ -575,8 +594,30 @@
                     }
                 })
             },
+            /*埋点*/
+            placeOrder(product,express,tax,totalPrice){
+                ga('set', 'currencyCode', 'USD');
+                ga('ec:addProduct', {
+                    'id': product.id,
+                    'name': product.item_name,
+                    'category': product.category_id,
+                    'price': product.price,
+                    'quantity': product.num,
+                    'brand': product.brand
+                });
+              // Transaction level information is provided via an actionFieldObject.
+                ga('ec:setAction', 'purchase', {
+                    'id': product.id,
+                    'revenue': totalPrice / 100,
+                    'tax': tax / 100,
+                    'shipping': express / 100
+                });
+                ga('send', 'pageview');     // Send transaction data with initial pageview.
+            },
             // 正式下单
             submitOrder() {
+                //console.log(this.tableData, this.sum.express, this.sum.tax, this.totalPrice);
+                this.placeOrder(this.tableData[0],this.sum.express, this.sum.tax, this.totalPrice);
                 this.userAddr = {
                     street:this.checkedAddress.street,
                     city:this.checkedAddress.city,
@@ -626,11 +667,11 @@
                     }
                 }
                 orderService.createTrade(params, this.remark).then((data) => {
-                    this.$emit('submit', 3)
+                    this.$emit('submit', 3);
                     this.$router.push({
                         name: 'beforePay',
                         query: {tid: data.data, delivery: this.deliveryType, orderpay: 3}
-                    })
+                    });
                 }, (msg) => {
                     this.$ltsMessage.show({type: 'error', message: msg.error_message})
                 })
@@ -772,6 +813,7 @@
                     })
                 })
                 this.tableData = items
+                this.checkout(this.tableData);
                 // this.user_id = this.$route.params.userId
             }else{
                 let items = JSON.parse(localStorage.getItem('buyNowItem'))

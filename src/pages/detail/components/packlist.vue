@@ -21,8 +21,8 @@
                                 <p>{{item.sinr}}</p>
                                 <p v-for="(prop,key) in item.props">{{key}}:{{prop}}</p>
                                 <p>
-                                    <span class="latest"><lts-money :money="item.price_real"></lts-money></span>
-                                    <span class="old"><lts-money :money="item.price"></lts-money></span>
+                                    <span class="latest"><lts-money :money="item.item_struct_props[0].price_real"></lts-money></span>
+                                    <span class="old"><lts-money :money="item.item_struct_props[0].price"></lts-money></span>
                                 </p>
                             </div>
                             <div class="num">x&nbsp;{{item.num}}</div>
@@ -57,8 +57,8 @@
                         pack.package_item_list.forEach((t,index) => {
                             console.log(t)
                             t.num = index + 1
-                            pack.total_price_real += t.num * t.price_real
-                            pack.total_price += t.num * t.price
+                            pack.total_price_real += t.num * t.item_struct_props[0].price_real
+                            pack.total_price += t.num * t.item_struct_props[0].price
                             t.item_struct_props.forEach(prop => {
                                 if(prop.sku) t.props = JSON.parse(prop.prop_value)
                             })

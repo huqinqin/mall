@@ -19,16 +19,16 @@
                 </el-table-column>
                 <el-table-column prop="" label="Price" align="center">
                     <template slot-scope="scope">
-                        <p class="red"><lts-money :money="scope.row.price_real"></lts-money></p>
-                        <p class="old" v-if="scope.row.price !== scope.row.price_real"><lts-money :money="scope.row.price"></lts-money></p>
+                        <p class="red"><lts-money :money="scope.row.item_struct_props[0].price_real"></lts-money></p>
+                        <p class="old" v-if="scope.row.item_struct_props[0].price !== scope.row.item_struct_props[0].price_real"><lts-money :money="scope.row.item_struct_props[0].price"></lts-money></p>
                     </template>
                 </el-table-column>
                 <el-table-column prop="num" label="Quantity"  align="center"></el-table-column>
             </el-table>
             <div class="check">
                 <div class="price">
-                    <p>Kit Price: <span class="red"><lts-money :money="140000"></lts-money></span></p>
-                    <p class="old"><lts-money :money="2100000"></lts-money></p>
+                    <p>Kit Price: <span class="red"><lts-money :money="total_price_real"></lts-money></span></p>
+                    <p class="old"><lts-money :money="total_price"></lts-money></p>
                 </div>
                 <el-button tyep="primary" @click="buyAll">Buy Now</el-button>
             </div>
@@ -115,6 +115,8 @@
                 activeName: 'first',
                 aboutDetail: [],
                 showPropDetail: false,
+                total_price:0,
+                total_price_real:0,
             }
         },
         methods: {
@@ -123,6 +125,8 @@
                     this.item = data.data.item
                     data.data.item.package_item_list.forEach((t,index) => {
                         t.num = 2 + Math.pow(2,index * 2)
+                        this.total_price_real += t.num * t.item_struct_props[0].price_real
+                        this.total_price += t.num * t.item_struct_props[0].price
                         t.item_struct_props.forEach(prop => {
                             if(prop.sku)t.prop_value = JSON.parse(prop.prop_value)
                         })

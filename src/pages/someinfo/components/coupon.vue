@@ -58,7 +58,7 @@
                 unableBonusList:[],
                 ableBonusList:[],
                 now:'',
-                ableHeadImg:require('@/assets/img/ableCoupon.png'),
+                ableHeadImg:require('@/assets/img/able-coupon.png'),
                 unableHeadImg:require('@/assets/img/unableCoupon.png')
             }
         },

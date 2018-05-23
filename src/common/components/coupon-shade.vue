@@ -1,7 +1,7 @@
 <template>
     <div class="coupon-shade" @click="closeThis">
         <main >
-            <i class="iconfont icon-turnoff" @click="closeThis"></i>
+            <i class="iconfont icon-turnoff" @click.stop="closeThis"></i>
             <div class="top-content" :style="{backgroundImage:'url(' + bgImg + ')'}">
                 <ul class="coupon-list">
                     <li v-for="bonus in dataList" v-if="dataList.length">

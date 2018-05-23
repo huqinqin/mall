@@ -99,7 +99,7 @@
         name : "lts-header",
         data(){
           return{
-              showShade:true,
+              showShade:false,
               len: 0,
               flag:true,
               showToIndex:true,
@@ -127,17 +127,14 @@
               hasPass: false,
               bonusList:[],
               now:'',
-              firstLogin:false,
           }
         },
         mounted(){
             this.language = store.getItem('language') ?  store.getItem('language') : this.language
             this.selfContext.$on('closeShade',this.closeTheShade)
-            this.showShade = store.getItem('hasShownShade') === 1 ? true : false
-            this.getBonusList();
-        },
-        beforeDestroy() {
-            window.removeEventListener('beforeunload', e => this.beforeunloadHandler())
+            this.showShade = store.getItem('newCoupons') && JSON.parse(store.getItem('newCoupons')).length ? true : false
+            this.checkLogin();
+            store.removeItem('newCoupons')
         },
         methods:{
             getNowTime(){
@@ -147,6 +144,11 @@
                 },err => {
                     this.$ltsMessage({type:'error',message:err.error_message})
                 })
+            },
+            checkLogin(){
+                if(session.isLogin()){
+                    this.getNowTime()
+                }
             },
             getBonusList(){
                 checkService.checkInfo().then((data) => {
@@ -165,11 +167,6 @@
                                     }else{
                                         item.expire = true
                                     }
-                                    // if(item.end_time < this.now){
-                                    //     this.unableBonusList.push(item)
-                                    // }else{
-                                    //     this.ableBonusList.push(item)
-                                    // }
                                 })
                                 this.bonusList = t.bonus.datalist.slice(0,6)
                             }
@@ -177,13 +174,7 @@
                             store.setItem('hasCreditTerm', true)
                         }
                     })
-                    window.addEventListener('beforeunload', e => this.beforeunloadHandler())
                 })
-            },
-            beforeunloadHandler(){
-                if(!this.firstLogin){
-                    store.setItem('hasShownShade', 2)
-                }
             },
             closeTheShade(){
                 this.showShade = !this.showShade
@@ -203,14 +194,6 @@
             closeDialog(){
               this.$refs.loginForm.resetFields()
             },
-            // 登录时获取myExpert
-            /*getExpert(){
-                expertService.getExpert().then((data) => {
-                    if(data.data){
-                        session.expert(data.data);
-                    }
-                });
-            },*/
             signup(){
                 location.href = '/account#/register';
                 this.loginVisible = false;
@@ -227,39 +210,6 @@
                     this.$ltsMessage.show({type: "error", message: err.error_message});
                 })
             },
-            // checkCookie(){
-            //     let password = this.getCookie(this.form.acount)
-            //     if(password){
-            //         this.hasPass = true
-            //         this.form.checked = true
-            //         this.form.password = password
-            //     }else{
-            //         this.hasPass = false
-            //         this.form.checked = false
-            //         this.form.password = ''
-            //     }
-            // },
-            // setCookie(name,value){
-            //     let Days = 30;
-            //     let exp = new Date();
-            //     exp.setTime(exp.getTime() + Days*24*60*60*1000);
-            //     document.cookie = name + "="+ escape (md5(value)) + ";expires=" + exp.toGMTString();
-            // },
-            // getCookie(name){
-            //     let arr,reg=new RegExp("(^| )" + name + "=([^;]*)(;|$)");
-            //     if(arr=document.cookie.match(reg)){
-            //         return unescape(arr[2]);
-            //     }else{
-            //         return null;
-            //     }
-            // },
-            // delCookie(name){
-            //     let exp = new Date();
-            //     exp.setTime(exp.getTime() - 1);
-            //     let cval=this.getCookie(name);
-            //     if(cval!=null)
-            //         document.cookie= name + "=" + cval + ";expires=" + exp.toGMTString();
-            // },
             // 查询工程商等级
             getInfo() {
                 checkService.getInfo().then((data) => {
@@ -269,22 +219,8 @@
                 })
             },
             login(data){
-                // if(this.form.checked){
-                //     this.setCookie(this.form.acount,this.form.password)
-                // }else{
-                //     this.delCookie(this.form.acount)
-                // }
-                // if(!this.hasPass){
-                //     this.form.password = md5(this.form.password)
-                // }
                 userService.login(this.form).then((data)=>{
-                    if(true){
-                        this.firstLogin = true
-                        // 测试暂时取消
-                        store.setItem('hasShownShade', 2)
-                    }else{
-                        store.setItem('hasShownShade', 2)
-                    }
+                    store.setItem('newCoupons',data.data.value)
                     this.getInfo();
                     this.loginVisible = false;
                     this.getUserInfo();
@@ -328,7 +264,7 @@
             },
             handleCommand(command){
                 store.setItem('language', command);
-                location.reload();
+                // location.reload();
             },
             show(){
                 if(this.flag){

@@ -33,7 +33,7 @@
                         </div>
                     </a>
                     <ul class="item-list-box">
-                        <li v-for="item in itemlist.items" :key="item.sin" v-if="itemlist.items.length > 0"
+                        <li v-for="item in itemlist.items" :key="item.id" v-if="itemlist.items.length > 0"
                             v-bind:class="{'limit':item.type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1,'flashSale':item.discount_type == 0,'newSeller': item.isNew}">
                             <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
                                 <!--<a :href="'/detail#/?id=' + item.id" target="_blank">-->
@@ -76,7 +76,7 @@
                                 <!--</div>-->
                             </a>
                             <button class="iconfont" v-ltsLoginShow:true @click="addCart(item)"
-                                    :class="flag ? 'icon-chenggong1 cart1':'icon-gouwuche2 cart'"></button>
+                                    :class="item.flag ? 'icon-chenggong1 cart1':'icon-gouwuche2 cart'"></button>
                         </li>
                     </ul>
                 </div>
@@ -127,8 +127,7 @@
                     {link: 'static/image/BANNERTU.png'}
                 ],
                 itemList: [],
-                hotList: [],
-                flag: false
+                hotList: []
             }
         },
         methods: {
@@ -137,15 +136,17 @@
                     let props = item.data.item.item_struct_props;
                     for (var i = 0; i < props.length; i++) {
                         if (props[i].sku === true && props[i].storage > 0) {
+                            val.flag = true;
                             break;
                         }
                     }
                     val.num = 1;
+                    console.log(this.itemList);
                     cartService.putCartPlus(val, props[i]).then((data) => {
-                        item.flag = true;
+                        val.flag = true;
                         this.selfContext.$emit('addCartSuccess');
                         this.$ltsMessage.show({type: 'success', message: 'Successfully added to your shopping cart'});
-                    }, (msg) => {
+                        }, (msg) => {
                         this.$ltsMessage.show({type: 'error', message: msg.error_message})
                     })
                 });
@@ -158,47 +159,27 @@
                 winOpen.location = "/detail#/info/?id=" + id;
             },
             getList11() {
-                let id = [10810, 10811, 10120, 10780, 10776, 10774, 10216];
                 let params = {
-                    ids: '10810,10811,10120,10368,10798'
+                    ids: '10810,10811,10120,10368,10798,10011,10042,10802,11697,10153,10156,10223,10207,10806,10802'
                 };
                 ItemService.getActivityItemList(params).then((data) => {
+                    data.datalist.forEach( (item) => {
+                        item.flag = false;
+                    })
                     let floor = data.datalist.length / floorNum;
                     let arr = ["NVR", "ACCESSORIES", "DVR", "IP CAMERA", "HD-TVI CAMERA", "ACCESS CONTROL", "TEST"]
                     let j = 0;
                     for (var i = 0; i < arr.length; i++) {
                         let obj = {};
                         obj.name = arr[i];
-                        if (obj.name === "NVR") {
-                            obj.id = 12
-                        } else if (obj.name === "ACCESSORIES") {
-                            obj.id = 14
-                        } else if (obj.name === "DVR") {
-                            obj.id = 15
-                        } else if (obj.name === "IP CAMERA") {
-                            obj.id = 11
-                        } else if (obj.name === "HD-TVI CAMERA") {
-                            obj.id = 13
-                        } else if (obj.name === "ACCESS CONTROL") {
-                            obj.id = 16
-                        } else if (obj.name === "TEST") {
-                            obj.id = 27
-                        }
                         obj.items = [];
                         this.itemList.push(obj)
                     }
-                    /*data.datalist.forEach((item) => {
-                        this.itemList.forEach((val, index) => {
-                            if (item.category_id === val.id) {
-                                val.items.push(item);
-                            }
-                        })
-                    });*/
-                    for (var i = 0; i < data.datalist.length; i+=3){
-                        if( i%3 === 0){
-                            j = i/3;
+                    for (var i = 0; i < data.datalist.length; i+=2){
+                        if( i%2 === 0){
+                            j = i/2;
                         }
-                        this.itemList[j].items.push(...(data.datalist.slice(i,i+3)))
+                        this.itemList[j].items.push(...(data.datalist.slice(i,i+2)));
                     }
                 }, (msg) => {
                     this.$ltsMessage.show({type: 'error', message: msg.error_message})
@@ -254,6 +235,9 @@
         background-size: 100% 100%;
         background-image: url('../../../assets/img/flashSale.png');
     }
+    button{
+        outline: none;
+    }
 
     .b1200 {
         .side {
@@ -294,7 +278,7 @@
         }
         .item-box {
             li {
-                margin-right: 16px;
+                margin-right: 12px;
             }
             li:nth-child(5n) {
                 margin-right: 0;
@@ -466,16 +450,20 @@
                     flex-wrap: wrap;
                     li {
                         background-color: #ffffff;
-                        text-align: left;
+                        transition: all .2s ease;
                         width: 290px;
+                        overflow: hidden;
+                        text-align: left;
+                        border: 1px solid #f2f2f2;
                         margin-bottom: 12px;
+                        position: relative;
                         a {
                             display: block;
                         }
                     }
-                    li:nth-child(4n) {
+                   /* li:nth-child(4n) {
                         margin-right: 0%;
-                    }
+                    }*/
                     .coupon {
                         width: 79px;
                         height: 24px;
@@ -493,7 +481,7 @@
                     .cart1 {
                         position: absolute;
                         right: 8px;
-                        bottom: 30px;
+                        bottom: 22px;
                         font-size: 24px;
                         color: #f2ac31;
                         width: 30px;
@@ -501,11 +489,12 @@
                         border-radius: 50%;
                         border: 1px solid white;
                         background-color: white;
+                        cursor: pointer;
                     }
                     .cart {
                         position: absolute;
                         right: 8px;
-                        bottom: 30px;
+                        bottom: 22px;
                         font-size: 16px;
                         color: #FF3B41;
                         width: 30px;
@@ -517,6 +506,7 @@
                         display: flex;
                         align-items: center;
                         justify-content: center;
+                        cursor: pointer;
                     }
                 }
             }

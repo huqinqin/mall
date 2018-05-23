@@ -639,7 +639,7 @@ export default {
             commLtsUserConter: 'User Dashboard',
             commLtsMyMoney: 'My Wallet',
             commLtsAccountSet: 'Settings',
-            commLtsPersonlPage: 'My Xpress',
+            commLtsPersonlPage: 'My LTS',
             commLtsMyOrder: 'My Orders',
             commLtsCart: 'Shopping Cart',
             commLtsResolve: 'Shop By Scenario',

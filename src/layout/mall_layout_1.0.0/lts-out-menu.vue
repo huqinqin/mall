@@ -22,40 +22,40 @@
                  $(window).off('scroll',this.scrollOne);
                  let valnum = parseInt(val);
                  $(".out-menu ul li").attr("class","");
-                 $("html,body").stop().animate({scrollTop: $("#" + valnum).offset().top}, 100);
-                 $(".out-menu ul li").eq(valnum).attr("class","active");
+                 $("html,body").stop().animate({scrollTop: $("#" + valnum).offset().top + 1}, 1, function(){ // 运动完成后重新绑定
+                     $(window).on('scroll',this.scrollOne);
+                 });
+                $(".out-menu ul li").eq(valnum).attr("class","active");
              },
             scrollOne() {
                  $(".out-menu ul li").eq(0).attr("class","active")
                  $(".out-menu").css("display","none !important")
                 $(window).scroll(function () {
-                    if($(window).scrollTop() > $("#0").offset().top - 30) {
-                        $(".out-menu").show();
-                    } else {
-                        $(".out-menu").css("display" , "none");
-                    }
-                });
-                setTimeout( () => {
-                    $(window).scroll(function () {
+                    setTimeout( () => {
+                        if($(document).scrollTop() > $("#0").offset().top - 30) {
+                            $(".out-menu").show();
+                        } else {
+                            $(".out-menu").css("display" , "none");
+                        }
                         var top = $(document).scrollTop();
-                         $(".out-menu ul li").attr("class","");
+                        $(".out-menu ul li").attr("class","");
                         if(top >= $('#6').offset().top){
                             $(".out-menu ul li").eq(6).attr("class","active");
-                        }else if(top >= $('#5').offset().top){
+                        }else if(top >= $('#5').offset().top && top < $('#6').offset().top){
                             $(".out-menu ul li").eq(5).attr("class","active");
-                        }else if(top >= $('#4').offset().top){
+                        }else if(top >= $('#4').offset().top && top < $('#5').offset().top){
                             $(".out-menu ul li").eq(4).attr("class","active");
-                        }else if(top >= $('#3').offset().top){
+                        }else if(top >= $('#3').offset().top && top < $('#4').offset().top){
                             $(".out-menu ul li").eq(3).attr("class","active");
-                        }else if(top >= $('#2').offset().top){
+                        }else if(top >= $('#2').offset().top && top < $('#3').offset().top){
                             $(".out-menu ul li").eq(2).attr("class","active");
-                        }else if(top >= $('#1').offset().top){
+                        }else if(top >= $('#1').offset().top && top < $('#2').offset().top){
                             $(".out-menu ul li").eq(1).attr("class","active");
                         }else if(top >= $('#0').offset().top){
                             $(".out-menu ul li").eq(0).attr("class","active");
                         }
-                    })
-                },2000);
+                    },20)
+                });
             },
             scrolltoTop(){
                  $("html,body").stop().animate({scrollTop: 0},100);

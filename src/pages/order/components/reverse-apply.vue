@@ -160,6 +160,18 @@
 
         },
         methods: {
+            /*退款埋点*/
+            refundClick(){
+                // Refund a single product.
+                ga('ec:addProduct', {
+                    'id': this.tid,       // Product ID is required for partial refund.
+                    'quantity': this.form.maxRefund         // Quantity is required for partial refund.
+                });
+
+                ga('ec:setAction', 'refund', {
+                    'id': this.tid,       // Transaction ID is required for partial refund.
+                });
+            },
             onSubmitRefund(){
                 this.$refs['form'].validate((valid) => {
                     if(valid){
@@ -177,6 +189,7 @@
                         }, (error) => {
                             this.$ltsMessage.show({type: 'error', message: this.$t("main.order.reverse.mainOrReError") + ":" + error.error_message});
                         });
+                        this.refundClick();
                     }else{
                         console.log('error submit!!');
                         return false;

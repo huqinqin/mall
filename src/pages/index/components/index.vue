@@ -3,8 +3,8 @@
         <!-- banner -->
         <div class="banner" v-if="index_banner.length > 0">
             <el-carousel class="slider" :autoplay=isAuto>
-                <el-carousel-item v-for="banner in index_banner" :key="banner.banner_url" :autoplay="isAuto">
-                    <a :href="banner.link_url" @click="onProductClick();">
+                <el-carousel-item v-for="(banner,index) in index_banner" :key="banner.banner_url" :autoplay="isAuto">
+                    <a  @click="onPromoClick(floor[index],index);">
                         <div class="img" :style="{backgroundImage : 'url(' + banner.banner_url +')'}"></div>
                     </a>
                 </el-carousel-item>
@@ -231,10 +231,23 @@
                     {link: 'static/image/BANNERTU.png'}
                 ],
                 itemList: [],
-                hotList: []
+                hotList: [],
+                floor:[]
             }
         },
         methods: {
+            /*促销埋点*/
+            onPromoClick(floor,index){
+                ga('ec:addPromo', {
+                    'id': floor.id,
+                    'name': floor.name,
+                    'position': index
+                });
+
+                 // Send the promo_click action with an event.
+                ga('ec:setAction', 'promo_click');
+                ga('send', 'event', 'Internal Promotions', 'click', 'Summer Sale');
+            },
             onProductClick(item,index,name) {
                 ga('ec:addImpression', {            // Provide product details in an impressionFieldObject.
                     'id': item.id,                   // Product ID (string).
@@ -256,8 +269,8 @@
                 // Send click with an event, then send user to product page.
                 ga('send', 'event', 'UX', 'click', 'Results', {
                     hitCallback: function () {
-                         //document.location = '/detail#/info?id=' + item.id;
-                        window.open('http://work.local.lts.com:8085/detail#/info?id=' + item.id ,"_blank")
+                         document.location = '/detail#/info?id=' + item.id;
+                        //window.open('http://work.local.lts.com:8085/detail#/info?id=' + item.id ,"_blank")
                     }
                 });
             },
@@ -271,7 +284,7 @@
             getList() {
                 homeService.getList().then((data) => {
                     this.itemList = data.floor.datalist
-
+                    this.floor = data.banner.datalist;
                     setTimeout(() => {
                         this.showDownload = true
                     }, 400)

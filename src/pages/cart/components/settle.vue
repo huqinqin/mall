@@ -382,7 +382,7 @@
                     });
                 }
                 ga('ec:setAction','checkout', {
-                    'step': 3,            // A value of 1 indicates this action is first checkout step.
+                    'step': 2,            // A value of 1 indicates this action is first checkout step.
                     'option': 'Visa'      // Used to specify additional info about a checkout stage, e.g. payment method.
                 });
                 ga('send', 'pageview');

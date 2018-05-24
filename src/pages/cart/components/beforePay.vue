@@ -159,6 +159,7 @@
             ga('ec:addProduct', {
                 'id': id,
                 'price': totalPrice / 100,
+                'option': this.form.useBalance ? "余额" : this.form.payBank === 'CREDIT' ? '账期' : 'Visa'
             });
             // Transaction level information is provided via an actionFieldObject.
             ga('ec:setAction', 'purchase', {

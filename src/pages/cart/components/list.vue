@@ -848,7 +848,7 @@
                         'brand': product.brand
                     });
                 }
-                ga('ec:setAction','checkout', {'step': 2});
+                ga('ec:setAction','checkout', {'step': 1});
                 ga('send', 'pageview');     // Pageview for shipping.html
             },
             // 删除购物车条目

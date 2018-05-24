@@ -1,13 +1,13 @@
 <template>
     <div class="out-menu">
         <ul>
-            <li  @click="scrollto('0')" id="floor0">NVR</li>
-            <li @click="scrollto('1')" id="floor1">ACCESSORIES</li>
-            <li @click="scrollto('2')" id="floor2">DVR</li>
-            <li @click="scrollto('3')" id="floor3">IP CAMERA</li>
-            <li @click="scrollto('4')" id="floor4">HD-TVI CAMERA</li>
-            <li @click="scrollto('5')" id="floor5">ACCESS CONTROL</li>
-            <li @click="scrollto('6')" id="floor6">TEST</li>
+            <li  @click="scrollto('0')" id="floor0">IP Camera</li>
+            <li @click="scrollto('1')" id="floor1">NVR</li>
+            <li @click="scrollto('2')" id="floor2">HD-TVI Camera</li>
+            <li @click="scrollto('3')" id="floor3">DVR</li>
+            <li @click="scrollto('4')" id="floor4">Accessories</li>
+            <li @click="scrollto('5')" id="floor5">Access Control</li>
+            <li @click="scrollto('6')" id="floor6">Alarm</li>
             <p @click="scrolltoTop" class="backtop iconfont icon-fanhuidingbu"></p>
         </ul>
     </div>
@@ -32,7 +32,7 @@
                  $(".out-menu").css("display","none !important")
                 $(window).scroll(function () {
                     setTimeout( () => {
-                        if($(document).scrollTop() > $("#0").offset().top - 30) {
+                        if($(document).scrollTop() > $("#0").offset().top - 30 && document.body.clientWidth > 1300) {
                             $(".out-menu").show();
                         } else {
                             $(".out-menu").css("display" , "none");
@@ -56,6 +56,10 @@
                         }
                     },20)
                 });
+                 console.log(document.body.clientWidth);
+                 if(document.body.clientWidth <= 1250){
+                     $(".out-menu").css("display","none")
+                 }
             },
             scrolltoTop(){
                  $("html,body").stop().animate({scrollTop: 0},100);

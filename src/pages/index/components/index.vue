@@ -4,7 +4,7 @@
         <div class="banner" v-if="index_banner.length > 0">
             <el-carousel class="slider" :autoplay=isAuto>
                 <el-carousel-item v-for="(banner,index) in index_banner" :key="banner.banner_url" :autoplay="isAuto">
-                    <a  @click="onPromoClick(floor[index],index);">
+                    <a  :href="banner.link_url" @click="onPromoClick(floor[index],index);" target="_blank">
                         <div class="img" :style="{backgroundImage : 'url(' + banner.banner_url +')'}"></div>
                     </a>
                 </el-carousel-item>
@@ -247,6 +247,7 @@
                  // Send the promo_click action with an event.
                 ga('ec:setAction', 'promo_click');
                 ga('send', 'event', 'Internal Promotions', 'click', 'Summer Sale');
+                ga("send", "pageview")
             },
             onProductClick(item,index,name) {
                 ga('ec:addImpression', {            // Provide product details in an impressionFieldObject.

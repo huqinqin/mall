@@ -297,13 +297,14 @@
         background-color: #eee;
         .banner {
             height: 500px;
-            .img {
+            background-size: 100% 100%;
+            /*.img {
                 width: 100%;
                 background-size: contain;
                 background-position: center center;
                 background-repeat: no-repeat;
-                /*height: 500px;*/
-            }
+                !*height: 500px;*!
+            }*/
         }
 
         .publicity {

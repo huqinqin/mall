@@ -59,11 +59,6 @@
                         link: 'javascript:void(0)'
                     },
                     {
-                        value: 'resolution',
-                        img: require('@/assets/img/resolution.png'),
-                        link: 'javascript:void(0)'
-                    },
-                    {
                         value: 'MD',
                         img: require('@/assets/img/MD.png'),
                         link: 'javascript:void(0)'
@@ -75,7 +70,7 @@
                     },
                     {
                         value: 'unisight',
-                        img: require('@/assets/img/unisight.png'),
+                        img: require('@/assets/img/unsight1.png'),
                         link: 'javascript:void(0)'
                     },
                     {

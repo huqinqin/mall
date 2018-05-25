@@ -34,7 +34,7 @@
                     </a>
                     <ul class="item-list-box">
                         <li v-for="item in itemlist.items" :key="item.id" v-if="itemlist.items.length > 0"
-                            v-bind:class="{'limit':item.type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1,'flashSale':item.discount_type == 0,'newSeller': item.isNew}">
+                            v-bind:class="{'limit':item.type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1,'flashSale':(item.discount_type == 0 && ((4194304 & item.attribute) === 4194304)),'newSeller': item.isNew}">
                             <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
                                 <!--<a :href="'/detail#/?id=' + item.id" target="_blank">-->
                                 <!--<div @click="href(item.id)" >-->

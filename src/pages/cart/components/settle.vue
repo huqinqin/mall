@@ -412,7 +412,7 @@
                 this.minusPro = 0
                 if(item.length > 0){
                     item.forEach((value) => {
-                        if(value.discount_type === 0){
+                        if(value.discount_type === 0 && ((Math.pow(2,22) & value.attribute) === 4194304)){
                             sum += value.price_real * value.num
                         }
                     })

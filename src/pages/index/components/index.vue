@@ -62,7 +62,7 @@
                     </div>
                     <ul class="item-list-box">
                         <li v-for="(item,index) in hotList" :key="item.id"
-                            v-bind:class="{'limit':item.discount_type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1,'flashSale':item.discount_type == 0}">
+                            v-bind:class="{'limit':item.discount_type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1,'flashSale':(item.discount_type == 0 && ((4194304 & item.attribute) === 4194304))}">
                             <a  @click="onProductClick(item,index,'best seller');">
                                 <div class="img"
                                      :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}"></div>
@@ -118,7 +118,7 @@
                     </a>
                     <ul class="item-list-box">
                         <li v-for="(item,index) in itemlist.items" :key="item.id"
-                            v-bind:class="{'limit':item.discount_type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1,'flashSale':item.discount_type == 0,'newSeller': item.isNew}">
+                            v-bind:class="{'limit':item.discount_type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1,'flashSale':(item.discount_type == 0 && ((4194304 & item.attribute) === 4194304)),'newSeller': item.isNew}">
                             <a  @click="onProductClick(item,index,itemlist.name);">
                                 <!--<a :href="'/detail#/?id=' + item.id" target="_blank">-->
                                 <!--<div @click="href(item.id)" >-->
@@ -169,7 +169,7 @@
                 </div>
                 <ul class="best-sellers">
                     <li v-for="item in hotList" :key="item.id"
-                        v-bind:class="{'limit':item.discount_type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1,'flashSale':item.discount_type == 0,'newSeller': item.isNew}">
+                        v-bind:class="{'limit':item.discount_type == 4,'reduce':item.discount_type == 2,'discount':item.discount_type == 1,'flashSale':(item.discount_type == 0 && ((4194304 & item.attribute) === 4194304)),'newSeller': item.isNew}">
                         <a :href="'/detail?t=' + new Date().getTime() +'#/info?id=' + item.id" target="_blank">
                             <div class="img"
                                  :style="{backgroundImage : 'url(' + item.image_value +'!item_middle)'}"></div>

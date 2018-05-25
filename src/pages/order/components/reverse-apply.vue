@@ -165,11 +165,12 @@
                 // Refund a single product.
                 ga('ec:addProduct', {
                     'id': this.tid,       // Product ID is required for partial refund.
-                    'quantity': this.form.maxRefund         // Quantity is required for partial refund.
                 });
 
                 ga('ec:setAction', 'refund', {
                     'id': this.tid,       // Transaction ID is required for partial refund.
+                    'quantity': this.form.maxRefund ,    // Quantity is required for partial refund.
+                    'refund': this.form.refund
                 });
             },
             onSubmitRefund(){

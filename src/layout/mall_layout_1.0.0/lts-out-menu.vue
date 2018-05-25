@@ -28,38 +28,39 @@
                 $(".out-menu ul li").eq(valnum).attr("class","active");
              },
             scrollOne() {
-                 $(".out-menu ul li").eq(0).attr("class","active")
-                 $(".out-menu").css("display","none !important")
-                $(window).scroll(function () {
-                    setTimeout( () => {
-                        if($(document).scrollTop() > $("#0").offset().top - 30 && document.body.clientWidth > 1300) {
-                            $(".out-menu").show();
-                        } else {
-                            $(".out-menu").css("display" , "none");
-                        }
-                        var top = $(document).scrollTop();
-                        $(".out-menu ul li").attr("class","");
-                        if(top >= $('#6').offset().top){
-                            $(".out-menu ul li").eq(6).attr("class","active");
-                        }else if(top >= $('#5').offset().top && top < $('#6').offset().top){
-                            $(".out-menu ul li").eq(5).attr("class","active");
-                        }else if(top >= $('#4').offset().top && top < $('#5').offset().top){
-                            $(".out-menu ul li").eq(4).attr("class","active");
-                        }else if(top >= $('#3').offset().top && top < $('#4').offset().top){
-                            $(".out-menu ul li").eq(3).attr("class","active");
-                        }else if(top >= $('#2').offset().top && top < $('#3').offset().top){
-                            $(".out-menu ul li").eq(2).attr("class","active");
-                        }else if(top >= $('#1').offset().top && top < $('#2').offset().top){
-                            $(".out-menu ul li").eq(1).attr("class","active");
-                        }else if(top >= $('#0').offset().top){
-                            $(".out-menu ul li").eq(0).attr("class","active");
-                        }
-                    },20)
-                });
-                 console.log(document.body.clientWidth);
-                 if(document.body.clientWidth <= 1250){
-                     $(".out-menu").css("display","none")
-                 }
+                 $(function () {
+                     $(".out-menu ul li").eq(0).attr("class","active")
+                     $(".out-menu").css("display","none !important")
+                     $(window).scroll(function () {
+                         setTimeout( () => {
+                             if($(document).scrollTop() > $("#0").offset().top - 30 && document.body.clientWidth > 1300) {
+                                 $(".out-menu").show();
+                             } else {
+                                 $(".out-menu").css("display" , "none");
+                             }
+                             var top = $(document).scrollTop();
+                             $(".out-menu ul li").attr("class","");
+                             if(top >= $('#6').offset().top){
+                                 $(".out-menu ul li").eq(6).attr("class","active");
+                             }else if(top >= $('#5').offset().top && top < $('#6').offset().top){
+                                 $(".out-menu ul li").eq(5).attr("class","active");
+                             }else if(top >= $('#4').offset().top && top < $('#5').offset().top){
+                                 $(".out-menu ul li").eq(4).attr("class","active");
+                             }else if(top >= $('#3').offset().top && top < $('#4').offset().top){
+                                 $(".out-menu ul li").eq(3).attr("class","active");
+                             }else if(top >= $('#2').offset().top && top < $('#3').offset().top){
+                                 $(".out-menu ul li").eq(2).attr("class","active");
+                             }else if(top >= $('#1').offset().top && top < $('#2').offset().top){
+                                 $(".out-menu ul li").eq(1).attr("class","active");
+                             }else if(top >= $('#0').offset().top){
+                                 $(".out-menu ul li").eq(0).attr("class","active");
+                             }
+                         },20)
+                     });
+                     if(document.body.clientWidth <= 1250){
+                         $(".out-menu").css("display","none")
+                     }
+                 });
             },
             scrolltoTop(){
                  $("html,body").stop().animate({scrollTop: 0},100);

@@ -41,7 +41,7 @@
                                 <div class="img"
                                      :style="{backgroundImage : 'url(' + item.image_value + '!item_middle)'}"></div>
                                 <div class="item-spec">
-                                    <p class="line-two" :title="item.item_name"><span class="coupon" v-if="item.unable_bonus_flag">COUPON</span>{{item.item_name}}
+                                    <p class="line-two" :title="item.item_name"><span class="coupon">COUPON</span>{{item.item_name}}
                                     </p>
                                     <p class="line-four"></p>
                                     <div class="item-price">

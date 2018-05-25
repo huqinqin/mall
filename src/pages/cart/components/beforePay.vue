@@ -153,8 +153,24 @@
         }
         this.simulatePay()
       },
-      // 确认支付
+        /*埋点*/
+        placeOrder(id,totalPrice){
+            ga('set', 'currencyCode', 'USD');
+            ga('ec:addProduct', {
+                'id': id,
+                'price': totalPrice / 100,
+                'option': this.form.useBalance ? "余额" : this.form.payBank === 'CREDIT' ? '账期' : 'Visa'
+            });
+            // Transaction level information is provided via an actionFieldObject.
+            ga('ec:setAction', 'purchase', {
+                'id': id,
+                'revenue': totalPrice / 100
+            });
+            ga('send', 'pageview');     // Send transaction data with initial pageview.
+        },
+        // 确认支付
       confirmPay () {
+        this.placeOrder(this.formData.number,this.form.moneyPay);
         if (this.form.payBank === 'ANET_CREDIT_CARD' && (this.form.moneyPay - this.form.used) > 0) {
           // 信用卡支付弹框
           orderService.pay_confirm(this.tid, this.form).then((data) => {

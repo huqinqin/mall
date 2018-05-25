@@ -108,7 +108,7 @@
     export default {
         data() {
             return {
-                img: require('../../../assets/img/banner0504.png'),
+                img: require('../../../assets/img/banner0523.png'),
                 img2: require('../../../assets/img/icon.png'),
                 img3: require('../../../assets/img/card.png'),
                 img4: require('../../../assets/img/music.png'),
@@ -160,14 +160,20 @@
             },
             getList11() {
                 let params = {
-                    ids: '10810,10811,10120,10368,10798,10011,10042,10802,11697,10153,10156,10223,10207,10806,10802'
+                    ids: '10185,10072,10198,10202,10023,10152,10033,10001,10064,10168,10207,10246,10100,10199,10189,' +
+                    '10230,10217,10250,10254,10247,10249,10222,11432,10244,10213,10237,11433,10245,10203,10225,11638' +
+                    '10060,10034,10029,10017,10079,10123,10039,10084,10067,10070,10063,10068,10117,10036,10401,10156' +
+                    '10399,10153,10143,10398,10140,10138,10146,10169,11756,10814,10400,10134,10813,10065,10094,10062' +
+                    '10279,10058,10273,10305,10276,10048,10083,10302,10066,10274,10789,10085,10234,10232,10219,10024' +
+                    '10026,10028,10791,10022,10224,10221,10226,10216,10229,10796,10801,10780,11756,11756,10853,11437' +
+                    '10777,11132,10886,10776,11056,10895,10899,10906,11136'
                 };
                 ItemService.getActivityItemList(params).then((data) => {
                     data.datalist.forEach( (item) => {
                         item.flag = false;
                     })
                     let floor = data.datalist.length / floorNum;
-                    let arr = ["NVR", "ACCESSORIES", "DVR", "IP CAMERA", "HD-TVI CAMERA", "ACCESS CONTROL", "TEST"]
+                    let arr = ["IP Camera", "NVR", "HD-TVI Camera", "DVR", "Accessories", "Access Control", "Alarm"]
                     let j = 0;
                     for (var i = 0; i < arr.length; i++) {
                         let obj = {};
@@ -175,11 +181,11 @@
                         obj.items = [];
                         this.itemList.push(obj)
                     }
-                    for (var i = 0; i < data.datalist.length; i+=2){
-                        if( i%2 === 0){
-                            j = i/2;
+                    for (var i = 0; i < data.datalist.length; i+=15){
+                        if( i%15 === 0){
+                            j = i/15;
                         }
-                        this.itemList[j].items.push(...(data.datalist.slice(i,i+2)));
+                        this.itemList[j].items.push(...(data.datalist.slice(i,i+15)));
                     }
                 }, (msg) => {
                     this.$ltsMessage.show({type: 'error', message: msg.error_message})
@@ -290,14 +296,15 @@
         overflow: hidden;
         background-color: #eee;
         .banner {
-            height: 400px;
-            .img {
+            height: 500px;
+            background-size: 100% 100%;
+            /*.img {
                 width: 100%;
                 background-size: contain;
                 background-position: center center;
                 background-repeat: no-repeat;
-                /*height: 500px;*/
-            }
+                !*height: 500px;*!
+            }*/
         }
 
         .publicity {

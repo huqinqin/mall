@@ -716,7 +716,8 @@
                 this.$router.push({
                     name: 'settle',
                     params: {'items': this.checkedItem, 'cartItems': this.cartItemList, 'cartTotal': this.cart}
-                })
+                });
+                this.checkout(this.checkedItem);
             },
             // 修改购物车数量
             inputNumeberChange(row, index, subIndex) {
@@ -823,8 +824,36 @@
                 }, 100)
                 // })
             },
+            /*埋点addToCart,checkout*/
+            addToCart(product) {
+                ga('ec:addProduct', {
+                    'id': product.id,
+                    'name': product.item_name,
+                    'category': product.category_id,
+                    'price': product.price,
+                    'quantity': product.num
+                });
+                ga('ec:setAction', 'remove');
+                ga('send', 'event', 'UX', 'click', 'add to cart');     // Send data using an event.
+            },
+            checkout(cart) {
+                for(var i = 0; i < cart.length; i++) {
+                    var product = cart[i];
+                    ga('ec:addProduct', {
+                        'id': product.id,
+                        'name': product.item_name,
+                        'category': product.category_id,
+                        'price': product.price,
+                        'quantity': product.num,
+                        'brand': product.brand
+                    });
+                }
+                ga('ec:setAction','checkout', {'step': 1});
+                ga('send', 'pageview');     // Pageview for shipping.html
+            },
             // 删除购物车条目
             deleteHandle(index, row) {
+                this.addToCart(row);
                 row.num = 0
                 this.putCartPlus(row).then((data) => {
                     this.queryCartList()
